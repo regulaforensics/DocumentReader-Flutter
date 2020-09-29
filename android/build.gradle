@@ -1,0 +1,49 @@
+group 'io.flutter.plugins.regula.documentreader.flutter_document_reader_api'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "http://maven.regulaforensics.com/RegulaDocumentReader"
+        }
+        maven {
+            url "http://maven.regulaforensics.com/RegulaDocumentReader/Beta"
+        }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 19
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation('com.regula.documentreader:api:5.2.2995') {
+        transitive = true
+    }
+}
