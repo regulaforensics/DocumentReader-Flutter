@@ -28,7 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -44,7 +46,7 @@ import static com.regula.documentreader.api.DocumentReader.Instance;
 
 @SuppressWarnings({"unchecked", "NullableProblems", "ConstantConditions", "RedundantSuppression"})
 public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
-    private Object args;
+    private ArrayList<Object> args;
     private boolean backgroundRFIDEnabled = false;
     private Activity activity;
     private EventChannel.EventSink eventDatabaseProgress;
@@ -127,12 +129,43 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         }
     }
 
-    private <T> T args(int index) {
-        try {
-            return (T) new JSONObject((String) ((List<T>) args).get(index));
-        } catch (JSONException ignored) {
-            return ((List<T>) args).get(index);
+    private JSONArray arrayListToJSONArray(ArrayList<?> list) {
+        JSONArray result = new JSONArray();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getClass().equals(java.util.HashMap.class))
+                result.put(hashMapToJSONObject((HashMap<String, ?>) list.get(i)));
+            else if (list.get(i).getClass().equals(java.util.ArrayList.class))
+                result.put(arrayListToJSONArray((ArrayList<?>) list.get(i)));
+            else
+                result.put(list.get(i));
         }
+
+        return result;
+    }
+
+    private JSONObject hashMapToJSONObject(HashMap<String, ?> map) {
+        JSONObject result = new JSONObject();
+        try {
+            for (Map.Entry<String, ?> entry : map.entrySet()) {
+                if (entry.getValue().getClass().equals(java.util.HashMap.class))
+                    result.put(entry.getKey(), hashMapToJSONObject((HashMap<String, ?>) entry.getValue()));
+                else if (entry.getValue().getClass().equals(java.util.ArrayList.class))
+                    result.put(entry.getKey(), arrayListToJSONArray((ArrayList<?>) entry.getValue()));
+                else
+                    result.put(entry.getKey(), entry.getValue());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private <T> T args(int index) {
+        if (args.get(index).getClass().equals(java.util.HashMap.class))
+            return (T) hashMapToJSONObject((HashMap<String, ?>) args.get(index));
+        if (args.get(index).getClass().equals(java.util.ArrayList.class))
+            return (T) arrayListToJSONArray((ArrayList<?>) args.get(index));
+        return (T) args.get(index);
     }
 
     private void sendCompletion(int action, DocumentReaderResults results, Throwable error) {
@@ -146,7 +179,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     @Override
     public void onMethodCall(MethodCall call, Result result) {
         String action = call.method;
-        args = call.arguments;
+        args = (ArrayList<Object>) call.arguments;
         Callback callback = new Callback() {
             @Override
             public void success(Object o) {
@@ -344,14 +377,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         NfcAdapter.getDefaultAdapter(getActivity()).enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
-    private void stopForegroundDispatch(final Activity activity) {
-        NfcAdapter.getDefaultAdapter(getActivity()).disableForegroundDispatch(activity);
-    }
-
     private void stopBackgroundRFID() {
         if (!backgroundRFIDEnabled)
             return;
-        stopForegroundDispatch(getActivity());
+        NfcAdapter.getDefaultAdapter(getActivity()).disableForegroundDispatch(getActivity());
         backgroundRFIDEnabled = false;
     }
 
@@ -467,9 +496,8 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void recognizeImageWithImageInputParams(Callback callback, String base64Image, final JSONObject params) throws JSONException {
+    private void recognizeImageWithImageInputParams(@SuppressWarnings("unused") Callback callback, String base64Image, final JSONObject params) throws JSONException {
         Instance().recognizeImage(JSONConstructor.bitmapFromBase64(base64Image), new ImageInputParam(params.getInt("width"), params.getInt("height"), params.getInt("type")), getCompletion());
-        callback.success();
     }
 
     private void recognizeImageWithOpts(Callback callback, final JSONObject opts, String base64Image) throws JSONException {
@@ -477,19 +505,17 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         recognizeImage(callback, base64Image);
     }
 
-    private void recognizeImage(Callback callback, String base64Image) {
+    private void recognizeImage(@SuppressWarnings("unused") Callback callback, String base64Image) {
         stopBackgroundRFID();
         Instance().recognizeImage(JSONConstructor.bitmapFromBase64(base64Image), getCompletion());
-        callback.success();
     }
 
-    private void recognizeImages(Callback callback, JSONArray base64Images) throws JSONException {
+    private void recognizeImages(@SuppressWarnings("unused") Callback callback, JSONArray base64Images) throws JSONException {
         stopBackgroundRFID();
         Bitmap[] images = new Bitmap[base64Images.length()];
         for (int i = 0; i < images.length; i++)
             images[i] = JSONConstructor.bitmapFromBase64(base64Images.getString(i));
         Instance().recognizeImages(images, getCompletion());
-        callback.success();
     }
 
     private void removeDatabase(Callback callback) {
@@ -514,7 +540,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         List<PKDCertificate> certificates = new ArrayList<>();
         for (int i = 0; i < certificatesJSON.length(); i++) {
             JSONObject certificate = certificatesJSON.getJSONObject(i);
-            certificates.add(new PKDCertificate(JSONConstructor.byteArrayFromJson(certificate.getJSONArray("binaryData")), certificate.getInt("resourceType"), certificate.has("certificate") ? JSONConstructor.byteArrayFromJson(certificate.getJSONArray("privateKey")) : null));
+            certificates.add(new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null));
         }
         Instance().addPKDCertificates(certificates);
         callback.success();
@@ -525,32 +551,28 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void recognizeImageFrame(Callback callback, String base64Image, final JSONObject opts) throws JSONException {
+    private void recognizeImageFrame(@SuppressWarnings("unused") Callback callback, String base64Image, final JSONObject opts) throws JSONException {
         Instance().recognizeImageFrame(JSONConstructor.bitmapFromBase64(base64Image), new ImageInputParam(opts.getInt("width"), opts.getInt("height"), opts.getInt("type")), getCompletion());
-        callback.success();
     }
 
-    private void recognizeVideoFrame(Callback callback, String byteString, final JSONObject opts) throws JSONException {
+    private void recognizeVideoFrame(@SuppressWarnings("unused") Callback callback, String byteString, final JSONObject opts) throws JSONException {
         stopBackgroundRFID();
         Instance().recognizeVideoFrame(byteString.getBytes(), new ImageInputParam(opts.getInt("width"), opts.getInt("height"), opts.getInt("type")), getCompletion());
-        callback.success();
     }
 
-    private void showScannerWithCameraID(Callback callback, int cameraID) {
+    private void showScannerWithCameraID(@SuppressWarnings("unused") Callback callback, int cameraID) {
         stopBackgroundRFID();
         Instance().showScanner(getContext(), cameraID, getCompletion());
-        callback.success();
     }
 
     private void showScanner(Callback callback) {
         showScannerWithCameraID(callback, -1);
     }
 
-    private void showScannerWithCameraIDAndOpts(Callback callback, int cameraID, final JSONObject opts) throws JSONException {
+    private void showScannerWithCameraIDAndOpts(@SuppressWarnings("unused") Callback callback, int cameraID, final JSONObject opts) throws JSONException {
         stopBackgroundRFID();
         RegulaConfig.setConfig(Instance(), opts, getContext());
         Instance().showScanner(getContext(), cameraID, getCompletion());
-        callback.success();
     }
 
     private void stopScanner(Callback callback) {
@@ -558,10 +580,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void startRFIDReader(Callback callback) {
+    private void startRFIDReader(@SuppressWarnings("unused") Callback callback) {
         stopBackgroundRFID();
         Instance().startRFIDReader(getContext(), getCompletion());
-        callback.success();
     }
 
     private void stopRFIDReader(Callback callback) {
@@ -592,10 +613,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void readRFID(Callback callback) {
+    private void readRFID(@SuppressWarnings("unused") Callback callback) {
         backgroundRFIDEnabled = true;
         startForegroundDispatch(getActivity());
-        callback.success();
     }
 
     private void setCameraSessionIsPaused(Callback callback, @SuppressWarnings("unused") boolean ignored) {

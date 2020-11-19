@@ -55,6 +55,32 @@ class _MyAppState extends State<MyApp> {
             (progress) => setStatus("Downloading database: " + progress + "%"));
   }
 
+  void addCertificates() async {
+    List certificates = [];
+    final manifestJson =
+        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+    final certPaths = json
+        .decode(manifestJson)
+        .keys
+        .where((String key) => key.startsWith('assets/certificates'));
+
+    for (var path in certPaths) {
+      var findExt = path.split('.');
+      var pkdResourceType = 0;
+      if (findExt.length > 0)
+        pkdResourceType =
+            PKDResourceType.getType(findExt[findExt.length - 1].toLowerCase());
+      ByteData byteData = await rootBundle.load(path);
+      var certBase64 = base64.encode(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      certificates
+          .add({"binaryData": certBase64, "resourceType": pkdResourceType});
+    }
+
+    DocumentReader.addPKDCertificates(certificates)
+        .then((value) => print("certificates added"));
+  }
+
   void handleCompletion(DocumentReaderCompletion completion) {
     if (isReadingRfid &&
         (completion.action == DocReaderAction.CANCEL ||
@@ -144,7 +170,7 @@ class _MyAppState extends State<MyApp> {
       scenarios.add([scenario.name, scenario.caption]);
     }
     setState(() => _scenarios = scenarios);
-    DocumentReader.setConfig(jsonEncode({
+    DocumentReader.setConfig({
       "functionality": {
         "videoCaptureMotionControl": true,
         "showCaptureButton": true
@@ -154,7 +180,8 @@ class _MyAppState extends State<MyApp> {
         "showStatusMessages": true
       },
       "processParams": {"scenario": _selectedScenario}
-    }));
+    });
+    // addCertificates();
   }
 
   displayResults(DocumentReaderResults results) {
@@ -197,16 +224,16 @@ class _MyAppState extends State<MyApp> {
       String accessKey =
           results.getTextFieldValueByType(eVisualFieldType.FT_MRZ_STRINGS);
       if (accessKey != null && accessKey != "")
-        DocumentReader.setRfidScenario(jsonEncode({
+        DocumentReader.setRfidScenario({
           "mrz": accessKey.replaceAll('^', '').replaceAll('\n', ''),
           "pacePasswordType": eRFID_Password_Type.PPT_MRZ
-        }));
+        });
       else if (results.getTextFieldValueByType(159) != null &&
           results.getTextFieldValueByType(159) != "")
-        DocumentReader.setRfidScenario(jsonEncode({
+        DocumentReader.setRfidScenario({
           "password": results.getTextFieldValueByType(159),
           "pacePasswordType": eRFID_Password_Type.PPT_CAN
-        }));
+        });
 
       // customRFID();
       usualRFID();
@@ -216,9 +243,9 @@ class _MyAppState extends State<MyApp> {
 
   void onChangeRfid(bool value) {
     setState(() => _doRfid = value && _canRfid);
-    DocumentReader.setConfig(jsonEncode({
+    DocumentReader.setConfig({
       "processParams": {"doRfid": _doRfid}
-    }));
+    });
   }
 
   Widget createImage(
@@ -250,9 +277,9 @@ class _MyAppState extends State<MyApp> {
         groupValue: _selectedScenario,
         onChanged: (value) => setState(() {
               _selectedScenario = value;
-              DocumentReader.setConfig(jsonEncode({
+              DocumentReader.setConfig({
                 "processParams": {"scenario": _selectedScenario}
-              }));
+              });
             }));
     return Container(
         child: ListTile(

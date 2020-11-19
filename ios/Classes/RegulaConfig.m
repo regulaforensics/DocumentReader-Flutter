@@ -500,6 +500,8 @@
         customization.cameraFramePortraitAspectRatio = [[options valueForKey:@"cameraFramePortraitAspectRatio"] floatValue];
     if([options valueForKey:@"cameraFrameLandscapeAspectRatio"] != nil)
         customization.cameraFrameLandscapeAspectRatio = [[options valueForKey:@"cameraFrameLandscapeAspectRatio"] floatValue];
+    if([options valueForKey:@"toolbarSize"] != nil)
+        customization.toolbarSize = [[options valueForKey:@"toolbarSize"] floatValue];
 }
 
 +(void)setFunctionality:(NSDictionary*)options :(RGLFunctionality*)functionality {
@@ -556,6 +558,10 @@
         functionality.captureMode = [[options valueForKey:@"captureMode"] intValue];
     if([options valueForKey:@"displayMetadata"] != nil)
         functionality.showMetadataInfo = [[options valueForKey:@"displayMetadata"] boolValue];
+    if([options valueForKey:@"isZoomEnabled"] != nil)
+        functionality.isZoomEnabled = [[options valueForKey:@"isZoomEnabled"] boolValue];
+    if([options valueForKey:@"zoomFactor"] != nil)
+        functionality.zoomFactor = [[options valueForKey:@"zoomFactor"] floatValue];
 }
 
 +(void)setProcessParams:(NSDictionary*)options :(RGLProcessParams*)processParams {
@@ -611,6 +617,8 @@
         processParams.minDPI = [[options valueForKey:@"minDPI"] integerValue];
     if([options valueForKey:@"integralImage"] != nil)
         processParams.integralImage = [[options valueForKey:@"integralImage"] boolValue];
+    if([options valueForKey:@"returnCroppedBarcode"] != nil)
+        processParams.returnCroppedBarcode = [[options valueForKey:@"returnCroppedBarcode"] boolValue];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -652,6 +660,7 @@
     result[@"cameraFrameOffsetWidth"] = [NSNumber numberWithFloat:customization.cameraFrameOffsetWidth];
     result[@"cameraFramePortraitAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFramePortraitAspectRatio];
     result[@"cameraFrameLandscapeAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFrameLandscapeAspectRatio];
+    result[@"toolbarSize"] = [NSNumber numberWithFloat:customization.toolbarSize];
     if(customization.customLabelStatus != nil)
         result[@"customLabelStatus"] = customization.customLabelStatus.string;
     if(customization.activityIndicatorColor != nil)
@@ -698,6 +707,8 @@
     result[@"showCaptureButtonDelayFromStart"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromStart];
     result[@"captureMode"] = [NSNumber numberWithInteger:functionality.captureMode];
     result[@"displayMetadata"] = [NSNumber numberWithBool:functionality.showMetadataInfo];
+    result[@"isZoomEnabled"] = [NSNumber numberWithBool:functionality.isZoomEnabled];
+    result[@"zoomFactor"] = [NSNumber numberWithBool:functionality.zoomFactor];
 
     return result;
 }
@@ -734,6 +745,7 @@
     result[@"perspectiveAngle"] = [NSNumber numberWithInteger:processParams.perspectiveAngle];
     result[@"minDPI"] = [NSNumber numberWithInteger:processParams.minDPI];
     result[@"integralImage"] = [NSNumber numberWithBool:processParams.integralImage];
+    result[@"returnCroppedBarcode"] = [NSNumber numberWithBool:processParams.returnCroppedBarcode];
 
     return result;
 }

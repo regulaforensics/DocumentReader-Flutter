@@ -82,14 +82,8 @@ typedef void (^Callback)(NSString* response);
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSString* action = call.method;
-    NSDictionary* arguments = call.arguments;
-    NSMutableArray* args = [[NSMutableArray alloc] init];
-    for(id value in arguments)
-        @try{
-            [args addObject:[NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil]];
-        }@catch(id exception){
-            [args addObject:value];
-        }
+    NSMutableArray* args = call.arguments;
+
     Callback successCallback = ^(id _Nullable response){
         result(response);
     };
@@ -255,7 +249,6 @@ typedef void (^Callback)(NSString* response);
     dispatch_async(dispatch_get_main_queue(), ^{
         [RGLDocReader.shared startRFIDReaderFromPresenter:[[[UIApplication sharedApplication] keyWindow] rootViewController] completion:[self getCompletion]];
     });
-    [self result:@"" :successCallback];
 }
 
 - (void) initializeReaderWithDatabasePath:(NSString*)licenseString :(NSString*)databasePath :(Callback)successCallback :(Callback)errorCallback{
@@ -290,7 +283,6 @@ typedef void (^Callback)(NSString* response);
             UIViewController *currentViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
             [RGLDocReader.shared showScanner:currentViewController completion:[self getCompletion]];
         });
-        [self result:@"" :successCallback];
 }
 
 - (void) recognizeImage:(NSMutableString*)base64 :(Callback)successCallback :(Callback)errorCallback{
@@ -304,7 +296,6 @@ typedef void (^Callback)(NSString* response);
         dispatch_async(dispatch_get_main_queue(), ^{
             [RGLDocReader.shared recognizeImages:images completion:[self getCompletion]];
         });
-        [self result:@"" :successCallback];
 }
 
 - (void) recognizeImageWithCameraMode:(NSMutableString*)base64 :(BOOL)cameraMode :(Callback)successCallback :(Callback)errorCallback{
@@ -315,7 +306,6 @@ typedef void (^Callback)(NSString* response);
         dispatch_async(dispatch_get_main_queue(), ^{
             [RGLDocReader.shared recognizeImage:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]] cameraMode:cameraMode completion:[self getCompletion]];
         });
-        [self result:@"" :successCallback];
 }
 
 - (void) setConfig:(NSDictionary*)config :(Callback)successCallback :(Callback)errorCallback{
@@ -338,7 +328,6 @@ typedef void (^Callback)(NSString* response);
 
 - (void) readRFID:(Callback)successCallback :(Callback)errorCallback{
         [RGLDocReader.shared readRFID:[self getRFIDNotificationCallback] completion:[self getRFIDCompletion]];
-        [self result:@"" :successCallback];
 }
 
 - (void) stopRFIDReader:(Callback)successCallback :(Callback)errorCallback{
@@ -351,7 +340,7 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) addPKDCertificates:(NSArray*)input :(Callback)successCallback :(Callback)errorCallback{
-    NSMutableArray<RGLPKDCertificate*>* certificates = [[RGLPKDCertificate init] alloc];
+    NSMutableArray *certificates = [[NSMutableArray alloc] init];
     for(NSDictionary* certificateJSON in input)
         [certificates addObject:[JSONConstructor RGLPKDCertificateFromJson:certificateJSON]];
     [RGLDocReader.shared addPKDCertificates:certificates];
@@ -368,7 +357,11 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) stopScanner:(Callback)successCallback :(Callback)errorCallback{
-    [RGLDocReader.shared stopScanner:^(){[self result:@"" :successCallback];}];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RGLDocReader.shared stopScanner:^(){
+            [self result:@"" :successCallback];
+        }];
+    });
 }
 
 - (void) startNewSession:(Callback)successCallback :(Callback)errorCallback{

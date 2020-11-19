@@ -22,6 +22,7 @@ class Scenario {
   static Scenario fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Scenario();
+
     result.frame = jsonObject["frame"];
     result.frameOrientation = jsonObject["frameOrientation"];
     result.uvTorch = jsonObject["uvTorch"];
@@ -36,6 +37,7 @@ class Scenario {
     result.name = jsonObject["name"];
     result.caption = jsonObject["caption"];
     result.description = jsonObject["description"];
+
     return result;
   }
 }
@@ -49,10 +51,12 @@ class Rect {
   static Rect fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Rect();
+
     result.bottom = jsonObject["bottom"];
     result.top = jsonObject["top"];
     result.left = jsonObject["left"];
     result.right = jsonObject["right"];
+
     return result;
   }
 }
@@ -70,6 +74,7 @@ class DocumentReaderGraphicField {
   static DocumentReaderGraphicField fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderGraphicField();
+
     result.sourceType = jsonObject["sourceType"];
     result.fieldType = jsonObject["fieldType"];
     result.lightType = jsonObject["lightType"];
@@ -78,6 +83,7 @@ class DocumentReaderGraphicField {
     result.lightName = jsonObject["lightName"];
     result.value = jsonObject["value"];
     result.fieldRect = Rect.fromJson(jsonObject["fieldRect"]);
+
     return result;
   }
 }
@@ -88,7 +94,11 @@ class DocumentReaderGraphicResult {
   static DocumentReaderGraphicResult fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderGraphicResult();
-    if (jsonObject["fields"] != null) for (var item in jsonObject["fields"]) result.fields.add(DocumentReaderGraphicField.fromJson(item));
+
+    if (jsonObject["fields"] != null)
+      for (var item in jsonObject["fields"])
+        result.fields.add(DocumentReaderGraphicField.fromJson(item));
+
     return result;
   }
 }
@@ -106,6 +116,7 @@ class DocumentReaderValue {
   static DocumentReaderValue fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderValue();
+
     result.pageIndex = jsonObject["pageIndex"];
     result.sourceType = jsonObject["sourceType"];
     result.validity = jsonObject["validity"];
@@ -113,7 +124,9 @@ class DocumentReaderValue {
     result.value = jsonObject["value"];
     result.originalValue = jsonObject["originalValue"];
     result.boundRect = Rect.fromJson(jsonObject["boundRect"]);
-    if (jsonObject["comparison"] != null) jsonObject["comparison"].forEach((k, v) => result.comparison[int.parse(k)] = v);
+    if (jsonObject["comparison"] != null)
+      jsonObject["comparison"].forEach((k, v) => result.comparison[int.parse(k)] = v);
+
     return result;
   }
 }
@@ -130,13 +143,17 @@ class DocumentReaderTextField {
   static DocumentReaderTextField fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderTextField();
+
     result.fieldType = jsonObject["fieldType"];
     result.lcid = jsonObject["lcid"];
     result.status = jsonObject["status"];
     result.lcidName = jsonObject["lcidName"];
     result.fieldName = jsonObject["fieldName"];
     result.value = DocumentReaderValue.fromJson(jsonObject["value"]);
-    if (jsonObject["values"] != null) for (var item in jsonObject["values"]) result.values.add(DocumentReaderValue.fromJson(item));
+    if (jsonObject["values"] != null)
+      for (var item in jsonObject["values"])
+        result.values.add(DocumentReaderValue.fromJson(item));
+
     return result;
   }
 }
@@ -148,8 +165,12 @@ class DocumentReaderTextResult {
   static DocumentReaderTextResult fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderTextResult();
+
     result.status = jsonObject["status"];
-    if (jsonObject["fields"] != null) for (var item in jsonObject["fields"]) result.fields.add(DocumentReaderTextField.fromJson(item));
+    if (jsonObject["fields"] != null)
+      for (var item in jsonObject["fields"])
+        result.fields.add(DocumentReaderTextField.fromJson(item));
+
     return result;
   }
 }
@@ -161,8 +182,10 @@ class Coordinate {
   static Coordinate fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Coordinate();
+
     result.x = jsonObject["x"];
     result.y = jsonObject["y"];
+
     return result;
   }
 }
@@ -188,6 +211,7 @@ class ElementPosition {
   static ElementPosition fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new ElementPosition();
+
     result.docFormat = jsonObject["docFormat"];
     result.width = jsonObject["width"];
     result.height = jsonObject["height"];
@@ -204,6 +228,7 @@ class ElementPosition {
     result.leftBottom = Coordinate.fromJson(jsonObject["leftBottom"]);
     result.rightTop = Coordinate.fromJson(jsonObject["rightTop"]);
     result.rightBottom = Coordinate.fromJson(jsonObject["rightBottom"]);
+
     return result;
   }
 }
@@ -216,9 +241,11 @@ class ImageQuality {
   static ImageQuality fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new ImageQuality();
+
     result.featureType = jsonObject["featureType"];
     result.result = jsonObject["result"];
     result.type = jsonObject["type"];
+
     return result;
   }
 }
@@ -231,9 +258,13 @@ class ImageQualityGroup {
   static ImageQualityGroup fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new ImageQualityGroup();
+
     result.count = jsonObject["count"];
     result.result = jsonObject["result"];
-    if (jsonObject["imageQualityList"] != null) for (var item in jsonObject["imageQualityList"]) result.imageQualityList.add(ImageQuality.fromJson(item));
+    if (jsonObject["imageQualityList"] != null)
+      for (var item in jsonObject["imageQualityList"])
+        result.imageQualityList.add(ImageQuality.fromJson(item));
+
     return result;
   }
 }
@@ -254,6 +285,7 @@ class DocumentReaderDocumentType {
   static DocumentReaderDocumentType fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderDocumentType();
+
     result.pageIndex = jsonObject["pageIndex"];
     result.documentID = jsonObject["documentID"];
     result.dType = jsonObject["dType"];
@@ -264,35 +296,10 @@ class DocumentReaderDocumentType {
     result.dDescription = jsonObject["dDescription"];
     result.dYear = jsonObject["dYear"];
     result.dCountryName = jsonObject["dCountryName"];
-    if (jsonObject["FDSID"] != null) for (var item in jsonObject["FDSID"]) result.FDSID.add(item);
-    return result;
-  }
-}
+    if (jsonObject["FDSID"] != null)
+      for (var item in jsonObject["FDSID"])
+        result.FDSID.add(item);
 
-class DocumentReaderJsonResultGroup {
-  int resultType;
-  int lightType;
-  int pageIdx;
-  String jsonResult;
-
-  static DocumentReaderJsonResultGroup fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new DocumentReaderJsonResultGroup();
-    result.resultType = jsonObject["resultType"];
-    result.lightType = jsonObject["lightType"];
-    result.pageIdx = jsonObject["pageIdx"];
-    result.jsonResult = jsonObject["jsonResult"];
-    return result;
-  }
-}
-
-class DocumentReaderJsonResult {
-  List<DocumentReaderJsonResultGroup> results = [];
-
-  static DocumentReaderJsonResult fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new DocumentReaderJsonResult();
-    if (jsonObject["results"] != null) for (var item in jsonObject["results"]) result.results.add(DocumentReaderJsonResultGroup.fromJson(item));
     return result;
   }
 }
@@ -305,9 +312,11 @@ class DocumentReaderNotification {
   static DocumentReaderNotification fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderNotification();
+
     result.code = jsonObject["code"];
     result.value = jsonObject["value"];
     result.number = jsonObject["number"];
+
     return result;
   }
 }
@@ -321,10 +330,14 @@ class AccessControlProcedureType {
   static AccessControlProcedureType fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new AccessControlProcedureType();
+
     result.activeOptionIdx = jsonObject["activeOptionIdx"];
     result.type = jsonObject["type"];
     result.status = jsonObject["status"];
-    if (jsonObject["notifications"] != null) for (var item in jsonObject["notifications"]) result.notifications.add(item);
+    if (jsonObject["notifications"] != null)
+      for (var item in jsonObject["notifications"])
+        result.notifications.add(item);
+
     return result;
   }
 }
@@ -338,10 +351,12 @@ class FileData {
   static FileData fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new FileData();
+
     result.length = jsonObject["length"];
     result.type = jsonObject["type"];
     result.status = jsonObject["status"];
     result.data = jsonObject["data"];
+
     return result;
   }
 }
@@ -353,8 +368,10 @@ class CertificateData {
   static CertificateData fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new CertificateData();
+
     result.length = jsonObject["length"];
     result.data = jsonObject["data"];
+
     return result;
   }
 }
@@ -365,7 +382,9 @@ class SecurityObjectCertificates {
   static SecurityObjectCertificates fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new SecurityObjectCertificates();
+
     result.securityObject = CertificateData.fromJson(jsonObject["securityObject"]);
+
     return result;
   }
 }
@@ -386,6 +405,7 @@ class File {
   static File fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new File();
+
     result.readingTime = jsonObject["readingTime"];
     result.type = jsonObject["type"];
     result.pAStatus = jsonObject["pAStatus"];
@@ -393,10 +413,19 @@ class File {
     result.fileID = jsonObject["fileID"];
     result.fileData = FileData.fromJson(jsonObject["fileData"]);
     result.certificates = SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
-    if (jsonObject["docFieldsText"] != null) for (var item in jsonObject["docFieldsText"]) result.docFieldsText.add(item);
-    if (jsonObject["docFieldsGraphics"] != null) for (var item in jsonObject["docFieldsGraphics"]) result.docFieldsGraphics.add(item);
-    if (jsonObject["docFieldsOriginals"] != null) for (var item in jsonObject["docFieldsOriginals"]) result.docFieldsOriginals.add(item);
-    if (jsonObject["notifications"] != null) for (var item in jsonObject["notifications"]) result.notifications.add(item);
+    if (jsonObject["docFieldsText"] != null)
+      for (var item in jsonObject["docFieldsText"])
+        result.docFieldsText.add(item);
+    if (jsonObject["docFieldsGraphics"] != null)
+      for (var item in jsonObject["docFieldsGraphics"])
+        result.docFieldsGraphics.add(item);
+    if (jsonObject["docFieldsOriginals"] != null)
+      for (var item in jsonObject["docFieldsOriginals"])
+        result.docFieldsOriginals.add(item);
+    if (jsonObject["notifications"] != null)
+      for (var item in jsonObject["notifications"])
+        result.notifications.add(item);
+
     return result;
   }
 }
@@ -413,13 +442,17 @@ class Application {
   static Application fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Application();
+
     result.type = jsonObject["type"];
     result.status = jsonObject["status"];
     result.applicationID = jsonObject["applicationID"];
     result.dataHashAlgorithm = jsonObject["dataHashAlgorithm"];
     result.unicodeVersion = jsonObject["unicodeVersion"];
     result.version = jsonObject["version"];
-    if (jsonObject["files"] != null) for (var item in jsonObject["files"]) result.files.add(File.fromJson(item));
+    if (jsonObject["files"] != null)
+      for (var item in jsonObject["files"])
+        result.files.add(File.fromJson(item));
+
     return result;
   }
 }
@@ -434,11 +467,13 @@ class Value {
   static Value fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Value();
+
     result.length = jsonObject["length"];
     result.type = jsonObject["type"];
     result.status = jsonObject["status"];
     result.data = jsonObject["data"];
     result.format = jsonObject["format"];
+
     return result;
   }
 }
@@ -450,8 +485,10 @@ class Attribute {
   static Attribute fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Attribute();
+
     result.type = jsonObject["type"];
     result.value = Value.fromJson(jsonObject["value"]);
+
     return result;
   }
 }
@@ -464,9 +501,13 @@ class Authority {
   static Authority fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Authority();
+
     result.data = jsonObject["data"];
     result.friendlyName = Value.fromJson(jsonObject["friendlyName"]);
-    if (jsonObject["attributes"] != null) for (var item in jsonObject["attributes"]) result.attributes.add(Attribute.fromJson(item));
+    if (jsonObject["attributes"] != null)
+      for (var item in jsonObject["attributes"])
+        result.attributes.add(Attribute.fromJson(item));
+
     return result;
   }
 }
@@ -478,8 +519,10 @@ class Extension {
   static Extension fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Extension();
+
     result.data = jsonObject["data"];
     result.type = jsonObject["type"];
+
     return result;
   }
 }
@@ -491,8 +534,10 @@ class Validity {
   static Validity fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Validity();
+
     result.notAfter = Value.fromJson(jsonObject["notAfter"]);
     result.notBefore = Value.fromJson(jsonObject["notBefore"]);
+
     return result;
   }
 }
@@ -515,6 +560,7 @@ class CertificateChain {
   static CertificateChain fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new CertificateChain();
+
     result.origin = jsonObject["origin"];
     result.type = jsonObject["type"];
     result.version = jsonObject["version"];
@@ -526,8 +572,13 @@ class CertificateChain {
     result.validity = Validity.fromJson(jsonObject["validity"]);
     result.issuer = Authority.fromJson(jsonObject["issuer"]);
     result.subject = Authority.fromJson(jsonObject["subject"]);
-    if (jsonObject["notifications"] != null) for (var item in jsonObject["notifications"]) result.notifications.add(item);
-    if (jsonObject["extensions"] != null) for (var item in jsonObject["extensions"]) result.extensions.add(Extension.fromJson(item));
+    if (jsonObject["notifications"] != null)
+      for (var item in jsonObject["notifications"])
+        result.notifications.add(item);
+    if (jsonObject["extensions"] != null)
+      for (var item in jsonObject["extensions"])
+        result.extensions.add(Extension.fromJson(item));
+
     return result;
   }
 }
@@ -549,6 +600,7 @@ class SignerInfo {
   static SignerInfo fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new SignerInfo();
+
     result.version = jsonObject["version"];
     result.paStatus = jsonObject["paStatus"];
     result.dataToHash = jsonObject["dataToHash"];
@@ -558,9 +610,16 @@ class SignerInfo {
     result.signature = Value.fromJson(jsonObject["signature"]);
     result.subjectKeyIdentifier = Value.fromJson(jsonObject["subjectKeyIdentifier"]);
     result.issuer = Authority.fromJson(jsonObject["issuer"]);
-    if (jsonObject["notifications"] != null) for (var item in jsonObject["notifications"]) result.notifications.add(item);
-    if (jsonObject["signedAttributes"] != null) for (var item in jsonObject["signedAttributes"]) result.signedAttributes.add(Extension.fromJson(item));
-    if (jsonObject["certificateChain"] != null) for (var item in jsonObject["certificateChain"]) result.certificateChain.add(CertificateChain.fromJson(item));
+    if (jsonObject["notifications"] != null)
+      for (var item in jsonObject["notifications"])
+        result.notifications.add(item);
+    if (jsonObject["signedAttributes"] != null)
+      for (var item in jsonObject["signedAttributes"])
+        result.signedAttributes.add(Extension.fromJson(item));
+    if (jsonObject["certificateChain"] != null)
+      for (var item in jsonObject["certificateChain"])
+        result.certificateChain.add(CertificateChain.fromJson(item));
+
     return result;
   }
 }
@@ -575,11 +634,17 @@ class SecurityObject {
   static SecurityObject fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new SecurityObject();
+
     result.fileReference = jsonObject["fileReference"];
     result.version = jsonObject["version"];
     result.objectType = jsonObject["objectType"];
-    if (jsonObject["notifications"] != null) for (var item in jsonObject["notifications"]) result.notifications.add(item);
-    if (jsonObject["signerInfos"] != null) for (var item in jsonObject["signerInfos"]) result.signerInfos.add(SignerInfo.fromJson(item));
+    if (jsonObject["notifications"] != null)
+      for (var item in jsonObject["notifications"])
+        result.notifications.add(item);
+    if (jsonObject["signerInfos"] != null)
+      for (var item in jsonObject["signerInfos"])
+        result.signerInfos.add(SignerInfo.fromJson(item));
+
     return result;
   }
 }
@@ -603,6 +668,7 @@ class CardProperties {
   static CardProperties fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new CardProperties();
+
     result.aTQA = jsonObject["aTQA"];
     result.bitRateR = jsonObject["bitRateR"];
     result.bitRateS = jsonObject["bitRateS"];
@@ -617,6 +683,7 @@ class CardProperties {
     result.baudrate1 = jsonObject["baudrate1"];
     result.baudrate2 = jsonObject["baudrate2"];
     result.uID = jsonObject["uID"];
+
     return result;
   }
 }
@@ -636,6 +703,7 @@ class RFIDSessionData {
   static RFIDSessionData fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new RFIDSessionData();
+
     result.totalBytesReceived = jsonObject["totalBytesReceived"];
     result.totalBytesSent = jsonObject["totalBytesSent"];
     result.status = jsonObject["status"];
@@ -643,9 +711,16 @@ class RFIDSessionData {
     result.processTime = jsonObject["processTime"];
     result.cardProperties = CardProperties.fromJson(jsonObject["cardProperties"]);
     result.sessionDataStatus = RFIDSessionDataStatus.fromJson(jsonObject["sessionDataStatus"]);
-    if (jsonObject["accessControls"] != null) for (var item in jsonObject["accessControls"]) result.accessControls.add(AccessControlProcedureType.fromJson(item));
-    if (jsonObject["applications"] != null) for (var item in jsonObject["applications"]) result.applications.add(Application.fromJson(item));
-    if (jsonObject["securityObjects"] != null) for (var item in jsonObject["securityObjects"]) result.securityObjects.add(SecurityObject.fromJson(item));
+    if (jsonObject["accessControls"] != null)
+      for (var item in jsonObject["accessControls"])
+        result.accessControls.add(AccessControlProcedureType.fromJson(item));
+    if (jsonObject["applications"] != null)
+      for (var item in jsonObject["applications"])
+        result.applications.add(Application.fromJson(item));
+    if (jsonObject["securityObjects"] != null)
+      for (var item in jsonObject["securityObjects"])
+        result.securityObjects.add(SecurityObject.fromJson(item));
+
     return result;
   }
 }
@@ -660,11 +735,15 @@ class DocumentReaderAuthenticityCheck {
   static DocumentReaderAuthenticityCheck fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderAuthenticityCheck();
+
     result.type = jsonObject["type"];
     result.status = jsonObject["status"];
     result.typeName = jsonObject["typeName"];
     result.pageIndex = jsonObject["pageIndex"];
-    if (jsonObject["elements"] != null) for (var item in jsonObject["elements"]) result.elements.add(DocumentReaderAuthenticityElement.fromJson(item));
+    if (jsonObject["elements"] != null)
+      for (var item in jsonObject["elements"])
+        result.elements.add(DocumentReaderAuthenticityElement.fromJson(item));
+
     return result;
   }
 }
@@ -677,9 +756,11 @@ class PDF417Info {
   static PDF417Info fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new PDF417Info();
+
     result.errorLevel = jsonObject["errorLevel"];
     result.columns = jsonObject["columns"];
     result.rows = jsonObject["rows"];
+
     return result;
   }
 }
@@ -696,6 +777,7 @@ class RFIDSessionDataStatus {
   static RFIDSessionDataStatus fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new RFIDSessionDataStatus();
+
     result.AA = jsonObject["AA"];
     result.BAC = jsonObject["BAC"];
     result.CA = jsonObject["CA"];
@@ -703,6 +785,7 @@ class RFIDSessionDataStatus {
     result.PACE = jsonObject["PACE"];
     result.TA = jsonObject["TA"];
     result.overallStatus = jsonObject["overallStatus"];
+
     return result;
   }
 }
@@ -713,7 +796,11 @@ class DocumentReaderBarcodeResult {
   static DocumentReaderBarcodeResult fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderBarcodeResult();
-    if (jsonObject["fields"] != null) for (var item in jsonObject["fields"]) result.fields.add(DocumentReaderBarcodeField.fromJson(item));
+
+    if (jsonObject["fields"] != null)
+      for (var item in jsonObject["fields"])
+        result.fields.add(DocumentReaderBarcodeField.fromJson(item));
+
     return result;
   }
 }
@@ -728,11 +815,13 @@ class DocumentReaderBarcodeField {
   static DocumentReaderBarcodeField fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderBarcodeField();
+
     result.barcodeType = jsonObject["barcodeType"];
     result.status = jsonObject["status"];
     result.pageIndex = jsonObject["pageIndex"];
     result.pdf417Info = PDF417Info.fromJson(jsonObject["pdf417Info"]);
     result.data = jsonObject["data"];
+
     return result;
   }
 }
@@ -744,8 +833,12 @@ class DocumentReaderAuthenticityResult {
   static DocumentReaderAuthenticityResult fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderAuthenticityResult();
+
     result.status = jsonObject["status"];
-    if (jsonObject["checks"] != null) for (var item in jsonObject["checks"]) result.checks.add(DocumentReaderAuthenticityCheck.fromJson(item));
+    if (jsonObject["checks"] != null)
+      for (var item in jsonObject["checks"])
+        result.checks.add(DocumentReaderAuthenticityCheck.fromJson(item));
+
     return result;
   }
 }
@@ -760,11 +853,13 @@ class DocumentReaderAuthenticityElement {
   static DocumentReaderAuthenticityElement fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderAuthenticityElement();
+
     result.status = jsonObject["status"];
     result.elementType = jsonObject["elementType"];
     result.elementDiagnose = jsonObject["elementDiagnose"];
     result.elementTypeName = jsonObject["elementTypeName"];
     result.elementDiagnoseName = jsonObject["elementDiagnoseName"];
+
     return result;
   }
 }
@@ -777,9 +872,11 @@ class DocumentReaderCompletion {
   static DocumentReaderCompletion fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderCompletion();
+
     result.action = jsonObject["action"];
     result.results = DocumentReaderResults.fromJson(jsonObject["results"]);
     result.error = Throwable.fromJson(jsonObject["error"]);
+
     return result;
   }
 }
@@ -795,12 +892,16 @@ class Throwable {
   static Throwable fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new Throwable();
+
     result.code = jsonObject["code"];
     result.domain = jsonObject["domain"];
     result.localizedMessage = jsonObject["localizedMessage"];
     result.message = jsonObject["message"];
     result.string = jsonObject["string"];
-    if (jsonObject["stackTrace"] != null) for (var item in jsonObject["stackTrace"]) result.stackTrace.add(StackTraceElement.fromJson(item));
+    if (jsonObject["stackTrace"] != null)
+      for (var item in jsonObject["stackTrace"])
+        result.stackTrace.add(StackTraceElement.fromJson(item));
+
     return result;
   }
 }
@@ -816,28 +917,47 @@ class StackTraceElement {
   static StackTraceElement fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new StackTraceElement();
+
     result.lineNumber = jsonObject["lineNumber"];
     result.isNativeMethod = jsonObject["isNativeMethod"];
     result.className = jsonObject["className"];
     result.fileName = jsonObject["fileName"];
     result.methodName = jsonObject["methodName"];
     result.string = jsonObject["string"];
+
     return result;
   }
 }
 
 class DocumentReaderResults {
-  String getTextFieldValueByType(int fieldType, {int lcid = 0, int source = -1, bool original = false}) {
-    if (this.textResult == null) return null;
+  int chipPage;
+  int overallResult;
+  int processingFinishedStatus;
+  int elapsedTime;
+  int elapsedTimeRFID;
+  int morePagesAvailable;
+  int rfidResult;
+  bool highResolution;
+  DocumentReaderGraphicResult graphicResult;
+  DocumentReaderTextResult textResult;
+  ElementPosition documentPosition;
+  ElementPosition barcodePosition;
+  ElementPosition mrzPosition;
+  ImageQualityGroup imageQuality;
+  String rawResult;
+  DocumentReaderNotification documentReaderNotification;
+  RFIDSessionData rfidSessionData;
+  DocumentReaderAuthenticityResult authenticityResult;
+  DocumentReaderBarcodeResult barcodeResult;
+  List<DocumentReaderDocumentType> documentType = [];
+
+  String getTextFieldValueByType(int fieldType, { int lcid = 0, int source = -1, bool original = false }) {
+    if (this.textResult == null)return null;
     var field = this.findByTypeAndLcid(fieldType, lcid);
     if (field == null) return null;
     var value = this.findBySource(field, source);
     if (value == null) return null;
     return original ? value.originalValue : value.value;
-  }
-
-  String getTextFieldValueByTypeAndSource(int fieldType, int source, {bool original = false}) {
-    return this.getTextFieldValueByType(fieldType, lcid: 0, source: source, original: original);
   }
 
   int getTextFieldStatusByType(int fieldType, {int lcid = 0}) {
@@ -846,21 +966,33 @@ class DocumentReaderResults {
     return field != null ? field.status : 0;
   }
 
-  String getGraphicFieldImageByType(int fieldType, {int source = -1, int pageIndex = -1, int light = -1}) {
+  String getGraphicFieldImageByType(int fieldType, { int source = -1, int pageIndex = -1, int light = -1 }) {
     if (this.graphicResult == null) return null;
     List<DocumentReaderGraphicField> foundFields = [];
 
-    for (var field in this.graphicResult.fields) if (field.fieldType == fieldType) foundFields.add(field);
-    if (source != -1) for (int i = 0; i < foundFields.length; i++) if (foundFields[i].sourceType != source) foundFields.sublist(i, 1);
-    if (light != -1) for (int i = 0; i < foundFields.length; i++) if (foundFields[i].lightType != light) foundFields.sublist(i, 1);
-    if (pageIndex != -1) for (int i = 0; i < foundFields.length; i++) if (foundFields[i].pageIndex != pageIndex) foundFields.sublist(i, 1);
+    for (var field in this.graphicResult.fields)
+      if (field.fieldType == fieldType)
+        foundFields.add(field);
+    if (source != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].sourceType != source)
+          foundFields.sublist(i, 1);
+    if (light != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].lightType != light)
+          foundFields.sublist(i, 1);
+    if (pageIndex != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].pageIndex != pageIndex)
+          foundFields.sublist(i, 1);
 
     return foundFields.length > 0 ? foundFields[0].value : null;
   }
 
-  int getQualityResult(int imageQualityCheckType, {int securityFeature = -1}) {
+  int getQualityResult(int imageQualityCheckType, { int securityFeature = -1 }) {
     int resultSum = 2;
     if (this.imageQuality == null) return resultSum;
+
     for (ImageQuality iq in this.imageQuality.imageQualityList) {
       if (iq.type == imageQualityCheckType) {
         if (securityFeature == -1) {
@@ -875,6 +1007,7 @@ class DocumentReaderResults {
         }
       }
     }
+
     return resultSum;
   }
 
@@ -904,33 +1037,15 @@ class DocumentReaderResults {
       return visualVal != null ? visualVal : null;
     } else
       for (DocumentReaderValue item in field.values) if (item.sourceType == sourceType) return item;
+
     return null;
   }
 
-  int chipPage;
-  int overallResult;
-  int processingFinishedStatus;
-  int elapsedTime;
-  int elapsedTimeRFID;
-  int morePagesAvailable;
-  int rfidResult;
-  bool highResolution;
-  DocumentReaderGraphicResult graphicResult;
-  DocumentReaderTextResult textResult;
-  ElementPosition documentPosition;
-  ElementPosition barcodePosition;
-  ElementPosition mrzPosition;
-  ImageQualityGroup imageQuality;
-  DocumentReaderJsonResult jsonResult;
-  DocumentReaderNotification documentReaderNotification;
-  RFIDSessionData rfidSessionData;
-  DocumentReaderAuthenticityResult authenticityResult;
-  DocumentReaderBarcodeResult barcodeResult;
-  List<DocumentReaderDocumentType> documentType = [];
 
   static DocumentReaderResults fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderResults();
+
     result.chipPage = jsonObject["chipPage"];
     result.overallResult = jsonObject["overallResult"];
     result.processingFinishedStatus = jsonObject["processingFinishedStatus"];
@@ -945,12 +1060,15 @@ class DocumentReaderResults {
     result.barcodePosition = ElementPosition.fromJson(jsonObject["barcodePosition"]);
     result.mrzPosition = ElementPosition.fromJson(jsonObject["mrzPosition"]);
     result.imageQuality = ImageQualityGroup.fromJson(jsonObject["imageQuality"]);
-    result.jsonResult = DocumentReaderJsonResult.fromJson(jsonObject["jsonResult"]);
+    result.rawResult = jsonObject["rawResult"];
     result.documentReaderNotification = DocumentReaderNotification.fromJson(jsonObject["documentReaderNotification"]);
     result.rfidSessionData = RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
     result.authenticityResult = DocumentReaderAuthenticityResult.fromJson(jsonObject["authenticityResult"]);
     result.barcodeResult = DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
-    if (jsonObject["documentType"] != null) for (var item in jsonObject["documentType"]) result.documentType.add(DocumentReaderDocumentType.fromJson(item));
+    if (jsonObject["documentType"] != null)
+      for (var item in jsonObject["documentType"])
+        result.documentType.add(DocumentReaderDocumentType.fromJson(item));
+
     return result;
   }
 }
@@ -1010,6 +1128,12 @@ class BarcodeType {
   static const int DATAMATRIX = 16;
   static const int ALL_1D = 17;
   static const int CODE11 = 18;
+}
+
+class CameraMode {
+  static const int AUTO = 0;
+  static const int CAMERA1 = 1;
+  static const int CAMERA2 = 2;
 }
 
 class CameraTypes {
@@ -1362,6 +1486,10 @@ class eCheckDiagnose {
   static const int PPORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
   static const int PORTRAIT_COMPARISON_NO_LIVE_PHOTO = 154;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_LICENSE = 155;
+  static const int PORTRAIT_COMPARISON_NO_PORTRAIT_DETECTED = 156;
+  static const int MOBILE_IMAGES_UNSUITABLE_LIGHT_CONDITIONS = 160;
+  static const int MOBILE_IMAGES_WHITE_UV_NO_DIFFERENCE = 161;
+  static const int LAST_DIAGNOSE_VALUE = 162;
 }
 
 class eCheckResult {
@@ -1411,7 +1539,7 @@ class eGraphicFieldType {
       case GF_DOCUMENT_IMAGE:
         return "Document image";
       case GF_COLOR_DYNAMIC:
-        return "Color dynamic";
+        return "Color dynamics";
       case GF_GHOST_PORTRAIT:
         return "Ghost portrait";
       case GF_STAMP:
@@ -1471,6 +1599,7 @@ class eRequestCommand {
   static const int eReqCmd_RFid_GetDataForScenario = 102;
   static const int eReqCmd_Torch_GetUVFoto = 200;
   static const int eReqCmd_InternetSend = 300;
+  static const int eReqCmd_GetGuid = 400;
 }
 
 class eRFID_AccessControl_ProcedureType {
@@ -3387,6 +3516,35 @@ class eVisualFieldType {
   static const int FT_CITIZENSHIP_OF_FIRST_PERSON = 593;
   static const int FT_CITIZENSHIP_OF_SECOND_PERSON = 594;
   static const int FT_CVV = 595;
+  static const int FT_DATE_OF_INSURANCE_EXPIRY = 596;
+  static const int FT_MORTGAGE_BY = 597;
+  static const int FT_OLD_DOCUMENT_NUMBER = 598;
+  static const int FT_OLD_DATE_OF_ISSUE = 599;
+  static const int FT_OLD_PLACE_OF_ISSUE = 600;
+  static const int FT_DLCLASSCODE_LR_FROM = 601;
+  static const int FT_DLCLASSCODE_LR_TO = 602;
+  static const int FT_DLCLASSCODE_LR_NOTES = 603;
+  static const int FT_DLCLASSCODE_MR_FROM = 604;
+  static const int FT_DLCLASSCODE_MR_TO = 605;
+  static const int FT_DLCLASSCODE_MR_NOTES = 606;
+  static const int FT_DLCLASSCODE_HR_FROM = 607;
+  static const int FT_DLCLASSCODE_HR_TO = 608;
+  static const int FT_DLCLASSCODE_HR_NOTES = 609;
+  static const int FT_DLCLASSCODE_HC_FROM = 610;
+  static const int FT_DLCLASSCODE_HC_TO = 611;
+  static const int FT_DLCLASSCODE_HC_NOTES = 612;
+  static const int FT_DLCLASSCODE_MC_FROM = 613;
+  static const int FT_DLCLASSCODE_MC_TO = 614;
+  static const int FT_DLCLASSCODE_MC_NOTES = 615;
+  static const int FT_DLCLASSCODE_RE_FROM = 616;
+  static const int FT_DLCLASSCODE_RE_TO = 617;
+  static const int FT_DLCLASSCODE_RE_NOTES = 618;
+  static const int FT_DLCLASSCODE_R_FROM = 619;
+  static const int FT_DLCLASSCODE_R_TO = 620;
+  static const int FT_DLCLASSCODE_R_NOTES = 621;
+  static const int FT_DLCLASSCODE_CA_FROM = 622;
+  static const int FT_DLCLASSCODE_CA_TO = 623;
+  static const int FT_DLCLASSCODE_CA_NOTES = 624;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -3423,7 +3581,7 @@ class eVisualFieldType {
       case FT_EYES_COLOR:
         return "Eye color";
       case FT_HAIR_COLOR:
-        return "Hair сolor";
+        return "Hair color";
       case FT_ADDRESS:
         return "Address";
       case FT_DONOR:
@@ -3431,13 +3589,13 @@ class eVisualFieldType {
       case FT_SOCIAL_SECURITY_NUMBER:
         return "Social insurance number";
       case FT_DL_CLASS:
-        return "DL class";
+        return "DL category";
       case FT_DL_ENDORSED:
-        return "DL Endorsed";
+        return "DL endorsement code";
       case FT_DL_RESTRICTION_CODE:
         return "DL Restriction Code";
       case FT_DL_UNDER_21_DATE:
-        return "Date of 21th birthday";
+        return "Date of 21st birthday";
       case FT_AUTHORITY:
         return "Issuing authority";
       case FT_SURNAME_AND_GIVEN_NAMES:
@@ -3465,7 +3623,7 @@ class eVisualFieldType {
       case FT_OPTIONAL_DATA:
         return "Optional data";
       case FT_DOCUMENT_CLASS_NAME:
-        return "Document сlass";
+        return "Document class";
       case FT_ISSUING_STATE_NAME:
         return "Issuing state";
       case FT_PLACE_OF_ISSUE:
@@ -3563,7 +3721,7 @@ class eVisualFieldType {
       case FT_PASSPORT_NUMBER_CHECK_DIGIT:
         return "Check digit for passport number";
       case FT_INVITATION_NUMBER_CHECK_DIGIT:
-        return "Check digit for invitaiton number";
+        return "Check digit for invitation number";
       case FT_VISA_ID_CHECK_DIGIT:
         return "Check digit for visa ID";
       case FT_SURNAME_AND_GIVEN_NAMES_CHECK_DIGIT:
@@ -3571,7 +3729,7 @@ class eVisualFieldType {
       case FT_VISA_VALID_UNTIL_CHECK_DIGIT:
         return "Check digit for visa expiry date";
       case FT_PERMIT_DL_CLASS:
-        return "Permit сlass";
+        return "Permit class";
       case FT_PERMIT_DATE_OF_EXPIRY:
         return "Permit expiry date";
       case FT_PERMIT_IDENTIFIER:
@@ -3587,7 +3745,7 @@ class eVisualFieldType {
       case FT_NUMBER_OF_DUPLICATES:
         return "Number of duplicates";
       case FT_MEDICAL_INDICATOR_CODES:
-        return "Medical indicator/code";
+        return "Medical notes/codes";
       case FT_NON_RESIDENT_INDICATOR:
         return "Non-resident indicator";
       case FT_VISA_TYPE:
@@ -3607,7 +3765,7 @@ class eVisualFieldType {
       case FT_YEAR:
         return "Year";
       case FT_UNIQUE_CUSTOMER_IDENTIFIER:
-        return "Unique сustomer identifier";
+        return "Unique customer identifier";
       case FT_COMMERCIAL_VEHICLE_CODES:
         return "Commercial vehicle code";
       case FT_AKA_DATE_OF_BIRTH:
@@ -3743,11 +3901,11 @@ class eVisualFieldType {
       case FT_DL_RECORD_CREATED:
         return "Record created";
       case FT_DL_DUPLICATE_DATE:
-        return "Duplicate date";
+        return "Date of duplicate issue";
       case FT_DL_ISS_TYPE:
-        return "Iss. Type";
+        return "Card type";
       case FT_MILITARY_BOOK_NUMBER:
-        return "Military book number";
+        return "Military ID number";
       case FT_DESTINATION:
         return "Destination";
       case FT_BLOOD_GROUP:
@@ -3815,15 +3973,15 @@ class eVisualFieldType {
       case FT_E_ID_RESIDENCE_PERMIT_2:
         return "Residence permit 2";
       case FT_E_ID_PLACE_OF_BIRTH_STREET:
-        return "Place Of Birth: Street";
+        return "Place of Birth: Street";
       case FT_E_ID_PLACE_OF_BIRTH_CITY:
-        return "Place Of Birth: City";
+        return "Place of Birth: City";
       case FT_E_ID_PLACE_OF_BIRTH_STATE:
-        return "Place Of Birth: State";
+        return "Place of Birth: State";
       case FT_E_ID_PLACE_OF_BIRTH_COUNTRY:
-        return "Place Of Birth: Country";
+        return "Place of Birth: Country";
       case FT_E_ID_PLACE_OF_BIRTH_ZIPCODE:
-        return "Place Of Birth: Postal code";
+        return "Place of Birth: Postal code";
       case FT_CDL_CLASS:
         return "CDL Class";
       case FT_DL_UNDER_19_DATE:
@@ -3903,7 +4061,7 @@ class eVisualFieldType {
       case FT_ALLERGIES:
         return "Allergies";
       case FT_SP_CODE:
-        return "SP code";
+        return "Special code";
       case FT_COURT_CODE:
         return "Court code";
       case FT_CTY:
@@ -3971,113 +4129,113 @@ class eVisualFieldType {
       case FT_VETERAN:
         return "Veteran";
       case FT_DL_CLASS_CODE_A_1_FROM:
-        return "DL class code A1 from";
+        return "DL category A1 valid from";
       case FT_DL_CLASS_CODE_A_1_TO:
-        return "DL class code A1 to";
+        return "DL category A1 valid to";
       case FT_DL_CLASS_CODE_A_1_NOTES:
-        return "DL class code A1 notes";
+        return "DL category A1 codes";
       case FT_DL_CLASS_CODE_A_FROM:
-        return "DL class code A from";
+        return "DL category A valid from";
       case FT_DL_CLASS_CODE_A_TO:
-        return "DL class code A to";
+        return "DL category A valid to";
       case FT_DL_CLASS_CODE_A_NOTES:
-        return "DL class code A notes";
+        return "DL category A codes";
       case FT_DL_CLASS_CODE_B_FROM:
-        return "DL class code B from";
+        return "DL category B valid from";
       case FT_DL_CLASS_CODE_B_TO:
-        return "DL class code B to";
+        return "DL category B valid to";
       case FT_DL_CLASS_CODE_B_NOTES:
-        return "DL class code B notes";
+        return "DL category B codes";
       case FT_DL_CLASS_CODE_C_1_FROM:
-        return "DL class code C1 from";
+        return "DL category C1 valid from";
       case FT_DL_CLASS_CODE_C_1_TO:
-        return "DL class code C1 to";
+        return "DL category C1 valid to";
       case FT_DL_CLASS_CODE_C_1_NOTES:
-        return "DL class code C1 notes";
+        return "DL category C1 codes";
       case FT_DL_CLASS_CODE_C_FROM:
-        return "DL class code C from";
+        return "DL category C valid from";
       case FT_DL_CLASS_CODE_C_TO:
-        return "DL class code C to";
+        return "DL category C valid to";
       case FT_DL_CLASS_CODE_C_NOTES:
-        return "DL class code C notes";
+        return "DL category C codes";
       case FT_DL_CLASS_CODE_D_1_FROM:
-        return "DL class code D1 from";
+        return "DL category D1 valid from";
       case FT_DL_CLASS_CODE_D_1_TO:
-        return "DL class code D1 to";
+        return "DL category D1 valid to";
       case FT_DL_CLASS_CODE_D_1_NOTES:
-        return "DL class code D1 notes";
+        return "DL category D1 codes";
       case FT_DL_CLASS_CODE_D_FROM:
-        return "DL class code D from";
+        return "DL category D valid from";
       case FT_DL_CLASS_CODE_D_TO:
-        return "DL class code D to";
+        return "DL category D valid to";
       case FT_DL_CLASS_CODE_D_NOTES:
-        return "DL class code D notes";
+        return "DL category D codes";
       case FT_DL_CLASS_CODE_BE_FROM:
-        return "DL class code BE from";
+        return "DL category BE valid from";
       case FT_DL_CLASS_CODE_BE_TO:
-        return "DL class code BE to";
+        return "DL category BE valid to";
       case FT_DL_CLASS_CODE_BE_NOTES:
-        return "DL class code BE notes";
+        return "DL category BE codes";
       case FT_DL_CLASS_CODE_C_1_E_FROM:
-        return "DL class code C1E from";
+        return "DL category C1E valid from";
       case FT_DL_CLASS_CODE_C_1_E_TO:
-        return "DL class code C1E to";
+        return "DL category C1E valid to";
       case FT_DL_CLASS_CODE_C_1_E_NOTES:
-        return "DL class code C1E notes";
+        return "DL category C1E codes";
       case FT_DL_CLASS_CODE_CE_FROM:
-        return "DL class code CE from";
+        return "DL category CE valid from";
       case FT_DL_CLASS_CODE_CE_TO:
-        return "DL class code CE to";
+        return "DL category CE valid to";
       case FT_DL_CLASS_CODE_CE_NOTES:
-        return "DL class code CE notes";
+        return "DL category CE codes";
       case FT_DL_CLASS_CODE_D_1_E_FROM:
-        return "DL class code D1E from";
+        return "DL category D1E valid from";
       case FT_DL_CLASS_CODE_D_1_E_TO:
-        return "DL class code D1E to";
+        return "DL category D1E valid to";
       case FT_DL_CLASS_CODE_D_1_E_NOTES:
-        return "DL class code D1E notes";
+        return "DL category D1E codes";
       case FT_DL_CLASS_CODE_DE_FROM:
-        return "DL class code DE from";
+        return "DL category DE valid from";
       case FT_DL_CLASS_CODE_DE_TO:
-        return "DL class code DE to";
+        return "DL category DE valid to";
       case FT_DL_CLASS_CODE_DE_NOTES:
-        return "DL class code DE notes";
+        return "DL category DE codes";
       case FT_DL_CLASS_CODE_M_FROM:
-        return "DL class code M from";
+        return "DL category M valid from";
       case FT_DL_CLASS_CODE_M_TO:
-        return "DL class code M to";
+        return "DL category M valid to";
       case FT_DL_CLASS_CODE_M_NOTES:
-        return "DL class code M notes";
+        return "DL category M codes";
       case FT_DL_CLASS_CODE_L_FROM:
-        return "DL class code L from";
+        return "DL category L valid from";
       case FT_DL_CLASS_CODE_L_TO:
-        return "DL class code L to";
+        return "DL category L valid to";
       case FT_DL_CLASS_CODE_L_NOTES:
-        return "DL class code L Notes";
+        return "DL category L codes";
       case FT_DL_CLASS_CODE_T_FROM:
-        return "DL class code T from";
+        return "DL category T valid from";
       case FT_DL_CLASS_CODE_T_TO:
-        return "DL class code T to";
+        return "DL category T valid to";
       case FT_DL_CLASS_CODE_T_NOTES:
-        return "DL class code T notes";
+        return "DL category T codes";
       case FT_DL_CLASS_CODE_AM_FROM:
-        return "DL class code AM from";
+        return "DL category AM valid from";
       case FT_DL_CLASS_CODE_AM_TO:
-        return "DL class code AM to";
+        return "DL category AM valid to";
       case FT_DL_CLASS_CODE_AM_NOTES:
-        return "DL class code AM notes";
+        return "DL category AM codes";
       case FT_DL_CLASS_CODE_A_2_FROM:
-        return "DL class code A2 from";
+        return "DL category A2 valid from";
       case FT_DL_CLASS_CODE_A_2_TO:
-        return "DL class code A2 to";
+        return "DL category A2 valid to";
       case FT_DL_CLASS_CODE_A_2_NOTES:
-        return "DL class code A2 notes";
+        return "DL category A2 codes";
       case FT_DL_CLASS_CODE_B_1_FROM:
-        return "DL class code B1 from";
+        return "DL category B1 valid from";
       case FT_DL_CLASS_CODE_B_1_TO:
-        return "DL class code B1 to";
+        return "DL category B1 valid to";
       case FT_DL_CLASS_CODE_B_1_NOTES:
-        return "DL class code B1 notes";
+        return "DL category B1 codes";
       case FT_SURNAME_AT_BIRTH:
         return "Surname at birth";
       case FT_CIVIL_STATUS:
@@ -4111,7 +4269,7 @@ class eVisualFieldType {
       case FT_PAYLOAD_CAPACITY:
         return "Payload capacity";
       case FT_NUMBER_OF_AXELS:
-        return "Number of axels";
+        return "Number of axles";
       case FT_PERMISSIBLE_AXLE_LOAD:
         return "Permissible axle load";
       case FT_PRECINCT:
@@ -4153,53 +4311,53 @@ class eVisualFieldType {
       case FT_CENTURY_DATE_OF_BIRTH:
         return "Century of birth";
       case FT_DL_CLASSCODE_A3_FROM:
-        return "DL class code A3 from";
+        return "DL category A3 valid from";
       case FT_DL_CLASSCODE_A3_TO:
-        return "DL class code A3 to";
+        return "DL category A3 valid to";
       case FT_DL_CLASSCODE_A3_NOTES:
-        return "DL class code A3 notes";
+        return "DL category A3 codes";
       case FT_DL_CLASSCODE_C2_FROM:
-        return "DL class code C2 from";
+        return "DL category C2 valid from";
       case FT_DL_CLASSCODE_C2_TO:
-        return "DL class code C2 to";
+        return "DL category C2 valid to";
       case FT_DL_CLASSCODE_C2_NOTES:
-        return "DL class code C2 notes";
+        return "DL category C2 codes";
       case FT_DL_CLASSCODE_B2_FROM:
-        return "DL class code B2 from";
+        return "DL category B2 valid from";
       case FT_DL_CLASSCODE_B2_TO:
-        return "DL class code B2 to";
+        return "DL category B2 valid to";
       case FT_DL_CLASSCODE_B2_NOTES:
-        return "DL class code B2 notes";
+        return "DL category B2 codes";
       case FT_DL_CLASSCODE_D2_FROM:
-        return "DL class code D2 from";
+        return "DL category D2 valid from";
       case FT_DL_CLASSCODE_D2_TO:
-        return "DL class code D2 to";
+        return "DL category D2 valid to";
       case FT_DL_CLASSCODE_D2_NOTES:
-        return "DL class code D2 notes";
+        return "DL category D2 codes";
       case FT_DL_CLASSCODE_B2E_FROM:
-        return "DL class code B2E from";
+        return "DL category B2E valid from";
       case FT_DL_CLASSCODE_B2E_TO:
-        return "DL class code B2E to";
+        return "DL category B2E valid to";
       case FT_DL_CLASSCODE_B2E_NOTES:
-        return "DL class code B2E notes";
+        return "DL category B2E codes";
       case FT_DL_CLASSCODE_G_FROM:
-        return "DL class code G from";
+        return "DL category G valid from";
       case FT_DL_CLASSCODE_G_TO:
-        return "DL class code G to";
+        return "DL category G valid to";
       case FT_DL_CLASSCODE_G_NOTES:
-        return "DL class code G notes";
+        return "DL category G codes";
       case FT_DL_CLASSCODE_J_FROM:
-        return "DL class code J from";
+        return "DL category J valid from";
       case FT_DL_CLASSCODE_J_TO:
-        return "DL class code J to";
+        return "DL category J valid to";
       case FT_DL_CLASSCODE_J_NOTES:
-        return "DL class code J notes";
+        return "DL category J codes";
       case FT_DL_CLASSCODE_LC_FROM:
-        return "DL class code LC from";
+        return "DL category LC valid from";
       case FT_DL_CLASSCODE_LC_TO:
-        return "DL class code LC to";
+        return "DL category LC valid to";
       case FT_DLC_LASSCODE_LC_NOTES:
-        return "DL class code LC notes";
+        return "DL category LC codes";
       case FT_BANKCARDNUMBER:
         return "Bank card number";
       case FT_BANKCARDVALIDTHRU:
@@ -4337,125 +4495,125 @@ class eVisualFieldType {
       case FT_YEARS_SINCE_ISSUE:
         return "Years since issue";
       case FT_DLCLASSCODE_BTP_FROM:
-        return "DL class code BTP from";
+        return "DL category BTP valid from";
       case FT_DLCLASSCODE_BTP_NOTES:
-        return "DL class code BTP notes";
+        return "DL category BTP codes";
       case FT_DLCLASSCODE_BTP_TO:
-        return "DL class code BTP to";
+        return "DL category BTP valid to";
       case FT_DLCLASSCODE_C3_FROM:
-        return "DL class code C3 from";
+        return "DL category C3 valid from";
       case FT_DLCLASSCODE_C3_NOTES:
-        return "DL class code C3 notes";
+        return "DL category C3 codes";
       case FT_DLCLASSCODE_C3_TO:
-        return "DL class code C3 to";
+        return "DL category C3 valid to";
       case FT_DLCLASSCODE_E_FROM:
-        return "DL class code E from";
+        return "DL category E valid from";
       case FT_DLCLASSCODE_E_NOTES:
-        return "DL class code E notes";
+        return "DL category E codes";
       case FT_DLCLASSCODE_E_TO:
-        return "DL class code E to";
+        return "DL category E valid to";
       case FT_DLCLASSCODE_F_FROM:
-        return "DL class code F from";
+        return "DL category F valid from";
       case FT_DLCLASSCODE_F_NOTES:
-        return "DL class code F notes";
+        return "DL category F codes";
       case FT_DLCLASSCODE_F_TO:
-        return "DL class code F to";
+        return "DL category F valid to";
       case FT_DLCLASSCODE_FA_FROM:
-        return "DL class code FA from";
+        return "DL category FA valid from";
       case FT_DLCLASSCODE_FA_NOTES:
-        return "DL class code FA notes";
+        return "DL category FA codes";
       case FT_DLCLASSCODE_FA_TO:
-        return "DL class code FA to";
+        return "DL category FA valid to";
       case FT_DLCLASSCODE_FA1_FROM:
-        return "DL class code FA1 from";
+        return "DL category FA1 valid from";
       case FT_DLCLASSCODE_FA1_NOTES:
-        return "DL class code FA1 notes";
+        return "DL category FA1 codes";
       case FT_DLCLASSCODE_FA1_TO:
-        return "DL class code FA1 to";
+        return "DL category FA1 valid to";
       case FT_DLCLASSCODE_FB_FROM:
-        return "DL class code FB from";
+        return "DL category FB valid from";
       case FT_DLCLASSCODE_FB_NOTES:
-        return "DL class code FB notes";
+        return "DL category FB codes";
       case FT_DLCLASSCODE_FB_TO:
-        return "DL class code FB to";
+        return "DL category FB valid to";
       case FT_DLCLASSCODE_G1_FROM:
-        return "DL class code G1 from";
+        return "DL category G1 valid from";
       case FT_DLCLASSCODE_G1_NOTES:
-        return "DL class code G1 notes";
+        return "DL category G1 codes";
       case FT_DLCLASSCODE_G1_TO:
-        return "DL class code G1 to";
+        return "DL category G1 valid to";
       case FT_DLCLASSCODE_H_FROM:
-        return "DL class code H from";
+        return "DL category H valid from";
       case FT_DLCLASSCODE_H_NOTES:
-        return "DL class code H notes";
+        return "DL category H codes";
       case FT_DLCLASSCODE_H_TO:
-        return "DL class code H to";
+        return "DL category H valid to";
       case FT_DLCLASSCODE_I_FROM:
-        return "DL class code I from";
+        return "DL category I valid from";
       case FT_DLCLASSCODE_I_NOTES:
-        return "DL class code I notes";
+        return "DL category I codes";
       case FT_DLCLASSCODE_I_TO:
-        return "DL class code I to";
+        return "DL category I valid to";
       case FT_DLCLASSCODE_K_FROM:
-        return "DL class code K from";
+        return "DL category K valid from";
       case FT_DLCLASSCODE_K_NOTES:
-        return "DL class code K notes";
+        return "DL category K codes";
       case FT_DLCLASSCODE_K_TO:
-        return "DL class code K to";
+        return "DL category K valid to";
       case FT_DLCLASSCODE_LK_FROM:
-        return "DL class code LK from";
+        return "DL category LK valid from";
       case FT_DLCLASSCODE_LK_NOTES:
-        return "DL class code LK Notes";
+        return "DL category LK codes";
       case FT_DLCLASSCODE_LK_TO:
-        return "DL class code LK to";
+        return "DL category LK valid to";
       case FT_DLCLASSCODE_N_FROM:
-        return "DL class code N from";
+        return "DL category N valid from";
       case FT_DLCLASSCODE_N_NOTES:
-        return "DL class code N notes";
+        return "DL category N codes";
       case FT_DLCLASSCODE_N_TO:
-        return "DL class code N to";
+        return "DL category N valid to";
       case FT_DLCLASSCODE_S_FROM:
-        return "DL class code S from";
+        return "DL category S valid from";
       case FT_DLCLASSCODE_S_NOTES:
-        return "DL class code S notes";
+        return "DL category S codes";
       case FT_DLCLASSCODE_S_TO:
-        return "DL class code S to";
+        return "DL category S valid to";
       case FT_DLCLASSCODE_TB_FROM:
-        return "DL class code TB from";
+        return "DL category TB valid from";
       case FT_DLCLASSCODE_TB_NOTES:
-        return "DL class code TB notes";
+        return "DL category TB codes";
       case FT_DLCLASSCODE_TB_TO:
-        return "DL class code TB to";
+        return "DL category TB valid to";
       case FT_DLCLASSCODE_TM_FROM:
-        return "DL class code TM from";
+        return "DL category TM valid from";
       case FT_DLCLASSCODE_TM_NOTES:
-        return "DL class code TM notes";
+        return "DL category TM codes";
       case FT_DLCLASSCODE_TM_TO:
-        return "DL class code TM to";
+        return "DL category TM valid to";
       case FT_DLCLASSCODE_TR_FROM:
-        return "DL class code TR from";
+        return "DL category TR valid from";
       case FT_DLCLASSCODE_TR_NOTES:
-        return "DL class code TR notes";
+        return "DL category TR codes";
       case FT_DLCLASSCODE_TR_TO:
-        return "DL class code TR to";
+        return "DL category TR valid to";
       case FT_DLCLASSCODE_TV_FROM:
-        return "DL class code TV from";
+        return "DL category TV valid from";
       case FT_DLCLASSCODE_TV_NOTES:
-        return "DL class code TV notes";
+        return "DL category TV codes";
       case FT_DLCLASSCODE_TV_TO:
-        return "DL class code TV to";
+        return "DL category TV valid to";
       case FT_DLCLASSCODE_V_FROM:
-        return "DL class code V from";
+        return "DL category V valid from";
       case FT_DLCLASSCODE_V_NOTES:
-        return "DL class code V notes";
+        return "DL category V codes";
       case FT_DLCLASSCODE_V_TO:
-        return "DL class code V to";
+        return "DL category V valid to";
       case FT_DLCLASSCODE_W_FROM:
-        return "DL class code W from";
+        return "DL category W valid from";
       case FT_DLCLASSCODE_W_NOTES:
-        return "DL class code W notes";
+        return "DL category W codes";
       case FT_DLCLASSCODE_W_TO:
-        return "DL class code W to";
+        return "DL category W valid to";
       case FT_CALIBER:
         return "Caliber";
       case FT_CITIZENSHIP_OF_FIRST_PERSON:
@@ -4475,11 +4633,69 @@ class eVisualFieldType {
       case FT_NUMBER_OF_CYLINDERS:
         return "Number of cylinders";
       case FT_SURNAME_OF_HUSBAND_AFTER_REGISTRATION:
-        return "Surname of husband  after registration";
+        return "Surname of husband after registration";
       case FT_SURNAME_OF_WIFE_AFTER_REGISTRATION:
         return "Surname of wife after registration";
       case FT_URL:
         return "URL";
+      case FT_DATE_OF_INSURANCE_EXPIRY:
+        return "Expiry date of insurance";
+      case FT_MORTGAGE_BY:
+        return "Mortgage by";
+      case FT_OLD_DOCUMENT_NUMBER:
+        return "Old document number";
+      case FT_OLD_DATE_OF_ISSUE:
+        return "Old date of issue";
+      case FT_OLD_PLACE_OF_ISSUE:
+        return "Old place of issue";
+      case FT_DLCLASSCODE_LR_FROM:
+        return "DL category LR valid from";
+      case FT_DLCLASSCODE_LR_TO:
+        return "DL category LR valid to";
+      case FT_DLCLASSCODE_LR_NOTES:
+        return "DL category LR codes";
+      case FT_DLCLASSCODE_MR_FROM:
+        return "DL category MR valid from";
+      case FT_DLCLASSCODE_MR_TO:
+        return "DL category MR valid to";
+      case FT_DLCLASSCODE_MR_NOTES:
+        return "DL category MR codes";
+      case FT_DLCLASSCODE_HR_FROM:
+        return "DL category HR valid from";
+      case FT_DLCLASSCODE_HR_TO:
+        return "DL category HR valid to";
+      case FT_DLCLASSCODE_HR_NOTES:
+        return "DL category HR codes";
+      case FT_DLCLASSCODE_HC_FROM:
+        return "DL category HC valid from";
+      case FT_DLCLASSCODE_HC_TO:
+        return "DL category HC valid to";
+      case FT_DLCLASSCODE_HC_NOTES:
+        return "DL category HC codes";
+      case FT_DLCLASSCODE_MC_FROM:
+        return "DL category MC valid from";
+      case FT_DLCLASSCODE_MC_TO:
+        return "DL category MC valid to";
+      case FT_DLCLASSCODE_MC_NOTES:
+        return "DL category MC codes";
+      case FT_DLCLASSCODE_RE_FROM:
+        return "DL category RE valid from";
+      case FT_DLCLASSCODE_RE_TO:
+        return "DL category RE valid to";
+      case FT_DLCLASSCODE_RE_NOTES:
+        return "DL category RE codes";
+      case FT_DLCLASSCODE_R_FROM:
+        return "DL category R valid from";
+      case FT_DLCLASSCODE_R_TO:
+        return "DL category R valid to";
+      case FT_DLCLASSCODE_R_NOTES:
+        return "DL category R codes";
+      case FT_DLCLASSCODE_CA_FROM:
+        return "DL category CA valid from";
+      case FT_DLCLASSCODE_CA_TO:
+        return "DL category CA valid to";
+      case FT_DLCLASSCODE_CA_NOTES:
+        return "DL category CA codes";
       default:
         return value.toString();
     }
