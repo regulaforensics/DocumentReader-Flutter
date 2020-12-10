@@ -181,14 +181,14 @@ typedef void (^Callback)(NSString* response);
         [self setRfidScenario :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReader"])
         [self initializeReader :[args objectAtIndex:0] :successCallback :errorCallback];
-    else if([action isEqualToString:@"initializeReaderWithDatabasePath"])
-        [self initializeReaderWithDatabasePath :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"prepareDatabase"])
         [self prepareDatabase :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImage"])
         [self recognizeImage :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"setRfidSessionStatus"])
         [self setRfidSessionStatus :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"initializeReaderWithDatabasePath"])
+        [self initializeReaderWithDatabasePath :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImageFrame"])
         [self recognizeImageFrame :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImageWithOpts"])
@@ -206,39 +206,39 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) resetConfiguration:(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"resetConfiguration() is an android-anly method" :errorCallback];
+    [self result:@"resetConfiguration() is an android-only method" :errorCallback];
 }
 
 - (void) setEnableCoreLogs:(BOOL)logs :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"setEnableCoreLogs() is an android-anly method" :errorCallback];
+    [self result:@"setEnableCoreLogs() is an android-only method" :errorCallback];
 }
 
 - (void) showScannerWithCameraID:(NSNumber*)cameraID :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"showScannerWithCameraID() is an android-anly method" :errorCallback];
+    [self result:@"showScannerWithCameraID() is an android-only method" :errorCallback];
 }
 
 - (void) recognizeImageFrame:(NSString*)base64 :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeImageFrame() is an android-anly method" :errorCallback];
+    [self result:@"recognizeImageFrame() is an android-only method" :errorCallback];
 }
 
-- (void) recognizeImageWithOpts:(NSDictionary*)opts :(NSString*)base64 :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeImageWithOpts() is an android-anly method" :errorCallback];
+- (void) recognizeImageWithOpts:(NSString*)base64 :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
+    [self result:@"recognizeImageWithOpts() is an android-only method" :errorCallback];
 }
 
 - (void) recognizeVideoFrame:(NSString*)byteString :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeVideoFrame() is an android-anly method" :errorCallback];
+    [self result:@"recognizeVideoFrame() is an android-only method" :errorCallback];
 }
 
 - (void) showScannerWithCameraIDAndOpts:(NSNumber*)cameraID :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"showScannerWithCameraIDAndOpts() is an android-anly method" :errorCallback];
+    [self result:@"showScannerWithCameraIDAndOpts() is an android-only method" :errorCallback];
 }
 
 - (void) recognizeImageWithImageInputParams:(NSString*)base64 :(NSDictionary*)params :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeImageWithImageInputParams() is an android-anly method" :errorCallback];
+    [self result:@"recognizeImageWithImageInputParams() is an android-only method" :errorCallback];
 }
 
 - (void) getLicenseMessage:(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"getLicenseMessage() is an android-anly method" :successCallback];
+    [self result:@"getLicenseMessage() is an android-only method" :successCallback];
 }
 
 - (void) initializeReader:(NSString*)licenseString :(Callback)successCallback :(Callback)errorCallback{

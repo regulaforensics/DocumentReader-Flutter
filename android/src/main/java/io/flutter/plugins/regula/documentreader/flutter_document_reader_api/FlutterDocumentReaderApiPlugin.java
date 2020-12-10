@@ -328,9 +328,6 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "initializeReader":
                     initializeReader(callback, args(0));
                     break;
-                case "initializeReaderWithDatabasePath":
-                    initializeReaderWithDatabasePath(callback, args(0), args(1));
-                    break;
                 case "prepareDatabase":
                     prepareDatabase(callback, args(0));
                     break;
@@ -339,6 +336,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                     break;
                 case "setRfidSessionStatus":
                     setRfidSessionStatus(callback, args(0));
+                    break;
+                case "initializeReaderWithDatabasePath":
+                    initializeReaderWithDatabasePath(callback, args(0), args(1));
                     break;
                 case "recognizeImageFrame":
                     recognizeImageFrame(callback, args(0), args(1));
@@ -500,7 +500,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         Instance().recognizeImage(JSONConstructor.bitmapFromBase64(base64Image), new ImageInputParam(params.getInt("width"), params.getInt("height"), params.getInt("type")), getCompletion());
     }
 
-    private void recognizeImageWithOpts(Callback callback, final JSONObject opts, String base64Image) throws JSONException {
+    private void recognizeImageWithOpts(Callback callback, String base64Image, final JSONObject opts) throws JSONException {
         RegulaConfig.setConfig(Instance(), opts, getContext());
         recognizeImage(callback, base64Image);
     }

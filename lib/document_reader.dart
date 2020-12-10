@@ -976,15 +976,15 @@ class DocumentReaderResults {
     if (source != -1)
       for (int i = 0; i < foundFields.length; i++)
         if (foundFields[i].sourceType != source)
-          foundFields.sublist(i, 1);
+          foundFields.removeAt(i);
     if (light != -1)
       for (int i = 0; i < foundFields.length; i++)
         if (foundFields[i].lightType != light)
-          foundFields.sublist(i, 1);
+          foundFields.removeAt(i);
     if (pageIndex != -1)
       for (int i = 0; i < foundFields.length; i++)
         if (foundFields[i].pageIndex != pageIndex)
-          foundFields.sublist(i, 1);
+          foundFields.removeAt(i);
 
     return foundFields.length > 0 ? foundFields[0].value : null;
   }
@@ -5411,83 +5411,83 @@ class DocumentReader {
     return await _channel.invokeMethod("getRfidSessionStatus", []);
   }
 
-  static Future<dynamic> setEnableCoreLogs(arg0) async {
-    return await _channel.invokeMethod("setEnableCoreLogs", [arg0]);
+  static Future<dynamic> setEnableCoreLogs(logs) async {
+    return await _channel.invokeMethod("setEnableCoreLogs", [logs]);
   }
 
-  static Future<dynamic> addPKDCertificates(arg0) async {
-    return await _channel.invokeMethod("addPKDCertificates", [arg0]);
+  static Future<dynamic> addPKDCertificates(certificates) async {
+    return await _channel.invokeMethod("addPKDCertificates", [certificates]);
   }
 
-  static Future<dynamic> setCameraSessionIsPaused(arg0) async {
-    return await _channel.invokeMethod("setCameraSessionIsPaused", [arg0]);
+  static Future<dynamic> setCameraSessionIsPaused(paused) async {
+    return await _channel.invokeMethod("setCameraSessionIsPaused", [paused]);
   }
 
-  static Future<dynamic> getScenario(arg0) async {
-    return await _channel.invokeMethod("getScenario", [arg0]);
+  static Future<dynamic> getScenario(scenario) async {
+    return await _channel.invokeMethod("getScenario", [scenario]);
   }
 
-  static Future<dynamic> recognizeImages(arg0) async {
-    return await _channel.invokeMethod("recognizeImages", [arg0]);
+  static Future<dynamic> recognizeImages(images) async {
+    return await _channel.invokeMethod("recognizeImages", [images]);
   }
 
-  static Future<dynamic> showScannerWithCameraID(arg0) async {
-    return await _channel.invokeMethod("showScannerWithCameraID", [arg0]);
+  static Future<dynamic> showScannerWithCameraID(cameraID) async {
+    return await _channel.invokeMethod("showScannerWithCameraID", [cameraID]);
   }
 
-  static Future<dynamic> runAutoUpdate(arg0) async {
-    return await _channel.invokeMethod("runAutoUpdate", [arg0]);
+  static Future<dynamic> runAutoUpdate(databaseType) async {
+    return await _channel.invokeMethod("runAutoUpdate", [databaseType]);
   }
 
-  static Future<dynamic> setConfig(arg0) async {
-    return await _channel.invokeMethod("setConfig", [arg0]);
+  static Future<dynamic> setConfig(config) async {
+    return await _channel.invokeMethod("setConfig", [config]);
   }
 
-  static Future<dynamic> setRfidScenario(arg0) async {
-    return await _channel.invokeMethod("setRfidScenario", [arg0]);
+  static Future<dynamic> setRfidScenario(scenario) async {
+    return await _channel.invokeMethod("setRfidScenario", [scenario]);
   }
 
-  static Future<dynamic> initializeReader(arg0) async {
-    return await _channel.invokeMethod("initializeReader", [arg0]);
+  static Future<dynamic> initializeReader(license) async {
+    return await _channel.invokeMethod("initializeReader", [license]);
   }
 
-  static Future<dynamic> initializeReaderWithDatabasePath(arg0, arg1) async {
-    return await _channel.invokeMethod("initializeReaderWithDatabasePath", [arg0, arg1]);
+  static Future<dynamic> prepareDatabase(databaseType) async {
+    return await _channel.invokeMethod("prepareDatabase", [databaseType]);
   }
 
-  static Future<dynamic> prepareDatabase(arg0) async {
-    return await _channel.invokeMethod("prepareDatabase", [arg0]);
+  static Future<dynamic> recognizeImage(image) async {
+    return await _channel.invokeMethod("recognizeImage", [image]);
   }
 
-  static Future<dynamic> recognizeImage(arg0) async {
-    return await _channel.invokeMethod("recognizeImage", [arg0]);
+  static Future<dynamic> setRfidSessionStatus(status) async {
+    return await _channel.invokeMethod("setRfidSessionStatus", [status]);
   }
 
-  static Future<dynamic> setRfidSessionStatus(arg0) async {
-    return await _channel.invokeMethod("setRfidSessionStatus", [arg0]);
+  static Future<dynamic> initializeReaderWithDatabasePath(license, path) async {
+    return await _channel.invokeMethod("initializeReaderWithDatabasePath", [license, path]);
   }
 
-  static Future<dynamic> recognizeImageFrame(arg0, arg1) async {
-    return await _channel.invokeMethod("recognizeImageFrame", [arg0, arg1]);
+  static Future<dynamic> recognizeImageFrame(image, params) async {
+    return await _channel.invokeMethod("recognizeImageFrame", [image, params]);
   }
 
-  static Future<dynamic> recognizeImageWithOpts(arg0, arg1) async {
-    return await _channel.invokeMethod("recognizeImageWithOpts", [arg0, arg1]);
+  static Future<dynamic> recognizeImageWithOpts(image, options) async {
+    return await _channel.invokeMethod("recognizeImageWithOpts", [image, options]);
   }
 
-  static Future<dynamic> recognizeVideoFrame(arg0, arg1) async {
-    return await _channel.invokeMethod("recognizeVideoFrame", [arg0, arg1]);
+  static Future<dynamic> recognizeVideoFrame(byteString, params) async {
+    return await _channel.invokeMethod("recognizeVideoFrame", [byteString, params]);
   }
 
-  static Future<dynamic> showScannerWithCameraIDAndOpts(arg0, arg1) async {
-    return await _channel.invokeMethod("showScannerWithCameraIDAndOpts", [arg0, arg1]);
+  static Future<dynamic> showScannerWithCameraIDAndOpts(cameraID, options) async {
+    return await _channel.invokeMethod("showScannerWithCameraIDAndOpts", [cameraID, options]);
   }
 
-  static Future<dynamic> recognizeImageWithImageInputParams(arg0, arg1) async {
-    return await _channel.invokeMethod("recognizeImageWithImageInputParams", [arg0, arg1]);
+  static Future<dynamic> recognizeImageWithImageInputParams(image, params) async {
+    return await _channel.invokeMethod("recognizeImageWithImageInputParams", [image, params]);
   }
 
-  static Future<dynamic> recognizeImageWithCameraMode(arg0, arg1) async {
-    return await _channel.invokeMethod("recognizeImageWithCameraMode", [arg0, arg1]);
+  static Future<dynamic> recognizeImageWithCameraMode(image, mode) async {
+    return await _channel.invokeMethod("recognizeImageWithCameraMode", [image, mode]);
   }
 }

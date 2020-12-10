@@ -82,11 +82,11 @@
 }
 
 +(UIColor *)getUIColorObjectFromHexString:(NSString *)hexStr alpha:(CGFloat)alpha {
-    unsigned int hexint = [self intFromHexString:hexStr];
+    unsigned int hexInt = [self intFromHexString:hexStr];
     UIColor *color =
-    [UIColor colorWithRed:((CGFloat) ((hexint & 0xFF0000) >> 16))/255
-                    green:((CGFloat) ((hexint & 0xFF00) >> 8))/255
-                     blue:((CGFloat) (hexint & 0xFF))/255
+    [UIColor colorWithRed:((CGFloat) ((hexInt & 0xFF0000) >> 16))/255
+                    green:((CGFloat) ((hexInt & 0xFF00) >> 8))/255
+                     blue:((CGFloat) (hexInt & 0xFF))/255
                     alpha:alpha];
 
     return color;
