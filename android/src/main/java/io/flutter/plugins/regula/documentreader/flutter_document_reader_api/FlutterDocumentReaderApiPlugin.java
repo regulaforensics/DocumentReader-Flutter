@@ -19,6 +19,7 @@ import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
 import com.regula.documentreader.api.enums.DocReaderAction;
+import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.params.ImageInputParam;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
 import com.regula.documentreader.api.results.DocumentReaderResults;
@@ -664,7 +665,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             }
 
             @Override
-            public void onPrepareCompleted(boolean status, Throwable error) {
+            public void onPrepareCompleted(boolean status, DocumentReaderException error) {
                 if (status)
                     callback.success("database prepared");
                 else

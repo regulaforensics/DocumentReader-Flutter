@@ -191,6 +191,7 @@
     output[@"type"] = [NSNumber numberWithInteger:imageQuality.type];
     output[@"result"] = [NSNumber numberWithInteger:imageQuality.result];
     output[@"featureType"] = [NSNumber numberWithInteger:imageQuality.featureType];
+    output[@"boundRects"] = [self generateNSArrayCGRect:imageQuality.boundRects];
 
     return output;
 }
@@ -226,6 +227,14 @@
     output[@"pageIndex"] = [NSNumber numberWithInteger:documentReaderGraphicField.pageIndex];
     output[@"fieldRect"] = [self generateCGRect:documentReaderGraphicField.boundRect];
 
+    return output;
+}
+
++(NSMutableArray*)generateNSArrayCGRect:(NSArray<NSValue*>* _Nonnull)list {
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    for(NSValue* rect in list)
+        if(rect != nil)
+            [output addObject:[self generateCGRect:[rect CGRectValue]]];
     return output;
 }
 

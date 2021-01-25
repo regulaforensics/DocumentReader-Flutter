@@ -619,6 +619,8 @@
         processParams.integralImage = [[options valueForKey:@"integralImage"] boolValue];
     if([options valueForKey:@"returnCroppedBarcode"] != nil)
         processParams.returnCroppedBarcode = [[options valueForKey:@"returnCroppedBarcode"] boolValue];
+    if([options valueForKey:@"checkHologram"] != nil)
+        processParams.checkHologram = [[options valueForKey:@"checkHologram"] boolValue];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -746,6 +748,7 @@
     result[@"minDPI"] = [NSNumber numberWithInteger:processParams.minDPI];
     result[@"integralImage"] = [NSNumber numberWithBool:processParams.integralImage];
     result[@"returnCroppedBarcode"] = [NSNumber numberWithBool:processParams.returnCroppedBarcode];
+    result[@"checkHologram"] = [NSNumber numberWithBool:processParams.checkHologram];
 
     return result;
 }

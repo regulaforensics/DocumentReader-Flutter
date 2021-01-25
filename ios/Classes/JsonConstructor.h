@@ -6,8 +6,8 @@
 @import UIKit;
 
 @interface JSONConstructor : NSObject
-+ (NSString* _Nullable)resultsToJsonString:(RGLDocumentReaderResults* _Nullable) results;
-+ (NSMutableDictionary* _Nullable)generateImageQualityGroup:(RGLImageQualityGroup* _Nullable) imageQualityGroup;
++(NSString* _Nullable)resultsToJsonString:(RGLDocumentReaderResults* _Nullable) results;
++(NSMutableDictionary* _Nullable)generateImageQualityGroup:(RGLImageQualityGroup* _Nullable) imageQualityGroup;
 +(NSMutableArray* _Nullable)generateImageQualityList:(NSArray<RGLImageQuality *> * _Nonnull) imageQualityList;
 +(NSMutableDictionary* _Nullable)generateImageQuality:(RGLImageQuality* _Nullable) imageQuality;
 +(NSMutableDictionary* _Nullable)generateDocumentReaderGraphicResult:(RGLDocumentReaderGraphicResult* _Nullable) documentReaderGraphicResult;
@@ -27,6 +27,7 @@
 +(NSInteger)generateRFIDCompleteAction:(RGLRFIDCompleteAction)action;
 +(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)action;
 +(NSString*_Nullable)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error :(RGLRFIDNotify*_Nullable)notify;
++(NSMutableArray* _Nullable)generateNSArrayCGRect:(NSArray<NSValue*>* _Nonnull) list;
 
 @end
 #endif

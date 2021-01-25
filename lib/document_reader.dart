@@ -237,6 +237,7 @@ class ImageQuality {
   int featureType;
   int result;
   int type;
+  List<Rect> boundRects = [];
 
   static ImageQuality fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -245,6 +246,9 @@ class ImageQuality {
     result.featureType = jsonObject["featureType"];
     result.result = jsonObject["result"];
     result.type = jsonObject["type"];
+    if (jsonObject["boundRects"] != null)
+      for (var item in jsonObject["boundRects"])
+        result.boundRects.add(Rect.fromJson(item));
 
     return result;
   }
@@ -1408,6 +1412,21 @@ class DocReaderOrientation {
   static const int LANDSCAPE = 2;
 }
 
+class DocumentReaderException {
+  static const int NATIVE_JAVA_EXCEPTION = 0;
+  static const int DOCUMENT_READER_STATE_EXCEPTION = 1;
+  static const int DOCUMENT_READER_WRONG_INPUT = 2;
+  static const int DOCUMENT_READER_BLE_EXCEPTION = 201;
+  static const int DB_DOWNLOAD_ERROR = 301;
+  static const int LICENSE_ABSENT_OR_CORRUPTED = 101;
+  static const int LICENSE_INVALID_DATE = 102;
+  static const int LICENSE_INVALID_VERSION = 103;
+  static const int LICENSE_INVALID_DEVICE_ID = 104;
+  static const int LICENSE_INVALID_SYSTEM_OR_APP_ID = 105;
+  static const int LICENSE_NO_CAPABILITIES = 106;
+  static const int LICENSE_NO_AUTHENTICITY = 107;
+}
+
 class eCheckDiagnose {
   static const int UNKNOWN = 0;
   static const int PASS = 1;
@@ -1440,6 +1459,7 @@ class eCheckDiagnose {
   static const int VISIBLE_ELEMENT_ABSENT = 41;
   static const int ELEMENT_SHOULD_BE_COLORED = 42;
   static const int ELEMENT_SHOULD_BE_GRAYSCALE = 43;
+  static const int PHOTO_WHITE_IR_DONT_MATCH = 44;
   static const int UV_DULL_PAPER_MRZ = 50;
   static const int FALSE_LUMINISCENCE_IN_MRZ = 51;
   static const int UV_DULL_PAPER_PHOTO = 52;
@@ -1449,6 +1469,7 @@ class eCheckDiagnose {
   static const int BAD_AREA_IN_AXIAL = 60;
   static const int FALSE_IPI_PARAMETERS = 65;
   static const int FIELD_POS_CORRECTOR_HIGHLIGHT_IR = 80;
+  static const int FIELD_POS_CORRECTOR_GLARES_IN_PHOTO_AREA = 81;
   static const int OVI_IR_INVISIBLE = 90;
   static const int OVI_INSUFFICIENT_AREA = 91;
   static const int OVI_COLOR_INVARIABLE = 92;
@@ -1459,6 +1480,8 @@ class eCheckDiagnose {
   static const int HOLOGRAM_ELEMENT_ABSENT = 100;
   static const int HOLOGRAM_SIDE_TOP_IMAGES_ABSENT = 101;
   static const int HOLOGRAM_ELEMENT_PRESENT = 102;
+  static const int HOLOGRAM_FRAMES_IS_ABSENT = 103;
+  static const int HOLOGRAM_HOLO_FIELD_IS_ABSENT = 104;
   static const int PHOTO_PATTERN_INTERRUPTED = 110;
   static const int PHOTO_PATTERN_SHIFTED = 111;
   static const int PHOTO_PATTERN_DIFFERENT_COLORS = 112;
@@ -1483,13 +1506,21 @@ class eCheckDiagnose {
   static const int PORTRAIT_COMPARISON_PORTRAITS_DIFFER = 150;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_REPLY = 151;
   static const int PORTRAIT_COMPARISON_SERVICE_ERROR = 152;
-  static const int PPORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
+  static const int PORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
   static const int PORTRAIT_COMPARISON_NO_LIVE_PHOTO = 154;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_LICENSE = 155;
   static const int PORTRAIT_COMPARISON_NO_PORTRAIT_DETECTED = 156;
   static const int MOBILE_IMAGES_UNSUITABLE_LIGHT_CONDITIONS = 160;
   static const int MOBILE_IMAGES_WHITE_UV_NO_DIFFERENCE = 161;
-  static const int LAST_DIAGNOSE_VALUE = 162;
+  static const int FINGERPRINTS_COMPARISON_MISMATCH = 170;
+  static const int HOLO_PHOTO_FACE_NOT_DETECTED = 180;
+  static const int HOLO_PHOTO_FACE_COMPARISON_FAILED = 181;
+  static const int HOLO_PHOTO_FACE_GLARE_IN_CENTER_ABSENT = 182;
+  static const int HOLO_ELEMENT_SHAPE_ERROR = 183;
+  static const int ALGORITHM_STEPS_ERROR = 184;
+  static const int HOLO_AREAS_NOT_LOADED = 185;
+  static const int FINISHED_BY_TIMEOUT = 186;
+  static const int LAST_DIAGNOSE_VALUE = 190;
 }
 
 class eCheckResult {
@@ -1578,6 +1609,8 @@ class eImageQualityCheckType {
   static const int IQC_IMAGE_GLARES = 0;
   static const int IQC_IMAGE_FOCUS = 1;
   static const int IQC_IMAGE_RESOLUTION = 2;
+  static const int IQC_PERSPECTIVE = 3;
+  static const int IQC_BOUNDS = 4;
 }
 
 class eProcessGLCommands {
