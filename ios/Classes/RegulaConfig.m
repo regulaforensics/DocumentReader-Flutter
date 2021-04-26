@@ -548,8 +548,6 @@
         functionality.btDeviceName = [[options valueForKey:@"btDeviceName"] stringValue];
     if([options valueForKey:@"useAuthenticator"] != nil)
         functionality.useAuthenticator = [[options valueForKey:@"useAuthenticator"] boolValue];
-    if([options valueForKey:@"rfidEnabled"] != nil)
-        functionality.rfidEnabled = [[options valueForKey:@"rfidEnabled"] boolValue];
     if([options valueForKey:@"showCaptureButtonDelayFromDetect"] != nil)
         functionality.showCaptureButtonDelayFromDetect = [[options valueForKey:@"showCaptureButtonDelayFromDetect"] doubleValue];
     if([options valueForKey:@"showCaptureButtonDelayFromStart"] != nil)
@@ -562,6 +560,8 @@
         functionality.isZoomEnabled = [[options valueForKey:@"isZoomEnabled"] boolValue];
     if([options valueForKey:@"zoomFactor"] != nil)
         functionality.zoomFactor = [[options valueForKey:@"zoomFactor"] floatValue];
+    if([options valueForKey:@"recordScanningProcess"] != nil)
+        functionality.recordScanningProcess = [[options valueForKey:@"recordScanningProcess"] boolValue];
 }
 
 +(void)setProcessParams:(NSDictionary*)options :(RGLProcessParams*)processParams {
@@ -621,6 +621,8 @@
         processParams.returnCroppedBarcode = [[options valueForKey:@"returnCroppedBarcode"] boolValue];
     if([options valueForKey:@"checkHologram"] != nil)
         processParams.checkHologram = [[options valueForKey:@"checkHologram"] boolValue];
+    if([options valueForKey:@"checkRequiredTextFields"] != nil)
+        processParams.checkRequiredTextFields = [[options valueForKey:@"checkRequiredTextFields"] boolValue];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -704,13 +706,13 @@
     result[@"cameraPosition"] = [NSNumber numberWithInteger:[self NSIntegerWithAVCaptureDevicePosition:functionality.cameraPosition]];
     result[@"btDeviceName"] = functionality.btDeviceName;
     result[@"useAuthenticator"] = [NSNumber numberWithBool:functionality.isUseAuthenticator];
-    result[@"rfidEnabled"] = [NSNumber numberWithBool:functionality.rfidEnabled];
     result[@"showCaptureButtonDelayFromDetect"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromDetect];
     result[@"showCaptureButtonDelayFromStart"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromStart];
     result[@"captureMode"] = [NSNumber numberWithInteger:functionality.captureMode];
     result[@"displayMetadata"] = [NSNumber numberWithBool:functionality.showMetadataInfo];
     result[@"isZoomEnabled"] = [NSNumber numberWithBool:functionality.isZoomEnabled];
     result[@"zoomFactor"] = [NSNumber numberWithBool:functionality.zoomFactor];
+    result[@"recordScanningProcess"] = [NSNumber numberWithBool:functionality.recordScanningProcess];
 
     return result;
 }
@@ -749,6 +751,7 @@
     result[@"integralImage"] = [NSNumber numberWithBool:processParams.integralImage];
     result[@"returnCroppedBarcode"] = [NSNumber numberWithBool:processParams.returnCroppedBarcode];
     result[@"checkHologram"] = [NSNumber numberWithBool:processParams.checkHologram];
+    result[@"checkRequiredTextFields"] = [NSNumber numberWithBool:processParams.checkRequiredTextFields];
 
     return result;
 }

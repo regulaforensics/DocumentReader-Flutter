@@ -3,13 +3,44 @@ import 'package:flutter/services.dart';
 
 // Classes
 
-class Scenario {
-  int frame;
-  int frameOrientation;
+class DocumentReaderScenario {
   bool uvTorch;
-  bool barcodeExt;
+  bool seriesProcessMode;
+  String name;
+  String caption;
+  String description;
+
+  static DocumentReaderScenario fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderScenario();
+
+    result.uvTorch = jsonObject["uvTorch"];
+    result.seriesProcessMode = jsonObject["seriesProcessMode"];
+    result.name = jsonObject["name"];
+    result.caption = jsonObject["caption"];
+    result.description = jsonObject["description"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (uvTorch != null) result.addAll({"uvTorch": uvTorch});
+    if (seriesProcessMode != null) result.addAll({"seriesProcessMode": seriesProcessMode});
+    if (name != null) result.addAll({"name": name});
+    if (caption != null) result.addAll({"caption": caption});
+    if (description != null) result.addAll({"description": description});
+
+    return result;
+  }
+}
+
+class DocumentReaderScenarioFull {
+  bool uvTorch;
+  int frameOrientation;
   bool faceExt;
-  bool multiPageOff;
+  int multiPageOff;
   bool seriesProcessMode;
   double frameKWHLandscape;
   double frameKWHPortrait;
@@ -18,15 +49,14 @@ class Scenario {
   String name;
   String caption;
   String description;
+  bool manualCrop;
 
-  static Scenario fromJson(jsonObject) {
+  static DocumentReaderScenarioFull fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Scenario();
+    var result = new DocumentReaderScenarioFull();
 
-    result.frame = jsonObject["frame"];
-    result.frameOrientation = jsonObject["frameOrientation"];
     result.uvTorch = jsonObject["uvTorch"];
-    result.barcodeExt = jsonObject["barcodeExt"];
+    result.frameOrientation = jsonObject["frameOrientation"];
     result.faceExt = jsonObject["faceExt"];
     result.multiPageOff = jsonObject["multiPageOff"];
     result.seriesProcessMode = jsonObject["seriesProcessMode"];
@@ -37,6 +67,84 @@ class Scenario {
     result.name = jsonObject["name"];
     result.caption = jsonObject["caption"];
     result.description = jsonObject["description"];
+    result.manualCrop = jsonObject["manualCrop"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (uvTorch != null) result.addAll({"uvTorch": uvTorch});
+    if (frameOrientation != null) result.addAll({"frameOrientation": frameOrientation});
+    if (faceExt != null) result.addAll({"faceExt": faceExt});
+    if (multiPageOff != null) result.addAll({"multiPageOff": multiPageOff});
+    if (seriesProcessMode != null) result.addAll({"seriesProcessMode": seriesProcessMode});
+    if (frameKWHLandscape != null) result.addAll({"frameKWHLandscape": frameKWHLandscape});
+    if (frameKWHPortrait != null) result.addAll({"frameKWHPortrait": frameKWHPortrait});
+    if (frameKWHDoublePageSpreadPortrait != null) result.addAll({"frameKWHDoublePageSpreadPortrait": frameKWHDoublePageSpreadPortrait});
+    if (frameKWHDoublePageSpreadLandscape != null) result.addAll({"frameKWHDoublePageSpreadLandscape": frameKWHDoublePageSpreadLandscape});
+    if (name != null) result.addAll({"name": name});
+    if (caption != null) result.addAll({"caption": caption});
+    if (description != null) result.addAll({"description": description});
+    if (manualCrop != null) result.addAll({"manualCrop": manualCrop});
+
+    return result;
+  }
+}
+
+class FaceMetaData {
+  int ID;
+  int rollAngle;
+  Bounds bounds;
+
+  static FaceMetaData fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new FaceMetaData();
+
+    result.ID = jsonObject["ID"];
+    result.rollAngle = jsonObject["rollAngle"];
+    result.bounds = Bounds.fromJson(jsonObject["bounds"]);
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (ID != null) result.addAll({"ID": ID});
+    if (rollAngle != null) result.addAll({"rollAngle": rollAngle});
+    if (bounds != null) result.addAll({"bounds": bounds});
+
+    return result;
+  }
+}
+
+class Bounds {
+  int x;
+  int y;
+  int width;
+  int height;
+
+  static Bounds fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new Bounds();
+
+    result.x = jsonObject["x"];
+    result.y = jsonObject["y"];
+    result.width = jsonObject["width"];
+    result.height = jsonObject["height"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (x != null) result.addAll({"x": x});
+    if (y != null) result.addAll({"y": y});
+    if (width != null) result.addAll({"width": width});
+    if (height != null) result.addAll({"height": height});
 
     return result;
   }
@@ -59,6 +167,47 @@ class Rect {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (bottom != null) result.addAll({"bottom": bottom});
+    if (top != null) result.addAll({"top": top});
+    if (left != null) result.addAll({"left": left});
+    if (right != null) result.addAll({"right": right});
+
+    return result;
+  }
+}
+
+class DocReaderFieldRect {
+  int bottom;
+  int top;
+  int left;
+  int right;
+
+  static DocReaderFieldRect fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocReaderFieldRect();
+
+    result.bottom = jsonObject["bottom"];
+    result.top = jsonObject["top"];
+    result.left = jsonObject["left"];
+    result.right = jsonObject["right"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (bottom != null) result.addAll({"bottom": bottom});
+    if (top != null) result.addAll({"top": top});
+    if (left != null) result.addAll({"left": left});
+    if (right != null) result.addAll({"right": right});
+
+    return result;
+  }
 }
 
 class DocumentReaderGraphicField {
@@ -69,7 +218,7 @@ class DocumentReaderGraphicField {
   String fieldName;
   String lightName;
   String value;
-  Rect fieldRect;
+  DocReaderFieldRect fieldRect;
 
   static DocumentReaderGraphicField fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -82,7 +231,22 @@ class DocumentReaderGraphicField {
     result.fieldName = jsonObject["fieldName"];
     result.lightName = jsonObject["lightName"];
     result.value = jsonObject["value"];
-    result.fieldRect = Rect.fromJson(jsonObject["fieldRect"]);
+    result.fieldRect = DocReaderFieldRect.fromJson(jsonObject["fieldRect"]);
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (sourceType != null) result.addAll({"sourceType": sourceType});
+    if (fieldType != null) result.addAll({"fieldType": fieldType});
+    if (lightType != null) result.addAll({"lightType": lightType});
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (fieldName != null) result.addAll({"fieldName": fieldName});
+    if (lightName != null) result.addAll({"lightName": lightName});
+    if (value != null) result.addAll({"value": value});
+    if (fieldRect != null) result.addAll({"fieldRect": fieldRect});
 
     return result;
   }
@@ -98,6 +262,14 @@ class DocumentReaderGraphicResult {
     if (jsonObject["fields"] != null)
       for (var item in jsonObject["fields"])
         result.fields.add(DocumentReaderGraphicField.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (fields != null) result.addAll({"fields": fields});
 
     return result;
   }
@@ -129,6 +301,21 @@ class DocumentReaderValue {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (sourceType != null) result.addAll({"sourceType": sourceType});
+    if (validity != null) result.addAll({"validity": validity});
+    if (probability != null) result.addAll({"probability": probability});
+    if (value != null) result.addAll({"value": value});
+    if (originalValue != null) result.addAll({"originalValue": originalValue});
+    if (boundRect != null) result.addAll({"boundRect": boundRect});
+    if (comparison != null) result.addAll({"comparison": comparison});
+
+    return result;
+  }
 }
 
 class DocumentReaderTextField {
@@ -156,6 +343,20 @@ class DocumentReaderTextField {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (fieldType != null) result.addAll({"fieldType": fieldType});
+    if (lcid != null) result.addAll({"lcid": lcid});
+    if (status != null) result.addAll({"status": status});
+    if (lcidName != null) result.addAll({"lcidName": lcidName});
+    if (fieldName != null) result.addAll({"fieldName": fieldName});
+    if (value != null) result.addAll({"value": value});
+    if (values != null) result.addAll({"values": values});
+
+    return result;
+  }
 }
 
 class DocumentReaderTextResult {
@@ -173,6 +374,15 @@ class DocumentReaderTextResult {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (status != null) result.addAll({"status": status});
+    if (fields != null) result.addAll({"fields": fields});
+
+    return result;
+  }
 }
 
 class Coordinate {
@@ -185,6 +395,15 @@ class Coordinate {
 
     result.x = jsonObject["x"];
     result.y = jsonObject["y"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (x != null) result.addAll({"x": x});
+    if (y != null) result.addAll({"y": y});
 
     return result;
   }
@@ -231,13 +450,35 @@ class ElementPosition {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (docFormat != null) result.addAll({"docFormat": docFormat});
+    if (width != null) result.addAll({"width": width});
+    if (height != null) result.addAll({"height": height});
+    if (dpi != null) result.addAll({"dpi": dpi});
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (inverse != null) result.addAll({"inverse": inverse});
+    if (perspectiveTr != null) result.addAll({"perspectiveTr": perspectiveTr});
+    if (objArea != null) result.addAll({"objArea": objArea});
+    if (objIntAngleDev != null) result.addAll({"objIntAngleDev": objIntAngleDev});
+    if (resultStatus != null) result.addAll({"resultStatus": resultStatus});
+    if (angle != null) result.addAll({"angle": angle});
+    if (center != null) result.addAll({"center": center});
+    if (leftTop != null) result.addAll({"leftTop": leftTop});
+    if (leftBottom != null) result.addAll({"leftBottom": leftBottom});
+    if (rightTop != null) result.addAll({"rightTop": rightTop});
+    if (rightBottom != null) result.addAll({"rightBottom": rightBottom});
+
+    return result;
+  }
 }
 
 class ImageQuality {
   int featureType;
   int result;
   int type;
-  List<Rect> boundRects = [];
 
   static ImageQuality fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -246,9 +487,16 @@ class ImageQuality {
     result.featureType = jsonObject["featureType"];
     result.result = jsonObject["result"];
     result.type = jsonObject["type"];
-    if (jsonObject["boundRects"] != null)
-      for (var item in jsonObject["boundRects"])
-        result.boundRects.add(Rect.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (featureType != null) result.addAll({"featureType": featureType});
+    if (result != null) result.addAll({"result": result});
+    if (type != null) result.addAll({"type": type});
 
     return result;
   }
@@ -268,6 +516,16 @@ class ImageQualityGroup {
     if (jsonObject["imageQualityList"] != null)
       for (var item in jsonObject["imageQualityList"])
         result.imageQualityList.add(ImageQuality.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (count != null) result.addAll({"count": count});
+    if (result != null) result.addAll({"result": result});
+    if (imageQualityList != null) result.addAll({"imageQualityList": imageQualityList});
 
     return result;
   }
@@ -306,20 +564,48 @@ class DocumentReaderDocumentType {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (documentID != null) result.addAll({"documentID": documentID});
+    if (dType != null) result.addAll({"dType": dType});
+    if (dFormat != null) result.addAll({"dFormat": dFormat});
+    if (dMRZ != null) result.addAll({"dMRZ": dMRZ});
+    if (name != null) result.addAll({"name": name});
+    if (ICAOCode != null) result.addAll({"ICAOCode": ICAOCode});
+    if (dDescription != null) result.addAll({"dDescription": dDescription});
+    if (dYear != null) result.addAll({"dYear": dYear});
+    if (dCountryName != null) result.addAll({"dCountryName": dCountryName});
+    if (FDSID != null) result.addAll({"FDSID": FDSID});
+
+    return result;
+  }
 }
 
 class DocumentReaderNotification {
   int code;
-  int value;
   int number;
+  int value;
 
   static DocumentReaderNotification fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderNotification();
 
     result.code = jsonObject["code"];
-    result.value = jsonObject["value"];
     result.number = jsonObject["number"];
+    result.value = jsonObject["value"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (code != null) result.addAll({"code": code});
+    if (number != null) result.addAll({"number": number});
+    if (value != null) result.addAll({"value": value});
 
     return result;
   }
@@ -344,6 +630,17 @@ class AccessControlProcedureType {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (activeOptionIdx != null) result.addAll({"activeOptionIdx": activeOptionIdx});
+    if (type != null) result.addAll({"type": type});
+    if (status != null) result.addAll({"status": status});
+    if (notifications != null) result.addAll({"notifications": notifications});
+
+    return result;
+  }
 }
 
 class FileData {
@@ -363,6 +660,17 @@ class FileData {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (length != null) result.addAll({"length": length});
+    if (type != null) result.addAll({"type": type});
+    if (status != null) result.addAll({"status": status});
+    if (data != null) result.addAll({"data": data});
+
+    return result;
+  }
 }
 
 class CertificateData {
@@ -378,6 +686,15 @@ class CertificateData {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (length != null) result.addAll({"length": length});
+    if (data != null) result.addAll({"data": data});
+
+    return result;
+  }
 }
 
 class SecurityObjectCertificates {
@@ -388,6 +705,14 @@ class SecurityObjectCertificates {
     var result = new SecurityObjectCertificates();
 
     result.securityObject = CertificateData.fromJson(jsonObject["securityObject"]);
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (securityObject != null) result.addAll({"securityObject": securityObject});
 
     return result;
   }
@@ -432,6 +757,24 @@ class File {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (readingTime != null) result.addAll({"readingTime": readingTime});
+    if (type != null) result.addAll({"type": type});
+    if (pAStatus != null) result.addAll({"pAStatus": pAStatus});
+    if (readingStatus != null) result.addAll({"readingStatus": readingStatus});
+    if (fileID != null) result.addAll({"fileID": fileID});
+    if (fileData != null) result.addAll({"fileData": fileData});
+    if (certificates != null) result.addAll({"certificates": certificates});
+    if (docFieldsText != null) result.addAll({"docFieldsText": docFieldsText});
+    if (docFieldsGraphics != null) result.addAll({"docFieldsGraphics": docFieldsGraphics});
+    if (docFieldsOriginals != null) result.addAll({"docFieldsOriginals": docFieldsOriginals});
+    if (notifications != null) result.addAll({"notifications": notifications});
+
+    return result;
+  }
 }
 
 class Application {
@@ -459,6 +802,20 @@ class Application {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (type != null) result.addAll({"type": type});
+    if (status != null) result.addAll({"status": status});
+    if (applicationID != null) result.addAll({"applicationID": applicationID});
+    if (dataHashAlgorithm != null) result.addAll({"dataHashAlgorithm": dataHashAlgorithm});
+    if (unicodeVersion != null) result.addAll({"unicodeVersion": unicodeVersion});
+    if (version != null) result.addAll({"version": version});
+    if (files != null) result.addAll({"files": files});
+
+    return result;
+  }
 }
 
 class Value {
@@ -480,6 +837,18 @@ class Value {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (length != null) result.addAll({"length": length});
+    if (type != null) result.addAll({"type": type});
+    if (status != null) result.addAll({"status": status});
+    if (data != null) result.addAll({"data": data});
+    if (format != null) result.addAll({"format": format});
+
+    return result;
+  }
 }
 
 class Attribute {
@@ -492,6 +861,15 @@ class Attribute {
 
     result.type = jsonObject["type"];
     result.value = Value.fromJson(jsonObject["value"]);
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (type != null) result.addAll({"type": type});
+    if (value != null) result.addAll({"value": value});
 
     return result;
   }
@@ -514,6 +892,16 @@ class Authority {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (data != null) result.addAll({"data": data});
+    if (friendlyName != null) result.addAll({"friendlyName": friendlyName});
+    if (attributes != null) result.addAll({"attributes": attributes});
+
+    return result;
+  }
 }
 
 class Extension {
@@ -529,6 +917,15 @@ class Extension {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (data != null) result.addAll({"data": data});
+    if (type != null) result.addAll({"type": type});
+
+    return result;
+  }
 }
 
 class Validity {
@@ -541,6 +938,15 @@ class Validity {
 
     result.notAfter = Value.fromJson(jsonObject["notAfter"]);
     result.notBefore = Value.fromJson(jsonObject["notBefore"]);
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (notAfter != null) result.addAll({"notAfter": notAfter});
+    if (notBefore != null) result.addAll({"notBefore": notBefore});
 
     return result;
   }
@@ -585,6 +991,26 @@ class CertificateChain {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (origin != null) result.addAll({"origin": origin});
+    if (type != null) result.addAll({"type": type});
+    if (version != null) result.addAll({"version": version});
+    if (paStatus != null) result.addAll({"paStatus": paStatus});
+    if (serialNumber != null) result.addAll({"serialNumber": serialNumber});
+    if (signatureAlgorithm != null) result.addAll({"signatureAlgorithm": signatureAlgorithm});
+    if (subjectPKAlgorithm != null) result.addAll({"subjectPKAlgorithm": subjectPKAlgorithm});
+    if (fileName != null) result.addAll({"fileName": fileName});
+    if (validity != null) result.addAll({"validity": validity});
+    if (issuer != null) result.addAll({"issuer": issuer});
+    if (subject != null) result.addAll({"subject": subject});
+    if (notifications != null) result.addAll({"notifications": notifications});
+    if (extensions != null) result.addAll({"extensions": extensions});
+
+    return result;
+  }
 }
 
 class SignerInfo {
@@ -626,6 +1052,25 @@ class SignerInfo {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (version != null) result.addAll({"version": version});
+    if (paStatus != null) result.addAll({"paStatus": paStatus});
+    if (dataToHash != null) result.addAll({"dataToHash": dataToHash});
+    if (digestAlgorithm != null) result.addAll({"digestAlgorithm": digestAlgorithm});
+    if (signatureAlgorithm != null) result.addAll({"signatureAlgorithm": signatureAlgorithm});
+    if (serialNumber != null) result.addAll({"serialNumber": serialNumber});
+    if (signature != null) result.addAll({"signature": signature});
+    if (subjectKeyIdentifier != null) result.addAll({"subjectKeyIdentifier": subjectKeyIdentifier});
+    if (issuer != null) result.addAll({"issuer": issuer});
+    if (notifications != null) result.addAll({"notifications": notifications});
+    if (signedAttributes != null) result.addAll({"signedAttributes": signedAttributes});
+    if (certificateChain != null) result.addAll({"certificateChain": certificateChain});
+
+    return result;
+  }
 }
 
 class SecurityObject {
@@ -648,6 +1093,18 @@ class SecurityObject {
     if (jsonObject["signerInfos"] != null)
       for (var item in jsonObject["signerInfos"])
         result.signerInfos.add(SignerInfo.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (fileReference != null) result.addAll({"fileReference": fileReference});
+    if (version != null) result.addAll({"version": version});
+    if (objectType != null) result.addAll({"objectType": objectType});
+    if (notifications != null) result.addAll({"notifications": notifications});
+    if (signerInfos != null) result.addAll({"signerInfos": signerInfos});
 
     return result;
   }
@@ -690,6 +1147,27 @@ class CardProperties {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (aTQA != null) result.addAll({"aTQA": aTQA});
+    if (bitRateR != null) result.addAll({"bitRateR": bitRateR});
+    if (bitRateS != null) result.addAll({"bitRateS": bitRateS});
+    if (chipTypeA != null) result.addAll({"chipTypeA": chipTypeA});
+    if (mifareMemory != null) result.addAll({"mifareMemory": mifareMemory});
+    if (rfidType != null) result.addAll({"rfidType": rfidType});
+    if (sAK != null) result.addAll({"sAK": sAK});
+    if (support4 != null) result.addAll({"support4": support4});
+    if (supportMifare != null) result.addAll({"supportMifare": supportMifare});
+    if (aTQB != null) result.addAll({"aTQB": aTQB});
+    if (aTR != null) result.addAll({"aTR": aTR});
+    if (baudrate1 != null) result.addAll({"baudrate1": baudrate1});
+    if (baudrate2 != null) result.addAll({"baudrate2": baudrate2});
+    if (uID != null) result.addAll({"uID": uID});
+
+    return result;
+  }
 }
 
 class RFIDSessionData {
@@ -727,6 +1205,23 @@ class RFIDSessionData {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (totalBytesReceived != null) result.addAll({"totalBytesReceived": totalBytesReceived});
+    if (totalBytesSent != null) result.addAll({"totalBytesSent": totalBytesSent});
+    if (status != null) result.addAll({"status": status});
+    if (extLeSupport != null) result.addAll({"extLeSupport": extLeSupport});
+    if (processTime != null) result.addAll({"processTime": processTime});
+    if (cardProperties != null) result.addAll({"cardProperties": cardProperties});
+    if (sessionDataStatus != null) result.addAll({"sessionDataStatus": sessionDataStatus});
+    if (accessControls != null) result.addAll({"accessControls": accessControls});
+    if (applications != null) result.addAll({"applications": applications});
+    if (securityObjects != null) result.addAll({"securityObjects": securityObjects});
+
+    return result;
+  }
 }
 
 class DocumentReaderAuthenticityCheck {
@@ -750,6 +1245,18 @@ class DocumentReaderAuthenticityCheck {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (type != null) result.addAll({"type": type});
+    if (status != null) result.addAll({"status": status});
+    if (typeName != null) result.addAll({"typeName": typeName});
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (elements != null) result.addAll({"elements": elements});
+
+    return result;
+  }
 }
 
 class PDF417Info {
@@ -764,6 +1271,16 @@ class PDF417Info {
     result.errorLevel = jsonObject["errorLevel"];
     result.columns = jsonObject["columns"];
     result.rows = jsonObject["rows"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (errorLevel != null) result.addAll({"errorLevel": errorLevel});
+    if (columns != null) result.addAll({"columns": columns});
+    if (rows != null) result.addAll({"rows": rows});
 
     return result;
   }
@@ -792,6 +1309,20 @@ class RFIDSessionDataStatus {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (AA != null) result.addAll({"AA": AA});
+    if (BAC != null) result.addAll({"BAC": BAC});
+    if (CA != null) result.addAll({"CA": CA});
+    if (PA != null) result.addAll({"PA": PA});
+    if (PACE != null) result.addAll({"PACE": PACE});
+    if (TA != null) result.addAll({"TA": TA});
+    if (overallStatus != null) result.addAll({"overallStatus": overallStatus});
+
+    return result;
+  }
 }
 
 class DocumentReaderBarcodeResult {
@@ -804,6 +1335,14 @@ class DocumentReaderBarcodeResult {
     if (jsonObject["fields"] != null)
       for (var item in jsonObject["fields"])
         result.fields.add(DocumentReaderBarcodeField.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (fields != null) result.addAll({"fields": fields});
 
     return result;
   }
@@ -828,6 +1367,18 @@ class DocumentReaderBarcodeField {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (barcodeType != null) result.addAll({"barcodeType": barcodeType});
+    if (status != null) result.addAll({"status": status});
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (pdf417Info != null) result.addAll({"pdf417Info": pdf417Info});
+    if (data != null) result.addAll({"data": data});
+
+    return result;
+  }
 }
 
 class DocumentReaderAuthenticityResult {
@@ -842,6 +1393,15 @@ class DocumentReaderAuthenticityResult {
     if (jsonObject["checks"] != null)
       for (var item in jsonObject["checks"])
         result.checks.add(DocumentReaderAuthenticityCheck.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (status != null) result.addAll({"status": status});
+    if (checks != null) result.addAll({"checks": checks});
 
     return result;
   }
@@ -866,6 +1426,18 @@ class DocumentReaderAuthenticityElement {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (status != null) result.addAll({"status": status});
+    if (elementType != null) result.addAll({"elementType": elementType});
+    if (elementDiagnose != null) result.addAll({"elementDiagnose": elementDiagnose});
+    if (elementTypeName != null) result.addAll({"elementTypeName": elementTypeName});
+    if (elementDiagnoseName != null) result.addAll({"elementDiagnoseName": elementDiagnoseName});
+
+    return result;
+  }
 }
 
 class DocumentReaderCompletion {
@@ -883,11 +1455,19 @@ class DocumentReaderCompletion {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (action != null) result.addAll({"action": action});
+    if (results != null) result.addAll({"results": results});
+    if (error != null) result.addAll({"error": error});
+
+    return result;
+  }
 }
 
 class Throwable {
-  int code;
-  String domain;
   String localizedMessage;
   String message;
   String string;
@@ -897,14 +1477,23 @@ class Throwable {
     if (jsonObject == null) return null;
     var result = new Throwable();
 
-    result.code = jsonObject["code"];
-    result.domain = jsonObject["domain"];
     result.localizedMessage = jsonObject["localizedMessage"];
     result.message = jsonObject["message"];
     result.string = jsonObject["string"];
     if (jsonObject["stackTrace"] != null)
       for (var item in jsonObject["stackTrace"])
         result.stackTrace.add(StackTraceElement.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (localizedMessage != null) result.addAll({"localizedMessage": localizedMessage});
+    if (message != null) result.addAll({"message": message});
+    if (string != null) result.addAll({"string": string});
+    if (stackTrace != null) result.addAll({"stackTrace": stackTrace});
 
     return result;
   }
@@ -931,6 +1520,19 @@ class StackTraceElement {
 
     return result;
   }
+
+  Map toJson(){
+    Map result = {};
+
+    if (lineNumber != null) result.addAll({"lineNumber": lineNumber});
+    if (isNativeMethod != null) result.addAll({"isNativeMethod": isNativeMethod});
+    if (className != null) result.addAll({"className": className});
+    if (fileName != null) result.addAll({"fileName": fileName});
+    if (methodName != null) result.addAll({"methodName": methodName});
+    if (string != null) result.addAll({"string": string});
+
+    return result;
+  }
 }
 
 class DocumentReaderResults {
@@ -944,10 +1546,10 @@ class DocumentReaderResults {
   bool highResolution;
   DocumentReaderGraphicResult graphicResult;
   DocumentReaderTextResult textResult;
-  ElementPosition documentPosition;
-  ElementPosition barcodePosition;
-  ElementPosition mrzPosition;
-  ImageQualityGroup imageQuality;
+  List<ElementPosition> documentPosition = [];
+  List<ElementPosition> barcodePosition = [];
+  List<ElementPosition> mrzPosition = [];
+  List<ImageQualityGroup> imageQuality = [];
   String rawResult;
   DocumentReaderNotification documentReaderNotification;
   RFIDSessionData rfidSessionData;
@@ -997,7 +1599,7 @@ class DocumentReaderResults {
     int resultSum = 2;
     if (this.imageQuality == null) return resultSum;
 
-    for (ImageQuality iq in this.imageQuality.imageQualityList) {
+    for (ImageQuality iq in this.imageQuality[0].imageQualityList) {
       if (iq.type == imageQualityCheckType) {
         if (securityFeature == -1) {
           if (iq.result == 0) {
@@ -1045,7 +1647,6 @@ class DocumentReaderResults {
     return null;
   }
 
-
   static DocumentReaderResults fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderResults();
@@ -1060,10 +1661,18 @@ class DocumentReaderResults {
     result.highResolution = jsonObject["highResolution"];
     result.graphicResult = DocumentReaderGraphicResult.fromJson(jsonObject["graphicResult"]);
     result.textResult = DocumentReaderTextResult.fromJson(jsonObject["textResult"]);
-    result.documentPosition = ElementPosition.fromJson(jsonObject["documentPosition"]);
-    result.barcodePosition = ElementPosition.fromJson(jsonObject["barcodePosition"]);
-    result.mrzPosition = ElementPosition.fromJson(jsonObject["mrzPosition"]);
-    result.imageQuality = ImageQualityGroup.fromJson(jsonObject["imageQuality"]);
+    if (jsonObject["documentPosition"] != null)
+      for (var item in jsonObject["documentPosition"])
+        result.documentPosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["barcodePosition"] != null)
+      for (var item in jsonObject["barcodePosition"])
+        result.barcodePosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["mrzPosition"] != null)
+      for (var item in jsonObject["mrzPosition"])
+        result.mrzPosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["imageQuality"] != null)
+      for (var item in jsonObject["imageQuality"])
+        result.imageQuality.add(ImageQualityGroup.fromJson(item));
     result.rawResult = jsonObject["rawResult"];
     result.documentReaderNotification = DocumentReaderNotification.fromJson(jsonObject["documentReaderNotification"]);
     result.rfidSessionData = RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
@@ -1072,6 +1681,33 @@ class DocumentReaderResults {
     if (jsonObject["documentType"] != null)
       for (var item in jsonObject["documentType"])
         result.documentType.add(DocumentReaderDocumentType.fromJson(item));
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (chipPage != null) result.addAll({"chipPage": chipPage});
+    if (overallResult != null) result.addAll({"overallResult": overallResult});
+    if (processingFinishedStatus != null) result.addAll({"processingFinishedStatus": processingFinishedStatus});
+    if (elapsedTime != null) result.addAll({"elapsedTime": elapsedTime});
+    if (elapsedTimeRFID != null) result.addAll({"elapsedTimeRFID": elapsedTimeRFID});
+    if (morePagesAvailable != null) result.addAll({"morePagesAvailable": morePagesAvailable});
+    if (rfidResult != null) result.addAll({"rfidResult": rfidResult});
+    if (highResolution != null) result.addAll({"highResolution": highResolution});
+    if (graphicResult != null) result.addAll({"graphicResult": graphicResult});
+    if (textResult != null) result.addAll({"textResult": textResult});
+    if (documentPosition != null) result.addAll({"documentPosition": documentPosition});
+    if (barcodePosition != null) result.addAll({"barcodePosition": barcodePosition});
+    if (mrzPosition != null) result.addAll({"mrzPosition": mrzPosition});
+    if (imageQuality != null) result.addAll({"imageQuality": imageQuality});
+    if (rawResult != null) result.addAll({"rawResult": rawResult});
+    if (documentReaderNotification != null) result.addAll({"documentReaderNotification": documentReaderNotification});
+    if (rfidSessionData != null) result.addAll({"rfidSessionData": rfidSessionData});
+    if (authenticityResult != null) result.addAll({"authenticityResult": authenticityResult});
+    if (barcodeResult != null) result.addAll({"barcodeResult": barcodeResult});
+    if (documentType != null) result.addAll({"documentType": documentType});
 
     return result;
   }
@@ -1407,24 +2043,11 @@ class DocReaderFrame {
 }
 
 class DocReaderOrientation {
-  static const int ROTATE = 0;
+  static const int ALL = 0;
   static const int PORTRAIT = 1;
   static const int LANDSCAPE = 2;
-}
-
-class DocumentReaderException {
-  static const int NATIVE_JAVA_EXCEPTION = 0;
-  static const int DOCUMENT_READER_STATE_EXCEPTION = 1;
-  static const int DOCUMENT_READER_WRONG_INPUT = 2;
-  static const int DOCUMENT_READER_BLE_EXCEPTION = 201;
-  static const int DB_DOWNLOAD_ERROR = 301;
-  static const int LICENSE_ABSENT_OR_CORRUPTED = 101;
-  static const int LICENSE_INVALID_DATE = 102;
-  static const int LICENSE_INVALID_VERSION = 103;
-  static const int LICENSE_INVALID_DEVICE_ID = 104;
-  static const int LICENSE_INVALID_SYSTEM_OR_APP_ID = 105;
-  static const int LICENSE_NO_CAPABILITIES = 106;
-  static const int LICENSE_NO_AUTHENTICITY = 107;
+  static const int LANDSCAPE_LEFT = 3;
+  static const int LANDSCAPE_RIGHT = 4;
 }
 
 class eCheckDiagnose {
@@ -1459,7 +2082,6 @@ class eCheckDiagnose {
   static const int VISIBLE_ELEMENT_ABSENT = 41;
   static const int ELEMENT_SHOULD_BE_COLORED = 42;
   static const int ELEMENT_SHOULD_BE_GRAYSCALE = 43;
-  static const int PHOTO_WHITE_IR_DONT_MATCH = 44;
   static const int UV_DULL_PAPER_MRZ = 50;
   static const int FALSE_LUMINISCENCE_IN_MRZ = 51;
   static const int UV_DULL_PAPER_PHOTO = 52;
@@ -1469,7 +2091,6 @@ class eCheckDiagnose {
   static const int BAD_AREA_IN_AXIAL = 60;
   static const int FALSE_IPI_PARAMETERS = 65;
   static const int FIELD_POS_CORRECTOR_HIGHLIGHT_IR = 80;
-  static const int FIELD_POS_CORRECTOR_GLARES_IN_PHOTO_AREA = 81;
   static const int OVI_IR_INVISIBLE = 90;
   static const int OVI_INSUFFICIENT_AREA = 91;
   static const int OVI_COLOR_INVARIABLE = 92;
@@ -1480,8 +2101,6 @@ class eCheckDiagnose {
   static const int HOLOGRAM_ELEMENT_ABSENT = 100;
   static const int HOLOGRAM_SIDE_TOP_IMAGES_ABSENT = 101;
   static const int HOLOGRAM_ELEMENT_PRESENT = 102;
-  static const int HOLOGRAM_FRAMES_IS_ABSENT = 103;
-  static const int HOLOGRAM_HOLO_FIELD_IS_ABSENT = 104;
   static const int PHOTO_PATTERN_INTERRUPTED = 110;
   static const int PHOTO_PATTERN_SHIFTED = 111;
   static const int PHOTO_PATTERN_DIFFERENT_COLORS = 112;
@@ -1506,21 +2125,13 @@ class eCheckDiagnose {
   static const int PORTRAIT_COMPARISON_PORTRAITS_DIFFER = 150;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_REPLY = 151;
   static const int PORTRAIT_COMPARISON_SERVICE_ERROR = 152;
-  static const int PORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
+  static const int PPORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
   static const int PORTRAIT_COMPARISON_NO_LIVE_PHOTO = 154;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_LICENSE = 155;
   static const int PORTRAIT_COMPARISON_NO_PORTRAIT_DETECTED = 156;
   static const int MOBILE_IMAGES_UNSUITABLE_LIGHT_CONDITIONS = 160;
   static const int MOBILE_IMAGES_WHITE_UV_NO_DIFFERENCE = 161;
-  static const int FINGERPRINTS_COMPARISON_MISMATCH = 170;
-  static const int HOLO_PHOTO_FACE_NOT_DETECTED = 180;
-  static const int HOLO_PHOTO_FACE_COMPARISON_FAILED = 181;
-  static const int HOLO_PHOTO_FACE_GLARE_IN_CENTER_ABSENT = 182;
-  static const int HOLO_ELEMENT_SHAPE_ERROR = 183;
-  static const int ALGORITHM_STEPS_ERROR = 184;
-  static const int HOLO_AREAS_NOT_LOADED = 185;
-  static const int FINISHED_BY_TIMEOUT = 186;
-  static const int LAST_DIAGNOSE_VALUE = 190;
+  static const int LAST_DIAGNOSE_VALUE = 162;
 }
 
 class eCheckResult {
@@ -1609,8 +2220,9 @@ class eImageQualityCheckType {
   static const int IQC_IMAGE_GLARES = 0;
   static const int IQC_IMAGE_FOCUS = 1;
   static const int IQC_IMAGE_RESOLUTION = 2;
-  static const int IQC_PERSPECTIVE = 3;
-  static const int IQC_BOUNDS = 4;
+  static const int IQC_IMAGE_COLORNESS = 3;
+  static const int IQC_PERSPECTIVE = 4;
+  static const int IQC_BOUNDS = 5;
 }
 
 class eProcessGLCommands {
@@ -1757,8 +2369,6 @@ class eRFID_DataFile_Type {
     switch (value) {
       case DFT_MIFARE_DATA:
         return "MIFARE data";
-      case DFT_PASSPORT_COM:
-        return "EF.COM";
       case DFT_DL_COM:
         return "EF.COM";
       case DFT_PASSPORT_DG1:
@@ -1871,8 +2481,6 @@ class eRFID_DataFile_Type {
         return "Residence permit 2" + " (DG20)";
       case DFT_ID_DG21:
         return "Optional details" + " (DG21)";
-      case DFT_PASSPORT_SOD:
-        return "EF.SOD";
       case DFT_DL_SOD:
         return "EF.SOD";
       case DFT_PASSPORT_CVCA:
@@ -1891,8 +2499,6 @@ class eRFID_DataFile_Type {
         return "App directory";
       case DFT_ATR:
         return "DFT_ATR";
-      case DFT_AUTHENTICITYV2:
-        return "DFT_CHIP_PROPERTIES";
       case DFT_CHIP_PROPERTIES:
         return "DFT_CHIP_PROPERTIES";
       case DFT_DEFECTLIST:
@@ -2124,7 +2730,7 @@ class eRFID_NotificationAndErrorCodes {
       case -2147483600:
         return "Error - ICAO LDS object: Unsupported digest algorithm";
       case -2147483599:
-        return "Error - ICAO Signed data: Signer infos empty";
+        return "Error - ICAO Signed data: Signer info empty";
       case -2147483598:
         return "Error - ICAO Signer info: Unsupported digest algorithm";
       case -2147483597:
@@ -2134,7 +2740,7 @@ class eRFID_NotificationAndErrorCodes {
       case -2147483594:
         return "Error - ICAO Signer info: Signed attributes missed";
       case -2147483595:
-        return "Error - Auth: Signer info cant find certificate";
+        return "Error - Auth: Signer info cannot find certificate";
       case -2147483568:
         return "Error - Auth: Error";
       case -2147483567:
@@ -2180,7 +2786,7 @@ class eRFID_NotificationAndErrorCodes {
       case -2130706391:
         return "Error - PACE: Mapping Cannot Perform";
       case -2130706390:
-        return "Error - PACE: Non Matching Auth Tokens";
+        return "Error - PACE: Non-Matching Auth Tokens";
       case -2130706384:
         return "Error - CA: Cannot Find Public Key";
       case -2130706383:
@@ -2198,7 +2804,7 @@ class eRFID_NotificationAndErrorCodes {
       case -2130706377:
         return "Error - CA: Shared Secret Cannot Create";
       case -2130706376:
-        return "Error - CA: Non Matching Auth Tokens";
+        return "Error - CA: Non-Matching Auth Tokens";
       case -2130706368:
         return "Error - TA: Incorrect Version";
       case -2130706367:
@@ -2268,7 +2874,7 @@ class eRFID_NotificationAndErrorCodes {
       case -1879048191:
         return "Notification - ASN certificate: Incorrect version";
       case -1879048190:
-        return "Notification - ASN certificate: Non matching signature algorithm";
+        return "Notification - ASN certificate: Non-matching signature algorithm";
       case -1879048189:
         return "Notification - ASN certificate: Incorrect time coding";
       case -1879048188:
@@ -2296,15 +2902,15 @@ class eRFID_NotificationAndErrorCodes {
       case -1879047677:
         return "Notification - ICAO certificate: Issuer common name missed";
       case -1879047676:
-        return "Notification - ICAO certificate: Issuer country non compliant";
+        return "Notification - ICAO certificate: Issuer country non-compliant";
       case -1879047675:
         return "Notification - ICAO certificate: Subject country missed";
       case -1879047674:
         return "Notification - ICAO certificate: Subject common name missed";
       case -1879047673:
-        return "Notification - ICAO certificate: Subject country non compliant";
+        return "Notification - ICAO certificate: Subject country non-compliant";
       case -1879047672:
-        return "Notification - ICAO certificate: Using non compliant data";
+        return "Notification - ICAO certificate: Using non-compliant data";
       case -1879047671:
         return "Notification - ICAO certificate: Unsupported signature algorithm";
       case -1879047670:
@@ -2314,7 +2920,7 @@ class eRFID_NotificationAndErrorCodes {
       case -1879047668:
         return "Notification - ICAO certificate: Validity";
       case -1879047667:
-        return "Notification - ICAO certificate extension: Using non compliant data";
+        return "Notification - ICAO certificate extension: Using non-compliant data";
       case -1879047666:
         return "Notification - ICAO certificate extension: Key usage missed";
       case -1879047665:
@@ -2364,13 +2970,13 @@ class eRFID_NotificationAndErrorCodes {
       case -1879047643:
         return "Notification - ICAO certificate extension: Subject alt name empty";
       case -1879047642:
-        return "Notification - ICAO certificate extension: Subject alt name non compliant";
+        return "Notification - ICAO certificate extension: Subject alt name non-compliant";
       case -1879047639:
         return "Notification - ICAO certificate extension: Subject alt name DN empty";
       case -1879047638:
         return "Notification - ICAO certificate extension: Subject alt name DN incorrect";
       case -1879047637:
-        return "Notification - ICAO certificate extension: Subject alt name DN non compliant";
+        return "Notification - ICAO certificate extension: Subject alt name DN non-compliant";
       case -1879047636:
         return "Notification - ICAO certificate extension: Issuer alt name missed";
       case -1879047635:
@@ -2378,13 +2984,13 @@ class eRFID_NotificationAndErrorCodes {
       case -1879047634:
         return "Notification - ICAO certificate extension: Issuer alt name empty";
       case -1879047633:
-        return "Notification - ICAO certificate extension: Issuer alt name non compliant";
+        return "Notification - ICAO certificate extension: Issuer alt name non-compliant";
       case -1879047630:
         return "Notification - ICAO certificate extension: Issuer alt name DN empty";
       case -1879047629:
         return "Notification - ICAO certificate extension: Issuer alt name DN incorrect";
       case -1879047628:
-        return "Notification - ICAO certificate extension: Issuer alt name DN non compliant";
+        return "Notification - ICAO certificate extension: Issuer alt name DN non-compliant";
       case -1879047627:
         return "Notification - ICAO certificate extension Doc type list: Missed";
       case -1879047626:
@@ -2490,7 +3096,7 @@ class eRFID_NotificationAndErrorCodes {
       case -1879047914:
         return "Notification - Auth signer info: Certificate root is not trusted";
       case -1879047913:
-        return "Notification - Auth signer info: Certificate cant find CSCA";
+        return "Notification - Auth signer info: Certificate cannot find CSCA";
       case -1879047912:
         return "Notification - Auth signer info: Certificate revoked";
       case -1879047911:
@@ -2650,7 +3256,7 @@ class eRFID_NotificationAndErrorCodes {
       case -1845493482:
         return "Notification - Auth ML signer info: Certificate root is not trusted";
       case -1845493481:
-        return "Notification - Auth ML signer info: Certificate cant find CSCA";
+        return "Notification - Auth ML signer info: Certificate cannot find CSCA";
       case -1845493480:
         return "Notification - Auth ML signer info: Certificate revoked";
       case -1845493479:
@@ -2752,7 +3358,7 @@ class eRFID_NotificationAndErrorCodes {
       case -2147458112:
         return "LAYER6: PWD Blocked";
       case -2147458429:
-        return "LAYER6: PWD Deactivatted";
+        return "LAYER6: PWD Deactivated";
       case -2147456637:
         return "LAYER6: PWD Blocked 2";
       case -2147456636:
@@ -3578,1157 +4184,1166 @@ class eVisualFieldType {
   static const int FT_DLCLASSCODE_CA_FROM = 622;
   static const int FT_DLCLASSCODE_CA_TO = 623;
   static const int FT_DLCLASSCODE_CA_NOTES = 624;
+  static const int FT_CITIZENSHIP_STATUS = 625;
+  static const int FT_MILITARY_SERVICE_FROM = 626;
+  static const int FT_MILITARY_SERVICE_TO = 627;
 
   static String getTranslation(int value) {
     switch (value) {
-      case FT_DOCUMENT_CLASS_CODE:
+      case 0:
         return "Document class code";
-      case FT_ISSUING_STATE_CODE:
+      case 1:
         return "Issuing state code";
-      case FT_DOCUMENT_NUMBER:
+      case 2:
         return "Document number";
-      case FT_DATE_OF_EXPIRY:
+      case 3:
         return "Date of expiry";
-      case FT_DATE_OF_ISSUE:
+      case 4:
         return "Date of issue";
-      case FT_DATE_OF_BIRTH:
+      case 5:
         return "Date of birth";
-      case FT_PLACE_OF_BIRTH:
+      case 6:
         return "Place of birth";
-      case FT_PERSONAL_NUMBER:
+      case 7:
         return "Personal number";
-      case FT_SURNAME:
+      case 8:
         return "Surname";
-      case FT_GIVEN_NAMES:
+      case 9:
         return "Given name";
-      case FT_MOTHERS_NAME:
+      case 10:
         return "Mother\'s name";
-      case FT_NATIONALITY:
+      case 11:
         return "Nationality";
-      case FT_SEX:
+      case 12:
         return "Sex";
-      case FT_HEIGHT:
+      case 13:
         return "Height";
-      case FT_WEIGHT:
+      case 14:
         return "Weight";
-      case FT_EYES_COLOR:
+      case 15:
         return "Eye color";
-      case FT_HAIR_COLOR:
+      case 16:
         return "Hair color";
-      case FT_ADDRESS:
+      case 17:
         return "Address";
-      case FT_DONOR:
+      case 18:
         return "Donor";
-      case FT_SOCIAL_SECURITY_NUMBER:
+      case 19:
         return "Social insurance number";
-      case FT_DL_CLASS:
+      case 20:
         return "DL category";
-      case FT_DL_ENDORSED:
+      case 21:
         return "DL endorsement code";
-      case FT_DL_RESTRICTION_CODE:
+      case 22:
         return "DL Restriction Code";
-      case FT_DL_UNDER_21_DATE:
+      case 23:
         return "Date of 21st birthday";
-      case FT_AUTHORITY:
+      case 24:
         return "Issuing authority";
-      case FT_SURNAME_AND_GIVEN_NAMES:
+      case 25:
         return "Surname and given names";
-      case FT_NATIONALITY_CODE:
+      case 26:
         return "Nationality code";
-      case FT_PASSPORT_NUMBER:
+      case 27:
         return "Passport number";
-      case FT_INVITATION_NUMBER:
+      case 28:
         return "Invitation number";
-      case FT_VISA_ID:
+      case 29:
         return "Visa ID";
-      case FT_VISA_CLASS:
+      case 30:
         return "Visa Class";
-      case FT_VISA_SUB_CLASS:
+      case 31:
         return "Visa subclass";
-      case FT_MRZ_STRING_1:
+      case 32:
         return "MRZ line 1";
-      case FT_MRZ_STRING_2:
+      case 33:
         return "MRZ line 2";
-      case FT_MRZ_STRING_3:
+      case 34:
         return "MRZ line 3";
-      case FT_MRZ_TYPE:
+      case 35:
         return "MRZ Type";
-      case FT_OPTIONAL_DATA:
+      case 36:
         return "Optional data";
-      case FT_DOCUMENT_CLASS_NAME:
+      case 37:
         return "Document class";
-      case FT_ISSUING_STATE_NAME:
+      case 38:
         return "Issuing state";
-      case FT_PLACE_OF_ISSUE:
+      case 39:
         return "Place of issue";
-      case FT_DOCUMENT_NUMBER_CHECKSUM:
+      case 40:
         return "Checksum for document number";
-      case FT_DATE_OF_BIRTH_CHECKSUM:
+      case 41:
         return "Checksum for date of birth";
-      case FT_DATE_OF_EXPIRY_CHECKSUM:
+      case 42:
         return "Checksum for date of expiry";
-      case FT_PERSONAL_NUMBER_CHECKSUM:
+      case 43:
         return "Checksum for personal number";
-      case FT_FINAL_CHECKSUM:
+      case 44:
         return "Final checksum";
-      case FT_PASSPORT_NUMBER_CHECKSUM:
+      case 45:
         return "Checksum for passport number";
-      case FT_INVITATION_NUMBER_CHECKSUM:
+      case 46:
         return "Checksum for invitation number";
-      case FT_VISA_ID_CHECKSUM:
+      case 47:
         return "Checksum for visa ID";
-      case FT_SURNAME_AND_GIVEN_NAMES_CHECKSUM:
+      case 48:
         return "Checksum for surname and given names";
-      case FT_VISA_VALID_UNTIL_CHECKSUM:
+      case 49:
         return "Checksum for visa expiry date";
-      case FT_OTHER:
+      case 50:
         return "Other";
-      case FT_MRZ_STRINGS:
+      case 51:
         return "MRZ lines";
-      case FT_NAME_SUFFIX:
+      case 52:
         return "Name suffix";
-      case FT_NAME_PREFIX:
+      case 53:
         return "Name prefix";
-      case FT_DATE_OF_ISSUE_CHECKSUM:
+      case 54:
         return "Checksum for date of issue";
-      case FT_DATE_OF_ISSUE_CHECK_DIGIT:
+      case 55:
         return "Check digit for date of issue";
-      case FT_DOCUMENT_SERIES:
+      case 56:
         return "Document series";
-      case FT_REG_CERT_REG_NUMBER:
+      case 57:
         return "Registration number";
-      case FT_REG_CERT_CAR_MODEL:
+      case 58:
         return "Vehicle model";
-      case FT_REG_CERT_CAR_COLOR:
+      case 59:
         return "Vehicle color";
-      case FT_REG_CERT_BODY_NUMBER:
+      case 60:
         return "Body number";
-      case FT_REG_CERT_CAR_TYPE:
+      case 61:
         return "Vehicle type";
-      case FT_REG_CERT_MAX_WEIGHT:
+      case 62:
         return "Max permissible weight";
-      case FT_REG_CERT_WEIGHT:
+      case 63:
         return "Unladen mass";
-      case FT_ADDRESS_AREA:
+      case 64:
         return "Area";
-      case FT_ADDRESS_STATE:
+      case 65:
         return "State";
-      case FT_ADDRESS_BUILDING:
+      case 66:
         return "Unit";
-      case FT_ADDRESS_HOUSE:
+      case 67:
         return "Building";
-      case FT_ADDRESS_FLAT:
+      case 68:
         return "Apartment";
-      case FT_PLACE_OF_REGISTRATION:
+      case 69:
         return "Place of registration";
-      case FT_DATE_OF_REGISTRATION:
+      case 70:
         return "Date of registration";
-      case FT_RESIDENT_FROM:
+      case 71:
         return "Resident from";
-      case FT_RESIDENT_UNTIL:
+      case 72:
         return "Resident until";
-      case FT_AUTHORITY_CODE:
+      case 73:
         return "Issuing authority code";
-      case FT_PLACE_OF_BIRTH_AREA:
+      case 74:
         return "Area of birthplace";
-      case FT_PLACE_OF_BIRTH_STATE_CODE:
+      case 75:
         return "State code of birthplace";
-      case FT_ADDRESS_STREET:
+      case 76:
         return "Street";
-      case FT_ADDRESS_CITY:
+      case 77:
         return "City";
-      case FT_ADDRESS_JURISDICTION_CODE:
+      case 78:
         return "Jurisdiction code";
-      case FT_ADDRESS_POSTAL_CODE:
+      case 79:
         return "Postal code";
-      case FT_DOCUMENT_NUMBER_CHECK_DIGIT:
+      case 80:
         return "Check digit for document number";
-      case FT_DATE_OF_BIRTH_CHECK_DIGIT:
+      case 81:
         return "Check digit for date of birth";
-      case FT_DATE_OF_EXPIRY_CHECK_DIGIT:
+      case 82:
         return "Check digit for date of expiry";
-      case FT_PERSONAL_NUMBER_CHECK_DIGIT:
+      case 83:
         return "Check digit for personal number";
-      case FT_FINAL_CHECK_DIGIT:
+      case 84:
         return "Final check digit";
-      case FT_PASSPORT_NUMBER_CHECK_DIGIT:
+      case 85:
         return "Check digit for passport number";
-      case FT_INVITATION_NUMBER_CHECK_DIGIT:
+      case 86:
         return "Check digit for invitation number";
-      case FT_VISA_ID_CHECK_DIGIT:
+      case 87:
         return "Check digit for visa ID";
-      case FT_SURNAME_AND_GIVEN_NAMES_CHECK_DIGIT:
+      case 88:
         return "Check digit for surname and given names";
-      case FT_VISA_VALID_UNTIL_CHECK_DIGIT:
+      case 89:
         return "Check digit for visa expiry date";
-      case FT_PERMIT_DL_CLASS:
+      case 90:
         return "Permit class";
-      case FT_PERMIT_DATE_OF_EXPIRY:
+      case 91:
         return "Permit expiry date";
-      case FT_PERMIT_IDENTIFIER:
+      case 92:
         return "Permit identifier";
-      case FT_PERMIT_DATE_OF_ISSUE:
+      case 93:
         return "Permit issue date";
-      case FT_PERMIT_RESTRICTION_CODE:
+      case 94:
         return "Permit restriction code";
-      case FT_PERMIT_ENDORSED:
+      case 95:
         return "Permit endorsement code";
-      case FT_ISSUE_TIMESTAMP:
+      case 96:
         return "Issue time";
-      case FT_NUMBER_OF_DUPLICATES:
+      case 97:
         return "Number of duplicates";
-      case FT_MEDICAL_INDICATOR_CODES:
+      case 98:
         return "Medical notes/codes";
-      case FT_NON_RESIDENT_INDICATOR:
+      case 99:
         return "Non-resident indicator";
-      case FT_VISA_TYPE:
+      case 100:
         return "Visa type";
-      case FT_VISA_VALID_FROM:
+      case 101:
         return "Visa valid from";
-      case FT_VISA_VALID_UNTIL:
+      case 102:
         return "Visa valid until";
-      case FT_DURATION_OF_STAY:
+      case 103:
         return "Duration of stay";
-      case FT_NUMBER_OF_ENTRIES:
+      case 104:
         return "Number of entries";
-      case FT_DAY:
+      case 105:
         return "Day";
-      case FT_MONTH:
+      case 106:
         return "Month";
-      case FT_YEAR:
+      case 107:
         return "Year";
-      case FT_UNIQUE_CUSTOMER_IDENTIFIER:
+      case 108:
         return "Unique customer identifier";
-      case FT_COMMERCIAL_VEHICLE_CODES:
+      case 109:
         return "Commercial vehicle code";
-      case FT_AKA_DATE_OF_BIRTH:
+      case 110:
         return "AKA Date of birth";
-      case FT_AKA_SOCIAL_SECURITY_NUMBER:
+      case 111:
         return "AKA Social Insurance Number";
-      case FT_AKA_SURNAME:
+      case 112:
         return "AKA Surname";
-      case FT_AKA_GIVEN_NAMES:
+      case 113:
         return "AKA Given name";
-      case FT_AKA_NAME_SUFFIX:
+      case 114:
         return "AKA Name suffix";
-      case FT_AKA_NAME_PREFIX:
+      case 115:
         return "AKA Name prefix";
-      case FT_MAILING_ADDRESS_STREET:
+      case 116:
         return "Mailing address - street";
-      case FT_MAILING_ADDRESS_CITY:
+      case 117:
         return "Mailing address - city";
-      case FT_MAILING_ADDRESS_JURISDICTION_CODE:
+      case 118:
         return "Mailing address - jurisdiction code";
-      case FT_MAILING_ADDRESS_POSTAL_CODE:
+      case 119:
         return "Mailing address - postal code";
-      case FT_AUDIT_INFORMATION:
+      case 120:
         return "Number for validation";
-      case FT_INVENTORY_NUMBER:
+      case 121:
         return "Inventory number";
-      case FT_RACE_ETHNICITY:
+      case 122:
         return "Race/ethnicity";
-      case FT_JURISDICTION_VEHICLE_CLASS:
+      case 123:
         return "Jurisdiction vehicle class";
-      case FT_JURISDICTION_ENDORSEMENT_CODE:
+      case 124:
         return "Jurisdiction endorsement code";
-      case FT_JURISDICTION_RESTRICTION_CODE:
+      case 125:
         return "Jurisdiction restriction code";
-      case FT_FAMILY_NAME:
+      case 126:
         return "Surname/given name at birth";
-      case FT_GIVEN_NAMES_RUS:
+      case 127:
         return "Given name (National)";
-      case FT_VISA_ID_RUS:
+      case 128:
         return "Visa ID (National)";
-      case FT_FATHERS_NAME:
+      case 129:
         return "Father\'s name";
-      case FT_FATHERS_NAME_RUS:
+      case 130:
         return "Father\'s name (National)";
-      case FT_SURNAME_AND_GIVEN_NAMES_RUS:
+      case 131:
         return "Surname and given names (National)";
-      case FT_PLACE_OF_BIRTH_RUS:
+      case 132:
         return "Place of birth (National)";
-      case FT_AUTHORITY_RUS:
+      case 133:
         return "Issuing authority (National)";
-      case FT_ISSUING_STATE_CODE_NUMERIC:
+      case 134:
         return "Numeric issuing state code";
-      case FT_NATIONALITY_CODE_NUMERIC:
+      case 135:
         return "Numeric nationality code";
-      case FT_ENGINE_POWER:
+      case 136:
         return "Engine power";
-      case FT_ENGINE_VOLUME:
+      case 137:
         return "Engine volume";
-      case FT_CHASSIS_NUMBER:
+      case 138:
         return "Chassis number";
-      case FT_ENGINE_NUMBER:
+      case 139:
         return "Engine number";
-      case FT_ENGINE_MODEL:
+      case 140:
         return "Engine model";
-      case FT_VEHICLE_CATEGORY:
+      case 141:
         return "Vehicle category";
-      case FT_IDENTITY_CARD_NUMBER:
+      case 142:
         return "Identity card number";
-      case FT_CONTROL_NO:
+      case 143:
         return "Control number";
-      case FT_PARRENTS_GIVEN_NAMES:
+      case 144:
         return "Parents\' given names";
-      case FT_SECOND_SURNAME:
+      case 145:
         return "Second surname";
-      case FT_MIDDLE_NAME:
+      case 146:
         return "Middle name";
-      case FT_REG_CERT_VIN:
+      case 147:
         return "Vehicle identification number";
-      case FT_REG_CERT_VIN_CHECK_DIGIT:
+      case 148:
         return "Check digit for VIN";
-      case FT_REG_CERT_VIN_CHECKSUM:
+      case 149:
         return "Checksum for VIN";
-      case FT_LINE_1_CHECK_DIGIT:
+      case 150:
         return "Check digit for line 1";
-      case FT_LINE_2_CHECK_DIGIT:
+      case 151:
         return "Check digit for line 2";
-      case FT_LINE_3_CHECK_DIGIT:
+      case 152:
         return "Check digit for line 3";
-      case FT_LINE_1_CHECKSUM:
+      case 153:
         return "Checksum for line 1";
-      case FT_LINE_2_CHECKSUM:
+      case 154:
         return "Checksum for line 2";
-      case FT_LINE_3_CHECKSUM:
+      case 155:
         return "Checksum for line 3";
-      case FT_REG_CERT_REG_NUMBER_CHECK_DIGIT:
+      case 156:
         return "Check digit for registration number";
-      case FT_REG_CERT_REG_NUMBER_CHECKSUM:
+      case 157:
         return "Checksum for registration number";
-      case FT_REG_CERT_VEHICLE_ITS_CODE:
+      case 158:
         return "Vehicle ITS code";
-      case FT_CARD_ACCESS_NUMBER:
+      case 159:
         return "Card access number";
-      case FT_MARITAL_STATUS:
+      case 160:
         return "Marital status";
-      case FT_COMPANY_NAME:
+      case 161:
         return "Company name";
-      case FT_SPECIAL_NOTES:
+      case 162:
         return "Special notes";
-      case FT_SURNAME_OF_SPOSE:
+      case 163:
         return "Spouse\'s surname";
-      case FT_TRACKING_NUMBER:
+      case 164:
         return "Tracking number";
-      case FT_BOOKLET_NUMBER:
+      case 165:
         return "Booklet number";
-      case FT_CHILDREN:
+      case 166:
         return "Children";
-      case FT_COPY:
+      case 167:
         return "Copy";
-      case FT_SERIAL_NUMBER:
+      case 168:
         return "Serial number";
-      case FT_DOSSIER_NUMBER:
+      case 169:
         return "Dossier number";
-      case FT_AKA_SURNAME_AND_GIVEN_NAMES:
+      case 170:
         return "AKA Full name";
-      case FT_TERRITORIAL_VALIDITY:
+      case 171:
         return "Territorial validity";
-      case FT_MRZ_STRINGS_WITH_CORRECT_CHECK_SUMS:
+      case 172:
         return "MRZ lines with correct checksums";
-      case FT_DL_CDL_RESTRICTION_CODE:
+      case 173:
         return "CDL Restriction Code";
-      case FT_DL_UNDER_18_DATE:
+      case 174:
         return "Date of 18th birthday";
-      case FT_DL_RECORD_CREATED:
+      case 175:
         return "Record created";
-      case FT_DL_DUPLICATE_DATE:
+      case 176:
         return "Date of duplicate issue";
-      case FT_DL_ISS_TYPE:
+      case 177:
         return "Card type";
-      case FT_MILITARY_BOOK_NUMBER:
+      case 178:
         return "Military ID number";
-      case FT_DESTINATION:
+      case 179:
         return "Destination";
-      case FT_BLOOD_GROUP:
+      case 180:
         return "Blood group";
-      case FT_SEQUENCE_NUMBER:
+      case 181:
         return "Sequence number";
-      case FT_REG_CERT_BODY_TYPE:
+      case 182:
         return "Body type";
-      case FT_REG_CERT_CAR_MARK:
+      case 183:
         return "Vehicle make";
-      case FT_TRANSACTION_NUMBER:
+      case 184:
         return "Transaction number";
-      case FT_AGE:
+      case 185:
         return "Age";
-      case FT_FOLIO_NUMBER:
+      case 186:
         return "Folio number";
-      case FT_VOTER_KEY:
+      case 187:
         return "Voter Key";
-      case FT_ADDRESS_MUNICIPALITY:
+      case 188:
         return "Municipality";
-      case FT_ADDRESS_LOCATION:
+      case 189:
         return "Location";
-      case FT_SECTION:
+      case 190:
         return "Section";
-      case FT_OCR_NUMBER:
+      case 191:
         return "OCR number";
-      case FT_FEDERAL_ELECTIONS:
+      case 192:
         return "Federal elections";
-      case FT_REFERENCE_NUMBER:
+      case 193:
         return "Unique number";
-      case FT_OPTIONAL_DATA_CHECKSUM:
+      case 194:
         return "Checksum for optional data";
-      case FT_OPTIONAL_DATA_CHECK_DIGIT:
+      case 195:
         return "Check digit for optional data";
-      case FT_VISA_NUMBER:
+      case 196:
         return "Visa Number";
-      case FT_VISA_NUMBER_CHECKSUM:
+      case 197:
         return "Checksum for visa number";
-      case FT_VISA_NUMBER_CHECK_DIGIT:
+      case 198:
         return "Check digit for visa number";
-      case FT_VOTER:
+      case 199:
         return "Voter";
-      case FT_PREVIOUS_TYPE:
+      case 200:
         return "Type/number of the previous document";
-      case FT_FIELD_FROM_MRZ:
+      case 220:
         return "Field from MRZ";
-      case FT_CURRENT_DATE:
+      case 221:
         return "Current date";
-      case FT_STATUS_DATE_OF_EXPIRY:
+      case 251:
         return "Status Expiry Date";
-      case FT_BANKNOTE_NUMBER:
+      case 252:
         return "Banknote number";
-      case FT_CSC_CODE:
+      case 253:
         return "CSC Code";
-      case FT_ARTISTIC_NAME:
+      case 254:
         return "Pseudonym";
-      case FT_ACADEMIC_TITLE:
+      case 255:
         return "Academic title";
-      case FT_ADDRESS_COUNTRY:
+      case 256:
         return "Country";
-      case FT_ADDRESS_ZIPCODE:
+      case 257:
         return "ZIP code";
-      case FT_E_ID_RESIDENCE_PERMIT_1:
+      case 258:
         return "Residence permit 1";
-      case FT_E_ID_RESIDENCE_PERMIT_2:
+      case 259:
         return "Residence permit 2";
-      case FT_E_ID_PLACE_OF_BIRTH_STREET:
+      case 260:
         return "Place of Birth: Street";
-      case FT_E_ID_PLACE_OF_BIRTH_CITY:
+      case 261:
         return "Place of Birth: City";
-      case FT_E_ID_PLACE_OF_BIRTH_STATE:
+      case 262:
         return "Place of Birth: State";
-      case FT_E_ID_PLACE_OF_BIRTH_COUNTRY:
+      case 263:
         return "Place of Birth: Country";
-      case FT_E_ID_PLACE_OF_BIRTH_ZIPCODE:
+      case 264:
         return "Place of Birth: Postal code";
-      case FT_CDL_CLASS:
+      case 265:
         return "CDL Class";
-      case FT_DL_UNDER_19_DATE:
+      case 266:
         return "Date of 19th birthday";
-      case FT_WEIGHT_POUNDS:
+      case 267:
         return "Weight (pound)";
-      case FT_LIMITED_DURATION_DOCUMENT_INDICATOR:
+      case 268:
         return "Indicator of document limited duration";
-      case FT_ENDORSEMENT_EXPIRATION_DATE:
+      case 269:
         return "Endorsement expiration date";
-      case FT_REVISION_DATE:
+      case 270:
         return "Revision date";
-      case FT_COMPLIANCE_TYPE:
+      case 271:
         return "Compliance type";
-      case FT_FAMILY_NAME_TRUNCATION:
+      case 272:
         return "Truncated surname/given name at birth";
-      case FT_FIRST_NAME_TRUNCATION:
+      case 273:
         return "First name truncation";
-      case FT_MIDDLE_NAME_TRUNCATION:
+      case 274:
         return "Middle name truncation";
-      case FT_EXAM_DATE:
+      case 275:
         return "Exam date";
-      case FT_ORGANIZATION:
+      case 276:
         return "Organization";
-      case FT_DEPARTMENT:
+      case 277:
         return "Department";
-      case FT_PAY_GRADE:
+      case 278:
         return "Pay grade";
-      case FT_RANK:
+      case 279:
         return "Rank";
-      case FT_BENEFITS_NUMBER:
+      case 280:
         return "Benefits number";
-      case FT_SPONSOR_SERVICE:
+      case 281:
         return "Sponsor service";
-      case FT_SPONSOR_STATUS:
+      case 282:
         return "Sponsor status";
-      case FT_SPONSOR:
+      case 283:
         return "Sponsor";
-      case FT_RELATIONSHIP:
+      case 284:
         return "Relationship";
-      case FT_USCIS:
+      case 285:
         return "USCIS";
-      case FT_CATEGORY:
+      case 286:
         return "Category";
-      case FT_CONDITIONS:
+      case 287:
         return "Conditions";
-      case FT_IDENTIFIER:
+      case 288:
         return "Identifier";
-      case FT_CONFIGURATION:
+      case 289:
         return "Configuration";
-      case FT_DISCRETIONARY_DATA:
+      case 290:
         return "Discretionary data";
-      case FT_LINE_1_OPTIONAL_DATA:
+      case 291:
         return "Optional data from line 1";
-      case FT_LINE_2_OPTIONAL_DATA:
+      case 292:
         return "Optional data from line 2";
-      case FT_LINE_3_OPTIONAL_DATA:
+      case 293:
         return "Optional data from line 3";
-      case FT_EQV_CODE:
+      case 294:
         return "EQV code";
-      case FT_ALT_CODE:
+      case 295:
         return "ALT code";
-      case FT_BINARY_CODE:
+      case 296:
         return "Binary code";
-      case FT_PSEUDO_CODE:
+      case 297:
         return "Pseudocode";
-      case FT_FEE:
+      case 298:
         return "Fee";
-      case FT_STAMP_NUMBER:
+      case 299:
         return "Stamp number";
-      case FT_GNIB_NUMBER:
-        return "GNIB number";
-      case FT_DEPT_NUMBER:
-        return "Department number";
-      case FT_TELEX_CODE:
-        return "Telegraph code";
-      case FT_ALLERGIES:
-        return "Allergies";
-      case FT_SP_CODE:
-        return "Special code";
-      case FT_COURT_CODE:
-        return "Court code";
-      case FT_CTY:
-        return "County";
-      case FT_SPONSOR_SSN:
-        return "Sponsor SSN";
-      case FT_DO_D_NUMBER:
-        return "DoD number";
-      case FT_MC_NOVICE_DATE:
-        return "Expiry date of Motorcycle Novice status";
-      case FT_DUF_NUMBER:
-        return "DUF number";
-      case FT_AGY:
-        return "AGY";
-      case FT_PNR_CODE:
-        return "PNR code";
-      case FT_FROM_AIRPORT_CODE:
-        return "Code of the airport of departure";
-      case FT_TO_AIRPORT_CODE:
-        return "Code of the airport of arrival";
-      case FT_FLIGHT_NUMBER:
-        return "Flight number";
-      case FT_DATE_OF_FLIGHT:
-        return "Date of flight";
-      case FT_SEAT_NUMBER:
-        return "Seat number";
-      case FT_DATE_OF_ISSUE_BOARDING_PASS:
-        return "Date of boarding pass issue";
-      case FT_CCW_UNTIL:
-        return "CCW until";
-      case FT_REFERENCE_NUMBER_CHECKSUM:
-        return "Unique number checksum";
-      case FT_REFERENCE_NUMBER_CHECK_DIGIT:
-        return "Unique number check digit";
-      case FT_ROOM_NUMBER:
-        return "Room number";
-      case FT_RELIGION:
-        return "Religion";
-      case FT_REMAINDER_TERM:
-        return "Months to expire";
-      case FT_ELECTRONIC_TICKET_INDICATOR:
-        return "Electronic ticket indicator";
-      case FT_COMPARTMENT_CODE:
-        return "Compartment code";
-      case FT_CHECK_IN_SEQUENCE_NUMBER:
-        return "Check-in sequence number";
-      case FT_AIRLINE_DESIGNATOR_OF_BOARDING_PASS_ISSUER:
-        return "Airline designator of boarding pass issuer";
-      case FT_AIRLINE_NUMERIC_CODE:
-        return "Airline numeric code";
-      case FT_TICKET_NUMBER:
-        return "Ticket number";
-      case FT_FREQUENT_FLYER_AIRLINE_DESIGNATOR:
-        return "Frequent flyer airline designator";
-      case FT_FREQUENT_FLYER_NUMBER:
-        return "Frequent flyer number";
-      case FT_FREE_BAGGAGE_ALLOWANCE:
-        return "Free baggage allowance";
-      case FT_PDF_417_CODEC:
-        return "PDF417 codec";
-      case FT_IDENTITY_CARD_NUMBER_CHECKSUM:
-        return "Checksum for identity card number";
-      case FT_IDENTITY_CARD_NUMBER_CHECK_DIGIT:
-        return "Check digit for identity card number";
-      case FT_VETERAN:
-        return "Veteran";
-      case FT_DL_CLASS_CODE_A_1_FROM:
-        return "DL category A1 valid from";
-      case FT_DL_CLASS_CODE_A_1_TO:
-        return "DL category A1 valid to";
-      case FT_DL_CLASS_CODE_A_1_NOTES:
-        return "DL category A1 codes";
-      case FT_DL_CLASS_CODE_A_FROM:
-        return "DL category A valid from";
-      case FT_DL_CLASS_CODE_A_TO:
-        return "DL category A valid to";
-      case FT_DL_CLASS_CODE_A_NOTES:
-        return "DL category A codes";
-      case FT_DL_CLASS_CODE_B_FROM:
-        return "DL category B valid from";
-      case FT_DL_CLASS_CODE_B_TO:
-        return "DL category B valid to";
-      case FT_DL_CLASS_CODE_B_NOTES:
-        return "DL category B codes";
-      case FT_DL_CLASS_CODE_C_1_FROM:
-        return "DL category C1 valid from";
-      case FT_DL_CLASS_CODE_C_1_TO:
-        return "DL category C1 valid to";
-      case FT_DL_CLASS_CODE_C_1_NOTES:
-        return "DL category C1 codes";
-      case FT_DL_CLASS_CODE_C_FROM:
-        return "DL category C valid from";
-      case FT_DL_CLASS_CODE_C_TO:
-        return "DL category C valid to";
-      case FT_DL_CLASS_CODE_C_NOTES:
-        return "DL category C codes";
-      case FT_DL_CLASS_CODE_D_1_FROM:
-        return "DL category D1 valid from";
-      case FT_DL_CLASS_CODE_D_1_TO:
-        return "DL category D1 valid to";
-      case FT_DL_CLASS_CODE_D_1_NOTES:
-        return "DL category D1 codes";
-      case FT_DL_CLASS_CODE_D_FROM:
-        return "DL category D valid from";
-      case FT_DL_CLASS_CODE_D_TO:
-        return "DL category D valid to";
-      case FT_DL_CLASS_CODE_D_NOTES:
-        return "DL category D codes";
-      case FT_DL_CLASS_CODE_BE_FROM:
-        return "DL category BE valid from";
-      case FT_DL_CLASS_CODE_BE_TO:
-        return "DL category BE valid to";
-      case FT_DL_CLASS_CODE_BE_NOTES:
-        return "DL category BE codes";
-      case FT_DL_CLASS_CODE_C_1_E_FROM:
-        return "DL category C1E valid from";
-      case FT_DL_CLASS_CODE_C_1_E_TO:
-        return "DL category C1E valid to";
-      case FT_DL_CLASS_CODE_C_1_E_NOTES:
-        return "DL category C1E codes";
-      case FT_DL_CLASS_CODE_CE_FROM:
-        return "DL category CE valid from";
-      case FT_DL_CLASS_CODE_CE_TO:
-        return "DL category CE valid to";
-      case FT_DL_CLASS_CODE_CE_NOTES:
-        return "DL category CE codes";
-      case FT_DL_CLASS_CODE_D_1_E_FROM:
-        return "DL category D1E valid from";
-      case FT_DL_CLASS_CODE_D_1_E_TO:
-        return "DL category D1E valid to";
-      case FT_DL_CLASS_CODE_D_1_E_NOTES:
-        return "DL category D1E codes";
-      case FT_DL_CLASS_CODE_DE_FROM:
-        return "DL category DE valid from";
-      case FT_DL_CLASS_CODE_DE_TO:
-        return "DL category DE valid to";
-      case FT_DL_CLASS_CODE_DE_NOTES:
-        return "DL category DE codes";
-      case FT_DL_CLASS_CODE_M_FROM:
-        return "DL category M valid from";
-      case FT_DL_CLASS_CODE_M_TO:
-        return "DL category M valid to";
-      case FT_DL_CLASS_CODE_M_NOTES:
-        return "DL category M codes";
-      case FT_DL_CLASS_CODE_L_FROM:
-        return "DL category L valid from";
-      case FT_DL_CLASS_CODE_L_TO:
-        return "DL category L valid to";
-      case FT_DL_CLASS_CODE_L_NOTES:
-        return "DL category L codes";
-      case FT_DL_CLASS_CODE_T_FROM:
-        return "DL category T valid from";
-      case FT_DL_CLASS_CODE_T_TO:
-        return "DL category T valid to";
-      case FT_DL_CLASS_CODE_T_NOTES:
-        return "DL category T codes";
-      case FT_DL_CLASS_CODE_AM_FROM:
-        return "DL category AM valid from";
-      case FT_DL_CLASS_CODE_AM_TO:
-        return "DL category AM valid to";
-      case FT_DL_CLASS_CODE_AM_NOTES:
-        return "DL category AM codes";
-      case FT_DL_CLASS_CODE_A_2_FROM:
-        return "DL category A2 valid from";
-      case FT_DL_CLASS_CODE_A_2_TO:
-        return "DL category A2 valid to";
-      case FT_DL_CLASS_CODE_A_2_NOTES:
-        return "DL category A2 codes";
-      case FT_DL_CLASS_CODE_B_1_FROM:
-        return "DL category B1 valid from";
-      case FT_DL_CLASS_CODE_B_1_TO:
-        return "DL category B1 valid to";
-      case FT_DL_CLASS_CODE_B_1_NOTES:
-        return "DL category B1 codes";
-      case FT_SURNAME_AT_BIRTH:
-        return "Surname at birth";
-      case FT_CIVIL_STATUS:
-        return "Civil status";
-      case FT_NUMBER_OF_SEATS:
-        return "Number of seats";
-      case FT_NUMBER_OF_STANDING_PLACES:
-        return "Number of standing places";
-      case FT_MAX_SPEED:
-        return "Max speed";
-      case FT_FUEL_TYPE:
-        return "Fuel type";
-      case FT_EC_ENVIRONMENTAL_TYPE:
-        return "Vehicle environmental type";
-      case FT_POWER_WEIGHT_RATIO:
-        return "Power-to-weight ratio";
-      case FT_MAX_MASS_OF_TRAILER_BRAKED:
-        return "Max mass of trailer (braked)";
-      case FT_MAX_MASS_OF_TRAILER_UNBRAKED:
-        return "Max mass of trailer (unbraked)";
-      case FT_TRANSMISSION_TYPE:
-        return "Transmission type";
-      case FT_TRAILER_HITCH:
-        return "Trailer hitch";
-      case FT_ACCOMPANIED_BY:
-        return "Accompanied by";
-      case FT_POLICE_DISTRICT:
-        return "Police district";
-      case FT_FIRST_ISSUE_DATE:
-        return "First issue date";
-      case FT_PAYLOAD_CAPACITY:
-        return "Payload capacity";
-      case FT_NUMBER_OF_AXELS:
-        return "Number of axles";
-      case FT_PERMISSIBLE_AXLE_LOAD:
-        return "Permissible axle load";
-      case FT_PRECINCT:
-        return "Precinct";
-      case FT_INVITED_BY:
-        return "Invited by";
-      case FT_PURPOSE_OF_ENTRY:
-        return "Purpose of entry";
-      case FT_SKIN_COLOR:
-        return "Skin color";
-      case FT_COMPLEXION:
-        return "Complexion";
-      case FT_AIRPORT_FROM:
-        return "Airport of departure";
-      case FT_AIRPORT_TO:
-        return "Airport of arrival";
-      case FT_AIRLINE_NAME:
-        return "Airline name";
-      case FT_AIRLINE_NAME_FREQUENT_FLYER:
-        return "Airline loyalty program for frequent flyers";
-      case FT_LICENSE_NUMBER:
-        return "License number";
-      case FT_IN_TANKS:
-        return "In tanks";
-      case FT_EXEPT_IN_TANKS:
-        return "Except in tanks";
-      case FT_FAST_TRACK:
-        return "Fast Track service";
-      case FT_OWNER:
-        return "Owner";
-      case FT_MRZ_STRINGS_ICAO_RFID:
-        return "MRZ lines from ICAO RFID";
-      case FT_NUMBER_OF_CARD_ISSUANCE:
-        return "Number of card issuances";
-      case FT_NUMBER_OF_CARD_ISSUANCE_CHECKSUM:
-        return "Checksum for number of card issuances";
-      case FT_NUMBER_OF_CARD_ISSUANCE_CHECK_DIGIT:
-        return "Check digit for number of card issuances";
-      case FT_CENTURY_DATE_OF_BIRTH:
-        return "Century of birth";
-      case FT_DL_CLASSCODE_A3_FROM:
-        return "DL category A3 valid from";
-      case FT_DL_CLASSCODE_A3_TO:
-        return "DL category A3 valid to";
-      case FT_DL_CLASSCODE_A3_NOTES:
-        return "DL category A3 codes";
-      case FT_DL_CLASSCODE_C2_FROM:
-        return "DL category C2 valid from";
-      case FT_DL_CLASSCODE_C2_TO:
-        return "DL category C2 valid to";
-      case FT_DL_CLASSCODE_C2_NOTES:
-        return "DL category C2 codes";
-      case FT_DL_CLASSCODE_B2_FROM:
-        return "DL category B2 valid from";
-      case FT_DL_CLASSCODE_B2_TO:
-        return "DL category B2 valid to";
-      case FT_DL_CLASSCODE_B2_NOTES:
-        return "DL category B2 codes";
-      case FT_DL_CLASSCODE_D2_FROM:
-        return "DL category D2 valid from";
-      case FT_DL_CLASSCODE_D2_TO:
-        return "DL category D2 valid to";
-      case FT_DL_CLASSCODE_D2_NOTES:
-        return "DL category D2 codes";
-      case FT_DL_CLASSCODE_B2E_FROM:
-        return "DL category B2E valid from";
-      case FT_DL_CLASSCODE_B2E_TO:
-        return "DL category B2E valid to";
-      case FT_DL_CLASSCODE_B2E_NOTES:
-        return "DL category B2E codes";
-      case FT_DL_CLASSCODE_G_FROM:
-        return "DL category G valid from";
-      case FT_DL_CLASSCODE_G_TO:
-        return "DL category G valid to";
-      case FT_DL_CLASSCODE_G_NOTES:
-        return "DL category G codes";
-      case FT_DL_CLASSCODE_J_FROM:
-        return "DL category J valid from";
-      case FT_DL_CLASSCODE_J_TO:
-        return "DL category J valid to";
-      case FT_DL_CLASSCODE_J_NOTES:
-        return "DL category J codes";
-      case FT_DL_CLASSCODE_LC_FROM:
-        return "DL category LC valid from";
-      case FT_DL_CLASSCODE_LC_TO:
-        return "DL category LC valid to";
-      case FT_DLC_LASSCODE_LC_NOTES:
-        return "DL category LC codes";
-      case FT_BANKCARDNUMBER:
-        return "Bank card number";
-      case FT_BANKCARDVALIDTHRU:
-        return "Bank card validity";
-      case FT_TAX_NUMBER:
-        return "Tax number";
-      case FT_SBH_SECURITYOPTIONS:
+      case 300:
         return "SBH security options";
-      case FT_SBH_INTEGRITYOPTIONS:
+      case 301:
         return "SBH integrity options";
-      case FT_DATE_OF_CREATION:
+      case 302:
         return "Creation date";
-      case FT_VALIDITY_PERIOD:
+      case 303:
         return "Validity period";
-      case FT_PATRON_HEADER_VERSION:
+      case 304:
         return "Patron header version";
-      case FT_BDB_TYPE:
+      case 305:
         return "BDB type";
-      case FT_BIOMETRIC_TYPE:
+      case 306:
         return "Biometric type";
-      case FT_BIOMETRIC_SUBTYPE:
+      case 307:
         return "Biometric subtype";
-      case FT_BIOMETRIC_PRODUCTID:
+      case 308:
         return "Biometric product ID";
-      case FT_BIOMETRIC_FORMAT_OWNER:
+      case 309:
         return "Biometric format owner";
-      case FT_BIOMETRIC_FORMAT_TYPE:
+      case 310:
         return "Biometric format type";
-      case FT_PHONE:
+      case 311:
         return "Phone";
-      case FT_PROFESSION:
+      case 312:
         return "Profession";
-      case FT_TITLE:
+      case 313:
         return "Position";
-      case FT_PERSONAL_SUMMARY:
+      case 314:
         return "Personal data summary";
-      case FT_OTHER_VALID_ID:
+      case 315:
         return "Other valid IDs";
-      case FT_CUSTODY_INFO:
+      case 316:
         return "Custody info";
-      case FT_OTHER_NAME:
+      case 317:
         return "Other name";
-      case FT_OBSERVATIONS:
+      case 318:
         return "Observations";
-      case FT_TAX:
+      case 319:
         return "Tax";
-      case FT_DATE_OF_PERSONALIZATION:
+      case 320:
         return "Personalization date";
-      case FT_PERSONALIZATION_SN:
+      case 321:
         return "Serial number of personalization";
-      case FT_OTHERPERSON_NAME:
+      case 322:
         return "Other person, name";
-      case FT_PERSONTONOTIFY_DATE_OF_RECORD:
+      case 323:
         return "Notify person: Date of record";
-      case FT_PERSONTONOTIFY_NAME:
+      case 324:
         return "Notify person: Name";
-      case FT_PERSONTONOTIFY_PHONE:
+      case 325:
         return "Notify person: Phone";
-      case FT_PERSONTONOTIFY_ADDRESS:
+      case 326:
         return "Notify person: Address";
-      case FT_DS_CERTIFICATE_ISSUER:
+      case 327:
         return "DS certificate issuer";
-      case FT_DS_CERTIFICATE_SUBJECT:
+      case 328:
         return "DS certificate subject";
-      case FT_DS_CERTIFICATE_VALIDFROM:
+      case 329:
         return "DS certificate valid from";
-      case FT_DS_CERTIFICATE_VALIDTO:
+      case 330:
         return "DS certificate valid to";
-      case FT_VRC_DATAOBJECT_ENTRY:
+      case 331:
         return "Vehicle data from the DG1 data group";
-      case FT_GRANDFATHERNAME:
-        return "Grandfather\'s name";
-      case FT_HEALTH_NUMBER:
-        return "Health insurance number";
-      case FT_TYPE_APPROVAL_NUMBER:
+      case 332:
         return "Type of approval number";
-      case FT_ADMINISTRATIVE_NUMBER:
+      case 333:
         return "Administrative number";
-      case FT_DOCUMENT_DISCRIMINATOR:
+      case 334:
         return "Document discriminator";
-      case FT_DATA_DISCRIMINATOR:
+      case 335:
         return "Data discriminator";
-      case FT_ISO_ISSUER_ID_NUMBER:
+      case 336:
         return "ID number of ISO issuer";
-      case FT_SELECTEE_INDICATOR:
+      case 340:
+        return "GNIB number";
+      case 341:
+        return "Department number";
+      case 342:
+        return "Telegraph code";
+      case 343:
+        return "Allergies";
+      case 344:
+        return "Special code";
+      case 345:
+        return "Court code";
+      case 346:
+        return "County";
+      case 347:
+        return "Sponsor SSN";
+      case 348:
+        return "DoD number";
+      case 349:
+        return "Expiry date of Motorcycle Novice status";
+      case 350:
+        return "DUF number";
+      case 351:
+        return "AGY";
+      case 352:
+        return "PNR code";
+      case 353:
+        return "Code of the airport of departure";
+      case 354:
+        return "Code of the airport of arrival";
+      case 355:
+        return "Flight number";
+      case 356:
+        return "Date of flight";
+      case 357:
+        return "Seat number";
+      case 358:
+        return "Date of boarding pass issue";
+      case 359:
+        return "CCW until";
+      case 360:
+        return "Unique number checksum";
+      case 361:
+        return "Unique number check digit";
+      case 362:
+        return "Room number";
+      case 363:
+        return "Religion";
+      case 364:
+        return "Months to expire";
+      case 365:
+        return "Electronic ticket indicator";
+      case 366:
+        return "Compartment code";
+      case 367:
+        return "Check-in sequence number";
+      case 368:
+        return "Airline designator of boarding pass issuer";
+      case 369:
+        return "Airline numeric code";
+      case 370:
+        return "Ticket number";
+      case 371:
+        return "Frequent flyer airline designator";
+      case 372:
+        return "Frequent flyer number";
+      case 373:
+        return "Free baggage allowance";
+      case 374:
+        return "PDF417 codec";
+      case 375:
+        return "Checksum for identity card number";
+      case 376:
+        return "Check digit for identity card number";
+      case 377:
+        return "Veteran";
+      case 378:
+        return "DL category A1 valid from";
+      case 379:
+        return "DL category A1 valid to";
+      case 380:
+        return "DL category A1 codes";
+      case 381:
+        return "DL category A valid from";
+      case 382:
+        return "DL category A valid to";
+      case 383:
+        return "DL category A codes";
+      case 384:
+        return "DL category B valid from";
+      case 385:
+        return "DL category B valid to";
+      case 386:
+        return "DL category B codes";
+      case 387:
+        return "DL category C1 valid from";
+      case 388:
+        return "DL category C1 valid to";
+      case 389:
+        return "DL category C1 codes";
+      case 390:
+        return "DL category C valid from";
+      case 391:
+        return "DL category C valid to";
+      case 392:
+        return "DL category C codes";
+      case 393:
+        return "DL category D1 valid from";
+      case 394:
+        return "DL category D1 valid to";
+      case 395:
+        return "DL category D1 codes";
+      case 396:
+        return "DL category D valid from";
+      case 397:
+        return "DL category D valid to";
+      case 398:
+        return "DL category D codes";
+      case 399:
+        return "DL category BE valid from";
+      case 400:
+        return "DL category BE valid to";
+      case 401:
+        return "DL category BE codes";
+      case 402:
+        return "DL category C1E valid from";
+      case 403:
+        return "DL category C1E valid to";
+      case 404:
+        return "DL category C1E codes";
+      case 405:
+        return "DL category CE valid from";
+      case 406:
+        return "DL category CE valid to";
+      case 407:
+        return "DL category CE codes";
+      case 408:
+        return "DL category D1E valid from";
+      case 409:
+        return "DL category D1E valid to";
+      case 410:
+        return "DL category D1E codes";
+      case 411:
+        return "DL category DE valid from";
+      case 412:
+        return "DL category DE valid to";
+      case 413:
+        return "DL category DE codes";
+      case 414:
+        return "DL category M valid from";
+      case 415:
+        return "DL category M valid to";
+      case 416:
+        return "DL category M codes";
+      case 417:
+        return "DL category L valid from";
+      case 418:
+        return "DL category L valid to";
+      case 419:
+        return "DL category L codes";
+      case 420:
+        return "DL category T valid from";
+      case 421:
+        return "DL category T valid to";
+      case 422:
+        return "DL category T codes";
+      case 423:
+        return "DL category AM valid from";
+      case 424:
+        return "DL category AM valid to";
+      case 425:
+        return "DL category AM codes";
+      case 426:
+        return "DL category A2 valid from";
+      case 427:
+        return "DL category A2 valid to";
+      case 428:
+        return "DL category A2 codes";
+      case 429:
+        return "DL category B1 valid from";
+      case 430:
+        return "DL category B1 valid to";
+      case 431:
+        return "DL category B1 codes";
+      case 432:
+        return "Surname at birth";
+      case 433:
+        return "Civil status";
+      case 434:
+        return "Number of seats";
+      case 435:
+        return "Number of standing places";
+      case 436:
+        return "Max speed";
+      case 437:
+        return "Fuel type";
+      case 438:
+        return "Vehicle environmental type";
+      case 439:
+        return "Power-to-weight ratio";
+      case 440:
+        return "Max mass of trailer (braked)";
+      case 441:
+        return "Max mass of trailer (unbraked)";
+      case 442:
+        return "Transmission type";
+      case 443:
+        return "Trailer hitch";
+      case 444:
+        return "Accompanied by";
+      case 445:
+        return "Police district";
+      case 446:
+        return "First issue date";
+      case 447:
+        return "Payload capacity";
+      case 448:
+        return "Number of axles";
+      case 449:
+        return "Permissible axle load";
+      case 450:
+        return "Precinct";
+      case 451:
+        return "Invited by";
+      case 452:
+        return "Purpose of entry";
+      case 453:
+        return "Skin color";
+      case 454:
+        return "Complexion";
+      case 455:
+        return "Airport of departure";
+      case 456:
+        return "Airport of arrival";
+      case 457:
+        return "Airline name";
+      case 458:
+        return "Airline loyalty program for frequent flyers";
+      case 459:
+        return "License number";
+      case 460:
+        return "In tanks";
+      case 461:
+        return "Except in tanks";
+      case 462:
+        return "Fast Track service";
+      case 463:
+        return "Owner";
+      case 464:
+        return "MRZ lines from ICAO RFID";
+      case 465:
+        return "Number of card issuances";
+      case 466:
+        return "Checksum for number of card issuances";
+      case 467:
+        return "Check digit for number of card issuances";
+      case 468:
+        return "Century of birth";
+      case 469:
+        return "DL category A3 valid from";
+      case 470:
+        return "DL category A3 valid to";
+      case 471:
+        return "DL category A3 codes";
+      case 472:
+        return "DL category C2 valid from";
+      case 473:
+        return "DL category C2 valid to";
+      case 474:
+        return "DL category C2 codes";
+      case 475:
+        return "DL category B2 valid from";
+      case 476:
+        return "DL category B2 valid to";
+      case 477:
+        return "DL category B2 codes";
+      case 478:
+        return "DL category D2 valid from";
+      case 479:
+        return "DL category D2 valid to";
+      case 480:
+        return "DL category D2 codes";
+      case 481:
+        return "DL category B2E valid from";
+      case 482:
+        return "DL category B2E valid to";
+      case 483:
+        return "DL category B2E codes";
+      case 484:
+        return "DL category G valid from";
+      case 485:
+        return "DL category G valid to";
+      case 486:
+        return "DL category G codes";
+      case 487:
+        return "DL category J valid from";
+      case 488:
+        return "DL category J valid to";
+      case 489:
+        return "DL category J codes";
+      case 490:
+        return "DL category LC valid from";
+      case 491:
+        return "DL category LC valid to";
+      case 492:
+        return "DL category LC codes";
+      case 493:
+        return "Bank card number";
+      case 494:
+        return "Bank card validity";
+      case 495:
+        return "Tax number";
+      case 496:
+        return "Health insurance number";
+      case 497:
+        return "Grandfather\'s name";
+      case 498:
         return "Selectee indicator";
-      case FT_MOTHER_SURNAME:
+      case 499:
         return "Mother\'s surname";
-      case FT_MOTHER_GIVENNAME:
+      case 500:
         return "Mother\'s given name";
-      case FT_FATHER_SURNAME:
+      case 501:
         return "Father\'s surname";
-      case FT_FATHER_GIVENNAME:
+      case 502:
         return "Father\'s given name";
-      case FT_MOTHER_DATEOFBIRTH:
+      case 503:
         return "Mother\'s date of birth";
-      case FT_FATHER_DATEOFBIRTH:
+      case 504:
         return "Father\'s date of birth";
-      case FT_MOTHER_PERSONALNUMBER:
+      case 505:
         return "Mother\'s personal number";
-      case FT_FATHER_PERSONALNUMBER:
+      case 506:
         return "Father\'s personal number";
-      case FT_MOTHER_PLACEOFBIRTH:
+      case 507:
         return "Mother\'s place of birth";
-      case FT_FATHER_PLACEOFBIRTH:
+      case 508:
         return "Father\'s place of birth";
-      case FT_MOTHER_COUNTRYOFBIRTH:
+      case 509:
         return "Mother\'s country of birth";
-      case FT_FATHER_COUNTRYOFBIRTH:
+      case 510:
         return "Father\'s country of birth";
-      case FT_DATE_FIRST_RENEWAL:
+      case 511:
         return "Date of first renewal";
-      case FT_DATE_SECOND_RENEWAL:
+      case 512:
         return "Date of second renewal";
-      case FT_PLACE_OF_EXAMINATION:
+      case 513:
         return "Place of examination";
-      case FT_APPLICATION_NUMBER:
+      case 514:
         return "Application number";
-      case FT_VOUCHER_NUMBER:
+      case 515:
         return "Voucher number";
-      case FT_AUTHORIZATION_NUMBER:
+      case 516:
         return "Authorization number";
-      case FT_FACULTY:
+      case 517:
         return "Faculty";
-      case FT_FORM_OF_EDUCATION:
+      case 518:
         return "Form of education";
-      case FT_DNI_NUMBER:
+      case 519:
         return "DNI number";
-      case FT_RETIREMENT_NUMBER:
+      case 520:
         return "Retirement number";
-      case FT_PROFESSIONAL_ID_NUMBER:
+      case 521:
         return "Professional ID number";
-      case FT_AGE_AT_ISSUE:
+      case 522:
         return "Age at issue";
-      case FT_YEARS_SINCE_ISSUE:
+      case 523:
         return "Years since issue";
-      case FT_DLCLASSCODE_BTP_FROM:
+      case 524:
         return "DL category BTP valid from";
-      case FT_DLCLASSCODE_BTP_NOTES:
+      case 525:
         return "DL category BTP codes";
-      case FT_DLCLASSCODE_BTP_TO:
+      case 526:
         return "DL category BTP valid to";
-      case FT_DLCLASSCODE_C3_FROM:
+      case 527:
         return "DL category C3 valid from";
-      case FT_DLCLASSCODE_C3_NOTES:
+      case 528:
         return "DL category C3 codes";
-      case FT_DLCLASSCODE_C3_TO:
+      case 529:
         return "DL category C3 valid to";
-      case FT_DLCLASSCODE_E_FROM:
+      case 530:
         return "DL category E valid from";
-      case FT_DLCLASSCODE_E_NOTES:
+      case 531:
         return "DL category E codes";
-      case FT_DLCLASSCODE_E_TO:
+      case 532:
         return "DL category E valid to";
-      case FT_DLCLASSCODE_F_FROM:
+      case 533:
         return "DL category F valid from";
-      case FT_DLCLASSCODE_F_NOTES:
+      case 534:
         return "DL category F codes";
-      case FT_DLCLASSCODE_F_TO:
+      case 535:
         return "DL category F valid to";
-      case FT_DLCLASSCODE_FA_FROM:
+      case 536:
         return "DL category FA valid from";
-      case FT_DLCLASSCODE_FA_NOTES:
+      case 537:
         return "DL category FA codes";
-      case FT_DLCLASSCODE_FA_TO:
+      case 538:
         return "DL category FA valid to";
-      case FT_DLCLASSCODE_FA1_FROM:
+      case 539:
         return "DL category FA1 valid from";
-      case FT_DLCLASSCODE_FA1_NOTES:
+      case 540:
         return "DL category FA1 codes";
-      case FT_DLCLASSCODE_FA1_TO:
+      case 541:
         return "DL category FA1 valid to";
-      case FT_DLCLASSCODE_FB_FROM:
+      case 542:
         return "DL category FB valid from";
-      case FT_DLCLASSCODE_FB_NOTES:
+      case 543:
         return "DL category FB codes";
-      case FT_DLCLASSCODE_FB_TO:
+      case 544:
         return "DL category FB valid to";
-      case FT_DLCLASSCODE_G1_FROM:
+      case 545:
         return "DL category G1 valid from";
-      case FT_DLCLASSCODE_G1_NOTES:
+      case 546:
         return "DL category G1 codes";
-      case FT_DLCLASSCODE_G1_TO:
+      case 547:
         return "DL category G1 valid to";
-      case FT_DLCLASSCODE_H_FROM:
+      case 548:
         return "DL category H valid from";
-      case FT_DLCLASSCODE_H_NOTES:
+      case 549:
         return "DL category H codes";
-      case FT_DLCLASSCODE_H_TO:
+      case 550:
         return "DL category H valid to";
-      case FT_DLCLASSCODE_I_FROM:
+      case 551:
         return "DL category I valid from";
-      case FT_DLCLASSCODE_I_NOTES:
+      case 552:
         return "DL category I codes";
-      case FT_DLCLASSCODE_I_TO:
+      case 553:
         return "DL category I valid to";
-      case FT_DLCLASSCODE_K_FROM:
+      case 554:
         return "DL category K valid from";
-      case FT_DLCLASSCODE_K_NOTES:
+      case 555:
         return "DL category K codes";
-      case FT_DLCLASSCODE_K_TO:
+      case 556:
         return "DL category K valid to";
-      case FT_DLCLASSCODE_LK_FROM:
+      case 557:
         return "DL category LK valid from";
-      case FT_DLCLASSCODE_LK_NOTES:
+      case 558:
         return "DL category LK codes";
-      case FT_DLCLASSCODE_LK_TO:
+      case 559:
         return "DL category LK valid to";
-      case FT_DLCLASSCODE_N_FROM:
+      case 560:
         return "DL category N valid from";
-      case FT_DLCLASSCODE_N_NOTES:
+      case 561:
         return "DL category N codes";
-      case FT_DLCLASSCODE_N_TO:
+      case 562:
         return "DL category N valid to";
-      case FT_DLCLASSCODE_S_FROM:
+      case 563:
         return "DL category S valid from";
-      case FT_DLCLASSCODE_S_NOTES:
+      case 564:
         return "DL category S codes";
-      case FT_DLCLASSCODE_S_TO:
+      case 565:
         return "DL category S valid to";
-      case FT_DLCLASSCODE_TB_FROM:
+      case 566:
         return "DL category TB valid from";
-      case FT_DLCLASSCODE_TB_NOTES:
+      case 567:
         return "DL category TB codes";
-      case FT_DLCLASSCODE_TB_TO:
+      case 568:
         return "DL category TB valid to";
-      case FT_DLCLASSCODE_TM_FROM:
+      case 569:
         return "DL category TM valid from";
-      case FT_DLCLASSCODE_TM_NOTES:
+      case 570:
         return "DL category TM codes";
-      case FT_DLCLASSCODE_TM_TO:
+      case 571:
         return "DL category TM valid to";
-      case FT_DLCLASSCODE_TR_FROM:
+      case 572:
         return "DL category TR valid from";
-      case FT_DLCLASSCODE_TR_NOTES:
+      case 573:
         return "DL category TR codes";
-      case FT_DLCLASSCODE_TR_TO:
+      case 574:
         return "DL category TR valid to";
-      case FT_DLCLASSCODE_TV_FROM:
+      case 575:
         return "DL category TV valid from";
-      case FT_DLCLASSCODE_TV_NOTES:
+      case 576:
         return "DL category TV codes";
-      case FT_DLCLASSCODE_TV_TO:
+      case 577:
         return "DL category TV valid to";
-      case FT_DLCLASSCODE_V_FROM:
+      case 578:
         return "DL category V valid from";
-      case FT_DLCLASSCODE_V_NOTES:
+      case 579:
         return "DL category V codes";
-      case FT_DLCLASSCODE_V_TO:
+      case 580:
         return "DL category V valid to";
-      case FT_DLCLASSCODE_W_FROM:
+      case 581:
         return "DL category W valid from";
-      case FT_DLCLASSCODE_W_NOTES:
+      case 582:
         return "DL category W codes";
-      case FT_DLCLASSCODE_W_TO:
+      case 583:
         return "DL category W valid to";
-      case FT_CALIBER:
-        return "Caliber";
-      case FT_CITIZENSHIP_OF_FIRST_PERSON:
-        return "Citizenship of the first person";
-      case FT_CITIZENSHIP_OF_SECOND_PERSON:
-        return "Citizenship of the second person";
-      case FT_CVV:
-        return "CVV/CVC";
-      case FT_DATE_OF_BIRTH_OF_HUSBAND:
-        return "Date of birth of husband";
-      case FT_DATE_OF_BIRTH_OF_WIFE:
-        return "Date of birth of wife";
-      case FT_MAKE:
-        return "Make";
-      case FT_MODEL:
-        return "Model";
-      case FT_NUMBER_OF_CYLINDERS:
-        return "Number of cylinders";
-      case FT_SURNAME_OF_HUSBAND_AFTER_REGISTRATION:
-        return "Surname of husband after registration";
-      case FT_SURNAME_OF_WIFE_AFTER_REGISTRATION:
-        return "Surname of wife after registration";
-      case FT_URL:
+      case 584:
         return "URL";
-      case FT_DATE_OF_INSURANCE_EXPIRY:
+      case 585:
+        return "Caliber";
+      case 586:
+        return "Model";
+      case 587:
+        return "Make";
+      case 588:
+        return "Number of cylinders";
+      case 589:
+        return "Surname of husband after registration";
+      case 590:
+        return "Surname of wife after registration";
+      case 591:
+        return "Date of birth of wife";
+      case 592:
+        return "Date of birth of husband";
+      case 593:
+        return "Citizenship of the first person";
+      case 594:
+        return "Citizenship of the second person";
+      case 595:
+        return "CVV/CVC";
+      case 596:
         return "Expiry date of insurance";
-      case FT_MORTGAGE_BY:
+      case 597:
         return "Mortgage by";
-      case FT_OLD_DOCUMENT_NUMBER:
+      case 598:
         return "Old document number";
-      case FT_OLD_DATE_OF_ISSUE:
+      case 599:
         return "Old date of issue";
-      case FT_OLD_PLACE_OF_ISSUE:
+      case 600:
         return "Old place of issue";
-      case FT_DLCLASSCODE_LR_FROM:
+      case 601:
         return "DL category LR valid from";
-      case FT_DLCLASSCODE_LR_TO:
+      case 602:
         return "DL category LR valid to";
-      case FT_DLCLASSCODE_LR_NOTES:
+      case 603:
         return "DL category LR codes";
-      case FT_DLCLASSCODE_MR_FROM:
+      case 604:
         return "DL category MR valid from";
-      case FT_DLCLASSCODE_MR_TO:
+      case 605:
         return "DL category MR valid to";
-      case FT_DLCLASSCODE_MR_NOTES:
+      case 606:
         return "DL category MR codes";
-      case FT_DLCLASSCODE_HR_FROM:
+      case 607:
         return "DL category HR valid from";
-      case FT_DLCLASSCODE_HR_TO:
+      case 608:
         return "DL category HR valid to";
-      case FT_DLCLASSCODE_HR_NOTES:
+      case 609:
         return "DL category HR codes";
-      case FT_DLCLASSCODE_HC_FROM:
+      case 610:
         return "DL category HC valid from";
-      case FT_DLCLASSCODE_HC_TO:
+      case 611:
         return "DL category HC valid to";
-      case FT_DLCLASSCODE_HC_NOTES:
+      case 612:
         return "DL category HC codes";
-      case FT_DLCLASSCODE_MC_FROM:
+      case 613:
         return "DL category MC valid from";
-      case FT_DLCLASSCODE_MC_TO:
+      case 614:
         return "DL category MC valid to";
-      case FT_DLCLASSCODE_MC_NOTES:
+      case 615:
         return "DL category MC codes";
-      case FT_DLCLASSCODE_RE_FROM:
+      case 616:
         return "DL category RE valid from";
-      case FT_DLCLASSCODE_RE_TO:
+      case 617:
         return "DL category RE valid to";
-      case FT_DLCLASSCODE_RE_NOTES:
+      case 618:
         return "DL category RE codes";
-      case FT_DLCLASSCODE_R_FROM:
+      case 619:
         return "DL category R valid from";
-      case FT_DLCLASSCODE_R_TO:
+      case 620:
         return "DL category R valid to";
-      case FT_DLCLASSCODE_R_NOTES:
+      case 621:
         return "DL category R codes";
-      case FT_DLCLASSCODE_CA_FROM:
+      case 622:
         return "DL category CA valid from";
-      case FT_DLCLASSCODE_CA_TO:
+      case 623:
         return "DL category CA valid to";
-      case FT_DLCLASSCODE_CA_NOTES:
+      case 624:
         return "DL category CA codes";
+      case 625:
+        return "Citizenship status";
+      case 626:
+        return "Military service from";
+      case 627:
+        return "Military service to";
       default:
         return value.toString();
     }

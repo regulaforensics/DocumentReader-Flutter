@@ -18,6 +18,7 @@ import android.graphics.Typeface;
 
 import java.math.BigDecimal;
 
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
 import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
 
 class RegulaConfig {
@@ -30,11 +31,11 @@ class RegulaConfig {
             setProcessParams(reader.processParams(), opts.getJSONObject("processParams"));
     }
 
-    static JSONObject getConfig(DocumentReader reader, Context context) throws JSONException {
+    static JSONObject getConfig(DocumentReader reader) throws JSONException {
         JSONObject object = new JSONObject();
         object.put("customization", getCustomization(reader.customization()));
         object.put("functionality", getFunctionality(reader.functionality()));
-        object.put("processParams", getProcessParams(reader.processParams(), context));
+        object.put("processParams", getProcessParams(reader.processParams()));
 
         return object;
     }
@@ -95,6 +96,8 @@ class RegulaConfig {
             editor.setZoomFactor(BigDecimal.valueOf(opts.getDouble("zoomFactor")).floatValue());
         if (opts.has("isCameraTorchCheckDisabled"))
             editor.setIsCameraTorchCheckDisabled(opts.getBoolean("isCameraTorchCheckDisabled"));
+        if (opts.has("recordScanningProcess"))
+            editor.setDoRecordProcessingVideo(opts.getBoolean("recordScanningProcess"));
 
         editor.apply();
     }
@@ -158,6 +161,8 @@ class RegulaConfig {
             processParams.returnCroppedBarcode = opts.getBoolean("returnCroppedBarcode");
         if (opts.has("checkHologram"))
             processParams.checkHologram = opts.getBoolean("checkHologram");
+        if (opts.has("checkRequiredTextFields"))
+            processParams.checkRequiredTextFields = opts.getBoolean("checkRequiredTextFields");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -309,6 +314,7 @@ class RegulaConfig {
         object.put("isZoomEnabled", functionality.isZoomEnabled());
         object.put("zoomFactor", functionality.getZoomFactor());
         object.put("isCameraTorchCheckDisabled", functionality.isCameraTorchCheckDisabled());
+        object.put("recordScanningProcess", functionality.doRecordProcessingVideo());
 
         return object;
     }
@@ -374,7 +380,7 @@ class RegulaConfig {
         return object;
     }
 
-    private static JSONObject getProcessParams(ProcessParam processParams, Context context) throws JSONException {
+    private static JSONObject getProcessParams(ProcessParam processParams) throws JSONException {
         JSONObject object = new JSONObject();
         object.put("scenario", processParams.scenario);
         object.put("measureSystem", processParams.measureSystem);
@@ -402,6 +408,7 @@ class RegulaConfig {
         object.put("logs", processParams.isLogEnable());
         object.put("returnCroppedBarcode", processParams.returnCroppedBarcode);
         object.put("checkHologram", processParams.checkHologram);
+        object.put("checkRequiredTextFields", processParams.checkRequiredTextFields);
         if (processParams.documentIDList != null)
             object.put("documentIDList", generateIntArray(processParams.documentIDList));
         if (processParams.doBarcodes != null)
@@ -409,7 +416,7 @@ class RegulaConfig {
         if (processParams.fieldTypesFilter != null)
             object.put("fieldTypesFilter", generateIntArray(processParams.fieldTypesFilter));
         if (processParams.faceMetaData != null)
-            object.put("faceMetaData", generateArray(processParams.faceMetaData, JSONConstructor::generateFaceMetaData, context));
+            object.put("faceMetaData", generateArray(processParams.faceMetaData, JSONConstructor::generateFaceMetaData));
 
         return object;
     }

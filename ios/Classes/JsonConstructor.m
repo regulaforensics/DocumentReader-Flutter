@@ -3,819 +3,863 @@
 
 @implementation JSONConstructor
 
-+ (NSString*)resultsToJsonString:(RGLDocumentReaderResults*)results {
-    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self generateResults:results] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
++(NSString*)dictToString:(NSMutableDictionary*)input {
+    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
 }
 
-+ (NSMutableDictionary*)generateResults:(RGLDocumentReaderResults*)results {
-    NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
++(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
 
-    myDictionary[@"resolutionType"] = [NSNumber numberWithInteger:results.resolutionType];
-    myDictionary[@"overallResult"] = [NSNumber numberWithInteger:results.overallResult];
-    myDictionary[@"chipPage"] = [NSNumber numberWithInteger:results.chipPage];
-    myDictionary[@"morePagesAvailable"] = [NSNumber numberWithInteger:results.morePagesAvailable];
-    myDictionary[@"elapsedTime"] = [NSNumber numberWithInteger:results.elapsedTime];
-    myDictionary[@"elapsedTimeRFID"] = [NSNumber numberWithInteger:results.elapsedTimeRFID];
-    myDictionary[@"processingFinishedStatus"] = [NSNumber numberWithInteger:results.processingFinishedStatus];
-    if(results.authenticityResults != nil)
-        myDictionary[@"authenticityResult"] = [self generateRGLDocumentReaderAuthenticityResult:results.authenticityResults];
-    if(results.imageQualityGroup != nil)
-        myDictionary[@"imageQuality"] = [self generateImageQualityGroup:results.imageQualityGroup];
-    if(results.barcodePosition != nil)
-        myDictionary[@"barcodePosition"] = [self generateRGLPosition:results.barcodePosition];
-    if(results.documentPosition != nil)
-        myDictionary[@"documentPosition"] = [self generateRGLPosition:results.documentPosition];
-    if(results.mrzPosition != nil)
-        myDictionary[@"mrzPosition"] = [self generateRGLPosition:results.mrzPosition];
-    if(results.rawResult != nil)
-        myDictionary[@"rawResult"] = results.rawResult;
-    if(results.graphicResult != nil)
-        myDictionary[@"graphicResult"] = [self generateDocumentReaderGraphicResult:results.graphicResult];
-    if(results.textResult != nil)
-        myDictionary[@"textResult"] = [self generateDocumentReaderTextResult:results.textResult];
-    if(results.documentType != nil)
-        myDictionary[@"documentType"] = [self generateNSArrayDocumentReaderDocumentType:results.documentType];
-    if(results.barcodeResult != nil)
-        myDictionary[@"barcodeResult"] = [self generateRGLDocumentReaderBarcodeResult:results.barcodeResult];
-    if(results.rfidSessionData != nil)
-        myDictionary[@"rfidSessionData"] = [self generateRGLRFIDSessionData:results.rfidSessionData];
+    for(NSNumber* key in input)
+        result[[key stringValue]] = input[key];
 
-    return myDictionary;
+    return result;
 }
 
-+ (NSMutableDictionary*)generateRGLPosition:(RGLPosition*)position {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"angle"] = [NSNumber numberWithDouble: position.angle];
-    output[@"perspectiveTr"] = [NSNumber numberWithDouble: position.perspectiveTr];
-    output[@"objArea"] = [NSNumber numberWithDouble: position.objArea];
-    output[@"objIntAngleDev"] = [NSNumber numberWithDouble: position.objIntAngleDev];
-    output[@"pageIndex"] = [NSNumber numberWithInteger:position.pageIndex];
-    output[@"dpi"] = [NSNumber numberWithInteger:position.dpi];
-    output[@"inverse"] = [NSNumber numberWithInteger:position.inverse];
-    output[@"resultStatus"] = [NSNumber numberWithInteger:position.resultStatus];
-    output[@"docFormat"] = [NSNumber numberWithInteger:position.docFormat];
-    output[@"height"] = [NSNumber numberWithFloat:position.size.height];
-    output[@"width"] = [NSNumber numberWithFloat:position.size.width];
-    output[@"center"] = [self generateCGPoint:position.center];
-    output[@"leftTop"] = [self generateCGPoint:position.leftTop];
-    output[@"leftBottom"] = [self generateCGPoint:position.leftBottom];
-    output[@"rightTop"] = [self generateCGPoint:position.rightTop];
-    output[@"rightBottom"] = [self generateCGPoint:position.rightBottom];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateCGPoint:(CGPoint)point {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"x"] = [NSNumber numberWithFloat:point.x];
-    output[@"y"] = [NSNumber numberWithFloat:point.y];
-
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLDocumentReaderBarcodeResult:(RGLDocumentReaderBarcodeResult*)documentReaderBarcodeResult {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    if(documentReaderBarcodeResult.fields != nil)
-        output[@"fields"] = [self generateNSArrayRGLDocumentReaderBarcodeField:documentReaderBarcodeResult.fields];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLDocumentReaderBarcodeField:(NSArray<RGLDocumentReaderBarcodeField *> * _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLDocumentReaderBarcodeField* documentReaderBarcodeField in list)
-        if(documentReaderBarcodeField != nil)
-            [output addObject:[self generateRGLDocumentReaderBarcodeField:documentReaderBarcodeField]];
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLDocumentReaderBarcodeField:(RGLDocumentReaderBarcodeField*)documentReaderBarcodeField {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"barcodeType"] = [NSNumber numberWithInteger:documentReaderBarcodeField.barcodeType];
-    output[@"status"] = [NSNumber numberWithInteger:documentReaderBarcodeField.status];
-    output[@"data"] = [NSKeyedUnarchiver unarchiveObjectWithData:documentReaderBarcodeField.data];
-    output[@"pageIndex"] = [NSNumber numberWithInteger:documentReaderBarcodeField.pageIndex];
-    if(documentReaderBarcodeField.pdf417Info != nil)
-        output[@"pdf417Info"] = [self generateRGLPDF417Info:documentReaderBarcodeField.pdf417Info];
-
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLPDF417Info:(RGLPDF417Info*)pdf417Info {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"errorLevel"] = [NSNumber numberWithInteger:pdf417Info.errorLevel];
-    output[@"columns"] = [NSNumber numberWithInteger:pdf417Info.columns];
-    output[@"rows"] = [NSNumber numberWithInteger:pdf417Info.rows];
-
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLDocumentReaderAuthenticityResult:(RGLDocumentReaderAuthenticityResult*)documentReaderAuthenticityResult {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"status"] = [NSNumber numberWithInteger:documentReaderAuthenticityResult.status];
-    if(documentReaderAuthenticityResult.checks != nil)
-        output[@"checks"] = [self generateNSArrayRGLAuthenticityCheck:documentReaderAuthenticityResult.checks];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLAuthenticityCheck:(NSArray<RGLAuthenticityCheck*>* _Nonnull)authenticityCheckList {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLAuthenticityCheck* authenticityCheck in authenticityCheckList)
-        if(authenticityCheck != nil)
-            [output addObject:[self generateRGLAuthenticityCheck:authenticityCheck]];
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLAuthenticityCheck:(RGLAuthenticityCheck*)authenticityCheck {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"type"] = [NSNumber numberWithInteger:authenticityCheck.type];
-    output[@"typeName"] = authenticityCheck.typeName;
-    output[@"status"] = [NSNumber numberWithInteger:authenticityCheck.status];
-    output[@"pageIndex"] = [NSNumber numberWithInteger:authenticityCheck.pageIndex];
-    if(authenticityCheck.elements != nil)
-        output[@"elements"] = [self generateNSArrayRGLAuthenticityElement:authenticityCheck.elements];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLAuthenticityElement:(NSArray<RGLAuthenticityElement*>* _Nonnull)authenticityElementList {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLAuthenticityElement* authenticityElement in authenticityElementList)
-        if(authenticityElement != nil)
-            [output addObject:[self generateRGLAuthenticityElement:authenticityElement]];
-    return output;
-}
-
-+ (NSMutableDictionary*)generateRGLAuthenticityElement:(RGLAuthenticityElement*)authenticityElement {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"status"] = [NSNumber numberWithInteger:authenticityElement.status];
-    output[@"elementType"] = [NSNumber numberWithInteger:authenticityElement.elementType];
-    output[@"elementTypeName"] = authenticityElement.elementTypeName;
-    output[@"elementDiagnose"] = [NSNumber numberWithInteger:authenticityElement.elementDiagnose];
-    output[@"elementDiagnoseName"] = authenticityElement.elementDiagnoseName;
-
-    return output;
-}
-
-+ (NSMutableDictionary*)generateImageQualityGroup:(RGLImageQualityGroup*)imageQualityGroup {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"count"] = [NSNumber numberWithInteger:imageQualityGroup.count];
-    output[@"result"] = [NSNumber numberWithInteger:imageQualityGroup.result];
-    if(imageQualityGroup.imageQualityList != nil)
-        output[@"imageQualityList"] = [self generateImageQualityList:imageQualityGroup.imageQualityList];
-
-    return output;
-}
-
-+(NSMutableArray*)generateImageQualityList:(NSArray<RGLImageQuality*>* _Nonnull)imageQualityList {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLImageQuality* imageQuality in imageQualityList)
-        if(imageQuality != nil)
-            [output addObject:[self generateImageQuality:imageQuality]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateImageQuality:(RGLImageQuality*)imageQuality {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"type"] = [NSNumber numberWithInteger:imageQuality.type];
-    output[@"result"] = [NSNumber numberWithInteger:imageQuality.result];
-    output[@"featureType"] = [NSNumber numberWithInteger:imageQuality.featureType];
-    output[@"boundRects"] = [self generateNSArrayCGRect:imageQuality.boundRects];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderGraphicResult:(RGLDocumentReaderGraphicResult*)documentReaderGraphicResult {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    if(documentReaderGraphicResult.fields != nil)
-        output[@"fields"] = [self generateNSArrayDocumentReaderGraphicResultGroup:documentReaderGraphicResult.fields];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayDocumentReaderGraphicResultGroup:(NSArray<RGLDocumentReaderGraphicField*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLDocumentReaderGraphicField* documentReaderGraphicField in list)
-        if(documentReaderGraphicField != nil)
-            [output addObject:[self generateDocumentReaderGraphicField:documentReaderGraphicField]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderGraphicField:(RGLDocumentReaderGraphicField*)documentReaderGraphicField {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"sourceType"] = [NSNumber numberWithInteger:documentReaderGraphicField.sourceType];
-    output[@"fieldType"] = [NSNumber numberWithInteger:documentReaderGraphicField.fieldType];
-    output[@"fieldName"] = documentReaderGraphicField.fieldName;
-    output[@"lightType"] = [NSNumber numberWithInteger:documentReaderGraphicField.lightType];
-    output[@"lightName"] = documentReaderGraphicField.lightName;
-    NSData *imageData = UIImageJPEGRepresentation(documentReaderGraphicField.value, 1.0);
-    NSString * base64String = [imageData base64EncodedStringWithOptions:0];
-    output[@"value"] = base64String;
-    output[@"pageIndex"] = [NSNumber numberWithInteger:documentReaderGraphicField.pageIndex];
-    output[@"fieldRect"] = [self generateCGRect:documentReaderGraphicField.boundRect];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayCGRect:(NSArray<NSValue*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(NSValue* rect in list)
-        if(rect != nil)
-            [output addObject:[self generateCGRect:[rect CGRectValue]]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateCGRect:(CGRect)cgRect {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"top"] = @(cgRect.origin.y);
-    output[@"left"] = @(cgRect.origin.x);
-    output[@"bottom"] = @(cgRect.origin.y+cgRect.size.height);
-    output[@"right"] = @(cgRect.origin.x+cgRect.size.width);
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderTextResult:(RGLDocumentReaderTextResult*)documentReaderTextResult {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"status"] = [NSNumber numberWithInteger:documentReaderTextResult.status];
-    if(documentReaderTextResult.fields != nil)
-        output[@"fields"] = [self generateNSArrayDocumentReaderTextField:documentReaderTextResult.fields];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayDocumentReaderTextField:(NSArray<RGLDocumentReaderTextField*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLDocumentReaderTextField* documentReaderTextField in list)
-        if(documentReaderTextField != nil)
-            [output addObject:[self generateDocumentReaderTextField:documentReaderTextField]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderTextField:(RGLDocumentReaderTextField*)documentReaderTextField {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"fieldType"] = [NSNumber numberWithInteger:documentReaderTextField.fieldType];
-    output[@"fieldName"] = documentReaderTextField.fieldName;
-    output[@"lcid"] = [NSNumber numberWithInteger:documentReaderTextField.lcid];
-    output[@"lcidName"] = [RGLDocumentReaderTextField lcidName:documentReaderTextField.lcid];
-    output[@"status"] = [NSNumber numberWithInteger:documentReaderTextField.status];
-    if([documentReaderTextField getValue] != nil)
-        output[@"value"] = [self generateDocumentReaderValue:[documentReaderTextField getValue]];
-    if(documentReaderTextField.values != nil)
-        output[@"values"] = [self generateNSArrayDocumentReaderValue:documentReaderTextField.values];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayDocumentReaderValue:(NSArray<RGLDocumentReaderValue*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLDocumentReaderValue* documentReaderValue in list)
-        if(documentReaderValue != nil)
-            [output addObject:[self generateDocumentReaderValue:documentReaderValue]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderValue:(RGLDocumentReaderValue*)documentReaderValue {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"sourceType"] = [NSNumber numberWithInteger:documentReaderValue.sourceType];
-    output[@"value"] = documentReaderValue.value;
-    output[@"originalValue"] = documentReaderValue.originalValue;
-    output[@"boundRect"] = [self generateCGRect:documentReaderValue.boundRect];
-    output[@"validity"] = [NSNumber numberWithInteger:documentReaderValue.validity];
-    output[@"pageIndex"] = [NSNumber numberWithInteger:documentReaderValue.pageIndex];
-    output[@"probability"] = [NSNumber numberWithInteger:documentReaderValue.probability];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    for(NSNumber* key in documentReaderValue.comparison)
-        dict[[key stringValue]] = documentReaderValue.comparison[key];
-    output[@"comparison"] = dict;
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayDocumentReaderDocumentType:(NSArray<RGLDocumentReaderDocumentType*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(RGLDocumentReaderDocumentType* documentReaderDocumentType in list)
-        if(documentReaderDocumentType != nil)
-            [output addObject:[self generateDocumentReaderDocumentType:documentReaderDocumentType]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateDocumentReaderDocumentType:(RGLDocumentReaderDocumentType*)documentReaderDocumentType {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"name"] = documentReaderDocumentType.name;
-    output[@"documentID"] = [NSNumber numberWithInteger:documentReaderDocumentType.documentID];
-    output[@"ICAOCode"] = documentReaderDocumentType.ICAOCode;
-    output[@"dType"] = [NSNumber numberWithInteger:documentReaderDocumentType.dType];
-    output[@"dFormat"] = [NSNumber numberWithInteger:documentReaderDocumentType.dFormat];
-    output[@"dMRZ"] = [NSNumber numberWithBool:documentReaderDocumentType.dMRZ];
-    output[@"dDescription"] = documentReaderDocumentType.dDescription;
-    output[@"dYear"] = documentReaderDocumentType.dYear;
-    output[@"dCountryName"] = documentReaderDocumentType.dCountryName;
-    output[@"pageIndex"] = [NSNumber numberWithInteger:documentReaderDocumentType.pageIndex];
-    if(documentReaderDocumentType.FDSID != nil)
-        output[@"FDSID"] = [self generateNSArrayNSNumber:documentReaderDocumentType.FDSID];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayNSNumber:(NSArray<NSNumber*>* _Nonnull)list {
-    NSMutableArray *output = [[NSMutableArray alloc] init];
-    for(NSNumber* number in list)
-        [output addObject:number];
-    return output;
-}
-
-+(NSString*)generateScenario:(RGLScenario*)scenario {
-    NSMutableDictionary *output = [[NSMutableDictionary alloc] init];
-
-    output[@"name"] = scenario.identifier;
-    output[@"frame"] = [NSNumber numberWithInteger:scenario.frame];
-    output[@"frameKWHLandscape"] = [NSNumber numberWithDouble: scenario.frameKWHLandscape];
-    output[@"frameKWHPortrait"] = [NSNumber numberWithDouble: scenario.frameKWHPortrait];
-    output[@"frameKWHDoublePageSpreadPortrait"] = [NSNumber numberWithDouble: scenario.frameKWHDoublePageSpreadPortrait];
-    output[@"frameKWHDoublePageSpreadLandscape"] = [NSNumber numberWithDouble: scenario.frameKWHDoublePageSpreadLandscape];
-    output[@"description"] = scenario.scenarioDescription;
-    output[@"barcodeExt"] = [NSNumber numberWithBool:scenario.barcodeExt];
-    output[@"faceExt"] = [NSNumber numberWithBool:scenario.faceExt];
-    output[@"multiPageOff"] = [NSNumber numberWithBool:scenario.multiPageOff];
-    output[@"seriesProcessMode"] = [NSNumber numberWithBool:scenario.seriesProcessMode];
-    output[@"caption"] = scenario.caption;
-    output[@"uvTorch"] = [NSNumber numberWithBool:scenario.uvTorch];
-    output[@"frameOrientation"] = [NSNumber numberWithInteger:scenario.frameOrientation];
-
-    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:output options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-}
-
-+(NSMutableDictionary*)generateRGLRFIDSessionData:(RGLRFIDSessionData*)rfidSessionData {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"totalBytesReceived"] = [NSNumber numberWithInteger:rfidSessionData.totalBytesReceived];
-    output[@"totalBytesSent"] = [NSNumber numberWithInteger:rfidSessionData.totalBytesSent];
-    output[@"processTime"] = [NSNumber numberWithDouble:rfidSessionData.processTime];
-    output[@"status"] = [NSNumber numberWithInteger:rfidSessionData.status];
-    output[@"extLeSupport"] = [NSNumber numberWithInteger:rfidSessionData.extLeSupport];
-    if(rfidSessionData.cardProperties != nil)
-        output[@"cardProperties"] = [self generateRGLCardProperties:rfidSessionData.cardProperties];
-    if(rfidSessionData.sessionDataStatus != nil)
-        output[@"sessionDataStatus"] = [self generateRGLRFIDSessionDataStatus:rfidSessionData.sessionDataStatus];
-    if(rfidSessionData.accessControls != nil)
-        output[@"accessControls"] = [self generateNSArrayRGLAccessControlProcedureType:rfidSessionData.accessControls];
-    if(rfidSessionData.applications != nil)
-        output[@"applications"] = [self generateNSArrayRGLApplication:rfidSessionData.applications];
-    if(rfidSessionData.securityObjects != nil)
-        output[@"securityObjects"] = [self generateNSArrayRGLSecurityObject:rfidSessionData.securityObjects];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLCardProperties:(RGLCardProperties*)cardProperties {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"aTQA"] = [NSNumber numberWithInteger:cardProperties.aTQA];
-    output[@"bitRateR"] = [NSNumber numberWithInteger:cardProperties.bitRateR];
-    output[@"bitRateS"] = [NSNumber numberWithInteger:cardProperties.bitRateS];
-    output[@"chipTypeA"] = [NSNumber numberWithInteger:cardProperties.chipTypeA];
-    output[@"mifareMemory"] = [NSNumber numberWithInteger:cardProperties.mifareMemory];
-    output[@"rfidType"] = [NSNumber numberWithInteger:cardProperties.rfidType];
-    output[@"sAK"] = [NSNumber numberWithInteger:cardProperties.sAK];
-    output[@"aTQB"] = cardProperties.aTQB;
-    output[@"aTR"] = cardProperties.aTR;
-    output[@"baudrate1"] = cardProperties.baudrate1;
-    output[@"baudrate2"] = cardProperties.baudrate2;
-    output[@"uID"] = cardProperties.uID;
-    output[@"support4"] = [NSNumber numberWithBool:cardProperties.support4];
-    output[@"supportMifare"] = [NSNumber numberWithBool:cardProperties.supportMifare];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLRFIDSessionDataStatus:(RGLRFIDSessionDataStatus*)sessionDataStatus {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"AA"] = [NSNumber numberWithInteger:sessionDataStatus.AA];
-    output[@"BAC"] = [NSNumber numberWithInteger:sessionDataStatus.BAC];
-    output[@"CA"] = [NSNumber numberWithInteger:sessionDataStatus.CA];
-    output[@"PA"] = [NSNumber numberWithInteger:sessionDataStatus.PA];
-    output[@"PACE"] = [NSNumber numberWithInteger:sessionDataStatus.PACE];
-    output[@"TA"] = [NSNumber numberWithInteger:sessionDataStatus.TA];
-    output[@"overallStatus"] = [NSNumber numberWithInteger:sessionDataStatus.overallStatus];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLAccessControlProcedureType:(NSArray<RGLAccessControlProcedureType*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLAccessControlProcedureType* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLAccessControlProcedureType:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLAccessControlProcedureType:(RGLAccessControlProcedureType*)accessControlProcedureType {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"activeOptionIdx"] = [NSNumber numberWithInteger:accessControlProcedureType.activeOptionIdx];
-    output[@"status"] = [NSNumber numberWithInteger:accessControlProcedureType.status];
-    output[@"type"] = [NSNumber numberWithInteger:accessControlProcedureType.type];
-    if(accessControlProcedureType.notifications != nil)
-        output[@"notifications"] = [self generateNSArrayNSNumber:accessControlProcedureType.notifications];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLApplication:(NSArray<RGLApplication*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLApplication* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLApplication:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLApplication:(RGLApplication*)application {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"applicationID"] = application.applicationID;
-    output[@"dataHashAlgorithm"] = application.dataHashAlgorithm;
-    output[@"unicodeVersion"] = application.unicodeVersion;
-    output[@"version"] = application.version;
-    output[@"type"] = [NSNumber numberWithInteger:application.type];
-    output[@"status"] = [NSNumber numberWithInteger:application.status];
-    if(application.files != nil)
-        output[@"files"] = [self generateNSArrayRGLFile:application.files];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLFile:(NSArray<RGLFile*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLFile* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLFile:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLFile:(RGLFile*)file {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"fileID"] = file.fileID;
-    output[@"typeName"] = file.typeName;
-    output[@"pAStatus"] = [NSNumber numberWithInteger:file.pAStatus];
-    output[@"readingStatus"] = [NSNumber numberWithInteger:file.readingStatus];
-    output[@"readingTime"] = [NSNumber numberWithInteger:file.readingTime];
-    output[@"type"] = [NSNumber numberWithInteger:file.type];
-    if(file.notifications != nil)
-        output[@"notifications"] = [self generateNSArrayNSNumber:file.notifications];
-    if(file.docFieldsText != nil)
-        output[@"docFieldsText"] = [self generateNSArrayNSNumber:file.docFieldsText];
-    if(file.docFieldsGraphics != nil)
-        output[@"docFieldsGraphics"] = [self generateNSArrayNSNumber:file.docFieldsGraphics];
-    if(file.docFieldsOriginals != nil)
-        output[@"docFieldsOriginals"] = [self generateNSArrayNSNumber:file.docFieldsOriginals];
-    if(file.fileData != nil)
-        output[@"fileData"] = [self generateRGLFileData:file.fileData];
-    if(file.certificates != nil)
-        output[@"certificates"] = [self generateRGLSecurityObjectCertificates:file.certificates];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLFileData:(RGLFileData*)fileData {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"data"] = fileData.data;
-    output[@"length"] = [NSNumber numberWithInteger:fileData.length];
-    output[@"type"] = [NSNumber numberWithInteger:fileData.type];
-    output[@"status"] = [NSNumber numberWithDouble:fileData.status];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLSecurityObjectCertificates:(RGLSecurityObjectCertificates*)certificates {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    if(certificates.securityObject != nil)
-        output[@"securityObject"] = [self generateRGLCertificateData:certificates.securityObject];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLCertificateData:(RGLCertificateData*)certificateData {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"data"] = certificateData.data;
-    output[@"length"] = [NSNumber numberWithInteger:certificateData.length];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLSecurityObject:(NSArray<RGLSecurityObject*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLSecurityObject* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLSecurityObject:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLSecurityObject:(RGLSecurityObject*)securityObject {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"objectType"] = securityObject.objectType;
-    output[@"fileReference"] = [NSNumber numberWithInteger:securityObject.fileReference];
-    if(securityObject.signerInfos != nil)
-        output[@"signerInfos"] = [self generateNSArrayRGLSignerInfo:securityObject.signerInfos];
-    if(securityObject.notifications != nil)
-        output[@"notifications"] = [self generateNSArrayNSNumber:securityObject.notifications];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLSignerInfo:(NSArray<RGLSignerInfo*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLSignerInfo* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLSignerInfo:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLSignerInfo:(RGLSignerInfo*)signerInfo {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"dataToHash"] = signerInfo.dataToHash;
-    output[@"digestAlgorithm"] = signerInfo.digestAlgorithm;
-    output[@"signatureAlgorithm"] = signerInfo.signatureAlgorithm;
-    output[@"version"] = [NSNumber numberWithInteger:signerInfo.version];
-    output[@"paStatus"] = [NSNumber numberWithDouble:signerInfo.paStatus];
-    if(signerInfo.notifications != nil)
-        output[@"notifications"] = [self generateNSArrayNSNumber:signerInfo.notifications];
-    if(signerInfo.issuer != nil)
-        output[@"issuer"] = [self generateRGLAuthority:signerInfo.issuer];
-    if(signerInfo.serialNumber != nil)
-        output[@"serialNumber"] = [self generateRGLRFIDValue:signerInfo.serialNumber];
-    if(signerInfo.signature != nil)
-        output[@"signature"] = [self generateRGLRFIDValue:signerInfo.signature];
-    if(signerInfo.subjectKeyIdentifier != nil)
-        output[@"subjectKeyIdentifier"] = [self generateRGLRFIDValue:signerInfo.subjectKeyIdentifier];
-    if(signerInfo.signedAttributes != nil)
-        output[@"signedAttributes"] = [self generateNSArrayRGLExtension:signerInfo.signedAttributes];
-    if(signerInfo.certificateChain != nil)
-        output[@"certificateChain"] = [self generateNSArrayRGLCertificateChain:signerInfo.certificateChain];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLAuthority:(RGLAuthority*)authority {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"data"] = authority.data;
-    if(authority.friendlyName != nil)
-        output[@"friendlyName"] = [self generateRGLRFIDValue:authority.friendlyName];
-    if(authority.attributes != nil)
-        output[@"attributes"] = [self generateNSArrayRGLAttribute:authority.attributes];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLRFIDValue:(RGLRFIDValue*)value {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"data"] = value.data;
-    output[@"format"] = value.format;
-    output[@"length"] = [NSNumber numberWithInteger:value.length];
-    output[@"type"] = [NSNumber numberWithInteger:value.type];
-    output[@"status"] = [NSNumber numberWithDouble:value.status];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLAttribute:(NSArray<RGLAttribute*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLAttribute* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLAttribute:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLAttribute:(RGLAttribute*)attribute {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"type"] = attribute.type;
-    if(attribute.value != nil)
-        output[@"value"] = [self generateRGLRFIDValue:attribute.value];
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLExtension:(NSArray<RGLExtension*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLExtension* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLExtension:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLExtension:(RGLExtension*)extension {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"data"] = extension.data;
-    output[@"type"] = extension.type;
-
-    return output;
-}
-
-+(NSMutableArray*)generateNSArrayRGLCertificateChain:(NSArray<RGLCertificateChain*>*)list {
-    NSMutableArray *output = [NSMutableArray new];
-    for(RGLCertificateChain* item in list)
-        if(item != nil)
-            [output addObject:[self generateRGLCertificateChain:item]];
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLCertificateChain:(RGLCertificateChain*)certificateChain {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    output[@"serialNumber"] = certificateChain.serialNumber;
-    output[@"signatureAlgorithm"] = certificateChain.signatureAlgorithm;
-    output[@"subjectPKAlgorithm"] = certificateChain.subjectPKAlgorithm;
-    output[@"origin"] = [NSNumber numberWithInteger:certificateChain.origin];
-    output[@"version"] = [NSNumber numberWithInteger:certificateChain.version];
-    output[@"type"] = [NSNumber numberWithInteger:certificateChain.type];
-    output[@"paStatus"] = [NSNumber numberWithDouble:certificateChain.paStatus];
-    if(certificateChain.notifications != nil)
-        output[@"notifications"] = [self generateNSArrayNSNumber:certificateChain.notifications];
-    if(certificateChain.fileName != nil)
-        output[@"fileName"] = [self generateRGLRFIDValue:certificateChain.fileName];
-    if(certificateChain.issuer != nil)
-        output[@"issuer"] = [self generateRGLAuthority:certificateChain.issuer];
-    if(certificateChain.subject != nil)
-        output[@"subject"] = [self generateRGLAuthority:certificateChain.subject];
-    if(certificateChain.extensions != nil)
-        output[@"extensions"] = [self generateNSArrayRGLExtension:certificateChain.extensions];
-    if(certificateChain.validity != nil)
-        output[@"validity"] = [self generateRGLValidity:certificateChain.validity];
-
-    return output;
-}
-
-+(NSMutableDictionary*)generateRGLValidity:(RGLValidity*)validity {
-    NSMutableDictionary *output = [NSMutableDictionary new];
-
-    if(validity.notAfter != nil)
-        output[@"fileName"] = [self generateRGLRFIDValue:validity.notAfter];
-    if(validity.notBefore != nil)
-        output[@"fileName"] = [self generateRGLRFIDValue:validity.notBefore];
-
-    return output;
-}
-
-+(RGLPKDCertificate*)RGLPKDCertificateFromJson:(NSDictionary*)dict {
-    NSInteger type = [[dict valueForKey:@"resourceType"] integerValue];
-    NSData* binaryData = [[NSData alloc] initWithBase64EncodedString:[dict objectForKey:@"binaryData"] options:0];
-    NSData* privateKey = [dict objectForKey:@"privateKey"] != nil ? [[NSData alloc] initWithBase64EncodedString:[dict objectForKey:@"privateKey"] options:0] : nil;
++(RGLPKDCertificate*)RGLPKDCertificateFromJson:(NSDictionary*)input {
+    NSInteger type = [[input valueForKey:@"resourceType"] integerValue];
+    NSData* binaryData = [[NSData alloc] initWithBase64EncodedString:[input objectForKey:@"binaryData"] options:0];
+    NSData* privateKey = [input objectForKey:@"privateKey"] != nil ? [[NSData alloc] initWithBase64EncodedString:[input objectForKey:@"privateKey"] options:0] : nil;
 
     return [[RGLPKDCertificate alloc] initWithBinaryData:binaryData resourceType:type privateKey:privateKey];
 }
 
-+(NSInteger)generateDocReaderAction:(RGLDocReaderAction)action {
-    NSInteger output = 0;
-    switch (action) {
++(NSMutableDictionary*)generateCGPoint:(CGPoint)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+
+    result[@"x"] = [NSNumber numberWithFloat:input.x];
+    result[@"y"] = [NSNumber numberWithFloat:input.y];
+
+    return result;
+}
+
++(NSMutableDictionary*)generateCGRect:(CGRect)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+
+    result[@"top"] = @(input.origin.y);
+    result[@"left"] = @(input.origin.x);
+    result[@"bottom"] = @(input.origin.y+input.size.height);
+    result[@"right"] = @(input.origin.x+input.size.width);
+
+    return result;
+}
+
++(NSMutableArray*)generateNSArrayCGRect:(NSArray<NSValue*>* _Nonnull)input {
+    NSMutableArray *result = [NSMutableArray new];
+    for(NSValue* rect in input)
+        if(rect != nil)
+            [result addObject:[self generateCGRect:[rect CGRectValue]]];
+    return result;
+}
+
++(NSMutableDictionary*)generateVideoEncoderCompletion:(NSURL*)input :(NSError*)error {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+
+    result[@"filePath"] = input.absoluteString;
+    result[@"error"] = [self generateNSError:error];
+
+    return result;
+}
+
++(NSInteger)generateDocReaderAction:(RGLDocReaderAction)input {
+    NSInteger result = 0;
+    switch (input) {
         case RGLDocReaderActionComplete:
-            output = 1;
+            result = 1;
             break;
         case RGLDocReaderActionProcess:
-            output = 0;
+            result = 0;
             break;
         case RGLDocReaderActionMorePagesAvailable:
-            output = 8;
+            result = 8;
             break;
         case RGLDocReaderActionCancel:
-            output = 2;
+            result = 2;
             break;
         case RGLDocReaderActionError:
-            output = 3;
+            result = 3;
             break;
         default:
             break;
     }
 
-    return output;
+    return result;
 }
 
-+(NSInteger)generateRFIDCompleteAction:(RGLRFIDCompleteAction)action {
-    NSInteger output = 0;
-    switch (action) {
++(NSInteger)generateRFIDCompleteAction:(RGLRFIDCompleteAction)input {
+    NSInteger result = 0;
+    switch (input) {
         case RGLRFIDCompleteActionComplete:
-            output = 10;
+            result = 10;
             break;
         case RGLRFIDCompleteActionError:
-            output = 3;
+            result = 3;
             break;
         case RGLRFIDCompleteActionCancel:
-            output = 2;
+            result = 2;
             break;
         case RGLRFIDCompleteActionSessionRestarted:
-            output = 1;
+            result = 1;
             break;
         default:
             break;
     }
 
-    return output;
+    return result;
 }
 
-+(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)action {
++(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)input {
     return 5;
 }
 
-+(NSString*)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*)results :(NSError*)error :(RGLRFIDNotify*)notify {
-    NSMutableDictionary *output = [NSMutableDictionary new];
++(NSMutableDictionary*)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*)results :(NSError*)error :(RGLRFIDNotify*)notify {
+    NSMutableDictionary *result = [NSMutableDictionary new];
 
     switch (action) {
         case 0:
-            output[@"results"] = [self generateResultsWithNotification:[self generateRFIDNotify:notify]];
+            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
         case 1:
-            output[@"results"] = [self generateResults:results];
+            result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
         case 2:
-            output[@"results"] = [self generateResults:results];
+            result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
         case 3:
-            output[@"results"] = [self generateResults:results];
+            result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
         case 5:
-            output[@"results"] = [self generateResultsWithNotification:[self generateRFIDNotify:notify]];
+            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
         case 6:
-            output[@"results"] = [self generateResultsWithNotification:[self generateRFIDNotify:notify]];
+            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
         case 8:
-            output[@"results"] = [self generateResults:results];
+            result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
         case 10:
-            output[@"results"] = [self generateResultsWithRFID :results :1];
+            result[@"results"] = [self generateResultsWithRFID :results :1];
             action = 1;
             break;
         default:
             break;
     }
 
-    output[@"action"] = [NSNumber numberWithInteger:action];
-    output[@"error"] = [self generateNSError:error];
+    result[@"action"] = [NSNumber numberWithInteger:action];
+    result[@"error"] = [self generateNSError:error];
 
-    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:output options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    return result;
 }
 
-+(NSMutableDictionary*)generateResultsWithNotification:(NSMutableDictionary*)dict {
-    NSMutableDictionary *output = [NSMutableDictionary new];
++(NSMutableDictionary*)generateResultsWithNotification:(NSMutableDictionary*)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
 
-    output[@"documentReaderNotification"] = dict;
+    result[@"documentReaderNotification"] = input;
 
-    return output;
+    return result;
 }
 
-+(NSMutableDictionary*)generateResultsWithRFID:(RGLDocumentReaderResults*)results :(NSInteger)rfidResult {
-    NSMutableDictionary *output = [self generateResults:results];
++(NSMutableDictionary*)generateResultsWithRFID:(RGLDocumentReaderResults*)results :(NSInteger)input {
+    NSMutableDictionary *result = [self generateRGLDocumentReaderResults:results];
 
-    output[@"rfidResult"] = [NSNumber numberWithInteger:rfidResult];
+    result[@"rfidResult"] = [NSNumber numberWithInteger:input];
 
-    return output;
+    return result;
 }
 
-+(NSMutableDictionary*)generateNSError:(NSError*)error {
-    NSMutableDictionary *output = [NSMutableDictionary new];
+    // To JSON
 
-    output[@"code"] = [NSNumber numberWithInteger: error.code];
-    output[@"domain"] = error.domain;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderResults:(RGLDocumentReaderResults* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
 
-    return output;
+    if(input.documentType != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderDocumentType* item in input.documentType)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderDocumentType:item]];
+        result[@"documentType"] = array;
+    }
+    result[@"textResult"] = [self generateRGLDocumentReaderTextResult:input.textResult];
+    result[@"graphicResult"] = [self generateRGLDocumentReaderGraphicResult:input.graphicResult];
+    if(input.documentPosition != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLPosition* item in input.documentPosition)
+            if(item != nil)
+                [array addObject:[self generateRGLPosition:item]];
+        result[@"documentPosition"] = array;
+    }
+    if(input.barcodePosition != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLPosition* item in input.barcodePosition)
+            if(item != nil)
+                [array addObject:[self generateRGLPosition:item]];
+        result[@"barcodePosition"] = array;
+    }
+    if(input.mrzPosition != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLPosition* item in input.mrzPosition)
+            if(item != nil)
+                [array addObject:[self generateRGLPosition:item]];
+        result[@"mrzPosition"] = array;
+    }
+    if(input.imageQualityGroup != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLImageQualityGroup* item in input.imageQualityGroup)
+            if(item != nil)
+                [array addObject:[self generateRGLImageQualityGroup:item]];
+        result[@"imageQuality"] = array;
+    }
+    result[@"overallResult"] = @(input.overallResult);
+    result[@"authenticityResult"] = [self generateRGLDocumentReaderAuthenticityResult:input.authenticityResults];
+    result[@"rfidSessionData"] = [self generateRGLRFIDSessionData:input.rfidSessionData];
+    result[@"chipPage"] = @(input.chipPage);
+    result[@"resolutionType"] = @(input.resolutionType);
+    result[@"barcodeResult"] = [self generateRGLDocumentReaderBarcodeResult:input.barcodeResult];
+    result[@"processingFinishedStatus"] = @(input.processingFinishedStatus);
+    result[@"morePagesAvailable"] = @(input.morePagesAvailable);
+    result[@"elapsedTime"] = @(input.elapsedTime);
+    result[@"elapsedTimeRFID"] = @(input.elapsedTimeRFID);
+    result[@"rawResult"] = input.rawResult;
+
+    return result;
 }
 
-+(NSMutableDictionary*)generateRFIDNotify:(RGLRFIDNotify*)notify {
-    NSMutableDictionary *output = [NSMutableDictionary new];
++(NSMutableDictionary* _Nonnull)generateRGLPosition:(RGLPosition* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
 
-    output[@"code"] = [NSNumber numberWithInteger:notify.code];
-    output[@"number"] = [NSNumber numberWithInt:notify.number];
-    output[@"value"] = [NSNumber numberWithDouble:notify.value];
+    result[@"width"] = @(input.size.width);
+    result[@"height"] = @(input.size.height);
+    result[@"center"] = [self generateCGPoint:input.center];
+    result[@"leftTop"] = [self generateCGPoint:input.leftTop];
+    result[@"leftBottom"] = [self generateCGPoint:input.leftBottom];
+    result[@"rightTop"] = [self generateCGPoint:input.rightTop];
+    result[@"rightBottom"] = [self generateCGPoint:input.rightBottom];
+    result[@"angle"] = @(input.angle);
+    result[@"perspectiveTr"] = @(input.perspectiveTr);
+    result[@"objArea"] = @(input.objArea);
+    result[@"objIntAngleDev"] = @(input.objIntAngleDev);
+    result[@"resultStatus"] = @(input.resultStatus);
+    result[@"docFormat"] = @(input.docFormat);
+    result[@"pageIndex"] = @(input.pageIndex);
+    result[@"dpi"] = @(input.dpi);
+    result[@"inverse"] = @(input.inverse);
 
-    return output;
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderBarcodeResult:(RGLDocumentReaderBarcodeResult* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.fields != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderBarcodeField* item in input.fields)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderBarcodeField:item]];
+        result[@"fields"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderBarcodeField:(RGLDocumentReaderBarcodeField* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"barcodeType"] = @(input.barcodeType);
+    result[@"status"] = @(input.status);
+    result[@"pdf417Info"] = [self generateRGLPDF417Info:input.pdf417Info];
+    result[@"data"] = [NSKeyedUnarchiver unarchiveObjectWithData:input.data];
+    result[@"pageIndex"] = @(input.pageIndex);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLPDF417Info:(RGLPDF417Info* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"errorLevel"] = @(input.errorLevel);
+    result[@"columns"] = @(input.columns);
+    result[@"rows"] = @(input.rows);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderAuthenticityResult:(RGLDocumentReaderAuthenticityResult* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"status"] = @(input.status);
+    if(input.checks != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLAuthenticityCheck* item in input.checks)
+            if(item != nil)
+                [array addObject:[self generateRGLAuthenticityCheck:item]];
+        result[@"checks"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLAuthenticityCheck:(RGLAuthenticityCheck* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"type"] = @(input.type);
+    result[@"typeName"] = input.typeName;
+    result[@"status"] = @(input.status);
+    if(input.elements != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLAuthenticityElement* item in input.elements)
+            if(item != nil)
+                [array addObject:[self generateRGLAuthenticityElement:item]];
+        result[@"elements"] = array;
+    }
+    result[@"pageIndex"] = @(input.pageIndex);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLAuthenticityElement:(RGLAuthenticityElement* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"status"] = @(input.status);
+    result[@"elementType"] = @(input.elementType);
+    result[@"elementTypeName"] = input.elementTypeName;
+    result[@"elementDiagnose"] = @(input.elementDiagnose);
+    result[@"elementDiagnoseName"] = input.elementDiagnoseName;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLImageQualityGroup:(RGLImageQualityGroup* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"count"] = @(input.count);
+    result[@"result"] = @(input.result);
+    if(input.imageQualityList != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLImageQuality* item in input.imageQualityList)
+            if(item != nil)
+                [array addObject:[self generateRGLImageQuality:item]];
+        result[@"imageQualityList"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLImageQuality:(RGLImageQuality* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"type"] = @(input.type);
+    result[@"result"] = @(input.result);
+    result[@"featureType"] = @(input.featureType);
+    result[@"boundRects"] = [self generateNSArrayCGRect:input.boundRects];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderGraphicResult:(RGLDocumentReaderGraphicResult* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.fields != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderGraphicField* item in input.fields)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderGraphicField:item]];
+        result[@"fields"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderGraphicField:(RGLDocumentReaderGraphicField* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"sourceType"] = @(input.sourceType);
+    result[@"fieldType"] = @(input.fieldType);
+    result[@"fieldName"] = input.fieldName;
+    result[@"fieldRect"] = [self generateCGRect:input.boundRect];
+    result[@"value"] = [UIImageJPEGRepresentation(input.value, 1.0) base64EncodedStringWithOptions:0];
+    result[@"lightType"] = @(input.lightType);
+    result[@"lightName"] = input.lightName;
+    result[@"pageIndex"] = @(input.pageIndex);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderTextResult:(RGLDocumentReaderTextResult* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.fields != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderTextField* item in input.fields)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderTextField:item]];
+        result[@"fields"] = array;
+    }
+    result[@"status"] = @(input.status);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderTextField:(RGLDocumentReaderTextField* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"fieldType"] = @(input.fieldType);
+    result[@"fieldName"] = input.fieldName;
+    result[@"lcid"] = @(input.lcid);
+    result[@"lcidName"] = [RGLDocumentReaderTextField lcidName:input.lcid];
+    if(input.values != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderValue* item in input.values)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderValue:item]];
+        result[@"values"] = array;
+    }
+    result[@"status"] = @(input.status);
+    result[@"value"] = [self generateRGLDocumentReaderValue:[input getValue]];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderValue:(RGLDocumentReaderValue* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"sourceType"] = @(input.sourceType);
+    result[@"value"] = input.value;
+    result[@"originalValue"] = input.originalValue;
+    result[@"boundRect"] = [self generateCGRect:input.boundRect];
+    result[@"validity"] = @(input.validity);
+    result[@"comparison"] = [self generateNSDictionary:input.comparison];
+    result[@"pageIndex"] = @(input.pageIndex);
+    result[@"probability"] = @(input.probability);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderDocumentType:(RGLDocumentReaderDocumentType* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"name"] = input.name;
+    result[@"documentID"] = @(input.documentID);
+    result[@"ICAOCode"] = input.ICAOCode;
+    if(input.FDSID != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.FDSID)
+            if(item != nil)
+                [array addObject:item];
+        result[@"FDSID"] = array;
+    }
+    result[@"dType"] = @(input.dType);
+    result[@"dFormat"] = @(input.dFormat);
+    result[@"dMRZ"] = @(input.dMRZ);
+    result[@"dDescription"] = input.dDescription;
+    result[@"dYear"] = input.dYear;
+    result[@"dCountryName"] = input.dCountryName;
+    result[@"pageIndex"] = @(input.pageIndex);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLScenario:(RGLScenario* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"name"] = input.identifier;
+    result[@"frame"] = @(input.frame);
+    result[@"frameKWHLandscape"] = @(input.frameKWHLandscape);
+    result[@"frameKWHPortrait"] = @(input.frameKWHPortrait);
+    result[@"frameKWHDoublePageSpreadPortrait"] = @(input.frameKWHDoublePageSpreadPortrait);
+    result[@"frameKWHDoublePageSpreadLandscape"] = @(input.frameKWHDoublePageSpreadLandscape);
+    result[@"description"] = input.scenarioDescription;
+    result[@"barcodeExt"] = @(input.barcodeExt);
+    result[@"faceExt"] = @(input.faceExt);
+    result[@"multiPageOff"] = @(input.multiPageOff);
+    result[@"seriesProcessMode"] = @(input.seriesProcessMode);
+    result[@"caption"] = input.caption;
+    result[@"uvTorch"] = @(input.uvTorch);
+    result[@"frameOrientation"] = @(input.frameOrientation);
+    result[@"manualCrop"] = @(input.manualCrop);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLRFIDSessionData:(RGLRFIDSessionData* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.accessControls != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLAccessControlProcedureType* item in input.accessControls)
+            if(item != nil)
+                [array addObject:[self generateRGLAccessControlProcedureType:item]];
+        result[@"accessControls"] = array;
+    }
+    if(input.applications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLApplication* item in input.applications)
+            if(item != nil)
+                [array addObject:[self generateRGLApplication:item]];
+        result[@"applications"] = array;
+    }
+    if(input.securityObjects != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLSecurityObject* item in input.securityObjects)
+            if(item != nil)
+                [array addObject:[self generateRGLSecurityObject:item]];
+        result[@"securityObjects"] = array;
+    }
+    result[@"cardProperties"] = [self generateRGLCardProperties:input.cardProperties];
+    result[@"totalBytesReceived"] = @(input.totalBytesReceived);
+    result[@"totalBytesSent"] = @(input.totalBytesSent);
+    result[@"status"] = @(input.status);
+    result[@"extLeSupport"] = @(input.extLeSupport);
+    result[@"processTime"] = @(input.processTime);
+    result[@"sessionDataStatus"] = [self generateRGLRFIDSessionDataStatus:input.sessionDataStatus];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLCardProperties:(RGLCardProperties* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"aTQA"] = @(input.aTQA);
+    result[@"aTQB"] = input.aTQB;
+    result[@"aTR"] = input.aTR;
+    result[@"baudrate1"] = input.baudrate1;
+    result[@"baudrate2"] = input.baudrate2;
+    result[@"bitRateR"] = @(input.bitRateR);
+    result[@"bitRateS"] = @(input.bitRateS);
+    result[@"chipTypeA"] = @(input.chipTypeA);
+    result[@"mifareMemory"] = @(input.mifareMemory);
+    result[@"rfidType"] = @(input.rfidType);
+    result[@"sAK"] = @(input.sAK);
+    result[@"support4"] = @(input.support4);
+    result[@"supportMifare"] = @(input.supportMifare);
+    result[@"uID"] = input.uID;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLRFIDSessionDataStatus:(RGLRFIDSessionDataStatus* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"AA"] = @(input.AA);
+    result[@"BAC"] = @(input.BAC);
+    result[@"CA"] = @(input.CA);
+    result[@"PA"] = @(input.PA);
+    result[@"PACE"] = @(input.PACE);
+    result[@"TA"] = @(input.TA);
+    result[@"overallStatus"] = @(input.overallStatus);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLAccessControlProcedureType:(RGLAccessControlProcedureType* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"activeOptionIdx"] = @(input.activeOptionIdx);
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            if(item != nil)
+                [array addObject:item];
+        result[@"notifications"] = array;
+    }
+    result[@"status"] = @(input.status);
+    result[@"type"] = @(input.type);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLApplication:(RGLApplication* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"applicationID"] = input.applicationID;
+    result[@"dataHashAlgorithm"] = input.dataHashAlgorithm;
+    if(input.files != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLFile* item in input.files)
+            if(item != nil)
+                [array addObject:[self generateRGLFile:item]];
+        result[@"files"] = array;
+    }
+    result[@"type"] = @(input.type);
+    result[@"status"] = @(input.status);
+    result[@"unicodeVersion"] = input.unicodeVersion;
+    result[@"version"] = input.version;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLFile:(RGLFile* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"fileData"] = [self generateRGLFileData:input.fileData];
+    result[@"fileID"] = input.fileID;
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            if(item != nil)
+                [array addObject:item];
+        result[@"notifications"] = array;
+    }
+    result[@"pAStatus"] = @(input.pAStatus);
+    result[@"readingStatus"] = @(input.readingStatus);
+    result[@"readingTime"] = @(input.readingTime);
+    result[@"type"] = @(input.type);
+    result[@"typeName"] = input.typeName;
+    if(input.docFieldsText != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.docFieldsText)
+            if(item != nil)
+                [array addObject:item];
+        result[@"docFieldsText"] = array;
+    }
+    if(input.docFieldsGraphics != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.docFieldsGraphics)
+            if(item != nil)
+                [array addObject:item];
+        result[@"docFieldsGraphics"] = array;
+    }
+    if(input.docFieldsOriginals != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.docFieldsOriginals)
+            if(item != nil)
+                [array addObject:item];
+        result[@"docFieldsOriginals"] = array;
+    }
+    result[@"certificates"] = [self generateRGLSecurityObjectCertificates:input.certificates];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLFileData:(RGLFileData* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = input.data;
+    result[@"length"] = @(input.length);
+    result[@"status"] = @(input.status);
+    result[@"type"] = @(input.type);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLSecurityObjectCertificates:(RGLSecurityObjectCertificates* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"securityObject"] = [self generateRGLCertificateData:input.securityObject];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLCertificateData:(RGLCertificateData* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = input.data;
+    result[@"length"] = @(input.length);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLSecurityObject:(RGLSecurityObject* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"fileReference"] = @(input.fileReference);
+    result[@"objectType"] = input.objectType;
+    result[@"version"] = @(input.version);
+    if(input.signerInfos != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLSignerInfo* item in input.signerInfos)
+            if(item != nil)
+                [array addObject:[self generateRGLSignerInfo:item]];
+        result[@"signerInfos"] = array;
+    }
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            if(item != nil)
+                [array addObject:item];
+        result[@"notifications"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLSignerInfo:(RGLSignerInfo* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"dataToHash"] = input.dataToHash;
+    result[@"digestAlgorithm"] = input.digestAlgorithm;
+    result[@"paStatus"] = @(input.paStatus);
+    result[@"signatureAlgorithm"] = input.signatureAlgorithm;
+    result[@"version"] = @(input.version);
+    result[@"issuer"] = [self generateRGLAuthority:input.issuer];
+    result[@"serialNumber"] = [self generateRGLRFIDValue:input.serialNumber];
+    result[@"signature"] = [self generateRGLRFIDValue:input.signature];
+    if(input.signedAttributes != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLExtension* item in input.signedAttributes)
+            if(item != nil)
+                [array addObject:[self generateRGLExtension:item]];
+        result[@"signedAttributes"] = array;
+    }
+    result[@"subjectKeyIdentifier"] = [self generateRGLRFIDValue:input.subjectKeyIdentifier];
+    if(input.certificateChain != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLCertificateChain* item in input.certificateChain)
+            if(item != nil)
+                [array addObject:[self generateRGLCertificateChain:item]];
+        result[@"certificateChain"] = array;
+    }
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            if(item != nil)
+                [array addObject:item];
+        result[@"notifications"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLAuthority:(RGLAuthority* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.attributes != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLAttribute* item in input.attributes)
+            if(item != nil)
+                [array addObject:[self generateRGLAttribute:item]];
+        result[@"attributes"] = array;
+    }
+    result[@"data"] = input.data;
+    result[@"friendlyName"] = [self generateRGLRFIDValue:input.friendlyName];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLRFIDValue:(RGLRFIDValue* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = input.data;
+    result[@"length"] = @(input.length);
+    result[@"status"] = @(input.status);
+    result[@"type"] = @(input.type);
+    result[@"format"] = input.format;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLAttribute:(RGLAttribute* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"type"] = input.type;
+    result[@"value"] = [self generateRGLRFIDValue:input.value];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLExtension:(RGLExtension* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = input.data;
+    result[@"type"] = input.type;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLCertificateChain:(RGLCertificateChain* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.extensions != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLExtension* item in input.extensions)
+            if(item != nil)
+                [array addObject:[self generateRGLExtension:item]];
+        result[@"extensions"] = array;
+    }
+    result[@"fileName"] = [self generateRGLRFIDValue:input.fileName];
+    result[@"issuer"] = [self generateRGLAuthority:input.issuer];
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            if(item != nil)
+                [array addObject:item];
+        result[@"notifications"] = array;
+    }
+    result[@"origin"] = @(input.origin);
+    result[@"paStatus"] = @(input.paStatus);
+    result[@"serialNumber"] = input.serialNumber;
+    result[@"signatureAlgorithm"] = input.signatureAlgorithm;
+    result[@"subject"] = [self generateRGLAuthority:input.subject];
+    result[@"subjectPKAlgorithm"] = input.subjectPKAlgorithm;
+    result[@"type"] = @(input.type);
+    result[@"validity"] = [self generateRGLValidity:input.validity];
+    result[@"version"] = @(input.version);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLValidity:(RGLValidity* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"notAfter"] = [self generateRGLRFIDValue:input.notAfter];
+    result[@"notBefore"] = [self generateRGLRFIDValue:input.notBefore];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateNSError:(NSError* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"code"] = @(input.code);
+    result[@"localizedDescription"] = input.localizedDescription;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"code"] = @(input.code);
+    result[@"value"] = @(input.value);
+    result[@"number"] = @(input.number);
+
+    return result;
 }
 
 @end
