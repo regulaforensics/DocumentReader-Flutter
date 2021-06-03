@@ -506,6 +506,7 @@ class ImageQualityGroup {
   int count;
   int result;
   List<ImageQuality> imageQualityList = [];
+  int pageIndex;
 
   static ImageQualityGroup fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -516,6 +517,7 @@ class ImageQualityGroup {
     if (jsonObject["imageQualityList"] != null)
       for (var item in jsonObject["imageQualityList"])
         result.imageQualityList.add(ImageQuality.fromJson(item));
+    result.pageIndex = jsonObject["pageIndex"];
 
     return result;
   }
@@ -526,6 +528,7 @@ class ImageQualityGroup {
     if (count != null) result.addAll({"count": count});
     if (result != null) result.addAll({"result": result});
     if (imageQualityList != null) result.addAll({"imageQualityList": imageQualityList});
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
 
     return result;
   }
@@ -1535,6 +1538,60 @@ class StackTraceElement {
   }
 }
 
+class PKDCertificate {
+  String binaryData;
+  int resourceType;
+  String privateKey;
+
+  static PKDCertificate fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new PKDCertificate();
+
+    result.binaryData = jsonObject["binaryData"];
+    result.resourceType = jsonObject["resourceType"];
+    result.privateKey = jsonObject["privateKey"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (binaryData != null) result.addAll({"binaryData": binaryData});
+    if (resourceType != null) result.addAll({"resourceType": resourceType});
+    if (privateKey != null) result.addAll({"privateKey": privateKey});
+
+    return result;
+  }
+}
+
+class ImageInputParam {
+  int width;
+  int height;
+  int type;
+
+  static ImageInputParam fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new ImageInputParam();
+
+    result.width = jsonObject["width"];
+    result.height = jsonObject["height"];
+    result.type = jsonObject["type"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (width != null) result.addAll({"width": width});
+    if (height != null) result.addAll({"height": height});
+    if (type != null) result.addAll({"type": type});
+
+    return result;
+  }
+}
+
 class DocumentReaderResults {
   int chipPage;
   int overallResult;
@@ -1595,11 +1652,19 @@ class DocumentReaderResults {
     return foundFields.length > 0 ? foundFields[0].value : null;
   }
 
-  int getQualityResult(int imageQualityCheckType, { int securityFeature = -1 }) {
+  int getQualityResult(int imageQualityCheckType, { int securityFeature = -1, int pageIndex = 0 }) {
     int resultSum = 2;
     if (this.imageQuality == null) return resultSum;
 
-    for (ImageQuality iq in this.imageQuality[0].imageQualityList) {
+    ImageQualityGroup imageQualityGroup;
+
+    for(ImageQualityGroup iq in this.imageQuality)
+      if (iq != null && iq.pageIndex == pageIndex)
+        imageQualityGroup = iq;
+    if (imageQualityGroup == null)
+      return resultSum;
+
+    for (ImageQuality iq in imageQualityGroup.imageQualityList) {
       if (iq.type == imageQualityCheckType) {
         if (securityFeature == -1) {
           if (iq.result == 0) {
@@ -2082,6 +2147,7 @@ class eCheckDiagnose {
   static const int VISIBLE_ELEMENT_ABSENT = 41;
   static const int ELEMENT_SHOULD_BE_COLORED = 42;
   static const int ELEMENT_SHOULD_BE_GRAYSCALE = 43;
+  static const int PHOTO_WHITE_IR_DONT_MATCH = 44;
   static const int UV_DULL_PAPER_MRZ = 50;
   static const int FALSE_LUMINISCENCE_IN_MRZ = 51;
   static const int UV_DULL_PAPER_PHOTO = 52;
@@ -2091,6 +2157,7 @@ class eCheckDiagnose {
   static const int BAD_AREA_IN_AXIAL = 60;
   static const int FALSE_IPI_PARAMETERS = 65;
   static const int FIELD_POS_CORRECTOR_HIGHLIGHT_IR = 80;
+  static const int FIELD_POS_CORRECTOR_GLARES_IN_PHOTO_AREA = 81;
   static const int OVI_IR_INVISIBLE = 90;
   static const int OVI_INSUFFICIENT_AREA = 91;
   static const int OVI_COLOR_INVARIABLE = 92;
@@ -2101,6 +2168,8 @@ class eCheckDiagnose {
   static const int HOLOGRAM_ELEMENT_ABSENT = 100;
   static const int HOLOGRAM_SIDE_TOP_IMAGES_ABSENT = 101;
   static const int HOLOGRAM_ELEMENT_PRESENT = 102;
+  static const int HOLOGRAM_FRAMES_IS_ABSENT = 103;
+  static const int HOLOGRAM_HOLO_FIELD_IS_ABSENT = 104;
   static const int PHOTO_PATTERN_INTERRUPTED = 110;
   static const int PHOTO_PATTERN_SHIFTED = 111;
   static const int PHOTO_PATTERN_DIFFERENT_COLORS = 112;
@@ -2125,13 +2194,21 @@ class eCheckDiagnose {
   static const int PORTRAIT_COMPARISON_PORTRAITS_DIFFER = 150;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_REPLY = 151;
   static const int PORTRAIT_COMPARISON_SERVICE_ERROR = 152;
-  static const int PPORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
+  static const int PORTRAIT_COMPARISON_NOT_ENOUGH_IMAGES = 153;
   static const int PORTRAIT_COMPARISON_NO_LIVE_PHOTO = 154;
   static const int PORTRAIT_COMPARISON_NO_SERVICE_LICENSE = 155;
   static const int PORTRAIT_COMPARISON_NO_PORTRAIT_DETECTED = 156;
   static const int MOBILE_IMAGES_UNSUITABLE_LIGHT_CONDITIONS = 160;
   static const int MOBILE_IMAGES_WHITE_UV_NO_DIFFERENCE = 161;
-  static const int LAST_DIAGNOSE_VALUE = 162;
+  static const int FINGERPRINTS_COMPARISON_MISMATCH = 170;
+  static const int HOLO_PHOTO_FACE_NOT_DETECTED = 180;
+  static const int HOLO_PHOTO_FACE_COMPARISON_FAILED = 181;
+  static const int HOLO_PHOTO_FACE_GLARE_IN_CENTER_ABSENT = 182;
+  static const int HOLO_ELEMENT_SHAPE_ERROR = 183;
+  static const int ALGORITHM_STEPS_ERROR = 184;
+  static const int HOLO_AREAS_NOT_LOADED = 185;
+  static const int FINISHED_BY_TIMEOUT = 186;
+  static const int LAST_DIAGNOSE_VALUE = 190;
 }
 
 class eCheckResult {
@@ -2223,6 +2300,8 @@ class eImageQualityCheckType {
   static const int IQC_IMAGE_COLORNESS = 3;
   static const int IQC_PERSPECTIVE = 4;
   static const int IQC_BOUNDS = 5;
+  static const int IQC_SCREEN_CAPTURE = 6;
+  static const int IQC_PORTRAIT = 7;
 }
 
 class eProcessGLCommands {
@@ -4187,6 +4266,15 @@ class eVisualFieldType {
   static const int FT_CITIZENSHIP_STATUS = 625;
   static const int FT_MILITARY_SERVICE_FROM = 626;
   static const int FT_MILITARY_SERVICE_TO = 627;
+  static const int FT_DLCLASSCODE_NT_FROM = 628;
+  static const int FT_DLCLASSCODE_NT_TO = 629;
+  static const int FT_DLCLASSCODE_NT_NOTES = 630;
+  static const int FT_DLCLASSCODE_TN_FROM = 631;
+  static const int FT_DLCLASSCODE_TN_TO = 632;
+  static const int FT_DLCLASSCODE_TN_NOTES = 633;
+  static const int FT_DLCLASSCODE_D3_FROM = 634;
+  static const int FT_DLCLASSCODE_D3_TO = 635;
+  static const int FT_DLCLASSCODE_D3_NOTES = 636;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -5344,6 +5432,24 @@ class eVisualFieldType {
         return "Military service from";
       case 627:
         return "Military service to";
+      case 628:
+        return "DL category NT valid from";
+      case 629:
+        return "DL category NT valid to";
+      case 630:
+        return "DL category NT codes";
+      case 631:
+        return "DL category TN valid from";
+      case 632:
+        return "DL category TN valid to";
+      case 633:
+        return "DL category TN codes";
+      case 634:
+        return "DL category D3 valid from";
+      case 635:
+        return "DL category D3 valid to";
+      case 636:
+        return "DL category D3 codes";
       default:
         return value.toString();
     }

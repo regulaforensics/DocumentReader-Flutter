@@ -529,6 +529,7 @@ class JSONConstructor {
             result.put("count", input.count);
             result.put("result", input.result);
             result.put("imageQualityList", generateList(input.imageQualityList, JSONConstructor::generateImageQuality));
+            result.put("pageIndex", input.pageIndex);
         } catch (JSONException ignored) {
         }
         return result;
@@ -1244,6 +1245,8 @@ class JSONConstructor {
                     array.add(ImageQualityFromJSON(jsonArray.getJSONObject(i)));
                 result.imageQualityList = array;
             }
+            if (input.has("pageIndex"))
+                result.pageIndex = input.getInt("pageIndex");
         } catch (JSONException ignored) {
         }
         return result;

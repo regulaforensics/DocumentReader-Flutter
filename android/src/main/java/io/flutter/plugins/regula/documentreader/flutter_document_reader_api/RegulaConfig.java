@@ -98,6 +98,8 @@ class RegulaConfig {
             editor.setIsCameraTorchCheckDisabled(opts.getBoolean("isCameraTorchCheckDisabled"));
         if (opts.has("recordScanningProcess"))
             editor.setDoRecordProcessingVideo(opts.getBoolean("recordScanningProcess"));
+        if (opts.has("manualMultipageMode"))
+            editor.setManualMultipageMode(opts.getBoolean("manualMultipageMode"));
 
         editor.apply();
     }
@@ -277,6 +279,8 @@ class RegulaConfig {
             editor.setChangeFrameCollapseButtonImage(drawableFromBase64(opts.getString("changeFrameButtonCollapseImage"), context));
         if (opts.has("toolbarSize"))
             editor.setToolbarSize(BigDecimal.valueOf(opts.getDouble("toolbarSize")).floatValue());
+        if (opts.has("statusBackgroundColor"))
+            editor.setStatusBackgroundColor(opts.getString("statusBackgroundColor"));
 
         editor.apply();
     }
@@ -315,6 +319,7 @@ class RegulaConfig {
         object.put("zoomFactor", functionality.getZoomFactor());
         object.put("isCameraTorchCheckDisabled", functionality.isCameraTorchCheckDisabled());
         object.put("recordScanningProcess", functionality.doRecordProcessingVideo());
+        object.put("manualMultipageMode", functionality.isManualMultipageMode());
 
         return object;
     }
@@ -376,6 +381,7 @@ class RegulaConfig {
         object.put("changeFrameButtonExpandImage", bitmapToBase64String(bitmapFromDrawable(customization.getChangeFrameExpandButtonDrawable())));
         object.put("changeFrameButtonCollapseImage", bitmapToBase64String(bitmapFromDrawable(customization.getChangeFrameCollapseButtonDrawable())));
         object.put("toolbarSize", customization.getToolbarSize());
+        object.put("statusBackgroundColor", customization.getStatusBackgroundColor());
 
         return object;
     }

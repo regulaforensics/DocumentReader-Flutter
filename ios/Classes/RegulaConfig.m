@@ -502,6 +502,8 @@
         customization.cameraFrameLandscapeAspectRatio = [[options valueForKey:@"cameraFrameLandscapeAspectRatio"] floatValue];
     if([options valueForKey:@"toolbarSize"] != nil)
         customization.toolbarSize = [[options valueForKey:@"toolbarSize"] floatValue];
+    if([options valueForKey:@"statusBackgroundColor"] != nil)
+        customization.statusBackgroundColor = [self getUIColorObjectFromHexString:[options valueForKey:@"statusBackgroundColor"] alpha:1];
 }
 
 +(void)setFunctionality:(NSDictionary*)options :(RGLFunctionality*)functionality {
@@ -562,6 +564,8 @@
         functionality.zoomFactor = [[options valueForKey:@"zoomFactor"] floatValue];
     if([options valueForKey:@"recordScanningProcess"] != nil)
         functionality.recordScanningProcess = [[options valueForKey:@"recordScanningProcess"] boolValue];
+    if([options valueForKey:@"manualMultipageMode"] != nil)
+        functionality.manualMultipageMode = [[options valueForKey:@"manualMultipageMode"] boolValue];
 }
 
 +(void)setProcessParams:(NSDictionary*)options :(RGLProcessParams*)processParams {
@@ -683,6 +687,8 @@
         result[@"tintColor"] = [self hexStringFromUIColor:customization.tintColor];
     if(customization.resultStatusTextColor != nil)
         result[@"resultStatusTextColor"] = [self hexStringFromUIColor:customization.resultStatusTextColor];
+    if(customization.statusBackgroundColor != nil)
+        result[@"statusBackgroundColor"] = [self hexStringFromUIColor:customization.statusBackgroundColor];
 
     return result;
 }
@@ -713,6 +719,7 @@
     result[@"isZoomEnabled"] = [NSNumber numberWithBool:functionality.isZoomEnabled];
     result[@"zoomFactor"] = [NSNumber numberWithBool:functionality.zoomFactor];
     result[@"recordScanningProcess"] = [NSNumber numberWithBool:functionality.recordScanningProcess];
+    result[@"manualMultipageMode"] = [NSNumber numberWithBool:functionality.manualMultipageMode];
 
     return result;
 }
