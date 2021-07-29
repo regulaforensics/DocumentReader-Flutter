@@ -1,11 +1,11 @@
-#ifndef JSONConstructor_h
-#define JSONConstructor_h
+#ifndef RGLWJSONConstructor_h
+#define RGLWJSONConstructor_h
 
 #import <DocumentReader/DocumentReader.h>
 @import CoreGraphics;
 @import UIKit;
 
-@interface JSONConstructor : NSObject
+@interface RGLWJSONConstructor : NSObject
 +(NSString* _Nonnull)dictToString:(NSMutableDictionary* _Nonnull)input;
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input;
 +(RGLPKDCertificate* _Nullable)RGLPKDCertificateFromJson:(NSDictionary* _Nullable) dict;
@@ -14,6 +14,8 @@
 +(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)action;
 +(NSMutableDictionary* _Nullable)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error :(RGLRFIDNotify*_Nullable)notify;
 +(NSMutableDictionary* _Nonnull)generateVideoEncoderCompletion:(NSURL* _Nullable)input :(NSError* _Nullable)error;
++(NSString*_Nonnull)generateNSData:(NSData *_Nullable)input;
++(NSMutableDictionary* _Nonnull)generatePACertificateCompletion:(NSData *_Nullable)serialNumber :(RGLPAResourcesIssuer *_Nullable)issuer;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderResults:(RGLDocumentReaderResults* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPosition:(RGLPosition* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderBarcodeResult:(RGLDocumentReaderBarcodeResult* _Nullable)input;
@@ -49,6 +51,9 @@
 +(NSMutableDictionary* _Nonnull)generateRGLCertificateChain:(RGLCertificateChain* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLValidity:(RGLValidity* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateNSError:(NSError* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLPAResourcesIssuer:(RGLPAResourcesIssuer* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLPAAttribute:(RGLPAAttribute* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLTAChallenge:(RGLTAChallenge* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
 
 @end

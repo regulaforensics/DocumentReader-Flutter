@@ -1,3 +1,84 @@
+# 5.7.0
+
+#### API:
+
+* Added restart of the process on the camera switch during the scanning process
+* Added restart of the process on the camera orientation change during the scanning process. The orientation cannot be changed after the processing of at least one page is completed.
+* Added the ability to receive events about the connection to the RFID chip and errors in the process of reading the chip
+* Android:
+  * Added the ability to provide the database as a binary file during SDK initialization
+  * Fixed a crash on devices that do not have Google Play Services
+  * Removed `android.permission.INTERNET` from framework manifest. Now, if necessary, this permission should be set at the application level
+* iOS:
+  * Implemented delivery of SDK in “.xcframework” format
+  * Added the `RGLCameraViewControllerActionProcessWhiteFlashLight` event notifying that the flash was turned on forcibly
+  * All `@import` native libraries have been replaced with `#import`
+* Added new values to the [`eVisualFieldType`](https://docs.regulaforensics.com/flutter/enumerations/evisualfieldtype) parameter
+
+#### Core:
+
+* OCR
+  * Significantly improved recognition quality for Arabic, Western European, Chinese and Japanese
+  * Implemented correct reading for Arabic and Persian numbers \(correct Unicode symbols in output values\)
+  * Improved reading of perforated document numbers in different countries \(new fonts supported\)
+  * Fixed issue with not returning required fields on timeout. Now they are returned anyway, with empty values if the fields were not read
+* MRZ
+  * Updated parsers:
+    * Belarus passport
+    * Comoros ID card
+    * Dominican Republic ID card
+    * Jordan ID card
+    * Russian visa
+    * Serbian ID card
+    * Switzerland DL
+    * Thailand passport
+* Barcode
+  * Added new parsers:
+    * Belgium ID card
+    * Costa Rica Child ID card
+    * ECOWAS Id card
+    * India AADHAAR ID card
+    * Viet Nam ID card
+  * Improved processing time for 1D, 2D codes
+  * Fixed issue with CODE128 wrong treated checksums in rare cases
+* Text data parsing and validation
+  * Added parsing and conversion of the Japanese calendar dates into Gregorian and creation of additional fields of the same type as original with LCID equal to 0
+  * Added parsing and conversion of the Islamic calendar dates into Gregorian and creation of additional fields of the same type as original with LCID equal to 0
+  * Added capability to shift the expiry date when calculating the document expiration status. Set the [`customParams "shiftExpiryDate"`](https://docs.regulaforensics.com/flutter/custom-settings#custom-params) parameter for shifting the date of expiry into the future or past for the number of months specified. This is useful, for example, in some cases when the document might be still valid for some period after the original expiration date to prevent negative validity status for such documents. Shifting the date to the past will set negative validity for the documents that is about to expire in the specified number of months
+  * Added transliteration from Arabic letters to Latin according to ICAO and creation of additional fields of the same type as original with LCID equal to 0
+  * Added transliteration from Arabic and Persian numbers to ASCII numbers and creation of additional fields of the same type as original with LCID equal to 0
+  * Added parsing of data from DG11 in eDL of Netherlands and extraction of the BSN number as a separate field
+  * Fixed issue with Vietnamese character uppercase conversion and further validation
+* Image QA
+  * Fixed issue with glare detection on the whole portrait area instead of the face area
+* Authenticity
+  * Fixed issue with element coordinates in output for image patterns check
+  * Fixed issue with UV dull paper check parameters for different documents in one series
+  * Fixed issue with hologram detection in some documents
+* Added capability to guarantee that output image will contain correct MRZ on it in series process mode \(on mobile, for example\). Set the [`customParams "forceReadMrzBeforeLocate"`](https://docs.regulaforensics.com/flutter/custom-settings#custom-params)Boolean flag to True to enable this logic. False by default
+* Added capability to provide in [`customParams`](https://docs.regulaforensics.com/flutter/custom-settings#custom-params) JSON parameters “config” object, that may contain specific settings on a per-document basis. Currently, it is possible to disable some of the authenticity checks for the listed document IDs
+* Fixed issue with incorrect DPI detection in some rare cases
+* Fixed issue with the expectance of additional pages for two-sided documents when both sides are already scanned
+* Fixed issue with non-zero page index for one-page document results
+* Fixed issue with random page indexes on multiple pages processing
+* Fixed issue with rare crashes when processing specific images \(very small images\)
+* Code quality improved with lots of small issues fixed
+* RFID
+  * Implemented sending of IS certificate as part of the TA\_Signature request
+  * Improved the algorithm of building certificate chains for the TA process where multiple certificates from different chains are stored in one folder
+  * Fixed issue with TCC communication that led to exception on connection
+
+**Licensing:**
+
+* Fixed issue with the license for bank card reading functionality only
+
+#### Database:
+
+* Fixed issues in multiple document templates for better quality results
+* 248 countries and territories / 9647 documents included
+* 215 new documents added
+* For details see [Supported documents list](https://downloads.regulaforensics.com/work/SDK/SDK%20Release%20Notes%20%28en%29.pdf)
+
 # 5.6.0
 **API**:
 * Implemented ability to read multiple pages of a document in manual mode \([`manualMultipageMode`](https://docs.regulaforensics.com/flutter/custom-settings#scanning-modes)\)

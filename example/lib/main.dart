@@ -53,9 +53,10 @@ class _MyAppState extends State<MyApp> {
         .receiveBroadcastStream()
         .listen(
             (progress) => setStatus("Downloading database: " + progress + "%"));
-    EventChannel('flutter_document_reader_api/event/video_encoder_completion')
+    EventChannel(
+            'flutter_document_reader_api/event/rfid_notification_completion')
         .receiveBroadcastStream()
-        .listen((event) => print(event));
+        .listen((event) => print("rfid_notification_completion: " + event.toString()));
   }
 
   void addCertificates() async {
@@ -167,9 +168,10 @@ class _MyAppState extends State<MyApp> {
     var scenariosTemp =
         json.decode(await DocumentReader.getAvailableScenarios());
     for (var i = 0; i < scenariosTemp.length; i++) {
-      DocumentReaderScenario scenario = DocumentReaderScenario.fromJson(scenariosTemp[i] is String
-          ? json.decode(scenariosTemp[i])
-          : scenariosTemp[i]);
+      DocumentReaderScenario scenario = DocumentReaderScenario.fromJson(
+          scenariosTemp[i] is String
+              ? json.decode(scenariosTemp[i])
+              : scenariosTemp[i]);
       scenarios.add([scenario.name, scenario.caption]);
     }
     setState(() => _scenarios = scenarios);
@@ -184,6 +186,7 @@ class _MyAppState extends State<MyApp> {
       },
       "processParams": {"scenario": _selectedScenario}
     });
+    DocumentReader.setRfidDelegate(RFIDDelegate.NO_PA);
     // addCertificates();
   }
 

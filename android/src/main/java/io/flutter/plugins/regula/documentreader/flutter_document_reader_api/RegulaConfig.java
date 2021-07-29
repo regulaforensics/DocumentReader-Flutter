@@ -255,10 +255,6 @@ class RegulaConfig {
             editor.setCameraFrameCornerRadius((float) opts.getDouble("cameraFrameCornerRadius"));
         if (opts.has("cameraFrameLineCap"))
             editor.setCameraFrameLineCap(Paint.Cap.values()[(opts.getInt("cameraFrameLineCap"))]);
-        if (opts.has("torchImageOnImage"))
-            editor.setTorchImageOn(drawableFromBase64(opts.getString("torchImageOnImage"), context));
-        if (opts.has("torchImageOffImage"))
-            editor.setTorchImageOff(drawableFromBase64(opts.getString("torchImageOffImage"), context));
         if (opts.has("closeButtonImage"))
             editor.setCloseButtonImage(drawableFromBase64(opts.getString("closeButtonImage"), context));
         if (opts.has("captureButtonImage"))
@@ -369,8 +365,6 @@ class RegulaConfig {
         object.put("cameraFramePortraitAspectRatio", customization.getCameraFramePortraitAspectRatio());
         object.put("cameraFrameCornerRadius", customization.getCameraFrameCornerRadius());
         object.put("cameraFrameLineCap", customization.getCameraFrameLineCap().toString());
-        object.put("torchImageOnImage", bitmapToBase64String(bitmapFromDrawable(customization.getTorchImageOnDrawable())));
-        object.put("torchImageOffImage", bitmapToBase64String(bitmapFromDrawable(customization.getTorchImageOffDrawable())));
         object.put("closeButtonImage", bitmapToBase64String(bitmapFromDrawable(customization.getCloseButtonDrawable())));
         object.put("captureButtonImage", bitmapToBase64String(bitmapFromDrawable(customization.getCaptureButtonDrawable())));
         object.put("changeFrameCollapseButtonImage", bitmapToBase64String(bitmapFromDrawable(customization.getChangeFrameCollapseButtonDrawable())));

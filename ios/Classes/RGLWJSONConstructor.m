@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "JSONConstructor.h"
+#import "RGLWJSONConstructor.h"
 
-@implementation JSONConstructor
+@implementation RGLWJSONConstructor
 
 +(NSString*)dictToString:(NSMutableDictionary*)input {
     return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
@@ -118,7 +118,6 @@
 
     switch (action) {
         case 0:
-            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
         case 1:
             result[@"results"] = [self generateRGLDocumentReaderResults:results];
@@ -147,7 +146,8 @@
     }
 
     result[@"action"] = [NSNumber numberWithInteger:action];
-    result[@"error"] = [self generateNSError:error];
+    if(error != nil)
+        result[@"error"] = [self generateNSError:error];
 
     return result;
 }
@@ -164,6 +164,19 @@
     NSMutableDictionary *result = [self generateRGLDocumentReaderResults:results];
 
     result[@"rfidResult"] = [NSNumber numberWithInteger:input];
+
+    return result;
+}
+
++(NSString*)generateNSData:(NSData *)input {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:input];
+}
+
++(NSMutableDictionary* _Nonnull)generatePACertificateCompletion:(NSData *)serialNumber :(RGLPAResourcesIssuer *)issuer{
+    NSMutableDictionary *result = [NSMutableDictionary new];
+
+    result[@"serialNumber"] = [self generateNSData:serialNumber];
+    result[@"issuer"] = [self generateRGLPAResourcesIssuer:issuer];
 
     return result;
 }
@@ -847,6 +860,46 @@
 
     result[@"code"] = @(input.code);
     result[@"localizedDescription"] = input.localizedDescription;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLPAResourcesIssuer:(RGLPAResourcesIssuer* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = [NSKeyedUnarchiver unarchiveObjectWithData:input.data];
+    result[@"friendlyName"] = input.friendlyName;
+    if(input.attributes != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLPAAttribute* item in input.attributes)
+            if(item != nil)
+                [array addObject:[self generateRGLPAAttribute:item]];
+        result[@"attributes"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLPAAttribute:(RGLPAAttribute* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"value"] = input.value;
+    result[@"type"] = input.type;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLTAChallenge:(RGLTAChallenge* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = [NSKeyedUnarchiver unarchiveObjectWithData:input.data];
+    result[@"auxPCD"] = input.auxPCD;
+    result[@"challengePICC"] = input.challengePICC;
+    result[@"hashPK"] = input.hashPK;
+    result[@"idPICC"] = input.idPICC;
 
     return result;
 }

@@ -1,9 +1,9 @@
 #import <Flutter/Flutter.h>
 #import <DocumentReader/DocumentReader.h>
-#import "JSONConstructor.h"
+#import "RGLWJSONConstructor.h"
 #import "RegulaConfig.h"
 
-@interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin, RGLRecordScanningProcessDelegate>
+@interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin, RGLRecordScanningProcessDelegate, RGLDocReaderRFIDDelegate>
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
 @property (class) NSNumber* _Nullable databasePercentageDownloaded;
@@ -17,4 +17,19 @@
 @end
 
 @interface DatabaseProgressStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface RFIDNotificationCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface PACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface TACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface TASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface RFIDDelegateNoPA : NSObject<RGLDocReaderRFIDDelegate>
 @end

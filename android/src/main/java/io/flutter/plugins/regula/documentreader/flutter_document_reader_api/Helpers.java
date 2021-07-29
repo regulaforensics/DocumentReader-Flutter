@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +33,14 @@ class Helpers {
         return result;
     }
 
-    static Drawable drawableFromBase64(String base64, Context context) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.decode(base64.getBytes(), Base64.DEFAULT));
-        return Drawable.createFromResourceStream(context.getResources(), null, byteArrayInputStream, null);
+    static BitmapDrawable drawableFromBase64(String base64, Context context)
+    {
+        byte[] decodedByte = Base64.decode(base64, 0);
+        Bitmap bitmap =  BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+        float density = context.getResources().getDisplayMetrics().density;
+        int width = (int)(bitmap.getWidth()*density);
+        int height = (int)(bitmap.getHeight()*density);
+        return new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, width, height, false));
     }
 
     static Bitmap bitmapFromDrawable(Drawable drawable) {

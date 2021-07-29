@@ -10,7 +10,11 @@ import com.regula.documentreader.api.enums.DocReaderAction;
 import com.regula.documentreader.api.enums.PDF417Info;
 import com.regula.documentreader.api.enums.eGraphicFieldType;
 import com.regula.documentreader.api.enums.eRPRM_Lights;
+import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.params.FaceMetaData;
+import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
+import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
+import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
 import com.regula.documentreader.api.results.Bounds;
 import com.regula.documentreader.api.results.Coordinate;
 import com.regula.documentreader.api.results.DocReaderFieldRect;
@@ -264,14 +268,13 @@ class JSONConstructor {
         return result;
     }
 
-    static JSONObject generateCompletion(int action, DocumentReaderResults results, Throwable error, Context context) {
+    static JSONObject generateCompletion(int action, DocumentReaderResults results, DocumentReaderException error, Context context) {
         JSONObject result = new JSONObject();
         try {
             result.put("action", action);
             switch (action) {
                 case DocReaderAction.PROCESS:
                 case DocReaderAction.PROCESS_WHITE_UV_IMAGES:
-                    result.put("results", "");
                     break;
                 case DocReaderAction.NOTIFICATION:
                     result.put("results", generateDocumentReaderResultsNotification(results));
@@ -283,7 +286,19 @@ class JSONConstructor {
                     result.put("results", generateDocumentReaderResults(results, context));
                     break;
             }
-            result.put("error", generateThrowable(error));
+            if (error != null)
+                result.put("error", generateDocumentReaderException(error));
+        } catch (JSONException ignored) {
+        }
+
+        return result;
+    }
+
+    static JSONObject generatePACertificateCompletion(byte[] serialNumber, PAResourcesIssuer issuer) {
+        JSONObject result = new JSONObject();
+        try {
+            result.put("serialNumber", generateByteArray(serialNumber));
+            result.put("issuer", generatePAResourcesIssuer(issuer));
         } catch (JSONException ignored) {
         }
 
@@ -325,7 +340,8 @@ class JSONConstructor {
             result.put("name", input.name);
             result.put("caption", input.caption);
             result.put("description", input.description);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -347,7 +363,8 @@ class JSONConstructor {
             result.put("caption", input.caption);
             result.put("description", input.description);
             result.put("manualCrop", input.manualCrop);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -359,7 +376,8 @@ class JSONConstructor {
             result.put("ID", input.ID);
             result.put("rollAngle", input.rollAngle);
             result.put("bounds", generateBounds(input.bounds));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -372,7 +390,8 @@ class JSONConstructor {
             result.put("y", input.y);
             result.put("width", input.width);
             result.put("height", input.height);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -385,7 +404,8 @@ class JSONConstructor {
             result.put("top", input.top);
             result.put("left", input.left);
             result.put("right", input.right);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -398,7 +418,8 @@ class JSONConstructor {
             result.put("top", input.top);
             result.put("left", input.left);
             result.put("right", input.right);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -415,7 +436,8 @@ class JSONConstructor {
             result.put("lightName", eRPRM_Lights.getTranslation(context, input.light));
             result.put("value", input.imageBase64());
             result.put("fieldRect", generateDocReaderFieldRect(input.boundRect));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -425,7 +447,8 @@ class JSONConstructor {
         if (input == null) return result;
         try {
             result.put("fields", generateList(input.fields, JSONConstructor::generateDocumentReaderGraphicField, context));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -442,7 +465,8 @@ class JSONConstructor {
             result.put("originalValue", input.originalValue);
             result.put("boundRect", generateRect(input.boundRect));
             result.put("comparison", generateMap(input.comparison));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -458,7 +482,8 @@ class JSONConstructor {
             result.put("fieldName", input.getFieldName(context));
             result.put("value", generateDocumentReaderValue(input.value()));
             result.put("values", generateList(input.values, JSONConstructor::generateDocumentReaderValue));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -469,7 +494,8 @@ class JSONConstructor {
         try {
             result.put("status", input.status);
             result.put("fields", generateList(input.fields, JSONConstructor::generateDocumentReaderTextField, context));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -480,7 +506,8 @@ class JSONConstructor {
         try {
             result.put("x", input.x);
             result.put("y", input.y);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -505,7 +532,8 @@ class JSONConstructor {
             result.put("leftBottom", generateCoordinate(input.leftBottom));
             result.put("rightTop", generateCoordinate(input.rightTop));
             result.put("rightBottom", generateCoordinate(input.rightBottom));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -517,7 +545,8 @@ class JSONConstructor {
             result.put("featureType", input.featureType);
             result.put("result", input.result);
             result.put("type", input.type);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -530,7 +559,8 @@ class JSONConstructor {
             result.put("result", input.result);
             result.put("imageQualityList", generateList(input.imageQualityList, JSONConstructor::generateImageQuality));
             result.put("pageIndex", input.pageIndex);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -550,7 +580,8 @@ class JSONConstructor {
             result.put("dYear", input.dYear);
             result.put("dCountryName", input.dCountryName);
             result.put("FDSID", generateIntArray(input.FDSID));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -562,7 +593,8 @@ class JSONConstructor {
             result.put("code", input.code & 0xFFFF0000);
             result.put("number", input.code & 0x0000FFFF);
             result.put("value", input.value);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -575,7 +607,8 @@ class JSONConstructor {
             result.put("type", input.type);
             result.put("status", input.status);
             result.put("notifications", generateList(input.notifications));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -588,7 +621,8 @@ class JSONConstructor {
             result.put("type", input.type);
             result.put("status", input.status);
             result.put("data", input.data);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -599,7 +633,8 @@ class JSONConstructor {
         try {
             result.put("length", input.length);
             result.put("data", input.data);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -609,7 +644,8 @@ class JSONConstructor {
         if (input == null) return result;
         try {
             result.put("securityObject", generateCertificateData(input.securityObject));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -629,7 +665,8 @@ class JSONConstructor {
             result.put("docFieldsGraphics", generateList(input.docFieldsGraphics));
             result.put("docFieldsOriginals", generateList(input.docFieldsOriginals));
             result.put("notifications", generateList(input.notifications));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -645,7 +682,8 @@ class JSONConstructor {
             result.put("unicodeVersion", input.unicodeVersion);
             result.put("version", input.version);
             result.put("files", generateList(input.files, JSONConstructor::generateFile));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -659,7 +697,8 @@ class JSONConstructor {
             result.put("status", input.status);
             result.put("data", input.data);
             result.put("format", input.format);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -670,7 +709,8 @@ class JSONConstructor {
         try {
             result.put("type", input.type);
             result.put("value", generateValue(input.value));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -682,7 +722,8 @@ class JSONConstructor {
             result.put("data", input.data);
             result.put("friendlyName", generateValue(input.friendlyName));
             result.put("attributes", generateList(input.attributes, JSONConstructor::generateAttribute));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -693,7 +734,8 @@ class JSONConstructor {
         try {
             result.put("data", input.data);
             result.put("type", input.type);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -704,7 +746,8 @@ class JSONConstructor {
         try {
             result.put("notAfter", generateValue(input.notAfter));
             result.put("notBefore", generateValue(input.notBefore));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -726,7 +769,8 @@ class JSONConstructor {
             result.put("subject", generateAuthority(input.subject));
             result.put("notifications", generateList(input.notifications));
             result.put("extensions", generateList(input.extensions, JSONConstructor::generateExtension));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -747,7 +791,8 @@ class JSONConstructor {
             result.put("notifications", generateList(input.notifications));
             result.put("signedAttributes", generateList(input.signedAttributes, JSONConstructor::generateExtension));
             result.put("certificateChain", generateList(input.certificateChain, JSONConstructor::generateCertificateChain));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -761,7 +806,8 @@ class JSONConstructor {
             result.put("objectType", input.objectType);
             result.put("notifications", generateList(input.notifications));
             result.put("signerInfos", generateList(input.signerInfos, JSONConstructor::generateSignerInfo));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -784,7 +830,8 @@ class JSONConstructor {
             result.put("baudrate1", input.baudrate1);
             result.put("baudrate2", input.baudrate2);
             result.put("uID", input.uID);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -803,7 +850,8 @@ class JSONConstructor {
             result.put("accessControls", generateList(input.accessControls, JSONConstructor::generateAccessControlProcedureType));
             result.put("applications", generateList(input.applications, JSONConstructor::generateApplication));
             result.put("securityObjects", generateList(input.securityObjects, JSONConstructor::generateSecurityObject));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -817,7 +865,8 @@ class JSONConstructor {
             result.put("typeName", input.getTypeName(context));
             result.put("pageIndex", input.pageIndex);
             result.put("elements", generateList(input.elements, JSONConstructor::generateDocumentReaderAuthenticityElement, context));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -829,7 +878,8 @@ class JSONConstructor {
             result.put("errorLevel", input.errorLevel);
             result.put("columns", input.columns);
             result.put("rows", input.rows);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -845,7 +895,8 @@ class JSONConstructor {
             result.put("PACE", input.PACE);
             result.put("TA", input.TA);
             result.put("overallStatus", input.overallStatus);
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -855,7 +906,8 @@ class JSONConstructor {
         if (input == null) return result;
         try {
             result.put("fields", generateList(input.fields, JSONConstructor::generateDocumentReaderBarcodeField));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -869,7 +921,8 @@ class JSONConstructor {
             result.put("pageIndex", input.pageIndex);
             result.put("pdf417Info", generatePDF417Info(input.pdf417Info));
             result.put("data", generateByteArray(input.data));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -880,7 +933,8 @@ class JSONConstructor {
         try {
             result.put("status", input.getStatus());
             result.put("checks", generateList(input.checks, JSONConstructor::generateDocumentReaderAuthenticityCheck, context));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -894,7 +948,23 @@ class JSONConstructor {
             result.put("elementDiagnose", input.elementDiagnose);
             result.put("elementTypeName", input.getElementTypeName(context));
             result.put("elementDiagnoseName", input.getElementDiagnoseName(context));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderException(DocumentReaderException input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("errorCode", input.getErrorCode());
+            result.put("localizedMessage", input.getLocalizedMessage());
+            result.put("message", input.getMessage());
+            result.put("string", input.toString());
+            result.put("stackTrace", generateArray(input.getStackTrace(), JSONConstructor::generateStackTraceElement));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -907,7 +977,8 @@ class JSONConstructor {
             result.put("message", input.getMessage());
             result.put("string", input.toString());
             result.put("stackTrace", generateArray(input.getStackTrace(), JSONConstructor::generateStackTraceElement));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -922,7 +993,48 @@ class JSONConstructor {
             result.put("fileName", input.getFileName());
             result.put("methodName", input.getMethodName());
             result.put("string", input.toString());
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generatePAResourcesIssuer(PAResourcesIssuer input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("data", generateByteArray(input.data));
+            result.put("friendlyName", input.friendlyName);
+            result.put("attributes", generateArray(input.attributes, JSONConstructor::generatePAAttribute));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generatePAAttribute(PAAttribute input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("type", input.type);
+            result.put("value", input.value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateTAChallenge(TAChallenge input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("data", generateByteArray(input.data));
+            result.put("auxPCD", input.auxPCD);
+            result.put("challengePICC", input.challengePICC);
+            result.put("hashPK", input.hashPK);
+            result.put("idPICC", input.idPICC);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -951,7 +1063,8 @@ class JSONConstructor {
             result.put("authenticityResult", generateDocumentReaderAuthenticityResult(input.authenticityResult, context));
             result.put("barcodeResult", generateDocumentReaderBarcodeResult(input.barcodeResult));
             result.put("documentType", generateList(input.documentType, JSONConstructor::generateDocumentReaderDocumentType));
-        } catch (JSONException ignored) {
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -959,8 +1072,8 @@ class JSONConstructor {
     // From JSON
 
     static DocumentReaderScenario DocumentReaderScenarioFromJSON(JSONObject input) {
-        DocumentReaderScenario result = new DocumentReaderScenario();
         try {
+            DocumentReaderScenario result = new DocumentReaderScenario();
             if (input.has("uvTorch"))
                 result.uvTorch = input.getBoolean("uvTorch");
             if (input.has("seriesProcessMode"))
@@ -971,14 +1084,16 @@ class JSONConstructor {
                 result.caption = input.getString("caption");
             if (input.has("description"))
                 result.description = input.getString("description");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderScenarioFull DocumentReaderScenarioFullFromJSON(JSONObject input) {
-        DocumentReaderScenarioFull result = new DocumentReaderScenarioFull();
         try {
+            DocumentReaderScenarioFull result = new DocumentReaderScenarioFull();
             if (input.has("uvTorch"))
                 result.uvTorch = input.getBoolean("uvTorch");
             if (input.has("frameOrientation"))
@@ -1005,28 +1120,32 @@ class JSONConstructor {
                 result.description = input.getString("description");
             if (input.has("manualCrop"))
                 result.manualCrop = input.getBoolean("manualCrop");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static FaceMetaData FaceMetaDataFromJSON(JSONObject input) {
-        FaceMetaData result = new FaceMetaData();
         try {
+            FaceMetaData result = new FaceMetaData();
             if (input.has("ID"))
                 result.ID = input.getInt("ID");
             if (input.has("rollAngle"))
                 result.rollAngle = input.getInt("rollAngle");
             if (input.has("bounds"))
                 result.bounds = BoundsFromJSON(input.getJSONObject("bounds"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Bounds BoundsFromJSON(JSONObject input) {
-        Bounds result = new Bounds();
         try {
+            Bounds result = new Bounds();
             if (input.has("x"))
                 result.x = input.getInt("x");
             if (input.has("y"))
@@ -1035,14 +1154,16 @@ class JSONConstructor {
                 result.width = input.getInt("width");
             if (input.has("height"))
                 result.height = input.getInt("height");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Rect RectFromJSON(JSONObject input) {
-        Rect result = new Rect();
         try {
+            Rect result = new Rect();
             if (input.has("bottom"))
                 result.bottom = input.getInt("bottom");
             if (input.has("top"))
@@ -1051,14 +1172,16 @@ class JSONConstructor {
                 result.left = input.getInt("left");
             if (input.has("right"))
                 result.right = input.getInt("right");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocReaderFieldRect DocReaderFieldRectFromJSON(JSONObject input) {
-        DocReaderFieldRect result = new DocReaderFieldRect();
         try {
+            DocReaderFieldRect result = new DocReaderFieldRect();
             if (input.has("bottom"))
                 result.bottom = input.getInt("bottom");
             if (input.has("top"))
@@ -1067,14 +1190,16 @@ class JSONConstructor {
                 result.left = input.getInt("left");
             if (input.has("right"))
                 result.right = input.getInt("right");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderGraphicField DocumentReaderGraphicFieldFromJSON(JSONObject input) {
-        DocumentReaderGraphicField result = new DocumentReaderGraphicField();
         try {
+            DocumentReaderGraphicField result = new DocumentReaderGraphicField();
             if (input.has("sourceType"))
                 result.sourceType = input.getInt("sourceType");
             if (input.has("fieldType"))
@@ -1085,29 +1210,33 @@ class JSONConstructor {
                 result.pageIndex = input.getInt("pageIndex");
             if (input.has("fieldRect"))
                 result.boundRect = DocReaderFieldRectFromJSON(input.getJSONObject("fieldRect"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderGraphicResult DocumentReaderGraphicResultFromJSON(JSONObject input) {
-        DocumentReaderGraphicResult result = new DocumentReaderGraphicResult();
         try {
+            DocumentReaderGraphicResult result = new DocumentReaderGraphicResult();
             if (input.has("fields")){
-                JSONArray jsonArray = input.getJSONArray("fields");
-                List<DocumentReaderGraphicField> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderGraphicFieldFromJSON(jsonArray.getJSONObject(i)));
-                result.fields = array;
+                JSONArray jsonArray_fields = input.getJSONArray("fields");
+                List<DocumentReaderGraphicField> fields = new ArrayList<>();
+                for (int i = 0; i < jsonArray_fields.length(); i++)
+                    fields.add(DocumentReaderGraphicFieldFromJSON(jsonArray_fields.getJSONObject(i)));
+                result.fields = fields;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderValue DocumentReaderValueFromJSON(JSONObject input) {
-        DocumentReaderValue result = new DocumentReaderValue();
         try {
+            DocumentReaderValue result = new DocumentReaderValue();
             if (input.has("pageIndex"))
                 result.pageIndex = input.getInt("pageIndex");
             if (input.has("sourceType"))
@@ -1122,14 +1251,16 @@ class JSONConstructor {
                 result.originalValue = input.getString("originalValue");
             if (input.has("boundRect"))
                 result.boundRect = RectFromJSON(input.getJSONObject("boundRect"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderTextField DocumentReaderTextFieldFromJSON(JSONObject input) {
-        DocumentReaderTextField result = new DocumentReaderTextField();
         try {
+            DocumentReaderTextField result = new DocumentReaderTextField();
             if (input.has("fieldType"))
                 result.fieldType = input.getInt("fieldType");
             if (input.has("lcid"))
@@ -1137,49 +1268,55 @@ class JSONConstructor {
             if (input.has("status"))
                 result.status = input.getInt("status");
             if (input.has("values")){
-                JSONArray jsonArray = input.getJSONArray("values");
-                List<DocumentReaderValue> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderValueFromJSON(jsonArray.getJSONObject(i)));
-                result.values = array;
+                JSONArray jsonArray_values = input.getJSONArray("values");
+                List<DocumentReaderValue> values = new ArrayList<>();
+                for (int i = 0; i < jsonArray_values.length(); i++)
+                    values.add(DocumentReaderValueFromJSON(jsonArray_values.getJSONObject(i)));
+                result.values = values;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderTextResult DocumentReaderTextResultFromJSON(JSONObject input) {
-        DocumentReaderTextResult result = new DocumentReaderTextResult();
         try {
+            DocumentReaderTextResult result = new DocumentReaderTextResult();
             if (input.has("status"))
                 result.status = input.getInt("status");
             if (input.has("fields")){
-                JSONArray jsonArray = input.getJSONArray("fields");
-                List<DocumentReaderTextField> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderTextFieldFromJSON(jsonArray.getJSONObject(i)));
-                result.fields = array;
+                JSONArray jsonArray_fields = input.getJSONArray("fields");
+                List<DocumentReaderTextField> fields = new ArrayList<>();
+                for (int i = 0; i < jsonArray_fields.length(); i++)
+                    fields.add(DocumentReaderTextFieldFromJSON(jsonArray_fields.getJSONObject(i)));
+                result.fields = fields;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Coordinate CoordinateFromJSON(JSONObject input) {
-        Coordinate result = new Coordinate();
         try {
+            Coordinate result = new Coordinate();
             if (input.has("x"))
                 result.x = input.getInt("x");
             if (input.has("y"))
                 result.y = input.getInt("y");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static ElementPosition ElementPositionFromJSON(JSONObject input) {
-        ElementPosition result = new ElementPosition();
         try {
+            ElementPosition result = new ElementPosition();
             if (input.has("docFormat"))
                 result.docFormat = input.getInt("docFormat");
             if (input.has("width"))
@@ -1212,49 +1349,55 @@ class JSONConstructor {
                 result.rightTop = CoordinateFromJSON(input.getJSONObject("rightTop"));
             if (input.has("rightBottom"))
                 result.rightBottom = CoordinateFromJSON(input.getJSONObject("rightBottom"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static ImageQuality ImageQualityFromJSON(JSONObject input) {
-        ImageQuality result = new ImageQuality();
         try {
+            ImageQuality result = new ImageQuality();
             if (input.has("featureType"))
                 result.featureType = input.getInt("featureType");
             if (input.has("result"))
                 result.result = input.getInt("result");
             if (input.has("type"))
                 result.type = input.getInt("type");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static ImageQualityGroup ImageQualityGroupFromJSON(JSONObject input) {
-        ImageQualityGroup result = new ImageQualityGroup();
         try {
+            ImageQualityGroup result = new ImageQualityGroup();
             if (input.has("count"))
                 result.count = input.getInt("count");
             if (input.has("result"))
                 result.result = input.getInt("result");
             if (input.has("imageQualityList")){
-                JSONArray jsonArray = input.getJSONArray("imageQualityList");
-                List<ImageQuality> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ImageQualityFromJSON(jsonArray.getJSONObject(i)));
-                result.imageQualityList = array;
+                JSONArray jsonArray_imageQualityList = input.getJSONArray("imageQualityList");
+                List<ImageQuality> imageQualityList = new ArrayList<>();
+                for (int i = 0; i < jsonArray_imageQualityList.length(); i++)
+                    imageQualityList.add(ImageQualityFromJSON(jsonArray_imageQualityList.getJSONObject(i)));
+                result.imageQualityList = imageQualityList;
             }
             if (input.has("pageIndex"))
                 result.pageIndex = input.getInt("pageIndex");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderDocumentType DocumentReaderDocumentTypeFromJSON(JSONObject input) {
-        DocumentReaderDocumentType result = new DocumentReaderDocumentType();
         try {
+            DocumentReaderDocumentType result = new DocumentReaderDocumentType();
             if (input.has("pageIndex"))
                 result.pageIndex = input.getInt("pageIndex");
             if (input.has("documentID"))
@@ -1276,20 +1419,22 @@ class JSONConstructor {
             if (input.has("dCountryName"))
                 result.dCountryName = input.getString("dCountryName");
             if (input.has("FDSID")){
-                JSONArray jsonArray = input.getJSONArray("FDSID");
-                int[] array = new int[jsonArray.length()];
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array[i] = jsonArray.getInt(i);
-                result.FDSID = array;
+                JSONArray jsonArray_FDSID = input.getJSONArray("FDSID");
+                int[] FDSID = new int[jsonArray_FDSID.length()];
+                for (int i = 0; i < jsonArray_FDSID.length(); i++)
+                    FDSID[i] = jsonArray_FDSID.getInt(i);
+                result.FDSID = FDSID;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static AccessControlProcedureType AccessControlProcedureTypeFromJSON(JSONObject input) {
-        AccessControlProcedureType result = new AccessControlProcedureType();
         try {
+            AccessControlProcedureType result = new AccessControlProcedureType();
             if (input.has("activeOptionIdx"))
                 result.activeOptionIdx = input.getInt("activeOptionIdx");
             if (input.has("type"))
@@ -1297,20 +1442,22 @@ class JSONConstructor {
             if (input.has("status"))
                 result.status = input.getInt("status");
             if (input.has("notifications")){
-                JSONArray jsonArray = input.getJSONArray("notifications");
-                List<Long> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getLong(i));
-                result.notifications = array;
+                JSONArray jsonArray_notifications = input.getJSONArray("notifications");
+                List<Long> notifications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_notifications.length(); i++)
+                    notifications.add(jsonArray_notifications.getLong(i));
+                result.notifications = notifications;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static FileData FileDataFromJSON(JSONObject input) {
-        FileData result = new FileData();
         try {
+            FileData result = new FileData();
             if (input.has("length"))
                 result.length = input.getInt("length");
             if (input.has("type"))
@@ -1319,36 +1466,42 @@ class JSONConstructor {
                 result.status = input.getInt("status");
             if (input.has("data"))
                 result.data = input.getString("data");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static CertificateData CertificateDataFromJSON(JSONObject input) {
-        CertificateData result = new CertificateData();
         try {
+            CertificateData result = new CertificateData();
             if (input.has("length"))
                 result.length = input.getInt("length");
             if (input.has("data"))
                 result.data = input.getString("data");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static SecurityObjectCertificates SecurityObjectCertificatesFromJSON(JSONObject input) {
-        SecurityObjectCertificates result = new SecurityObjectCertificates();
         try {
+            SecurityObjectCertificates result = new SecurityObjectCertificates();
             if (input.has("securityObject"))
                 result.securityObject = CertificateDataFromJSON(input.getJSONObject("securityObject"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static File FileFromJSON(JSONObject input) {
-        File result = new File();
         try {
+            File result = new File();
             if (input.has("readingTime"))
                 result.readingTime = input.getInt("readingTime");
             if (input.has("type"))
@@ -1364,41 +1517,43 @@ class JSONConstructor {
             if (input.has("certificates"))
                 result.certificates = SecurityObjectCertificatesFromJSON(input.getJSONObject("certificates"));
             if (input.has("docFieldsText")){
-                JSONArray jsonArray = input.getJSONArray("docFieldsText");
-                List<Integer> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getInt(i));
-                result.docFieldsText = array;
+                JSONArray jsonArray_docFieldsText = input.getJSONArray("docFieldsText");
+                List<Integer> docFieldsText = new ArrayList<>();
+                for (int i = 0; i < jsonArray_docFieldsText.length(); i++)
+                    docFieldsText.add(jsonArray_docFieldsText.getInt(i));
+                result.docFieldsText = docFieldsText;
             }
             if (input.has("docFieldsGraphics")){
-                JSONArray jsonArray = input.getJSONArray("docFieldsGraphics");
-                List<Integer> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getInt(i));
-                result.docFieldsGraphics = array;
+                JSONArray jsonArray_docFieldsGraphics = input.getJSONArray("docFieldsGraphics");
+                List<Integer> docFieldsGraphics = new ArrayList<>();
+                for (int i = 0; i < jsonArray_docFieldsGraphics.length(); i++)
+                    docFieldsGraphics.add(jsonArray_docFieldsGraphics.getInt(i));
+                result.docFieldsGraphics = docFieldsGraphics;
             }
             if (input.has("docFieldsOriginals")){
-                JSONArray jsonArray = input.getJSONArray("docFieldsOriginals");
-                List<Integer> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getInt(i));
-                result.docFieldsOriginals = array;
+                JSONArray jsonArray_docFieldsOriginals = input.getJSONArray("docFieldsOriginals");
+                List<Integer> docFieldsOriginals = new ArrayList<>();
+                for (int i = 0; i < jsonArray_docFieldsOriginals.length(); i++)
+                    docFieldsOriginals.add(jsonArray_docFieldsOriginals.getInt(i));
+                result.docFieldsOriginals = docFieldsOriginals;
             }
             if (input.has("notifications")){
-                JSONArray jsonArray = input.getJSONArray("notifications");
-                List<Long> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getLong(i));
-                result.notifications = array;
+                JSONArray jsonArray_notifications = input.getJSONArray("notifications");
+                List<Long> notifications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_notifications.length(); i++)
+                    notifications.add(jsonArray_notifications.getLong(i));
+                result.notifications = notifications;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Application ApplicationFromJSON(JSONObject input) {
-        Application result = new Application();
         try {
+            Application result = new Application();
             if (input.has("type"))
                 result.type = input.getInt("type");
             if (input.has("status"))
@@ -1412,20 +1567,22 @@ class JSONConstructor {
             if (input.has("version"))
                 result.version = input.getString("version");
             if (input.has("files")){
-                JSONArray jsonArray = input.getJSONArray("files");
-                List<File> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(FileFromJSON(jsonArray.getJSONObject(i)));
-                result.files = array;
+                JSONArray jsonArray_files = input.getJSONArray("files");
+                List<File> files = new ArrayList<>();
+                for (int i = 0; i < jsonArray_files.length(); i++)
+                    files.add(FileFromJSON(jsonArray_files.getJSONObject(i)));
+                result.files = files;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Value ValueFromJSON(JSONObject input) {
-        Value result = new Value();
         try {
+            Value result = new Value();
             if (input.has("length"))
                 result.length = input.getInt("length");
             if (input.has("type"))
@@ -1436,69 +1593,79 @@ class JSONConstructor {
                 result.data = input.getString("data");
             if (input.has("format"))
                 result.format = input.getString("format");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Attribute AttributeFromJSON(JSONObject input) {
-        Attribute result = new Attribute();
         try {
+            Attribute result = new Attribute();
             if (input.has("type"))
                 result.type = input.getString("type");
             if (input.has("value"))
                 result.value = ValueFromJSON(input.getJSONObject("value"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Authority AuthorityFromJSON(JSONObject input) {
-        Authority result = new Authority();
         try {
+            Authority result = new Authority();
             if (input.has("data"))
                 result.data = input.getString("data");
             if (input.has("friendlyName"))
                 result.friendlyName = ValueFromJSON(input.getJSONObject("friendlyName"));
             if (input.has("attributes")){
-                JSONArray jsonArray = input.getJSONArray("attributes");
-                List<Attribute> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(AttributeFromJSON(jsonArray.getJSONObject(i)));
-                result.attributes = array;
+                JSONArray jsonArray_attributes = input.getJSONArray("attributes");
+                List<Attribute> attributes = new ArrayList<>();
+                for (int i = 0; i < jsonArray_attributes.length(); i++)
+                    attributes.add(AttributeFromJSON(jsonArray_attributes.getJSONObject(i)));
+                result.attributes = attributes;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Extension ExtensionFromJSON(JSONObject input) {
-        Extension result = new Extension();
         try {
+            Extension result = new Extension();
             if (input.has("data"))
                 result.data = input.getString("data");
             if (input.has("type"))
                 result.type = input.getString("type");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static Validity ValidityFromJSON(JSONObject input) {
-        Validity result = new Validity();
         try {
+            Validity result = new Validity();
             if (input.has("notAfter"))
                 result.notAfter = ValueFromJSON(input.getJSONObject("notAfter"));
             if (input.has("notBefore"))
                 result.notBefore = ValueFromJSON(input.getJSONObject("notBefore"));
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static CertificateChain CertificateChainFromJSON(JSONObject input) {
-        CertificateChain result = new CertificateChain();
         try {
+            CertificateChain result = new CertificateChain();
             if (input.has("origin"))
                 result.origin = input.getInt("origin");
             if (input.has("type"))
@@ -1522,27 +1689,29 @@ class JSONConstructor {
             if (input.has("subject"))
                 result.subject = AuthorityFromJSON(input.getJSONObject("subject"));
             if (input.has("notifications")){
-                JSONArray jsonArray = input.getJSONArray("notifications");
-                List<Long> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getLong(i));
-                result.notifications = array;
+                JSONArray jsonArray_notifications = input.getJSONArray("notifications");
+                List<Long> notifications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_notifications.length(); i++)
+                    notifications.add(jsonArray_notifications.getLong(i));
+                result.notifications = notifications;
             }
             if (input.has("extensions")){
-                JSONArray jsonArray = input.getJSONArray("extensions");
-                List<Extension> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ExtensionFromJSON(jsonArray.getJSONObject(i)));
-                result.extensions = array;
+                JSONArray jsonArray_extensions = input.getJSONArray("extensions");
+                List<Extension> extensions = new ArrayList<>();
+                for (int i = 0; i < jsonArray_extensions.length(); i++)
+                    extensions.add(ExtensionFromJSON(jsonArray_extensions.getJSONObject(i)));
+                result.extensions = extensions;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static SignerInfo SignerInfoFromJSON(JSONObject input) {
-        SignerInfo result = new SignerInfo();
         try {
+            SignerInfo result = new SignerInfo();
             if (input.has("version"))
                 result.version = input.getInt("version");
             if (input.has("paStatus"))
@@ -1562,34 +1731,36 @@ class JSONConstructor {
             if (input.has("issuer"))
                 result.issuer = AuthorityFromJSON(input.getJSONObject("issuer"));
             if (input.has("notifications")){
-                JSONArray jsonArray = input.getJSONArray("notifications");
-                List<Long> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getLong(i));
-                result.notifications = array;
+                JSONArray jsonArray_notifications = input.getJSONArray("notifications");
+                List<Long> notifications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_notifications.length(); i++)
+                    notifications.add(jsonArray_notifications.getLong(i));
+                result.notifications = notifications;
             }
             if (input.has("signedAttributes")){
-                JSONArray jsonArray = input.getJSONArray("signedAttributes");
-                List<Extension> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ExtensionFromJSON(jsonArray.getJSONObject(i)));
-                result.signedAttributes = array;
+                JSONArray jsonArray_signedAttributes = input.getJSONArray("signedAttributes");
+                List<Extension> signedAttributes = new ArrayList<>();
+                for (int i = 0; i < jsonArray_signedAttributes.length(); i++)
+                    signedAttributes.add(ExtensionFromJSON(jsonArray_signedAttributes.getJSONObject(i)));
+                result.signedAttributes = signedAttributes;
             }
             if (input.has("certificateChain")){
-                JSONArray jsonArray = input.getJSONArray("certificateChain");
-                List<CertificateChain> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(CertificateChainFromJSON(jsonArray.getJSONObject(i)));
-                result.certificateChain = array;
+                JSONArray jsonArray_certificateChain = input.getJSONArray("certificateChain");
+                List<CertificateChain> certificateChain = new ArrayList<>();
+                for (int i = 0; i < jsonArray_certificateChain.length(); i++)
+                    certificateChain.add(CertificateChainFromJSON(jsonArray_certificateChain.getJSONObject(i)));
+                result.certificateChain = certificateChain;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static SecurityObject SecurityObjectFromJSON(JSONObject input) {
-        SecurityObject result = new SecurityObject();
         try {
+            SecurityObject result = new SecurityObject();
             if (input.has("fileReference"))
                 result.fileReference = input.getInt("fileReference");
             if (input.has("version"))
@@ -1597,27 +1768,29 @@ class JSONConstructor {
             if (input.has("objectType"))
                 result.objectType = input.getString("objectType");
             if (input.has("notifications")){
-                JSONArray jsonArray = input.getJSONArray("notifications");
-                List<Long> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(jsonArray.getLong(i));
-                result.notifications = array;
+                JSONArray jsonArray_notifications = input.getJSONArray("notifications");
+                List<Long> notifications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_notifications.length(); i++)
+                    notifications.add(jsonArray_notifications.getLong(i));
+                result.notifications = notifications;
             }
             if (input.has("signerInfos")){
-                JSONArray jsonArray = input.getJSONArray("signerInfos");
-                List<SignerInfo> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(SignerInfoFromJSON(jsonArray.getJSONObject(i)));
-                result.signerInfos = array;
+                JSONArray jsonArray_signerInfos = input.getJSONArray("signerInfos");
+                List<SignerInfo> signerInfos = new ArrayList<>();
+                for (int i = 0; i < jsonArray_signerInfos.length(); i++)
+                    signerInfos.add(SignerInfoFromJSON(jsonArray_signerInfos.getJSONObject(i)));
+                result.signerInfos = signerInfos;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static CardProperties CardPropertiesFromJSON(JSONObject input) {
-        CardProperties result = new CardProperties();
         try {
+            CardProperties result = new CardProperties();
             if (input.has("aTQA"))
                 result.aTQA = input.getInt("aTQA");
             if (input.has("bitRateR"))
@@ -1646,14 +1819,16 @@ class JSONConstructor {
                 result.baudrate2 = input.getString("baudrate2");
             if (input.has("uID"))
                 result.uID = input.getString("uID");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static RFIDSessionData RFIDSessionDataFromJSON(JSONObject input) {
-        RFIDSessionData result = new RFIDSessionData();
         try {
+            RFIDSessionData result = new RFIDSessionData();
             if (input.has("totalBytesReceived"))
                 result.totalBytesReceived = input.getInt("totalBytesReceived");
             if (input.has("totalBytesSent"))
@@ -1669,67 +1844,73 @@ class JSONConstructor {
             if (input.has("sessionDataStatus"))
                 result.sessionDataStatus = RFIDSessionDataStatusFromJSON(input.getJSONObject("sessionDataStatus"));
             if (input.has("accessControls")){
-                JSONArray jsonArray = input.getJSONArray("accessControls");
-                List<AccessControlProcedureType> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(AccessControlProcedureTypeFromJSON(jsonArray.getJSONObject(i)));
-                result.accessControls = array;
+                JSONArray jsonArray_accessControls = input.getJSONArray("accessControls");
+                List<AccessControlProcedureType> accessControls = new ArrayList<>();
+                for (int i = 0; i < jsonArray_accessControls.length(); i++)
+                    accessControls.add(AccessControlProcedureTypeFromJSON(jsonArray_accessControls.getJSONObject(i)));
+                result.accessControls = accessControls;
             }
             if (input.has("applications")){
-                JSONArray jsonArray = input.getJSONArray("applications");
-                List<Application> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ApplicationFromJSON(jsonArray.getJSONObject(i)));
-                result.applications = array;
+                JSONArray jsonArray_applications = input.getJSONArray("applications");
+                List<Application> applications = new ArrayList<>();
+                for (int i = 0; i < jsonArray_applications.length(); i++)
+                    applications.add(ApplicationFromJSON(jsonArray_applications.getJSONObject(i)));
+                result.applications = applications;
             }
             if (input.has("securityObjects")){
-                JSONArray jsonArray = input.getJSONArray("securityObjects");
-                List<SecurityObject> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(SecurityObjectFromJSON(jsonArray.getJSONObject(i)));
-                result.securityObjects = array;
+                JSONArray jsonArray_securityObjects = input.getJSONArray("securityObjects");
+                List<SecurityObject> securityObjects = new ArrayList<>();
+                for (int i = 0; i < jsonArray_securityObjects.length(); i++)
+                    securityObjects.add(SecurityObjectFromJSON(jsonArray_securityObjects.getJSONObject(i)));
+                result.securityObjects = securityObjects;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderAuthenticityCheck DocumentReaderAuthenticityCheckFromJSON(JSONObject input) {
-        DocumentReaderAuthenticityCheck result = new DocumentReaderAuthenticityCheck();
         try {
+            DocumentReaderAuthenticityCheck result = new DocumentReaderAuthenticityCheck();
             if (input.has("type"))
                 result.type = input.getInt("type");
             if (input.has("pageIndex"))
                 result.pageIndex = input.getInt("pageIndex");
             if (input.has("elements")){
-                JSONArray jsonArray = input.getJSONArray("elements");
-                List<DocumentReaderAuthenticityElement> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderAuthenticityElementFromJSON(jsonArray.getJSONObject(i)));
-                result.elements = array;
+                JSONArray jsonArray_elements = input.getJSONArray("elements");
+                List<DocumentReaderAuthenticityElement> elements = new ArrayList<>();
+                for (int i = 0; i < jsonArray_elements.length(); i++)
+                    elements.add(DocumentReaderAuthenticityElementFromJSON(jsonArray_elements.getJSONObject(i)));
+                result.elements = elements;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static PDF417Info PDF417InfoFromJSON(JSONObject input) {
-        PDF417Info result = new PDF417Info();
         try {
+            PDF417Info result = new PDF417Info();
             if (input.has("errorLevel"))
                 result.errorLevel = input.getInt("errorLevel");
             if (input.has("columns"))
                 result.columns = input.getInt("columns");
             if (input.has("rows"))
                 result.rows = input.getInt("rows");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static RFIDSessionDataStatus RFIDSessionDataStatusFromJSON(JSONObject input) {
-        RFIDSessionDataStatus result = new RFIDSessionDataStatus();
         try {
+            RFIDSessionDataStatus result = new RFIDSessionDataStatus();
             if (input.has("AA"))
                 result.AA = input.getInt("AA");
             if (input.has("BAC"))
@@ -1744,29 +1925,33 @@ class JSONConstructor {
                 result.TA = input.getInt("TA");
             if (input.has("overallStatus"))
                 result.overallStatus = input.getInt("overallStatus");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderBarcodeResult DocumentReaderBarcodeResultFromJSON(JSONObject input) {
-        DocumentReaderBarcodeResult result = new DocumentReaderBarcodeResult();
         try {
+            DocumentReaderBarcodeResult result = new DocumentReaderBarcodeResult();
             if (input.has("fields")){
-                JSONArray jsonArray = input.getJSONArray("fields");
-                List<DocumentReaderBarcodeField> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderBarcodeFieldFromJSON(jsonArray.getJSONObject(i)));
-                result.fields = array;
+                JSONArray jsonArray_fields = input.getJSONArray("fields");
+                List<DocumentReaderBarcodeField> fields = new ArrayList<>();
+                for (int i = 0; i < jsonArray_fields.length(); i++)
+                    fields.add(DocumentReaderBarcodeFieldFromJSON(jsonArray_fields.getJSONObject(i)));
+                result.fields = fields;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderBarcodeField DocumentReaderBarcodeFieldFromJSON(JSONObject input) {
-        DocumentReaderBarcodeField result = new DocumentReaderBarcodeField();
         try {
+            DocumentReaderBarcodeField result = new DocumentReaderBarcodeField();
             if (input.has("barcodeType"))
                 result.barcodeType = input.getInt("barcodeType");
             if (input.has("status"))
@@ -1776,49 +1961,120 @@ class JSONConstructor {
             if (input.has("pdf417Info"))
                 result.pdf417Info = PDF417InfoFromJSON(input.getJSONObject("pdf417Info"));
             if (input.has("data")){
-                JSONArray jsonArray = input.getJSONArray("data");
-                byte[] array = new byte[jsonArray.length()];
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array[i] = (byte) jsonArray.get(i);
-                result.data = array;
+                JSONArray jsonArray_data = input.getJSONArray("data");
+                byte[] data = new byte[jsonArray_data.length()];
+                for (int i = 0; i < jsonArray_data.length(); i++)
+                    data[i] = (byte) jsonArray_data.get(i);
+                result.data = data;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderAuthenticityResult DocumentReaderAuthenticityResultFromJSON(JSONObject input) {
-        DocumentReaderAuthenticityResult result = new DocumentReaderAuthenticityResult();
         try {
+            DocumentReaderAuthenticityResult result = new DocumentReaderAuthenticityResult();
             if (input.has("checks")){
-                JSONArray jsonArray = input.getJSONArray("checks");
-                List<DocumentReaderAuthenticityCheck> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderAuthenticityCheckFromJSON(jsonArray.getJSONObject(i)));
-                result.checks = array;
+                JSONArray jsonArray_checks = input.getJSONArray("checks");
+                List<DocumentReaderAuthenticityCheck> checks = new ArrayList<>();
+                for (int i = 0; i < jsonArray_checks.length(); i++)
+                    checks.add(DocumentReaderAuthenticityCheckFromJSON(jsonArray_checks.getJSONObject(i)));
+                result.checks = checks;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static DocumentReaderAuthenticityElement DocumentReaderAuthenticityElementFromJSON(JSONObject input) {
-        DocumentReaderAuthenticityElement result = new DocumentReaderAuthenticityElement();
         try {
+            DocumentReaderAuthenticityElement result = new DocumentReaderAuthenticityElement();
             if (input.has("status"))
                 result.status = input.getInt("status");
             if (input.has("elementType"))
                 result.elementType = input.getInt("elementType");
             if (input.has("elementDiagnose"))
                 result.elementDiagnose = input.getInt("elementDiagnose");
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
+    }
+
+    static PAResourcesIssuer PAResourcesIssuerFromJSON(JSONObject input) {
+        try {
+            PAResourcesIssuer result = new PAResourcesIssuer();
+            if (input.has("data")){
+                JSONArray jsonArray_data = input.getJSONArray("data");
+                byte[] data = new byte[jsonArray_data.length()];
+                for (int i = 0; i < jsonArray_data.length(); i++)
+                    data[i] = (byte) jsonArray_data.get(i);
+                result.data = data;
+            }
+            if (input.has("friendlyName"))
+                result.friendlyName = input.getString("friendlyName");
+            if (input.has("attributes")){
+                JSONArray jsonArray_attributes = input.getJSONArray("attributes");
+                PAAttribute[] attributes = new PAAttribute[jsonArray_attributes.length()];
+                for (int i = 0; i < jsonArray_attributes.length(); i++)
+                    attributes[i] = PAAttributeFromJSON(jsonArray_attributes.getJSONObject(i));
+                result.attributes = attributes;
+            }
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static PAAttribute PAAttributeFromJSON(JSONObject input) {
+        try {
+            PAAttribute result = new PAAttribute();
+            if (input.has("type"))
+                result.type = input.getString("type");
+            if (input.has("value"))
+                result.value = input.getString("value");
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static TAChallenge TAChallengeFromJSON(JSONObject input) {
+        try {
+            TAChallenge result = new TAChallenge();
+            if (input.has("data")){
+                JSONArray jsonArray_data = input.getJSONArray("data");
+                byte[] data = new byte[jsonArray_data.length()];
+                for (int i = 0; i < jsonArray_data.length(); i++)
+                    data[i] = (byte) jsonArray_data.get(i);
+                result.data = data;
+            }
+            if (input.has("auxPCD"))
+                result.auxPCD = input.getString("auxPCD");
+            if (input.has("challengePICC"))
+                result.challengePICC = input.getString("challengePICC");
+            if (input.has("hashPK"))
+                result.hashPK = input.getString("hashPK");
+            if (input.has("idPICC"))
+                result.idPICC = input.getString("idPICC");
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     static DocumentReaderResults DocumentReaderResultsFromJSON(JSONObject input) {
-        DocumentReaderResults result = new DocumentReaderResults();
         try {
+            DocumentReaderResults result = new DocumentReaderResults();
             if (input.has("chipPage"))
                 result.chipPage = input.getInt("chipPage");
             if (input.has("processingFinishedStatus"))
@@ -1838,32 +2094,32 @@ class JSONConstructor {
             if (input.has("textResult"))
                 result.textResult = DocumentReaderTextResultFromJSON(input.getJSONObject("textResult"));
             if (input.has("documentPosition")){
-                JSONArray jsonArray = input.getJSONArray("documentPosition");
-                List<ElementPosition> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ElementPositionFromJSON(jsonArray.getJSONObject(i)));
-                result.documentPosition = array;
+                JSONArray jsonArray_documentPosition = input.getJSONArray("documentPosition");
+                List<ElementPosition> documentPosition = new ArrayList<>();
+                for (int i = 0; i < jsonArray_documentPosition.length(); i++)
+                    documentPosition.add(ElementPositionFromJSON(jsonArray_documentPosition.getJSONObject(i)));
+                result.documentPosition = documentPosition;
             }
             if (input.has("barcodePosition")){
-                JSONArray jsonArray = input.getJSONArray("barcodePosition");
-                List<ElementPosition> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ElementPositionFromJSON(jsonArray.getJSONObject(i)));
-                result.barcodePosition = array;
+                JSONArray jsonArray_barcodePosition = input.getJSONArray("barcodePosition");
+                List<ElementPosition> barcodePosition = new ArrayList<>();
+                for (int i = 0; i < jsonArray_barcodePosition.length(); i++)
+                    barcodePosition.add(ElementPositionFromJSON(jsonArray_barcodePosition.getJSONObject(i)));
+                result.barcodePosition = barcodePosition;
             }
             if (input.has("mrzPosition")){
-                JSONArray jsonArray = input.getJSONArray("mrzPosition");
-                List<ElementPosition> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ElementPositionFromJSON(jsonArray.getJSONObject(i)));
-                result.mrzPosition = array;
+                JSONArray jsonArray_mrzPosition = input.getJSONArray("mrzPosition");
+                List<ElementPosition> mrzPosition = new ArrayList<>();
+                for (int i = 0; i < jsonArray_mrzPosition.length(); i++)
+                    mrzPosition.add(ElementPositionFromJSON(jsonArray_mrzPosition.getJSONObject(i)));
+                result.mrzPosition = mrzPosition;
             }
             if (input.has("imageQuality")){
-                JSONArray jsonArray = input.getJSONArray("imageQuality");
-                List<ImageQualityGroup> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(ImageQualityGroupFromJSON(jsonArray.getJSONObject(i)));
-                result.imageQuality = array;
+                JSONArray jsonArray_imageQuality = input.getJSONArray("imageQuality");
+                List<ImageQualityGroup> imageQuality = new ArrayList<>();
+                for (int i = 0; i < jsonArray_imageQuality.length(); i++)
+                    imageQuality.add(ImageQualityGroupFromJSON(jsonArray_imageQuality.getJSONObject(i)));
+                result.imageQuality = imageQuality;
             }
             if (input.has("rawResult"))
                 result.rawResult = input.getString("rawResult");
@@ -1876,14 +2132,16 @@ class JSONConstructor {
             if (input.has("barcodeResult"))
                 result.barcodeResult = DocumentReaderBarcodeResultFromJSON(input.getJSONObject("barcodeResult"));
             if (input.has("documentType")){
-                JSONArray jsonArray = input.getJSONArray("documentType");
-                List<DocumentReaderDocumentType> array = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++)
-                    array.add(DocumentReaderDocumentTypeFromJSON(jsonArray.getJSONObject(i)));
-                result.documentType = array;
+                JSONArray jsonArray_documentType = input.getJSONArray("documentType");
+                List<DocumentReaderDocumentType> documentType = new ArrayList<>();
+                for (int i = 0; i < jsonArray_documentType.length(); i++)
+                    documentType.add(DocumentReaderDocumentTypeFromJSON(jsonArray_documentType.getJSONObject(i)));
+                result.documentType = documentType;
             }
-        } catch (JSONException ignored) {
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return result;
+        return null;
     }
 }

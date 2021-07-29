@@ -18,10 +18,16 @@ import androidx.lifecycle.LifecycleEventObserver;
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
+import com.regula.documentreader.api.completions.IRfidNotificationCompletion;
+import com.regula.documentreader.api.completions.IRfidPKDCertificateCompletion;
+import com.regula.documentreader.api.completions.IRfidReaderRequest;
+import com.regula.documentreader.api.completions.IRfidTASignatureCompletion;
 import com.regula.documentreader.api.enums.DocReaderAction;
 import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.params.ImageInputParam;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
+import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
+import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
 import com.regula.documentreader.api.results.DocumentReaderResults;
 
 import org.json.JSONArray;
@@ -54,6 +60,13 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private EventChannel.EventSink eventDatabaseProgress;
     private EventChannel.EventSink eventCompletion;
     private EventChannel.EventSink eventVideoEncoderCompletion;
+    private EventChannel.EventSink eventIRfidNotificationCompletion;
+    private EventChannel.EventSink eventPACertificateCompletion;
+    private EventChannel.EventSink eventTACertificateCompletion;
+    private EventChannel.EventSink eventTASignatureCompletion;
+    private IRfidPKDCertificateCompletion paCertificateCompletion;
+    private IRfidPKDCertificateCompletion taCertificateCompletion;
+    private IRfidTASignatureCompletion taSignatureCompletion;
     private static int databaseDownloadProgress = 0;
 
     public FlutterDocumentReaderApiPlugin() {
@@ -93,6 +106,46 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             @Override
             public void onListen(Object arguments, EventChannel.EventSink events) {
                 eventVideoEncoderCompletion = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/rfid_notification_completion").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                eventIRfidNotificationCompletion = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/pa_certificate_completion").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                eventPACertificateCompletion = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/ta_certificate_completion").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                eventTACertificateCompletion = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/ta_signature_completion").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                eventTASignatureCompletion = events;
             }
 
             @Override
@@ -181,7 +234,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         return (T) args.get(index);
     }
 
-    private void sendCompletion(int action, DocumentReaderResults results, Throwable error) {
+    private void sendCompletion(int action, DocumentReaderResults results, DocumentReaderException error) {
         if (eventCompletion != null)
             new Handler(Looper.getMainLooper()).post(() -> eventCompletion.success(JSONConstructor.generateCompletion(action, results, error, getContext()).toString()));
     }
@@ -194,6 +247,26 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private void sendVideoEncoderCompletion(String sessionId, File file) {
         if (eventVideoEncoderCompletion != null)
             new Handler(Looper.getMainLooper()).post(() -> eventVideoEncoderCompletion.success(JSONConstructor.generateVideoEncoderCompletion(sessionId, file).toString()));
+    }
+
+    private void sendIRfidNotificationCompletion(int notification) {
+        if (eventIRfidNotificationCompletion != null)
+            new Handler(Looper.getMainLooper()).post(() -> eventIRfidNotificationCompletion.success(notification + ""));
+    }
+
+    private void sendPACertificateCompletion(byte[] serialNumber, PAResourcesIssuer issuer) {
+        if (eventPACertificateCompletion != null)
+            new Handler(Looper.getMainLooper()).post(() -> eventPACertificateCompletion.success(JSONConstructor.generatePACertificateCompletion(serialNumber, issuer).toString()));
+    }
+
+    private void sendTACertificateCompletion(String keyCAR) {
+        if (eventTACertificateCompletion != null)
+            new Handler(Looper.getMainLooper()).post(() -> eventTACertificateCompletion.success(keyCAR));
+    }
+
+    private void sendTASignatureCompletion(TAChallenge challenge) {
+        if (eventTASignatureCompletion != null)
+            new Handler(Looper.getMainLooper()).post(() -> eventTASignatureCompletion.success(JSONConstructor.generateTAChallenge(challenge).toString()));
     }
 
     @Override
@@ -318,6 +391,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "getRfidSessionStatus":
                     getRfidSessionStatus(callback);
                     break;
+                case "setRfidDelegate":
+                    setRfidDelegate(callback, args(0));
+                    break;
                 case "setEnableCoreLogs":
                     setEnableCoreLogs(callback, args(0));
                     break;
@@ -357,8 +433,20 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "setRfidSessionStatus":
                     setRfidSessionStatus(callback, args(0));
                     break;
+                case "providePACertificates":
+                    providePACertificates(callback, args(0));
+                    break;
+                case "provideTACertificates":
+                    provideTACertificates(callback, args(0));
+                    break;
+                case "provideTASignature":
+                    provideTASignature(callback, args(0));
+                    break;
                 case "initializeReaderWithDatabasePath":
                     initializeReaderWithDatabasePath(callback, args(0), args(1));
+                    break;
+                case "initializeReaderWithDatabase":
+                    initializeReaderWithDatabase(callback, args(0), args(1));
                     break;
                 case "recognizeImageFrame":
                     recognizeImageFrame(callback, args(0), args(1));
@@ -506,6 +594,13 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             callback.success("already initialized");
     }
 
+    private void initializeReaderWithDatabase(Callback callback, Object license, Object db) {
+        if (!Instance().getDocumentReaderIsReady())
+            Instance().initializeReader(getContext(), Base64.decode(license.toString(), Base64.DEFAULT), Base64.decode(db.toString(), Base64.DEFAULT), getInitCompletion(callback));
+        else
+            callback.success("already initialized");
+    }
+
     private void startNewSession(Callback callback) {
         Instance().startNewSession();
         callback.success();
@@ -602,7 +697,12 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
 
     private void startRFIDReader(@SuppressWarnings("unused") Callback callback) {
         stopBackgroundRFID();
-        Instance().startRFIDReader(getContext(), getCompletion());
+        IRfidReaderRequest delegate = null;
+        if(rfidDelegate == RFIDDelegate.NO_PA)
+            delegate = getIRfidReaderRequestNoPA();
+        if(rfidDelegate == RFIDDelegate.FULL)
+            delegate = getIRfidReaderRequest();
+        Instance().startRFIDReader(getContext(), getCompletion(), delegate, getIRfidNotificationCompletion());
     }
 
     private void stopRFIDReader(Callback callback) {
@@ -638,8 +738,50 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         startForegroundDispatch(getActivity());
     }
 
+    private void providePACertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {
+        if (paCertificateCompletion == null) {
+            callback.error("paCertificateCompletion is null");
+            return;
+        }
+        PKDCertificate[] certificates = new PKDCertificate[certificatesJSON.length()];
+        for (int i = 0; i < certificatesJSON.length(); i++) {
+            JSONObject certificate = certificatesJSON.getJSONObject(i);
+            certificates[i] = new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null);
+        }
+        paCertificateCompletion.onCertificatesReceived(certificates);
+        callback.success();
+    }
+
+    private void provideTACertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {
+        if (taCertificateCompletion == null) {
+            callback.error("taCertificateCompletion is null");
+            return;
+        }
+        PKDCertificate[] certificates = new PKDCertificate[certificatesJSON.length()];
+        for (int i = 0; i < certificatesJSON.length(); i++) {
+            JSONObject certificate = certificatesJSON.getJSONObject(i);
+            certificates[i] = new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null);
+        }
+        taCertificateCompletion.onCertificatesReceived(certificates);
+        callback.success();
+    }
+
+    private void provideTASignature(Callback callback, Object signature) {
+        if (taSignatureCompletion == null) {
+            callback.error("taSignatureCompletion is null");
+            return;
+        }
+        taSignatureCompletion.onSignatureReceived(Base64.decode(signature.toString(), Base64.DEFAULT));
+        callback.success();
+    }
+
     private void setCameraSessionIsPaused(Callback callback, @SuppressWarnings("unused") boolean ignored) {
         callback.error("setCameraSessionIsPaused() is an ios-only method");
+    }
+
+    private void setRfidDelegate(Callback callback, int delegate) {
+        rfidDelegate = delegate;
+        callback.success();
     }
 
     private void getCameraSessionIsPaused(Callback callback) {
@@ -701,5 +843,63 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             } else
                 callback.error("Init failed:" + error);
         };
+    }
+
+    private IRfidReaderRequest getIRfidReaderRequest() {
+        return new IRfidReaderRequest() {
+            @Override
+            public void onRequestPACertificates(byte[] serialNumber, PAResourcesIssuer issuer, IRfidPKDCertificateCompletion completion) {
+                paCertificateCompletion = completion;
+                completion.onCertificatesReceived(new PKDCertificate[0]);
+                sendPACertificateCompletion(serialNumber, issuer);
+            }
+
+            @Override
+            public void onRequestTACertificates(String keyCAR, IRfidPKDCertificateCompletion completion) {
+                taCertificateCompletion = completion;
+                sendTACertificateCompletion(keyCAR);
+            }
+
+            @Override
+            public void onRequestTASignature(TAChallenge challenge, IRfidTASignatureCompletion completion) {
+                taSignatureCompletion = completion;
+                sendTASignatureCompletion(challenge);
+            }
+        };
+    }
+
+    private IRfidReaderRequest getIRfidReaderRequestNoPA() {
+        return new IRfidReaderRequest() {
+            @Override
+            public void onRequestPACertificates(byte[] serialNumber, PAResourcesIssuer issuer, IRfidPKDCertificateCompletion completion) {
+                paCertificateCompletion = null;
+                completion.onCertificatesReceived(new PKDCertificate[0]);
+            }
+
+            @Override
+            public void onRequestTACertificates(String keyCAR, IRfidPKDCertificateCompletion completion) {
+                taCertificateCompletion = completion;
+                sendTACertificateCompletion(keyCAR);
+            }
+
+            @Override
+            public void onRequestTASignature(TAChallenge challenge, IRfidTASignatureCompletion completion) {
+                taSignatureCompletion = completion;
+                sendTASignatureCompletion(challenge);
+            }
+        };
+    }
+
+    private static int rfidDelegate = RFIDDelegate.NULL;
+
+    private static class RFIDDelegate {
+        public static final int NULL = 0;
+        public static final int NO_PA = 1;
+        public static final int FULL = 2;
+    }
+
+
+    private IRfidNotificationCompletion getIRfidNotificationCompletion() {
+        return (notificationType, value) -> sendIRfidNotificationCompletion(notificationType);
     }
 }
