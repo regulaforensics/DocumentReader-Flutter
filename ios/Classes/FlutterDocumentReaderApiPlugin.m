@@ -234,7 +234,9 @@ typedef void (^Callback)(NSString* response);
         result([FlutterError errorWithCode:@"error" message:error details:nil]);
     };
 
-    if([action isEqualToString:@"getAPIVersion"])
+    if([action isEqualToString:@"initializeReaderAutomatically"])
+        [self initializeReaderAutomatically :successCallback :errorCallback];
+    else if([action isEqualToString:@"getAPIVersion"])
         [self getAPIVersion :successCallback :errorCallback];
     else if([action isEqualToString:@"getAvailableScenarios"])
         [self getAvailableScenarios :successCallback :errorCallback];
@@ -338,6 +340,8 @@ typedef void (^Callback)(NSString* response);
         [self provideTACertificates :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"provideTASignature"])
         [self provideTASignature :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"parseCoreResults"])
+        [self parseCoreResults :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReaderWithDatabasePath"])
         [self initializeReaderWithDatabasePath :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReaderWithDatabase"])
@@ -356,6 +360,12 @@ typedef void (^Callback)(NSString* response);
         [self recognizeImageWithCameraMode :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else
         [self result:[NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action] :errorCallback];
+}
+
+- (void) initializeReaderAutomatically:(Callback)successCallback :(Callback)errorCallback{
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"regula.license" ofType:nil];
+    NSData *licenseData = [NSData dataWithContentsOfFile:dataPath];
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:licenseData] completion:[self getInitCompletion :successCallback :errorCallback]];
 }
 
 - (void) resetConfiguration:(Callback)successCallback :(Callback)errorCallback{
@@ -399,7 +409,11 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) initializeReader:(NSString*)licenseString :(Callback)successCallback :(Callback)errorCallback{
-    [RGLDocReader.shared initializeReader:[[NSData alloc] initWithBase64EncodedString:licenseString options:0] completion:[self getInitCompletion :successCallback :errorCallback]];
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:[[NSData alloc] initWithBase64EncodedString:licenseString options:0]] completion:[self getInitCompletion :successCallback :errorCallback]];
+}
+
+- (void) parseCoreResults:(NSString*)json :(Callback)successCallback :(Callback)errorCallback{
+    [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderResults:[RGLDocumentReaderResults initWithRawString: json]]] :successCallback];
 }
 
 - (void) startRFIDReader:(Callback)successCallback :(Callback)errorCallback{
@@ -409,7 +423,7 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) initializeReaderWithDatabasePath:(NSString*)licenseString :(NSString*)databasePath :(Callback)successCallback :(Callback)errorCallback{
-    [RGLDocReader.shared initializeReader:[[NSData alloc] initWithBase64EncodedString:licenseString options:0] databasePath:databasePath completion:[self getInitCompletion :successCallback :errorCallback]];
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:[[NSData alloc] initWithBase64EncodedString:licenseString options:0] licenseUpdateCheck:true databasePath:databasePath] completion:[self getInitCompletion :successCallback :errorCallback]];
 }
 
 - (void) prepareDatabase:(NSString*)dbID :(Callback)successCallback :(Callback)errorCallback{

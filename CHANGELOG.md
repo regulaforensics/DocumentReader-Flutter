@@ -1,3 +1,121 @@
+# 5.8.0
+
+#### API:
+
+* Added capability to load and process a PDF file or an image in the form of binary data
+* Added the ability to change many new properties through processParams, and not through customParams only, as it was before
+* Added the ability to disable automatic license renewal
+* Added the ability to disable barcode parsing
+* Changed processParams, most values are now objects
+* Fixed memory leak when using the readRFID function
+* Fixed the display of prompts while reading several pages of a document
+* Fixed a problem with the display of the flashlight button
+* Added new values to the `eVisualFieldType` parameter
+  * `FT_DLCLASSCODE_CD_FROM`
+  * `FT_DLCLASSCODE_CD_TO`
+  * `FT_DLCLASSCODE_CD_NOTES`
+
+#### Core:
+
+* Document detection and crop
+  * Multiple optimizations and improvements that reduce processing time and allow more precise cropping of the documents from an input image and better recognition
+  * Improvements of processing two sides of an ID card in one image
+  * Added support for Brazilian Driving Licenses format (unfolded)
+* OCR
+  * Significantly improved recognition quality for Arabic, Chinese and Japanese
+  * Added correct support for perforation fonts used in the Philippines, Equatorial Guinea, Ireland, Poland
+  * Fixed issue with reading perforated numbers in Finland, Sweden
+* MRZ
+  * Updated parsers:
+    * Albania ID card
+    * Cote d'Ivoire ID card
+    * Kenya Foreigner Certificate
+    * Korea passport
+    * Morocco ID card
+    * Netherlands’s passport
+    * Norway ID card
+  * Improved MRZ detection on complex backgrounds
+  * Fixed issue with ID1 2x30 format detection / parameters output
+* Barcode
+  * Added new parsers:
+    * Argentina DL
+    * Bangladesh ID card
+    * Colombia ID card
+    * Honduras ID card
+    * Mexico DL
+    * Moldova Residence Permit
+    * Myanmar DL
+    * Nicaragua ID card
+    * Panama ID card
+    * Philippines DL
+    * Russian Federation housing and utilities bills
+    * Santa Lucia ID card
+  * Updated parsers:
+    * AAMWA (Issuer Identification Number added)
+    * Belarus ID card / Residence permit
+    * Jamaica Firearm License
+    * Rwanda ID card
+    * Togo ID card, Residence permit
+  * Minor fixes for 1D, 2D codes reading
+* Text data parsing and validation
+  * Added parsing and conversion of the Taiwan calendar dates into Gregorian and creation of additional fields of the same type as original with LCID equal to 0
+  * Added “customParams.convertCase” parameter, that may specify the desired conversion of text case in output results based on the dedicated enumeration. By default, text fields are returned in the original case as they are in the document
+  * Added “processParam.minimalHolderAge” parameter, that may specify minimum age threshold of document holder. If the calculated age is below this threshold, then age field validity and document validity will fail. By default, not set and restrictions are not applied
+  * Added possibility to specify the need of transliteration from Cyrillic to Latin for specific fields in the document template
+  * Added conversion from issuing authority code to its name for Belarus
+  * Fixed issue with field value mask used for OCR and parsing. Now they can be separated
+  * Fixed issue with “processParam.dateFormat” applied from the previous request if not set in consequent requests
+  * Fixed issue with transliteration of “ñ” in Peru documents
+  * Fixed issue with comparison of values from transliterated text fields from Arabic to Latin with original Latin fields. Now such transliterated fields are excluded from the comparison
+  * Fixed issue with Hijri dates conversion to the Gregorian calendar
+  * Fixed issue with Japanese dates conversion – original value was missing from results
+  * Fixed issue with partial comparison of the document numbers
+  * Fixed issue with names comparison when the visual field value is shorter than in MRZ (truncated/abbreviated)
+  * Updated stop words list for names
+* Image QA
+  * Updated NN for focus detection (accuracy, size, and inference time improved)
+  * Updated NN for moiré detection (accuracy, size, and inference time improved)
+* Authenticity
+  * Fixed issue with false luminescence check which led to false rejections
+  * Fixed issue with hologram detection in some documents
+* Added new NN for face detection with improved detection accuracy and speed
+* Fixed issue with not reading CAN from ID cards on normal scans when only MRZ is enabled (without Visual OCR)
+* Fixed issue with requesting more than one additional page for ID cards in some cases (ID1, ID2)
+* Fixed issue with the processing of some PDF files that led to incorrect results or crashes&#x20;
+* Fixed performance issue with performing face detection and MRZ reading twice in case the original image is already cropped, but the processParam.alreadyCropped option is not set
+* Fixed performance issue with processing multiple pages in one request that led to increased processing time depending on the order of the submitted pages
+* Fixed issue with no returning RFID reading results in case session saving was enabled
+* Fixed issue with reducing cropped image resolution when capturing UV and IR on 7310 devices
+* Fixed issue with incorrect behavior if input images in base64 in /process request contain headers with description of contents like "data:image/jpeg;base64", etc
+* Fixed issue with not clearing results of the previous scan when it was submitted in encrypted format (mobile capture session for reprocessing on the server)
+* Fixed issue when processing multiple pages of unknown documents and not all of them were in output results
+* Fixed issue with incorrect elapsedTime value in output results
+* Fixed significant performance issue with loading input data from JSON
+* Fixed significant performance issue with output results into JSON
+* Fixed performance and high memory usage issue with cropping of graphical fields
+* Fixed performance issue when processing some cases of PDF files
+* Fixed issue with losing connection to 3rd party devices when portrait comparison is called&#x20;
+* Fixed issue with log output format and depth setting
+* Code quality improved with lots of small issues fixed
+
+#### Core RFID SDK:
+
+* Implemented capability to perform BAC after PACE was performed unsuccessfully
+* Fixed issue with using extended length commands when performing AA when using key/signature length of 229 bytes
+
+#### Licensing:
+
+* Implemented capability to hide Regula logo with online transaction based mobile SDK license
+* Implemented capability to automatically update an expired license on mobile via a request to our licensing service when using an offline static license in the mobile app. This is very useful, as the application does not have to be recompiled for updating the license only on its expiration. In case renewed offline license was issued for this specific application ID / bundleID, this new license will be automatically downloaded and used on SDK initialization. This can be disabled by setting a specific property in mobile SDK before initialization
+
+#### Database:
+
+* Fixed issues in multiple (over 100) document templates for better quality results
+* Changed dType to diPassportPage value in passport other page templates, except for main biographical data page
+* 248 countries and territories / 9813 documents included
+* 166 new documents added
+* For details see Supported documents list
+
 # 5.7.0
 
 #### API:

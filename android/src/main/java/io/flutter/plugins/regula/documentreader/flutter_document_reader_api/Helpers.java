@@ -136,4 +136,11 @@ class Helpers {
             result.add(jsonArray.optString(i));
         return result;
     }
+
+    static String[] stringArrayFromJson(JSONArray jsonArray) {
+        String[] result = new String[jsonArray.length()];
+        for (int i = 0; i < jsonArray.length(); i++)
+            result[i] = jsonArray.optString(i);
+        return result;
+    }
 }

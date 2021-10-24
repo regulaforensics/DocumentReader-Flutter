@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import com.regula.documentreader.api.DocumentReader;
+import com.regula.documentreader.api.params.ImageQA;
 import com.regula.documentreader.api.params.ParamsCustomization;
 import com.regula.documentreader.api.params.Functionality;
 import com.regula.documentreader.api.params.ProcessParam;
@@ -100,6 +101,8 @@ class RegulaConfig {
             editor.setDoRecordProcessingVideo(opts.getBoolean("recordScanningProcess"));
         if (opts.has("manualMultipageMode"))
             editor.setManualMultipageMode(opts.getBoolean("manualMultipageMode"));
+        if (opts.has("exposure"))
+            editor.setExposure(BigDecimal.valueOf(opts.getDouble("exposure")).floatValue());
 
         editor.apply();
     }
@@ -165,6 +168,47 @@ class RegulaConfig {
             processParams.checkHologram = opts.getBoolean("checkHologram");
         if (opts.has("checkRequiredTextFields"))
             processParams.checkRequiredTextFields = opts.getBoolean("checkRequiredTextFields");
+        if (opts.has("depersonalizeLog"))
+            processParams.depersonalizeLog = opts.getBoolean("depersonalizeLog");
+        if (opts.has("resultTypeOutput"))
+            processParams.resultTypeOutput = intArrayFromJson(opts.getJSONArray("resultTypeOutput"));
+        if (opts.has("generateDoublePageSpreadImage"))
+            processParams.generateDoublePageSpreadImage = opts.getBoolean("generateDoublePageSpreadImage");
+        if (opts.has("imageDpiOutMax"))
+            processParams.imageDpiOutMax = opts.getInt("imageDpiOutMax");
+        if (opts.has("alreadyCropped"))
+            processParams.alreadyCropped = opts.getBoolean("alreadyCropped");
+        if (opts.has("forceDocID"))
+            processParams.forceDocID = opts.getInt("forceDocID");
+        if (opts.has("matchTextFieldMask"))
+            processParams.matchTextFieldMask = opts.getBoolean("matchTextFieldMask");
+        if (opts.has("fastDocDetect"))
+            processParams.fastDocDetect = opts.getBoolean("fastDocDetect");
+        if (opts.has("updateOCRValidityByGlare"))
+            processParams.updateOCRValidityByGlare = opts.getBoolean("updateOCRValidityByGlare");
+        if (opts.has("imageQA")) {
+            ImageQA img = new ImageQA();
+            img.fromJson(opts.getJSONObject("imageQA"));
+            processParams.imageQA = img;
+        }
+        if (opts.has("forceDocFormat"))
+            processParams.forceDocFormat = opts.getInt("forceDocFormat");
+        if (opts.has("noGraphics"))
+            processParams.noGraphics = opts.getBoolean("noGraphics");
+        if (opts.has("documentAreaMin"))
+            processParams.documentAreaMin = opts.getDouble("documentAreaMin");
+        if (opts.has("multiDocOnImage"))
+            processParams.multiDocOnImage = opts.getBoolean("multiDocOnImage");
+        if (opts.has("shiftExpiryDate"))
+            processParams.shiftExpiryDate = opts.getInt("shiftExpiryDate");
+        if (opts.has("minimalHolderAge"))
+            processParams.minimalHolderAge = opts.getInt("minimalHolderAge");
+        if (opts.has("mrzFormatsFilter"))
+            processParams.mrzFormatsFilter = stringArrayFromJson(opts.getJSONArray("mrzFormatsFilter"));
+        if (opts.has("forceReadMrzBeforeLocate"))
+            processParams.forceReadMrzBeforeLocate = opts.getBoolean("forceReadMrzBeforeLocate");
+        if (opts.has("parseBarcodes"))
+            processParams.parseBarcodes = opts.getBoolean("parseBarcodes");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -278,7 +322,7 @@ class RegulaConfig {
         if (opts.has("statusBackgroundColor"))
             editor.setStatusBackgroundColor(opts.getString("statusBackgroundColor"));
 
-        editor.apply();
+        editor.applyImmediately(context);
     }
 
     private static JSONObject getFunctionality(Functionality functionality) throws JSONException {
@@ -316,6 +360,7 @@ class RegulaConfig {
         object.put("isCameraTorchCheckDisabled", functionality.isCameraTorchCheckDisabled());
         object.put("recordScanningProcess", functionality.doRecordProcessingVideo());
         object.put("manualMultipageMode", functionality.isManualMultipageMode());
+        object.put("exposure", functionality.getExposure());
 
         return object;
     }
@@ -382,6 +427,10 @@ class RegulaConfig {
 
     private static JSONObject getProcessParams(ProcessParam processParams) throws JSONException {
         JSONObject object = new JSONObject();
+        object.put("documentIDList", processParams.documentIDList != null ? generateIntArray(processParams.documentIDList) : null);
+        object.put("barcodeTypes", processParams.doBarcodes != null ? generateArray(processParams.doBarcodes) : null);
+        object.put("fieldTypesFilter", processParams.fieldTypesFilter != null ? generateIntArray(processParams.fieldTypesFilter) : null);
+        object.put("faceMetaData", processParams.faceMetaData != null ? generateArray(processParams.faceMetaData, JSONConstructor::generateFaceMetaData) : null);
         object.put("scenario", processParams.scenario);
         object.put("measureSystem", processParams.measureSystem);
         object.put("uvTorchEnabled", processParams.uvTorchEnabled);
@@ -409,14 +458,25 @@ class RegulaConfig {
         object.put("returnCroppedBarcode", processParams.returnCroppedBarcode);
         object.put("checkHologram", processParams.checkHologram);
         object.put("checkRequiredTextFields", processParams.checkRequiredTextFields);
-        if (processParams.documentIDList != null)
-            object.put("documentIDList", generateIntArray(processParams.documentIDList));
-        if (processParams.doBarcodes != null)
-            object.put("barcodeTypes", generateArray(processParams.doBarcodes));
-        if (processParams.fieldTypesFilter != null)
-            object.put("fieldTypesFilter", generateIntArray(processParams.fieldTypesFilter));
-        if (processParams.faceMetaData != null)
-            object.put("faceMetaData", generateArray(processParams.faceMetaData, JSONConstructor::generateFaceMetaData));
+        object.put("depersonalizeLog", processParams.depersonalizeLog);
+        object.put("resultTypeOutput", processParams.resultTypeOutput);
+        object.put("generateDoublePageSpreadImage", processParams.generateDoublePageSpreadImage);
+        object.put("imageDpiOutMax", processParams.imageDpiOutMax);
+        object.put("alreadyCropped", processParams.alreadyCropped);
+        object.put("forceDocID", processParams.forceDocID);
+        object.put("matchTextFieldMask", processParams.matchTextFieldMask);
+        object.put("fastDocDetect", processParams.fastDocDetect);
+        object.put("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare);
+        object.put("imageQA", processParams.imageQA != null ? processParams.imageQA.toJsonObject() : null);
+        object.put("forceDocFormat", processParams.forceDocFormat);
+        object.put("noGraphics", processParams.noGraphics);
+        object.put("documentAreaMin", processParams.documentAreaMin);
+        object.put("multiDocOnImage", processParams.multiDocOnImage);
+        object.put("shiftExpiryDate", processParams.shiftExpiryDate);
+        object.put("minimalHolderAge", processParams.minimalHolderAge);
+        object.put("mrzFormatsFilter", processParams.mrzFormatsFilter != null ? generateArray(processParams.mrzFormatsFilter) : null);
+        object.put("forceReadMrzBeforeLocate", processParams.forceReadMrzBeforeLocate);
+        object.put("parseBarcodes", processParams.parseBarcodes);
 
         return object;
     }

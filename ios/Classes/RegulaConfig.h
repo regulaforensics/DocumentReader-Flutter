@@ -19,5 +19,7 @@
 +(RGLePassportDataGroup*)RGLePassportDataGroupFromJson:(NSDictionary *) dict;
 +(RGLeIDDataGroup*)RGLeIDDataGroupFromJson:(NSDictionary*) dict;
 +(RGLeDLDataGroup*)RGLeDLDataGroupFromJson:(NSDictionary*) dict;
++(RGLImageQA*)ImageQAFromJson:(NSDictionary*) dict;
++(NSDictionary*)ImageQAToJson:(RGLImageQA*) input;
 @end
 #endif

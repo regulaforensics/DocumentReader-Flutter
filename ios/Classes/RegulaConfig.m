@@ -284,6 +284,39 @@
     }
 }
 
++(RGLImageQA*)ImageQAFromJson:(NSDictionary*)dict {
+    RGLImageQA *image = [RGLImageQA new];
+
+    if([dict valueForKey:@"dpiThreshold"] != nil)
+        image.dpiThreshold = [dict valueForKey:@"dpiThreshold"];
+    if([dict valueForKey:@"angleThreshold"] != nil)
+        image.angleThreshold = [dict valueForKey:@"angleThreshold"];
+    if([dict valueForKey:@"focusCheck"] != nil)
+        image.focusCheck = [dict valueForKey:@"focusCheck"];
+    if([dict valueForKey:@"glaresCheck"] != nil)
+        image.glaresCheck = [dict valueForKey:@"glaresCheck"];
+    if([dict valueForKey:@"colornessCheck"] != nil)
+        image.colornessCheck = [dict valueForKey:@"colornessCheck"];
+    if([dict valueForKey:@"moireCheck"] != nil)
+        image.moireCheck = [dict valueForKey:@"moireCheck"];
+
+    return image;
+}
+
++(NSDictionary*)ImageQAToJson:(RGLImageQA*)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"dpiThreshold"] = input.dpiThreshold;
+    result[@"angleThreshold"] = input.angleThreshold;
+    result[@"focusCheck"] = input.focusCheck;
+    result[@"glaresCheck"] = input.glaresCheck;
+    result[@"colornessCheck"] = input.colornessCheck;
+    result[@"moireCheck"] = input.moireCheck;
+
+    return result;
+}
+
 +(RGLePassportDataGroup*)RGLePassportDataGroupFromJson:(NSDictionary*)dict {
     RGLePassportDataGroup *group = [[RGLePassportDataGroup alloc] init];
 
@@ -570,17 +603,17 @@
 
 +(void)setProcessParams:(NSDictionary*)options :(RGLProcessParams*)processParams {
     if([options valueForKey:@"multipageProcessing"] != nil)
-        processParams.multipageProcessing = [[options valueForKey:@"multipageProcessing"] boolValue];
+        processParams.multipageProcessing = [NSNumber numberWithBool:[[options valueForKey:@"multipageProcessing"] boolValue]];
     if([options valueForKey:@"dateFormat"] != nil)
         processParams.dateFormat = [options valueForKey:@"dateFormat"];
     if([options valueForKey:@"logs"] != nil)
-        processParams.logs = [[options valueForKey:@"logs"] boolValue];
+        processParams.logs = [NSNumber numberWithBool:[[options valueForKey:@"logs"] boolValue]];
     if([options valueForKey:@"debugSaveImages"] != nil)
-        processParams.debugSaveImages = [[options valueForKey:@"debugSaveImages"] boolValue];
+        processParams.debugSaveImages = [NSNumber numberWithBool:[[options valueForKey:@"debugSaveImages"] boolValue]];
     if([options valueForKey:@"debugSaveCroppedImages"] != nil)
-        processParams.debugSaveCroppedImages = [[options valueForKey:@"debugSaveCroppedImages"] boolValue];
+        processParams.debugSaveCroppedImages = [NSNumber numberWithBool:[[options valueForKey:@"debugSaveCroppedImages"] boolValue]];
     if([options valueForKey:@"debugSaveLogs"] != nil)
-        processParams.debugSaveLogs = [[options valueForKey:@"debugSaveLogs"] boolValue];
+        processParams.debugSaveLogs = [NSNumber numberWithBool:[[options valueForKey:@"debugSaveLogs"] boolValue]];
     if([options valueForKey:@"scenario"] != nil)
         processParams.scenario = [options valueForKey:@"scenario"];
     if([options valueForKey:@"barcodeTypes"] != nil)
@@ -590,43 +623,79 @@
     if([options valueForKey:@"fieldTypesFilter"] != nil)
         processParams.fieldTypesFilter = [options valueForKey:@"fieldTypesFilter"];
     if([options valueForKey:@"disableFocusingCheck"] != nil)
-        processParams.disableFocusingCheck = [[options valueForKey:@"disableFocusingCheck"] boolValue];
+        processParams.disableFocusingCheck = [NSNumber numberWithBool:[[options valueForKey:@"disableFocusingCheck"] boolValue]];
     if([options valueForKey:@"captureButtonScenario"] != nil)
         processParams.captureButtonScenario = [options valueForKey:@"captureButtonScenario"];
-    if([options valueForKey:@"sessionLogFolder"] != nil)
-        [processParams setSessionLogFolder:[[options valueForKey:@"sessionLogFolder"] stringValue]];
     if([options valueForKey:@"measureSystem"] != nil)
         processParams.measureSystem = [[options valueForKey:@"measureSystem"] integerValue];
     if([options valueForKey:@"returnUncroppedImage"] != nil)
-        processParams.returnUncroppedImage = [[options valueForKey:@"returnUncroppedImage"] boolValue];
+        processParams.returnUncroppedImage = [NSNumber numberWithBool:[[options valueForKey:@"returnUncroppedImage"] boolValue]];
     if([options valueForKey:@"customParams"] != nil)
         processParams.customParams = [options objectForKey:@"customParams"];
     if([options valueForKey:@"debugSaveRFIDSession"] != nil)
-        processParams.debugSaveRFIDSession = [[options valueForKey:@"debugSaveRFIDSession"] boolValue];
+        processParams.debugSaveRFIDSession = [NSNumber numberWithBool:[[options valueForKey:@"debugSaveRFIDSession"] boolValue]];
     if([options valueForKey:@"doublePageSpread"] != nil)
-        processParams.doublePageSpread = [[options valueForKey:@"doublePageSpread"] boolValue];
+        processParams.doublePageSpread = [NSNumber numberWithBool:[[options valueForKey:@"doublePageSpread"] boolValue]];
     if([options valueForKey:@"barcodeParserType"] != nil)
-        processParams.barcodeParserType = [[options valueForKey:@"barcodeParserType"] integerValue];
+        processParams.barcodeParserType = [NSNumber numberWithInteger:[[options valueForKey:@"barcodeParserType"] integerValue]];
     if([options valueForKey:@"timeout"] != nil)
-        processParams.timeout = [[options valueForKey:@"timeout"] doubleValue];
+        processParams.timeout = [NSNumber numberWithDouble:[[options valueForKey:@"timeout"] doubleValue]];
     if([options valueForKey:@"timeoutFromFirstDetect"] != nil)
-        processParams.timeoutFromFirstDetect = [[options valueForKey:@"timeoutFromFirstDetect"] doubleValue];
+        processParams.timeoutFromFirstDetect = [NSNumber numberWithDouble:[[options valueForKey:@"timeoutFromFirstDetect"] doubleValue]];
     if([options valueForKey:@"timeoutFromFirstDocType"] != nil)
-        processParams.timeoutFromFirstDocType = [[options valueForKey:@"timeoutFromFirstDocType"] doubleValue];
+        processParams.timeoutFromFirstDocType = [NSNumber numberWithDouble:[[options valueForKey:@"timeoutFromFirstDocType"] doubleValue]];
     if([options valueForKey:@"manualCrop"] != nil)
-        processParams.manualCrop = [[options valueForKey:@"manualCrop"] boolValue];
+        processParams.manualCrop = [NSNumber numberWithBool:[[options valueForKey:@"manualCrop"] boolValue]];
     if([options valueForKey:@"perspectiveAngle"] != nil)
-        processParams.perspectiveAngle = [[options valueForKey:@"perspectiveAngle"] integerValue];
+        processParams.perspectiveAngle = [NSNumber numberWithInteger:[[options valueForKey:@"perspectiveAngle"] integerValue]];
     if([options valueForKey:@"minDPI"] != nil)
-        processParams.minDPI = [[options valueForKey:@"minDPI"] integerValue];
+        processParams.minDPI = [NSNumber numberWithInteger:[[options valueForKey:@"minDPI"] integerValue]];
     if([options valueForKey:@"integralImage"] != nil)
-        processParams.integralImage = [[options valueForKey:@"integralImage"] boolValue];
+        processParams.integralImage = [NSNumber numberWithBool:[[options valueForKey:@"integralImage"] boolValue]];
     if([options valueForKey:@"returnCroppedBarcode"] != nil)
-        processParams.returnCroppedBarcode = [[options valueForKey:@"returnCroppedBarcode"] boolValue];
+        processParams.returnCroppedBarcode = [NSNumber numberWithBool:[[options valueForKey:@"returnCroppedBarcode"] boolValue]];
     if([options valueForKey:@"checkHologram"] != nil)
-        processParams.checkHologram = [[options valueForKey:@"checkHologram"] boolValue];
+        processParams.checkHologram = [NSNumber numberWithBool:[[options valueForKey:@"checkHologram"] boolValue]];
     if([options valueForKey:@"checkRequiredTextFields"] != nil)
-        processParams.checkRequiredTextFields = [[options valueForKey:@"checkRequiredTextFields"] boolValue];
+        processParams.checkRequiredTextFields = [NSNumber numberWithBool:[[options valueForKey:@"checkRequiredTextFields"] boolValue]];
+    if([options valueForKey:@"depersonalizeLog"] != nil)
+        processParams.depersonalizeLog = [options valueForKey:@"depersonalizeLog"];
+    if([options valueForKey:@"resultTypeOutput"] != nil)
+        processParams.resultTypeOutput = [options valueForKey:@"resultTypeOutput"];
+    if([options valueForKey:@"generateDoublePageSpreadImage"] != nil)
+        processParams.generateDoublePageSpreadImage = [options valueForKey:@"generateDoublePageSpreadImage"];
+    if([options valueForKey:@"imageDpiOutMax"] != nil)
+        processParams.imageDpiOutMax = [options valueForKey:@"imageDpiOutMax"];
+    if([options valueForKey:@"alreadyCropped"] != nil)
+        processParams.alreadyCropped = [options valueForKey:@"alreadyCropped"];
+    if([options valueForKey:@"forceDocID"] != nil)
+        processParams.forceDocID = [options valueForKey:@"forceDocID"];
+    if([options valueForKey:@"matchTextFieldMask"] != nil)
+        processParams.matchTextFieldMask = [options valueForKey:@"matchTextFieldMask"];
+    if([options valueForKey:@"fastDocDetect"] != nil)
+        processParams.fastDocDetect = [options valueForKey:@"fastDocDetect"];
+    if([options valueForKey:@"updateOCRValidityByGlare"] != nil)
+        processParams.updateOCRValidityByGlare = [options valueForKey:@"updateOCRValidityByGlare"];
+    if([options valueForKey:@"imageQA"] != nil)
+        processParams.imageQA = [RegulaConfig ImageQAFromJson:[options valueForKey:@"imageQA"]];
+    if([options valueForKey:@"forceDocFormat"] != nil)
+        processParams.forceDocFormat = [options valueForKey:@"forceDocFormat"];
+    if([options valueForKey:@"noGraphics"] != nil)
+        processParams.noGraphics = [options valueForKey:@"noGraphics"];
+    if([options valueForKey:@"documentAreaMin"] != nil)
+        processParams.documentAreaMin = [options valueForKey:@"documentAreaMin"];
+    if([options valueForKey:@"multiDocOnImage"] != nil)
+        processParams.multiDocOnImage = [options valueForKey:@"multiDocOnImage"];
+    if([options valueForKey:@"shiftExpiryDate"] != nil)
+        processParams.shiftExpiryDate = [options valueForKey:@"shiftExpiryDate"];
+    if([options valueForKey:@"minimalHolderAge"] != nil)
+        processParams.minimalHolderAge = [options valueForKey:@"minimalHolderAge"];
+    if([options valueForKey:@"mrzFormatsFilter"] != nil)
+        processParams.mrzFormatsFilter = [options valueForKey:@"mrzFormatsFilter"];
+    if([options valueForKey:@"forceReadMrzBeforeLocate"] != nil)
+        processParams.forceReadMrzBeforeLocate = [options valueForKey:@"forceReadMrzBeforeLocate"];
+    if([options valueForKey:@"parseBarcodes"] != nil)
+        processParams.parseBarcodes = [options valueForKey:@"parseBarcodes"];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -745,20 +814,36 @@
     result[@"customParams"] = processParams.customParams;
     result[@"debugSaveRFIDSession"] = [NSNumber numberWithBool:processParams.debugSaveRFIDSession];
     result[@"doublePageSpread"] = [NSNumber numberWithBool:processParams.doublePageSpread];
-    result[@"barcodeParserType"] = [NSNumber numberWithInteger:processParams.barcodeParserType];
-    result[@"processParamsDictionary"] = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:processParams.processParamsDictionary options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-    result[@"coreParamsDictionary"] = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:processParams.coreParamsDictionary options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-    result[@"rfidParamsDictionary"] = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:processParams.rfidParamsDictionary options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-    result[@"timeout"] = [NSNumber numberWithDouble:processParams.timeout];
-    result[@"timeoutFromFirstDetect"] = [NSNumber numberWithDouble:processParams.timeoutFromFirstDetect];
-    result[@"timeoutFromFirstDocType"] = [NSNumber numberWithDouble:processParams.timeoutFromFirstDocType];
+    result[@"barcodeParserType"] = processParams.barcodeParserType;
+    result[@"timeout"] = processParams.timeout;
+    result[@"timeoutFromFirstDetect"] = processParams.timeoutFromFirstDetect;
+    result[@"timeoutFromFirstDocType"] = processParams.timeoutFromFirstDocType;
     result[@"manualCrop"] = [NSNumber numberWithBool:processParams.manualCrop];
-    result[@"perspectiveAngle"] = [NSNumber numberWithInteger:processParams.perspectiveAngle];
-    result[@"minDPI"] = [NSNumber numberWithInteger:processParams.minDPI];
+    result[@"perspectiveAngle"] = processParams.perspectiveAngle;
+    result[@"minDPI"] = processParams.minDPI;
     result[@"integralImage"] = [NSNumber numberWithBool:processParams.integralImage];
     result[@"returnCroppedBarcode"] = [NSNumber numberWithBool:processParams.returnCroppedBarcode];
     result[@"checkHologram"] = [NSNumber numberWithBool:processParams.checkHologram];
     result[@"checkRequiredTextFields"] = [NSNumber numberWithBool:processParams.checkRequiredTextFields];
+    result[@"depersonalizeLog"] = processParams.depersonalizeLog;
+    result[@"resultTypeOutput"] = processParams.resultTypeOutput;
+    result[@"generateDoublePageSpreadImage"] = processParams.generateDoublePageSpreadImage;
+    result[@"imageDpiOutMax"] = processParams.imageDpiOutMax;
+    result[@"alreadyCropped"] = processParams.alreadyCropped;
+    result[@"forceDocID"] = processParams.forceDocID;
+    result[@"matchTextFieldMask"] = processParams.matchTextFieldMask;
+    result[@"fastDocDetect"] = processParams.fastDocDetect;
+    result[@"updateOCRValidityByGlare"] = processParams.updateOCRValidityByGlare;
+    result[@"imageQA"] = [RegulaConfig ImageQAToJson:processParams.imageQA];
+    result[@"forceDocFormat"] = processParams.forceDocFormat;
+    result[@"noGraphics"] = processParams.noGraphics;
+    result[@"documentAreaMin"] = processParams.documentAreaMin;
+    result[@"multiDocOnImage"] = processParams.multiDocOnImage;
+    result[@"shiftExpiryDate"] = processParams.shiftExpiryDate;
+    result[@"minimalHolderAge"] = processParams.minimalHolderAge;
+    result[@"mrzFormatsFilter"] = processParams.mrzFormatsFilter;
+    result[@"forceReadMrzBeforeLocate"] = processParams.forceReadMrzBeforeLocate;
+    result[@"parseBarcodes"] = processParams.parseBarcodes;
 
     return result;
 }
