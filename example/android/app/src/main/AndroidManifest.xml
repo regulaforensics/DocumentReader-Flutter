@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.flutter.plugins.regula.documentreader.flutter_document_reader_api_example">
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="flutter_document_reader_api_example"
         android:icon="@mipmap/ic_launcher"
         tools:ignore="AllowBackup">
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

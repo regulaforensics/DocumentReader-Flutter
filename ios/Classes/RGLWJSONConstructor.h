@@ -7,6 +7,8 @@
 
 @interface RGLWJSONConstructor : NSObject
 +(NSString* _Nonnull)dictToString:(NSMutableDictionary* _Nonnull)input;
++(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletion:(NSInteger)notification;
++(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletionWithError:(NSInteger)notification : (NSInteger)value;
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input;
 +(RGLPKDCertificate* _Nullable)RGLPKDCertificateFromJson:(NSDictionary* _Nullable) dict;
 +(NSInteger)generateDocReaderAction:(RGLDocReaderAction)action;
@@ -54,6 +56,10 @@
 +(NSMutableDictionary* _Nonnull)generateRGLPAResourcesIssuer:(RGLPAResourcesIssuer* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPAAttribute:(RGLPAAttribute* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLTAChallenge:(RGLTAChallenge* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderResultsStatus:(RGLDocumentReaderResultsStatus* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLOpticalStatus:(RGLOpticalStatus* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLVDSNCData:(RGLVDSNCData* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLBytesData:(RGLBytesData* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
 
 @end

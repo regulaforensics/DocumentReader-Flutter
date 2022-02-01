@@ -209,6 +209,8 @@ class RegulaConfig {
             processParams.forceReadMrzBeforeLocate = opts.getBoolean("forceReadMrzBeforeLocate");
         if (opts.has("parseBarcodes"))
             processParams.parseBarcodes = opts.getBoolean("parseBarcodes");
+        if (opts.has("shouldReturnPackageForReprocess"))
+            processParams.shouldReturnPackageForReprocess = opts.getBoolean("shouldReturnPackageForReprocess");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -477,6 +479,7 @@ class RegulaConfig {
         object.put("mrzFormatsFilter", processParams.mrzFormatsFilter != null ? generateArray(processParams.mrzFormatsFilter) : null);
         object.put("forceReadMrzBeforeLocate", processParams.forceReadMrzBeforeLocate);
         object.put("parseBarcodes", processParams.parseBarcodes);
+        object.put("shouldReturnPackageForReprocess", processParams.shouldReturnPackageForReprocess);
 
         return object;
     }

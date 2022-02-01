@@ -3,7 +3,6 @@ import 'dart:io' as io;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter/services.dart'
     show EventChannel, PlatformException, rootBundle;
@@ -18,11 +17,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<String> getImage() async {
+  Future<List<String>> getImages() async {
     setStatus("Processing image...");
-    return base64Encode(io.File(
-            (await ImagePicker().getImage(source: ImageSource.gallery)).path)
-        .readAsBytesSync());
+    List<XFile> files = await ImagePicker().pickMultiImage();
+    List<String> result = [];
+    for(XFile file in files)
+      result.add(base64Encode(io.File(file.path).readAsBytesSync()));
+    return result;
   }
 
   Object setStatus(String s) => {setState(() => _status = s)};
@@ -368,8 +369,8 @@ class _MyAppState extends State<MyApp> {
                                 () => DocumentReader.showScanner()),
                             createButton(
                                 "Scan image",
-                                () async => DocumentReader.recognizeImage(
-                                    await getImage())),
+                                () async => DocumentReader.recognizeImages(
+                                    await getImages())),
                           ])
                     ]))),
           ])),

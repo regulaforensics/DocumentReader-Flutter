@@ -696,6 +696,8 @@
         processParams.forceReadMrzBeforeLocate = [options valueForKey:@"forceReadMrzBeforeLocate"];
     if([options valueForKey:@"parseBarcodes"] != nil)
         processParams.parseBarcodes = [options valueForKey:@"parseBarcodes"];
+    if([options valueForKey:@"shouldReturnPackageForReprocess"] != nil)
+        processParams.shouldReturnPackageForReprocess = [options valueForKey:@"shouldReturnPackageForReprocess"];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -844,6 +846,7 @@
     result[@"mrzFormatsFilter"] = processParams.mrzFormatsFilter;
     result[@"forceReadMrzBeforeLocate"] = processParams.forceReadMrzBeforeLocate;
     result[@"parseBarcodes"] = processParams.parseBarcodes;
+    result[@"shouldReturnPackageForReprocess"] = processParams.shouldReturnPackageForReprocess;
 
     return result;
 }

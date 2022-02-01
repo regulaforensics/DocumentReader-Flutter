@@ -1,9 +1,12 @@
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 
+import static com.regula.documentreader.api.completions.IRfidNotificationCompletion.RFID_EXTRA_ERROR_CODE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.Base64;
 
 import com.regula.documentreader.api.enums.DocReaderAction;
@@ -11,11 +14,13 @@ import com.regula.documentreader.api.enums.PDF417Info;
 import com.regula.documentreader.api.enums.eGraphicFieldType;
 import com.regula.documentreader.api.enums.eRPRM_Lights;
 import com.regula.documentreader.api.errors.DocumentReaderException;
+import com.regula.documentreader.api.internal.core.CoreDetailedScenario;
 import com.regula.documentreader.api.params.FaceMetaData;
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
 import com.regula.documentreader.api.results.Bounds;
+import com.regula.documentreader.api.results.BytesData;
 import com.regula.documentreader.api.results.Coordinate;
 import com.regula.documentreader.api.results.DocReaderFieldRect;
 import com.regula.documentreader.api.results.DocumentReaderBarcodeField;
@@ -25,14 +30,15 @@ import com.regula.documentreader.api.results.DocumentReaderGraphicField;
 import com.regula.documentreader.api.results.DocumentReaderGraphicResult;
 import com.regula.documentreader.api.results.DocumentReaderNotification;
 import com.regula.documentreader.api.results.DocumentReaderResults;
+import com.regula.documentreader.api.results.DocumentReaderResultsStatus;
 import com.regula.documentreader.api.results.DocumentReaderScenario;
-import com.regula.documentreader.api.results.DocumentReaderScenarioFull;
 import com.regula.documentreader.api.results.DocumentReaderTextField;
 import com.regula.documentreader.api.results.DocumentReaderTextResult;
 import com.regula.documentreader.api.results.DocumentReaderValue;
 import com.regula.documentreader.api.results.ElementPosition;
 import com.regula.documentreader.api.results.ImageQuality;
 import com.regula.documentreader.api.results.ImageQualityGroup;
+import com.regula.documentreader.api.results.VDSNCData;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityCheck;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityElement;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityResult;
@@ -294,6 +300,18 @@ class JSONConstructor {
         return result;
     }
 
+    static JSONObject generateRfidNotificationCompletion(int notification, Bundle value) {
+        JSONObject result = new JSONObject();
+        try {
+            result.put("notification", notification);
+            if(value != null)
+            result.put("value", value.get(RFID_EXTRA_ERROR_CODE));
+        } catch (JSONException ignored) {
+        }
+
+        return result;
+    }
+
     static JSONObject generatePACertificateCompletion(byte[] serialNumber, PAResourcesIssuer issuer) {
         JSONObject result = new JSONObject();
         try {
@@ -335,8 +353,6 @@ class JSONConstructor {
         JSONObject result = new JSONObject();
         if (input == null) return result;
         try {
-            result.put("uvTorch", input.uvTorch);
-            result.put("seriesProcessMode", input.seriesProcessMode);
             result.put("name", input.name);
             result.put("caption", input.caption);
             result.put("description", input.description);
@@ -346,7 +362,7 @@ class JSONConstructor {
         return result;
     }
 
-    static JSONObject generateDocumentReaderScenarioFull(DocumentReaderScenarioFull input) {
+    static JSONObject generateCoreDetailedScenario(CoreDetailedScenario input) {
         JSONObject result = new JSONObject();
         if (input == null) return result;
         try {
@@ -1039,6 +1055,92 @@ class JSONConstructor {
         return result;
     }
 
+    static JSONObject generateDocumentReaderResultsStatus(DocumentReaderResultsStatus input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("overallStatus", input.getOverallStatus());
+            result.put("optical", input.getOptical());
+            result.put("detailsOptical", generateDetailsOptical(input.getDetailsOptical()));
+            result.put("rfid", input.getRfid());
+            result.put("detailsRFID", generateDetailsRFID(input.getDetailsRFID()));
+            result.put("portrait", input.getPortrait());
+            result.put("stopList", input.getStopList());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDetailsOptical(DocumentReaderResultsStatus.DetailsOptical input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("overallStatus", input.getOverallStatus());
+            result.put("mrz", input.getMrz());
+            result.put("text", input.getText());
+            result.put("docType", input.getDocType());
+            result.put("security", input.getSecurity());
+            result.put("imageQA", input.getImageQA());
+            result.put("expiry", input.getExpiry());
+            result.put("vds", input.getVds());
+            result.put("pagesCount", input.getPagesCount());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDetailsRFID(DocumentReaderResultsStatus.DetailsRFID input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("pa", input.getPA());
+            result.put("ca", input.getCA());
+            result.put("aa", input.getAA());
+            result.put("ta", input.getTA());
+            result.put("bac", input.getBAC());
+            result.put("pace", input.getPACE());
+            result.put("overallStatus", input.getOverallStatus());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateVDSNCData(VDSNCData input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("type", input.getType());
+            result.put("version", input.getVersion());
+            result.put("issuingCountry", input.getIssuingCountry());
+            result.put("message", input.getMessage());
+            result.put("signatureAlgorithm", input.getSignatureAlg());
+            result.put("signature", generateBytesData(input.getSignature()));
+            result.put("certificate", generateBytesData(input.getCertificate()));
+            result.put("certificateChain", generateList(input.getCertificateChain(), JSONConstructor::generateCertificateChain));
+            result.put("notifications", generateLongArray(input.getNotifications()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateBytesData(BytesData input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("data", input.getData());
+            result.put("length", input.getLength());
+            result.put("status", input.getStatus());
+            result.put("type", input.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     static JSONObject generateDocumentReaderResults(DocumentReaderResults input, Context context) {
         JSONObject result = new JSONObject();
         if (input == null) return result;
@@ -1063,6 +1165,8 @@ class JSONConstructor {
             result.put("authenticityResult", generateDocumentReaderAuthenticityResult(input.authenticityResult, context));
             result.put("barcodeResult", generateDocumentReaderBarcodeResult(input.barcodeResult));
             result.put("documentType", generateList(input.documentType, JSONConstructor::generateDocumentReaderDocumentType));
+            result.put("status", generateDocumentReaderResultsStatus(input.status));
+            result.put("vdsncData", generateVDSNCData(input.vdsncData));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1074,10 +1178,6 @@ class JSONConstructor {
     static DocumentReaderScenario DocumentReaderScenarioFromJSON(JSONObject input) {
         try {
             DocumentReaderScenario result = new DocumentReaderScenario();
-            if (input.has("uvTorch"))
-                result.uvTorch = input.getBoolean("uvTorch");
-            if (input.has("seriesProcessMode"))
-                result.seriesProcessMode = input.getBoolean("seriesProcessMode");
             if (input.has("name"))
                 result.name = input.getString("name");
             if (input.has("caption"))
@@ -1091,9 +1191,9 @@ class JSONConstructor {
         return null;
     }
 
-    static DocumentReaderScenarioFull DocumentReaderScenarioFullFromJSON(JSONObject input) {
+    static CoreDetailedScenario CoreDetailedScenarioFromJSON(JSONObject input) {
         try {
-            DocumentReaderScenarioFull result = new DocumentReaderScenarioFull();
+            CoreDetailedScenario result = new CoreDetailedScenario();
             if (input.has("uvTorch"))
                 result.uvTorch = input.getBoolean("uvTorch");
             if (input.has("frameOrientation"))

@@ -13,6 +13,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Bundle;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
@@ -22,12 +23,12 @@ import androidx.lifecycle.LifecycleEventObserver;
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
-import com.regula.documentreader.api.completions.IRfidNotificationCompletion;
 import com.regula.documentreader.api.completions.IRfidPKDCertificateCompletion;
 import com.regula.documentreader.api.completions.IRfidReaderRequest;
 import com.regula.documentreader.api.completions.IRfidTASignatureCompletion;
 import com.regula.documentreader.api.enums.DocReaderAction;
 import com.regula.documentreader.api.errors.DocumentReaderException;
+import com.regula.documentreader.api.internal.core.CoreScenarioUtil;
 import com.regula.documentreader.api.params.DocReaderConfig;
 import com.regula.documentreader.api.params.ImageInputParam;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
@@ -255,9 +256,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             new Handler(Looper.getMainLooper()).post(() -> eventVideoEncoderCompletion.success(JSONConstructor.generateVideoEncoderCompletion(sessionId, file).toString()));
     }
 
-    private void sendIRfidNotificationCompletion(int notification) {
+    private void sendIRfidNotificationCompletion(int notification, Bundle value) {
         if (eventIRfidNotificationCompletion != null)
-            new Handler(Looper.getMainLooper()).post(() -> eventIRfidNotificationCompletion.success(notification + ""));
+            new Handler(Looper.getMainLooper()).post(() -> eventIRfidNotificationCompletion.success(JSONConstructor.generateRfidNotificationCompletion(notification, value).toString()));
     }
 
     private void sendPACertificateCompletion(byte[] serialNumber, PAResourcesIssuer issuer) {
@@ -585,11 +586,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void selectedScenario(Callback callback) {
-        callback.success(JSONConstructor.generateDocumentReaderScenarioFull(Instance().getScenario(Instance().processParams().getScenario())).toString());
+        callback.success(JSONConstructor.generateCoreDetailedScenario(CoreScenarioUtil.getScenario(Instance().processParams().getScenario())).toString());
     }
 
     private void getScenario(Callback callback, String scenario) {
-        callback.success(JSONConstructor.generateDocumentReaderScenarioFull(Instance().getScenario(scenario)).toString());
+        callback.success(JSONConstructor.generateCoreDetailedScenario(CoreScenarioUtil.getScenario(scenario)).toString());
     }
 
     private void getLicenseExpiryDate(Callback callback) {
@@ -737,7 +738,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             delegate = getIRfidReaderRequestNoPA();
         if (rfidDelegate == RFIDDelegate.FULL)
             delegate = getIRfidReaderRequest();
-        Instance().startRFIDReader(getContext(), getCompletion(), delegate, getIRfidNotificationCompletion());
+        Instance().startRFIDReader(getContext(), getCompletion(), delegate, this::sendIRfidNotificationCompletion);
     }
 
     private void stopRFIDReader(Callback callback) {
@@ -845,7 +846,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private IDocumentReaderCompletion getCompletion() {
         return (action, results, error) -> {
             sendCompletion(action, results, error);
-            if (action == DocReaderAction.ERROR || action == DocReaderAction.CANCEL || (action == DocReaderAction.COMPLETE && results.rfidResult == 1))
+            if (action == DocReaderAction.ERROR || action == DocReaderAction.CANCEL || (action == DocReaderAction.COMPLETE && results != null && results.rfidResult == 1))
                 stopBackgroundRFID();
         };
     }
@@ -931,10 +932,5 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         public static final int NULL = 0;
         public static final int NO_PA = 1;
         public static final int FULL = 2;
-    }
-
-
-    private IRfidNotificationCompletion getIRfidNotificationCompletion() {
-        return (notificationType, value) -> sendIRfidNotificationCompletion(notificationType);
     }
 }
