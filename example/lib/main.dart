@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     setStatus("Processing image...");
     List<XFile> files = await ImagePicker().pickMultiImage();
     List<String> result = [];
-    for(XFile file in files)
+    for (XFile file in files)
       result.add(base64Encode(io.File(file.path).readAsBytesSync()));
     return result;
   }
@@ -57,7 +57,8 @@ class _MyAppState extends State<MyApp> {
     EventChannel(
             'flutter_document_reader_api/event/rfid_notification_completion')
         .receiveBroadcastStream()
-        .listen((event) => print("rfid_notification_completion: " + event.toString()));
+        .listen((event) =>
+            print("rfid_notification_completion: " + event.toString()));
   }
 
   void addCertificates() async {
@@ -132,8 +133,7 @@ class _MyAppState extends State<MyApp> {
 
   updateRfidUI(results) {
     if (results.code ==
-        eRFID_NotificationAndErrorCodes
-            .RFID_NOTIFICATION_PCSC_READING_DATAGROUP)
+        eRFID_NotificationCodes.RFID_NOTIFICATION_PCSC_READING_DATAGROUP)
       setState(() =>
           rfidDescription = eRFID_DataFile_Type.getTranslation(results.number));
     setState(() {
@@ -270,8 +270,9 @@ class _MyAppState extends State<MyApp> {
     return Container(
       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
       transform: Matrix4.translationValues(0, -7.5, 0),
-      child: FlatButton(
-          color: Color.fromARGB(50, 10, 10, 10),
+      child: TextButton(
+          style: TextButton.styleFrom(
+              backgroundColor: Color.fromARGB(50, 10, 10, 10)),
           onPressed: onPress,
           child: Text(text)),
       width: 150,
@@ -330,10 +331,12 @@ class _MyAppState extends State<MyApp> {
                               minHeight: 10,
                               valueColor: new AlwaysStoppedAnimation<Color>(
                                   Color(0xFF4285F4)))),
-                      FlatButton(
-                          onPressed: () => hideRfidUI(),
-                          child: Text("X"),
-                          padding: EdgeInsets.only(top: 50)),
+                      TextButton(
+                        onPressed: () => hideRfidUI(),
+                        child: Text("X"),
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.only(top: 50)),
+                      ),
                     ]))),
             Visibility(
                 visible: !isReadingRfid,

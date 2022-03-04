@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:label="flutter_document_reader_api_example"
         android:icon="@mipmap/ic_launcher"
         tools:ignore="AllowBackup">

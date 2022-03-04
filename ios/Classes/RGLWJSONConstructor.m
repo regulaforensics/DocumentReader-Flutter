@@ -1002,7 +1002,69 @@
 
     result[@"code"] = @(input.code);
     result[@"value"] = @(input.value);
-    result[@"number"] = @(input.number);
+    result[@"attachment"] = @(input.attachment);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLUVFiberElement:(RGLUVFiberElement* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    if(input.rectArray != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLElementRect* item in input.rectArray)
+            if(item != nil)
+                [array addObject:[self generateRGLElementRect:item]];
+        result[@"rectArray"] = array;
+    }
+    result[@"rectCount"] = @(input.rectCount);
+    result[@"expectedCount"] = @(input.expectedCount);
+    if(input.width != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.width)
+            if(item != nil)
+                [array addObject:item];
+        result[@"width"] = array;
+    }
+    if(input.length != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.length)
+            if(item != nil)
+                [array addObject:item];
+        result[@"length"] = array;
+    }
+    if(input.area != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.area)
+            if(item != nil)
+                [array addObject:item];
+        result[@"area"] = array;
+    }
+    if(input.colorValues != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.colorValues)
+            if(item != nil)
+                [array addObject:item];
+        result[@"colorValues"] = array;
+    }
+    result[@"status"] = @(input.status);
+    result[@"elementType"] = @(input.elementType);
+    result[@"elementTypeName"] = input.elementTypeName;
+    result[@"elementDiagnose"] = @(input.elementDiagnose);
+    result[@"elementDiagnoseName"] = input.elementDiagnoseName;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLElementRect:(RGLElementRect* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"bottom"] = @(input.bottom);
+    result[@"left"] = @(input.left);
+    result[@"right"] = @(input.right);
+    result[@"top"] = @(input.top);
 
     return result;
 }

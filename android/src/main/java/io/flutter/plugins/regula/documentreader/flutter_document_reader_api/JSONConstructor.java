@@ -42,6 +42,7 @@ import com.regula.documentreader.api.results.VDSNCData;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityCheck;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityElement;
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityResult;
+import com.regula.documentreader.api.results.authenticity.DocumentReaderUvFiberElement;
 import com.regula.documentreader.api.results.rfid.AccessControlProcedureType;
 import com.regula.documentreader.api.results.rfid.Application;
 import com.regula.documentreader.api.results.rfid.Attribute;
@@ -606,9 +607,9 @@ class JSONConstructor {
         JSONObject result = new JSONObject();
         if (input == null) return result;
         try {
-            result.put("code", input.code & 0xFFFF0000);
-            result.put("number", input.code & 0x0000FFFF);
-            result.put("value", input.value);
+            result.put("code", input.getNotificationCode());
+            result.put("attachment", input.getDataFileType());
+            result.put("value", input.getProgress());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1135,6 +1136,28 @@ class JSONConstructor {
             result.put("length", input.getLength());
             result.put("status", input.getStatus());
             result.put("type", input.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderUvFiberElement(DocumentReaderUvFiberElement input, Context context) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("rectArray", generateList(input.rectArray, JSONConstructor::generateDocReaderFieldRect));
+            result.put("rectCount", input.rectCount);
+            result.put("expectedCount", input.expectedCount);
+            result.put("width", generateIntArray(input.width));
+            result.put("length", generateIntArray(input.length));
+            result.put("area", generateIntArray(input.area));
+            result.put("colorValues", generateIntArray(input.colorValues));
+            result.put("status", input.status);
+            result.put("elementType", input.elementType);
+            result.put("elementDiagnose", input.elementDiagnose);
+            result.put("elementTypeName", input.getElementTypeName(context));
+            result.put("elementDiagnoseName", input.getElementDiagnoseName(context));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -2165,6 +2188,61 @@ class JSONConstructor {
                 result.hashPK = input.getString("hashPK");
             if (input.has("idPICC"))
                 result.idPICC = input.getString("idPICC");
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static DocumentReaderUvFiberElement DocumentReaderUvFiberElementFromJSON(JSONObject input) {
+        try {
+            DocumentReaderUvFiberElement result = new DocumentReaderUvFiberElement();
+            if (input.has("rectArray")){
+                JSONArray jsonArray_rectArray = input.getJSONArray("rectArray");
+                List<DocReaderFieldRect> rectArray = new ArrayList<>();
+                for (int i = 0; i < jsonArray_rectArray.length(); i++)
+                    rectArray.add(DocReaderFieldRectFromJSON(jsonArray_rectArray.getJSONObject(i)));
+                result.rectArray = rectArray;
+            }
+            if (input.has("rectCount"))
+                result.rectCount = input.getInt("rectCount");
+            if (input.has("expectedCount"))
+                result.expectedCount = input.getInt("expectedCount");
+            if (input.has("width")){
+                JSONArray jsonArray_width = input.getJSONArray("width");
+                int[] width = new int[jsonArray_width.length()];
+                for (int i = 0; i < jsonArray_width.length(); i++)
+                    width[i] = jsonArray_width.getInt(i);
+                result.width = width;
+            }
+            if (input.has("length")){
+                JSONArray jsonArray_length = input.getJSONArray("length");
+                int[] length = new int[jsonArray_length.length()];
+                for (int i = 0; i < jsonArray_length.length(); i++)
+                    length[i] = jsonArray_length.getInt(i);
+                result.length = length;
+            }
+            if (input.has("area")){
+                JSONArray jsonArray_area = input.getJSONArray("area");
+                int[] area = new int[jsonArray_area.length()];
+                for (int i = 0; i < jsonArray_area.length(); i++)
+                    area[i] = jsonArray_area.getInt(i);
+                result.area = area;
+            }
+            if (input.has("colorValues")){
+                JSONArray jsonArray_colorValues = input.getJSONArray("colorValues");
+                int[] colorValues = new int[jsonArray_colorValues.length()];
+                for (int i = 0; i < jsonArray_colorValues.length(); i++)
+                    colorValues[i] = jsonArray_colorValues.getInt(i);
+                result.colorValues = colorValues;
+            }
+            if (input.has("status"))
+                result.status = input.getInt("status");
+            if (input.has("elementType"))
+                result.elementType = input.getInt("elementType");
+            if (input.has("elementDiagnose"))
+                result.elementDiagnose = input.getInt("elementDiagnose");
             return result;
         } catch (JSONException e) {
             e.printStackTrace();
