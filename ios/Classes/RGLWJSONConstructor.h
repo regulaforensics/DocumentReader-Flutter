@@ -11,6 +11,7 @@
 +(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletionWithError:(NSInteger)notification : (NSInteger)value;
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input;
 +(RGLPKDCertificate* _Nullable)RGLPKDCertificateFromJson:(NSDictionary* _Nullable) dict;
++(RGLTCCParams* _Nonnull)RGLTCCParamsFromJson:(NSDictionary* _Nonnull)input;
 +(NSInteger)generateDocReaderAction:(RGLDocReaderAction)action;
 +(NSInteger)generateRFIDCompleteAction:(RGLRFIDCompleteAction)action;
 +(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)action;

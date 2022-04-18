@@ -2735,6 +2735,7 @@ class eImageQualityCheckType {
   static const int IQC_BOUNDS = 5;
   static const int IQC_SCREEN_CAPTURE = 6;
   static const int IQC_PORTRAIT = 7;
+  static const int IQC_HANDWRITTEN = 8;
 }
 
 class eLDS_ParsingErrorCodes {
@@ -7244,8 +7245,8 @@ class DocumentReader {
     return await _channel.invokeMethod("parseCoreResults", [json]);
   }
 
-  static Future<dynamic> initializeReaderWithDatabasePath(license, path) async {
-    return await _channel.invokeMethod("initializeReaderWithDatabasePath", [license, path]);
+  static Future<dynamic> setTCCParams(params) async {
+    return await _channel.invokeMethod("setTCCParams", [params]);
   }
 
   static Future<dynamic> initializeReaderWithDatabase(license, db) async {

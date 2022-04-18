@@ -323,6 +323,14 @@ class RegulaConfig {
             editor.setToolbarSize(BigDecimal.valueOf(opts.getDouble("toolbarSize")).floatValue());
         if (opts.has("statusBackgroundColor"))
             editor.setStatusBackgroundColor(opts.getString("statusBackgroundColor"));
+        if (opts.has("hologramAnimationImage"))
+            editor.setHologramAnimationImage(drawableFromBase64(opts.getString("hologramAnimationImage"), context));
+        if (opts.has("hologramAnimationPositionMultiplier"))
+            editor.setHologramAnimationPositionMultiplier((float) opts.getDouble("hologramAnimationPositionMultiplier"));
+        if (opts.has("hologramAnimationImageMatrix"))
+            editor.setHologramAnimationImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("hologramAnimationImageMatrix"))));
+        if (opts.has("hologramAnimationImageScaleType"))
+            editor.setHologramAnimationImageScaleType(ScaleType.valueOf(opts.getString("hologramAnimationImageScaleType")));
 
         editor.applyImmediately(context);
     }
@@ -423,6 +431,10 @@ class RegulaConfig {
         object.put("changeFrameButtonCollapseImage", bitmapToBase64String(bitmapFromDrawable(customization.getChangeFrameCollapseButtonDrawable())));
         object.put("toolbarSize", customization.getToolbarSize());
         object.put("statusBackgroundColor", customization.getStatusBackgroundColor());
+        object.put("hologramAnimationImage", bitmapToBase64String(bitmapFromDrawable(customization.getHologramAnimationImage())));
+        object.put("hologramAnimationPositionMultiplier", customization.getHologramAnimationPositionMultiplier());
+        object.put("hologramAnimationImageMatrix", customization.getHologramAnimationImageMatrix());
+        object.put("hologramAnimationImageScaleType", customization.getHologramAnimationImageScaleType());
 
         return object;
     }

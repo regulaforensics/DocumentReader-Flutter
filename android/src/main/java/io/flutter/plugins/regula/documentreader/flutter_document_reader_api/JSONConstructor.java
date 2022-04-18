@@ -16,6 +16,7 @@ import com.regula.documentreader.api.enums.eRPRM_Lights;
 import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreDetailedScenario;
 import com.regula.documentreader.api.params.FaceMetaData;
+import com.regula.documentreader.api.params.rfid.TccParams;
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
@@ -336,6 +337,25 @@ class JSONConstructor {
             if (jsonObject.has("value"))
                 result.value = jsonObject.getInt("value");
         } catch (JSONException ignored) {
+        }
+        return result;
+    }
+
+    static TccParams TCCParamsFromJSON(JSONObject input) {
+        TccParams result = new TccParams();
+        try {
+            if (input.has("serviceUrlTA"))
+                result.setServiceUrlTA(input.getString("serviceUrlTA"));
+            if (input.has("serviceUrlPA"))
+                result.setServiceUrlPA(input.getString("serviceUrlPA"));
+            if (input.has("pfxCertUrl"))
+                result.setPfxCertUrl(input.getString("pfxCertUrl"));
+            if (input.has("pfxPassPhrase"))
+                result.setPfxPassPhrase(input.getString("pfxPassPhrase"));
+            if (input.has("pfxCert"))
+                result.setPfxCert(Base64.decode(input.getString("pfxCert"), Base64.DEFAULT));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return result;
     }
