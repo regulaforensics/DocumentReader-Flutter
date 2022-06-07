@@ -103,6 +103,8 @@ class RegulaConfig {
             editor.setManualMultipageMode(opts.getBoolean("manualMultipageMode"));
         if (opts.has("exposure"))
             editor.setExposure(BigDecimal.valueOf(opts.getDouble("exposure")).floatValue());
+        if (opts.has("rfidTimeout"))
+            editor.setRfidTimeout(opts.getInt("rfidTimeout"));
 
         editor.apply();
     }
@@ -331,6 +333,8 @@ class RegulaConfig {
             editor.setHologramAnimationImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("hologramAnimationImageMatrix"))));
         if (opts.has("hologramAnimationImageScaleType"))
             editor.setHologramAnimationImageScaleType(ScaleType.valueOf(opts.getString("hologramAnimationImageScaleType")));
+        if (opts.has("uiCustomizationLayer"))
+            editor.setUiCustomizationLayer(opts.getJSONObject("uiCustomizationLayer"));
 
         editor.applyImmediately(context);
     }
@@ -371,6 +375,7 @@ class RegulaConfig {
         object.put("recordScanningProcess", functionality.doRecordProcessingVideo());
         object.put("manualMultipageMode", functionality.isManualMultipageMode());
         object.put("exposure", functionality.getExposure());
+        object.put("rfidTimeout", functionality.getRfidTimeout());
 
         return object;
     }
@@ -435,6 +440,7 @@ class RegulaConfig {
         object.put("hologramAnimationPositionMultiplier", customization.getHologramAnimationPositionMultiplier());
         object.put("hologramAnimationImageMatrix", customization.getHologramAnimationImageMatrix());
         object.put("hologramAnimationImageScaleType", customization.getHologramAnimationImageScaleType());
+        object.put("uiCustomizationLayer", customization.getUiCustomizationLayer());
 
         return object;
     }

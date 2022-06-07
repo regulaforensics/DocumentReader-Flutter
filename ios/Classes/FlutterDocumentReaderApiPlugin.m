@@ -276,6 +276,8 @@ typedef void (^Callback)(NSString* response);
         [self startRFIDReader :successCallback :errorCallback];
     else if([action isEqualToString:@"stopRFIDReader"])
         [self stopRFIDReader :successCallback :errorCallback];
+    else if([action isEqualToString:@"stopRFIDReaderWithErrorMessage"])
+        [self stopRFIDReaderWithErrorMessage :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"stopScanner"])
         [self stopScanner :successCallback :errorCallback];
     else if([action isEqualToString:@"deinitializeReader"])
@@ -346,18 +348,16 @@ typedef void (^Callback)(NSString* response);
         [self setTCCParams :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReaderWithDatabase"])
         [self initializeReaderWithDatabase :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"recognizeImageFrame"])
-        [self recognizeImageFrame :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImageWithOpts"])
         [self recognizeImageWithOpts :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeVideoFrame"])
         [self recognizeVideoFrame :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"showScannerWithCameraIDAndOpts"])
         [self showScannerWithCameraIDAndOpts :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"recognizeImageWithImageInputParams"])
-        [self recognizeImageWithImageInputParams :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImageWithCameraMode"])
         [self recognizeImageWithCameraMode :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"recognizeImagesWithImageInputs"])
+        [self recognizeImagesWithImageInputs :[args objectAtIndex:0] :successCallback :errorCallback];
     else
         [self result:[NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action] :errorCallback];
 }
@@ -380,8 +380,10 @@ typedef void (^Callback)(NSString* response);
     [self result:@"showScannerWithCameraID() is an android-only method" :errorCallback];
 }
 
-- (void) recognizeImageFrame:(NSString*)base64 :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeImageFrame() is an android-only method" :errorCallback];
+- (void) stopRFIDReaderWithErrorMessage:(NSMutableString*)message :(Callback)successCallback :(Callback)errorCallback{
+    [RGLDocReader.shared stopRFIDReaderWithErrorMessage:message completion:^() {
+        [self result:@"" :successCallback];
+    }];
 }
 
 - (void) recognizeImageWithOpts:(NSString*)base64 :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
@@ -394,10 +396,6 @@ typedef void (^Callback)(NSString* response);
 
 - (void) showScannerWithCameraIDAndOpts:(NSNumber*)cameraID :(NSDictionary*)opts :(Callback)successCallback :(Callback)errorCallback{
     [self result:@"showScannerWithCameraIDAndOpts() is an android-only method" :errorCallback];
-}
-
-- (void) recognizeImageWithImageInputParams:(NSString*)base64 :(NSDictionary*)params :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"recognizeImageWithImageInputParams() is an android-only method" :errorCallback];
 }
 
 - (void) getLicenseMessage:(Callback)successCallback :(Callback)errorCallback{
@@ -462,6 +460,15 @@ typedef void (^Callback)(NSString* response);
             [images addObject:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             [RGLDocReader.shared recognizeImages:images completion:[self getCompletion]];
+        });
+}
+
+- (void) recognizeImagesWithImageInputs:(NSArray*)input :(Callback)successCallback :(Callback)errorCallback{
+        NSMutableArray<RGLImageInput*>* images = [[NSMutableArray alloc] init];
+        for(__strong NSDictionary* image in input)
+            [images addObject:[RGLWJSONConstructor RGLImageInputFromJson: image]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [RGLDocReader.shared recognizeImagesWithImageInputs:images completion:[self getCompletion]];
         });
 }
 

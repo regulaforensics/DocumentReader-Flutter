@@ -550,6 +550,8 @@
         customization.hologramAnimationPositionMultiplier = [[options valueForKey:@"hologramAnimationPositionMultiplier"] floatValue];
     if([options valueForKey:@"hologramAnimationImage"] != nil)
         customization.hologramAnimationImage = [self imageFromBase64:[options valueForKey:@"hologramAnimationImage"]];
+    if([options valueForKey:@"uiCustomizationLayer"] != nil)
+        customization.customUILayerJSON = [options valueForKey:@"uiCustomizationLayer"];
 }
 
 +(void)setFunctionality:(NSDictionary*)options :(RGLFunctionality*)functionality {
@@ -755,6 +757,7 @@
     result[@"toolbarSize"] = [NSNumber numberWithFloat:customization.toolbarSize];
     result[@"hologramAnimationImageContentMode"] = [NSNumber numberWithInteger:[self NSIntegerWithUIViewContentMode:customization.hologramAnimationImageContentMode]];
     result[@"hologramAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.hologramAnimationPositionMultiplier];
+    result[@"uiCustomizationLayer"] = customization.customUILayerJSON;
     result[@"hologramAnimationImage"] = [UIImageJPEGRepresentation(customization.hologramAnimationImage, 1.0) base64EncodedStringWithOptions:0];
     if(customization.customLabelStatus != nil)
         result[@"customLabelStatus"] = customization.customLabelStatus.string;

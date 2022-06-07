@@ -16,6 +16,7 @@ import com.regula.documentreader.api.enums.eRPRM_Lights;
 import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreDetailedScenario;
 import com.regula.documentreader.api.params.FaceMetaData;
+import com.regula.documentreader.api.params.ImageInputData;
 import com.regula.documentreader.api.params.rfid.TccParams;
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
@@ -357,6 +358,42 @@ class JSONConstructor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return result;
+    }
+
+    static ImageInputData ImageInputDataFromJSON(JSONObject input) {
+        ImageInputData result = new ImageInputData(null);
+        int pageIndex = 0;
+        int light = 6;
+        int type = 254;
+        int width = 0;
+        int height = 0;
+        Bitmap bitmap;
+        byte[] imgBytes;
+
+        try {
+            if(input.has("pageIndex"))
+                pageIndex = input.optInt("pageIndex");
+            if(input.has("light"))
+                pageIndex = input.optInt("light");
+            if(input.has("type"))
+                pageIndex = input.optInt("type");
+            if (input.has("bitmap")) {
+                bitmap = Helpers.bitmapFromBase64(input.getString("bitmap"));
+                result = new ImageInputData(bitmap, light, pageIndex);
+            }
+            if (input.has("imgBytes")) {
+                JSONArray jsonArray_data = input.getJSONArray("data");
+                byte[] data = new byte[jsonArray_data.length()];
+                for (int i = 0; i < jsonArray_data.length(); i++)
+                    data[i] = (byte) jsonArray_data.get(i);
+                imgBytes = data;
+                result = new ImageInputData(imgBytes, width, height, light, pageIndex);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 
@@ -1178,6 +1215,23 @@ class JSONConstructor {
             result.put("elementDiagnose", input.elementDiagnose);
             result.put("elementTypeName", input.getElementTypeName(context));
             result.put("elementDiagnoseName", input.getElementDiagnoseName(context));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateImageInputData(ImageInputData input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return result;
+        try {
+            result.put("pageIndex", input.getPageIndex());
+            result.put("light", input.getLight());
+            result.put("type", input.getType());
+            result.put("width", input.getWidth());
+            result.put("height", input.getHeight());
+            result.put("bitmap", generateBitmap(input.getBitmap()));
+            result.put("imgBytes", generateByteArray(input.getImgBytes()));
         } catch (JSONException e) {
             e.printStackTrace();
         }

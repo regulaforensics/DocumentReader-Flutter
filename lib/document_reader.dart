@@ -1997,6 +1997,45 @@ class DocumentReaderUvFiberElement {
   }
 }
 
+class ImageInputData {
+  int? pageIndex;
+  int? light;
+  int? type;
+  int? width;
+  int? height;
+  String? bitmap;
+  List<dynamic>? imgBytes;
+
+  static ImageInputData? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new ImageInputData();
+
+    result.pageIndex = jsonObject["pageIndex"];
+    result.light = jsonObject["light"];
+    result.type = jsonObject["type"];
+    result.width = jsonObject["width"];
+    result.height = jsonObject["height"];
+    result.bitmap = jsonObject["bitmap"];
+    result.imgBytes = jsonObject["imgBytes"];
+
+    return result;
+  }
+
+  Map toJson(){
+    Map result = {};
+
+    if (pageIndex != null) result.addAll({"pageIndex": pageIndex});
+    if (light != null) result.addAll({"light": light});
+    if (type != null) result.addAll({"type": type});
+    if (width != null) result.addAll({"width": width});
+    if (height != null) result.addAll({"height": height});
+    if (bitmap != null) result.addAll({"bitmap": bitmap});
+    if (imgBytes != null) result.addAll({"imgBytes": imgBytes});
+
+    return result;
+  }
+}
+
 class DocumentReaderResults {
   int? chipPage;
   int? overallResult;
@@ -2272,13 +2311,13 @@ class diDocType {
   static const int dtIdentityCard = 12;
   static const int dtDiplomaticPassport = 13;
   static const int dtServicePassport = 14;
-  static const int dtSeamansIdentityDocument = 15;
-  static const int dtIdentityCardforResidence = 16;
-  static const int dtTraveldocument = 17;
+  static const int dtSeamanIdentityDocument = 15;
+  static const int dtIdentityCardForResidence = 16;
+  static const int dtTravelDocument = 17;
   static const int dtOther = 99;
   static const int dtVisaID2 = 29;
   static const int dtVisaID3 = 30;
-  static const int dtRegistrationCertificate = 31;
+  static const int dtRegistrationCertificate = 206;
   static const int dtNationalIdentityCard = 20;
   static const int dtSocialIdentityCard = 21;
   static const int dtAliensIdentityCard = 22;
@@ -2295,10 +2334,10 @@ class diDocType {
   static const int dtChauffeurLicenseUnder18 = 36;
   static const int dtChauffeurLicenseUnder21 = 37;
   static const int dtCommercialDrivingLicense = 38;
-  static const int dtCommercialDrivingLicenseIndtuctionalPermit = 39;
+  static const int dtCommercialDrivingLicenseInstructionalPermit = 39;
   static const int dtCommercialDrivingLicenseUnder18 = 40;
   static const int dtCommercialDrivingLicenseUnder21 = 41;
-  static const int dtCommercialIndtuctionPermit = 42;
+  static const int dtCommercialInstructionPermit = 42;
   static const int dtCommercialNewPermit = 43;
   static const int dtConcealedCarryLicense = 44;
   static const int dtConcealedFirearmPermit = 45;
@@ -2306,9 +2345,9 @@ class diDocType {
   static const int dtDepartmentOfVeteransAffairsIdentityCard = 47;
   static const int dtDiplomaticDrivingLicense = 48;
   static const int dtDrivingLicense = 49;
-  static const int dtDrivingLicenseIndtuctionalPermit = 50;
-  static const int dtDrivingLicenseIndtuctionalPermitUnder18 = 51;
-  static const int dtDrivingLicenseIndtuctionalPermitUnder21 = 52;
+  static const int dtDrivingLicenseInstructionalPermit = 50;
+  static const int dtDrivingLicenseInstructionalPermitUnder18 = 51;
+  static const int dtDrivingLicenseInstructionalPermitUnder21 = 52;
   static const int dtDrivingLicenseLearnersPermit = 53;
   static const int dtDrivingLicenseLearnersPermitUnder18 = 54;
   static const int dtDrivingLicenseLearnersPermitUnder21 = 55;
@@ -2316,8 +2355,8 @@ class diDocType {
   static const int dtDrivingLicenseNoviceUnder18 = 57;
   static const int dtDrivingLicenseNoviceUnder21 = 58;
   static const int dtDrivingLicenseRegisteredOffender = 59;
-  static const int dtDrivingLicenseRedtictedUnder18 = 60;
-  static const int dtDrivingLicenseRedtictedUnder21 = 61;
+  static const int dtDrivingLicenseRestrictedUnder18 = 60;
+  static const int dtDrivingLicenseRestrictedUnder21 = 61;
   static const int dtDrivingLicenseTemporaryVisitor = 62;
   static const int dtDrivingLicenseTemporaryVisitorUnder18 = 63;
   static const int dtDrivingLicenseTemporaryVisitorUnder21 = 64;
@@ -2342,8 +2381,8 @@ class diDocType {
   static const int dtGenevaConventionsIdentityCard = 83;
   static const int dtGraduatedDrivingLicenseUnder18 = 84;
   static const int dtGraduatedDrivingLicenseUnder21 = 85;
-  static const int dtGraduatedIndtuctionPermitUnder18 = 86;
-  static const int dtGraduatedIndtuctionPermitUnder21 = 87;
+  static const int dtGraduatedInstructionPermitUnder18 = 86;
+  static const int dtGraduatedInstructionPermitUnder21 = 87;
   static const int dtGraduatedLicenseUnder18 = 88;
   static const int dtGraduatedLicenseUnder21 = 89;
   static const int dtHandgunCarryPermit = 90;
@@ -2357,16 +2396,16 @@ class diDocType {
   static const int dtIdentityCardUnder21 = 98;
   static const int dtIgnitionInterlockPermit = 100;
   static const int dtImmigrantVisa = 101;
-  static const int dtIndtuctionPermit = 102;
-  static const int dtIndtuctionPermitUnder18 = 103;
-  static const int dtIndtuctionPermitUnder21 = 104;
+  static const int dtInstructionPermit = 102;
+  static const int dtInstructionPermitUnder18 = 103;
+  static const int dtInstructionPermitUnder21 = 104;
   static const int dtInterimDrivingLicense = 105;
   static const int dtInterimIdentityCard = 106;
   static const int dtIntermediateDrivingLicense = 107;
   static const int dtIntermediateDrivingLicenseUnder18 = 108;
   static const int dtIntermediateDrivingLicenseUnder21 = 109;
   static const int dtJuniorDrivingLicense = 110;
-  static const int dtLearnerIndtuctionalPermit = 111;
+  static const int dtLearnerInstructionalPermit = 111;
   static const int dtLearnerLicense = 112;
   static const int dtLearnerLicenseUnder18 = 113;
   static const int dtLearnerLicenseUnder21 = 114;
@@ -2403,9 +2442,9 @@ class diDocType {
   static const int dtRacingAndGamingComissionCard = 145;
   static const int dtRefugeeTravelDocument = 146;
   static const int dtRenewalPermit = 147;
-  static const int dtRedtictedCommercialDrivingLicense = 148;
-  static const int dtRedtictedDrivingLicense = 149;
-  static const int dtRedtictedPermit = 150;
+  static const int dtRestrictedCommercialDrivingLicense = 148;
+  static const int dtRestrictedDrivingLicense = 149;
+  static const int dtRestrictedPermit = 150;
   static const int dtSeasonalPermit = 151;
   static const int dtSeasonalResidentIdentityCard = 152;
   static const int dtSeniorCitizenIdentityCard = 153;
@@ -2415,9 +2454,9 @@ class diDocType {
   static const int dtTemporaryDrivingLicenseUnder18 = 157;
   static const int dtTemporaryDrivingLicenseUnder21 = 158;
   static const int dtTemporaryIdentityCard = 159;
-  static const int dtTemporaryIndtuctionPermitIdentityCard = 160;
-  static const int dtTemporaryIndtuctionPermitIdentityCardUnder18 = 161;
-  static const int dtTemporaryIndtuctionPermitIdentityCardUnder21 = 162;
+  static const int dtTemporaryInstructionPermitIdentityCard = 160;
+  static const int dtTemporaryInstructionPermitIdentityCardUnder18 = 161;
+  static const int dtTemporaryInstructionPermitIdentityCardUnder21 = 162;
   static const int dtTemporaryVisitorDrivingLicense = 163;
   static const int dtTemporaryVisitorDrivingLicenseUnder18 = 164;
   static const int dtTemporaryVisitorDrivingLicenseUnder21 = 165;
@@ -2440,15 +2479,15 @@ class diDocType {
   static const int dtCertificateOfCitizenship = 182;
   static const int dtAddressCard = 183;
   static const int dtAirportImmigrationCard = 184;
-  static const int dtAlienRegidtationCard = 185;
+  static const int dtAlienRegistrationCard = 185;
   static const int dtAPEHCard = 186;
-  static const int dtCoupontoDrivingLicense = 187;
+  static const int dtCouponToDrivingLicense = 187;
   static const int dtCrewMemberCertificate = 188;
   static const int dtDocumentForReturn = 189;
   static const int dtECard = 190;
   static const int dtEmploymentCard = 191;
   static const int dtHKSARImmigrationForm = 192;
-  static const int dtImmigrantcard = 193;
+  static const int dtImmigrantCard = 193;
   static const int dtLabourCard = 194;
   static const int dtLaissezPasser = 195;
   static const int dtLawyerIdentityCertificate = 196;
@@ -2460,7 +2499,7 @@ class diDocType {
   static const int dtPassportOfficial = 202;
   static const int dtPassportProvisional = 203;
   static const int dtPassportSpecial = 204;
-  static const int dtPermissiontotheLocalBorderTraffic = 205;
+  static const int dtPermissionToTheLocalBorderTraffic = 205;
   static const int dtSEDESOLCard = 207;
   static const int dtSocialCard = 208;
   static const int dtTBCard = 209;
@@ -2493,6 +2532,10 @@ class diDocType {
   static const int dtInterimInstructionalPermit = 236;
   static const int dtCertificateOfCompetency = 237;
   static const int dtCertificateOfProficiency = 238;
+  static const int dtTradeLicense = 239;
+  static const int dtPassportPage = 240;
+  static const int dtInvoice = 241;
+  static const int dtPassengerLocatorForm = 242;
 }
 
 class DocFormat {
@@ -2511,7 +2554,10 @@ class DocReaderAction {
   static const int ERROR = 3;
   static const int NOTIFICATION = 5;
   static const int PROCESS_WHITE_UV_IMAGES = 6;
+  static const int PROCESS_WHITE_FLASHLIGHT = 7;
   static const int MORE_PAGES_AVAILABLE = 8;
+  static const int PROCESS_IR_FRAME = 9;
+  static const int TIMEOUT = 10;
 }
 
 class DocReaderFrame {
@@ -4417,7 +4463,7 @@ class eRFID_ErrorCodes {
       case -2046820094:
         return "LAYER6: ISO7816_B_03 \"Mutual authentication failure\"";
       case -2046820093:
-        return "null";
+        return "LAYER6: ISO7816_B_03 \"Mutual authentication failure data\"";
       case -2046819840:
         return "LAYER6: SM failure – MAC missing";
       case -2046819839:
@@ -4553,13 +4599,20 @@ class eRPRM_Lights {
   static const int NONE = 0;
   static const int RPRM_LIGHT_UV = 128;
   static const int RPRM_LIGHT_WHITE_FULL = 6;
+  static const int RPRM_LIGHT_IR = 16777216;
+  static const int RPRM_Light_IR_TOP = 8;
+  static const int RPRM_Light_IR_SIDE = 16;
+  static const int RPRM_Light_IR_Full = 24;
+  static const int RPRM_LIGHT_OVD = 67108864;
 
   static String getTranslation(int value) {
     switch (value) {
-      case RPRM_LIGHT_UV:
-        return "UV";
-      case RPRM_LIGHT_WHITE_FULL:
+      case 6:
         return "Visible light";
+      case 24:
+        return "IR";
+      case 128:
+        return "UV";
       default:
         return value.toString();
     }
@@ -5247,6 +5300,10 @@ class eVisualFieldType {
   static const int FT_VACCINATION_CERTIFICATE_IDENTIFIER = 644;
   static const int FT_FIRST_NAME = 645;
   static const int FT_DATE_OF_ARRIVAL = 646;
+  static const int FT_SECOND_NAME = 647;
+  static const int FT_THIRD_NAME = 648;
+  static const int FT_FOURTH_NAME = 649;
+  static const int FT_LAST_NAME = 650;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -6441,7 +6498,15 @@ class eVisualFieldType {
       case 645:
         return "First name";
       case 646:
-        return "null";
+        return "Date of arrival";
+      case 647:
+        return "Second name";
+      case 648:
+        return "Third name";
+      case 649:
+        return "Fourth name";
+      case 650:
+        return "Last name";
       default:
         return value.toString();
     }
@@ -7113,6 +7178,10 @@ class DocumentReader {
     return await _channel.invokeMethod("stopRFIDReader", []);
   }
 
+  static Future<dynamic> stopRFIDReaderWithErrorMessage(message) async {
+    return await _channel.invokeMethod("stopRFIDReaderWithErrorMessage", [message]);
+  }
+
   static Future<dynamic> stopScanner() async {
     return await _channel.invokeMethod("stopScanner", []);
   }
@@ -7253,10 +7322,6 @@ class DocumentReader {
     return await _channel.invokeMethod("initializeReaderWithDatabase", [license, db]);
   }
 
-  static Future<dynamic> recognizeImageFrame(image, params) async {
-    return await _channel.invokeMethod("recognizeImageFrame", [image, params]);
-  }
-
   static Future<dynamic> recognizeImageWithOpts(image, options) async {
     return await _channel.invokeMethod("recognizeImageWithOpts", [image, options]);
   }
@@ -7269,11 +7334,11 @@ class DocumentReader {
     return await _channel.invokeMethod("showScannerWithCameraIDAndOpts", [cameraID, options]);
   }
 
-  static Future<dynamic> recognizeImageWithImageInputParams(image, params) async {
-    return await _channel.invokeMethod("recognizeImageWithImageInputParams", [image, params]);
-  }
-
   static Future<dynamic> recognizeImageWithCameraMode(image, mode) async {
     return await _channel.invokeMethod("recognizeImageWithCameraMode", [image, mode]);
+  }
+
+  static Future<dynamic> recognizeImagesWithImageInputs(images) async {
+    return await _channel.invokeMethod("recognizeImagesWithImageInputs", [images]);
   }
 }

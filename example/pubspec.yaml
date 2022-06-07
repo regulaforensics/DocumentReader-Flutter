@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   flutter_document_reader_api:
     path: ../
-  flutter_document_reader_core_fullrfid: ^6.3.0
+  flutter_document_reader_core_fullrfid: ^6.4.0
   cupertino_icons: ^1.0.3
 
 dev_dependencies:

@@ -35,6 +35,20 @@
     return [[RGLTCCParams alloc] initWithServiceTAURLString:serviceTAURLString servicePAURLString:servicePAURLString pfxCertURLString:pfxCertURLString pfxCertData: pfxCertData pfxPassPhrase:pfxPassPhrase];
 }
 
++(RGLImageInput*)RGLImageInputFromJson:(NSDictionary*)input {
+    NSInteger pageIndex = 0;
+    if([input valueForKey:@"pageIndex"] != nil)
+        pageIndex = [[input valueForKey:@"pageIndex"] integerValue];
+    NSInteger light = 6;
+    if([input valueForKey:@"light"] != nil)
+        pageIndex = [[input valueForKey:@"light"] integerValue];
+    if([input valueForKey:@"bitmap"] != nil){
+        UIImage* image = [UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:[input valueForKey:@"bitmap"] options:NSDataBase64DecodingIgnoreUnknownCharacters]];
+        return [[RGLImageInput alloc] initWithImage:image light:light pageIndex:pageIndex];
+    }
+    return nil;
+}
+
 +(NSMutableDictionary*)generateCGPoint:(CGPoint)input {
     NSMutableDictionary *result = [NSMutableDictionary new];
 
@@ -107,6 +121,9 @@
         case RGLDocReaderActionError:
             result = 3;
             break;
+        case RGLDocReaderActionProcessTimeout:
+            result = 10;
+            break;
         default:
             break;
     }
@@ -118,7 +135,7 @@
     NSInteger result = 0;
     switch (input) {
         case RGLRFIDCompleteActionComplete:
-            result = 10;
+            result = 999;
             break;
         case RGLRFIDCompleteActionError:
             result = 3;
@@ -178,6 +195,9 @@
         case 3:
             result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
+        case 10:
+            result[@"results"] = [self generateRGLDocumentReaderResults:results];
+            break;
         case 5:
             result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
@@ -187,7 +207,7 @@
         case 8:
             result[@"results"] = [self generateRGLDocumentReaderResults:results];
             break;
-        case 10:
+        case 999:
             result[@"results"] = [self generateResultsWithRFID :results :1];
             action = 1;
             break;
