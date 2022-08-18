@@ -447,6 +447,37 @@
     return group;
 }
 
++(RGLOnlineProcessingConfig*)RGLOnlineProcessingConfigFromJSON:(NSDictionary*)dict {
+    if([dict valueForKey:@"mode"] == nil) return nil;
+
+    RGLOnlineProcessingConfig *result = [[RGLOnlineProcessingConfig alloc] initWithMode:[[dict valueForKey:@"mode"] integerValue]];
+
+    if([dict valueForKey:@"imageFormat"] != nil)
+        result.imageFormat = [[dict valueForKey:@"imageFormat"] integerValue];
+    if([dict valueForKey:@"url"] != nil)
+        result.serviceURL = [dict valueForKey:@"url"];
+    if([dict valueForKey:@"imageCompressionQuality"] != nil)
+        result.imageCompressionQuality = [[dict valueForKey:@"imageCompressionQuality"] floatValue];
+    if([dict valueForKey:@"processParams"] != nil) {
+        RGLProcessParams *params = [RGLProcessParams new];
+        [self setProcessParams:[dict valueForKey:@"processParams"] :params];
+        result.processParams = params;
+    }
+
+    return result;
+}
+
++(RGLReprocParams*)RGLReprocParamsFromJSON:(NSDictionary*)dict {
+    RGLReprocParams *result = [RGLReprocParams new];
+
+    if([dict valueForKey:@"serviceUrl"] != nil)
+        result.serviceURL = [dict valueForKey:@"serviceUrl"];
+    if([dict valueForKey:@"failIfNoService"] != nil)
+        result.failIfNoService = [dict valueForKey:@"failIfNoService"];
+
+    return result;
+}
+
 +(void)setCustomization:(NSDictionary*)options :(RGLCustomization*)customization {
     if([options valueForKey:@"cameraFrameBorderWidth"] != nil)
         customization.cameraFrameBorderWidth = [[options valueForKey:@"cameraFrameBorderWidth"] floatValue];
@@ -590,10 +621,6 @@
         functionality.singleResult = [[options valueForKey:@"singleResult"] boolValue];
     if([options valueForKey:@"cameraPosition"] != nil)
         functionality.cameraPosition = [self AVCaptureDevicePositionWithNSInteger:[[options valueForKey:@"cameraPosition"] integerValue]];
-    if([options valueForKey:@"onlineMode"] != nil)
-        functionality.onlineMode = [[options valueForKey:@"onlineMode"] boolValue];
-    if([options valueForKey:@"serviceURL"] != nil)
-        functionality.serviceURL = [[options valueForKey:@"serviceURL"] stringValue];
     if([options valueForKey:@"btDeviceName"] != nil)
         functionality.btDeviceName = [[options valueForKey:@"btDeviceName"] stringValue];
     if([options valueForKey:@"useAuthenticator"] != nil)
@@ -614,6 +641,8 @@
         functionality.recordScanningProcess = [[options valueForKey:@"recordScanningProcess"] boolValue];
     if([options valueForKey:@"manualMultipageMode"] != nil)
         functionality.manualMultipageMode = [[options valueForKey:@"manualMultipageMode"] boolValue];
+    if([options valueForKey:@"onlineProcessingConfiguration"] != nil)
+        functionality.onlineProcessingConfig = [self RGLOnlineProcessingConfigFromJSON:[options valueForKey:@"onlineProcessingConfiguration"]];;
 }
 
 +(void)setProcessParams:(NSDictionary*)options :(RGLProcessParams*)processParams {
@@ -797,8 +826,6 @@
     result[@"videoSessionPreset"] = [NSNumber numberWithInteger:[self NSIntegerWithAVCaptureSessionPreset:functionality.videoSessionPreset]];
     result[@"videoCaptureMotionControl"] = [NSNumber numberWithBool:functionality.videoCaptureMotionControl];
     result[@"orientation"] = [NSNumber numberWithInteger:[self NSIntegerWithUIInterfaceOrientationMask:functionality.orientation]];
-    result[@"onlineMode"] = [NSNumber numberWithBool:functionality.onlineMode];
-    result[@"serviceURL"] = functionality.serviceURL;
     result[@"cameraPosition"] = [NSNumber numberWithInteger:[self NSIntegerWithAVCaptureDevicePosition:functionality.cameraPosition]];
     result[@"btDeviceName"] = functionality.btDeviceName;
     result[@"useAuthenticator"] = [NSNumber numberWithBool:functionality.isUseAuthenticator];
@@ -969,6 +996,10 @@
         rfidScenario.authorizedInstallCert = [[options valueForKey:@"authorizedInstallCert"] boolValue];
     if([options valueForKey:@"authorizedInstallQCert"] != nil)
         rfidScenario.authorizedInstallQCert = [[options valueForKey:@"authorizedInstallQCert"] boolValue];
+    if([options valueForKey:@"reprocessParams"] != nil)
+        rfidScenario.reprocParams = [self RGLReprocParamsFromJSON: [options valueForKey:@"reprocessParams"]];
+    if([options valueForKey:@"defaultReadingBufferSize"] != nil)
+        rfidScenario.defaultReadingBufferSize = [[options valueForKey:@"defaultReadingBufferSize"] intValue];
 }
 
 @end

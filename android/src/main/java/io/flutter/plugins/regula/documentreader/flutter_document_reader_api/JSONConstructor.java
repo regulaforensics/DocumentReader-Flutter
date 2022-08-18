@@ -15,7 +15,8 @@ import com.regula.documentreader.api.enums.eGraphicFieldType;
 import com.regula.documentreader.api.enums.eRPRM_Lights;
 import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreDetailedScenario;
-import com.regula.documentreader.api.params.FaceMetaData;
+import com.regula.documentreader.api.params.DocReaderConfig;
+import com.regula.documentreader.api.internal.params.FaceMetaData;
 import com.regula.documentreader.api.params.ImageInputData;
 import com.regula.documentreader.api.params.rfid.TccParams;
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
@@ -56,7 +57,6 @@ import com.regula.documentreader.api.results.rfid.Extension;
 import com.regula.documentreader.api.results.rfid.File;
 import com.regula.documentreader.api.results.rfid.FileData;
 import com.regula.documentreader.api.results.rfid.RFIDSessionData;
-import com.regula.documentreader.api.results.rfid.RFIDSessionDataStatus;
 import com.regula.documentreader.api.results.rfid.SecurityObject;
 import com.regula.documentreader.api.results.rfid.SecurityObjectCertificates;
 import com.regula.documentreader.api.results.rfid.SignerInfo;
@@ -355,6 +355,28 @@ class JSONConstructor {
                 result.setPfxPassPhrase(input.getString("pfxPassPhrase"));
             if (input.has("pfxCert"))
                 result.setPfxCert(Base64.decode(input.getString("pfxCert"), Base64.DEFAULT));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static DocReaderConfig DocReaderConfigFromJSON(JSONObject input) {
+        DocReaderConfig result = new DocReaderConfig(null);
+        byte[] license;
+        try {
+            if (input.has("license")) {
+                license = Base64.decode(input.getString("license"), Base64.DEFAULT);
+                result = new DocReaderConfig(license);
+            } else return result;
+            if (input.has("customDb"))
+                result = new DocReaderConfig(license, Base64.decode(input.getString("customDb"), Base64.DEFAULT));
+            if (input.has("licenseUpdate"))
+                result.setLicenseUpdate(input.getBoolean("licenseUpdate"));
+            if (input.has("delayedNNLoad"))
+                result.setDelayedNNLoad(input.getBoolean("delayedNNLoad"));
+            if (input.has("blackList"))
+                result.setBlackList(input.getJSONObject("blackList"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -920,7 +942,6 @@ class JSONConstructor {
             result.put("extLeSupport", input.extLeSupport);
             result.put("processTime", input.processTime);
             result.put("cardProperties", generateCardProperties(input.cardProperties));
-            result.put("sessionDataStatus", generateRFIDSessionDataStatus(input.sessionDataStatus));
             result.put("accessControls", generateList(input.accessControls, JSONConstructor::generateAccessControlProcedureType));
             result.put("applications", generateList(input.applications, JSONConstructor::generateApplication));
             result.put("securityObjects", generateList(input.securityObjects, JSONConstructor::generateSecurityObject));
@@ -952,23 +973,6 @@ class JSONConstructor {
             result.put("errorLevel", input.errorLevel);
             result.put("columns", input.columns);
             result.put("rows", input.rows);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    static JSONObject generateRFIDSessionDataStatus(RFIDSessionDataStatus input) {
-        JSONObject result = new JSONObject();
-        if (input == null) return result;
-        try {
-            result.put("AA", input.AA);
-            result.put("BAC", input.BAC);
-            result.put("CA", input.CA);
-            result.put("PA", input.PA);
-            result.put("PACE", input.PACE);
-            result.put("TA", input.TA);
-            result.put("overallStatus", input.overallStatus);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1243,7 +1247,6 @@ class JSONConstructor {
         if (input == null) return result;
         try {
             result.put("chipPage", input.chipPage);
-            result.put("overallResult", input.getOverallResult());
             result.put("processingFinishedStatus", input.processingFinishedStatus);
             result.put("elapsedTime", input.elapsedTime);
             result.put("elapsedTimeRFID", input.elapsedTimeRFID);
@@ -2038,8 +2041,6 @@ class JSONConstructor {
                 result.processTime = input.getInt("processTime");
             if (input.has("cardProperties"))
                 result.cardProperties = CardPropertiesFromJSON(input.getJSONObject("cardProperties"));
-            if (input.has("sessionDataStatus"))
-                result.sessionDataStatus = RFIDSessionDataStatusFromJSON(input.getJSONObject("sessionDataStatus"));
             if (input.has("accessControls")){
                 JSONArray jsonArray_accessControls = input.getJSONArray("accessControls");
                 List<AccessControlProcedureType> accessControls = new ArrayList<>();
@@ -2098,30 +2099,6 @@ class JSONConstructor {
                 result.columns = input.getInt("columns");
             if (input.has("rows"))
                 result.rows = input.getInt("rows");
-            return result;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    static RFIDSessionDataStatus RFIDSessionDataStatusFromJSON(JSONObject input) {
-        try {
-            RFIDSessionDataStatus result = new RFIDSessionDataStatus();
-            if (input.has("AA"))
-                result.AA = input.getInt("AA");
-            if (input.has("BAC"))
-                result.BAC = input.getInt("BAC");
-            if (input.has("CA"))
-                result.CA = input.getInt("CA");
-            if (input.has("PA"))
-                result.PA = input.getInt("PA");
-            if (input.has("PACE"))
-                result.PACE = input.getInt("PACE");
-            if (input.has("TA"))
-                result.TA = input.getInt("TA");
-            if (input.has("overallStatus"))
-                result.overallStatus = input.getInt("overallStatus");
             return result;
         } catch (JSONException e) {
             e.printStackTrace();

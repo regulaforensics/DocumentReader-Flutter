@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Base64;
 
 import com.regula.documentreader.api.enums.BarcodeType;
-import com.regula.documentreader.api.params.FaceMetaData;
+import com.regula.documentreader.api.internal.params.FaceMetaData;
 import com.regula.documentreader.api.results.Bounds;
 
 import org.json.JSONArray;

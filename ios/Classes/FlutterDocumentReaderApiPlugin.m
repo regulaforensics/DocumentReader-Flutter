@@ -334,6 +334,8 @@ typedef void (^Callback)(NSString* response);
         [self prepareDatabase :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImage"])
         [self recognizeImage :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"recognizeData"])
+        [self recognizeData :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"setRfidSessionStatus"])
         [self setRfidSessionStatus :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"providePACertificates"])
@@ -346,8 +348,6 @@ typedef void (^Callback)(NSString* response);
         [self parseCoreResults :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"setTCCParams"])
         [self setTCCParams :[args objectAtIndex:0] :successCallback :errorCallback];
-    else if([action isEqualToString:@"initializeReaderWithDatabase"])
-        [self initializeReaderWithDatabase :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImageWithOpts"])
         [self recognizeImageWithOpts :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeVideoFrame"])
@@ -402,12 +402,8 @@ typedef void (^Callback)(NSString* response);
     [self result:@"getLicenseMessage() is an android-only method" :successCallback];
 }
 
-- (void) initializeReaderWithDatabase:(NSString*)licenseString :(NSString*)databaseString :(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"initializeReaderWithDatabase() is an android-only method" :successCallback];
-}
-
-- (void) initializeReader:(NSString*)licenseString :(Callback)successCallback :(Callback)errorCallback{
-    [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:[[NSData alloc] initWithBase64EncodedString:licenseString options:0]] completion:[self getInitCompletion :successCallback :errorCallback]];
+- (void) initializeReader:(NSDictionary*)config :(Callback)successCallback :(Callback)errorCallback{
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor RGLConfigFromJson:config] completion:[self getInitCompletion :successCallback :errorCallback]];
 }
 
 - (void) parseCoreResults:(NSString*)json :(Callback)successCallback :(Callback)errorCallback{
@@ -452,6 +448,10 @@ typedef void (^Callback)(NSString* response);
 
 - (void) recognizeImage:(NSMutableString*)base64 :(Callback)successCallback :(Callback)errorCallback{
     [self recognizeImageWith :base64 :false :successCallback :errorCallback];
+}
+
+- (void) recognizeData:(NSString*)data :(Callback)successCallback :(Callback)errorCallback{
+    [RGLDocReader.shared recognizeData :[[NSData alloc] initWithBase64EncodedString:data options:0] completion:[self getCompletion]];
 }
 
 - (void) recognizeImages:(NSArray*)input :(Callback)successCallback :(Callback)errorCallback{

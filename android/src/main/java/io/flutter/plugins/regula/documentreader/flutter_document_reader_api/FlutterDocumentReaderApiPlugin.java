@@ -32,11 +32,11 @@ import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil;
 import com.regula.documentreader.api.params.DocReaderConfig;
 import com.regula.documentreader.api.params.ImageInputData;
-import com.regula.documentreader.api.params.ImageInputParam;
+import com.regula.documentreader.api.internal.params.ImageInputParam;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
-import com.regula.documentreader.api.parser.DocReaderResultsJsonParser;
+import com.regula.documentreader.api.internal.parser.DocReaderResultsJsonParser;
 import com.regula.documentreader.api.results.DocumentReaderResults;
 
 import org.json.JSONArray;
@@ -445,6 +445,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "recognizeImage":
                     recognizeImage(callback, args(0));
                     break;
+                case "recognizeData":
+                    recognizeData(callback, args(0));
+                    break;
                 case "setRfidSessionStatus":
                     setRfidSessionStatus(callback, args(0));
                     break;
@@ -462,9 +465,6 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                     break;
                 case "setTCCParams":
                     setTCCParams(callback, args(0));
-                    break;
-                case "initializeReaderWithDatabase":
-                    initializeReaderWithDatabase(callback, args(0), args(1));
                     break;
                 case "recognizeImageWithOpts":
                     recognizeImageWithOpts(callback, args(0), args(1));
@@ -629,16 +629,9 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success(Instance().isRFIDAvailableForUse());
     }
 
-    private void initializeReader(Callback callback, Object license) {
+    private void initializeReader(Callback callback, JSONObject config) {
         if (!Instance().isReady())
-            Instance().initializeReader(getContext(), new DocReaderConfig(Base64.decode(license.toString(), Base64.DEFAULT)), getInitCompletion(callback));
-        else
-            callback.success("already initialized");
-    }
-
-    private void initializeReaderWithDatabase(Callback callback, Object license, Object db) {
-        if (!Instance().isReady())
-            Instance().initializeReader(getContext(), new DocReaderConfig(Base64.decode(license.toString(), Base64.DEFAULT), Base64.decode(db.toString(), Base64.DEFAULT)), getInitCompletion(callback));
+            Instance().initializeReader(getContext(), JSONConstructor.DocReaderConfigFromJSON(config), getInitCompletion(callback));
         else
             callback.success("already initialized");
     }
@@ -661,6 +654,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private void recognizeImage(@SuppressWarnings("unused") Callback callback, String base64Image) {
         stopBackgroundRFID();
         Instance().recognizeImage(Helpers.bitmapFromBase64(base64Image), getCompletion());
+    }
+
+    private void recognizeData(@SuppressWarnings("unused") Callback callback, Object data) {
+        stopBackgroundRFID();
+        Instance().recognizeImage(Base64.decode(data.toString(), Base64.DEFAULT), getCompletion());
     }
 
     private void recognizeImages(@SuppressWarnings("unused") Callback callback, JSONArray base64Images) throws JSONException {

@@ -6,9 +6,11 @@ import org.json.JSONException;
 
 import com.regula.documentreader.api.DocumentReader;
 import com.regula.documentreader.api.params.ImageQA;
+import com.regula.documentreader.api.params.OnlineProcessingConfig;
 import com.regula.documentreader.api.params.ParamsCustomization;
 import com.regula.documentreader.api.params.Functionality;
 import com.regula.documentreader.api.params.ProcessParam;
+import com.regula.documentreader.api.params.rfid.ReprocParams;
 import com.regula.documentreader.api.params.rfid.dg.DataGroups;
 
 import android.content.Context;
@@ -59,8 +61,6 @@ class RegulaConfig {
             editor.setShowCaptureButtonDelayFromDetect(opts.getInt("showCaptureButtonDelayFromDetect"));
         if (opts.has("showCaptureButtonDelayFromStart"))
             editor.setShowCaptureButtonDelayFromStart(opts.getInt("showCaptureButtonDelayFromStart"));
-        if (opts.has("isOnlineMode"))
-            editor.setOnlineMode(opts.getBoolean("isOnlineMode"));
         if (opts.has("databaseAutoupdate"))
             editor.setDatabaseAutoupdate(opts.getBoolean("databaseAutoupdate"));
         if (opts.has("showSkipNextPageButton"))
@@ -73,8 +73,6 @@ class RegulaConfig {
             editor.setShowCameraSwitchButton(opts.getBoolean("showCameraSwitchButton"));
         if (opts.has("cameraFrame"))
             editor.setCameraFrame(opts.getString("cameraFrame"));
-        if (opts.has("serviceURL"))
-            editor.setServiceURL(opts.getString("serviceURL"));
         if (opts.has("btDeviceName"))
             editor.setBtDeviceName(opts.getString("btDeviceName"));
         if (opts.has("orientation"))
@@ -105,6 +103,8 @@ class RegulaConfig {
             editor.setExposure(BigDecimal.valueOf(opts.getDouble("exposure")).floatValue());
         if (opts.has("rfidTimeout"))
             editor.setRfidTimeout(opts.getInt("rfidTimeout"));
+        if (opts.has("onlineProcessingConfiguration"))
+            editor.setOnlineProcessingConfiguration(OnlineProcessingConfigFromJSON(opts.getJSONObject("onlineProcessingConfiguration")));
 
         editor.apply();
     }
@@ -349,14 +349,12 @@ class RegulaConfig {
         object.put("showChangeFrameButton", functionality.isShowChangeFrameButton());
         object.put("showCaptureButtonDelayFromDetect", functionality.getShowCaptureButtonDelayFromDetect());
         object.put("showCaptureButtonDelayFromStart", functionality.getShowCaptureButtonDelayFromStart());
-        object.put("isOnlineMode", functionality.isOnlineMode());
         object.put("databaseAutoupdate", functionality.isDatabaseAutoupdate());
         object.put("showSkipNextPageButton", functionality.isShowSkipNextPageButton());
         object.put("useAuthenticator", functionality.isUseAuthenticator());
         object.put("skipFocusingFrames", functionality.isSkipFocusingFrames());
         object.put("showCameraSwitchButton", functionality.isShowCameraSwitchButton());
         object.put("cameraFrame", functionality.getCameraFrame());
-        object.put("serviceURL", functionality.getServiceURL());
         object.put("btDeviceName", functionality.getBtDeviceName());
         object.put("orientation", functionality.getOrientation());
         object.put("BTDeviceApiPresent", functionality.isBTDeviceApiPresent());
@@ -603,6 +601,10 @@ class RegulaConfig {
             setDataGroups(DocumentReader.Instance().rfidScenario().eIDDataGroups(), opts.getJSONObject("eIDDataGroups"));
         if (opts.has("eDLDataGroups"))
             setDataGroups(DocumentReader.Instance().rfidScenario().eDLDataGroups(), opts.getJSONObject("eDLDataGroups"));
+        if (opts.has("reprocessParams"))
+            DocumentReader.Instance().rfidScenario().setReprocessParams(ReprocParamsFromJSON(opts.getJSONObject("reprocessParams")));
+        if (opts.has("defaultReadingBufferSize"))
+            DocumentReader.Instance().rfidScenario().setDefaultReadingBufferSize(opts.getInt("defaultReadingBufferSize"));
     }
 
     private static void setDataGroups(DataGroups dataGroup, JSONObject opts) throws JSONException {
@@ -648,5 +650,43 @@ class RegulaConfig {
             dataGroup.setDG14(opts.getBoolean("DG20"));
         if (opts.has("DG21"))
             dataGroup.setDG14(opts.getBoolean("DG21"));
+    }
+
+    private static ReprocParams ReprocParamsFromJSON(JSONObject input) {
+        try {
+            ReprocParams result;
+            if (input.has("serviceUrl"))
+                result = new ReprocParams(input.getString("serviceUrl"));
+            else return null;
+            if (input.has("failIfNoService"))
+                result.setFailIfNoService(input.getBoolean("failIfNoService"));
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static OnlineProcessingConfig OnlineProcessingConfigFromJSON(JSONObject input) {
+        try {
+            OnlineProcessingConfig.Builder builder;
+            if (input.has("mode"))
+                builder = new OnlineProcessingConfig.Builder(input.getInt("mode"));
+            else return null;
+            if (input.has("imageFormat"))
+                builder.setImageFormat(input.getInt("imageFormat"));
+            if (input.has("url"))
+                builder.setUrl(input.getString("url"));
+            if (input.has("imageCompressionQuality"))
+                builder.setImageCompressionQuality((float) input.getDouble("imageCompressionQuality"));
+            if (input.has("processParams")) {
+                ProcessParam params = new ProcessParam();
+                setProcessParams(params, input.getJSONObject("processParams"));
+                builder.setProcessParams(params);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
