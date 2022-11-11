@@ -514,6 +514,15 @@
         result[@"fields"] = array;
     }
     result[@"status"] = @(input.status);
+    result[@"comparisonStatus"] = @(input.comparisonStatus);
+    result[@"validityStatus"] = @(input.validityStatus);
+    if(input.availableSourceList != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderTextSource* item in input.availableSourceList)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderTextSource:item]];
+        result[@"availableSourceList"] = array;
+    }
 
     return result;
 }
@@ -534,7 +543,22 @@
         result[@"values"] = array;
     }
     result[@"status"] = @(input.status);
-    result[@"value"] = [self generateRGLDocumentReaderValue:[input getValue]];
+    result[@"value"] = input.value;
+    result[@"getValue"] = [self generateRGLDocumentReaderValue:[input getValue]];
+    if(input.comparisonList != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderComparison* item in input.comparisonList)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderComparison:item]];
+        result[@"comparisonList"] = array;
+    }
+    if(input.validityList != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderValidity* item in input.validityList)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderValidity:item]];
+        result[@"validityList"] = array;
+    }
 
     return result;
 }
@@ -551,6 +575,14 @@
     result[@"comparison"] = [self generateNSDictionary:input.comparison];
     result[@"pageIndex"] = @(input.pageIndex);
     result[@"probability"] = @(input.probability);
+    if(input.originalSymbols != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocumentReaderSymbol* item in input.originalSymbols)
+            if(item != nil)
+                [array addObject:[self generateRGLDocumentReaderSymbol:item]];
+        result[@"originalSymbols"] = array;
+    }
+    result[@"rfidOrigin"] = [self generateRGLDocumentReaderRfidOrigin:input.rfidOrigin];
 
     return result;
 }
@@ -1125,6 +1157,75 @@
     result[@"elementTypeName"] = input.elementTypeName;
     result[@"elementDiagnose"] = @(input.elementDiagnose);
     result[@"elementDiagnoseName"] = input.elementDiagnoseName;
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocReaderDocumentsDatabase:(RGLDocReaderDocumentsDatabase* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"databaseID"] = input.databaseID;
+    result[@"version"] = input.version;
+    result[@"date"] = input.date;
+    result[@"databaseDescription"] = input.databaseDescription;
+    result[@"countriesNumber"] = @(input.countriesNumber);
+    result[@"documentsNumber"] = @(input.documentsNumber);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderComparison:(RGLDocumentReaderComparison* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"sourceTypeLeft"] = @(input.sourceTypeLeft);
+    result[@"sourceTypeRight"] = @(input.sourceTypeRight);
+    result[@"status"] = @(input.status);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderValidity:(RGLDocumentReaderValidity* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"sourceType"] = @(input.sourceType);
+    result[@"status"] = @(input.status);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderSymbol:(RGLDocumentReaderSymbol* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"code"] = @(input.code);
+    result[@"rect"] = [self generateCGRect:input.rect];
+    result[@"probability"] = @(input.probability);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderTextSource:(RGLDocumentReaderTextSource* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"sourceType"] = @(input.sourceType);
+    result[@"source"] = input.source;
+    result[@"validityStatus"] = @(input.validityStatus);
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderRfidOrigin:(RGLDocumentReaderRfidOrigin* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"dg"] = @(input.dg);
+    result[@"dgTag"] = @(input.dgTag);
+    result[@"entryView"] = @(input.entryView);
+    result[@"tagEntry"] = @(input.tagEntry);
 
     return result;
 }

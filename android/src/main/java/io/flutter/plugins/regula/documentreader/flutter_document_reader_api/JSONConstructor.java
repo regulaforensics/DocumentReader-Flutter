@@ -24,18 +24,24 @@ import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
 import com.regula.documentreader.api.results.Bounds;
 import com.regula.documentreader.api.results.BytesData;
 import com.regula.documentreader.api.results.Coordinate;
+import com.regula.documentreader.api.results.DocReaderDocumentsDatabase;
 import com.regula.documentreader.api.results.DocReaderFieldRect;
 import com.regula.documentreader.api.results.DocumentReaderBarcodeField;
 import com.regula.documentreader.api.results.DocumentReaderBarcodeResult;
+import com.regula.documentreader.api.results.DocumentReaderComparison;
 import com.regula.documentreader.api.results.DocumentReaderDocumentType;
 import com.regula.documentreader.api.results.DocumentReaderGraphicField;
 import com.regula.documentreader.api.results.DocumentReaderGraphicResult;
 import com.regula.documentreader.api.results.DocumentReaderNotification;
 import com.regula.documentreader.api.results.DocumentReaderResults;
 import com.regula.documentreader.api.results.DocumentReaderResultsStatus;
+import com.regula.documentreader.api.results.DocumentReaderRfidOrigin;
 import com.regula.documentreader.api.results.DocumentReaderScenario;
+import com.regula.documentreader.api.results.DocumentReaderSymbol;
 import com.regula.documentreader.api.results.DocumentReaderTextField;
 import com.regula.documentreader.api.results.DocumentReaderTextResult;
+import com.regula.documentreader.api.results.DocumentReaderTextSource;
+import com.regula.documentreader.api.results.DocumentReaderValidity;
 import com.regula.documentreader.api.results.DocumentReaderValue;
 import com.regula.documentreader.api.results.ElementPosition;
 import com.regula.documentreader.api.results.ImageQuality;
@@ -250,13 +256,13 @@ class JSONConstructor {
     }
 
     static DocReaderConfig DocReaderConfigFromJSON(JSONObject input) {
-        DocReaderConfig result = new DocReaderConfig(null);
+        DocReaderConfig result;
         byte[] license;
         try {
             if (input.has("license")) {
                 license = Base64.decode(input.getString("license"), Base64.DEFAULT);
                 result = new DocReaderConfig(license);
-            } else return result;
+            } else return null;
             if (input.has("customDb"))
                 result = new DocReaderConfig(license, Base64.decode(input.getString("customDb"), Base64.DEFAULT));
             if (input.has("licenseUpdate"))
@@ -265,10 +271,12 @@ class JSONConstructor {
                 result.setDelayedNNLoad(input.getBoolean("delayedNNLoad"));
             if (input.has("blackList"))
                 result.setBlackList(input.getJSONObject("blackList"));
+
+            return result;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     static ImageInputData ImageInputDataFromJSON(JSONObject input) {
@@ -428,7 +436,7 @@ class JSONConstructor {
         return result;
     }
 
-    static JSONObject generateDocumentReaderValue(DocumentReaderValue input) {
+    static JSONObject generateDocumentReaderValue(DocumentReaderValue input, Context context) {
         JSONObject result = new JSONObject();
         if (input == null) return null;
         try {
@@ -440,6 +448,8 @@ class JSONConstructor {
             result.put("originalValue", input.originalValue);
             result.put("boundRect", generateRect(input.boundRect));
             result.put("comparison", generateMap(input.comparison));
+            result.put("originalSymbols", generateList(input.originalSymbols, JSONConstructor::generateDocumentReaderSymbol));
+            result.put("rfidOrigin", generateDocumentReaderRfidOrigin(input.rfidOrigin));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -455,8 +465,11 @@ class JSONConstructor {
             result.put("status", input.status);
             result.put("lcidName", input.getLcidName(context));
             result.put("fieldName", input.getFieldName(context));
-            result.put("value", generateDocumentReaderValue(input.value()));
-            result.put("values", generateList(input.values, JSONConstructor::generateDocumentReaderValue));
+            result.put("value", input.value);
+            result.put("getValue", generateDocumentReaderValue(input.value(), context));
+            result.put("values", generateList(input.values, JSONConstructor::generateDocumentReaderValue, context));
+            result.put("comparisonList", generateList(input.comparisonList, JSONConstructor::generateDocumentReaderComparison));
+            result.put("validityList", generateList(input.validityList, JSONConstructor::generateDocumentReaderValidity));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -468,6 +481,9 @@ class JSONConstructor {
         if (input == null) return null;
         try {
             result.put("status", input.status);
+            result.put("comparisonStatus", input.comparisonStatus);
+            result.put("validityStatus", input.validityStatus);
+            result.put("availableSourceList", generateList(input.availableSourceList, JSONConstructor::generateDocumentReaderTextSource));
             result.put("fields", generateList(input.fields, JSONConstructor::generateDocumentReaderTextField, context));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1043,6 +1059,87 @@ class JSONConstructor {
             result.put("length", input.getLength());
             result.put("status", input.getStatus());
             result.put("type", input.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocReaderDocumentsDatabase(DocReaderDocumentsDatabase input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("databaseID", input.databaseID);
+            result.put("version", input.version);
+            result.put("date", input.date);
+            result.put("databaseDescription", input.databaseDescription);
+            result.put("countriesNumber", input.countriesNumber);
+            result.put("documentsNumber", input.documentsNumber);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderComparison(DocumentReaderComparison input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("sourceTypeLeft", input.sourceTypeLeft);
+            result.put("sourceTypeRight", input.sourceTypeRight);
+            result.put("status", input.status);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderRfidOrigin(DocumentReaderRfidOrigin input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("dg", input.dg);
+            result.put("dgTag", input.dgTag);
+            result.put("entryView", input.entryView);
+            result.put("tagEntry", input.tagEntry);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderTextSource(DocumentReaderTextSource input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("sourceType", input.sourceType);
+            result.put("source", input.source);
+            result.put("validityStatus", input.validityStatus);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderSymbol(DocumentReaderSymbol input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("code", input.code);
+            result.put("rect", generateRect(input.rect));
+            result.put("probability", input.probability);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDocumentReaderValidity(DocumentReaderValidity input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("sourceType", input.sourceType);
+            result.put("status", input.status);
         } catch (JSONException e) {
             e.printStackTrace();
         }

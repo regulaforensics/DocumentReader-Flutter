@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 
+import com.regula.documentreader.api.completions.ICheckDatabaseUpdate;
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
@@ -32,7 +33,7 @@ import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil;
 import com.regula.documentreader.api.internal.params.ImageInputParam;
 import com.regula.documentreader.api.internal.parser.DocReaderResultsJsonParser;
-import com.regula.documentreader.api.params.Device7310Config;
+import com.regula.documentreader.api.params.BleDeviceConfig;
 import com.regula.documentreader.api.params.DocReaderConfig;
 import com.regula.documentreader.api.params.ImageInputData;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
@@ -358,8 +359,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "startBluetoothService":
                     startBluetoothService(callback);
                     break;
-                case "initializeReaderDevice7310Config":
-                    initializeReaderDevice7310Config(callback);
+                case "initializeReaderBleDeviceConfig":
+                    initializeReaderBleDeviceConfig(callback);
+                    break;
+                case "getTag":
+                    getTag(callback);
                     break;
                 case "getAPIVersion":
                     getAPIVersion(callback);
@@ -480,6 +484,12 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                     break;
                 case "setCameraSessionIsPaused":
                     setCameraSessionIsPaused(callback, args(0));
+                    break;
+                case "setTag":
+                    setTag(callback, args(0));
+                    break;
+                case "checkDatabaseUpdate":
+                    checkDatabaseUpdate(callback, args(0));
                     break;
                 case "getScenario":
                     getScenario(callback, args(0));
@@ -612,10 +622,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void initializeReaderDevice7310Config(Callback callback) {
+    private void initializeReaderBleDeviceConfig(Callback callback) {
         if (BluetoothUtil.Companion.getBleManager() == null) callback.error("bleManager is null");
         if (!Instance().isReady())
-            Instance().initializeReader(getContext(), new Device7310Config(BluetoothUtil.Companion.getBleManager()), getInitCompletion(callback));
+            Instance().initializeReader(getContext(), new BleDeviceConfig(BluetoothUtil.Companion.getBleManager()), getInitCompletion(callback));
         else
             callback.success("already initialized");
     }
@@ -736,6 +746,20 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
+    private void getTag(Callback callback) {
+        callback.success(Instance().tag);
+    }
+
+    private void setTag(Callback callback, String tag) {
+        Instance().tag = tag;
+        callback.success();
+    }
+
+    private void checkDatabaseUpdate(Callback callback, String databaseId) {
+        Instance().checkDatabaseUpdate(getContext(), databaseId, getCheckDatabaseUpdateCompletion(callback));
+        callback.success();
+    }
+
     private void startNewPage(Callback callback) {
         Instance().startNewPage();
         callback.success();
@@ -777,7 +801,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void cancelDBUpdate(Callback callback) {
-        callback.success(Instance().cancelDBUpdate());
+        callback.success(Instance().cancelDBUpdate(getContext()));
     }
 
     private void resetConfiguration(Callback callback) {
@@ -977,6 +1001,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             } else
                 callback.error("Init failed:" + error);
         };
+    }
+
+    private ICheckDatabaseUpdate getCheckDatabaseUpdateCompletion(Callback callback) {
+        return (database) -> callback.success(JSONConstructor.generateDocReaderDocumentsDatabase(database));
     }
 
     private ITccParamsCompletion getTCCParamsCompletion(Callback callback) {

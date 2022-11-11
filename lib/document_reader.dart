@@ -299,6 +299,8 @@ class DocumentReaderValue {
   String? originalValue;
   Rect? boundRect;
   Map<int, int> comparison = {};
+  List<DocumentReaderSymbol?> originalSymbols = [];
+  DocumentReaderRfidOrigin? rfidOrigin;
 
   static DocumentReaderValue? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -314,6 +316,11 @@ class DocumentReaderValue {
     if (jsonObject["comparison"] != null)
       jsonObject["comparison"]
           .forEach((k, v) => result.comparison[int.parse(k)] = v);
+    if (jsonObject["originalSymbols"] != null)
+      for (var item in jsonObject["originalSymbols"])
+        result.originalSymbols.add(DocumentReaderSymbol.fromJson(item));
+    result.rfidOrigin =
+        DocumentReaderRfidOrigin.fromJson(jsonObject["rfidOrigin"]);
 
     return result;
   }
@@ -329,6 +336,8 @@ class DocumentReaderValue {
     if (originalValue != null) _result.addAll({"originalValue": originalValue});
     if (boundRect != null) _result.addAll({"boundRect": boundRect});
     _result.addAll({"comparison": comparison});
+    _result.addAll({"originalSymbols": originalSymbols});
+    if (rfidOrigin != null) _result.addAll({"rfidOrigin": rfidOrigin});
 
     return _result;
   }
@@ -340,8 +349,11 @@ class DocumentReaderTextField {
   int? status;
   String? lcidName;
   String? fieldName;
-  DocumentReaderValue? value;
+  String? value;
+  DocumentReaderValue? getValue;
   List<DocumentReaderValue?> values = [];
+  List<DocumentReaderComparison?> comparisonList = [];
+  List<DocumentReaderValidity?> validityList = [];
 
   static DocumentReaderTextField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -352,10 +364,17 @@ class DocumentReaderTextField {
     result.status = jsonObject["status"];
     result.lcidName = jsonObject["lcidName"];
     result.fieldName = jsonObject["fieldName"];
-    result.value = DocumentReaderValue.fromJson(jsonObject["value"]);
+    result.value = jsonObject["value"];
+    result.getValue = DocumentReaderValue.fromJson(jsonObject["getValue"]);
     if (jsonObject["values"] != null)
       for (var item in jsonObject["values"])
         result.values.add(DocumentReaderValue.fromJson(item));
+    if (jsonObject["comparisonList"] != null)
+      for (var item in jsonObject["comparisonList"])
+        result.comparisonList.add(DocumentReaderComparison.fromJson(item));
+    if (jsonObject["validityList"] != null)
+      for (var item in jsonObject["validityList"])
+        result.validityList.add(DocumentReaderValidity.fromJson(item));
 
     return result;
   }
@@ -369,7 +388,10 @@ class DocumentReaderTextField {
     if (lcidName != null) _result.addAll({"lcidName": lcidName});
     if (fieldName != null) _result.addAll({"fieldName": fieldName});
     if (value != null) _result.addAll({"value": value});
+    if (getValue != null) _result.addAll({"getValue": getValue});
     _result.addAll({"values": values});
+    _result.addAll({"comparisonList": comparisonList});
+    _result.addAll({"validityList": validityList});
 
     return _result;
   }
@@ -377,6 +399,9 @@ class DocumentReaderTextField {
 
 class DocumentReaderTextResult {
   int? status;
+  int? comparisonStatus;
+  int? validityStatus;
+  List<DocumentReaderTextSource?> availableSourceList = [];
   List<DocumentReaderTextField?> fields = [];
 
   static DocumentReaderTextResult? fromJson(jsonObject) {
@@ -384,6 +409,11 @@ class DocumentReaderTextResult {
     var result = new DocumentReaderTextResult();
 
     result.status = jsonObject["status"];
+    result.comparisonStatus = jsonObject["comparisonStatus"];
+    result.validityStatus = jsonObject["validityStatus"];
+    if (jsonObject["availableSourceList"] != null)
+      for (var item in jsonObject["availableSourceList"])
+        result.availableSourceList.add(DocumentReaderTextSource.fromJson(item));
     if (jsonObject["fields"] != null)
       for (var item in jsonObject["fields"])
         result.fields.add(DocumentReaderTextField.fromJson(item));
@@ -395,6 +425,11 @@ class DocumentReaderTextResult {
     Map _result = {};
 
     if (status != null) _result.addAll({"status": status});
+    if (comparisonStatus != null)
+      _result.addAll({"comparisonStatus": comparisonStatus});
+    if (validityStatus != null)
+      _result.addAll({"validityStatus": validityStatus});
+    _result.addAll({"availableSourceList": availableSourceList});
     _result.addAll({"fields": fields});
 
     return _result;
@@ -1897,6 +1932,183 @@ class ImageInputData {
   }
 }
 
+class DocReaderDocumentsDatabase {
+  String? databaseID;
+  String? version;
+  String? date;
+  String? databaseDescription;
+  int? countriesNumber;
+  int? documentsNumber;
+
+  static DocReaderDocumentsDatabase? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocReaderDocumentsDatabase();
+
+    result.databaseID = jsonObject["databaseID"];
+    result.version = jsonObject["version"];
+    result.date = jsonObject["date"];
+    result.databaseDescription = jsonObject["databaseDescription"];
+    result.countriesNumber = jsonObject["countriesNumber"];
+    result.documentsNumber = jsonObject["documentsNumber"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (databaseID != null) _result.addAll({"databaseID": databaseID});
+    if (version != null) _result.addAll({"version": version});
+    if (date != null) _result.addAll({"date": date});
+    if (databaseDescription != null)
+      _result.addAll({"databaseDescription": databaseDescription});
+    if (countriesNumber != null)
+      _result.addAll({"countriesNumber": countriesNumber});
+    if (documentsNumber != null)
+      _result.addAll({"documentsNumber": documentsNumber});
+
+    return _result;
+  }
+}
+
+class DocumentReaderComparison {
+  int? sourceTypeLeft;
+  int? sourceTypeRight;
+  int? status;
+
+  static DocumentReaderComparison? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderComparison();
+
+    result.sourceTypeLeft = jsonObject["sourceTypeLeft"];
+    result.sourceTypeRight = jsonObject["sourceTypeRight"];
+    result.status = jsonObject["status"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceTypeLeft != null)
+      _result.addAll({"sourceTypeLeft": sourceTypeLeft});
+    if (sourceTypeRight != null)
+      _result.addAll({"sourceTypeRight": sourceTypeRight});
+    if (status != null) _result.addAll({"status": status});
+
+    return _result;
+  }
+}
+
+class DocumentReaderRfidOrigin {
+  int? dg;
+  int? dgTag;
+  int? entryView;
+  int? tagEntry;
+
+  static DocumentReaderRfidOrigin? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderRfidOrigin();
+
+    result.dg = jsonObject["dg"];
+    result.dgTag = jsonObject["dgTag"];
+    result.entryView = jsonObject["entryView"];
+    result.tagEntry = jsonObject["tagEntry"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (dg != null) _result.addAll({"dg": dg});
+    if (dgTag != null) _result.addAll({"dgTag": dgTag});
+    if (entryView != null) _result.addAll({"entryView": entryView});
+    if (tagEntry != null) _result.addAll({"tagEntry": tagEntry});
+
+    return _result;
+  }
+}
+
+class DocumentReaderTextSource {
+  int? sourceType;
+  String? source;
+  int? validityStatus;
+
+  static DocumentReaderTextSource? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderTextSource();
+
+    result.sourceType = jsonObject["sourceType"];
+    result.source = jsonObject["source"];
+    result.validityStatus = jsonObject["validityStatus"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceType != null) _result.addAll({"sourceType": sourceType});
+    if (source != null) _result.addAll({"source": source});
+    if (validityStatus != null)
+      _result.addAll({"validityStatus": validityStatus});
+
+    return _result;
+  }
+}
+
+class DocumentReaderSymbol {
+  int? code;
+  Rect? rect;
+  int? probability;
+
+  static DocumentReaderSymbol? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderSymbol();
+
+    result.code = jsonObject["code"];
+    result.rect = Rect.fromJson(jsonObject["rect"]);
+    result.probability = jsonObject["probability"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (code != null) _result.addAll({"code": code});
+    if (rect != null) _result.addAll({"rect": rect});
+    if (probability != null) _result.addAll({"probability": probability});
+
+    return _result;
+  }
+}
+
+class DocumentReaderValidity {
+  int? sourceType;
+  int? status;
+
+  static DocumentReaderValidity? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderValidity();
+
+    result.sourceType = jsonObject["sourceType"];
+    result.status = jsonObject["status"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceType != null) _result.addAll({"sourceType": sourceType});
+    if (status != null) _result.addAll({"status": status});
+
+    return _result;
+  }
+}
+
 class DocumentReaderResults {
   int? chipPage;
   int? processingFinishedStatus;
@@ -2158,6 +2370,7 @@ class ERPRMAuthenticity {
   static const int BARCODE_FORMAT_CHECK = 65536;
   static const int KINEGRAM = 131072;
   static const int HOLOGRAMS_DETECTION = 524288;
+  static const int MRZ = 8388608;
 }
 
 class ERFIDErrorCodes {
@@ -3262,6 +3475,7 @@ class ECheckDiagnose {
   static const int FALSE_IPI_PARAMETERS = 65;
   static const int FIELD_POS_CORRECTOR_HIGHLIGHT_IR = 80;
   static const int FIELD_POS_CORRECTOR_GLARES_IN_PHOTO_AREA = 81;
+  static const int FIELD_POS_CORRECTOR_PHOTO_REPLACED = 82;
   static const int OVI_IR_INVISIBLE = 90;
   static const int OVI_INSUFFICIENT_AREA = 91;
   static const int OVI_COLOR_INVARIABLE = 92;
@@ -3314,7 +3528,9 @@ class ECheckDiagnose {
   static const int FINISHED_BY_TIMEOUT = 186;
   static const int HOLO_PHOTO_DOCUMENT_OUTSIDE_FRAME = 187;
   static const int LIVENESS_DEPTH_CHECK_FAILED = 190;
-  static const int LAST_DIAGNOSE_VALUE = 200;
+  static const int MRZ_QUALITY_WRONG_MRZ_DPI = 200;
+  static const int MRZ_QUALITY_WRONG_BACKGROUND = 201;
+  static const int LAST_DIAGNOSE_VALUE = 210;
 }
 
 class RFIDDelegate {
@@ -7220,8 +7436,12 @@ class DocumentReader {
     return await _channel.invokeMethod("startBluetoothService", []);
   }
 
-  static Future<dynamic> initializeReaderDevice7310Config() async {
-    return await _channel.invokeMethod("initializeReaderDevice7310Config", []);
+  static Future<dynamic> initializeReaderBleDeviceConfig() async {
+    return await _channel.invokeMethod("initializeReaderBleDeviceConfig", []);
+  }
+
+  static Future<dynamic> getTag() async {
+    return await _channel.invokeMethod("getTag", []);
   }
 
   static Future<dynamic> getAPIVersion() async {
@@ -7383,6 +7603,14 @@ class DocumentReader {
 
   static Future<dynamic> setCameraSessionIsPaused(paused) async {
     return await _channel.invokeMethod("setCameraSessionIsPaused", [paused]);
+  }
+
+  static Future<dynamic> setTag(tag) async {
+    return await _channel.invokeMethod("setTag", [tag]);
+  }
+
+  static Future<dynamic> checkDatabaseUpdate(databaseId) async {
+    return await _channel.invokeMethod("checkDatabaseUpdate", [databaseId]);
   }
 
   static Future<dynamic> getScenario(scenario) async {

@@ -222,15 +222,16 @@ class _MyAppState extends State<MyApp> {
             .data!
             .contentAsBytes());
 
-      for (var textField in results.textResult!.fields) {
-        for (var value in textField!.values) {
-          print(textField.fieldName! +
-              ', value: ' +
-              value!.value! +
-              ', source: ' +
-              value.sourceType.toString());
+      if (results.textResult != null)
+        for (var textField in results.textResult!.fields) {
+          for (var value in textField!.values) {
+            print(textField.fieldName! +
+                ', value: ' +
+                value!.value! +
+                ', source: ' +
+                value.sourceType.toString());
+          }
         }
-      }
     });
   }
 
