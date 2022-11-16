@@ -19,9 +19,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Future<List<String>> getImages() async {
     setStatus("Processing image...");
-    List<XFile> files = await ImagePicker().pickMultiImage();
+    List<XFile>? files = await ImagePicker().pickMultiImage();
     List<String> result = [];
-    for (XFile file in files)
+    for (XFile file in files!)
       result.add(base64Encode(io.File(file.path).readAsBytesSync()));
     return result;
   }
@@ -47,19 +47,18 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    EventChannel('flutter_document_reader_api/event/completion')
+    const EventChannel('flutter_document_reader_api/event/completion')
         .receiveBroadcastStream()
         .listen((jsonString) => this.handleCompletion(
-            DocumentReaderCompletion.fromJson(json.decode(jsonString))));
-    EventChannel('flutter_document_reader_api/event/database_progress')
+            DocumentReaderCompletion.fromJson(json.decode(jsonString))!));
+    const EventChannel('flutter_document_reader_api/event/database_progress')
         .receiveBroadcastStream()
-        .listen(
-            (progress) => setStatus("Downloading database: " + progress + "%"));
-    EventChannel(
+        .listen((progress) => setStatus("Downloading database: $progress%"));
+    const EventChannel(
             'flutter_document_reader_api/event/rfid_notification_completion')
         .receiveBroadcastStream()
         .listen((event) =>
-            print("rfid_notification_completion: " + event.toString()));
+            print("rfid_notification_completion: ${event.toString()}"));
   }
 
   void addCertificates() async {
@@ -94,20 +93,20 @@ class _MyAppState extends State<MyApp> {
             completion.action == DocReaderAction.ERROR)) this.hideRfidUI();
     if (isReadingRfidCustomUi &&
         completion.action == DocReaderAction.NOTIFICATION)
-      this.updateRfidUI(completion.results.documentReaderNotification);
+      this.updateRfidUI(completion.results!.documentReaderNotification);
     if (completion.action ==
         DocReaderAction.COMPLETE) if (isReadingRfidCustomUi) if (completion
-            .results.rfidResult !=
+            .results!.rfidResult !=
         1)
       this.restartRfidUI();
     else {
       this.hideRfidUI();
-      this.displayResults(completion.results);
+      this.displayResults(completion.results!);
     }
     else
-      this.handleResults(completion.results);
+      this.handleResults(completion.results!);
     if (completion.action == DocReaderAction.TIMEOUT)
-      this.handleResults(completion.results);
+      this.handleResults(completion.results!);
     if (completion.action == DocReaderAction.CANCEL ||
         completion.action == DocReaderAction.ERROR) isReadingRfid = false;
   }
@@ -149,7 +148,7 @@ class _MyAppState extends State<MyApp> {
     });
     if (Platform.isIOS)
       DocumentReader.setRfidSessionStatus(
-          rfidDescription + "\n" + results.value.toString() + "%");
+          "$rfidDescription\n${results.value.toString()}%");
   }
 
   customRFID() {
@@ -181,8 +180,8 @@ class _MyAppState extends State<MyApp> {
       DocumentReaderScenario scenario = DocumentReaderScenario.fromJson(
           scenariosTemp[i] is String
               ? json.decode(scenariosTemp[i])
-              : scenariosTemp[i]);
-      scenarios.add([scenario.name, scenario.caption]);
+              : scenariosTemp[i])!;
+      scenarios.add([scenario.name!, scenario.caption!]);
     }
     setState(() => _scenarios = scenarios);
     DocumentReader.setConfig({
@@ -211,32 +210,33 @@ class _MyAppState extends State<MyApp> {
         _docImage = Image.memory(Uri.parse("data:image/png;base64," +
                 results
                     .getGraphicFieldImageByType(
-                        EGraphicFieldType.GF_DOCUMENT_IMAGE)
+                        EGraphicFieldType.GF_DOCUMENT_IMAGE)!
                     .replaceAll('\n', ''))
-            .data
+            .data!
             .contentAsBytes());
       if (results.getGraphicFieldImageByType(201) != null)
         _portrait = Image.memory(Uri.parse("data:image/png;base64," +
                 results
-                    .getGraphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT)
+                    .getGraphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT)!
                     .replaceAll('\n', ''))
-            .data
+            .data!
             .contentAsBytes());
 
-      for (var textField in results.textResult.fields) {
-        for (var value in textField.values) {
-          print(textField.fieldName +
-              ', value: ' +
-              value.value +
-              ', source: ' +
-              value.sourceType.toString());
+      if (results.textResult != null)
+        for (var textField in results.textResult!.fields) {
+          for (var value in textField!.values) {
+            print(textField.fieldName! +
+                ', value: ' +
+                value!.value! +
+                ', source: ' +
+                value.sourceType.toString());
+          }
         }
-      }
     });
   }
 
   void handleResults(DocumentReaderResults results) {
-    if (_doRfid && !isReadingRfid && results != null && results.chipPage != 0) {
+    if (_doRfid && !isReadingRfid && results.chipPage != 0) {
       // customRFID();
       usualRFID();
     } else {
@@ -245,8 +245,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void onChangeRfid(bool value) {
-    setState(() => _doRfid = value && _canRfid);
+  void onChangeRfid(bool? value) {
+    setState(() => _doRfid = value! && _canRfid);
     DocumentReader.setConfig({
       "processParams": {"doRfid": _doRfid}
     });
@@ -265,11 +265,13 @@ class _MyAppState extends State<MyApp> {
 
   Widget createButton(String text, VoidCallback onPress) {
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       transform: Matrix4.translationValues(0, -7.5, 0),
       child: TextButton(
-          style: TextButton.styleFrom(
-              backgroundColor: Color.fromARGB(50, 10, 10, 10)),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.black12),
+          ),
           onPressed: onPress,
           child: Text(text)),
       width: 150,
@@ -289,10 +291,10 @@ class _MyAppState extends State<MyApp> {
     return Container(
         child: ListTile(
             title: GestureDetector(
-                onTap: () => radio.onChanged(_scenarios[index][0]),
+                onTap: () => radio.onChanged!(_scenarios[index][0]),
                 child: Text(_scenarios[index][1])),
             leading: radio),
-        padding: EdgeInsets.only(left: 40));
+        padding: const EdgeInsets.only(left: 40));
   }
 
   @override
@@ -312,27 +314,27 @@ class _MyAppState extends State<MyApp> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[]),
+                          children: const <Widget>[]),
                       Container(
                           child: Text(rfidUIHeader,
                               textScaleFactor: 1.75,
                               style: TextStyle(color: rfidUIHeaderColor)),
-                          padding: EdgeInsets.only(bottom: 40)),
+                          padding: const EdgeInsets.only(bottom: 40)),
                       Container(
                           child: Text(rfidDescription, textScaleFactor: 1.4),
-                          padding: EdgeInsets.only(bottom: 40)),
+                          padding: const EdgeInsets.only(bottom: 40)),
                       FractionallySizedBox(
                           widthFactor: 0.6,
                           child: LinearProgressIndicator(
                               value: rfidProgress,
                               minHeight: 10,
-                              valueColor: new AlwaysStoppedAnimation<Color>(
+                              valueColor: const AlwaysStoppedAnimation<Color>(
                                   Color(0xFF4285F4)))),
                       TextButton(
                         onPressed: () => hideRfidUI(),
-                        child: Text("X"),
+                        child: const Text("X"),
                         style: TextButton.styleFrom(
-                            padding: EdgeInsets.only(top: 50)),
+                            padding: const EdgeInsets.only(top: 50)),
                       ),
                     ]))),
             Visibility(
@@ -351,7 +353,7 @@ class _MyAppState extends State<MyApp> {
                           ]),
                       Expanded(
                           child: Container(
-                              color: Color.fromARGB(5, 10, 10, 10),
+                              color: const Color.fromARGB(5, 10, 10, 10),
                               child: ListView.builder(
                                   itemCount: _scenarios.length,
                                   itemBuilder:

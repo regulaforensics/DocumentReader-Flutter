@@ -65,6 +65,12 @@
 +(NSMutableDictionary* _Nonnull)generateRGLBytesData:(RGLBytesData* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLUVFiberElement:(RGLUVFiberElement* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocReaderDocumentsDatabase:(RGLDocReaderDocumentsDatabase* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderComparison:(RGLDocumentReaderComparison* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderValidity:(RGLDocumentReaderValidity* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderSymbol:(RGLDocumentReaderSymbol* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderTextSource:(RGLDocumentReaderTextSource* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderRfidOrigin:(RGLDocumentReaderRfidOrigin* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLElementRect:(RGLElementRect* _Nullable)input;
 
 @end

@@ -305,6 +305,8 @@
             [expectedPass addObject:str];
         image.expectedPass = expectedPass;
     }
+    if([dict valueForKey:@"documentPositionIndent"] != nil)
+        image.documentPositionIndent = [dict valueForKey:@"documentPositionIndent"];
 
     return image;
 }
@@ -320,6 +322,7 @@
     result[@"colornessCheck"] = input.colornessCheck;
     result[@"moireCheck"] = input.moireCheck;
     result[@"expectedPass"] = input.expectedPass;
+    result[@"documentPositionIndent"] = input.documentPositionIndent;
 
     return result;
 }
@@ -622,7 +625,7 @@
     if([options valueForKey:@"cameraPosition"] != nil)
         functionality.cameraPosition = [self AVCaptureDevicePositionWithNSInteger:[[options valueForKey:@"cameraPosition"] integerValue]];
     if([options valueForKey:@"btDeviceName"] != nil)
-        functionality.btDeviceName = [[options valueForKey:@"btDeviceName"] stringValue];
+        functionality.btDeviceName = [options valueForKey:@"btDeviceName"];
     if([options valueForKey:@"useAuthenticator"] != nil)
         functionality.useAuthenticator = [[options valueForKey:@"useAuthenticator"] boolValue];
     if([options valueForKey:@"showCaptureButtonDelayFromDetect"] != nil)
@@ -742,6 +745,20 @@
         processParams.parseBarcodes = [options valueForKey:@"parseBarcodes"];
     if([options valueForKey:@"shouldReturnPackageForReprocess"] != nil)
         processParams.shouldReturnPackageForReprocess = [options valueForKey:@"shouldReturnPackageForReprocess"];
+    if([options valueForKey:@"imageOutputMaxWidth"] != nil)
+        processParams.imageOutputMaxWidth = [options valueForKey:@"imageOutputMaxWidth"];
+    if([options valueForKey:@"imageOutputMaxHeight"] != nil)
+        processParams.imageOutputMaxHeight = [options valueForKey:@"imageOutputMaxHeight"];
+    if([options valueForKey:@"disablePerforationOCR"] != nil)
+        processParams.disablePerforationOCR = [options valueForKey:@"disablePerforationOCR"];
+    if([options valueForKey:@"respectImageQuality"] != nil)
+        processParams.respectImageQuality = [options valueForKey:@"respectImageQuality"];
+    if([options valueForKey:@"splitNames"] != nil)
+        processParams.splitNames = [options valueForKey:@"splitNames"];
+    if([options valueForKey:@"processAuth"] != nil)
+        processParams.processAuth = [options valueForKey:@"processAuth"];
+    if([options valueForKey:@"documentGroupFilter"] != nil)
+        processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -893,6 +910,13 @@
     result[@"forceReadMrzBeforeLocate"] = processParams.forceReadMrzBeforeLocate;
     result[@"parseBarcodes"] = processParams.parseBarcodes;
     result[@"shouldReturnPackageForReprocess"] = processParams.shouldReturnPackageForReprocess;
+    result[@"imageOutputMaxWidth"] = processParams.imageOutputMaxWidth;
+    result[@"imageOutputMaxHeight"] = processParams.imageOutputMaxHeight;
+    result[@"disablePerforationOCR"] = processParams.disablePerforationOCR;
+    result[@"respectImageQuality"] = processParams.respectImageQuality;
+    result[@"splitNames"] = processParams.splitNames;
+    result[@"processAuth"] = processParams.processAuth;
+    result[@"documentGroupFilter"] = processParams.documentGroupFilter;
 
     return result;
 }

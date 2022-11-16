@@ -20,7 +20,7 @@ class DocumentReaderScenario {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (name != null) _result.addAll({"name": name});
@@ -55,10 +55,20 @@ class CoreDetailedScenario {
     result.faceExt = jsonObject["faceExt"];
     result.multiPageOff = jsonObject["multiPageOff"];
     result.seriesProcessMode = jsonObject["seriesProcessMode"];
-    result.frameKWHLandscape = jsonObject["frameKWHLandscape"] == null ? null : jsonObject["frameKWHLandscape"].toDouble();
-    result.frameKWHPortrait = jsonObject["frameKWHPortrait"] == null ? null : jsonObject["frameKWHPortrait"].toDouble();
-    result.frameKWHDoublePageSpreadPortrait = jsonObject["frameKWHDoublePageSpreadPortrait"] == null ? null : jsonObject["frameKWHDoublePageSpreadPortrait"].toDouble();
-    result.frameKWHDoublePageSpreadLandscape = jsonObject["frameKWHDoublePageSpreadLandscape"] == null ? null : jsonObject["frameKWHDoublePageSpreadLandscape"].toDouble();
+    result.frameKWHLandscape = jsonObject["frameKWHLandscape"] == null
+        ? null
+        : jsonObject["frameKWHLandscape"].toDouble();
+    result.frameKWHPortrait = jsonObject["frameKWHPortrait"] == null
+        ? null
+        : jsonObject["frameKWHPortrait"].toDouble();
+    result.frameKWHDoublePageSpreadPortrait =
+        jsonObject["frameKWHDoublePageSpreadPortrait"] == null
+            ? null
+            : jsonObject["frameKWHDoublePageSpreadPortrait"].toDouble();
+    result.frameKWHDoublePageSpreadLandscape =
+        jsonObject["frameKWHDoublePageSpreadLandscape"] == null
+            ? null
+            : jsonObject["frameKWHDoublePageSpreadLandscape"].toDouble();
     result.name = jsonObject["name"];
     result.caption = jsonObject["caption"];
     result.description = jsonObject["description"];
@@ -67,18 +77,28 @@ class CoreDetailedScenario {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (uvTorch != null) _result.addAll({"uvTorch": uvTorch});
-    if (frameOrientation != null) _result.addAll({"frameOrientation": frameOrientation});
+    if (frameOrientation != null)
+      _result.addAll({"frameOrientation": frameOrientation});
     if (faceExt != null) _result.addAll({"faceExt": faceExt});
     if (multiPageOff != null) _result.addAll({"multiPageOff": multiPageOff});
-    if (seriesProcessMode != null) _result.addAll({"seriesProcessMode": seriesProcessMode});
-    if (frameKWHLandscape != null) _result.addAll({"frameKWHLandscape": frameKWHLandscape});
-    if (frameKWHPortrait != null) _result.addAll({"frameKWHPortrait": frameKWHPortrait});
-    if (frameKWHDoublePageSpreadPortrait != null) _result.addAll({"frameKWHDoublePageSpreadPortrait": frameKWHDoublePageSpreadPortrait});
-    if (frameKWHDoublePageSpreadLandscape != null) _result.addAll({"frameKWHDoublePageSpreadLandscape": frameKWHDoublePageSpreadLandscape});
+    if (seriesProcessMode != null)
+      _result.addAll({"seriesProcessMode": seriesProcessMode});
+    if (frameKWHLandscape != null)
+      _result.addAll({"frameKWHLandscape": frameKWHLandscape});
+    if (frameKWHPortrait != null)
+      _result.addAll({"frameKWHPortrait": frameKWHPortrait});
+    if (frameKWHDoublePageSpreadPortrait != null)
+      _result.addAll({
+        "frameKWHDoublePageSpreadPortrait": frameKWHDoublePageSpreadPortrait
+      });
+    if (frameKWHDoublePageSpreadLandscape != null)
+      _result.addAll({
+        "frameKWHDoublePageSpreadLandscape": frameKWHDoublePageSpreadLandscape
+      });
     if (name != null) _result.addAll({"name": name});
     if (caption != null) _result.addAll({"caption": caption});
     if (description != null) _result.addAll({"description": description});
@@ -104,7 +124,7 @@ class FaceMetaData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (iD != null) _result.addAll({"ID": iD});
@@ -133,7 +153,7 @@ class Bounds {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (x != null) _result.addAll({"x": x});
@@ -163,7 +183,7 @@ class Rect {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (bottom != null) _result.addAll({"bottom": bottom});
@@ -193,7 +213,7 @@ class DocReaderFieldRect {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (bottom != null) _result.addAll({"bottom": bottom});
@@ -231,7 +251,7 @@ class DocumentReaderGraphicField {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (sourceType != null) _result.addAll({"sourceType": sourceType});
@@ -261,7 +281,7 @@ class DocumentReaderGraphicResult {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     _result.addAll({"fields": fields});
@@ -279,6 +299,8 @@ class DocumentReaderValue {
   String? originalValue;
   Rect? boundRect;
   Map<int, int> comparison = {};
+  List<DocumentReaderSymbol?> originalSymbols = [];
+  DocumentReaderRfidOrigin? rfidOrigin;
 
   static DocumentReaderValue? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -292,12 +314,18 @@ class DocumentReaderValue {
     result.originalValue = jsonObject["originalValue"];
     result.boundRect = Rect.fromJson(jsonObject["boundRect"]);
     if (jsonObject["comparison"] != null)
-      jsonObject["comparison"].forEach((k, v) => result.comparison[int.parse(k)] = v);
+      jsonObject["comparison"]
+          .forEach((k, v) => result.comparison[int.parse(k)] = v);
+    if (jsonObject["originalSymbols"] != null)
+      for (var item in jsonObject["originalSymbols"])
+        result.originalSymbols.add(DocumentReaderSymbol.fromJson(item));
+    result.rfidOrigin =
+        DocumentReaderRfidOrigin.fromJson(jsonObject["rfidOrigin"]);
 
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (pageIndex != null) _result.addAll({"pageIndex": pageIndex});
@@ -308,6 +336,8 @@ class DocumentReaderValue {
     if (originalValue != null) _result.addAll({"originalValue": originalValue});
     if (boundRect != null) _result.addAll({"boundRect": boundRect});
     _result.addAll({"comparison": comparison});
+    _result.addAll({"originalSymbols": originalSymbols});
+    if (rfidOrigin != null) _result.addAll({"rfidOrigin": rfidOrigin});
 
     return _result;
   }
@@ -319,8 +349,11 @@ class DocumentReaderTextField {
   int? status;
   String? lcidName;
   String? fieldName;
-  DocumentReaderValue? value;
+  String? value;
+  DocumentReaderValue? getValue;
   List<DocumentReaderValue?> values = [];
+  List<DocumentReaderComparison?> comparisonList = [];
+  List<DocumentReaderValidity?> validityList = [];
 
   static DocumentReaderTextField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -331,15 +364,22 @@ class DocumentReaderTextField {
     result.status = jsonObject["status"];
     result.lcidName = jsonObject["lcidName"];
     result.fieldName = jsonObject["fieldName"];
-    result.value = DocumentReaderValue.fromJson(jsonObject["value"]);
+    result.value = jsonObject["value"];
+    result.getValue = DocumentReaderValue.fromJson(jsonObject["getValue"]);
     if (jsonObject["values"] != null)
       for (var item in jsonObject["values"])
         result.values.add(DocumentReaderValue.fromJson(item));
+    if (jsonObject["comparisonList"] != null)
+      for (var item in jsonObject["comparisonList"])
+        result.comparisonList.add(DocumentReaderComparison.fromJson(item));
+    if (jsonObject["validityList"] != null)
+      for (var item in jsonObject["validityList"])
+        result.validityList.add(DocumentReaderValidity.fromJson(item));
 
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (fieldType != null) _result.addAll({"fieldType": fieldType});
@@ -348,7 +388,10 @@ class DocumentReaderTextField {
     if (lcidName != null) _result.addAll({"lcidName": lcidName});
     if (fieldName != null) _result.addAll({"fieldName": fieldName});
     if (value != null) _result.addAll({"value": value});
+    if (getValue != null) _result.addAll({"getValue": getValue});
     _result.addAll({"values": values});
+    _result.addAll({"comparisonList": comparisonList});
+    _result.addAll({"validityList": validityList});
 
     return _result;
   }
@@ -356,6 +399,9 @@ class DocumentReaderTextField {
 
 class DocumentReaderTextResult {
   int? status;
+  int? comparisonStatus;
+  int? validityStatus;
+  List<DocumentReaderTextSource?> availableSourceList = [];
   List<DocumentReaderTextField?> fields = [];
 
   static DocumentReaderTextResult? fromJson(jsonObject) {
@@ -363,6 +409,11 @@ class DocumentReaderTextResult {
     var result = new DocumentReaderTextResult();
 
     result.status = jsonObject["status"];
+    result.comparisonStatus = jsonObject["comparisonStatus"];
+    result.validityStatus = jsonObject["validityStatus"];
+    if (jsonObject["availableSourceList"] != null)
+      for (var item in jsonObject["availableSourceList"])
+        result.availableSourceList.add(DocumentReaderTextSource.fromJson(item));
     if (jsonObject["fields"] != null)
       for (var item in jsonObject["fields"])
         result.fields.add(DocumentReaderTextField.fromJson(item));
@@ -370,10 +421,15 @@ class DocumentReaderTextResult {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (status != null) _result.addAll({"status": status});
+    if (comparisonStatus != null)
+      _result.addAll({"comparisonStatus": comparisonStatus});
+    if (validityStatus != null)
+      _result.addAll({"validityStatus": validityStatus});
+    _result.addAll({"availableSourceList": availableSourceList});
     _result.addAll({"fields": fields});
 
     return _result;
@@ -394,7 +450,7 @@ class Coordinate {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (x != null) _result.addAll({"x": x});
@@ -436,7 +492,8 @@ class ElementPosition {
     result.objArea = jsonObject["objArea"];
     result.objIntAngleDev = jsonObject["objIntAngleDev"];
     result.resultStatus = jsonObject["resultStatus"];
-    result.angle = jsonObject["angle"] == null ? null : jsonObject["angle"].toDouble();
+    result.angle =
+        jsonObject["angle"] == null ? null : jsonObject["angle"].toDouble();
     result.center = Coordinate.fromJson(jsonObject["center"]);
     result.leftTop = Coordinate.fromJson(jsonObject["leftTop"]);
     result.leftBottom = Coordinate.fromJson(jsonObject["leftBottom"]);
@@ -446,7 +503,7 @@ class ElementPosition {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (docFormat != null) _result.addAll({"docFormat": docFormat});
@@ -457,7 +514,8 @@ class ElementPosition {
     if (inverse != null) _result.addAll({"inverse": inverse});
     if (perspectiveTr != null) _result.addAll({"perspectiveTr": perspectiveTr});
     if (objArea != null) _result.addAll({"objArea": objArea});
-    if (objIntAngleDev != null) _result.addAll({"objIntAngleDev": objIntAngleDev});
+    if (objIntAngleDev != null)
+      _result.addAll({"objIntAngleDev": objIntAngleDev});
     if (resultStatus != null) _result.addAll({"resultStatus": resultStatus});
     if (angle != null) _result.addAll({"angle": angle});
     if (center != null) _result.addAll({"center": center});
@@ -486,7 +544,7 @@ class ImageQuality {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (featureType != null) _result.addAll({"featureType": featureType});
@@ -517,7 +575,7 @@ class ImageQualityGroup {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (count != null) _result.addAll({"count": count});
@@ -557,13 +615,12 @@ class DocumentReaderDocumentType {
     result.dYear = jsonObject["dYear"];
     result.dCountryName = jsonObject["dCountryName"];
     if (jsonObject["FDSID"] != null)
-      for (var item in jsonObject["FDSID"])
-        result.fDSID.add(item);
+      for (var item in jsonObject["FDSID"]) result.fDSID.add(item);
 
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (pageIndex != null) _result.addAll({"pageIndex": pageIndex});
@@ -598,7 +655,7 @@ class DocumentReaderNotification {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (code != null) _result.addAll({"code": code});
@@ -629,10 +686,11 @@ class AccessControlProcedureType {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
-    if (activeOptionIdx != null) _result.addAll({"activeOptionIdx": activeOptionIdx});
+    if (activeOptionIdx != null)
+      _result.addAll({"activeOptionIdx": activeOptionIdx});
     if (type != null) _result.addAll({"type": type});
     if (status != null) _result.addAll({"status": status});
     _result.addAll({"notifications": notifications});
@@ -659,7 +717,7 @@ class FileData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (length != null) _result.addAll({"length": length});
@@ -685,7 +743,7 @@ class CertificateData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (length != null) _result.addAll({"length": length});
@@ -702,15 +760,17 @@ class SecurityObjectCertificates {
     if (jsonObject == null) return null;
     var result = new SecurityObjectCertificates();
 
-    result.securityObject = CertificateData.fromJson(jsonObject["securityObject"]);
+    result.securityObject =
+        CertificateData.fromJson(jsonObject["securityObject"]);
 
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
-    if (securityObject != null) _result.addAll({"securityObject": securityObject});
+    if (securityObject != null)
+      _result.addAll({"securityObject": securityObject});
 
     return _result;
   }
@@ -739,7 +799,8 @@ class File {
     result.readingStatus = jsonObject["readingStatus"];
     result.fileID = jsonObject["fileID"];
     result.fileData = FileData.fromJson(jsonObject["fileData"]);
-    result.certificates = SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
+    result.certificates =
+        SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
     if (jsonObject["docFieldsText"] != null)
       for (var item in jsonObject["docFieldsText"])
         result.docFieldsText.add(item);
@@ -756,7 +817,7 @@ class File {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (readingTime != null) _result.addAll({"readingTime": readingTime});
@@ -801,14 +862,16 @@ class Application {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (type != null) _result.addAll({"type": type});
     if (status != null) _result.addAll({"status": status});
     if (applicationID != null) _result.addAll({"applicationID": applicationID});
-    if (dataHashAlgorithm != null) _result.addAll({"dataHashAlgorithm": dataHashAlgorithm});
-    if (unicodeVersion != null) _result.addAll({"unicodeVersion": unicodeVersion});
+    if (dataHashAlgorithm != null)
+      _result.addAll({"dataHashAlgorithm": dataHashAlgorithm});
+    if (unicodeVersion != null)
+      _result.addAll({"unicodeVersion": unicodeVersion});
     if (version != null) _result.addAll({"version": version});
     _result.addAll({"files": files});
 
@@ -836,7 +899,7 @@ class Value {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (length != null) _result.addAll({"length": length});
@@ -863,7 +926,7 @@ class Attribute {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (type != null) _result.addAll({"type": type});
@@ -891,7 +954,7 @@ class Authority {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (data != null) _result.addAll({"data": data});
@@ -916,7 +979,7 @@ class Extension {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (data != null) _result.addAll({"data": data});
@@ -940,7 +1003,7 @@ class Validity {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (notAfter != null) _result.addAll({"notAfter": notAfter});
@@ -990,7 +1053,7 @@ class CertificateChain {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (origin != null) _result.addAll({"origin": origin});
@@ -998,8 +1061,10 @@ class CertificateChain {
     if (version != null) _result.addAll({"version": version});
     if (paStatus != null) _result.addAll({"paStatus": paStatus});
     if (serialNumber != null) _result.addAll({"serialNumber": serialNumber});
-    if (signatureAlgorithm != null) _result.addAll({"signatureAlgorithm": signatureAlgorithm});
-    if (subjectPKAlgorithm != null) _result.addAll({"subjectPKAlgorithm": subjectPKAlgorithm});
+    if (signatureAlgorithm != null)
+      _result.addAll({"signatureAlgorithm": signatureAlgorithm});
+    if (subjectPKAlgorithm != null)
+      _result.addAll({"subjectPKAlgorithm": subjectPKAlgorithm});
     if (fileName != null) _result.addAll({"fileName": fileName});
     if (validity != null) _result.addAll({"validity": validity});
     if (issuer != null) _result.addAll({"issuer": issuer});
@@ -1036,7 +1101,8 @@ class SignerInfo {
     result.signatureAlgorithm = jsonObject["signatureAlgorithm"];
     result.serialNumber = Value.fromJson(jsonObject["serialNumber"]);
     result.signature = Value.fromJson(jsonObject["signature"]);
-    result.subjectKeyIdentifier = Value.fromJson(jsonObject["subjectKeyIdentifier"]);
+    result.subjectKeyIdentifier =
+        Value.fromJson(jsonObject["subjectKeyIdentifier"]);
     result.issuer = Authority.fromJson(jsonObject["issuer"]);
     if (jsonObject["notifications"] != null)
       for (var item in jsonObject["notifications"])
@@ -1051,17 +1117,20 @@ class SignerInfo {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (version != null) _result.addAll({"version": version});
     if (paStatus != null) _result.addAll({"paStatus": paStatus});
     if (dataToHash != null) _result.addAll({"dataToHash": dataToHash});
-    if (digestAlgorithm != null) _result.addAll({"digestAlgorithm": digestAlgorithm});
-    if (signatureAlgorithm != null) _result.addAll({"signatureAlgorithm": signatureAlgorithm});
+    if (digestAlgorithm != null)
+      _result.addAll({"digestAlgorithm": digestAlgorithm});
+    if (signatureAlgorithm != null)
+      _result.addAll({"signatureAlgorithm": signatureAlgorithm});
     if (serialNumber != null) _result.addAll({"serialNumber": serialNumber});
     if (signature != null) _result.addAll({"signature": signature});
-    if (subjectKeyIdentifier != null) _result.addAll({"subjectKeyIdentifier": subjectKeyIdentifier});
+    if (subjectKeyIdentifier != null)
+      _result.addAll({"subjectKeyIdentifier": subjectKeyIdentifier});
     if (issuer != null) _result.addAll({"issuer": issuer});
     _result.addAll({"notifications": notifications});
     _result.addAll({"signedAttributes": signedAttributes});
@@ -1095,7 +1164,7 @@ class SecurityObject {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (fileReference != null) _result.addAll({"fileReference": fileReference});
@@ -1146,7 +1215,7 @@ class CardProperties {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (aTQA != null) _result.addAll({"aTQA": aTQA});
@@ -1188,7 +1257,8 @@ class RFIDSessionData {
     result.status = jsonObject["status"];
     result.extLeSupport = jsonObject["extLeSupport"];
     result.processTime = jsonObject["processTime"];
-    result.cardProperties = CardProperties.fromJson(jsonObject["cardProperties"]);
+    result.cardProperties =
+        CardProperties.fromJson(jsonObject["cardProperties"]);
     if (jsonObject["accessControls"] != null)
       for (var item in jsonObject["accessControls"])
         result.accessControls.add(AccessControlProcedureType.fromJson(item));
@@ -1202,15 +1272,18 @@ class RFIDSessionData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
-    if (totalBytesReceived != null) _result.addAll({"totalBytesReceived": totalBytesReceived});
-    if (totalBytesSent != null) _result.addAll({"totalBytesSent": totalBytesSent});
+    if (totalBytesReceived != null)
+      _result.addAll({"totalBytesReceived": totalBytesReceived});
+    if (totalBytesSent != null)
+      _result.addAll({"totalBytesSent": totalBytesSent});
     if (status != null) _result.addAll({"status": status});
     if (extLeSupport != null) _result.addAll({"extLeSupport": extLeSupport});
     if (processTime != null) _result.addAll({"processTime": processTime});
-    if (cardProperties != null) _result.addAll({"cardProperties": cardProperties});
+    if (cardProperties != null)
+      _result.addAll({"cardProperties": cardProperties});
     _result.addAll({"accessControls": accessControls});
     _result.addAll({"applications": applications});
     _result.addAll({"securityObjects": securityObjects});
@@ -1241,7 +1314,7 @@ class DocumentReaderAuthenticityCheck {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (type != null) _result.addAll({"type": type});
@@ -1270,7 +1343,7 @@ class PDF417Info {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (errorLevel != null) _result.addAll({"errorLevel": errorLevel});
@@ -1295,7 +1368,7 @@ class DocumentReaderBarcodeResult {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     _result.addAll({"fields": fields});
@@ -1324,7 +1397,7 @@ class DocumentReaderBarcodeField {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (barcodeType != null) _result.addAll({"barcodeType": barcodeType});
@@ -1353,7 +1426,7 @@ class DocumentReaderAuthenticityResult {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (status != null) _result.addAll({"status": status});
@@ -1383,14 +1456,17 @@ class DocumentReaderAuthenticityElement {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (status != null) _result.addAll({"status": status});
     if (elementType != null) _result.addAll({"elementType": elementType});
-    if (elementDiagnose != null) _result.addAll({"elementDiagnose": elementDiagnose});
-    if (elementTypeName != null) _result.addAll({"elementTypeName": elementTypeName});
-    if (elementDiagnoseName != null) _result.addAll({"elementDiagnoseName": elementDiagnoseName});
+    if (elementDiagnose != null)
+      _result.addAll({"elementDiagnose": elementDiagnose});
+    if (elementTypeName != null)
+      _result.addAll({"elementTypeName": elementTypeName});
+    if (elementDiagnoseName != null)
+      _result.addAll({"elementDiagnoseName": elementDiagnoseName});
 
     return _result;
   }
@@ -1412,7 +1488,7 @@ class DocumentReaderCompletion {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (action != null) _result.addAll({"action": action});
@@ -1437,7 +1513,7 @@ class RfidNotificationCompletion {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (notification != null) _result.addAll({"notification": notification});
@@ -1449,102 +1525,23 @@ class RfidNotificationCompletion {
 
 class DocumentReaderException {
   int? errorCode;
-  String? localizedMessage;
   String? message;
-  String? string;
-  List<StackTraceElement?> stackTrace = [];
 
   static DocumentReaderException? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderException();
 
     result.errorCode = jsonObject["errorCode"];
-    result.localizedMessage = jsonObject["localizedMessage"];
     result.message = jsonObject["message"];
-    result.string = jsonObject["string"];
-    if (jsonObject["stackTrace"] != null)
-      for (var item in jsonObject["stackTrace"])
-        result.stackTrace.add(StackTraceElement.fromJson(item));
 
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (errorCode != null) _result.addAll({"errorCode": errorCode});
-    if (localizedMessage != null) _result.addAll({"localizedMessage": localizedMessage});
     if (message != null) _result.addAll({"message": message});
-    if (string != null) _result.addAll({"string": string});
-    _result.addAll({"stackTrace": stackTrace});
-
-    return _result;
-  }
-}
-
-class Throwable {
-  String? localizedMessage;
-  String? message;
-  String? string;
-  List<StackTraceElement?> stackTrace = [];
-
-  static Throwable? fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new Throwable();
-
-    result.localizedMessage = jsonObject["localizedMessage"];
-    result.message = jsonObject["message"];
-    result.string = jsonObject["string"];
-    if (jsonObject["stackTrace"] != null)
-      for (var item in jsonObject["stackTrace"])
-        result.stackTrace.add(StackTraceElement.fromJson(item));
-
-    return result;
-  }
-
-  Map toJson(){
-    Map _result = {};
-
-    if (localizedMessage != null) _result.addAll({"localizedMessage": localizedMessage});
-    if (message != null) _result.addAll({"message": message});
-    if (string != null) _result.addAll({"string": string});
-    _result.addAll({"stackTrace": stackTrace});
-
-    return _result;
-  }
-}
-
-class StackTraceElement {
-  int? lineNumber;
-  bool? isNativeMethod;
-  String? className;
-  String? fileName;
-  String? methodName;
-  String? string;
-
-  static StackTraceElement? fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new StackTraceElement();
-
-    result.lineNumber = jsonObject["lineNumber"];
-    result.isNativeMethod = jsonObject["isNativeMethod"];
-    result.className = jsonObject["className"];
-    result.fileName = jsonObject["fileName"];
-    result.methodName = jsonObject["methodName"];
-    result.string = jsonObject["string"];
-
-    return result;
-  }
-
-  Map toJson(){
-    Map _result = {};
-
-    if (lineNumber != null) _result.addAll({"lineNumber": lineNumber});
-    if (isNativeMethod != null) _result.addAll({"isNativeMethod": isNativeMethod});
-    if (className != null) _result.addAll({"className": className});
-    if (fileName != null) _result.addAll({"fileName": fileName});
-    if (methodName != null) _result.addAll({"methodName": methodName});
-    if (string != null) _result.addAll({"string": string});
 
     return _result;
   }
@@ -1566,7 +1563,7 @@ class PKDCertificate {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (binaryData != null) _result.addAll({"binaryData": binaryData});
@@ -1593,7 +1590,7 @@ class ImageInputParam {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (width != null) _result.addAll({"width": width});
@@ -1622,7 +1619,7 @@ class PAResourcesIssuer {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (data != null) _result.addAll({"data": data});
@@ -1647,7 +1644,7 @@ class PAAttribute {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (type != null) _result.addAll({"type": type});
@@ -1677,7 +1674,7 @@ class TAChallenge {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (data != null) _result.addAll({"data": data});
@@ -1705,7 +1702,8 @@ class DocumentReaderResultsStatus {
 
     result.overallStatus = jsonObject["overallStatus"];
     result.optical = jsonObject["optical"];
-    result.detailsOptical = DetailsOptical.fromJson(jsonObject["detailsOptical"]);
+    result.detailsOptical =
+        DetailsOptical.fromJson(jsonObject["detailsOptical"]);
     result.rfid = jsonObject["rfid"];
     result.detailsRFID = DetailsRFID.fromJson(jsonObject["detailsRFID"]);
     result.portrait = jsonObject["portrait"];
@@ -1714,12 +1712,13 @@ class DocumentReaderResultsStatus {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (overallStatus != null) _result.addAll({"overallStatus": overallStatus});
     if (optical != null) _result.addAll({"optical": optical});
-    if (detailsOptical != null) _result.addAll({"detailsOptical": detailsOptical});
+    if (detailsOptical != null)
+      _result.addAll({"detailsOptical": detailsOptical});
     if (rfid != null) _result.addAll({"rfid": rfid});
     if (detailsRFID != null) _result.addAll({"detailsRFID": detailsRFID});
     if (portrait != null) _result.addAll({"portrait": portrait});
@@ -1757,7 +1756,7 @@ class DetailsOptical {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (overallStatus != null) _result.addAll({"overallStatus": overallStatus});
@@ -1798,7 +1797,7 @@ class DetailsRFID {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (pa != null) _result.addAll({"pa": pa});
@@ -1845,14 +1844,16 @@ class VDSNCData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (type != null) _result.addAll({"type": type});
     if (version != null) _result.addAll({"version": version});
-    if (issuingCountry != null) _result.addAll({"issuingCountry": issuingCountry});
+    if (issuingCountry != null)
+      _result.addAll({"issuingCountry": issuingCountry});
     if (message != null) _result.addAll({"message": message});
-    if (signatureAlgorithm != null) _result.addAll({"signatureAlgorithm": signatureAlgorithm});
+    if (signatureAlgorithm != null)
+      _result.addAll({"signatureAlgorithm": signatureAlgorithm});
     if (signature != null) _result.addAll({"signature": signature});
     if (certificate != null) _result.addAll({"certificate": certificate});
     _result.addAll({"certificateChain": certificateChain});
@@ -1880,77 +1881,13 @@ class BytesData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (data != null) _result.addAll({"data": data});
     if (length != null) _result.addAll({"length": length});
     if (status != null) _result.addAll({"status": status});
     if (type != null) _result.addAll({"type": type});
-
-    return _result;
-  }
-}
-
-class DocumentReaderUvFiberElement {
-  List<DocReaderFieldRect?> rectArray = [];
-  int? rectCount;
-  int? expectedCount;
-  List<int?> width = [];
-  List<int?> length = [];
-  List<int?> area = [];
-  List<int?> colorValues = [];
-  int? status;
-  int? elementType;
-  int? elementDiagnose;
-  String? elementTypeName;
-  String? elementDiagnoseName;
-
-  static DocumentReaderUvFiberElement? fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new DocumentReaderUvFiberElement();
-
-    if (jsonObject["rectArray"] != null)
-      for (var item in jsonObject["rectArray"])
-        result.rectArray.add(DocReaderFieldRect.fromJson(item));
-    result.rectCount = jsonObject["rectCount"];
-    result.expectedCount = jsonObject["expectedCount"];
-    if (jsonObject["width"] != null)
-      for (var item in jsonObject["width"])
-        result.width.add(item);
-    if (jsonObject["length"] != null)
-      for (var item in jsonObject["length"])
-        result.length.add(item);
-    if (jsonObject["area"] != null)
-      for (var item in jsonObject["area"])
-        result.area.add(item);
-    if (jsonObject["colorValues"] != null)
-      for (var item in jsonObject["colorValues"])
-        result.colorValues.add(item);
-    result.status = jsonObject["status"];
-    result.elementType = jsonObject["elementType"];
-    result.elementDiagnose = jsonObject["elementDiagnose"];
-    result.elementTypeName = jsonObject["elementTypeName"];
-    result.elementDiagnoseName = jsonObject["elementDiagnoseName"];
-
-    return result;
-  }
-
-  Map toJson(){
-    Map _result = {};
-
-    _result.addAll({"rectArray": rectArray});
-    if (rectCount != null) _result.addAll({"rectCount": rectCount});
-    if (expectedCount != null) _result.addAll({"expectedCount": expectedCount});
-    _result.addAll({"width": width});
-    _result.addAll({"length": length});
-    _result.addAll({"area": area});
-    _result.addAll({"colorValues": colorValues});
-    if (status != null) _result.addAll({"status": status});
-    if (elementType != null) _result.addAll({"elementType": elementType});
-    if (elementDiagnose != null) _result.addAll({"elementDiagnose": elementDiagnose});
-    if (elementTypeName != null) _result.addAll({"elementTypeName": elementTypeName});
-    if (elementDiagnoseName != null) _result.addAll({"elementDiagnoseName": elementDiagnoseName});
 
     return _result;
   }
@@ -1980,7 +1917,7 @@ class ImageInputData {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (pageIndex != null) _result.addAll({"pageIndex": pageIndex});
@@ -1990,6 +1927,183 @@ class ImageInputData {
     if (height != null) _result.addAll({"height": height});
     if (bitmap != null) _result.addAll({"bitmap": bitmap});
     if (imgBytes != null) _result.addAll({"imgBytes": imgBytes});
+
+    return _result;
+  }
+}
+
+class DocReaderDocumentsDatabase {
+  String? databaseID;
+  String? version;
+  String? date;
+  String? databaseDescription;
+  int? countriesNumber;
+  int? documentsNumber;
+
+  static DocReaderDocumentsDatabase? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocReaderDocumentsDatabase();
+
+    result.databaseID = jsonObject["databaseID"];
+    result.version = jsonObject["version"];
+    result.date = jsonObject["date"];
+    result.databaseDescription = jsonObject["databaseDescription"];
+    result.countriesNumber = jsonObject["countriesNumber"];
+    result.documentsNumber = jsonObject["documentsNumber"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (databaseID != null) _result.addAll({"databaseID": databaseID});
+    if (version != null) _result.addAll({"version": version});
+    if (date != null) _result.addAll({"date": date});
+    if (databaseDescription != null)
+      _result.addAll({"databaseDescription": databaseDescription});
+    if (countriesNumber != null)
+      _result.addAll({"countriesNumber": countriesNumber});
+    if (documentsNumber != null)
+      _result.addAll({"documentsNumber": documentsNumber});
+
+    return _result;
+  }
+}
+
+class DocumentReaderComparison {
+  int? sourceTypeLeft;
+  int? sourceTypeRight;
+  int? status;
+
+  static DocumentReaderComparison? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderComparison();
+
+    result.sourceTypeLeft = jsonObject["sourceTypeLeft"];
+    result.sourceTypeRight = jsonObject["sourceTypeRight"];
+    result.status = jsonObject["status"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceTypeLeft != null)
+      _result.addAll({"sourceTypeLeft": sourceTypeLeft});
+    if (sourceTypeRight != null)
+      _result.addAll({"sourceTypeRight": sourceTypeRight});
+    if (status != null) _result.addAll({"status": status});
+
+    return _result;
+  }
+}
+
+class DocumentReaderRfidOrigin {
+  int? dg;
+  int? dgTag;
+  int? entryView;
+  int? tagEntry;
+
+  static DocumentReaderRfidOrigin? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderRfidOrigin();
+
+    result.dg = jsonObject["dg"];
+    result.dgTag = jsonObject["dgTag"];
+    result.entryView = jsonObject["entryView"];
+    result.tagEntry = jsonObject["tagEntry"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (dg != null) _result.addAll({"dg": dg});
+    if (dgTag != null) _result.addAll({"dgTag": dgTag});
+    if (entryView != null) _result.addAll({"entryView": entryView});
+    if (tagEntry != null) _result.addAll({"tagEntry": tagEntry});
+
+    return _result;
+  }
+}
+
+class DocumentReaderTextSource {
+  int? sourceType;
+  String? source;
+  int? validityStatus;
+
+  static DocumentReaderTextSource? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderTextSource();
+
+    result.sourceType = jsonObject["sourceType"];
+    result.source = jsonObject["source"];
+    result.validityStatus = jsonObject["validityStatus"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceType != null) _result.addAll({"sourceType": sourceType});
+    if (source != null) _result.addAll({"source": source});
+    if (validityStatus != null)
+      _result.addAll({"validityStatus": validityStatus});
+
+    return _result;
+  }
+}
+
+class DocumentReaderSymbol {
+  int? code;
+  Rect? rect;
+  int? probability;
+
+  static DocumentReaderSymbol? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderSymbol();
+
+    result.code = jsonObject["code"];
+    result.rect = Rect.fromJson(jsonObject["rect"]);
+    result.probability = jsonObject["probability"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (code != null) _result.addAll({"code": code});
+    if (rect != null) _result.addAll({"rect": rect});
+    if (probability != null) _result.addAll({"probability": probability});
+
+    return _result;
+  }
+}
+
+class DocumentReaderValidity {
+  int? sourceType;
+  int? status;
+
+  static DocumentReaderValidity? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderValidity();
+
+    result.sourceType = jsonObject["sourceType"];
+    result.status = jsonObject["status"];
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (sourceType != null) _result.addAll({"sourceType": sourceType});
+    if (status != null) _result.addAll({"status": status});
 
     return _result;
   }
@@ -2018,7 +2132,8 @@ class DocumentReaderResults {
   DocumentReaderResultsStatus? status;
   VDSNCData? vdsncData;
 
-  String? getTextFieldValueByType(int fieldType, { int lcid = 0, int source = -1, bool original = false }) {
+  String? getTextFieldValueByType(int fieldType,
+      {int lcid = 0, int source = -1, bool original = false}) {
     if (this.textResult == null) return null;
     var field = this.findByTypeAndLcid(fieldType, lcid);
     if (field == null) return null;
@@ -2033,38 +2148,34 @@ class DocumentReaderResults {
     return field != null ? field.status : 0;
   }
 
-  String? getGraphicFieldImageByType(int fieldType, { int source = -1, int pageIndex = -1, int light = -1 }) {
+  String? getGraphicFieldImageByType(int fieldType,
+      {int source = -1, int pageIndex = -1, int light = -1}) {
     if (this.graphicResult == null) return null;
     List<DocumentReaderGraphicField> foundFields = [];
 
     for (var field in this.graphicResult!.fields)
-      if (field != null && field.fieldType == fieldType)
-        foundFields.add(field);
+      if (field != null && field.fieldType == fieldType) foundFields.add(field);
     if (source != -1)
       for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].sourceType != source)
-          foundFields.removeAt(i);
+        if (foundFields[i].sourceType != source) foundFields.removeAt(i);
     if (light != -1)
       for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].lightType != light)
-          foundFields.removeAt(i);
+        if (foundFields[i].lightType != light) foundFields.removeAt(i);
     if (pageIndex != -1)
       for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].pageIndex != pageIndex)
-          foundFields.removeAt(i);
+        if (foundFields[i].pageIndex != pageIndex) foundFields.removeAt(i);
 
     return foundFields.length > 0 ? foundFields[0].value : null;
   }
 
-  int? getQualityResult(int imageQualityCheckType, { int securityFeature = -1, int pageIndex = 0 }) {
+  int? getQualityResult(int imageQualityCheckType,
+      {int securityFeature = -1, int pageIndex = 0}) {
     int? resultSum = 2;
     ImageQualityGroup? imageQualityGroup;
 
-    for(ImageQualityGroup? iq in this.imageQuality)
-      if (iq != null && iq.pageIndex == pageIndex)
-        imageQualityGroup = iq;
-    if (imageQualityGroup == null)
-      return resultSum;
+    for (ImageQualityGroup? iq in this.imageQuality)
+      if (iq != null && iq.pageIndex == pageIndex) imageQualityGroup = iq;
+    if (imageQualityGroup == null) return resultSum;
 
     for (ImageQuality? iq in imageQualityGroup.imageQualityList) {
       if (iq != null && iq.type == imageQualityCheckType) {
@@ -2087,23 +2198,21 @@ class DocumentReaderResults {
   DocumentReaderTextField? findByTypeAndLcid(int type, int lcid) {
     List<DocumentReaderTextField> foundFields = [];
     for (DocumentReaderTextField? field in this.textResult!.fields)
-      if (field != null && field.fieldType == type)
-        foundFields.add(field);
-    if (foundFields.length <= 0)
-      return null;
+      if (field != null && field.fieldType == type) foundFields.add(field);
+    if (foundFields.length <= 0) return null;
     DocumentReaderTextField? foundField;
 
     for (DocumentReaderTextField field in foundFields)
       if (lcid == 0) {
         foundField = field;
-        if (field.lcid == lcid)
-          break;
+        if (field.lcid == lcid) break;
       } else if (field.lcid == lcid) return field;
 
     return foundField;
   }
 
-  DocumentReaderValue? findBySource(DocumentReaderTextField field, int sourceType) {
+  DocumentReaderValue? findBySource(
+      DocumentReaderTextField field, int sourceType) {
     DocumentReaderValue? value;
     if (sourceType == -1) {
       DocumentReaderValue? mrzVal = this.findBySource(field, 3);
@@ -2121,21 +2230,19 @@ class DocumentReaderResults {
 
   String? getContainers(List<int> resultTypes) {
     try {
-      if(this.rawResult == null) return null;
+      if (this.rawResult == null) return null;
       Map<String, dynamic> json = jsonDecode(this.rawResult!);
       List<dynamic> containerList = json["List"];
       List<dynamic> resultArray = [];
-      for (Map<String, dynamic>? container in containerList){
-        if (container == null || container.length == 0)
-          continue;
+      for (Map<String, dynamic>? container in containerList) {
+        if (container == null || container.length == 0) continue;
         for (int resultType in resultTypes)
-          if(resultType == container["result_type"]){
+          if (resultType == container["result_type"]) {
             resultArray.add(container);
             break;
           }
       }
-      if (resultArray.length == 0)
-        return null;
+      if (resultArray.length == 0) return null;
       Map<String, dynamic> newContainerList = {};
       newContainerList["List"] = resultArray;
       Map<String, dynamic> newJson = {};
@@ -2148,11 +2255,11 @@ class DocumentReaderResults {
   }
 
   String? getEncryptedContainers() {
-      return this.getContainers([
-          ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
-          ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
-          ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
-      ]);
+    return this.getContainers([
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
+    ]);
   }
 
   static DocumentReaderResults? fromJson(jsonObject) {
@@ -2166,8 +2273,10 @@ class DocumentReaderResults {
     result.morePagesAvailable = jsonObject["morePagesAvailable"];
     result.rfidResult = jsonObject["rfidResult"];
     result.highResolution = jsonObject["highResolution"];
-    result.graphicResult = DocumentReaderGraphicResult.fromJson(jsonObject["graphicResult"]);
-    result.textResult = DocumentReaderTextResult.fromJson(jsonObject["textResult"]);
+    result.graphicResult =
+        DocumentReaderGraphicResult.fromJson(jsonObject["graphicResult"]);
+    result.textResult =
+        DocumentReaderTextResult.fromJson(jsonObject["textResult"]);
     if (jsonObject["documentPosition"] != null)
       for (var item in jsonObject["documentPosition"])
         result.documentPosition.add(ElementPosition.fromJson(item));
@@ -2181,10 +2290,14 @@ class DocumentReaderResults {
       for (var item in jsonObject["imageQuality"])
         result.imageQuality.add(ImageQualityGroup.fromJson(item));
     result.rawResult = jsonObject["rawResult"];
-    result.documentReaderNotification = DocumentReaderNotification.fromJson(jsonObject["documentReaderNotification"]);
-    result.rfidSessionData = RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
-    result.authenticityResult = DocumentReaderAuthenticityResult.fromJson(jsonObject["authenticityResult"]);
-    result.barcodeResult = DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
+    result.documentReaderNotification = DocumentReaderNotification.fromJson(
+        jsonObject["documentReaderNotification"]);
+    result.rfidSessionData =
+        RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
+    result.authenticityResult = DocumentReaderAuthenticityResult.fromJson(
+        jsonObject["authenticityResult"]);
+    result.barcodeResult =
+        DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
     if (jsonObject["documentType"] != null)
       for (var item in jsonObject["documentType"])
         result.documentType.add(DocumentReaderDocumentType.fromJson(item));
@@ -2194,16 +2307,20 @@ class DocumentReaderResults {
     return result;
   }
 
-  Map toJson(){
+  Map toJson() {
     Map _result = {};
 
     if (chipPage != null) _result.addAll({"chipPage": chipPage});
-    if (processingFinishedStatus != null) _result.addAll({"processingFinishedStatus": processingFinishedStatus});
+    if (processingFinishedStatus != null)
+      _result.addAll({"processingFinishedStatus": processingFinishedStatus});
     if (elapsedTime != null) _result.addAll({"elapsedTime": elapsedTime});
-    if (elapsedTimeRFID != null) _result.addAll({"elapsedTimeRFID": elapsedTimeRFID});
-    if (morePagesAvailable != null) _result.addAll({"morePagesAvailable": morePagesAvailable});
+    if (elapsedTimeRFID != null)
+      _result.addAll({"elapsedTimeRFID": elapsedTimeRFID});
+    if (morePagesAvailable != null)
+      _result.addAll({"morePagesAvailable": morePagesAvailable});
     if (rfidResult != null) _result.addAll({"rfidResult": rfidResult});
-    if (highResolution != null) _result.addAll({"highResolution": highResolution});
+    if (highResolution != null)
+      _result.addAll({"highResolution": highResolution});
     if (graphicResult != null) _result.addAll({"graphicResult": graphicResult});
     if (textResult != null) _result.addAll({"textResult": textResult});
     _result.addAll({"documentPosition": documentPosition});
@@ -2211,9 +2328,13 @@ class DocumentReaderResults {
     _result.addAll({"mrzPosition": mrzPosition});
     _result.addAll({"imageQuality": imageQuality});
     if (rawResult != null) _result.addAll({"rawResult": rawResult});
-    if (documentReaderNotification != null) _result.addAll({"documentReaderNotification": documentReaderNotification});
-    if (rfidSessionData != null) _result.addAll({"rfidSessionData": rfidSessionData});
-    if (authenticityResult != null) _result.addAll({"authenticityResult": authenticityResult});
+    if (documentReaderNotification != null)
+      _result
+          .addAll({"documentReaderNotification": documentReaderNotification});
+    if (rfidSessionData != null)
+      _result.addAll({"rfidSessionData": rfidSessionData});
+    if (authenticityResult != null)
+      _result.addAll({"authenticityResult": authenticityResult});
     if (barcodeResult != null) _result.addAll({"barcodeResult": barcodeResult});
     _result.addAll({"documentType": documentType});
     if (status != null) _result.addAll({"status": status});
@@ -2249,6 +2370,7 @@ class ERPRMAuthenticity {
   static const int BARCODE_FORMAT_CHECK = 65536;
   static const int KINEGRAM = 131072;
   static const int HOLOGRAMS_DETECTION = 524288;
+  static const int MRZ = 8388608;
 }
 
 class ERFIDErrorCodes {
@@ -2308,44 +2430,55 @@ class ERFIDErrorCodes {
   static const int RFID_ERROR_LAYER6_PWD_FAILED = 0x801063C0;
   static const int RFID_ERROR_NOT_PERFORMED = 0x83000000;
   static const int RFID_ERROR_SESSION_IS_CLOSED = 0x83000001;
-  static const int RFID_ERROR_SESSION_TERMINAL_UNSUPPORTED_OPERATION = 0x83000002;
+  static const int RFID_ERROR_SESSION_TERMINAL_UNSUPPORTED_OPERATION =
+      0x83000002;
   static const int RFID_ERROR_SESSION_TERMINAL_TYPE_UNKNOWN = 0x83000010;
-  static const int RFID_ERROR_SESSION_TERMINAL_TYPE_BAD_CERTIFICATE = 0x83000011;
+  static const int RFID_ERROR_SESSION_TERMINAL_TYPE_BAD_CERTIFICATE =
+      0x83000011;
   static const int RFID_ERROR_SESSION_TERMINAL_TYPE_NOT_SET = 0x83000012;
   static const int RFID_ERROR_SESSION_PROCEDURE_TYPE_UNKNOWN = 0x83000013;
   static const int RFID_ERROR_Session_Procedure_Type_Unsupported = 0x83000014;
   static const int RFID_ERROR_SESSION_PROCEDURE_TYPE_NOT_SET = 0x83000015;
   static const int RFID_ERROR_SESSION_ACCESS_KEY_UNKNOWN_TYPE = 0x83000016;
-  static const int RFID_ERROR_SESSION_ACCESS_KEY_UNSUPPORTED_SM_TYPE = 0x83000017;
+  static const int RFID_ERROR_SESSION_ACCESS_KEY_UNSUPPORTED_SM_TYPE =
+      0x83000017;
   static const int RFID_ERROR_SESSION_ACCESS_KEY_INCORRECT_SM_TYPE = 0x83000018;
   static const int RFID_ERROR_SESSION_ACCESS_KEY_RESTRICTED = 0x83000019;
   static const int RFID_ERROR_SESSION_ACCESS_KEY_INCORRECT_DATA = 0x8300001A;
   static const int RFID_ERROR_SESSION_ACCESS_KEY_NOT_SET = 0x8300001B;
-  static const int RFID_ERROR_SESSION_PWD_MANAGEMENT_NOT_AUTHORIZED = 0x8300001C;
+  static const int RFID_ERROR_SESSION_PWD_MANAGEMENT_NOT_AUTHORIZED =
+      0x8300001C;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_UNKNOWN_TYPE = 0x83000020;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_SM = 0x83000021;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_PACE = 0x83000022;
-  static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_CA_KEYS = 0x83000023;
+  static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_CA_KEYS =
+      0x83000023;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_TA = 0x83000024;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_REQUIRES_CA = 0x83000025;
-  static const int RFID_ERROR_SESSION_ACCESS_CONTROL_INCORRECT_OPTION_CA = 0x83000026;
+  static const int RFID_ERROR_SESSION_ACCESS_CONTROL_INCORRECT_OPTION_CA =
+      0x83000026;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_CA_FAILED = 0x83000027;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_TA_FAILED = 0x83000028;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_AA_FAILED = 0x83000029;
   static const int RFID_ERROR_SESSION_ACCESS_CONTROL_RI_FAILED = 0x8300002A;
   static const int RFID_ERROR_SESSION_PA_SIGNATURE_CHECK_FAILED = 0x83000030;
   static const int RFID_ERROR_SESSION_PA_HASH_CHECK_FAILED = 0x83000031;
-  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_DATE_OF_EXPIRY = 0x83000040;
-  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_DATE_OF_BIRTH = 0x83000041;
-  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_COMMUNITY_ID = 0x83000042;
-  static const int RFID_ERROR_SESSION_E_SIGN_REQUIRES_APP_SELECTION = 0x83000050;
+  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_DATE_OF_EXPIRY =
+      0x83000040;
+  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_DATE_OF_BIRTH =
+      0x83000041;
+  static const int RFID_ERROR_SESSION_INVALID_AUX_DATA_COMMUNITY_ID =
+      0x83000042;
+  static const int RFID_ERROR_SESSION_E_SIGN_REQUIRES_APP_SELECTION =
+      0x83000050;
   static const int RFID_ERROR_SESSION_E_SIGN_PIN_NOT_SET = 0x83000051;
   static const int RFID_ERROR_SESSION_E_SIGN_PIN_NOT_VERIFIED = 0x83000052;
   static const int RFID_ERROR_SESSION_INCORRECT_DATA = 0x83000060;
   static const int RFID_ERROR_SESSION_FILE_NOT_ENOUGH_DATA = 0x83010000;
   static const int RFID_ERROR_SESSION_FILE_INCORRECT_DATA = 0x83020000;
   static const int RFID_ERROR_SESSION_FILE_UNEXPECTED_DATA = 0x83030000;
-  static const int RFID_ERROR_SESSION_FILE_CONTENTS_UNEXPECTED_DATA = 0x83040000;
+  static const int RFID_ERROR_SESSION_FILE_CONTENTS_UNEXPECTED_DATA =
+      0x83040000;
   static const int RFID_ERROR_SESSION_FILE_WRONG_TAG = 0x83050000;
   static const int RFID_ERROR_SESSION_FILE_CANT_USE_DATA = 0x83060000;
   static const int RFID_ERROR_SESSION_FILE_CANT_READ_DATA = 0x83070000;
@@ -2609,35 +2742,49 @@ class ELDSParsingErrorCodes {
   static const int RR_LDS_ASN_NOT_ENOUGH_DATA = 0x80000002;
   static const int ERR_LDS_ASN_CONTENTS_UNEXPECTED_DATA = 0x80000003;
   static const int ERR_LDS_ASN_SIGNED_DATA_INCORRECT_DATA = 0x80000008;
-  static const int ERR_LDS_ASN_SIGNED_DATA_ENCAP_CONTENTS_INCORRECT_DATA = 0x80000009;
+  static const int ERR_LDS_ASN_SIGNED_DATA_ENCAP_CONTENTS_INCORRECT_DATA =
+      0x80000009;
   static const int ERR_LDS_ASN_SIGNED_DATA_VERSION_INCORRECT_DATA = 0x8000000A;
-  static const int ERR_LDS_ASN_SIGNED_DATA_DIGEST_ALGORITHMS_INCORRECT_DATA = 0x80000011;
+  static const int ERR_LDS_ASN_SIGNED_DATA_DIGEST_ALGORITHMS_INCORRECT_DATA =
+      0x80000011;
   static const int ERR_LDS_ASN_LDS_OBJECT_INCORRECT_DATA = 0x80000013;
   static const int ERR_LDS_ASN_LDS_OBJECT_VERSION_INCORRECT_DATA = 0x80000014;
-  static const int ERR_LDS_ASN_LDS_OBJECT_DIGEST_ALGORITHM_INCORRECT_DATA = 0x80000015;
+  static const int ERR_LDS_ASN_LDS_OBJECT_DIGEST_ALGORITHM_INCORRECT_DATA =
+      0x80000015;
   static const int ERR_LDS_ASN_LDS_OBJECT_DG_HASHES_INCORRECT_DATA = 0x80000016;
-  static const int ERR_LDS_ASN_LDS_OBJECT_VERSION_INFO_INCORRECT_DATA = 0x80000012;
+  static const int ERR_LDS_ASN_LDS_OBJECT_VERSION_INFO_INCORRECT_DATA =
+      0x80000012;
   static const int ERR_LDS_ASN_CERTIFICATE_INCORRECT_DATA = 0x80000017;
   static const int ERR_LDS_ASN_CERTIFICATE_VERSION_INCORRECT_DATA = 0x80000018;
   static const int ERR_LDS_ASN_CERTIFICATE_SN_INCORRECT_DATA = 0x80000019;
-  static const int ERR_LDS_ASN_CERTIFICATE_SIGNATURE_INCORRECT_DATA = 0x8000001A;
+  static const int ERR_LDS_ASN_CERTIFICATE_SIGNATURE_INCORRECT_DATA =
+      0x8000001A;
   static const int ERR_LDS_ASN_CERTIFICATE_ISSUER_INCORRECT_DATA = 0x8000001B;
   static const int ERR_LDS_ASN_CERTIFICATE_VALIDITY_INCORRECT_DATA = 0x8000001C;
   static const int ERR_LDS_ASN_CERTIFICATE_SUBJECT_INCORRECT_DATA = 0x8000001D;
-  static const int ERR_LDS_ASN_CERTIFICATE_SUBJECT_PK_INCORRECT_DATA = 0x8000001E;
-  static const int ERR_LDS_ASN_CERTIFICATE_EXTENSIONS_INCORRECT_DATA = 0x8000001F;
+  static const int ERR_LDS_ASN_CERTIFICATE_SUBJECT_PK_INCORRECT_DATA =
+      0x8000001E;
+  static const int ERR_LDS_ASN_CERTIFICATE_EXTENSIONS_INCORRECT_DATA =
+      0x8000001F;
   static const int ERR_LDS_ASN_SIGNER_INFO_INCORRECT_DATA = 0x80000020;
   static const int ERR_LDS_ASN_SIGNER_INFO_VERSION_INCORRECT_DATA = 0x80000021;
   static const int ERR_LDS_ASN_SIGNER_INFO_SID_INCORRECT_DATA = 0x80000022;
-  static const int ERR_LDS_ASN_SIGNER_INFO_DIGEST_ALG_INCORRECT_DATA = 0x80000023;
-  static const int ERR_LDS_ASN_SIGNER_INFO_SIGNED_ATTRS_INCORRECT_DATA = 0x80000024;
+  static const int ERR_LDS_ASN_SIGNER_INFO_DIGEST_ALG_INCORRECT_DATA =
+      0x80000023;
+  static const int ERR_LDS_ASN_SIGNER_INFO_SIGNED_ATTRS_INCORRECT_DATA =
+      0x80000024;
   static const int ERR_LDS_ASN_SIGNER_INFO_SIGN_ALG_INCORRECT_DATA = 0x80000025;
-  static const int ERR_LDS_ASN_SIGNER_INFO_SIGNATURE_INCORRECT_DATA = 0x80000026;
-  static const int ERR_LDS_ASN_SIGNER_INFO_UNSIGNED_ATTRS_INCORRECT_DATA = 0x80000027;
-  static const int ERR_LDS_ICAO_LDS_OBJECT_UNSUPPORTED_DIGEST_ALGORITHM = 0x80000030;
+  static const int ERR_LDS_ASN_SIGNER_INFO_SIGNATURE_INCORRECT_DATA =
+      0x80000026;
+  static const int ERR_LDS_ASN_SIGNER_INFO_UNSIGNED_ATTRS_INCORRECT_DATA =
+      0x80000027;
+  static const int ERR_LDS_ICAO_LDS_OBJECT_UNSUPPORTED_DIGEST_ALGORITHM =
+      0x80000030;
   static const int ERR_LDS_ICAO_SIGNED_DATA_SIGNER_INFOS_EMPTY = 0x80000031;
-  static const int ERR_LDS_ICAO_SIGNER_INFO_UNSUPPORTED_DIGEST_ALGORITHM = 0x80000032;
-  static const int ERR_LDS_ICAO_SIGNER_INFO_UNSUPPORTED_SIGNATURE_ALGORITHM = 0x80000033;
+  static const int ERR_LDS_ICAO_SIGNER_INFO_UNSUPPORTED_DIGEST_ALGORITHM =
+      0x80000032;
+  static const int ERR_LDS_ICAO_SIGNER_INFO_UNSUPPORTED_SIGNATURE_ALGORITHM =
+      0x80000033;
   static const int ERR_LDS_ICAO_SIGNER_INFO_MESSAGE_DIGEST_ERROR = 0x80000034;
   static const int ERR_LDS_ICAO_SIGNER_INFO_SIGNED_ATTRS_MISSED = 0x80000036;
   static const int ERR_LDS_AUTH_SIGNER_INFO_CANT_FIND_CERTIFICATE = 0x80000035;
@@ -2697,21 +2844,28 @@ class ELDSParsingErrorCodes {
   static const int ERR_LDS_RI_SECTOR_KEY_CANT_FIND = 0x81000070;
   static const int ERR_LDS_RI_SECTOR_KEY_INCORRECT_DATA = 0x81000071;
   static const int ERR_LDS_RI_SECTOR_KEY_INCOMPLETE_DATA = 0x81000072;
-  static const int ERR_LDS_CV_CERTIFICATE_MISSING_MANDATORY_DATA_PK = 0x81000060;
+  static const int ERR_LDS_CV_CERTIFICATE_MISSING_MANDATORY_DATA_PK =
+      0x81000060;
   static const int ERR_LDS_CV_CERTIFICATE_PUBLIC_KEY_UNSUPPORTED = 0x81000062;
-  static const int ERR_LDS_CV_CERTIFICATE_CHAT_UNSUPPORTED_TERMINAL_TYPE = 0x81000063;
+  static const int ERR_LDS_CV_CERTIFICATE_CHAT_UNSUPPORTED_TERMINAL_TYPE =
+      0x81000063;
   static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_UNSUPPORTED = 0x8100006;
-  static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_INVALID_PARAMS = 0x81000065;
+  static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_INVALID_PARAMS =
+      0x81000065;
   static const int ERR_LDS_CV_CERTIFICATE_INCORRECT_DATA = 0x81000160;
   static const int ERR_LDS_CV_CERTIFICATE_CPI_INCORRECT_DATA = 0x81000161;
   static const int ERR_LDS_CV_CERTIFICATE_CAR_INCORRECT_DATA = 0x81000162;
-  static const int ERR_LDS_CV_CERTIFICATE_PUBLIC_KEY_INCORRECT_DATA = 0x81000163;
+  static const int ERR_LDS_CV_CERTIFICATE_PUBLIC_KEY_INCORRECT_DATA =
+      0x81000163;
   static const int ERR_LDS_CV_CERTIFICATE_CHR_INCORRECT_DATA = 0x81000164;
   static const int ERR_LDS_CV_CERTIFICATE_CHAT_INCORRECT_DATA = 0x81000165;
-  static const int ERR_LDS_CV_CERTIFICATE_VALID_FROM_INCORRECT_DATA = 0x81000166;
+  static const int ERR_LDS_CV_CERTIFICATE_VALID_FROM_INCORRECT_DATA =
+      0x81000166;
   static const int ERR_LDS_CV_CERTIFICATE_VALID_TO_INCORRECT_DATA = 0x81000167;
-  static const int ERR_LDS_CV_CERTIFICATE_EXTENSIONS_INCORRECT_DATA = 0x81000168;
-  static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_INCORRECT_DATA = 0x81000169;
+  static const int ERR_LDS_CV_CERTIFICATE_EXTENSIONS_INCORRECT_DATA =
+      0x81000168;
+  static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_INCORRECT_DATA =
+      0x81000169;
   static const int ERR_LDS_CV_CERTIFICATE_PRIVATE_KEY_MISSING = 0x8100016A;
   static const int ERR_LDS_VDS_UNSUPPORTED_VERSION = 0x81000200;
   static const int ERR_LDS_VDS_ISSUING_COUNTRY_SIZE = 0x81000201;
@@ -2724,10 +2878,12 @@ class ELDSParsingErrorCodes {
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_HEADER = 0x81000302;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_TYPE = 0x81000303;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_VERSION = 0x81000304;
-  static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_ISSUING_COUNTRY = 0x81000305;
+  static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_ISSUING_COUNTRY =
+      0x81000305;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_MESSAGE = 0x81000306;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_SIGNATURE = 0x81000307;
-  static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_SIG_ALGORITHM = 0x81000308;
+  static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_SIG_ALGORITHM =
+      0x81000308;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_CERTIFICATE = 0x81000309;
   static const int ERR_LDS_VDS_NC_MISSING_OR_INCORRECT_SIG_VALUE = 0x8100030A;
 
@@ -3161,7 +3317,8 @@ class ScenarioIdentifier {
   static const String SCENARIO_MRZ_AND_LOCATE = "MrzAndLocate";
   static const String SCENARIO_MRZ_OR_OCR = "MrzOrOcr";
   static const String SCENARIO_MRZ_OR_BARCODE_OR_OCR = "MrzOrBarcodeOrOcr";
-  static const String SCENARIO_LOCATE_VISUAL_AND_MRZ_OR_OCR = "LocateVisual_And_MrzOrOcr";
+  static const String SCENARIO_LOCATE_VISUAL_AND_MRZ_OR_OCR =
+      "LocateVisual_And_MrzOrOcr";
   static const String SCENARIO_FULL_PROCESS = "FullProcess";
   static const String SCENARIO_FULL_AUTH = "FullAuth";
   static const String SCENARIO_ID3RUS = "Id3Rus";
@@ -3318,6 +3475,7 @@ class ECheckDiagnose {
   static const int FALSE_IPI_PARAMETERS = 65;
   static const int FIELD_POS_CORRECTOR_HIGHLIGHT_IR = 80;
   static const int FIELD_POS_CORRECTOR_GLARES_IN_PHOTO_AREA = 81;
+  static const int FIELD_POS_CORRECTOR_PHOTO_REPLACED = 82;
   static const int OVI_IR_INVISIBLE = 90;
   static const int OVI_INSUFFICIENT_AREA = 91;
   static const int OVI_COLOR_INVARIABLE = 92;
@@ -3370,7 +3528,9 @@ class ECheckDiagnose {
   static const int FINISHED_BY_TIMEOUT = 186;
   static const int HOLO_PHOTO_DOCUMENT_OUTSIDE_FRAME = 187;
   static const int LIVENESS_DEPTH_CHECK_FAILED = 190;
-  static const int LAST_DIAGNOSE_VALUE = 200;
+  static const int MRZ_QUALITY_WRONG_MRZ_DPI = 200;
+  static const int MRZ_QUALITY_WRONG_BACKGROUND = 201;
+  static const int LAST_DIAGNOSE_VALUE = 210;
 }
 
 class RFIDDelegate {
@@ -3406,94 +3566,167 @@ class DocFormat {
 
 class ELDSParsingNotificationCodes {
   static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_VERSION = 0x90000001;
-  static const int NTF_LDS_ASN_CERTIFICATE_NON_MATCHING_SIGNATURE_ALGORITHM = 0x90000002;
+  static const int NTF_LDS_ASN_CERTIFICATE_NON_MATCHING_SIGNATURE_ALGORITHM =
+      0x90000002;
   static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_TIME_CODING = 0x90000003;
-  static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_USE_OF_GENERALIZED_TIME = 0x90000004;
+  static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_USE_OF_GENERALIZED_TIME =
+      0x90000004;
   static const int NTF_LDS_ASN_CERTIFICATE_EMPTY_ISSUER = 0x90000005;
   static const int NTF_LDS_ASN_CERTIFICATE_EMPTY_SUBJECT = 0x90000006;
-  static const int NTF_LDS_ASN_CERTIFICATE_UNSUPPORTED_CRITICAL_EXTENSION = 0x90000008;
-  static const int NTF_LDS_ASN_CERTIFICATE_FORCED_DEFAULT_CSCA_ROLE = 0x9000000E;
+  static const int NTF_LDS_ASN_CERTIFICATE_UNSUPPORTED_CRITICAL_EXTENSION =
+      0x90000008;
+  static const int NTF_LDS_ASN_CERTIFICATE_FORCED_DEFAULT_CSCA_ROLE =
+      0x9000000E;
   static const int NTF_LDS_ASN_CERTIFICATE_FORCED_DEFAULT_DS_ROLE = 0x9000000F;
-  static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_ISSUER_SUBJECT_DS = 0x90000010;
+  static const int NTF_LDS_ASN_CERTIFICATE_INCORRECT_ISSUER_SUBJECT_DS =
+      0x90000010;
   static const int NTF_LDS_ASN_CERTIFICATE_DUPLICATING_EXTENSIONS = 0x90000017;
   static const int NTF_LDS_ICAO_CERTIFICATE_VERSION_MISSED = 0x90000200;
   static const int NTF_LDS_ICAO_CERTIFICATE_VERSION_INCORRECT = 0x90000201;
   static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_COUNTRY_MISSED = 0x90000202;
-  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_COMMON_NAME_MISSED = 0x90000203;
-  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_COUNTRY_NON_COMPLIANT = 0x90000204;
+  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_COMMON_NAME_MISSED =
+      0x90000203;
+  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_COUNTRY_NON_COMPLIANT =
+      0x90000204;
   static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COUNTRY_MISSED = 0x90000205;
-  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COMMON_NAME_MISSED = 0x90000206;
-  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COUNTRY_NON_COMPLIANT = 0x90000207;
-  static const int NTF_LDS_ICAO_CERTIFICATE_USING_NON_COMPLIANT_DATA = 0x90000208;
-  static const int NTF_LDS_ICAO_CERTIFICATE_UNSUPPORTED_SIGNATURE_ALGORITHM = 0x90000209;
-  static const int NTF_LDS_ICAO_CERTIFICATE_UNSUPPORTED_PUBLIC_KEY_ALGORITHM = 0x9000020A;
+  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COMMON_NAME_MISSED =
+      0x90000206;
+  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COUNTRY_NON_COMPLIANT =
+      0x90000207;
+  static const int NTF_LDS_ICAO_CERTIFICATE_USING_NON_COMPLIANT_DATA =
+      0x90000208;
+  static const int NTF_LDS_ICAO_CERTIFICATE_UNSUPPORTED_SIGNATURE_ALGORITHM =
+      0x90000209;
+  static const int NTF_LDS_ICAO_CERTIFICATE_UNSUPPORTED_PUBLIC_KEY_ALGORITHM =
+      0x9000020A;
   static const int NTF_LDS_ICAO_CERTIFICATE_MISSED_EXTENSIONS = 0x9000020B;
   static const int NTF_LDS_ICAO_CERTIFICATE_VALIDITY = 0x9000020C;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_USING_NON_COMPLIANT_DATA = 0x9000020D;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_USING_NON_COMPLIANT_DATA =
+      0x9000020D;
   static const int NTF_LDS_ICAO_CERTIFICATE_EXT_KEY_USAGE_MISSED = 0x9000020E;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_KEY_USAGE_NOT_CRITICAL = 0x9000020F;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_KEY_USAGE_INCORRECT_DATA = 0x90000210;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_KEY_USAGE_NOT_CRITICAL =
+      0x9000020F;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_KEY_USAGE_INCORRECT_DATA =
+      0x90000210;
   static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_MISSED = 0x90000211;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_USAGE1 = 0x90000212;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_USAGE2 = 0x90000213;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_NOT_CRITICAL = 0x90000214;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_DATA = 0x90000215;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_PATH_LEN_C_MISSED = 0x90000216;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_PATH_LEN_C_INCORRECT = 0x90000217;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_NOT_CRITICAL = 0x90000218;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_INCORRECT_USAGE = 0x90000219;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_INCORRECT_DATA = 0x9000021A;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_USAGE1 =
+      0x90000212;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_USAGE2 =
+      0x90000213;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_NOT_CRITICAL =
+      0x90000214;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_INCORRECT_DATA =
+      0x90000215;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_PATH_LEN_C_MISSED =
+      0x90000216;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_BASIC_C_PATH_LEN_C_INCORRECT =
+      0x90000217;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_NOT_CRITICAL =
+      0x90000218;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_INCORRECT_USAGE =
+      0x90000219;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_EXT_KEY_USAGE_INCORRECT_DATA =
+      0x9000021A;
   static const int NTF_LDS_ICAO_CERTIFICATE_EXT_AUTH_KEY_ID_MISSED = 0x9000021B;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_AUTH_KEY_ID_INCORRECT_DATA = 0x9000021C;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_AUTH_KEY_ID_KEY_ID_MISSED = 0x9000021D;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_KEY_ID_MISSED = 0x9000021E;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_KEY_ID_INCORRECT_DATA = 0x9000021F;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_MISSED = 0x90000220;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_INCORRECT_DATA = 0x90000221;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_EMPTY = 0x90000222;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_MISSED = 0x90000223;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_INCORRECT_DATA = 0x90000224;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_EMPTY = 0x90000225;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_NON_COMPLIANT = 0x90000226;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_CRITICAL = 0x90000228;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_EMPTY = 0x90000229;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_INCORRECT = 0x9000022A;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_NON_COMPLIANT = 0x9000022B;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_MISSED = 0x9000022C;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_INCORRECT_DATA = 0x9000022D;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_EMPTY = 0x9000022E;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_NON_COMPLIANT = 0x9000022F;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_CRITICAL = 0x90000231;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_EMPTY = 0x90000232;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_INCORRECT = 0x90000233;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_NON_COMPLIANT = 0x90000234;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_MISSED = 0x90000235;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_INCORRECT_DATA = 0x90000236;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_VERSION = 0x90000237;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_DOC_TYPES = 0x90000238;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_DOC_TYPES_EMPTY = 0x90000239;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_INCORRECT_DATA = 0x9000023A;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_EMPTY = 0x9000023B;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_POLICY_ID_MISSED = 0x9000023C;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_MISSED = 0x9000023D;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_INCORRECT_DATA = 0x9000023E;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_EMPTY = 0x9000023F;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_POINT_MISSED = 0x90000240;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_AUTH_KEY_ID_INCORRECT_DATA =
+      0x9000021C;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_AUTH_KEY_ID_KEY_ID_MISSED =
+      0x9000021D;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_KEY_ID_MISSED =
+      0x9000021E;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_KEY_ID_INCORRECT_DATA =
+      0x9000021F;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_MISSED =
+      0x90000220;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_INCORRECT_DATA =
+      0x90000221;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_PRIVATE_KEY_UP_EMPTY =
+      0x90000222;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_MISSED =
+      0x90000223;
+  static const int
+      NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_INCORRECT_DATA = 0x90000224;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_EMPTY =
+      0x90000225;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_NON_COMPLIANT =
+      0x90000226;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_CRITICAL =
+      0x90000228;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_EMPTY =
+      0x90000229;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_INCORRECT =
+      0x9000022A;
+  static const int
+      NTF_LDS_ICAO_CERTIFICATE_EXT_SUBJECT_ALT_NAME_DN_NON_COMPLIANT =
+      0x9000022B;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_MISSED =
+      0x9000022C;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_INCORRECT_DATA =
+      0x9000022D;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_EMPTY =
+      0x9000022E;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_NON_COMPLIANT =
+      0x9000022F;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_CRITICAL =
+      0x90000231;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_EMPTY =
+      0x90000232;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_INCORRECT =
+      0x90000233;
+  static const int
+      NTF_LDS_ICAO_CERTIFICATE_EXT_ISSUER_ALT_NAME_DN_NON_COMPLIANT =
+      0x90000234;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_MISSED =
+      0x90000235;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_INCORRECT_DATA =
+      0x90000236;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_VERSION =
+      0x90000237;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_DOC_TYPES =
+      0x90000238;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_DOC_TYPES_EMPTY =
+      0x90000239;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_INCORRECT_DATA =
+      0x9000023A;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_EMPTY =
+      0x9000023B;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CERT_POLICIES_POLICY_ID_MISSED =
+      0x9000023C;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_MISSED =
+      0x9000023D;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_INCORRECT_DATA =
+      0x9000023E;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_EMPTY =
+      0x9000023F;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CRL_DIST_POINT_POINT_MISSED =
+      0x90000240;
   static const int NTF_LDS_ICAO_CERTIFICATE_SN_NON_COMPLIANT = 0x90000241;
-  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_SN_NON_COMPLIANT = 0x90000242;
-  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_SN_NON_COMPLIANT = 0x90000243;
-  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_ATTRIBUTE_NON_COMPLIANT = 0x90000244;
-  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_ATTRIBUTE_NON_COMPLIANT = 0x90000245;
-  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_SUBJECT_COUNTRY_NON_MATCHING = 0x90000246;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CSCA_ALT_NAMES_NON_MATCHING = 0x90000247;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_INCORRECT_DATA = 0x90000248;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_NON_COMPLIANT = 0x90000249;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_CRITICAL = 0x9000024A;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_NON_COMPLIANT = 0x9000024B;
-  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_CRITICAL = 0x9000024C;
+  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_SN_NON_COMPLIANT =
+      0x90000242;
+  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_SN_NON_COMPLIANT =
+      0x90000243;
+  static const int NTF_LDS_ICAO_CERTIFICATE_ISSUER_ATTRIBUTE_NON_COMPLIANT =
+      0x90000244;
+  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_ATTRIBUTE_NON_COMPLIANT =
+      0x90000245;
+  static const int
+      NTF_LDS_ICAO_CERTIFICATE_ISSUER_SUBJECT_COUNTRY_NON_MATCHING = 0x90000246;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_CSCA_ALT_NAMES_NON_MATCHING =
+      0x90000247;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_INCORRECT_DATA =
+      0x90000248;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_NON_COMPLIANT =
+      0x90000249;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_NAME_CHANGE_CRITICAL =
+      0x9000024A;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_NON_COMPLIANT =
+      0x9000024B;
+  static const int NTF_LDS_ICAO_CERTIFICATE_EXT_DOC_TYPE_LIST_CRITICAL =
+      0x9000024C;
   static const int NTF_LDS_ICAO_CERTIFICATE_EXT_OPTIONAL_CRITICAL = 0x9000024D;
   static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_NON_COMPLIANT = 0x9000024E;
-  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COMMON_NAME_NON_COMPLIANT = 0x9000024F;
+  static const int NTF_LDS_ICAO_CERTIFICATE_SUBJECT_COMMON_NAME_NON_COMPLIANT =
+      0x9000024F;
   static const int NTF_LDS_ICAO_COM_LDS_VERSION_INCORRECT = 0x90000020;
   static const int NTF_LDS_ICAO_COM_LDS_VERSION_MISSING = 0x90000021;
   static const int NTF_LDS_ICAO_COM_UNICODE_VERSION_INCORRECT = 0x90000022;
@@ -3501,17 +3734,24 @@ class ELDSParsingNotificationCodes {
   static const int NTF_LDS_ICAO_COM_DGPM_INCORRECT = 0x90000024;
   static const int NTF_LDS_ICAO_COM_DGPM_MISSING = 0x90000025;
   static const int NTF_LDS_ICAO_COM_DGPM_UNEXPECTED = 0x90000026;
-  static const int NTF_LDS_ICAO_APPLICATION_LDS_VERSION_UNSUPPORTED = 0x90000030;
-  static const int NTF_LDS_ICAO_APPLICATION_UNICODE_VERSION_UNSUPPORTED = 0x90000031;
-  static const int NTF_LDS_ICAO_APPLICATION_LDS_VERSION_INCONSISTENT = 0x90000032;
-  static const int NTF_LDS_ICAO_APPLICATION_UNICODE_VERSION_INCONSISTENT = 0x90000033;
+  static const int NTF_LDS_ICAO_APPLICATION_LDS_VERSION_UNSUPPORTED =
+      0x90000030;
+  static const int NTF_LDS_ICAO_APPLICATION_UNICODE_VERSION_UNSUPPORTED =
+      0x90000031;
+  static const int NTF_LDS_ICAO_APPLICATION_LDS_VERSION_INCONSISTENT =
+      0x90000032;
+  static const int NTF_LDS_ICAO_APPLICATION_UNICODE_VERSION_INCONSISTENT =
+      0x90000033;
   static const int NTF_LDS_ASN_SIGNED_DATA_OID_INCORRECT = 0x90000100;
   static const int NTF_LDS_ASN_SIGNED_DATA_VERSION_INCORRECT = 0x900001A0;
   static const int NTF_LDS_ASN_SIGNED_DATA_CONTENT_OID_INCORRECT = 0x900001A1;
   static const int NTF_LDS_ICAO_SIGNED_DATA_VERSION_INCORRECT = 0x90000101;
-  static const int NTF_LDS_ICAO_SIGNED_DATA_DIGEST_ALGORITHMS_EMPTY = 0x90000102;
-  static const int NTF_LDS_ICAO_SIGNED_DATA_DIGEST_ALGORITHMS_UNSUPPORTED = 0x90000103;
-  static const int NTF_LDS_ICAO_SIGNED_DATA_SIGNER_INFOS_MULTIPLE_ENTRIES = 0x90000109;
+  static const int NTF_LDS_ICAO_SIGNED_DATA_DIGEST_ALGORITHMS_EMPTY =
+      0x90000102;
+  static const int NTF_LDS_ICAO_SIGNED_DATA_DIGEST_ALGORITHMS_UNSUPPORTED =
+      0x90000103;
+  static const int NTF_LDS_ICAO_SIGNED_DATA_SIGNER_INFOS_MULTIPLE_ENTRIES =
+      0x90000109;
   static const int NTF_LDS_ICAO_SIGNED_DATA_CERTIFICATES_MISSED = 0x900001B0;
   static const int NTF_LDS_ICAO_SIGNED_DATA_CERTIFICATES_EMPTY = 0x900001B1;
   static const int NTF_LDS_ICAO_SIGNED_DATA_CRLS_INCORRECT_USAGE = 0x900001B2;
@@ -3526,23 +3766,35 @@ class ELDSParsingNotificationCodes {
   static const int NTF_LDS_BSI_BLACK_LIST_VERSION_INCORRECT = 0x900001D8;
   static const int NTF_LDS_ASN_SIGNER_INFO_VERSION_INCORRECT = 0x9000010A;
   static const int NTF_LDS_ASN_SIGNER_INFO_SID_INCORRECT_CHOICE = 0x9000010B;
-  static const int NTF_LDS_ASN_SIGNER_INFO_SID_DIGEST_ALGORITHM_NOT_LISTED = 0x9000010C;
-  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_MISSING = 0x9000010D;
-  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_DATA = 0x9000010E;
-  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_Value = 0x9000010F;
-  static const int NTF_LDS_ASN_SIGNER_INFO_CONTENT_TYPE_ATTR_MISSING = 0x90000110;
+  static const int NTF_LDS_ASN_SIGNER_INFO_SID_DIGEST_ALGORITHM_NOT_LISTED =
+      0x9000010C;
+  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_MISSING =
+      0x9000010D;
+  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_DATA =
+      0x9000010E;
+  static const int NTF_LDS_ASN_SIGNER_INFO_MESSAGE_DIGEST_ATTR_Value =
+      0x9000010F;
+  static const int NTF_LDS_ASN_SIGNER_INFO_CONTENT_TYPE_ATTR_MISSING =
+      0x90000110;
   static const int NTF_LDS_ASN_SIGNER_INFO_CONTENT_TYPE_ATTR_DATA = 0x90000111;
   static const int NTF_LDS_ASN_SIGNER_INFO_CONTENT_TYPE_ATTR_VALUE = 0x90000112;
-  static const int NTF_LDS_ASN_SIGNER_INFO_SIGNING_TIME_ATTR_MISSING = 0x9000011B;
+  static const int NTF_LDS_ASN_SIGNER_INFO_SIGNING_TIME_ATTR_MISSING =
+      0x9000011B;
   static const int NTF_LDS_ASN_SIGNER_INFO_SIGNING_TIME_ATTR_DATA = 0x9000011C;
   static const int NTF_LDS_ASN_SIGNER_INFO_SIGNING_TIME_ATTR_VALUE = 0x9000011D;
-  static const int NTF_LDS_ASN_SIGNER_INFO_LIST_CONTENT_DESCRIPTION_ATTR_MISSING = 0x9000011E;
-  static const int NTF_LDS_ASN_SIGNER_INFO_LIST_CONTENT_DESCRIPTION_ATTR_DATA = 0x9000011F;
+  static const int
+      NTF_LDS_ASN_SIGNER_INFO_LIST_CONTENT_DESCRIPTION_ATTR_MISSING =
+      0x9000011E;
+  static const int NTF_LDS_ASN_SIGNER_INFO_LIST_CONTENT_DESCRIPTION_ATTR_DATA =
+      0x9000011F;
   static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_VALIDITY = 0x90000115;
-  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_ROOT_IS_NOT_TRUSTED = 0x90000116;
-  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_CANT_FIND_CSCA = 0x90000117;
+  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_ROOT_IS_NOT_TRUSTED =
+      0x90000116;
+  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_CANT_FIND_CSCA =
+      0x90000117;
   static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_REVOKED = 0x90000118;
-  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_SIGNATURE_INVALID = 0x90000119;
+  static const int NTF_LDS_AUTH_SIGNER_INFO_CERTIFICATE_SIGNATURE_INVALID =
+      0x90000119;
   static const int NTF_LDS_UNSUPPORTED_IMAGE_FORMAT = 0x9000011A;
   static const int NTF_LDS_MRZ_DOCUMENT_TYPE_UNKNOWN = 0x00022008;
   static const int NTF_LDS_MRZ_ISSUING_STATE_SYNTAX_ERROR = 0x00022009;
@@ -3584,45 +3836,67 @@ class ELDSParsingNotificationCodes {
   static const int NTF_LDS_SI_PACE_INFO_UNSUPPORTED_STD_PARAMETERS = 0x91000000;
   static const int NTF_LDS_SI_PACE_INFO_DEPRECATED_VERSION = 0x91000001;
   static const int NTF_LDS_SI_PACE_DOMAIN_PARAMS_USING_STD_REF = 0x91000002;
-  static const int NTF_LDS_SI_PACE_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM = 0x91000003;
+  static const int NTF_LDS_SI_PACE_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM =
+      0x91000003;
   static const int NTF_LDS_SI_CA_INFO_INCORRECT_VERSION = 0x91000004;
   static const int NTF_LDS_SI_CA_PUBLIC_KEY_UNSUPPORTED_ALGORITHM = 0x91000005;
-  static const int NTF_LDS_SI_CA_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM = 0x91000006;
+  static const int NTF_LDS_SI_CA_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM =
+      0x91000006;
   static const int NTF_LDS_SI_TA_INFO_INCORRECT_VERSION = 0x91000007;
   static const int NTF_LDS_SI_TA_INFO_FILE_ID_FOR_VERSION2 = 0x91000008;
-  static const int NTF_LDS_SI_EID_SECURITY_UNSUPPORTED_DIGEST_ALGORITHM = 0x91000009;
+  static const int NTF_LDS_SI_EID_SECURITY_UNSUPPORTED_DIGEST_ALGORITHM =
+      0x91000009;
   static const int NTF_LDS_SI_RI_INFO_INCORRECT_VERSION = 0x9100000A;
-  static const int NTF_LDS_SI_RI_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM = 0x9100000B;
+  static const int NTF_LDS_SI_RI_DOMAIN_PARAMS_UNSUPPORTED_ALGORITHM =
+      0x9100000B;
   static const int NTF_LDS_SI_AA_INFO_INCORRECT_VERSION = 0x9100000C;
   static const int NTF_LDS_SI_AA_INFO_UNSUPPORTED_ALGORITHM = 0x9100000D;
-  static const int NTF_LDS_SI_AA_INFO_INCONSISTENT_ALGORITHM_REFERENCE = 0x9100000E;
+  static const int NTF_LDS_SI_AA_INFO_INCONSISTENT_ALGORITHM_REFERENCE =
+      0x9100000E;
   static const int NTF_LDS_SI_STORAGE_PACE_INFO_NOT_AVAILABLE = 0x91000100;
   static const int NTF_LDS_SI_STORAGE_PACE_INFO_NO_STD_PARAMETERS = 0x91000101;
-  static const int NTF_LDS_SI_STORAGE_PACE_INFO_NO_MATCHING_DOMAIN_PARAMS = 0x91000102;
+  static const int NTF_LDS_SI_STORAGE_PACE_INFO_NO_MATCHING_DOMAIN_PARAMS =
+      0x91000102;
   static const int NTF_LDS_SI_STORAGE_CA_INFO_NOT_AVAILABLE = 0x91000103;
-  static const int NTF_LDS_SI_STORAGE_CA_DOMAIN_PARAMS_NO_REQUIRED_OPTION = 0x91000104;
-  static const int NTF_LDS_SI_STORAGE_CA_DOMAIN_PARAMS_NOT_AVAILABLE = 0x91000105;
+  static const int NTF_LDS_SI_STORAGE_CA_DOMAIN_PARAMS_NO_REQUIRED_OPTION =
+      0x91000104;
+  static const int NTF_LDS_SI_STORAGE_CA_DOMAIN_PARAMS_NOT_AVAILABLE =
+      0x91000105;
   static const int NTF_LDS_SI_STORAGE_CA_ANONYMOUS_INFOS = 0x91000106;
-  static const int NTF_LDS_SI_STORAGE_CA_INFO_NO_MATCHING_DOMAIN_PARAMS = 0x91000107;
-  static const int NTF_LDS_SI_STORAGE_CA_INFO_NO_MATCHING_PUBLIC_KEY = 0x91000108;
+  static const int NTF_LDS_SI_STORAGE_CA_INFO_NO_MATCHING_DOMAIN_PARAMS =
+      0x91000107;
+  static const int NTF_LDS_SI_STORAGE_CA_INFO_NO_MATCHING_PUBLIC_KEY =
+      0x91000108;
   static const int NTF_LDS_SI_STORAGE_CA_INCORRECT_INFOS_QUANTITY = 0x91000109;
   static const int NTF_LDS_SI_STORAGE_TA_INFO_NOT_AVAILABLE = 0x9100010A;
-  static const int NTF_LDS_SI_STORAGE_CARD_INFO_LOCATOR_MULTIPLE_ENTRIES = 0x9100010B;
-  static const int NTF_LDS_SI_STORAGE_EID_SECURITY_INFO_MULTIPLE_ENTRIES = 0x9100010C;
-  static const int NTF_LDS_SI_STORAGE_PRIVILEGED_TI_MULTIPLE_ENTRIES = 0x9100010D;
-  static const int NTF_LDS_SI_STORAGE_PRIVILEGED_TI_INCORRECT_USAGE = 0x9100010E;
-  static const int NTF_LDS_SI_STORAGE_RI_DOMAIN_PARAMS_MULTIPLE_ENTRIES = 0x9100010F;
+  static const int NTF_LDS_SI_STORAGE_CARD_INFO_LOCATOR_MULTIPLE_ENTRIES =
+      0x9100010B;
+  static const int NTF_LDS_SI_STORAGE_EID_SECURITY_INFO_MULTIPLE_ENTRIES =
+      0x9100010C;
+  static const int NTF_LDS_SI_STORAGE_PRIVILEGED_TI_MULTIPLE_ENTRIES =
+      0x9100010D;
+  static const int NTF_LDS_SI_STORAGE_PRIVILEGED_TI_INCORRECT_USAGE =
+      0x9100010E;
+  static const int NTF_LDS_SI_STORAGE_RI_DOMAIN_PARAMS_MULTIPLE_ENTRIES =
+      0x9100010F;
   static const int NTF_LDS_SI_STORAGE_PACE_INFOS_NON_CONSISTANT = 0x91000110;
-  static const int NTF_LDS_CV_CERTIFICATE_PROFILE_INCORRECT_VERSION = 0x91000201;
+  static const int NTF_LDS_CV_CERTIFICATE_PROFILE_INCORRECT_VERSION =
+      0x91000201;
   static const int NTF_LDS_CV_CERTIFICATE_VALIDITY = 0x91000202;
-  static const int NTF_LDS_CV_CERTIFICATE_NON_CV_CA_DOMAIN_PARAMETERS = 0x91000203;
-  static const int NTF_LDS_CV_CERTIFICATE_PRIVATE_KEY_INCORRECT_VERSION = 0x91000204;
+  static const int NTF_LDS_CV_CERTIFICATE_NON_CV_CA_DOMAIN_PARAMETERS =
+      0x91000203;
+  static const int NTF_LDS_CV_CERTIFICATE_PRIVATE_KEY_INCORRECT_VERSION =
+      0x91000204;
   static const int NTF_LDS_TA_PACE_STATIC_BINDING_USED = 0x91000300;
-  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_VALIDITY = 0x92000115;
-  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_ROOT_IS_NOT_TRUSTED = 0x92000116;
-  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_CANT_FIND_CSCA = 0x92000117;
+  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_VALIDITY =
+      0x92000115;
+  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_ROOT_IS_NOT_TRUSTED =
+      0x92000116;
+  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_CANT_FIND_CSCA =
+      0x92000117;
   static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_REVOKED = 0x92000118;
-  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_SIGNATURE_INVALID = 0x92000119;
+  static const int NTF_LDS_AUTH_ML_SIGNER_INFO_CERTIFICATE_SIGNATURE_INVALID =
+      0x92000119;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -4133,7 +4407,8 @@ class ERPRMSecurityFeatureType {
   static const int SECURITY_FEATURE_TYPE_BARCODE = 17;
   static const int SECURITY_FEATURE_TYPE_PATTERN_DIFFERENT_LINES_THICKNESS = 18;
   static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_VS_CAMERA = 19;
-  static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_RFID_VS_CAMERA = 20;
+  static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_RFID_VS_CAMERA =
+      20;
   static const int SECURITY_FEATURE_TYPE_GHOST_PHOTO = 21;
   static const int SECURITY_FEATURE_TYPE_CLEAR_GHOST_PHOTO = 22;
   static const int SECURITY_FEATURE_TYPE_INVISIBLE_OBJECT = 23;
@@ -7146,10 +7421,27 @@ class UIViewContentMode {
 }
 
 class DocumentReader {
-  static const MethodChannel _channel = const MethodChannel('flutter_document_reader_api/method');
+  static const MethodChannel _channel =
+      const MethodChannel('flutter_document_reader_api/method');
 
   static Future<dynamic> initializeReaderAutomatically() async {
     return await _channel.invokeMethod("initializeReaderAutomatically", []);
+  }
+
+  static Future<dynamic> isBlePermissionsGranted() async {
+    return await _channel.invokeMethod("isBlePermissionsGranted", []);
+  }
+
+  static Future<dynamic> startBluetoothService() async {
+    return await _channel.invokeMethod("startBluetoothService", []);
+  }
+
+  static Future<dynamic> initializeReaderBleDeviceConfig() async {
+    return await _channel.invokeMethod("initializeReaderBleDeviceConfig", []);
+  }
+
+  static Future<dynamic> getTag() async {
+    return await _channel.invokeMethod("getTag", []);
   }
 
   static Future<dynamic> getAPIVersion() async {
@@ -7233,7 +7525,8 @@ class DocumentReader {
   }
 
   static Future<dynamic> stopRFIDReaderWithErrorMessage(message) async {
-    return await _channel.invokeMethod("stopRFIDReaderWithErrorMessage", [message]);
+    return await _channel
+        .invokeMethod("stopRFIDReaderWithErrorMessage", [message]);
   }
 
   static Future<dynamic> stopScanner() async {
@@ -7312,6 +7605,14 @@ class DocumentReader {
     return await _channel.invokeMethod("setCameraSessionIsPaused", [paused]);
   }
 
+  static Future<dynamic> setTag(tag) async {
+    return await _channel.invokeMethod("setTag", [tag]);
+  }
+
+  static Future<dynamic> checkDatabaseUpdate(databaseId) async {
+    return await _channel.invokeMethod("checkDatabaseUpdate", [databaseId]);
+  }
+
   static Future<dynamic> getScenario(scenario) async {
     return await _channel.invokeMethod("getScenario", [scenario]);
   }
@@ -7377,22 +7678,28 @@ class DocumentReader {
   }
 
   static Future<dynamic> recognizeImageWithOpts(image, options) async {
-    return await _channel.invokeMethod("recognizeImageWithOpts", [image, options]);
+    return await _channel
+        .invokeMethod("recognizeImageWithOpts", [image, options]);
   }
 
   static Future<dynamic> recognizeVideoFrame(byteString, params) async {
-    return await _channel.invokeMethod("recognizeVideoFrame", [byteString, params]);
+    return await _channel
+        .invokeMethod("recognizeVideoFrame", [byteString, params]);
   }
 
-  static Future<dynamic> showScannerWithCameraIDAndOpts(cameraID, options) async {
-    return await _channel.invokeMethod("showScannerWithCameraIDAndOpts", [cameraID, options]);
+  static Future<dynamic> showScannerWithCameraIDAndOpts(
+      cameraID, options) async {
+    return await _channel
+        .invokeMethod("showScannerWithCameraIDAndOpts", [cameraID, options]);
   }
 
   static Future<dynamic> recognizeImageWithCameraMode(image, mode) async {
-    return await _channel.invokeMethod("recognizeImageWithCameraMode", [image, mode]);
+    return await _channel
+        .invokeMethod("recognizeImageWithCameraMode", [image, mode]);
   }
 
   static Future<dynamic> recognizeImagesWithImageInputs(images) async {
-    return await _channel.invokeMethod("recognizeImagesWithImageInputs", [images]);
+    return await _channel
+        .invokeMethod("recognizeImagesWithImageInputs", [images]);
   }
 }

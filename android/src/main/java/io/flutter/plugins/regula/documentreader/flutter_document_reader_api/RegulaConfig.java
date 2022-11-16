@@ -13,6 +13,7 @@ import com.regula.documentreader.api.params.ProcessParam;
 import com.regula.documentreader.api.params.rfid.ReprocParams;
 import com.regula.documentreader.api.params.rfid.dg.DataGroups;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.text.SpannableString;
@@ -43,6 +44,7 @@ class RegulaConfig {
         return object;
     }
 
+    @SuppressLint("MissingPermission")
     private static void setFunctionality(Functionality functionality, JSONObject opts) throws JSONException {
         Functionality.FunctionalityEditor editor = functionality.edit();
         if (opts.has("pictureOnBoundsReady"))
@@ -213,6 +215,18 @@ class RegulaConfig {
             processParams.parseBarcodes = opts.getBoolean("parseBarcodes");
         if (opts.has("shouldReturnPackageForReprocess"))
             processParams.shouldReturnPackageForReprocess = opts.getBoolean("shouldReturnPackageForReprocess");
+        if (opts.has("imageOutputMaxHeight"))
+            processParams.imageOutputMaxHeight = opts.getInt("imageOutputMaxHeight");
+        if (opts.has("imageOutputMaxWidth"))
+            processParams.imageOutputMaxWidth = opts.getInt("imageOutputMaxWidth");
+        if (opts.has("disablePerforationOCR"))
+            processParams.disablePerforationOCR = opts.getBoolean("disablePerforationOCR");
+        if (opts.has("documentGroupFilter"))
+            processParams.documentGroupFilter = intArrayFromJson(opts.getJSONArray("documentGroupFilter"));
+        if (opts.has("respectImageQuality"))
+            processParams.respectImageQuality = opts.getBoolean("respectImageQuality");
+        if (opts.has("splitNames"))
+            processParams.splitNames = opts.getBoolean("splitNames");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -485,7 +499,7 @@ class RegulaConfig {
         object.put("matchTextFieldMask", processParams.matchTextFieldMask);
         object.put("fastDocDetect", processParams.fastDocDetect);
         object.put("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare);
-        object.put("imageQA", processParams.imageQA != null ? processParams.imageQA.toJsonObject() : null);
+        object.put("imageQA", processParams.imageQA.toJsonObject());
         object.put("forceDocFormat", processParams.forceDocFormat);
         object.put("noGraphics", processParams.noGraphics);
         object.put("documentAreaMin", processParams.documentAreaMin);
@@ -496,6 +510,12 @@ class RegulaConfig {
         object.put("forceReadMrzBeforeLocate", processParams.forceReadMrzBeforeLocate);
         object.put("parseBarcodes", processParams.parseBarcodes);
         object.put("shouldReturnPackageForReprocess", processParams.shouldReturnPackageForReprocess);
+        object.put("imageOutputMaxHeight", processParams.imageOutputMaxHeight);
+        object.put("imageOutputMaxWidth", processParams.imageOutputMaxWidth);
+        object.put("disablePerforationOCR", processParams.disablePerforationOCR);
+        object.put("documentGroupFilter", generateIntArray(processParams.documentGroupFilter));
+        object.put("respectImageQuality", processParams.respectImageQuality);
+        object.put("splitNames", processParams.splitNames);
 
         return object;
     }
@@ -684,6 +704,7 @@ class RegulaConfig {
                 setProcessParams(params, input.getJSONObject("processParams"));
                 builder.setProcessParams(params);
             }
+            return builder.build();
         } catch (JSONException e) {
             e.printStackTrace();
         }

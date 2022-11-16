@@ -4,9 +4,15 @@ FlutterEventSink completionEvent;
 FlutterEventSink databaseProgressEvent;
 FlutterEventSink videoEncoderCompletionEvent;
 FlutterEventSink rfidNotificationCompletionEvent;
+
+FlutterEventSink bleOnServiceConnectedEvent;
+FlutterEventSink bleOnServiceDisconnectedEvent;
+FlutterEventSink bleOnDeviceReadyEvent;
+
 FlutterEventSink paCertificateCompletionEvent;
 FlutterEventSink taCertificateCompletionEvent;
 FlutterEventSink taSignatureCompletionEvent;
+
 RGLRFIDCertificatesCallback paCertificateCompletion;
 RGLRFIDCertificatesCallback taCertificateCompletion;
 RFIDDelegateNoPA* rfidDelegateNoPA;
@@ -93,6 +99,42 @@ RGLRFIDSignatureCallback taSignatureCompletion;
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
     taSignatureCompletionEvent = nil;
+  return nil;
+}
+@end
+
+@implementation BleOnServiceConnectedStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    bleOnServiceConnectedEvent = eventSink;
+  return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    bleOnServiceConnectedEvent = nil;
+  return nil;
+}
+@end
+
+@implementation BleOnServiceDisconnectedStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    bleOnServiceDisconnectedEvent = eventSink;
+  return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    bleOnServiceDisconnectedEvent = nil;
+  return nil;
+}
+@end
+
+@implementation BleOnDeviceReadyStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    bleOnDeviceReadyEvent = eventSink;
+  return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    bleOnDeviceReadyEvent = nil;
   return nil;
 }
 @end
@@ -213,9 +255,14 @@ typedef void (^Callback)(NSString* response);
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/video_encoder_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[VideoEncoderCompletionStreamHandler new]];
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/database_progress" binaryMessenger:[registrar messenger]] setStreamHandler:[DatabaseProgressStreamHandler new]];
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/rfid_notification_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RFIDNotificationCompletionStreamHandler new]];
+
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/pa_certificate_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[PACertificateCompletionStreamHandler new]];
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/ta_certificate_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[TACertificateCompletionStreamHandler new]];
     [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/ta_signature_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[TASignatureCompletionStreamHandler new]];
+
+    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnServiceConnectedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[BleOnServiceConnectedStreamHandler new]];
+    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnServiceDisconnectedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[BleOnServiceDisconnectedStreamHandler new]];
+    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnDeviceReadyEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[BleOnDeviceReadyStreamHandler new]];
 
     FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"flutter_document_reader_api/method" binaryMessenger:[registrar messenger]];
     [FlutterDocumentReaderApiPlugin setChannel:channel];
@@ -236,6 +283,14 @@ typedef void (^Callback)(NSString* response);
 
     if([action isEqualToString:@"initializeReaderAutomatically"])
         [self initializeReaderAutomatically :successCallback :errorCallback];
+    else if([action isEqualToString:@"isBlePermissionsGranted"])
+        [self isBlePermissionsGranted :successCallback :errorCallback];
+    else if([action isEqualToString:@"startBluetoothService"])
+        [self startBluetoothService :successCallback :errorCallback];
+    else if([action isEqualToString:@"initializeReaderBleDeviceConfig"])
+        [self initializeReaderBleDeviceConfig :successCallback :errorCallback];
+    else if([action isEqualToString:@"getTag"])
+        [self getTag :successCallback :errorCallback];
     else if([action isEqualToString:@"getAPIVersion"])
         [self getAPIVersion :successCallback :errorCallback];
     else if([action isEqualToString:@"getAvailableScenarios"])
@@ -316,6 +371,10 @@ typedef void (^Callback)(NSString* response);
         [self addPKDCertificates :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"setCameraSessionIsPaused"])
         [self setCameraSessionIsPaused :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"setTag"])
+        [self setTag :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"checkDatabaseUpdate"])
+        [self checkDatabaseUpdate :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"getScenario"])
         [self getScenario :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImages"])
@@ -366,6 +425,18 @@ typedef void (^Callback)(NSString* response);
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"regula.license" ofType:nil];
     NSData *licenseData = [NSData dataWithContentsOfFile:dataPath];
     [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:licenseData] completion:[self getInitCompletion :successCallback :errorCallback]];
+}
+
+- (void) isBlePermissionsGranted:(Callback)successCallback :(Callback)errorCallback{
+    [self result:@"isBlePermissionsGranted() is an android-only method" :errorCallback];
+}
+
+- (void) startBluetoothService:(Callback)successCallback :(Callback)errorCallback{
+    [self result:@"startBluetoothService() is an android-only method" :errorCallback];
+}
+
+- (void) initializeReaderBleDeviceConfig:(Callback)successCallback :(Callback)errorCallback{
+    [self result:@"initializeReaderBleDeviceConfig() is an android-only method" :errorCallback];
 }
 
 - (void) resetConfiguration:(Callback)successCallback :(Callback)errorCallback{
@@ -439,11 +510,11 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) showScanner:(Callback)successCallback :(Callback)errorCallback{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-            UIViewController *currentViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-            [RGLDocReader.shared showScanner:currentViewController completion:[self getCompletion]];
-        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        UIViewController *currentViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+        [RGLDocReader.shared showScanner:currentViewController completion:[self getCompletion]];
+    });
 }
 
 - (void) recognizeImage:(NSMutableString*)base64 :(Callback)successCallback :(Callback)errorCallback{
@@ -455,21 +526,22 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) recognizeImages:(NSArray*)input :(Callback)successCallback :(Callback)errorCallback{
-        NSMutableArray<UIImage*>* images = [[NSMutableArray alloc] init];
-        for(__strong NSMutableString* base64 in input)
-            [images addObject:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [RGLDocReader.shared recognizeImages:images completion:[self getCompletion]];
-        });
+    NSMutableArray<UIImage*>* images = [[NSMutableArray alloc] init];
+    for(__strong NSMutableString* base64 in input)
+        [images addObject:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RGLDocReader.shared recognizeImages:images completion:[self getCompletion]];
+    });
+
 }
 
 - (void) recognizeImagesWithImageInputs:(NSArray*)input :(Callback)successCallback :(Callback)errorCallback{
-        NSMutableArray<RGLImageInput*>* images = [[NSMutableArray alloc] init];
-        for(__strong NSDictionary* image in input)
-            [images addObject:[RGLWJSONConstructor RGLImageInputFromJson: image]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [RGLDocReader.shared recognizeImagesWithImageInputs:images completion:[self getCompletion]];
-        });
+    NSMutableArray<RGLImageInput*>* images = [[NSMutableArray alloc] init];
+    for(__strong NSDictionary* image in input)
+        [images addObject:[RGLWJSONConstructor RGLImageInputFromJson: image]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RGLDocReader.shared recognizeImagesWithImageInputs:images completion:[self getCompletion]];
+    });
 }
 
 - (void) recognizeImageWithCameraMode:(NSMutableString*)base64 :(BOOL)cameraMode :(Callback)successCallback :(Callback)errorCallback{
@@ -477,31 +549,44 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) recognizeImageWith:(NSMutableString*)base64 :(BOOL)cameraMode :(Callback)successCallback :(Callback)errorCallback{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [RGLDocReader.shared recognizeImage:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]] cameraMode:cameraMode completion:[self getCompletion]];
-        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RGLDocReader.shared recognizeImage:[UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:base64 options:NSDataBase64DecodingIgnoreUnknownCharacters]] cameraMode:cameraMode completion:[self getCompletion]];
+    });
 }
 
 - (void) setConfig:(NSDictionary*)config :(Callback)successCallback :(Callback)errorCallback{
-        [RegulaConfig setConfig:config :RGLDocReader.shared];
-        [self result:@"" :successCallback];
+    [RegulaConfig setConfig:config :RGLDocReader.shared];
+    [self result:@"" :successCallback];
 }
 
 - (void) getConfig:(Callback)successCallback :(Callback)errorCallback{
     [self result:[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[RegulaConfig getConfig:RGLDocReader.shared] options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] :successCallback];
 }
 
+- (void) checkDatabaseUpdate:(NSString*)databaseId :(Callback)successCallback :(Callback)errorCallback{
+    [RGLDocReader.shared checkDatabaseUpdate:databaseId completion:[self getCheckDatabaseUpdateCompletion: successCallback: errorCallback]];
+}
+
+- (void) getTag:(Callback)successCallback :(Callback)errorCallback{
+    [self result:[RGLDocReader.shared tag] :successCallback];
+}
+
+- (void) setTag:(NSString*)tag :(Callback)successCallback :(Callback)errorCallback{
+    [RGLDocReader.shared setTag:tag];
+    [self result:@"" :successCallback];
+}
+
 - (void) setRfidScenario:(NSDictionary*)rfidScenario :(Callback)successCallback :(Callback)errorCallback{
-        [RegulaConfig setRfidScenario:rfidScenario  :RGLDocReader.shared.rfidScenario];
-        [self result:@"" :successCallback];
+    [RegulaConfig setRfidScenario:rfidScenario  :RGLDocReader.shared.rfidScenario];
+    [self result:@"" :successCallback];
 }
 
 - (void) getRfidScenario:(Callback)successCallback :(Callback)errorCallback{
-        [self result:[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:RGLDocReader.shared.rfidScenario.rfidScenarioDictionary options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] :successCallback];
+    [self result:[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:RGLDocReader.shared.rfidScenario.rfidScenarioDictionary options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] :successCallback];
 }
 
 - (void) readRFID:(Callback)successCallback :(Callback)errorCallback{
-        [RGLDocReader.shared readRFID:[self getRFIDNotificationCallback] completion:[self getRFIDCompletion]];
+    [RGLDocReader.shared readRFID:[self getRFIDNotificationCallback] completion:[self getRFIDCompletion]];
 }
 
 - (void) stopRFIDReader:(Callback)successCallback :(Callback)errorCallback{
@@ -747,6 +832,12 @@ typedef void (^Callback)(NSString* response);
             [self result:@"success" :successCallback];
         else
             [self result:[NSString stringWithFormat:@"%@/%@", @"failed: ", error.description] :errorCallback];
+    };
+}
+
+-(RGLDocumentReaderCheckUpdateCompletion)getCheckDatabaseUpdateCompletion:(Callback)successCallback :(Callback)errorCallback{
+    return  ^(RGLDocReaderDocumentsDatabase* database) {
+        [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocReaderDocumentsDatabase:database]] :successCallback];
     };
 }
 

@@ -31,13 +31,12 @@ class Helpers {
         return result;
     }
 
-    static BitmapDrawable drawableFromBase64(String base64, Context context)
-    {
+    static BitmapDrawable drawableFromBase64(String base64, Context context) {
         byte[] decodedByte = Base64.decode(base64, 0);
-        Bitmap bitmap =  BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
         float density = context.getResources().getDisplayMetrics().density;
-        int width = (int)(bitmap.getWidth()*density);
-        int height = (int)(bitmap.getHeight()*density);
+        int width = (int) (bitmap.getWidth() * density);
+        int height = (int) (bitmap.getHeight() * density);
         return new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, width, height, false));
     }
 

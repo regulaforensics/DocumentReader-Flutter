@@ -11,15 +11,16 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Bundle;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 
+import com.regula.documentreader.api.completions.ICheckDatabaseUpdate;
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
@@ -30,13 +31,14 @@ import com.regula.documentreader.api.completions.ITccParamsCompletion;
 import com.regula.documentreader.api.enums.DocReaderAction;
 import com.regula.documentreader.api.errors.DocumentReaderException;
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil;
+import com.regula.documentreader.api.internal.params.ImageInputParam;
+import com.regula.documentreader.api.internal.parser.DocReaderResultsJsonParser;
+import com.regula.documentreader.api.params.BleDeviceConfig;
 import com.regula.documentreader.api.params.DocReaderConfig;
 import com.regula.documentreader.api.params.ImageInputData;
-import com.regula.documentreader.api.internal.params.ImageInputParam;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
-import com.regula.documentreader.api.internal.parser.DocReaderResultsJsonParser;
 import com.regula.documentreader.api.results.DocumentReaderResults;
 
 import org.json.JSONArray;
@@ -66,16 +68,24 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private ArrayList<Object> args;
     private boolean backgroundRFIDEnabled = false;
     private Activity activity;
+
     private EventChannel.EventSink eventDatabaseProgress;
     private EventChannel.EventSink eventCompletion;
     private EventChannel.EventSink eventVideoEncoderCompletion;
     private EventChannel.EventSink eventIRfidNotificationCompletion;
+
     private EventChannel.EventSink eventPACertificateCompletion;
     private EventChannel.EventSink eventTACertificateCompletion;
     private EventChannel.EventSink eventTASignatureCompletion;
+
+    private EventChannel.EventSink bleOnServiceConnectedEvent;
+    private EventChannel.EventSink bleOnServiceDisconnectedEvent;
+    private EventChannel.EventSink bleOnDeviceReadyEvent;
+
     private IRfidPKDCertificateCompletion paCertificateCompletion;
     private IRfidPKDCertificateCompletion taCertificateCompletion;
     private IRfidTASignatureCompletion taSignatureCompletion;
+
     private static int databaseDownloadProgress = 0;
 
     public FlutterDocumentReaderApiPlugin() {
@@ -155,6 +165,36 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             @Override
             public void onListen(Object arguments, EventChannel.EventSink events) {
                 eventTASignatureCompletion = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/bleOnServiceConnectedEvent").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                bleOnServiceConnectedEvent = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/bleOnServiceDisconnectedEvent").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                bleOnServiceDisconnectedEvent = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/bleOnDeviceReadyEvent").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                bleOnDeviceReadyEvent = events;
             }
 
             @Override
@@ -278,6 +318,21 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             new Handler(Looper.getMainLooper()).post(() -> eventTASignatureCompletion.success(JSONConstructor.generateTAChallenge(challenge).toString()));
     }
 
+    void sendBleOnServiceConnectedEvent(boolean isBleManagerConnected) {
+        if (bleOnServiceConnectedEvent != null)
+            new Handler(Looper.getMainLooper()).post(() -> bleOnServiceConnectedEvent.success(isBleManagerConnected));
+    }
+
+    void sendBleOnServiceDisconnectedEvent() {
+        if (bleOnServiceDisconnectedEvent != null)
+            new Handler(Looper.getMainLooper()).post(() -> bleOnServiceDisconnectedEvent.success(""));
+    }
+
+    void sendBleOnDeviceReadyEvent() {
+        if (bleOnDeviceReadyEvent != null)
+            new Handler(Looper.getMainLooper()).post(() -> bleOnDeviceReadyEvent.success(""));
+    }
+
     @Override
     public void onMethodCall(MethodCall call, Result result) {
         String action = call.method;
@@ -297,6 +352,18 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             switch (action) {
                 case "initializeReaderAutomatically":
                     initializeReaderAutomatically(callback);
+                    break;
+                case "isBlePermissionsGranted":
+                    isBlePermissionsGranted(callback);
+                    break;
+                case "startBluetoothService":
+                    startBluetoothService(callback);
+                    break;
+                case "initializeReaderBleDeviceConfig":
+                    initializeReaderBleDeviceConfig(callback);
+                    break;
+                case "getTag":
+                    getTag(callback);
                     break;
                 case "getAPIVersion":
                     getAPIVersion(callback);
@@ -418,6 +485,12 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "setCameraSessionIsPaused":
                     setCameraSessionIsPaused(callback, args(0));
                     break;
+                case "setTag":
+                    setTag(callback, args(0));
+                    break;
+                case "checkDatabaseUpdate":
+                    checkDatabaseUpdate(callback, args(0));
+                    break;
                 case "getScenario":
                     getScenario(callback, args(0));
                     break;
@@ -482,7 +555,8 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                     recognizeImagesWithImageInputs(callback, args(0));
                     break;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -521,6 +595,37 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 e.printStackTrace();
                 callback.error("problem reading license(see logs)");
             }
+        else
+            callback.success("already initialized");
+    }
+
+    private void isBlePermissionsGranted(Callback callback) {
+        callback.success(BluetoothUtil.Companion.isBlePermissionsGranted(getActivity()));
+    }
+
+    private void startBluetoothService(Callback callback) {
+        BluetoothUtil.Companion.startBluetoothService(
+                getActivity(),
+                isBleManagerConnected -> {
+                    sendBleOnServiceConnectedEvent(isBleManagerConnected);
+                    return null;
+                },
+                () -> {
+                    sendBleOnServiceDisconnectedEvent();
+                    return null;
+                },
+                () -> {
+                    sendBleOnDeviceReadyEvent();
+                    return null;
+                }
+        );
+        callback.success();
+    }
+
+    private void initializeReaderBleDeviceConfig(Callback callback) {
+        if (BluetoothUtil.Companion.getBleManager() == null) callback.error("bleManager is null");
+        if (!Instance().isReady())
+            Instance().initializeReader(getContext(), new BleDeviceConfig(BluetoothUtil.Companion.getBleManager()), getInitCompletion(callback));
         else
             callback.success("already initialized");
     }
@@ -641,6 +746,20 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
+    private void getTag(Callback callback) {
+        callback.success(Instance().tag);
+    }
+
+    private void setTag(Callback callback, String tag) {
+        Instance().tag = tag;
+        callback.success();
+    }
+
+    private void checkDatabaseUpdate(Callback callback, String databaseId) {
+        Instance().checkDatabaseUpdate(getContext(), databaseId, getCheckDatabaseUpdateCompletion(callback));
+        callback.success();
+    }
+
     private void startNewPage(Callback callback) {
         Instance().startNewPage();
         callback.success();
@@ -682,7 +801,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void cancelDBUpdate(Callback callback) {
-        callback.success(Instance().cancelDBUpdate());
+        callback.success(Instance().cancelDBUpdate(getContext()));
     }
 
     private void resetConfiguration(Callback callback) {
@@ -828,7 +947,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.error("getCameraSessionIsPaused() is an ios-only method");
     }
 
-    private void stopRFIDReaderWithErrorMessage(Callback callback, String message) {
+    private void stopRFIDReaderWithErrorMessage(Callback callback, @SuppressWarnings("unused") String message) {
         callback.error("stopRFIDReaderWithErrorMessage() is an ios-only method");
     }
 
@@ -882,6 +1001,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             } else
                 callback.error("Init failed:" + error);
         };
+    }
+
+    private ICheckDatabaseUpdate getCheckDatabaseUpdateCompletion(Callback callback) {
+        return (database) -> callback.success(JSONConstructor.generateDocReaderDocumentsDatabase(database));
     }
 
     private ITccParamsCompletion getTCCParamsCompletion(Callback callback) {
