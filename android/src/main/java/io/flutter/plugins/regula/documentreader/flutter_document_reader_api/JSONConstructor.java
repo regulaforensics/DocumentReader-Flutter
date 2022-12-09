@@ -149,6 +149,14 @@ class JSONConstructor {
         return result;
     }
 
+    static int[] intArrayFromJSON(JSONArray input) throws JSONException {
+        int[] result = new int[input.length()];
+        for (int i = 0; i < input.length(); i++)
+            result[i] = input.getInt(i);
+
+        return result;
+    }
+
     static JSONArray generateByteArray(byte[] array) throws JSONException {
         JSONArray result = new JSONArray();
         if (array == null) return result;

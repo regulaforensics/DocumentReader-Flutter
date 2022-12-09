@@ -2132,7 +2132,8 @@ class DocumentReaderResults {
   DocumentReaderResultsStatus? status;
   VDSNCData? vdsncData;
 
-  String? getTextFieldValueByType(int fieldType,
+  @Deprecated('Use DocumentReader.getTextFieldValueBy...()')
+  String? getTextFieldValueByTypeOld(int fieldType,
       {int lcid = 0, int source = -1, bool original = false}) {
     if (this.textResult == null) return null;
     var field = this.findByTypeAndLcid(fieldType, lcid);
@@ -2142,13 +2143,15 @@ class DocumentReaderResults {
     return original ? value.originalValue : value.value;
   }
 
+  @Deprecated('')
   int? getTextFieldStatusByType(int fieldType, {int lcid = 0}) {
     if (this.textResult == null) return 0;
     var field = this.findByTypeAndLcid(fieldType, lcid);
     return field != null ? field.status : 0;
   }
 
-  String? getGraphicFieldImageByType(int fieldType,
+  @Deprecated('Use DocumentReader.getGraphicFieldImageBy...()')
+  String? getGraphicFieldImageByTypeOld(int fieldType,
       {int source = -1, int pageIndex = -1, int light = -1}) {
     if (this.graphicResult == null) return null;
     List<DocumentReaderGraphicField> foundFields = [];
@@ -2168,6 +2171,7 @@ class DocumentReaderResults {
     return foundFields.length > 0 ? foundFields[0].value : null;
   }
 
+  @Deprecated('')
   int? getQualityResult(int imageQualityCheckType,
       {int securityFeature = -1, int pageIndex = 0}) {
     int? resultSum = 2;
@@ -2195,6 +2199,7 @@ class DocumentReaderResults {
     return resultSum;
   }
 
+  @Deprecated('')
   DocumentReaderTextField? findByTypeAndLcid(int type, int lcid) {
     List<DocumentReaderTextField> foundFields = [];
     for (DocumentReaderTextField? field in this.textResult!.fields)
@@ -2211,6 +2216,7 @@ class DocumentReaderResults {
     return foundField;
   }
 
+  @Deprecated('')
   DocumentReaderValue? findBySource(
       DocumentReaderTextField field, int sourceType) {
     DocumentReaderValue? value;
@@ -2228,7 +2234,8 @@ class DocumentReaderResults {
     return null;
   }
 
-  String? getContainers(List<int> resultTypes) {
+  @Deprecated('Use DocumentReader.getContainers()')
+  String? getContainersOld(List<int> resultTypes) {
     try {
       if (this.rawResult == null) return null;
       Map<String, dynamic> json = jsonDecode(this.rawResult!);
@@ -2254,12 +2261,134 @@ class DocumentReaderResults {
     return null;
   }
 
-  String? getEncryptedContainers() {
-    return this.getContainers([
+  @Deprecated('Use DocumentReader.getEncryptedContainers()')
+  String? getEncryptedContainersOld() {
+    return this.getContainersOld([
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
     ]);
+  }
+
+  Future<String?> getTextFieldValueByType(int fieldType) async {
+    return await DocumentReader._channel
+        .invokeMethod("getTextFieldValueByType", [rawResult, fieldType]);
+  }
+
+  Future<String?> getTextFieldValueByTypeLcid(int fieldType, int lcid) async {
+    return await DocumentReader._channel.invokeMethod(
+        "getTextFieldValueByTypeLcid", [rawResult, fieldType, lcid]);
+  }
+
+  Future<String?> getTextFieldValueByTypeSource(
+      int fieldType, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "getTextFieldValueByTypeSource", [rawResult, fieldType, source]);
+  }
+
+  Future<String?> getTextFieldValueByTypeLcidSource(
+      int fieldType, int lcid, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "getTextFieldValueByTypeLcidSource",
+        [rawResult, fieldType, lcid, source]);
+  }
+
+  Future<String?> getTextFieldValueByTypeSourceOriginal(
+      int fieldType, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "getTextFieldValueByTypeSourceOriginal",
+        [rawResult, fieldType, source, original]);
+  }
+
+  Future<String?> getTextFieldValueByTypeLcidSourceOriginal(
+      int fieldType, int lcid, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "getTextFieldValueByTypeLcidSourceOriginal",
+        [rawResult, fieldType, lcid, source, original]);
+  }
+
+  Future<DocumentReaderTextField?> getTextFieldByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("getTextFieldByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderTextField?> getTextFieldByTypeLcid(
+      int fieldType, int lcid) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("getTextFieldByTypeLcid", [rawResult, fieldType, lcid]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSource(
+      int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<Uri?> getGraphicFieldImageByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("getGraphicFieldImageByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> getGraphicFieldImageByTypeSource(
+      int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldImageByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> getGraphicFieldImageByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldImageByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> getGraphicFieldImageByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "getGraphicFieldImageByTypeSourcePageIndexLight",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<String?> getContainers(List<int> resultType) async {
+    return await DocumentReader._channel
+        .invokeMethod("getContainers", [rawResult, resultType]);
+  }
+
+  Future<String?> getEncryptedContainers() async {
+    return await DocumentReader._channel
+        .invokeMethod("getEncryptedContainers", [rawResult]);
   }
 
   static DocumentReaderResults? fromJson(jsonObject) {

@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     setStatus("Processing image...");
     List<XFile>? files = await ImagePicker().pickMultiImage();
     List<String> result = [];
-    for (XFile file in files!)
+    for (XFile file in files)
       result.add(base64Encode(io.File(file.path).readAsBytesSync()));
     return result;
   }
@@ -199,39 +199,20 @@ class _MyAppState extends State<MyApp> {
     // addCertificates();
   }
 
-  displayResults(DocumentReaderResults results) {
+  displayResults(DocumentReaderResults results) async {
+    var name = await results
+        .getTextFieldValueByType(EVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES);
+    var doc = await results
+        .getGraphicFieldImageByType(EGraphicFieldType.GF_DOCUMENT_IMAGE);
+    var portrait =
+        await results.getGraphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT);
     setState(() {
-      _status = results.getTextFieldValueByType(
-              EVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES) ??
-          "";
+      _status = name ?? "";
       _docImage = Image.asset('assets/images/id.png');
       _portrait = Image.asset('assets/images/portrait.png');
-      if (results.getGraphicFieldImageByType(207) != null)
-        _docImage = Image.memory(Uri.parse("data:image/png;base64," +
-                results
-                    .getGraphicFieldImageByType(
-                        EGraphicFieldType.GF_DOCUMENT_IMAGE)!
-                    .replaceAll('\n', ''))
-            .data!
-            .contentAsBytes());
-      if (results.getGraphicFieldImageByType(201) != null)
-        _portrait = Image.memory(Uri.parse("data:image/png;base64," +
-                results
-                    .getGraphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT)!
-                    .replaceAll('\n', ''))
-            .data!
-            .contentAsBytes());
-
-      if (results.textResult != null)
-        for (var textField in results.textResult!.fields) {
-          for (var value in textField!.values) {
-            print(textField.fieldName! +
-                ', value: ' +
-                value!.value! +
-                ', source: ' +
-                value.sourceType.toString());
-          }
-        }
+      if (doc != null) _docImage = Image.memory(doc.data!.contentAsBytes());
+      if (portrait != null)
+        _portrait = Image.memory(portrait.data!.contentAsBytes());
     });
   }
 

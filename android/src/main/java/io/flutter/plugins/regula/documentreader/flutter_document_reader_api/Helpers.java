@@ -63,6 +63,8 @@ class Helpers {
     }
 
     static String bitmapToBase64String(Bitmap bitmap) {
+        if(bitmap == null) return null;
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
