@@ -201,11 +201,11 @@ class _MyAppState extends State<MyApp> {
 
   displayResults(DocumentReaderResults results) async {
     var name = await results
-        .getTextFieldValueByType(EVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES);
+        .textFieldValueByType(EVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES);
     var doc = await results
-        .getGraphicFieldImageByType(EGraphicFieldType.GF_DOCUMENT_IMAGE);
+        .graphicFieldImageByType(EGraphicFieldType.GF_DOCUMENT_IMAGE);
     var portrait =
-        await results.getGraphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT);
+        await results.graphicFieldImageByType(EGraphicFieldType.GF_PORTRAIT);
     setState(() {
       _status = name ?? "";
       _docImage = Image.asset('assets/images/id.png');

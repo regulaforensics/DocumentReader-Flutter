@@ -2132,8 +2132,207 @@ class DocumentReaderResults {
   DocumentReaderResultsStatus? status;
   VDSNCData? vdsncData;
 
-  @Deprecated('Use DocumentReader.getTextFieldValueBy...()')
-  String? getTextFieldValueByTypeOld(int fieldType,
+  Future<String?> textFieldValueByType(int fieldType) async {
+    return await DocumentReader._channel
+        .invokeMethod("textFieldValueByType", [rawResult, fieldType]);
+  }
+
+  Future<String?> textFieldValueByTypeLcid(int fieldType, int lcid) async {
+    return await DocumentReader._channel
+        .invokeMethod("textFieldValueByTypeLcid", [rawResult, fieldType, lcid]);
+  }
+
+  Future<String?> textFieldValueByTypeSource(int fieldType, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeSource", [rawResult, fieldType, source]);
+  }
+
+  Future<String?> textFieldValueByTypeLcidSource(
+      int fieldType, int lcid, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeLcidSource", [rawResult, fieldType, lcid, source]);
+  }
+
+  Future<String?> textFieldValueByTypeSourceOriginal(
+      int fieldType, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeSourceOriginal",
+        [rawResult, fieldType, source, original]);
+  }
+
+  Future<String?> textFieldValueByTypeLcidSourceOriginal(
+      int fieldType, int lcid, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeLcidSourceOriginal",
+        [rawResult, fieldType, lcid, source, original]);
+  }
+
+  Future<DocumentReaderTextField?> textFieldByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("textFieldByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderTextField?> textFieldByTypeLcid(
+      int fieldType, int lcid) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("textFieldByTypeLcid", [rawResult, fieldType, lcid]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSource(
+      int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<Uri?> graphicFieldImageByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("graphicFieldImageByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSource(int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSourcePageIndexLight",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<String?> containers(List<int> resultType) async {
+    return await DocumentReader._channel
+        .invokeMethod("containers", [rawResult, resultType]);
+  }
+
+  Future<String?> encryptedContainers() async {
+    return await DocumentReader._channel
+        .invokeMethod("encryptedContainers", [rawResult]);
+  }
+
+  static DocumentReaderResults? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new DocumentReaderResults();
+
+    result.chipPage = jsonObject["chipPage"];
+    result.processingFinishedStatus = jsonObject["processingFinishedStatus"];
+    result.elapsedTime = jsonObject["elapsedTime"];
+    result.elapsedTimeRFID = jsonObject["elapsedTimeRFID"];
+    result.morePagesAvailable = jsonObject["morePagesAvailable"];
+    result.rfidResult = jsonObject["rfidResult"];
+    result.highResolution = jsonObject["highResolution"];
+    result.graphicResult =
+        DocumentReaderGraphicResult.fromJson(jsonObject["graphicResult"]);
+    result.textResult =
+        DocumentReaderTextResult.fromJson(jsonObject["textResult"]);
+    if (jsonObject["documentPosition"] != null)
+      for (var item in jsonObject["documentPosition"])
+        result.documentPosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["barcodePosition"] != null)
+      for (var item in jsonObject["barcodePosition"])
+        result.barcodePosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["mrzPosition"] != null)
+      for (var item in jsonObject["mrzPosition"])
+        result.mrzPosition.add(ElementPosition.fromJson(item));
+    if (jsonObject["imageQuality"] != null)
+      for (var item in jsonObject["imageQuality"])
+        result.imageQuality.add(ImageQualityGroup.fromJson(item));
+    result.rawResult = jsonObject["rawResult"];
+    result.documentReaderNotification = DocumentReaderNotification.fromJson(
+        jsonObject["documentReaderNotification"]);
+    result.rfidSessionData =
+        RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
+    result.authenticityResult = DocumentReaderAuthenticityResult.fromJson(
+        jsonObject["authenticityResult"]);
+    result.barcodeResult =
+        DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
+    if (jsonObject["documentType"] != null)
+      for (var item in jsonObject["documentType"])
+        result.documentType.add(DocumentReaderDocumentType.fromJson(item));
+    result.status = DocumentReaderResultsStatus.fromJson(jsonObject["status"]);
+    result.vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
+
+    return result;
+  }
+
+  Map toJson() {
+    Map _result = {};
+
+    if (chipPage != null) _result.addAll({"chipPage": chipPage});
+    if (processingFinishedStatus != null)
+      _result.addAll({"processingFinishedStatus": processingFinishedStatus});
+    if (elapsedTime != null) _result.addAll({"elapsedTime": elapsedTime});
+    if (elapsedTimeRFID != null)
+      _result.addAll({"elapsedTimeRFID": elapsedTimeRFID});
+    if (morePagesAvailable != null)
+      _result.addAll({"morePagesAvailable": morePagesAvailable});
+    if (rfidResult != null) _result.addAll({"rfidResult": rfidResult});
+    if (highResolution != null)
+      _result.addAll({"highResolution": highResolution});
+    if (graphicResult != null) _result.addAll({"graphicResult": graphicResult});
+    if (textResult != null) _result.addAll({"textResult": textResult});
+    _result.addAll({"documentPosition": documentPosition});
+    _result.addAll({"barcodePosition": barcodePosition});
+    _result.addAll({"mrzPosition": mrzPosition});
+    _result.addAll({"imageQuality": imageQuality});
+    if (rawResult != null) _result.addAll({"rawResult": rawResult});
+    if (documentReaderNotification != null)
+      _result
+          .addAll({"documentReaderNotification": documentReaderNotification});
+    if (rfidSessionData != null)
+      _result.addAll({"rfidSessionData": rfidSessionData});
+    if (authenticityResult != null)
+      _result.addAll({"authenticityResult": authenticityResult});
+    if (barcodeResult != null) _result.addAll({"barcodeResult": barcodeResult});
+    _result.addAll({"documentType": documentType});
+    if (status != null) _result.addAll({"status": status});
+    if (vdsncData != null) _result.addAll({"vdsncData": vdsncData});
+
+    return _result;
+  }
+
+  @Deprecated('Use textFieldValueBy...()')
+  String? getTextFieldValueByType(int fieldType,
       {int lcid = 0, int source = -1, bool original = false}) {
     if (this.textResult == null) return null;
     var field = this.findByTypeAndLcid(fieldType, lcid);
@@ -2150,8 +2349,8 @@ class DocumentReaderResults {
     return field != null ? field.status : 0;
   }
 
-  @Deprecated('Use DocumentReader.getGraphicFieldImageBy...()')
-  String? getGraphicFieldImageByTypeOld(int fieldType,
+  @Deprecated('Use graphicFieldImageBy...()')
+  String? getGraphicFieldImageByType(int fieldType,
       {int source = -1, int pageIndex = -1, int light = -1}) {
     if (this.graphicResult == null) return null;
     List<DocumentReaderGraphicField> foundFields = [];
@@ -2234,8 +2433,8 @@ class DocumentReaderResults {
     return null;
   }
 
-  @Deprecated('Use DocumentReader.getContainers()')
-  String? getContainersOld(List<int> resultTypes) {
+  @Deprecated('Use containers()')
+  String? getContainers(List<int> resultTypes) {
     try {
       if (this.rawResult == null) return null;
       Map<String, dynamic> json = jsonDecode(this.rawResult!);
@@ -2261,215 +2460,13 @@ class DocumentReaderResults {
     return null;
   }
 
-  @Deprecated('Use DocumentReader.getEncryptedContainers()')
-  String? getEncryptedContainersOld() {
-    return this.getContainersOld([
+  @Deprecated('Use encryptedContainers()')
+  String? getEncryptedContainers() {
+    return this.getContainers([
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
       ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
     ]);
-  }
-
-  Future<String?> getTextFieldValueByType(int fieldType) async {
-    return await DocumentReader._channel
-        .invokeMethod("getTextFieldValueByType", [rawResult, fieldType]);
-  }
-
-  Future<String?> getTextFieldValueByTypeLcid(int fieldType, int lcid) async {
-    return await DocumentReader._channel.invokeMethod(
-        "getTextFieldValueByTypeLcid", [rawResult, fieldType, lcid]);
-  }
-
-  Future<String?> getTextFieldValueByTypeSource(
-      int fieldType, int source) async {
-    return await DocumentReader._channel.invokeMethod(
-        "getTextFieldValueByTypeSource", [rawResult, fieldType, source]);
-  }
-
-  Future<String?> getTextFieldValueByTypeLcidSource(
-      int fieldType, int lcid, int source) async {
-    return await DocumentReader._channel.invokeMethod(
-        "getTextFieldValueByTypeLcidSource",
-        [rawResult, fieldType, lcid, source]);
-  }
-
-  Future<String?> getTextFieldValueByTypeSourceOriginal(
-      int fieldType, int source, bool original) async {
-    return await DocumentReader._channel.invokeMethod(
-        "getTextFieldValueByTypeSourceOriginal",
-        [rawResult, fieldType, source, original]);
-  }
-
-  Future<String?> getTextFieldValueByTypeLcidSourceOriginal(
-      int fieldType, int lcid, int source, bool original) async {
-    return await DocumentReader._channel.invokeMethod(
-        "getTextFieldValueByTypeLcidSourceOriginal",
-        [rawResult, fieldType, lcid, source, original]);
-  }
-
-  Future<DocumentReaderTextField?> getTextFieldByType(int fieldType) async {
-    String? result = await DocumentReader._channel
-        .invokeMethod("getTextFieldByType", [rawResult, fieldType]);
-    if (result == null) return null;
-    return DocumentReaderTextField.fromJson(json.decode(result));
-  }
-
-  Future<DocumentReaderTextField?> getTextFieldByTypeLcid(
-      int fieldType, int lcid) async {
-    String? result = await DocumentReader._channel
-        .invokeMethod("getTextFieldByTypeLcid", [rawResult, fieldType, lcid]);
-    if (result == null) return null;
-    return DocumentReaderTextField.fromJson(json.decode(result));
-  }
-
-  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSource(
-      int fieldType, int source) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldByTypeSource", [rawResult, fieldType, source]);
-    if (result == null) return null;
-    return DocumentReaderGraphicField.fromJson(json.decode(result));
-  }
-
-  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSourcePageIndex(
-      int fieldType, int source, int pageIndex) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldByTypeSourcePageIndex",
-        [rawResult, fieldType, source, pageIndex]);
-    if (result == null) return null;
-    return DocumentReaderGraphicField.fromJson(json.decode(result));
-  }
-
-  Future<DocumentReaderGraphicField?> getGraphicFieldByTypeSourcePageIndexLight(
-      int fieldType, int source, int pageIndex, int light) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldByTypeSourcePageIndex",
-        [rawResult, fieldType, source, pageIndex, light]);
-    if (result == null) return null;
-    return DocumentReaderGraphicField.fromJson(json.decode(result));
-  }
-
-  Future<Uri?> getGraphicFieldImageByType(int fieldType) async {
-    String? result = await DocumentReader._channel
-        .invokeMethod("getGraphicFieldImageByType", [rawResult, fieldType]);
-    if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
-  }
-
-  Future<Uri?> getGraphicFieldImageByTypeSource(
-      int fieldType, int source) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldImageByTypeSource", [rawResult, fieldType, source]);
-    if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
-  }
-
-  Future<Uri?> getGraphicFieldImageByTypeSourcePageIndex(
-      int fieldType, int source, int pageIndex) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldImageByTypeSourcePageIndex",
-        [rawResult, fieldType, source, pageIndex]);
-    if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
-  }
-
-  Future<Uri?> getGraphicFieldImageByTypeSourcePageIndexLight(
-      int fieldType, int source, int pageIndex, int light) async {
-    String? result = await DocumentReader._channel.invokeMethod(
-        "getGraphicFieldImageByTypeSourcePageIndexLight",
-        [rawResult, fieldType, source, pageIndex, light]);
-    if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
-  }
-
-  Future<String?> getContainers(List<int> resultType) async {
-    return await DocumentReader._channel
-        .invokeMethod("getContainers", [rawResult, resultType]);
-  }
-
-  Future<String?> getEncryptedContainers() async {
-    return await DocumentReader._channel
-        .invokeMethod("getEncryptedContainers", [rawResult]);
-  }
-
-  static DocumentReaderResults? fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-    var result = new DocumentReaderResults();
-
-    result.chipPage = jsonObject["chipPage"];
-    result.processingFinishedStatus = jsonObject["processingFinishedStatus"];
-    result.elapsedTime = jsonObject["elapsedTime"];
-    result.elapsedTimeRFID = jsonObject["elapsedTimeRFID"];
-    result.morePagesAvailable = jsonObject["morePagesAvailable"];
-    result.rfidResult = jsonObject["rfidResult"];
-    result.highResolution = jsonObject["highResolution"];
-    result.graphicResult =
-        DocumentReaderGraphicResult.fromJson(jsonObject["graphicResult"]);
-    result.textResult =
-        DocumentReaderTextResult.fromJson(jsonObject["textResult"]);
-    if (jsonObject["documentPosition"] != null)
-      for (var item in jsonObject["documentPosition"])
-        result.documentPosition.add(ElementPosition.fromJson(item));
-    if (jsonObject["barcodePosition"] != null)
-      for (var item in jsonObject["barcodePosition"])
-        result.barcodePosition.add(ElementPosition.fromJson(item));
-    if (jsonObject["mrzPosition"] != null)
-      for (var item in jsonObject["mrzPosition"])
-        result.mrzPosition.add(ElementPosition.fromJson(item));
-    if (jsonObject["imageQuality"] != null)
-      for (var item in jsonObject["imageQuality"])
-        result.imageQuality.add(ImageQualityGroup.fromJson(item));
-    result.rawResult = jsonObject["rawResult"];
-    result.documentReaderNotification = DocumentReaderNotification.fromJson(
-        jsonObject["documentReaderNotification"]);
-    result.rfidSessionData =
-        RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
-    result.authenticityResult = DocumentReaderAuthenticityResult.fromJson(
-        jsonObject["authenticityResult"]);
-    result.barcodeResult =
-        DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
-    if (jsonObject["documentType"] != null)
-      for (var item in jsonObject["documentType"])
-        result.documentType.add(DocumentReaderDocumentType.fromJson(item));
-    result.status = DocumentReaderResultsStatus.fromJson(jsonObject["status"]);
-    result.vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
-
-    return result;
-  }
-
-  Map toJson() {
-    Map _result = {};
-
-    if (chipPage != null) _result.addAll({"chipPage": chipPage});
-    if (processingFinishedStatus != null)
-      _result.addAll({"processingFinishedStatus": processingFinishedStatus});
-    if (elapsedTime != null) _result.addAll({"elapsedTime": elapsedTime});
-    if (elapsedTimeRFID != null)
-      _result.addAll({"elapsedTimeRFID": elapsedTimeRFID});
-    if (morePagesAvailable != null)
-      _result.addAll({"morePagesAvailable": morePagesAvailable});
-    if (rfidResult != null) _result.addAll({"rfidResult": rfidResult});
-    if (highResolution != null)
-      _result.addAll({"highResolution": highResolution});
-    if (graphicResult != null) _result.addAll({"graphicResult": graphicResult});
-    if (textResult != null) _result.addAll({"textResult": textResult});
-    _result.addAll({"documentPosition": documentPosition});
-    _result.addAll({"barcodePosition": barcodePosition});
-    _result.addAll({"mrzPosition": mrzPosition});
-    _result.addAll({"imageQuality": imageQuality});
-    if (rawResult != null) _result.addAll({"rawResult": rawResult});
-    if (documentReaderNotification != null)
-      _result
-          .addAll({"documentReaderNotification": documentReaderNotification});
-    if (rfidSessionData != null)
-      _result.addAll({"rfidSessionData": rfidSessionData});
-    if (authenticityResult != null)
-      _result.addAll({"authenticityResult": authenticityResult});
-    if (barcodeResult != null) _result.addAll({"barcodeResult": barcodeResult});
-    _result.addAll({"documentType": documentType});
-    if (status != null) _result.addAll({"status": status});
-    if (vdsncData != null) _result.addAll({"vdsncData": vdsncData});
-
-    return _result;
   }
 }
 

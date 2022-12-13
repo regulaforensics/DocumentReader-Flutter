@@ -417,40 +417,40 @@ typedef void (^Callback)(NSString* response);
         [self recognizeImageWithCameraMode :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"recognizeImagesWithImageInputs"])
         [self recognizeImagesWithImageInputs :[args objectAtIndex:0] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByType"])
-        [self getTextFieldValueByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByTypeLcid"])
-        [self getTextFieldValueByTypeLcid :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByTypeSource"])
-        [self getTextFieldValueByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByTypeLcidSource"])
-        [self getTextFieldValueByTypeLcidSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByTypeSourceOriginal"])
-        [self getTextFieldValueByTypeSourceOriginal :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldValueByTypeLcidSourceOriginal"])
-        [self getTextFieldValueByTypeLcidSourceOriginal :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldByType"])
-        [self getTextFieldByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTextFieldByTypeLcid"])
-        [self getTextFieldByTypeLcid :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldByTypeSource"])
-        [self getGraphicFieldByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldByTypeSourcePageIndex"])
-        [self getGraphicFieldByTypeSourcePageIndex :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldByTypeSourcePageIndexLight"])
-        [self getGraphicFieldByTypeSourcePageIndexLight :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldImageByType"])
-        [self getGraphicFieldImageByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldImageByTypeSource"])
-        [self getGraphicFieldImageByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldImageByTypeSourcePageIndex"])
-        [self getGraphicFieldImageByTypeSourcePageIndex :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getGraphicFieldImageByTypeSourcePageIndexLight"])
-        [self getGraphicFieldImageByTypeSourcePageIndexLight :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getContainers"])
-        [self getContainers :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getEncryptedContainers"])
-        [self getEncryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByType"])
+        [self textFieldValueByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByTypeLcid"])
+        [self textFieldValueByTypeLcid :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByTypeSource"])
+        [self textFieldValueByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByTypeLcidSource"])
+        [self textFieldValueByTypeLcidSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByTypeSourceOriginal"])
+        [self textFieldValueByTypeSourceOriginal :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldValueByTypeLcidSourceOriginal"])
+        [self textFieldValueByTypeLcidSourceOriginal :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldByType"])
+        [self textFieldByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"textFieldByTypeLcid"])
+        [self textFieldByTypeLcid :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldByTypeSource"])
+        [self graphicFieldByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldByTypeSourcePageIndex"])
+        [self graphicFieldByTypeSourcePageIndex :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldByTypeSourcePageIndexLight"])
+        [self graphicFieldByTypeSourcePageIndexLight :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldImageByType"])
+        [self graphicFieldImageByType :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldImageByTypeSource"])
+        [self graphicFieldImageByTypeSource :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldImageByTypeSourcePageIndex"])
+        [self graphicFieldImageByTypeSourcePageIndex :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :successCallback :errorCallback];
+    else if([action isEqualToString:@"graphicFieldImageByTypeSourcePageIndexLight"])
+        [self graphicFieldImageByTypeSourcePageIndexLight :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :[args objectAtIndex:3] :[args objectAtIndex:4] :successCallback :errorCallback];
+    else if([action isEqualToString:@"containers"])
+        [self containers :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"encryptedContainers"])
+        [self encryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
     else
         [self result:[NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action] :errorCallback];
 }
@@ -841,37 +841,37 @@ typedef void (^Callback)(NSString* response);
     [self result:[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:availableScenarios options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding] :successCallback];
 }
 
-- (void) getTextFieldValueByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue]] :successCallback];
 }
 
-- (void) getTextFieldValueByTypeLcid:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByTypeLcid:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue] lcid:[lcid integerValue]] :successCallback];
 }
 
-- (void) getTextFieldValueByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue] source:[source integerValue]] :successCallback];
 }
 
-- (void) getTextFieldValueByTypeLcidSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByTypeLcidSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue] lcid:[lcid integerValue] source:[source integerValue]] :successCallback];
 }
 
-- (void) getTextFieldValueByTypeSourceOriginal:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(BOOL)original :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByTypeSourceOriginal:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(BOOL)original :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue] source:[source integerValue] original:original] :successCallback];
 }
 
-- (void) getTextFieldValueByTypeLcidSourceOriginal:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(NSNumber*)source :(BOOL)original :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldValueByTypeLcidSourceOriginal:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(NSNumber*)source :(BOOL)original :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getTextFieldValueByType:[fieldType integerValue] lcid:[lcid integerValue] source:[source integerValue] original:original] :successCallback];
 }
 
-- (void) getTextFieldByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     RGLDocumentReaderTextField* result = [results getTextFieldByType:[fieldType integerValue]];
     if(result == nil)
@@ -879,7 +879,7 @@ typedef void (^Callback)(NSString* response);
     [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderTextField:result]] :successCallback];
 }
 
-- (void) getTextFieldByTypeLcid:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(Callback)successCallback :(Callback)errorCallback{
+- (void) textFieldByTypeLcid:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)lcid :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     RGLDocumentReaderTextField* result = [results getTextFieldByType:[fieldType integerValue] lcid:[lcid integerValue]];
     if(result == nil)
@@ -887,7 +887,7 @@ typedef void (^Callback)(NSString* response);
     [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderTextField:result]] :successCallback];
 }
 
-- (void) getGraphicFieldByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     RGLDocumentReaderGraphicField* result = [results getGraphicFieldByType:[fieldType integerValue] source:[source integerValue]];
     if(result == nil)
@@ -895,7 +895,7 @@ typedef void (^Callback)(NSString* response);
     [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderGraphicField:result]] :successCallback];
 }
 
-- (void) getGraphicFieldByTypeSourcePageIndex:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldByTypeSourcePageIndex:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     RGLDocumentReaderGraphicField* result = [results getGraphicFieldByType:[fieldType integerValue] source:[source integerValue] pageIndex:[pageIndex integerValue]];
     if(result == nil)
@@ -903,7 +903,7 @@ typedef void (^Callback)(NSString* response);
     [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderGraphicField:result]] :successCallback];
 }
 
-- (void) getGraphicFieldByTypeSourcePageIndexLight:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(NSNumber*)light :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldByTypeSourcePageIndexLight:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(NSNumber*)light :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     RGLDocumentReaderGraphicField* result = [results getGraphicFieldByType:[fieldType integerValue] source:[source integerValue] pageIndex:[pageIndex integerValue] light:[light integerValue]];
     if(result == nil)
@@ -911,32 +911,32 @@ typedef void (^Callback)(NSString* response);
     [self result:[RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateRGLDocumentReaderGraphicField:result]] :successCallback];
 }
 
-- (void) getGraphicFieldImageByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldImageByType:(NSString*)rawResult :(NSNumber*)fieldType :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[UIImageJPEGRepresentation([results getGraphicFieldImageByType:[fieldType integerValue]], 1.0) base64EncodedStringWithOptions:0] :successCallback];
 }
 
-- (void) getGraphicFieldImageByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldImageByTypeSource:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[UIImageJPEGRepresentation([results getGraphicFieldImageByType:[fieldType integerValue] source:[source integerValue]], 1.0) base64EncodedStringWithOptions:0] :successCallback];
 }
 
-- (void) getGraphicFieldImageByTypeSourcePageIndex:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldImageByTypeSourcePageIndex:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[UIImageJPEGRepresentation([results getGraphicFieldImageByType:[fieldType integerValue] source:[source integerValue] pageIndex:[pageIndex integerValue]], 1.0) base64EncodedStringWithOptions:0] :successCallback];
 }
 
-- (void) getGraphicFieldImageByTypeSourcePageIndexLight:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(NSNumber*)light :(Callback)successCallback :(Callback)errorCallback{
+- (void) graphicFieldImageByTypeSourcePageIndexLight:(NSString*)rawResult :(NSNumber*)fieldType :(NSNumber*)source :(NSNumber*)pageIndex :(NSNumber*)light :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[UIImageJPEGRepresentation([results getGraphicFieldImageByType:[fieldType integerValue] source:[source integerValue] pageIndex:[pageIndex integerValue] light:[light integerValue]], 1.0) base64EncodedStringWithOptions:0] :successCallback];
 }
 
-- (void) getContainers:(NSString*)rawResult :(NSArray<NSNumber*>*)resultType :(Callback)successCallback :(Callback)errorCallback{
+- (void) containers:(NSString*)rawResult :(NSArray<NSNumber*>*)resultType :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getContainersByResultTypes:resultType] :successCallback];
 }
 
-- (void) getEncryptedContainers:(NSString*)rawResult :(Callback)successCallback :(Callback)errorCallback{
+- (void) encryptedContainers:(NSString*)rawResult :(Callback)successCallback :(Callback)errorCallback{
     RGLDocumentReaderResults* results = [RGLDocumentReaderResults initWithRawString:rawResult];
     [self result:[results getEncryptedContainers] :successCallback];
 }
