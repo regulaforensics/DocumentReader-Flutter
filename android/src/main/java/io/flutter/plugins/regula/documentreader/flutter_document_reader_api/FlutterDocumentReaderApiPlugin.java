@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,7 +40,9 @@ import com.regula.documentreader.api.params.ImageInputData;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
+import com.regula.documentreader.api.results.DocumentReaderGraphicField;
 import com.regula.documentreader.api.results.DocumentReaderResults;
+import com.regula.documentreader.api.results.DocumentReaderTextField;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -554,6 +557,57 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                 case "recognizeImagesWithImageInputs":
                     recognizeImagesWithImageInputs(callback, args(0));
                     break;
+                case "textFieldValueByType":
+                    textFieldValueByType(callback, args(0), args(1));
+                    break;
+                case "textFieldValueByTypeLcid":
+                    textFieldValueByTypeLcid(callback, args(0), args(1), args(2));
+                    break;
+                case "textFieldValueByTypeSource":
+                    textFieldValueByTypeSource(callback, args(0), args(1), args(2));
+                    break;
+                case "textFieldValueByTypeLcidSource":
+                    textFieldValueByTypeLcidSource(callback, args(0), args(1), args(2), args(3));
+                    break;
+                case "textFieldValueByTypeSourceOriginal":
+                    textFieldValueByTypeSourceOriginal(callback, args(0), args(1), args(2), args(3));
+                    break;
+                case "textFieldValueByTypeLcidSourceOriginal":
+                    textFieldValueByTypeLcidSourceOriginal(callback, args(0), args(1), args(2), args(3), args(4));
+                    break;
+                case "textFieldByType":
+                    textFieldByType(callback, args(0), args(1));
+                    break;
+                case "textFieldByTypeLcid":
+                    textFieldByTypeLcid(callback, args(0), args(1), args(2));
+                    break;
+                case "graphicFieldByTypeSource":
+                    graphicFieldByTypeSource(callback, args(0), args(1), args(2));
+                    break;
+                case "graphicFieldByTypeSourcePageIndex":
+                    graphicFieldByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
+                    break;
+                case "graphicFieldByTypeSourcePageIndexLight":
+                    graphicFieldByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
+                    break;
+                case "graphicFieldImageByType":
+                    graphicFieldImageByType(callback, args(0), args(1));
+                    break;
+                case "graphicFieldImageByTypeSource":
+                    graphicFieldImageByTypeSource(callback, args(0), args(1), args(2));
+                    break;
+                case "graphicFieldImageByTypeSourcePageIndex":
+                    graphicFieldImageByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
+                    break;
+                case "graphicFieldImageByTypeSourcePageIndexLight":
+                    graphicFieldImageByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
+                    break;
+                case "containers":
+                    containers(callback, args(0), args(1));
+                    break;
+                case "encryptedContainers":
+                    encryptedContainers(callback, args(0));
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -570,8 +624,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         };
         Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        @SuppressLint("UnspecifiedImmutableFlag")
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            flags = PendingIntent.FLAG_IMMUTABLE;
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, flags);
         NfcAdapter.getDefaultAdapter(getActivity()).enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
@@ -622,6 +678,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
+    @SuppressLint("MissingPermission")
     private void initializeReaderBleDeviceConfig(Callback callback) {
         if (BluetoothUtil.Companion.getBleManager() == null) callback.error("bleManager is null");
         if (!Instance().isReady())
@@ -934,13 +991,124 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void setCameraSessionIsPaused(Callback callback, @SuppressWarnings("unused") boolean ignored) {
-        callback.error("setCameraSessionIsPaused() is an ios-only method");
-    }
-
     private void setRfidDelegate(Callback callback, int delegate) {
         rfidDelegate = delegate;
         callback.success();
+    }
+
+    private void textFieldValueByType(Callback callback, String raw, int fieldType) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByType(fieldType));
+    }
+
+    private void textFieldValueByTypeLcid(Callback callback, String raw, int fieldType, int lcid) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByType(fieldType, lcid));
+    }
+
+    private void textFieldValueByTypeSource(Callback callback, String raw, int fieldType, int source) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByTypeAndSource(fieldType, source));
+    }
+
+    private void textFieldValueByTypeLcidSource(Callback callback, String raw, int fieldType, int lcid, int source) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByType(fieldType, lcid, source));
+    }
+
+    private void textFieldValueByTypeSourceOriginal(Callback callback, String raw, int fieldType, int source, boolean original) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByTypeAndSource(fieldType, source, original));
+    }
+
+    private void textFieldValueByTypeLcidSourceOriginal(Callback callback, String raw, int fieldType, int lcid, int source, boolean original) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getTextFieldValueByType(fieldType, lcid, source, original));
+    }
+
+    private void textFieldByType(Callback callback, String raw, int fieldType) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        DocumentReaderTextField result = results.getTextFieldByType(fieldType);
+        if (result == null)
+            callback.success(null);
+        else
+            callback.success(JSONConstructor.generateDocumentReaderTextField(result, getContext()).toString());
+    }
+
+    private void textFieldByTypeLcid(Callback callback, String raw, int fieldType, int lcid) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        DocumentReaderTextField result = results.getTextFieldByType(fieldType, lcid);
+        if (result == null)
+            callback.success(null);
+        else
+            callback.success(JSONConstructor.generateDocumentReaderTextField(result, getContext()).toString());
+    }
+
+    private void graphicFieldByTypeSource(Callback callback, String raw, int fieldType, int source) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source);
+        if (result == null)
+            callback.success(null);
+        else
+            callback.success(JSONConstructor.generateDocumentReaderGraphicField(result, getContext()).toString());
+    }
+
+    private void graphicFieldByTypeSourcePageIndex(Callback callback, String raw, int fieldType, int source, int pageIndex) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source, pageIndex);
+        if (result == null)
+            callback.success(null);
+        else
+            callback.success(JSONConstructor.generateDocumentReaderGraphicField(result, getContext()).toString());
+    }
+
+    private void graphicFieldByTypeSourcePageIndexLight(Callback callback, String raw, int fieldType, int source, int pageIndex, int light) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source, pageIndex, light);
+        if (result == null)
+            callback.success(null);
+        else
+            callback.success(JSONConstructor.generateDocumentReaderGraphicField(result, getContext()).toString());
+    }
+
+    private void graphicFieldImageByType(Callback callback, String raw, int fieldType) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(Helpers.bitmapToBase64String(results.getGraphicFieldImageByType(fieldType)));
+    }
+
+    private void graphicFieldImageByTypeSource(Callback callback, String raw, int fieldType, int source) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(Helpers.bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source)));
+    }
+
+    private void graphicFieldImageByTypeSourcePageIndex(Callback callback, String raw, int fieldType, int source, int pageIndex) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(Helpers.bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source, pageIndex)));
+    }
+
+    private void graphicFieldImageByTypeSourcePageIndexLight(Callback callback, String raw, int fieldType, int source, int pageIndex, int light) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(Helpers.bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source, pageIndex, light)));
+    }
+
+    @SuppressLint("WrongConstant")
+    private void containers(Callback callback, String raw, JSONArray resultType) {
+        try {
+            DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+            callback.success(results.getContainers(JSONConstructor.intArrayFromJSON(resultType)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callback.error(e.toString());
+        }
+    }
+
+    private void encryptedContainers(Callback callback, String raw) {
+        DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
+        callback.success(results.getEncryptedContainers());
+    }
+
+    private void setCameraSessionIsPaused(Callback callback, @SuppressWarnings("unused") boolean ignored) {
+        callback.error("setCameraSessionIsPaused() is an ios-only method");
     }
 
     private void getCameraSessionIsPaused(Callback callback) {

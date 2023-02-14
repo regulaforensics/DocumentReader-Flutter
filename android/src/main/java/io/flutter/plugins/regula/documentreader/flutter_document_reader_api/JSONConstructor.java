@@ -149,6 +149,14 @@ class JSONConstructor {
         return result;
     }
 
+    static int[] intArrayFromJSON(JSONArray input) throws JSONException {
+        int[] result = new int[input.length()];
+        for (int i = 0; i < input.length(); i++)
+            result[i] = input.getInt(i);
+
+        return result;
+    }
+
     static JSONArray generateByteArray(byte[] array) throws JSONException {
         JSONArray result = new JSONArray();
         if (array == null) return result;
@@ -186,17 +194,17 @@ class JSONConstructor {
         try {
             result.put("action", action);
             switch (action) {
-                case DocReaderAction.PROCESS:
-                case DocReaderAction.PROCESS_WHITE_UV_IMAGES:
-                    break;
-                case DocReaderAction.NOTIFICATION:
-                    result.put("results", generateDocumentReaderResultsNotification(results));
-                    break;
                 case DocReaderAction.COMPLETE:
                 case DocReaderAction.MORE_PAGES_AVAILABLE:
                 case DocReaderAction.CANCEL:
                 case DocReaderAction.ERROR:
+                case DocReaderAction.TIMEOUT:
                     result.put("results", generateDocumentReaderResults(results, context));
+                    break;
+                case DocReaderAction.NOTIFICATION:
+                    result.put("results", generateDocumentReaderResultsNotification(results));
+                    break;
+                default:
                     break;
             }
             if (error != null)
@@ -470,6 +478,8 @@ class JSONConstructor {
             result.put("values", generateList(input.values, JSONConstructor::generateDocumentReaderValue, context));
             result.put("comparisonList", generateList(input.comparisonList, JSONConstructor::generateDocumentReaderComparison));
             result.put("validityList", generateList(input.validityList, JSONConstructor::generateDocumentReaderValidity));
+            result.put("comparisonStatus", input.comparisonStatus);
+            result.put("validityStatus", input.validityStatus);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -581,9 +591,11 @@ class JSONConstructor {
         JSONObject result = new JSONObject();
         if (input == null) return null;
         try {
-            result.put("code", input.getNotificationCode());
-            result.put("attachment", input.getDataFileType());
-            result.put("value", input.getProgress());
+            result.put("code", input.code);
+            result.put("value", input.value);
+            result.put("notificationCode", input.getNotificationCode());
+            result.put("dataFileType", input.getDataFileType());
+            result.put("progress", input.getProgress());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1150,7 +1162,9 @@ class JSONConstructor {
         JSONObject result = new JSONObject();
         if (input == null) return null;
         try {
+            result.put("videoCaptureSessionId", input.videoCaptureSessionId);
             result.put("chipPage", input.chipPage);
+            result.put("irElapsedTime", input.irElapsedTime);
             result.put("processingFinishedStatus", input.processingFinishedStatus);
             result.put("elapsedTime", input.elapsedTime);
             result.put("elapsedTimeRFID", input.elapsedTimeRFID);
@@ -1168,6 +1182,7 @@ class JSONConstructor {
             result.put("rfidSessionData", generateRFIDSessionData(input.rfidSessionData));
             result.put("authenticityResult", generateDocumentReaderAuthenticityResult(input.authenticityResult, context));
             result.put("barcodeResult", generateDocumentReaderBarcodeResult(input.barcodeResult));
+            result.put("ppmIn", input.ppmIn);
             result.put("documentType", generateList(input.documentType, JSONConstructor::generateDocumentReaderDocumentType));
             result.put("status", generateDocumentReaderResultsStatus(input.status));
             result.put("vdsncData", generateVDSNCData(input.vdsncData));

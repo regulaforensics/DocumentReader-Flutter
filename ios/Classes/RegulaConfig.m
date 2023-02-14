@@ -759,6 +759,8 @@
         processParams.processAuth = [options valueForKey:@"processAuth"];
     if([options valueForKey:@"documentGroupFilter"] != nil)
         processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
+    if([options valueForKey:@"convertCase"] != nil)
+        processParams.convertCase = [options valueForKey:@"convertCase"];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -917,6 +919,7 @@
     result[@"splitNames"] = processParams.splitNames;
     result[@"processAuth"] = processParams.processAuth;
     result[@"documentGroupFilter"] = processParams.documentGroupFilter;
+    result[@"convertCase"] = processParams.convertCase;
 
     return result;
 }

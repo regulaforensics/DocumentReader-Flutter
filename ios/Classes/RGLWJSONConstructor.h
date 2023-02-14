@@ -21,6 +21,7 @@
 +(NSMutableDictionary* _Nonnull)generateVideoEncoderCompletion:(NSURL* _Nullable)input :(NSError* _Nullable)error;
 +(NSString*_Nonnull)generateNSData:(NSData *_Nullable)input;
 +(NSMutableDictionary* _Nonnull)generatePACertificateCompletion:(NSData *_Nullable)serialNumber :(RGLPAResourcesIssuer *_Nullable)issuer;
++(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderResults:(RGLDocumentReaderResults* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPosition:(RGLPosition* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderBarcodeResult:(RGLDocumentReaderBarcodeResult* _Nullable)input;
@@ -63,7 +64,6 @@
 +(NSMutableDictionary* _Nonnull)generateRGLOpticalStatus:(RGLOpticalStatus* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLVDSNCData:(RGLVDSNCData* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLBytesData:(RGLBytesData* _Nullable)input;
-+(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLUVFiberElement:(RGLUVFiberElement* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocReaderDocumentsDatabase:(RGLDocReaderDocumentsDatabase* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderComparison:(RGLDocumentReaderComparison* _Nullable)input;

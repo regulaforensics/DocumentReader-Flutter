@@ -354,6 +354,8 @@ class DocumentReaderTextField {
   List<DocumentReaderValue?> values = [];
   List<DocumentReaderComparison?> comparisonList = [];
   List<DocumentReaderValidity?> validityList = [];
+  int? comparisonStatus;
+  int? validityStatus;
 
   static DocumentReaderTextField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -375,6 +377,8 @@ class DocumentReaderTextField {
     if (jsonObject["validityList"] != null)
       for (var item in jsonObject["validityList"])
         result.validityList.add(DocumentReaderValidity.fromJson(item));
+    result.comparisonStatus = jsonObject["comparisonStatus"];
+    result.validityStatus = jsonObject["validityStatus"];
 
     return result;
   }
@@ -392,6 +396,10 @@ class DocumentReaderTextField {
     _result.addAll({"values": values});
     _result.addAll({"comparisonList": comparisonList});
     _result.addAll({"validityList": validityList});
+    if (comparisonStatus != null)
+      _result.addAll({"comparisonStatus": comparisonStatus});
+    if (validityStatus != null)
+      _result.addAll({"validityStatus": validityStatus});
 
     return _result;
   }
@@ -641,16 +649,20 @@ class DocumentReaderDocumentType {
 
 class DocumentReaderNotification {
   int? code;
-  int? attachment;
   int? value;
+  int? notificationCode;
+  int? dataFileType;
+  int? progress;
 
   static DocumentReaderNotification? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderNotification();
 
     result.code = jsonObject["code"];
-    result.attachment = jsonObject["attachment"];
     result.value = jsonObject["value"];
+    result.notificationCode = jsonObject["notificationCode"];
+    result.dataFileType = jsonObject["dataFileType"];
+    result.progress = jsonObject["progress"];
 
     return result;
   }
@@ -659,8 +671,11 @@ class DocumentReaderNotification {
     Map _result = {};
 
     if (code != null) _result.addAll({"code": code});
-    if (attachment != null) _result.addAll({"attachment": attachment});
     if (value != null) _result.addAll({"value": value});
+    if (notificationCode != null)
+      _result.addAll({"notificationCode": notificationCode});
+    if (dataFileType != null) _result.addAll({"dataFileType": dataFileType});
+    if (progress != null) _result.addAll({"progress": progress});
 
     return _result;
   }
@@ -2110,7 +2125,9 @@ class DocumentReaderValidity {
 }
 
 class DocumentReaderResults {
+  String? videoCaptureSessionId;
   int? chipPage;
+  int? irElapsedTime;
   int? processingFinishedStatus;
   int? elapsedTime;
   int? elapsedTimeRFID;
@@ -2128,145 +2145,136 @@ class DocumentReaderResults {
   RFIDSessionData? rfidSessionData;
   DocumentReaderAuthenticityResult? authenticityResult;
   DocumentReaderBarcodeResult? barcodeResult;
+  int? ppmIn;
   List<DocumentReaderDocumentType?> documentType = [];
   DocumentReaderResultsStatus? status;
   VDSNCData? vdsncData;
 
-  String? getTextFieldValueByType(int fieldType,
-      {int lcid = 0, int source = -1, bool original = false}) {
-    if (this.textResult == null) return null;
-    var field = this.findByTypeAndLcid(fieldType, lcid);
-    if (field == null) return null;
-    var value = this.findBySource(field, source);
-    if (value == null) return null;
-    return original ? value.originalValue : value.value;
+  Future<String?> textFieldValueByType(int fieldType) async {
+    return await DocumentReader._channel
+        .invokeMethod("textFieldValueByType", [rawResult, fieldType]);
   }
 
-  int? getTextFieldStatusByType(int fieldType, {int lcid = 0}) {
-    if (this.textResult == null) return 0;
-    var field = this.findByTypeAndLcid(fieldType, lcid);
-    return field != null ? field.status : 0;
+  Future<String?> textFieldValueByTypeLcid(int fieldType, int lcid) async {
+    return await DocumentReader._channel
+        .invokeMethod("textFieldValueByTypeLcid", [rawResult, fieldType, lcid]);
   }
 
-  String? getGraphicFieldImageByType(int fieldType,
-      {int source = -1, int pageIndex = -1, int light = -1}) {
-    if (this.graphicResult == null) return null;
-    List<DocumentReaderGraphicField> foundFields = [];
-
-    for (var field in this.graphicResult!.fields)
-      if (field != null && field.fieldType == fieldType) foundFields.add(field);
-    if (source != -1)
-      for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].sourceType != source) foundFields.removeAt(i);
-    if (light != -1)
-      for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].lightType != light) foundFields.removeAt(i);
-    if (pageIndex != -1)
-      for (int i = 0; i < foundFields.length; i++)
-        if (foundFields[i].pageIndex != pageIndex) foundFields.removeAt(i);
-
-    return foundFields.length > 0 ? foundFields[0].value : null;
+  Future<String?> textFieldValueByTypeSource(int fieldType, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeSource", [rawResult, fieldType, source]);
   }
 
-  int? getQualityResult(int imageQualityCheckType,
-      {int securityFeature = -1, int pageIndex = 0}) {
-    int? resultSum = 2;
-    ImageQualityGroup? imageQualityGroup;
-
-    for (ImageQualityGroup? iq in this.imageQuality)
-      if (iq != null && iq.pageIndex == pageIndex) imageQualityGroup = iq;
-    if (imageQualityGroup == null) return resultSum;
-
-    for (ImageQuality? iq in imageQualityGroup.imageQualityList) {
-      if (iq != null && iq.type == imageQualityCheckType) {
-        if (securityFeature == -1) {
-          if (iq.result == 0) {
-            resultSum = 0;
-            break;
-          }
-          if (iq.result == 1) resultSum = iq.result;
-        } else if (iq.featureType == securityFeature) {
-          resultSum = iq.result;
-          break;
-        }
-      }
-    }
-
-    return resultSum;
+  Future<String?> textFieldValueByTypeLcidSource(
+      int fieldType, int lcid, int source) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeLcidSource", [rawResult, fieldType, lcid, source]);
   }
 
-  DocumentReaderTextField? findByTypeAndLcid(int type, int lcid) {
-    List<DocumentReaderTextField> foundFields = [];
-    for (DocumentReaderTextField? field in this.textResult!.fields)
-      if (field != null && field.fieldType == type) foundFields.add(field);
-    if (foundFields.length <= 0) return null;
-    DocumentReaderTextField? foundField;
-
-    for (DocumentReaderTextField field in foundFields)
-      if (lcid == 0) {
-        foundField = field;
-        if (field.lcid == lcid) break;
-      } else if (field.lcid == lcid) return field;
-
-    return foundField;
+  Future<String?> textFieldValueByTypeSourceOriginal(
+      int fieldType, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeSourceOriginal",
+        [rawResult, fieldType, source, original]);
   }
 
-  DocumentReaderValue? findBySource(
-      DocumentReaderTextField field, int sourceType) {
-    DocumentReaderValue? value;
-    if (sourceType == -1) {
-      DocumentReaderValue? mrzVal = this.findBySource(field, 3);
-      if (mrzVal != null) return mrzVal;
-      value = findBySource(field, 18);
-      if (value != null) return value;
-      var visualVal = this.findBySource(field, 17);
-      return visualVal != null ? visualVal : null;
-    } else
-      for (DocumentReaderValue? item in field.values)
-        if (item != null && item.sourceType == sourceType) return item;
-
-    return null;
+  Future<String?> textFieldValueByTypeLcidSourceOriginal(
+      int fieldType, int lcid, int source, bool original) async {
+    return await DocumentReader._channel.invokeMethod(
+        "textFieldValueByTypeLcidSourceOriginal",
+        [rawResult, fieldType, lcid, source, original]);
   }
 
-  String? getContainers(List<int> resultTypes) {
-    try {
-      if (this.rawResult == null) return null;
-      Map<String, dynamic> json = jsonDecode(this.rawResult!);
-      List<dynamic> containerList = json["List"];
-      List<dynamic> resultArray = [];
-      for (Map<String, dynamic>? container in containerList) {
-        if (container == null || container.length == 0) continue;
-        for (int resultType in resultTypes)
-          if (resultType == container["result_type"]) {
-            resultArray.add(container);
-            break;
-          }
-      }
-      if (resultArray.length == 0) return null;
-      Map<String, dynamic> newContainerList = {};
-      newContainerList["List"] = resultArray;
-      Map<String, dynamic> newJson = {};
-      newJson["ContainerList"] = newContainerList;
-      newJson["TransactionInfo"] = json["TransactionInfo"];
-    } catch (error) {
-      return null;
-    }
-    return null;
+  Future<DocumentReaderTextField?> textFieldByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("textFieldByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
   }
 
-  String? getEncryptedContainers() {
-    return this.getContainers([
-      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
-      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
-      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
-    ]);
+  Future<DocumentReaderTextField?> textFieldByTypeLcid(
+      int fieldType, int lcid) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("textFieldByTypeLcid", [rawResult, fieldType, lcid]);
+    if (result == null) return null;
+    return DocumentReaderTextField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSource(
+      int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<DocumentReaderGraphicField?> graphicFieldByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return DocumentReaderGraphicField.fromJson(json.decode(result));
+  }
+
+  Future<Uri?> graphicFieldImageByType(int fieldType) async {
+    String? result = await DocumentReader._channel
+        .invokeMethod("graphicFieldImageByType", [rawResult, fieldType]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSource(int fieldType, int source) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSource", [rawResult, fieldType, source]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSourcePageIndex(
+      int fieldType, int source, int pageIndex) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSourcePageIndex",
+        [rawResult, fieldType, source, pageIndex]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<Uri?> graphicFieldImageByTypeSourcePageIndexLight(
+      int fieldType, int source, int pageIndex, int light) async {
+    String? result = await DocumentReader._channel.invokeMethod(
+        "graphicFieldImageByTypeSourcePageIndexLight",
+        [rawResult, fieldType, source, pageIndex, light]);
+    if (result == null) return null;
+    return Uri.parse("data:image/png;base64," + result.replaceAll('\n', ''));
+  }
+
+  Future<String?> containers(List<int> resultType) async {
+    return await DocumentReader._channel
+        .invokeMethod("containers", [rawResult, resultType]);
+  }
+
+  Future<String?> encryptedContainers() async {
+    return await DocumentReader._channel
+        .invokeMethod("encryptedContainers", [rawResult]);
   }
 
   static DocumentReaderResults? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = new DocumentReaderResults();
 
+    result.videoCaptureSessionId = jsonObject["videoCaptureSessionId"];
     result.chipPage = jsonObject["chipPage"];
+    result.irElapsedTime = jsonObject["irElapsedTime"];
     result.processingFinishedStatus = jsonObject["processingFinishedStatus"];
     result.elapsedTime = jsonObject["elapsedTime"];
     result.elapsedTimeRFID = jsonObject["elapsedTimeRFID"];
@@ -2298,6 +2306,7 @@ class DocumentReaderResults {
         jsonObject["authenticityResult"]);
     result.barcodeResult =
         DocumentReaderBarcodeResult.fromJson(jsonObject["barcodeResult"]);
+    result.ppmIn = jsonObject["ppmIn"];
     if (jsonObject["documentType"] != null)
       for (var item in jsonObject["documentType"])
         result.documentType.add(DocumentReaderDocumentType.fromJson(item));
@@ -2310,7 +2319,10 @@ class DocumentReaderResults {
   Map toJson() {
     Map _result = {};
 
+    if (videoCaptureSessionId != null)
+      _result.addAll({"videoCaptureSessionId": videoCaptureSessionId});
     if (chipPage != null) _result.addAll({"chipPage": chipPage});
+    if (irElapsedTime != null) _result.addAll({"irElapsedTime": irElapsedTime});
     if (processingFinishedStatus != null)
       _result.addAll({"processingFinishedStatus": processingFinishedStatus});
     if (elapsedTime != null) _result.addAll({"elapsedTime": elapsedTime});
@@ -2336,11 +2348,150 @@ class DocumentReaderResults {
     if (authenticityResult != null)
       _result.addAll({"authenticityResult": authenticityResult});
     if (barcodeResult != null) _result.addAll({"barcodeResult": barcodeResult});
+    if (ppmIn != null) _result.addAll({"ppmIn": ppmIn});
     _result.addAll({"documentType": documentType});
     if (status != null) _result.addAll({"status": status});
     if (vdsncData != null) _result.addAll({"vdsncData": vdsncData});
 
     return _result;
+  }
+
+  @Deprecated('Use textFieldValueBy...()')
+  String? getTextFieldValueByType(int fieldType,
+      {int lcid = 0, int source = -1, bool original = false}) {
+    if (this.textResult == null) return null;
+    var field = this.findByTypeAndLcid(fieldType, lcid);
+    if (field == null) return null;
+    var value = this.findBySource(field, source);
+    if (value == null) return null;
+    return original ? value.originalValue : value.value;
+  }
+
+  @Deprecated('')
+  int? getTextFieldStatusByType(int fieldType, {int lcid = 0}) {
+    if (this.textResult == null) return 0;
+    var field = this.findByTypeAndLcid(fieldType, lcid);
+    return field != null ? field.status : 0;
+  }
+
+  @Deprecated('Use graphicFieldImageBy...()')
+  String? getGraphicFieldImageByType(int fieldType,
+      {int source = -1, int pageIndex = -1, int light = -1}) {
+    if (this.graphicResult == null) return null;
+    List<DocumentReaderGraphicField> foundFields = [];
+
+    for (var field in this.graphicResult!.fields)
+      if (field != null && field.fieldType == fieldType) foundFields.add(field);
+    if (source != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].sourceType != source) foundFields.removeAt(i);
+    if (light != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].lightType != light) foundFields.removeAt(i);
+    if (pageIndex != -1)
+      for (int i = 0; i < foundFields.length; i++)
+        if (foundFields[i].pageIndex != pageIndex) foundFields.removeAt(i);
+
+    return foundFields.length > 0 ? foundFields[0].value : null;
+  }
+
+  @Deprecated('')
+  int? getQualityResult(int imageQualityCheckType,
+      {int securityFeature = -1, int pageIndex = 0}) {
+    int? resultSum = 2;
+    ImageQualityGroup? imageQualityGroup;
+
+    for (ImageQualityGroup? iq in this.imageQuality)
+      if (iq != null && iq.pageIndex == pageIndex) imageQualityGroup = iq;
+    if (imageQualityGroup == null) return resultSum;
+
+    for (ImageQuality? iq in imageQualityGroup.imageQualityList) {
+      if (iq != null && iq.type == imageQualityCheckType) {
+        if (securityFeature == -1) {
+          if (iq.result == 0) {
+            resultSum = 0;
+            break;
+          }
+          if (iq.result == 1) resultSum = iq.result;
+        } else if (iq.featureType == securityFeature) {
+          resultSum = iq.result;
+          break;
+        }
+      }
+    }
+
+    return resultSum;
+  }
+
+  @Deprecated('')
+  DocumentReaderTextField? findByTypeAndLcid(int type, int lcid) {
+    List<DocumentReaderTextField> foundFields = [];
+    for (DocumentReaderTextField? field in this.textResult!.fields)
+      if (field != null && field.fieldType == type) foundFields.add(field);
+    if (foundFields.length <= 0) return null;
+    DocumentReaderTextField? foundField;
+
+    for (DocumentReaderTextField field in foundFields)
+      if (lcid == 0) {
+        foundField = field;
+        if (field.lcid == lcid) break;
+      } else if (field.lcid == lcid) return field;
+
+    return foundField;
+  }
+
+  @Deprecated('')
+  DocumentReaderValue? findBySource(
+      DocumentReaderTextField field, int sourceType) {
+    DocumentReaderValue? value;
+    if (sourceType == -1) {
+      DocumentReaderValue? mrzVal = this.findBySource(field, 3);
+      if (mrzVal != null) return mrzVal;
+      value = findBySource(field, 18);
+      if (value != null) return value;
+      var visualVal = this.findBySource(field, 17);
+      return visualVal != null ? visualVal : null;
+    } else
+      for (DocumentReaderValue? item in field.values)
+        if (item != null && item.sourceType == sourceType) return item;
+
+    return null;
+  }
+
+  @Deprecated('Use containers()')
+  String? getContainers(List<int> resultTypes) {
+    try {
+      if (this.rawResult == null) return null;
+      Map<String, dynamic> json = jsonDecode(this.rawResult!);
+      List<dynamic> containerList = json["List"];
+      List<dynamic> resultArray = [];
+      for (Map<String, dynamic>? container in containerList) {
+        if (container == null || container.length == 0) continue;
+        for (int resultType in resultTypes)
+          if (resultType == container["result_type"]) {
+            resultArray.add(container);
+            break;
+          }
+      }
+      if (resultArray.length == 0) return null;
+      Map<String, dynamic> newContainerList = {};
+      newContainerList["List"] = resultArray;
+      Map<String, dynamic> newJson = {};
+      newJson["ContainerList"] = newContainerList;
+      newJson["TransactionInfo"] = json["TransactionInfo"];
+    } catch (error) {
+      return null;
+    }
+    return null;
+  }
+
+  @Deprecated('Use encryptedContainers()')
+  String? getEncryptedContainers() {
+    return this.getContainers([
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION,
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL,
+      ERPRMResultType.RPRM_RESULT_TYPE_INTERNAL_LICENSE
+    ]);
   }
 }
 
@@ -3197,6 +3348,7 @@ class ERPRMResultType {
   static const int RPRM_RESULT_TYPE_INTERNAL_RFID_SESSION = 48;
   static const int RPRM_RESULT_TYPE_INTERNAL_ENCRYPTED_RCL = 49;
   static const int RPRM_RESULT_TYPE_INTERNAL_LICENSE = 50;
+  static const int RPRM_RESULT_TYPE_TEXT = 36;
   static const int RPRM_RESULT_TYPE_IMAGES = 37;
   static const int RPRM_RESULT_TYPE_HOLO_PARAMS = 47;
   static const int RPRM_RESULT_TYPE_DOCUMENT_POSITION = 85;
@@ -3237,17 +3389,17 @@ class ERPRMFieldVerificationResult {
 }
 
 class DocReaderAction {
-  static const int COMPLETE = 1;
-  static const int PROCESS = 0;
-  static const int CANCEL = 2;
-  static const int ERROR = 3;
-  static const int NOTIFICATION = 5;
-  static const int PROCESS_WHITE_UV_IMAGES = 6;
-  static const int PROCESS_WHITE_FLASHLIGHT = 7;
-  static const int MORE_PAGES_AVAILABLE = 8;
-  static const int PROCESS_IR_FRAME = 9;
-  static const int TIMEOUT = 10;
-  static const int PROCESSING_ON_SERVICE = 11;
+  static const int COMPLETE = 0;
+  static const int PROCESS = 1;
+  static const int MORE_PAGES_AVAILABLE = 2;
+  static const int CANCEL = 3;
+  static const int ERROR = 4;
+  static const int PROCESS_WHITE_FLASHLIGHT = 5;
+  static const int TIMEOUT = 6;
+  static const int PROCESSING_ON_SERVICE = 7;
+  static const int NOTIFICATION = 101;
+  static const int PROCESS_WHITE_UV_IMAGES = 102;
+  static const int PROCESS_IR_FRAME = 103;
 }
 
 class EProcessGLCommands {
@@ -3537,6 +3689,13 @@ class RFIDDelegate {
   static const int NULL = 0;
   static const int NO_PA = 1;
   static const int FULL = 2;
+}
+
+class TextProcessing {
+  static const int ocNoChange = 0;
+  static const int ocUppercase = 1;
+  static const int ocLowercase = 2;
+  static const int ocCapital = 3;
 }
 
 class ProcessingFinishedStatus {
@@ -4352,6 +4511,31 @@ class EImageQualityCheckType {
   static const int IQC_SCREEN_CAPTURE = 6;
   static const int IQC_PORTRAIT = 7;
   static const int IQC_HANDWRITTEN = 8;
+
+  static String getTranslation(int value) {
+    switch (value) {
+      case IQC_IMAGE_GLARES:
+        return "Glares";
+      case IQC_IMAGE_FOCUS:
+        return "Focus";
+      case IQC_IMAGE_RESOLUTION:
+        return "Resolution";
+      case IQC_IMAGE_COLORNESS:
+        return "Color";
+      case IQC_PERSPECTIVE:
+        return "Perspective angle";
+      case IQC_BOUNDS:
+        return "Bounds";
+      case IQC_SCREEN_CAPTURE:
+        return "Moire pattern";
+      case IQC_PORTRAIT:
+        return "Portrait";
+      case IQC_HANDWRITTEN:
+        return "Handwritten";
+      default:
+        return value.toString();
+    }
+  }
 }
 
 class MRZFormat {
@@ -4761,6 +4945,10 @@ class EGraphicFieldType {
   }
 }
 
+class RegDeviceConfigType {
+  static const int DEVICE_7310 = 1;
+}
+
 class CameraMode {
   static const int AUTO = 0;
   static const int CAMERA1 = 1;
@@ -4907,7 +5095,7 @@ class ERFIDDataFileType {
       case DFT_PASSPORT_DG5:
         return "Portrait(s) (DG5)";
       case DFT_ID_DG5:
-        return "Surname/given name at birth" + " (DG5)";
+        return "Family name" + " (DG5)";
       case DFT_DL_DG5:
         return "Signature / usual mark image (DG5)";
       case DFT_PASSPORT_DG6:
@@ -5639,6 +5827,12 @@ class EVisualFieldType {
   static const int FT_THIRD_NAME = 648;
   static const int FT_FOURTH_NAME = 649;
   static const int FT_LAST_NAME = 650;
+  static const int FT_DLCLASSCODE_RM_FROM = 651;
+  static const int FT_DLCLASSCODE_RM_NOTES = 652;
+  static const int FT_DLCLASSCODE_RM_TO = 653;
+  static const int FT_DLCLASSCODE_PW_FROM = 654;
+  static const int FT_DLCLASSCODE_PW_NOTES = 655;
+  static const int FT_DLCLASSCODE_PW_TO = 656;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -5895,7 +6089,7 @@ class EVisualFieldType {
       case FT_JURISDICTION_RESTRICTION_CODE:
         return "Jurisdiction restriction code";
       case FT_FAMILY_NAME:
-        return "Surname/given name at birth";
+        return "Family name";
       case FT_GIVEN_NAMES_RUS:
         return "Given name (National)";
       case FT_VISA_ID_RUS:
@@ -6842,6 +7036,18 @@ class EVisualFieldType {
         return "Fourth name";
       case FT_LAST_NAME:
         return "Last name";
+      case FT_DLCLASSCODE_PW_FROM:
+        return "DL class code PW valid from";
+      case FT_DLCLASSCODE_PW_NOTES:
+        return "DL class code PW notes";
+      case FT_DLCLASSCODE_PW_TO:
+        return "DL class code PW valid to";
+      case FT_DLCLASSCODE_RM_FROM:
+        return "DL class code RM valid from";
+      case FT_DLCLASSCODE_RM_NOTES:
+        return "DL class code RM notes";
+      case FT_DLCLASSCODE_RM_TO:
+        return "DL class code RM valid to";
       default:
         return value.toString();
     }
