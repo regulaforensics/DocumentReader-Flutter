@@ -139,8 +139,8 @@ class _MyAppState extends State<MyApp> {
   updateRfidUI(results) {
     if (results.code ==
         ERFIDNotificationCodes.RFID_NOTIFICATION_PCSC_READING_DATAGROUP)
-      setState(() =>
-          rfidDescription = ERFIDDataFileType.getTranslation(results.number));
+      setState(() => rfidDescription =
+          ERFIDDataFileType.getTranslation(results.dataFileType));
     setState(() {
       rfidUIHeader = "Reading RFID";
       rfidUIHeaderColor = Colors.black;

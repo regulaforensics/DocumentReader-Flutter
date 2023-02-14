@@ -126,25 +126,31 @@
 }
 
 +(NSInteger)generateDocReaderAction:(RGLDocReaderAction)input {
-    NSInteger result = 0;
+    NSInteger result = -1;
     switch (input) {
         case RGLDocReaderActionComplete:
-            result = 1;
-            break;
-        case RGLDocReaderActionProcess:
             result = 0;
             break;
-        case RGLDocReaderActionMorePagesAvailable:
-            result = 8;
+        case RGLDocReaderActionProcess:
+            result = 1;
             break;
-        case RGLDocReaderActionCancel:
+        case RGLDocReaderActionMorePagesAvailable:
             result = 2;
             break;
-        case RGLDocReaderActionError:
+        case RGLDocReaderActionCancel:
             result = 3;
             break;
+        case RGLDocReaderActionError:
+            result = 4;
+            break;
+        case RGLDocReaderActionProcessWhiteFlashLight:
+            result = 5;
+            break;
         case RGLDocReaderActionProcessTimeout:
-            result = 10;
+            result = 6;
+            break;
+        case RGLDocReaderActionProcessOnServer:
+            result = 7;
             break;
         default:
             break;
@@ -160,13 +166,13 @@
             result = 999;
             break;
         case RGLRFIDCompleteActionError:
-            result = 3;
+            result = 4;
             break;
         case RGLRFIDCompleteActionCancel:
-            result = 2;
+            result = 3;
             break;
         case RGLRFIDCompleteActionSessionRestarted:
-            result = 1;
+            result = 0;
             break;
         default:
             break;
@@ -175,31 +181,8 @@
     return result;
 }
 
-+(NSNumber*)generateRGLImageQualityCheckType:(RGLImageQualityCheckType)value {
-    if(value == RGLImageQualityCheckTypeImageGlares)
-        return @0;
-    else if(value == RGLImageQualityCheckTypeImageFocus)
-        return @1;
-    else if(value == RGLImageQualityCheckTypeImageResolution)
-        return @2;
-    else if(value == RGLImageQualityCheckTypeImageColorness)
-        return @3;
-    else if(value == RGLImageQualityCheckTypeImagePerspective)
-        return @4;
-    else if(value == RGLImageQualityCheckTypeImageBounds)
-        return @5;
-    else if(value == RGLImageQualityCheckTypeScreenCapture)
-        return @6;
-    else if(value == RGLImageQualityCheckTypePortrait)
-        return @7;
-    else if(value == RGLImageQualityCheckTypeHandwritten)
-        return @8;
-    else
-        return @0;
-}
-
 +(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)input {
-    return 5;
+    return 101;
 }
 
 +(NSMutableDictionary*)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*)results :(NSError*)error :(RGLRFIDNotify*)notify {
@@ -207,27 +190,14 @@
 
     switch (action) {
         case 0:
-            break;
-        case 1:
-            result[@"results"] = [self generateRGLDocumentReaderResults:results];
-            break;
         case 2:
-            result[@"results"] = [self generateRGLDocumentReaderResults:results];
-            break;
         case 3:
-            result[@"results"] = [self generateRGLDocumentReaderResults:results];
-            break;
-        case 10:
-            result[@"results"] = [self generateRGLDocumentReaderResults:results];
-            break;
-        case 5:
-            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
-            break;
+        case 4:
         case 6:
-            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
-            break;
-        case 8:
             result[@"results"] = [self generateRGLDocumentReaderResults:results];
+            break;
+        case 101:
+            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
             break;
         case 999:
             result[@"results"] = [self generateResultsWithRFID :results :1];
@@ -260,6 +230,29 @@
     return result;
 }
 
++(NSNumber*)generateRGLImageQualityCheckType:(RGLImageQualityCheckType)value {
+    if(value == RGLImageQualityCheckTypeImageGlares)
+        return @0;
+    else if(value == RGLImageQualityCheckTypeImageFocus)
+        return @1;
+    else if(value == RGLImageQualityCheckTypeImageResolution)
+        return @2;
+    else if(value == RGLImageQualityCheckTypeImageColorness)
+        return @3;
+    else if(value == RGLImageQualityCheckTypeImagePerspective)
+        return @4;
+    else if(value == RGLImageQualityCheckTypeImageBounds)
+        return @5;
+    else if(value == RGLImageQualityCheckTypeScreenCapture)
+        return @6;
+    else if(value == RGLImageQualityCheckTypePortrait)
+        return @7;
+    else if(value == RGLImageQualityCheckTypeHandwritten)
+        return @8;
+    else
+        return @0;
+}
+
 +(NSString*)generateNSData:(NSData *)input {
     return [NSKeyedUnarchiver unarchiveObjectWithData:input];
 }
@@ -269,6 +262,19 @@
 
     result[@"serialNumber"] = [self generateNSData:serialNumber];
     result[@"issuer"] = [self generateRGLPAResourcesIssuer:issuer];
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"code"] = @(input.code);
+    result[@"value"] = @(input.value);
+    result[@"notificationCode"] = @(input.code & 0xFFFF0000);
+    result[@"dataFileType"] = @(input.code & 0x0000FFFF);
+//    result[@"progress"] = @(input.value & 0xFFFFFFF0);
 
     return result;
 }
@@ -1096,17 +1102,6 @@
     result[@"length"] = @(input.length);
     result[@"status"] = @(input.status);
     result[@"type"] = @(input.type);
-
-    return result;
-}
-
-+(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input {
-    NSMutableDictionary *result = [NSMutableDictionary new];
-    if(input == nil) return result;
-
-    result[@"code"] = @(input.code);
-    result[@"value"] = @(input.value);
-    result[@"attachment"] = @(input.attachment);
 
     return result;
 }

@@ -20,7 +20,7 @@ rootProject.allprojects {
 }
 
 dependencies {
-    implementation('com.regula.documentreader:api:6.6.8072') {
+    implementation('com.regula.documentreader:api:6.7.8311') {
         transitive = true
     }
 }

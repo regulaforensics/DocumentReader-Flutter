@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -623,8 +624,10 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         };
         Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        @SuppressLint("UnspecifiedImmutableFlag")
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            flags = PendingIntent.FLAG_IMMUTABLE;
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, flags);
         NfcAdapter.getDefaultAdapter(getActivity()).enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
@@ -675,6 +678,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
+    @SuppressLint("MissingPermission")
     private void initializeReaderBleDeviceConfig(Callback callback) {
         if (BluetoothUtil.Companion.getBleManager() == null) callback.error("bleManager is null");
         if (!Instance().isReady())

@@ -474,7 +474,10 @@ typedef void (^Callback)(NSString* response);
 }
 
 - (void) resetConfiguration:(Callback)successCallback :(Callback)errorCallback{
-    [self result:@"resetConfiguration() is an android-only method" :errorCallback];
+    RGLDocReader.shared.functionality = [RGLFunctionality new];
+    RGLDocReader.shared.processParams = [RGLProcessParams new];
+    RGLDocReader.shared.customization = [RGLCustomization new];
+    successCallback(@"");
 }
 
 - (void) setEnableCoreLogs:(BOOL)logs :(Callback)successCallback :(Callback)errorCallback{

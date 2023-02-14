@@ -227,6 +227,8 @@ class RegulaConfig {
             processParams.respectImageQuality = opts.getBoolean("respectImageQuality");
         if (opts.has("splitNames"))
             processParams.splitNames = opts.getBoolean("splitNames");
+        if (opts.has("convertCase"))
+            processParams.convertCase = opts.getInt("convertCase");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -516,6 +518,7 @@ class RegulaConfig {
         object.put("documentGroupFilter", generateIntArray(processParams.documentGroupFilter));
         object.put("respectImageQuality", processParams.respectImageQuality);
         object.put("splitNames", processParams.splitNames);
+        object.put("convertCase", processParams.convertCase);
 
         return object;
     }
