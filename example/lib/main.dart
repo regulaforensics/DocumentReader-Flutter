@@ -107,8 +107,6 @@ class _MyAppState extends State<MyApp> {
       this.handleResults(completion.results!);
     if (completion.action == DocReaderAction.TIMEOUT)
       this.handleResults(completion.results!);
-    if (completion.action == DocReaderAction.CANCEL ||
-        completion.action == DocReaderAction.ERROR) isReadingRfid = false;
   }
 
   void showRfidUI() {
