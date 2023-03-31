@@ -201,7 +201,7 @@
             break;
         case 999:
             result[@"results"] = [self generateResultsWithRFID :results :1];
-            action = 1;
+            action = 0;
             break;
         default:
             break;
