@@ -233,7 +233,7 @@ class RegulaConfig {
         if (opts.has("doFlipYAxis"))
             processParams.doFlipYAxis = opts.getBoolean("doFlipYAxis");
         if (opts.has("rfidParams"))
-            setRfidParams(processParams.rfidParams, opts.getJSONObject("rfidParams"));
+            processParams.rfidParams = RFIDParamsFromJSON(opts.getJSONObject("rfidParams"));
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -531,8 +531,6 @@ class RegulaConfig {
         object.put("splitNames", processParams.splitNames);
         object.put("convertCase", processParams.convertCase);
         object.put("doFlipYAxis", processParams.doFlipYAxis);
-        if (processParams.rfidParams != null)
-            object.put("rfidParams", getRfidParams(processParams.rfidParams));
 
         return object;
     }
@@ -644,19 +642,6 @@ class RegulaConfig {
             DocumentReader.Instance().rfidScenario().setDefaultReadingBufferSize(opts.getInt("defaultReadingBufferSize"));
     }
 
-    private static void setRfidParams(RFIDParams rfidParams, JSONObject opts) throws JSONException {
-        if (opts.has("paIgnoreNotificationCodes"))
-            rfidParams.setPaIgnoreNotificationCodes(JSONConstructor.intArrayFromJSON(opts.getJSONArray("paIgnoreNotificationCodes")));
-    }
-
-    private static JSONObject getRfidParams(RFIDParams rfidParams) throws JSONException {
-        JSONObject object = new JSONObject();
-
-        object.put("paIgnoreNotificationCodes", JSONConstructor.generateIntArray(rfidParams.getPaIgnoreNotificationCodes()));
-
-        return object;
-    }
-
     private static void setDataGroups(DataGroups dataGroup, JSONObject opts) throws JSONException {
         if (opts.has("DG1"))
             dataGroup.setDG1(opts.getBoolean("DG1"));
@@ -735,6 +720,20 @@ class RegulaConfig {
                 builder.setProcessParams(params);
             }
             return builder.build();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static RFIDParams RFIDParamsFromJSON(JSONObject input) {
+        try {
+            RFIDParams result = new RFIDParams();
+
+            if (input.has("paIgnoreNotificationCodes"))
+                result.setPaIgnoreNotificationCodes(JSONConstructor.intArrayFromJSON(input.getJSONArray("paIgnoreNotificationCodes")));
+
+            return result;
         } catch (JSONException e) {
             e.printStackTrace();
         }

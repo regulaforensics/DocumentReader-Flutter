@@ -2536,7 +2536,11 @@ class ERPRMAuthenticity {
   static const int KINEGRAM = 131072;
   static const int HOLOGRAMS_DETECTION = 524288;
   static const int MRZ = 8388608;
-  static const int RPRM_Authenticity_StatusOnly = 0x80000000;
+  static const int STATUS_ONLY = 0x80000000;
+  static const int OVI = 0x00000400;
+  static const int LIVENESS = 0x00200000;
+  static const int OCR = 0x00400000;
+  static const int UV = 1 | 4 | 16;
 }
 
 class ERFIDErrorCodes {
@@ -3706,7 +3710,8 @@ class ECheckDiagnose {
   static const int OCR_QUALITY_INVALID_FONT = 221;
   static const int OCR_QUALITY_INVALID_BACKGROUND = 222;
   static const int LAS_INK_INVALID_LINES_FREQUENCY = 230;
-  static const int LAST_DIAGNOSE_VALUE = 240;
+  static const int LAST_DIAGNOSE_VALUE = 250;
+  static const int DOC_LIVENESS_ELECTRONIC_DEVICE_DETECTED = 240;
 }
 
 class RFIDDelegate {
@@ -4594,7 +4599,7 @@ class BarcodeType {
 }
 
 class ERPRMSecurityFeatureType {
-  static const int NONE = -1;
+  static const int SECURITY_FEATURE_TYPE_NONE = -1;
   static const int SECURITY_FEATURE_TYPE_BLANK = 0;
   static const int SECURITY_FEATURE_TYPE_FILL = 1;
   static const int SECURITY_FEATURE_TYPE_PHOTO = 2;
@@ -4624,7 +4629,7 @@ class ERPRMSecurityFeatureType {
   static const int SECURITY_FEATURE_TYPE_PHOTO_COLOR = 25;
   static const int SECURITY_FEATURE_TYPE_PHOTO_SHAPE = 26;
   static const int SECURITY_FEATURE_TYPE_PHOTO_CORNERS = 27;
-  static const int DOCUMENT_CANCELLING_DETECTOR = 28;
+  static const int SECURITY_FEATURE_TYPE_DOCUMENT_CANCELLING_DETECTOR = 28;
   static const int SECURITY_FEATURE_TYPE_LASINK = 43;
   static const int SECURITY_FEATURE_TYPE_OCR = 28;
   static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_EXTVSVISUAL = 29;
@@ -4637,6 +4642,7 @@ class ERPRMSecurityFeatureType {
   static const int SECURITY_FEATURE_TYPE_FACEPRESENCE = 36;
   static const int SECURITY_FEATURE_TYPE_FACEABSENCE = 38;
   static const int SECURITY_FEATURE_TYPE_BARCODESIZECHECK = 42;
+  static const int SECURITY_FEATURE_TYPE_DOC_LIVENESS_ELECTRONIC_DEVICE = 44;
 }
 
 class OnlineMode {

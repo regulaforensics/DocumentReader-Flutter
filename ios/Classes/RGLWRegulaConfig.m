@@ -768,7 +768,7 @@
     if([options valueForKey:@"convertCase"] != nil)
         processParams.convertCase = [options valueForKey:@"convertCase"];
     if([options valueForKey:@"rfidParams"] != nil)
-        [self setRfidParams:[options valueForKey:@"rfidParams"] :processParams.rfidParams];
+        processParams.rfidParams = [self RGLRFIDParamsFromJSON:[options valueForKey:@"rfidParams"]];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -933,7 +933,6 @@
     result[@"processAuth"] = processParams.processAuth;
     result[@"documentGroupFilter"] = processParams.documentGroupFilter;
     result[@"convertCase"] = processParams.convertCase;
-    result[@"rfidParams"] = [self getRfidParams:processParams.rfidParams];
 
     return result;
 }
@@ -1043,15 +1042,11 @@
         rfidScenario.defaultReadingBufferSize = [[options valueForKey:@"defaultReadingBufferSize"] intValue];
 }
 
-+(void)setRfidParams:(NSDictionary*)options :(RGLRFIDParams*)rfidParams {
-    if([options valueForKey:@"paIgnoreNotificationCodes"] != nil)
-        rfidParams.paIgnoreNotificationCodes = [options valueForKey:@"paIgnoreNotificationCodes"];
-}
++(RGLRFIDParams*)RGLRFIDParamsFromJSON:(NSDictionary*)input {
+    RGLRFIDParams* result = [RGLRFIDParams new];
 
-+(NSMutableDictionary *)getRfidParams:(RGLRFIDParams*)rfidParams {
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-
-    result[@"paIgnoreNotificationCodes"] = rfidParams.paIgnoreNotificationCodes;
+    if([input valueForKey:@"paIgnoreNotificationCodes"] != nil)
+        result.paIgnoreNotificationCodes = [input valueForKey:@"paIgnoreNotificationCodes"];
 
     return result;
 }
