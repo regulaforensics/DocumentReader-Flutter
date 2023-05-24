@@ -1,11 +1,11 @@
-#ifndef RGLWRegulaConfig_h
-#define RGLWRegulaConfig_h
+#ifndef RegulaConfig_h
+#define RegulaConfig_h
 #import <DocumentReader/DocumentReader.h>
 @import CoreGraphics;
 @import UIKit;
 @import AVFoundation;
 
-@interface RGLWRegulaConfig : NSObject
+@interface RegulaConfig : NSObject
 
 +(void)setConfig:(NSDictionary*) options : (RGLDocReader*) reader;
 +(NSMutableDictionary *)getConfig:(RGLDocReader*) reader;

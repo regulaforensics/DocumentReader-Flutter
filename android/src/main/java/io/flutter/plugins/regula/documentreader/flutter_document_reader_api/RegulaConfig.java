@@ -10,7 +10,6 @@ import com.regula.documentreader.api.params.OnlineProcessingConfig;
 import com.regula.documentreader.api.params.ParamsCustomization;
 import com.regula.documentreader.api.params.Functionality;
 import com.regula.documentreader.api.params.ProcessParam;
-import com.regula.documentreader.api.params.rfid.RFIDParams;
 import com.regula.documentreader.api.params.rfid.ReprocParams;
 import com.regula.documentreader.api.params.rfid.dg.DataGroups;
 
@@ -230,10 +229,6 @@ class RegulaConfig {
             processParams.splitNames = opts.getBoolean("splitNames");
         if (opts.has("convertCase"))
             processParams.convertCase = opts.getInt("convertCase");
-        if (opts.has("doFlipYAxis"))
-            processParams.doFlipYAxis = opts.getBoolean("doFlipYAxis");
-        if (opts.has("rfidParams"))
-            processParams.rfidParams = RFIDParamsFromJSON(opts.getJSONObject("rfidParams"));
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -256,8 +251,6 @@ class RegulaConfig {
             editor.setMultipageButtonBackgroundColor(opts.getString("multipageButtonBackgroundColor"));
         if (opts.has("tintColor"))
             editor.setTintColor(opts.getString("tintColor"));
-        if (opts.has("cameraPreviewBackgroundColor"))
-            editor.setCameraPreviewBackgroundColor(opts.getString("cameraPreviewBackgroundColor"));
         if (opts.has("activityIndicatorColor"))
             editor.setActivityIndicatorColor(opts.getString("activityIndicatorColor"));
         if (opts.has("showStatusMessages"))
@@ -358,8 +351,6 @@ class RegulaConfig {
             editor.setHologramAnimationImageScaleType(ScaleType.valueOf(opts.getString("hologramAnimationImageScaleType")));
         if (opts.has("uiCustomizationLayer"))
             editor.setUiCustomizationLayer(opts.getJSONObject("uiCustomizationLayer"));
-        if (opts.has("activityIndicatorSize"))
-            editor.setActivityIndicatorSize(opts.getInt("activityIndicatorSize"));
 
         editor.applyImmediately(context);
     }
@@ -409,7 +400,6 @@ class RegulaConfig {
         object.put("resultStatus", customization.getResultStatus());
         object.put("cameraFrameDefaultColor", customization.getCameraFrameDefaultColor());
         object.put("cameraFrameActiveColor", customization.getCameraFrameActiveColor());
-        object.put("cameraPreviewBackgroundColor", customization.getCameraPreviewBackgroundColor());
         object.put("statusTextColor", customization.getStatusTextColor());
         object.put("resultStatusTextColor", customization.getResultStatusTextColor());
         object.put("resultStatusBackgroundColor", customization.getResultStatusBackgroundColor());
@@ -465,7 +455,6 @@ class RegulaConfig {
         object.put("hologramAnimationImageMatrix", customization.getHologramAnimationImageMatrix());
         object.put("hologramAnimationImageScaleType", customization.getHologramAnimationImageScaleType());
         object.put("uiCustomizationLayer", customization.getUiCustomizationLayer());
-        object.put("activityIndicatorSize", customization.getActivityIndicatorSize());
 
         return object;
     }
@@ -530,7 +519,6 @@ class RegulaConfig {
         object.put("respectImageQuality", processParams.respectImageQuality);
         object.put("splitNames", processParams.splitNames);
         object.put("convertCase", processParams.convertCase);
-        object.put("doFlipYAxis", processParams.doFlipYAxis);
 
         return object;
     }
@@ -720,20 +708,6 @@ class RegulaConfig {
                 builder.setProcessParams(params);
             }
             return builder.build();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private static RFIDParams RFIDParamsFromJSON(JSONObject input) {
-        try {
-            RFIDParams result = new RFIDParams();
-
-            if (input.has("paIgnoreNotificationCodes"))
-                result.setPaIgnoreNotificationCodes(JSONConstructor.intArrayFromJSON(input.getJSONArray("paIgnoreNotificationCodes")));
-
-            return result;
         } catch (JSONException e) {
             e.printStackTrace();
         }
