@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "RegulaConfig.h"
+#import "RGLWRegulaConfig.h"
 
-@implementation RegulaConfig
+@implementation RGLWRegulaConfig
 +(void)setConfig:(NSDictionary*)options :(RGLDocReader*)reader {
     if([options valueForKey:@"customization"] != nil)
         [self setCustomization: [options valueForKey:@"customization"]: reader.customization];
@@ -578,6 +578,8 @@
         customization.toolbarSize = [[options valueForKey:@"toolbarSize"] floatValue];
     if([options valueForKey:@"statusBackgroundColor"] != nil)
         customization.statusBackgroundColor = [self getUIColorObjectFromHexString:[options valueForKey:@"statusBackgroundColor"] alpha:1];
+    if([options valueForKey:@"cameraPreviewBackgroundColor"] != nil)
+        customization.cameraPreviewBackgroundColor = [self getUIColorObjectFromHexString:[options valueForKey:@"cameraPreviewBackgroundColor"] alpha:1];
     if([options valueForKey:@"hologramAnimationImageContentMode"] != nil)
         customization.hologramAnimationImageContentMode = [self UIViewContentModeWithNSInteger:[[options valueForKey:@"hologramAnimationImageContentMode"] integerValue]];
     if([options valueForKey:@"hologramAnimationPositionMultiplier"] != nil)
@@ -625,7 +627,9 @@
     if([options valueForKey:@"cameraPosition"] != nil)
         functionality.cameraPosition = [self AVCaptureDevicePositionWithNSInteger:[[options valueForKey:@"cameraPosition"] integerValue]];
     if([options valueForKey:@"btDeviceName"] != nil)
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         functionality.btDeviceName = [options valueForKey:@"btDeviceName"];
+        #pragma clang diagnostic pop
     if([options valueForKey:@"useAuthenticator"] != nil)
         functionality.useAuthenticator = [[options valueForKey:@"useAuthenticator"] boolValue];
     if([options valueForKey:@"showCaptureButtonDelayFromDetect"] != nil)
@@ -644,6 +648,8 @@
         functionality.recordScanningProcess = [[options valueForKey:@"recordScanningProcess"] boolValue];
     if([options valueForKey:@"manualMultipageMode"] != nil)
         functionality.manualMultipageMode = [[options valueForKey:@"manualMultipageMode"] boolValue];
+    if([options valueForKey:@"videoOutputSettings"] != nil)
+        functionality.videoOutputSettings = [options valueForKey:@"videoOutputSettings"];
     if([options valueForKey:@"onlineProcessingConfiguration"] != nil)
         functionality.onlineProcessingConfig = [self RGLOnlineProcessingConfigFromJSON:[options valueForKey:@"onlineProcessingConfiguration"]];;
 }
@@ -724,7 +730,7 @@
     if([options valueForKey:@"updateOCRValidityByGlare"] != nil)
         processParams.updateOCRValidityByGlare = [options valueForKey:@"updateOCRValidityByGlare"];
     if([options valueForKey:@"imageQA"] != nil)
-        processParams.imageQA = [RegulaConfig ImageQAFromJson:[options valueForKey:@"imageQA"]];
+        processParams.imageQA = [RGLWRegulaConfig ImageQAFromJson:[options valueForKey:@"imageQA"]];
     if([options valueForKey:@"forceDocFormat"] != nil)
         processParams.forceDocFormat = [options valueForKey:@"forceDocFormat"];
     if([options valueForKey:@"noGraphics"] != nil)
@@ -761,6 +767,8 @@
         processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
     if([options valueForKey:@"convertCase"] != nil)
         processParams.convertCase = [options valueForKey:@"convertCase"];
+    if([options valueForKey:@"rfidParams"] != nil)
+        processParams.rfidParams = [self RGLRFIDParamsFromJSON:[options valueForKey:@"rfidParams"]];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
@@ -817,6 +825,8 @@
         result[@"statusTextColor"] = [self hexStringFromUIColor:customization.statusTextColor];
     if(customization.resultStatusBackgroundColor != nil)
         result[@"resultStatusBackgroundColor"] = [self hexStringFromUIColor:customization.resultStatusBackgroundColor];
+    if(customization.cameraPreviewBackgroundColor != nil)
+        result[@"cameraPreviewBackgroundColor"] = [self hexStringFromUIColor:customization.cameraPreviewBackgroundColor];
     if(customization.cameraFrameDefaultColor != nil)
         result[@"cameraFrameDefaultColor"] = [self hexStringFromUIColor:customization.cameraFrameDefaultColor];
     if(customization.cameraFrameActiveColor != nil)
@@ -846,7 +856,9 @@
     result[@"videoCaptureMotionControl"] = [NSNumber numberWithBool:functionality.videoCaptureMotionControl];
     result[@"orientation"] = [NSNumber numberWithInteger:[self NSIntegerWithUIInterfaceOrientationMask:functionality.orientation]];
     result[@"cameraPosition"] = [NSNumber numberWithInteger:[self NSIntegerWithAVCaptureDevicePosition:functionality.cameraPosition]];
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     result[@"btDeviceName"] = functionality.btDeviceName;
+    #pragma clang diagnostic pop
     result[@"useAuthenticator"] = [NSNumber numberWithBool:functionality.isUseAuthenticator];
     result[@"showCaptureButtonDelayFromDetect"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromDetect];
     result[@"showCaptureButtonDelayFromStart"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromStart];
@@ -856,6 +868,7 @@
     result[@"zoomFactor"] = [NSNumber numberWithBool:functionality.zoomFactor];
     result[@"recordScanningProcess"] = [NSNumber numberWithBool:functionality.recordScanningProcess];
     result[@"manualMultipageMode"] = [NSNumber numberWithBool:functionality.manualMultipageMode];
+    result[@"videoOutputSettings"] = functionality.videoOutputSettings;
 
     return result;
 }
@@ -901,7 +914,7 @@
     result[@"matchTextFieldMask"] = processParams.matchTextFieldMask;
     result[@"fastDocDetect"] = processParams.fastDocDetect;
     result[@"updateOCRValidityByGlare"] = processParams.updateOCRValidityByGlare;
-    result[@"imageQA"] = [RegulaConfig ImageQAToJson:processParams.imageQA];
+    result[@"imageQA"] = [RGLWRegulaConfig ImageQAToJson:processParams.imageQA];
     result[@"forceDocFormat"] = processParams.forceDocFormat;
     result[@"noGraphics"] = processParams.noGraphics;
     result[@"documentAreaMin"] = processParams.documentAreaMin;
@@ -1027,6 +1040,15 @@
         rfidScenario.reprocParams = [self RGLReprocParamsFromJSON: [options valueForKey:@"reprocessParams"]];
     if([options valueForKey:@"defaultReadingBufferSize"] != nil)
         rfidScenario.defaultReadingBufferSize = [[options valueForKey:@"defaultReadingBufferSize"] intValue];
+}
+
++(RGLRFIDParams*)RGLRFIDParamsFromJSON:(NSDictionary*)input {
+    RGLRFIDParams* result = [RGLRFIDParams new];
+
+    if([input valueForKey:@"paIgnoreNotificationCodes"] != nil)
+        result.paIgnoreNotificationCodes = [input valueForKey:@"paIgnoreNotificationCodes"];
+
+    return result;
 }
 
 @end

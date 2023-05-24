@@ -7,6 +7,7 @@
 
 @interface RGLWJSONConstructor : NSObject
 +(NSString* _Nonnull)dictToString:(NSMutableDictionary* _Nonnull)input;
++(NSString* _Nonnull)arrayToString:(NSMutableArray* _Nonnull)input;
 +(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletion:(NSInteger)notification;
 +(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletionWithError:(NSInteger)notification : (NSInteger)value;
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input;
