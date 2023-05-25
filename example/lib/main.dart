@@ -59,6 +59,11 @@ class _MyAppState extends State<MyApp> {
         .receiveBroadcastStream()
         .listen((event) =>
             print("rfid_notification_completion: ${event.toString()}"));
+    const EventChannel(
+            'flutter_document_reader_api/event/onCustomButtonTappedEvent')
+        .receiveBroadcastStream()
+        .listen(
+            (event) => print("onCustomButtonTappedEvent: ${event.toString()}"));
   }
 
   void addCertificates() async {

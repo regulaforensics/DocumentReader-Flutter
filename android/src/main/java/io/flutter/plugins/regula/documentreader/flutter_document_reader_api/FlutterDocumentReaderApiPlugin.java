@@ -8,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
@@ -54,6 +56,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -84,6 +87,8 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private EventChannel.EventSink bleOnServiceConnectedEvent;
     private EventChannel.EventSink bleOnServiceDisconnectedEvent;
     private EventChannel.EventSink bleOnDeviceReadyEvent;
+
+    private EventChannel.EventSink onCustomButtonTappedEvent;
 
     private IRfidPKDCertificateCompletion paCertificateCompletion;
     private IRfidPKDCertificateCompletion taCertificateCompletion;
@@ -198,6 +203,16 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             @Override
             public void onListen(Object arguments, EventChannel.EventSink events) {
                 bleOnDeviceReadyEvent = events;
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+            }
+        });
+        new EventChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_document_reader_api/event/onCustomButtonTappedEvent").setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
+                onCustomButtonTappedEvent = events;
             }
 
             @Override
@@ -334,6 +349,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     void sendBleOnDeviceReadyEvent() {
         if (bleOnDeviceReadyEvent != null)
             new Handler(Looper.getMainLooper()).post(() -> bleOnDeviceReadyEvent.success(""));
+    }
+
+    void sendOnCustomButtonTappedEvent(int tag) {
+        if (onCustomButtonTappedEvent != null)
+            new Handler(Looper.getMainLooper()).post(() -> onCustomButtonTappedEvent.success(tag));
     }
 
     @Override
@@ -556,6 +576,12 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
                     break;
                 case "recognizeImagesWithImageInputs":
                     recognizeImagesWithImageInputs(callback, args(0));
+                    break;
+                case "setOnCustomButtonTappedListener":
+                    setOnCustomButtonTappedListener(callback);
+                    break;
+                case "setLanguage":
+                    setLanguage(callback, args(0));
                     break;
                 case "textFieldValueByType":
                     textFieldValueByType(callback, args(0), args(1));
@@ -949,6 +975,21 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private void readRFID(@SuppressWarnings("unused") Callback callback) {
         backgroundRFIDEnabled = true;
         startForegroundDispatch(getActivity());
+    }
+
+    private void setOnCustomButtonTappedListener(Callback callback) {
+        Instance().setOnClickListener(view -> sendOnCustomButtonTappedEvent((int) view.getTag()));
+        callback.success();
+    }
+
+    private void setLanguage(Callback callback, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Resources resources = getContext().getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        callback.success();
     }
 
     private void providePACertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {

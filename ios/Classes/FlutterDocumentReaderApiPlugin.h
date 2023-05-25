@@ -1,44 +1,55 @@
 #import <Flutter/Flutter.h>
 #import <DocumentReader/DocumentReader.h>
 #import "RGLWJSONConstructor.h"
-#import "RegulaConfig.h"
+#import "RGLWRegulaConfig.h"
 
-@interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin, RGLRecordScanningProcessDelegate, RGLDocReaderRFIDDelegate>
+typedef void (^RGLWCallback)(NSString* _Nullable response);
+
+@interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin,
+                                                        RGLRecordScanningProcessDelegate,
+                                                        RGLDocReaderRFIDDelegate,
+                                                        RGLCustomizationActionDelegate>
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
 @property (class) NSNumber* _Nullable databasePercentageDownloaded;
 
 @end
 
-@interface CompletionStreamHandler : NSObject <FlutterStreamHandler>
+typedef void (^RGLWRFIDSignatureCallback)(NSData * _Nonnull signature);
+
+@interface RGLWRFIDDelegateNoPA : NSObject<RGLDocReaderRFIDDelegate>
 @end
 
-@interface VideoEncoderCompletionStreamHandler : NSObject <FlutterStreamHandler>
+
+@interface RGLWCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface DatabaseProgressStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWVideoEncoderCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface RFIDNotificationCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWDatabaseProgressStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface BleOnServiceConnectedStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWRFIDNotificationCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface BleOnServiceDisconnectedStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWBleOnServiceConnectedStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface BleOnDeviceReadyStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWBleOnServiceDisconnectedStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface PACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWBleOnDeviceReadyStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface TACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWPACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface TASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@interface RGLWTACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 
-@interface RFIDDelegateNoPA : NSObject<RGLDocReaderRFIDDelegate>
+@interface RGLWTASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
+
+@interface RGLWOnCustomButtonTappedStreamHandler : NSObject <FlutterStreamHandler>
 @end

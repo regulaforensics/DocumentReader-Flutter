@@ -423,6 +423,7 @@ class JSONConstructor {
             result.put("fieldType", input.fieldType);
             result.put("lightType", input.light);
             result.put("pageIndex", input.pageIndex);
+            result.put("originalPageIndex", input.originalPageIndex);
             result.put("fieldName", eGraphicFieldType.getTranslation(context, input.fieldType));
             result.put("lightName", eRPRM_Lights.getTranslation(context, input.light));
             result.put("value", input.imageBase64());
@@ -575,6 +576,7 @@ class JSONConstructor {
             result.put("dType", input.dType);
             result.put("dFormat", input.dFormat);
             result.put("dMRZ", input.dMRZ);
+            result.put("isDeprecated", input.isDeprecated);
             result.put("name", input.name);
             result.put("ICAOCode", input.ICAOCode);
             result.put("dDescription", input.dDescription);

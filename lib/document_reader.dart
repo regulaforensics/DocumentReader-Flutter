@@ -230,6 +230,7 @@ class DocumentReaderGraphicField {
   int? fieldType;
   int? lightType;
   int? pageIndex;
+  int? originalPageIndex;
   String? fieldName;
   String? lightName;
   String? value;
@@ -243,6 +244,7 @@ class DocumentReaderGraphicField {
     result.fieldType = jsonObject["fieldType"];
     result.lightType = jsonObject["lightType"];
     result.pageIndex = jsonObject["pageIndex"];
+    result.originalPageIndex = jsonObject["originalPageIndex"];
     result.fieldName = jsonObject["fieldName"];
     result.lightName = jsonObject["lightName"];
     result.value = jsonObject["value"];
@@ -258,6 +260,8 @@ class DocumentReaderGraphicField {
     if (fieldType != null) _result.addAll({"fieldType": fieldType});
     if (lightType != null) _result.addAll({"lightType": lightType});
     if (pageIndex != null) _result.addAll({"pageIndex": pageIndex});
+    if (originalPageIndex != null)
+      _result.addAll({"originalPageIndex": originalPageIndex});
     if (fieldName != null) _result.addAll({"fieldName": fieldName});
     if (lightName != null) _result.addAll({"lightName": lightName});
     if (value != null) _result.addAll({"value": value});
@@ -601,6 +605,7 @@ class DocumentReaderDocumentType {
   int? dType;
   int? dFormat;
   bool? dMRZ;
+  bool? isDeprecated;
   String? name;
   String? iCAOCode;
   String? dDescription;
@@ -617,6 +622,7 @@ class DocumentReaderDocumentType {
     result.dType = jsonObject["dType"];
     result.dFormat = jsonObject["dFormat"];
     result.dMRZ = jsonObject["dMRZ"];
+    result.isDeprecated = jsonObject["isDeprecated"];
     result.name = jsonObject["name"];
     result.iCAOCode = jsonObject["ICAOCode"];
     result.dDescription = jsonObject["dDescription"];
@@ -636,6 +642,7 @@ class DocumentReaderDocumentType {
     if (dType != null) _result.addAll({"dType": dType});
     if (dFormat != null) _result.addAll({"dFormat": dFormat});
     if (dMRZ != null) _result.addAll({"dMRZ": dMRZ});
+    if (isDeprecated != null) _result.addAll({"isDeprecated": isDeprecated});
     if (name != null) _result.addAll({"name": name});
     if (iCAOCode != null) _result.addAll({"ICAOCode": iCAOCode});
     if (dDescription != null) _result.addAll({"dDescription": dDescription});
@@ -1593,6 +1600,8 @@ class ImageInputParam {
   int? width;
   int? height;
   int? type;
+  bool? disableFrameShiftIR;
+  bool? doFlipYAxis;
 
   static ImageInputParam? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -1601,6 +1610,8 @@ class ImageInputParam {
     result.width = jsonObject["width"];
     result.height = jsonObject["height"];
     result.type = jsonObject["type"];
+    result.disableFrameShiftIR = jsonObject["disableFrameShiftIR"];
+    result.doFlipYAxis = jsonObject["doFlipYAxis"];
 
     return result;
   }
@@ -1611,6 +1622,9 @@ class ImageInputParam {
     if (width != null) _result.addAll({"width": width});
     if (height != null) _result.addAll({"height": height});
     if (type != null) _result.addAll({"type": type});
+    if (disableFrameShiftIR != null)
+      _result.addAll({"disableFrameShiftIR": disableFrameShiftIR});
+    if (doFlipYAxis != null) _result.addAll({"doFlipYAxis": doFlipYAxis});
 
     return _result;
   }
@@ -2522,6 +2536,11 @@ class ERPRMAuthenticity {
   static const int KINEGRAM = 131072;
   static const int HOLOGRAMS_DETECTION = 524288;
   static const int MRZ = 8388608;
+  static const int STATUS_ONLY = 0x80000000;
+  static const int OVI = 0x00000400;
+  static const int LIVENESS = 0x00200000;
+  static const int OCR = 0x00400000;
+  static const int UV = 1 | 4 | 16;
 }
 
 class ERFIDErrorCodes {
@@ -3478,6 +3497,7 @@ class ScenarioIdentifier {
   static const String SCENARIO_OCR_FREE = "OcrFree";
   static const String SCENARIO_CREDIT_CARD = "CreditCard";
   static const String SCENARIO_CAPTURE = "Capture";
+  static const String SCENARIO_BARCODE_AND_LOCATE = "BarcodeAndLocate";
 }
 
 class ERFIDAccessControlProcedureType {
@@ -3680,9 +3700,18 @@ class ECheckDiagnose {
   static const int FINISHED_BY_TIMEOUT = 186;
   static const int HOLO_PHOTO_DOCUMENT_OUTSIDE_FRAME = 187;
   static const int LIVENESS_DEPTH_CHECK_FAILED = 190;
-  static const int MRZ_QUALITY_WRONG_MRZ_DPI = 200;
+  static const int MRZ_QUALITY_WRONG_SYMBOL_POSITION = 200;
   static const int MRZ_QUALITY_WRONG_BACKGROUND = 201;
-  static const int LAST_DIAGNOSE_VALUE = 210;
+  static const int MRZ_QUALITY_WRONG_MRZ_WIDTH = 202;
+  static const int MRZ_QUALITY_WRONG_MRZ_HEIGHT = 203;
+  static const int MRZ_QUALITY_WRONG_LINE_POSITION = 204;
+  static const int MRZ_QUALITY_WRONG_FONT_TYPE = 205;
+  static const int OCR_QUALITY_TEXT_POSITION = 220;
+  static const int OCR_QUALITY_INVALID_FONT = 221;
+  static const int OCR_QUALITY_INVALID_BACKGROUND = 222;
+  static const int LAS_INK_INVALID_LINES_FREQUENCY = 230;
+  static const int LAST_DIAGNOSE_VALUE = 250;
+  static const int DOC_LIVENESS_ELECTRONIC_DEVICE_DETECTED = 240;
 }
 
 class RFIDDelegate {
@@ -4570,7 +4599,7 @@ class BarcodeType {
 }
 
 class ERPRMSecurityFeatureType {
-  static const int NONE = -1;
+  static const int SECURITY_FEATURE_TYPE_NONE = -1;
   static const int SECURITY_FEATURE_TYPE_BLANK = 0;
   static const int SECURITY_FEATURE_TYPE_FILL = 1;
   static const int SECURITY_FEATURE_TYPE_PHOTO = 2;
@@ -4600,7 +4629,22 @@ class ERPRMSecurityFeatureType {
   static const int SECURITY_FEATURE_TYPE_PHOTO_COLOR = 25;
   static const int SECURITY_FEATURE_TYPE_PHOTO_SHAPE = 26;
   static const int SECURITY_FEATURE_TYPE_PHOTO_CORNERS = 27;
-  static const int DOCUMENT_CANCELLING_DETECTOR = 28;
+  static const int SECURITY_FEATURE_TYPE_OCR = 28;
+  static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_EXTVS_VISUAL = 29;
+  static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_EXTVS_RFID = 30;
+  static const int SECURITY_FEATURE_TYPE_PORTRAIT_COMPARISON_EXTVS_LIVE = 31;
+  static const int SECURITY_FEATURE_TYPE_LIVENESS_DEPTH = 32;
+  static const int SECURITY_FEATURE_TYPE_MICROTEXT = 33;
+  static const int SECURITY_FEATURE_TYPE_FLUORESCENT_OBJECT = 34;
+  static const int SECURITY_FEATURE_TYPE_LANDMARKS_CHECK = 35;
+  static const int SECURITY_FEATURE_TYPE_FACE_PRESENCE = 36;
+  static const int SECURITY_FEATURE_TYPE_FACE_ABSENCE = 38;
+  static const int SECURITY_FEATURE_TYPE_LIVENESS_SCREEN_CAPTURE = 39;
+  static const int SECURITY_FEATURE_TYPE_LIVENESS_ELECTRONIC_DEVICE = 40;
+  static const int SECURITY_FEATURE_TYPE_LIVENESS_OVI = 41;
+  static const int SECURITY_FEATURE_TYPE_BARCODE_SIZE_CHECK = 42;
+  static const int SECURITY_FEATURE_TYPE_LAS_INK = 43;
+  static const int SECURITY_FEATURE_TYPE_LIVENESS_MLI = 44;
 }
 
 class OnlineMode {
@@ -5833,6 +5877,16 @@ class EVisualFieldType {
   static const int FT_DLCLASSCODE_PW_FROM = 654;
   static const int FT_DLCLASSCODE_PW_NOTES = 655;
   static const int FT_DLCLASSCODE_PW_TO = 656;
+  static const int FT_DLCLASSCODE_EB_FROM = 657;
+  static const int FT_DLCLASSCODE_EB_NOTES = 658;
+  static const int FT_DLCLASSCODE_EB_TO = 659;
+  static const int FT_DLCLASSCODE_EC_FROM = 660;
+  static const int FT_DLCLASSCODE_EC_NOTES = 661;
+  static const int FT_DLCLASSCODE_EC_TO = 662;
+  static const int FT_DLCLASSCODE_EC1_FROM = 663;
+  static const int FT_DLCLASSCODE_EC1_NOTES = 664;
+  static const int FT_DLCLASSCODE_EC1_TO = 665;
+  static const int FT_PLACE_OF_BIRTH_CITY = 666;
 
   static String getTranslation(int value) {
     switch (value) {
@@ -7556,6 +7610,7 @@ class ERPRMLights {
   static const int RPRM_Light_IR_SIDE = 16;
   static const int RPRM_Light_IR_Full = (8 | 16);
   static const int RPRM_LIGHT_OVD = 67108864;
+  static const int RPRM_LIGHT_WHITE_FULL_OVD = (6 | 67108864);
 
   static String getTranslation(int value) {
     switch (value) {
@@ -7907,5 +7962,13 @@ class DocumentReader {
   static Future<dynamic> recognizeImagesWithImageInputs(images) async {
     return await _channel
         .invokeMethod("recognizeImagesWithImageInputs", [images]);
+  }
+
+  static Future<dynamic> setOnCustomButtonTappedListener() async {
+    return await _channel.invokeMethod("setOnCustomButtonTappedListener", []);
+  }
+
+  static Future<dynamic> setLanguage(language) async {
+    return await _channel.invokeMethod("setLanguage", [language]);
   }
 }
