@@ -477,6 +477,8 @@
         result.serviceURL = [dict valueForKey:@"serviceUrl"];
     if([dict valueForKey:@"failIfNoService"] != nil)
         result.failIfNoService = [dict valueForKey:@"failIfNoService"];
+    if([dict valueForKey:@"httpHeaders"] != nil)
+        result.httpHeaders = [dict valueForKey:@"httpHeaders"];
 
     return result;
 }

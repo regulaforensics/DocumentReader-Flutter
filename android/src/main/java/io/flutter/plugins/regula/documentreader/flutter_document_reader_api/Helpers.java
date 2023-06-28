@@ -19,7 +19,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 class Helpers {
     static Bitmap bitmapFromBase64(String base64) {
@@ -63,7 +66,7 @@ class Helpers {
     }
 
     static String bitmapToBase64String(Bitmap bitmap) {
-        if(bitmap == null) return null;
+        if (bitmap == null) return null;
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -140,6 +143,17 @@ class Helpers {
         String[] result = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++)
             result[i] = jsonArray.optString(i);
+        return result;
+    }
+
+    static Map<String, String> stringMapFromJson(JSONObject input) throws JSONException {
+        Map<String, String> result = new HashMap<>();
+        Iterator<String> keys = input.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            String value = input.getString(key);
+            result.put(key, value);
+        }
         return result;
     }
 }

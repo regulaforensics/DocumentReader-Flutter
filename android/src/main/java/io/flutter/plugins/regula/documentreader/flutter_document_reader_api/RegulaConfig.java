@@ -695,6 +695,8 @@ class RegulaConfig {
             else return null;
             if (input.has("failIfNoService"))
                 result.setFailIfNoService(input.getBoolean("failIfNoService"));
+            if (input.has("httpHeaders"))
+                result.setHttpHeaders(stringMapFromJson(input.getJSONObject("httpHeaders")));
             return result;
         } catch (JSONException e) {
             e.printStackTrace();
