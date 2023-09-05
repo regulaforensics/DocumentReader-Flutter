@@ -2,27 +2,29 @@
 #define RGLWJSONConstructor_h
 
 #import <DocumentReader/DocumentReader.h>
+#import "RGLWRegulaConfig.h"
 @import CoreGraphics;
 @import UIKit;
 
 @interface RGLWJSONConstructor : NSObject
 +(NSString* _Nonnull)dictToString:(NSMutableDictionary* _Nonnull)input;
 +(NSString* _Nonnull)arrayToString:(NSMutableArray* _Nonnull)input;
-+(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletion:(NSInteger)notification;
-+(NSMutableDictionary* _Nonnull)generateRfidNotificationCompletionWithError:(NSInteger)notification : (NSInteger)value;
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input;
++(UIImage* _Nullable)imageWithBase64:(NSString* _Nullable)input;
++(NSString* _Nullable)base64WithImage:(UIImage* _Nullable)input;
 +(RGLPKDCertificate* _Nullable)RGLPKDCertificateFromJson:(NSDictionary* _Nullable) dict;
 +(RGLTCCParams* _Nonnull)RGLTCCParamsFromJson:(NSDictionary* _Nonnull)input;
 +(RGLConfig* _Nullable)RGLConfigFromJson:(NSDictionary* _Nonnull)input;
++(RGLScannerConfig* _Nullable)RGLScannerConfigFromJson:(NSDictionary* _Nonnull)input;
++(RGLRecognizeConfig* _Nullable)RGLRecognizeConfigFromJson:(NSDictionary* _Nonnull)input;
 +(RGLImageInput* _Nonnull)RGLImageInputFromJson:(NSDictionary* _Nonnull)input;
 +(NSInteger)generateDocReaderAction:(RGLDocReaderAction)action;
 +(NSInteger)generateRFIDCompleteAction:(RGLRFIDCompleteAction)action;
-+(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)action;
-+(NSMutableDictionary* _Nullable)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error :(RGLRFIDNotify*_Nullable)notify;
++(NSMutableDictionary* _Nullable)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error;
 +(NSMutableDictionary* _Nonnull)generateVideoEncoderCompletion:(NSURL* _Nullable)input :(NSError* _Nullable)error;
 +(NSString*_Nonnull)generateNSData:(NSData *_Nullable)input;
 +(NSMutableDictionary* _Nonnull)generatePACertificateCompletion:(NSData *_Nullable)serialNumber :(RGLPAResourcesIssuer *_Nullable)issuer;
-+(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateDocumentReaderNotification:(RGLRFIDNotify* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderResults:(RGLDocumentReaderResults* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPosition:(RGLPosition* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderBarcodeResult:(RGLDocumentReaderBarcodeResult* _Nullable)input;
@@ -41,6 +43,7 @@
 +(NSMutableDictionary* _Nonnull)generateRGLDocumentReaderDocumentType:(RGLDocumentReaderDocumentType* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLScenario:(RGLScenario* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLRFIDSessionData:(RGLRFIDSessionData* _Nullable)input;
++(NSMutableDictionary* _Nonnull)generateRGLDataField:(RGLDataField* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLCardProperties:(RGLCardProperties* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLRFIDSessionDataStatus:(RGLRFIDSessionDataStatus* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLAccessControlProcedureType:(RGLAccessControlProcedureType* _Nullable)input;
@@ -57,7 +60,6 @@
 +(NSMutableDictionary* _Nonnull)generateRGLExtension:(RGLExtension* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLCertificateChain:(RGLCertificateChain* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLValidity:(RGLValidity* _Nullable)input;
-+(NSMutableDictionary* _Nonnull)generateNSError:(NSError* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPAResourcesIssuer:(RGLPAResourcesIssuer* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLPAAttribute:(RGLPAAttribute* _Nullable)input;
 +(NSMutableDictionary* _Nonnull)generateRGLTAChallenge:(RGLTAChallenge* _Nullable)input;

@@ -54,16 +54,6 @@ class _MyAppState extends State<MyApp> {
     const EventChannel('flutter_document_reader_api/event/database_progress')
         .receiveBroadcastStream()
         .listen((progress) => setStatus("Downloading database: $progress%"));
-    const EventChannel(
-            'flutter_document_reader_api/event/rfid_notification_completion')
-        .receiveBroadcastStream()
-        .listen((event) =>
-            print("rfid_notification_completion: ${event.toString()}"));
-    const EventChannel(
-            'flutter_document_reader_api/event/onCustomButtonTappedEvent')
-        .receiveBroadcastStream()
-        .listen(
-            (event) => print("onCustomButtonTappedEvent: ${event.toString()}"));
   }
 
   void addCertificates() async {
@@ -93,6 +83,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void handleCompletion(DocumentReaderCompletion completion) {
+    print("DocReaderAction: ${completion.action}");
     if (isReadingRfidCustomUi &&
         (completion.action == DocReaderAction.CANCEL ||
             completion.action == DocReaderAction.ERROR)) this.hideRfidUI();
@@ -140,18 +131,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   updateRfidUI(results) {
-    if (results.code ==
+    if (results.notificationCode ==
         ERFIDNotificationCodes.RFID_NOTIFICATION_PCSC_READING_DATAGROUP)
-      setState(() => rfidDescription =
-          ERFIDDataFileType.getTranslation(results.dataFileType));
+      setState(
+          () => rfidDescription = "ERFIDDataFileType: " + results.dataFileType);
     setState(() {
       rfidUIHeader = "Reading RFID";
       rfidUIHeaderColor = Colors.black;
-      rfidProgress = results.value / 100;
+      rfidProgress = results.progress / 100;
     });
     if (Platform.isIOS)
       DocumentReader.setRfidSessionStatus(
-          "$rfidDescription\n${results.value.toString()}%");
+          "$rfidDescription\n${results.progress.toString()}%");
   }
 
   customRFID() {
@@ -268,9 +259,6 @@ class _MyAppState extends State<MyApp> {
         groupValue: _selectedScenario,
         onChanged: (value) => setState(() {
               _selectedScenario = value;
-              DocumentReader.setConfig({
-                "processParams": {"scenario": _selectedScenario}
-              });
             }));
     return Container(
         child: ListTile(
@@ -351,12 +339,17 @@ class _MyAppState extends State<MyApp> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            createButton("Scan document",
-                                () => DocumentReader.showScanner()),
-                            createButton(
-                                "Scan image",
-                                () async => DocumentReader.recognizeImages(
-                                    await getImages())),
+                            createButton("Scan document", () {
+                              var config = new ScannerConfig();
+                              config.scenario = _selectedScenario;
+                              DocumentReader.scan(config.toJson());
+                            }),
+                            createButton("Scan image", () async {
+                              var config = new RecognizeConfig();
+                              config.scenario = _selectedScenario;
+                              config.images = await getImages();
+                              DocumentReader.recognize(config.toJson());
+                            }),
                           ])
                     ]))),
           ])),

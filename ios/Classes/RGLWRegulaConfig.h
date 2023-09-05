@@ -1,6 +1,7 @@
 #ifndef RGLWRegulaConfig_h
 #define RGLWRegulaConfig_h
 #import <DocumentReader/DocumentReader.h>
+#import "RGLWJSONConstructor.h"
 @import CoreGraphics;
 @import UIKit;
 @import AVFoundation;
@@ -15,11 +16,11 @@
 +(void)setProcessParams:(NSDictionary*) options : (RGLProcessParams*) processParams;
 +(UIColor *)getUIColorObjectFromHexString:(NSString *)hexStr alpha:(CGFloat)alpha;
 +(unsigned int)intFromHexString:(NSString *)hexStr;
-+(UIImage*)imageFromBase64:(NSString *)base64image;
 +(RGLePassportDataGroup*)RGLePassportDataGroupFromJson:(NSDictionary *) dict;
 +(RGLeIDDataGroup*)RGLeIDDataGroupFromJson:(NSDictionary*) dict;
 +(RGLeDLDataGroup*)RGLeDLDataGroupFromJson:(NSDictionary*) dict;
 +(RGLImageQA*)ImageQAFromJson:(NSDictionary*) dict;
 +(NSDictionary*)ImageQAToJson:(RGLImageQA*) input;
++(RGLOnlineProcessingConfig*)RGLOnlineProcessingConfigFromJSON:(NSDictionary*) dict;
 @end
 #endif
