@@ -1090,7 +1090,7 @@
         result.mode = [input valueForKey:@"mode"];
     if([input valueForKey:@"threshold"] != nil)
         result.threshold = [input valueForKey:@"threshold"];
-    if([input valueForKey:@"searchParams"] != nil)
+    if([input valueForKey:@"search"] != nil)
         result.searchParams = [self RGLFaceAPISearchParamsFromJSON:[input valueForKey:@"searchParams"]];
     if([input valueForKey:@"serviceTimeout"] != nil)
         result.serviceTimeout = [input valueForKey:@"serviceTimeout"];
@@ -1112,7 +1112,7 @@
     if([input valueForKey:@"threshold"] != nil)
         result.threshold = [input valueForKey:@"threshold"];
     if([input valueForKey:@"groupIDs"] != nil)
-        result.groupIDs = [input valueForKey:@"groupIDs"];
+        result.groupIDs = [input mutableArrayValueForKey:@"groupIDs"];
 
     return result;
 }
