@@ -786,7 +786,7 @@
     if([options valueForKey:@"processAuth"] != nil)
         processParams.processAuth = [options valueForKey:@"processAuth"];
     if([options valueForKey:@"documentGroupFilter"] != nil)
-        processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
+        processParams.documentGroupFilter = [options valueForKey:@"documentGroupFilter"];
     if([options valueForKey:@"convertCase"] != nil)
         processParams.convertCase = [RGLWRegulaConfig RGLTextProcessingWithNSInteger:[options valueForKey:@"convertCase"]];
     if([options valueForKey:@"rfidParams"] != nil)
@@ -1111,8 +1111,8 @@
         result.limit = [input valueForKey:@"limit"];
     if([input valueForKey:@"threshold"] != nil)
         result.threshold = [input valueForKey:@"threshold"];
-    if([input valueForKey:@"groupIDs"] != nil)
-        result.groupIDs = [input mutableArrayValueForKey:@"groupIDs"];
+    if([input valueForKey:@"groupIds"] != nil)
+        result.groupIDs = [input valueForKey:@"groupIds"];
 
     return result;
 }
