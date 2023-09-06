@@ -1090,7 +1090,7 @@
         result.mode = [input valueForKey:@"mode"];
     if([input valueForKey:@"threshold"] != nil)
         result.threshold = [input valueForKey:@"threshold"];
-    if([input valueForKey:@"search"] != nil)
+    if([input valueForKey:@"searchParams"] != nil)
         result.searchParams = [self RGLFaceAPISearchParamsFromJSON:[input valueForKey:@"searchParams"]];
     if([input valueForKey:@"serviceTimeout"] != nil)
         result.serviceTimeout = [input valueForKey:@"serviceTimeout"];

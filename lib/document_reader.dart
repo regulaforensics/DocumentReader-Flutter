@@ -2087,11 +2087,11 @@ class DocumentReaderValidity {
 class FaceApiParams {
   String? url;
   String? mode;
-  Search? search;
+  Search? searchParams;
   int? threshold;
   int? serviceTimeout;
   String? proxy;
-  String? proxyUserPwd;
+  String? proxyPassword;
   int? proxyType;
 
   static FaceApiParams? fromJson(jsonObject) {
@@ -2100,11 +2100,11 @@ class FaceApiParams {
 
     result.url = jsonObject["url"];
     result.mode = jsonObject["mode"];
-    result.search = Search.fromJson(jsonObject["search"]);
+    result.searchParams = Search.fromJson(jsonObject["searchParams"]);
     result.threshold = jsonObject["threshold"];
     result.serviceTimeout = jsonObject["serviceTimeout"];
     result.proxy = jsonObject["proxy"];
-    result.proxyUserPwd = jsonObject["proxyUserPwd"];
+    result.proxyPassword = jsonObject["proxyPassword"];
     result.proxyType = jsonObject["proxyType"];
 
     return result;
@@ -2115,12 +2115,12 @@ class FaceApiParams {
 
     if (url != null) _result.addAll({"url": url});
     if (mode != null) _result.addAll({"mode": mode});
-    if (search != null) _result.addAll({"search": search});
+    if (searchParams != null) _result.addAll({"searchParams": searchParams});
     if (threshold != null) _result.addAll({"threshold": threshold});
     if (serviceTimeout != null)
       _result.addAll({"serviceTimeout": serviceTimeout});
     if (proxy != null) _result.addAll({"proxy": proxy});
-    if (proxyUserPwd != null) _result.addAll({"proxyUserPwd": proxyUserPwd});
+    if (proxyPassword != null) _result.addAll({"proxyPassword": proxyPassword});
     if (proxyType != null) _result.addAll({"proxyType": proxyType});
 
     return _result;

@@ -766,8 +766,8 @@ class RegulaConfig {
                 result.setMode(mode);
             }
             FaceApiParams.Search search;
-            if (input.has("search") && !input.isNull("search")) {
-                search = SearchFromJSON(input.getJSONObject("search"));
+            if (input.has("searchParams") && !input.isNull("searchParams")) {
+                search = SearchFromJSON(input.getJSONObject("searchParams"));
                 result.setSearch(search);
             }
             int threshold;
@@ -786,8 +786,8 @@ class RegulaConfig {
                 result.setProxy(proxy);
             }
             String proxyUserPwd;
-            if (input.has("proxyUserPwd") && !input.isNull("proxyUserPwd")) {
-                proxyUserPwd = input.getString("proxyUserPwd");
+            if (input.has("proxyPassword") && !input.isNull("proxyPassword")) {
+                proxyUserPwd = input.getString("proxyPassword");
                 result.setProxyUserPwd(proxyUserPwd);
             }
             int proxyType;
