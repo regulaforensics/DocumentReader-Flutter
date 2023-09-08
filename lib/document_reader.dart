@@ -144,7 +144,7 @@ class DocReaderFieldRect {
 class DocumentReaderGraphicField {
   int? sourceType;
   int? fieldType;
-  int? lightType;
+  int? light;
   int? pageIndex;
   int? originalPageIndex;
   String? fieldName;
@@ -158,7 +158,7 @@ class DocumentReaderGraphicField {
 
     result.sourceType = jsonObject["sourceType"];
     result.fieldType = jsonObject["fieldType"];
-    result.lightType = jsonObject["lightType"];
+    result.light = jsonObject["light"];
     result.pageIndex = jsonObject["pageIndex"];
     result.originalPageIndex = jsonObject["originalPageIndex"];
     result.fieldName = jsonObject["fieldName"];
@@ -174,7 +174,7 @@ class DocumentReaderGraphicField {
 
     if (sourceType != null) _result.addAll({"sourceType": sourceType});
     if (fieldType != null) _result.addAll({"fieldType": fieldType});
-    if (lightType != null) _result.addAll({"lightType": lightType});
+    if (light != null) _result.addAll({"light": light});
     if (pageIndex != null) _result.addAll({"pageIndex": pageIndex});
     if (originalPageIndex != null)
       _result.addAll({"originalPageIndex": originalPageIndex});

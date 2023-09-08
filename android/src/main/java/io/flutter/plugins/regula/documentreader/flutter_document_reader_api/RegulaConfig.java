@@ -1,6 +1,7 @@
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 
 import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -187,11 +188,8 @@ class RegulaConfig {
             processParams.fastDocDetect = opts.getBoolean("fastDocDetect");
         if (opts.has("updateOCRValidityByGlare"))
             processParams.updateOCRValidityByGlare = opts.getBoolean("updateOCRValidityByGlare");
-        if (opts.has("imageQA")) {
-            ImageQA img = new ImageQA();
-            img.fromJson(opts.getJSONObject("imageQA"));
-            processParams.imageQA = img;
-        }
+        if (opts.has("imageQA"))
+            processParams.imageQA = ImageQAFromJSON(opts.getJSONObject("imageQA"));
         if (opts.has("forceDocFormat"))
             processParams.forceDocFormat = opts.getInt("forceDocFormat");
         if (opts.has("noGraphics"))
@@ -519,7 +517,7 @@ class RegulaConfig {
         object.put("matchTextFieldMask", processParams.matchTextFieldMask);
         object.put("fastDocDetect", processParams.fastDocDetect);
         object.put("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare);
-        object.put("imageQA", processParams.imageQA.toJsonObject());
+        object.put("imageQA", generateImageQA(processParams.imageQA));
         object.put("forceDocFormat", processParams.forceDocFormat);
         object.put("noGraphics", processParams.noGraphics);
         object.put("documentAreaMin", processParams.documentAreaMin);

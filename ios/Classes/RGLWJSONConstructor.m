@@ -130,8 +130,8 @@
     NSInteger light = 6;
     if([input valueForKey:@"light"] != nil)
         light = [[input valueForKey:@"light"] integerValue];
-    if([input valueForKey:@"bitmap"] != nil)
-        return [[RGLImageInput alloc] initWithImage:[self imageWithBase64:[input valueForKey:@"bitmap"]] light:light pageIndex:pageIndex];
+    if([input valueForKey:@"image"] != nil)
+        return [[RGLImageInput alloc] initWithImage:[self imageWithBase64:[input valueForKey:@"image"]] light:light pageIndex:pageIndex];
     return nil;
 }
 
@@ -508,7 +508,7 @@
     result[@"fieldName"] = input.fieldName;
     result[@"fieldRect"] = [self generateCGRect:input.boundRect];
     result[@"value"] = [UIImageJPEGRepresentation(input.value, 1.0) base64EncodedStringWithOptions:0];
-    result[@"lightType"] = @(input.lightType);
+    result[@"light"] = @(input.lightType);
     result[@"lightName"] = input.lightName;
     result[@"pageIndex"] = @(input.pageIndex);
     result[@"originalPageIndex"] = @(input.originalPageIndex);

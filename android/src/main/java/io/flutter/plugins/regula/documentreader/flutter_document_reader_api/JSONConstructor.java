@@ -101,38 +101,25 @@ class JSONConstructor {
     }
 
     static ImageInputData ImageInputDataFromJSON(JSONObject input) {
-        ImageInputData result = null;
-        int pageIndex = 0;
-        int light = 6;
-        int width = 0;
-        int height = 0;
-        Bitmap bitmap;
-        byte[] imgBytes;
-
+        if (input == null) return null;
         try {
-            if (input.has("pageIndex"))
-                pageIndex = input.optInt("pageIndex");
+            Bitmap image;
+            int light = 6;
+            int pageIndex = 0;
+
+            if (input.has("image"))
+                image = bitmapFromBase64(input.getString("image"));
+            else return null;
             if (input.has("light"))
-                pageIndex = input.optInt("light");
-            if (input.has("type"))
-                pageIndex = input.optInt("type");
-            if (input.has("bitmap")) {
-                bitmap = bitmapFromBase64(input.getString("bitmap"));
-                result = new ImageInputData(bitmap, light, pageIndex);
-            }
-            if (input.has("imgBytes")) {
-                JSONArray jsonArray_data = input.getJSONArray("data");
-                byte[] data = new byte[jsonArray_data.length()];
-                for (int i = 0; i < jsonArray_data.length(); i++)
-                    data[i] = (byte) jsonArray_data.get(i);
-                imgBytes = data;
-                result = new ImageInputData(imgBytes, width, height, light, pageIndex);
-            }
+                pageIndex = input.getInt("light");
+            if (input.has("pageIndex"))
+                pageIndex = input.getInt("pageIndex");
+            return new ImageInputData(image, light, pageIndex);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return null;
     }
 
     static DocReaderConfig DocReaderConfigFromJSON(JSONObject input) {
@@ -220,6 +207,81 @@ class JSONConstructor {
         return null;
     }
 
+    static ImageQA ImageQAFromJSON(JSONObject input) {
+        if (input == null) return null;
+        ImageQA result = new ImageQA();
+        try {
+            if (input.has("dpiThreshold"))
+                result.dpiThreshold = input.getInt("dpiThreshold");
+            if (input.has("angleThreshold"))
+                result.angleThreshold = input.getInt("angleThreshold");
+            if (input.has("focusCheck"))
+                result.focusCheck = input.getBoolean("focusCheck");
+            if (input.has("glaresCheck"))
+                result.glaresCheck = input.getBoolean("glaresCheck");
+            if (input.has("colornessCheck"))
+                result.colornessCheck = input.getBoolean("colornessCheck");
+            if (input.has("moireCheck"))
+                result.moireCheck = input.getBoolean("moireCheck");
+            if (input.has("expectedPass"))
+                result.expectedPass = intArrayFromJSON(input.getJSONArray("expectedPass"));
+            if (input.has("documentPositionIndent"))
+                result.documentPositionIndent = input.getInt("documentPositionIndent");
+            if (input.has("glaresCheckParams"))
+                result.glaresCheckParams = GlaresCheckParamsFromJSON(input.getJSONObject("glaresCheckParams"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    static ImageQA.GlaresCheckParams GlaresCheckParamsFromJSON(JSONObject input) {
+        if (input == null) return null;
+        ImageQA.GlaresCheckParams result = new ImageQA.GlaresCheckParams();
+        try {
+            if (input.has("imgMarginPart"))
+                result.imgMarginPart = input.getDouble("imgMarginPart");
+            if (input.has("maxGlaringPart"))
+                result.maxGlaringPart = input.getDouble("maxGlaringPart");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    static JSONObject generateImageQA(ImageQA input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("dpiThreshold", input.dpiThreshold);
+            result.put("angleThreshold", input.angleThreshold);
+            result.put("focusCheck", input.focusCheck);
+            result.put("glaresCheck", input.glaresCheck);
+            result.put("colornessCheck", input.colornessCheck);
+            result.put("moireCheck", input.moireCheck);
+            result.put("documentPositionIndent", input.documentPositionIndent);
+            result.put("expectedPass", generateIntArray(input.expectedPass));
+            result.put("glaresCheckParams", generateGlaresCheckParams(input.glaresCheckParams));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateGlaresCheckParams(ImageQA.GlaresCheckParams input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("imgMarginPart", input.imgMarginPart);
+            result.put("maxGlaringPart", input.maxGlaringPart);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     // To JSON
 
     static JSONObject generateDocumentReaderScenario(DocumentReaderScenario input) {
@@ -279,7 +341,7 @@ class JSONConstructor {
         try {
             result.put("sourceType", input.sourceType);
             result.put("fieldType", input.fieldType);
-            result.put("lightType", input.light);
+            result.put("light", input.light);
             result.put("pageIndex", input.pageIndex);
             result.put("originalPageIndex", input.originalPageIndex);
             result.put("fieldName", eGraphicFieldType.getTranslation(context, input.fieldType));

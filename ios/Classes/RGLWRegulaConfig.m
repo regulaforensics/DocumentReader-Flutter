@@ -318,8 +318,8 @@
         image.moireCheck = [dict valueForKey:@"moireCheck"];
     if([dict valueForKey:@"expectedPass"] != nil){
         NSMutableArray<RGLImageQualityCheckType> *expectedPass = [NSMutableArray new];
-        for(NSString* str in [dict valueForKey:@"expectedPass"])
-            [expectedPass addObject:str];
+        for(NSNumber* item in [dict valueForKey:@"expectedPass"])
+            [expectedPass addObject:[self RGLImageQualityCheckTypeWithNSNumber: item]];
         image.expectedPass = expectedPass;
     }
     if([dict valueForKey:@"documentPositionIndent"] != nil)
@@ -338,10 +338,42 @@
     result[@"glaresCheck"] = input.glaresCheck;
     result[@"colornessCheck"] = input.colornessCheck;
     result[@"moireCheck"] = input.moireCheck;
-    result[@"expectedPass"] = input.expectedPass;
+    if(input.expectedPass != nil) {
+        NSMutableArray* array = [NSMutableArray new];
+        for(RGLImageQualityCheckType item in input.expectedPass)
+            [array addObject:[self NSNumberWithRGLImageQualityCheckType:item]];
+        result[@"expectedPass"] = array;
+    } else result[@"expectedPass"] = nil;
     result[@"documentPositionIndent"] = input.documentPositionIndent;
 
     return result;
+}
+
++(NSNumber*)NSNumberWithRGLImageQualityCheckType:(RGLImageQualityCheckType)value {
+    if(value == RGLImageQualityCheckTypeImageGlares) return @0;
+    if(value == RGLImageQualityCheckTypeImageFocus) return @1;
+    if(value == RGLImageQualityCheckTypeImageResolution) return @2;
+    if(value == RGLImageQualityCheckTypeImageColorness) return @3;
+    if(value == RGLImageQualityCheckTypeImagePerspective) return @4;
+    if(value == RGLImageQualityCheckTypeImageBounds) return @5;
+    if(value == RGLImageQualityCheckTypeScreenCapture) return @6;
+    if(value == RGLImageQualityCheckTypePortrait) return @7;
+    if(value == RGLImageQualityCheckTypeHandwritten) return @8;
+    return 0;
+}
+
++(RGLImageQualityCheckType)RGLImageQualityCheckTypeWithNSNumber:(NSNumber*)input {
+    int value = [input intValue];
+    if(value == 0) return RGLImageQualityCheckTypeImageGlares;
+    if(value == 1) return RGLImageQualityCheckTypeImageFocus;
+    if(value == 2) return RGLImageQualityCheckTypeImageResolution;
+    if(value == 3) return RGLImageQualityCheckTypeImageColorness;
+    if(value == 4) return RGLImageQualityCheckTypeImagePerspective;
+    if(value == 5) return RGLImageQualityCheckTypeImageBounds;
+    if(value == 6) return RGLImageQualityCheckTypeScreenCapture;
+    if(value == 7) return RGLImageQualityCheckTypePortrait;
+    if(value == 8) return RGLImageQualityCheckTypeHandwritten;
+    return RGLImageQualityCheckTypeImageGlares;
 }
 
 +(RGLePassportDataGroup*)RGLePassportDataGroupFromJson:(NSDictionary*)dict {
