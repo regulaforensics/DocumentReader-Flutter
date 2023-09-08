@@ -114,16 +114,6 @@
     return hexInt;
 }
 
-+(UIImage*)imageFromBase64:(NSString *)base64image {
-    NSMutableString *base64 = [NSMutableString stringWithString: base64image];
-    if(![[base64image substringToIndex:10] isEqualToString:@"data:image"])
-        base64 = [NSMutableString stringWithFormat: @"%@%@", @"data:image/jpeg;base64,", base64image];
-    NSURL *url = [NSURL URLWithString:base64];
-    NSData *imageData = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData:imageData];
-    return image;
-}
-
 +(CGLineCap)CGLineCapWithNSInteger:(NSInteger)value {
     switch(value){
         case 0:
@@ -202,6 +192,33 @@
             return AVCaptureDevicePositionUnspecified;
         default:
             return AVCaptureDevicePositionFront;
+    }
+}
+
++(NSNumber*)NSNumberWithRGLTextProcessing:(RGLTextProcessing*)value {
+    if(value == RGLTextProcessing.noChange)
+        return @0;
+    if(value == RGLTextProcessing.uppercase)
+        return @1;
+    if(value == RGLTextProcessing.lowercase)
+        return @2;
+    if(value == RGLTextProcessing.capital)
+        return @3;
+    return @0;
+}
+
++(RGLTextProcessing*)RGLTextProcessingWithNSInteger:(NSNumber*)value {
+    switch([value integerValue]){
+        case 0:
+            return RGLTextProcessing.noChange;
+        case 1:
+            return RGLTextProcessing.uppercase;
+        case 2:
+            return RGLTextProcessing.lowercase;
+        case 3:
+            return RGLTextProcessing.capital;
+        default:
+            return RGLTextProcessing.noChange;
     }
 }
 
@@ -301,8 +318,8 @@
         image.moireCheck = [dict valueForKey:@"moireCheck"];
     if([dict valueForKey:@"expectedPass"] != nil){
         NSMutableArray<RGLImageQualityCheckType> *expectedPass = [NSMutableArray new];
-        for(NSString* str in [dict valueForKey:@"expectedPass"])
-            [expectedPass addObject:str];
+        for(NSNumber* item in [dict valueForKey:@"expectedPass"])
+            [expectedPass addObject:[self RGLImageQualityCheckTypeWithNSNumber: item]];
         image.expectedPass = expectedPass;
     }
     if([dict valueForKey:@"documentPositionIndent"] != nil)
@@ -321,10 +338,42 @@
     result[@"glaresCheck"] = input.glaresCheck;
     result[@"colornessCheck"] = input.colornessCheck;
     result[@"moireCheck"] = input.moireCheck;
-    result[@"expectedPass"] = input.expectedPass;
+    if(input.expectedPass != nil) {
+        NSMutableArray* array = [NSMutableArray new];
+        for(RGLImageQualityCheckType item in input.expectedPass)
+            [array addObject:[self NSNumberWithRGLImageQualityCheckType:item]];
+        result[@"expectedPass"] = array;
+    } else result[@"expectedPass"] = nil;
     result[@"documentPositionIndent"] = input.documentPositionIndent;
 
     return result;
+}
+
++(NSNumber*)NSNumberWithRGLImageQualityCheckType:(RGLImageQualityCheckType)value {
+    if(value == RGLImageQualityCheckTypeImageGlares) return @0;
+    if(value == RGLImageQualityCheckTypeImageFocus) return @1;
+    if(value == RGLImageQualityCheckTypeImageResolution) return @2;
+    if(value == RGLImageQualityCheckTypeImageColorness) return @3;
+    if(value == RGLImageQualityCheckTypeImagePerspective) return @4;
+    if(value == RGLImageQualityCheckTypeImageBounds) return @5;
+    if(value == RGLImageQualityCheckTypeScreenCapture) return @6;
+    if(value == RGLImageQualityCheckTypePortrait) return @7;
+    if(value == RGLImageQualityCheckTypeHandwritten) return @8;
+    return 0;
+}
+
++(RGLImageQualityCheckType)RGLImageQualityCheckTypeWithNSNumber:(NSNumber*)input {
+    int value = [input intValue];
+    if(value == 0) return RGLImageQualityCheckTypeImageGlares;
+    if(value == 1) return RGLImageQualityCheckTypeImageFocus;
+    if(value == 2) return RGLImageQualityCheckTypeImageResolution;
+    if(value == 3) return RGLImageQualityCheckTypeImageColorness;
+    if(value == 4) return RGLImageQualityCheckTypeImagePerspective;
+    if(value == 5) return RGLImageQualityCheckTypeImageBounds;
+    if(value == 6) return RGLImageQualityCheckTypeScreenCapture;
+    if(value == 7) return RGLImageQualityCheckTypePortrait;
+    if(value == 8) return RGLImageQualityCheckTypeHandwritten;
+    return RGLImageQualityCheckTypeImageGlares;
 }
 
 +(RGLePassportDataGroup*)RGLePassportDataGroupFromJson:(NSDictionary*)dict {
@@ -451,9 +500,12 @@
 }
 
 +(RGLOnlineProcessingConfig*)RGLOnlineProcessingConfigFromJSON:(NSDictionary*)dict {
+    if(dict == nil) return nil;
     if([dict valueForKey:@"mode"] == nil) return nil;
 
     RGLOnlineProcessingConfig *result = [[RGLOnlineProcessingConfig alloc] initWithMode:[[dict valueForKey:@"mode"] integerValue]];
+    if([dict valueForKey:@"url"] != nil)
+        result.serviceURL = [dict valueForKey:@"url"];
 
     if([dict valueForKey:@"imageFormat"] != nil)
         result.imageFormat = [[dict valueForKey:@"imageFormat"] integerValue];
@@ -477,6 +529,8 @@
         result.serviceURL = [dict valueForKey:@"serviceUrl"];
     if([dict valueForKey:@"failIfNoService"] != nil)
         result.failIfNoService = [dict valueForKey:@"failIfNoService"];
+    if([dict valueForKey:@"httpHeaders"] != nil)
+        result.httpHeaders = [dict valueForKey:@"httpHeaders"];
 
     return result;
 }
@@ -519,11 +573,11 @@
     if([options valueForKey:@"showNextPageAnimation"] != nil)
         customization.showNextPageAnimation = [[options valueForKey:@"showNextPageAnimation"] boolValue];
     if([options valueForKey:@"helpAnimationImage"] != nil)
-        customization.helpAnimationImage = [self imageFromBase64:[options valueForKey:@"helpAnimationImage"]];
+        customization.helpAnimationImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"helpAnimationImage"]];
     if([options valueForKey:@"multipageAnimationFrontImage"] != nil)
-        customization.multipageAnimationFrontImage = [self imageFromBase64:[options valueForKey:@"multipageAnimationFrontImage"]];
+        customization.multipageAnimationFrontImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"multipageAnimationFrontImage"]];
     if([options valueForKey:@"multipageAnimationBackImage"] != nil)
-        customization.multipageAnimationBackImage = [self imageFromBase64:[options valueForKey:@"multipageAnimationBackImage"]];
+        customization.multipageAnimationBackImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"multipageAnimationBackImage"]];
     if([options valueForKey:@"tintColor"] != nil)
         customization.tintColor = [self getUIColorObjectFromHexString:[options valueForKey:@"tintColor"] alpha:1];
     if([options valueForKey:@"multipageButtonBackgroundColor"] != nil)
@@ -533,7 +587,7 @@
     if([options valueForKey:@"showBackgroundMask"] != nil)
         customization.showBackgroundMask = [[options valueForKey:@"showBackgroundMask"] boolValue];
     if([options valueForKey:@"borderBackgroundImage"] != nil)
-        customization.borderBackgroundImage = [self imageFromBase64:[options valueForKey:@"borderBackgroundImage"]];
+        customization.borderBackgroundImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"borderBackgroundImage"]];
     if([options valueForKey:@"backgroundMaskAlpha"] != nil)
         customization.backgroundMaskAlpha = [[options valueForKey:@"backgroundMaskAlpha"] floatValue];
     if([options valueForKey:@"helpAnimationImageContentMode"] != nil)
@@ -553,19 +607,19 @@
     if([options valueForKey:@"cameraFrameCornerRadius"] != nil)
         customization.cameraFrameCornerRadius = [[options valueForKey:@"cameraFrameCornerRadius"] floatValue];
     if([options valueForKey:@"torchButtonOnImage"] != nil)
-        customization.torchButtonOnImage = [self imageFromBase64:[options valueForKey:@"torchButtonOnImage"]];
+        customization.torchButtonOnImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"torchButtonOnImage"]];
     if([options valueForKey:@"torchButtonOffImage"] != nil)
-        customization.torchButtonOffImage = [self imageFromBase64:[options valueForKey:@"torchButtonOffImage"]];
+        customization.torchButtonOffImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"torchButtonOffImage"]];
     if([options valueForKey:@"closeButtonImage"] != nil)
-        customization.closeButtonImage = [self imageFromBase64:[options valueForKey:@"closeButtonImage"]];
+        customization.closeButtonImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"closeButtonImage"]];
     if([options valueForKey:@"captureButtonImage"] != nil)
-        customization.captureButtonImage = [self imageFromBase64:[options valueForKey:@"captureButtonImage"]];
+        customization.captureButtonImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"captureButtonImage"]];
     if([options valueForKey:@"changeFrameButtonCollapseImage"] != nil)
-        customization.changeFrameButtonCollapseImage = [self imageFromBase64:[options valueForKey:@"changeFrameButtonCollapseImage"]];
+        customization.changeFrameButtonCollapseImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"changeFrameButtonCollapseImage"]];
     if([options valueForKey:@"changeFrameButtonExpandImage"] != nil)
-        customization.changeFrameButtonExpandImage = [self imageFromBase64:[options valueForKey:@"changeFrameButtonExpandImage"]];
+        customization.changeFrameButtonExpandImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"changeFrameButtonExpandImage"]];
     if([options valueForKey:@"cameraSwitchButtonImage"] != nil)
-        customization.cameraSwitchButtonImage = [self imageFromBase64:[options valueForKey:@"cameraSwitchButtonImage"]];
+        customization.cameraSwitchButtonImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"cameraSwitchButtonImage"]];
     if([options valueForKey:@"cameraFrameLineCap"] != nil)
         customization.cameraFrameLineCap = [self CGLineCapWithNSInteger:[[options valueForKey:@"cameraFrameLineCap"] integerValue]];
     if([options valueForKey:@"cameraFrameOffsetWidth"] != nil)
@@ -585,7 +639,7 @@
     if([options valueForKey:@"hologramAnimationPositionMultiplier"] != nil)
         customization.hologramAnimationPositionMultiplier = [[options valueForKey:@"hologramAnimationPositionMultiplier"] floatValue];
     if([options valueForKey:@"hologramAnimationImage"] != nil)
-        customization.hologramAnimationImage = [self imageFromBase64:[options valueForKey:@"hologramAnimationImage"]];
+        customization.hologramAnimationImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"hologramAnimationImage"]];
     if([options valueForKey:@"uiCustomizationLayer"] != nil)
         customization.customUILayerJSON = [options valueForKey:@"uiCustomizationLayer"];
 }
@@ -764,18 +818,24 @@
     if([options valueForKey:@"processAuth"] != nil)
         processParams.processAuth = [options valueForKey:@"processAuth"];
     if([options valueForKey:@"documentGroupFilter"] != nil)
-        processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
+        processParams.documentGroupFilter = [options valueForKey:@"documentGroupFilter"];
     if([options valueForKey:@"convertCase"] != nil)
-        processParams.convertCase = [options valueForKey:@"convertCase"];
+        processParams.convertCase = [RGLWRegulaConfig RGLTextProcessingWithNSInteger:[options valueForKey:@"convertCase"]];
     if([options valueForKey:@"rfidParams"] != nil)
         processParams.rfidParams = [self RGLRFIDParamsFromJSON:[options valueForKey:@"rfidParams"]];
+    if([options valueForKey:@"doDetectCan"] != nil)
+        processParams.doDetectCan = [NSNumber numberWithBool:[[options valueForKey:@"doDetectCan"] boolValue]];
+    if([options valueForKey:@"useFaceApi"] != nil)
+        processParams.useFaceApi = [NSNumber numberWithBool:[[options valueForKey:@"useFaceApi"] boolValue]];
+    if([options valueForKey:@"faceApiParams"] != nil)
+        processParams.faceApiParams = [self RGLFaceAPIParamsFromJSON:[options valueForKey:@"faceApiParams"]];
 }
 
 +(NSMutableDictionary *)getCustomization:(RGLCustomization*)customization {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
 
     result[@"showHelpAnimation"] = [NSNumber numberWithBool:customization.showHelpAnimation];
-    result[@"helpAnimationImage"] = [UIImageJPEGRepresentation(customization.helpAnimationImage, 1.0) base64EncodedStringWithOptions:0];
+    result[@"helpAnimationImage"] = [RGLWJSONConstructor base64WithImage:customization.helpAnimationImage];
     result[@"showStatusMessages"] = [NSNumber numberWithBool:customization.showStatusMessages];
     result[@"status"] = customization.status;
     result[@"resultStatus"] = customization.resultStatus;
@@ -785,12 +845,12 @@
     result[@"resultStatusTextFont"] = customization.resultStatusTextFont.fontName;
     result[@"cameraFrameBorderWidth"] = [NSNumber numberWithFloat:customization.cameraFrameBorderWidth];
     result[@"statusTextFont"] = customization.statusTextFont.fontName;
-    result[@"multipageAnimationFrontImage"] = [UIImageJPEGRepresentation(customization.multipageAnimationFrontImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"multipageAnimationBackImage"] = [UIImageJPEGRepresentation(customization.multipageAnimationBackImage, 1.0) base64EncodedStringWithOptions:0];
+    result[@"multipageAnimationFrontImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageAnimationFrontImage];
+    result[@"multipageAnimationBackImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageAnimationBackImage];
     result[@"cameraFrameLineLength"] = [NSNumber numberWithFloat:customization.cameraFrameLineLength];
     result[@"showNextPageAnimation"] = [NSNumber numberWithBool:customization.showNextPageAnimation];
     result[@"showBackgroundMask"] = [NSNumber numberWithBool:customization.showBackgroundMask];
-    result[@"borderBackgroundImage"] = [UIImageJPEGRepresentation(customization.borderBackgroundImage, 1.0) base64EncodedStringWithOptions:0];
+    result[@"borderBackgroundImage"] = [RGLWJSONConstructor base64WithImage:customization.borderBackgroundImage];
     result[@"backgroundMaskAlpha"] = [NSNumber numberWithFloat:customization.backgroundMaskAlpha];
     result[@"helpAnimationImageContentMode"] = [NSNumber numberWithInteger:[self NSIntegerWithUIViewContentMode:customization.helpAnimationImageContentMode]];
     result[@"multipageAnimationFrontImageContentMode"] = [NSNumber numberWithInteger:[self NSIntegerWithUIViewContentMode:customization.multipageAnimationFrontImageContentMode]];
@@ -799,13 +859,13 @@
     result[@"cameraFrameVerticalPositionMultiplier"] = [NSNumber numberWithFloat:customization.cameraFrameVerticalPositionMultiplier];
     result[@"customStatusPositionMultiplier"] = [NSNumber numberWithFloat:customization.customStatusPositionMultiplier];
     result[@"cameraFrameCornerRadius"] = [NSNumber numberWithFloat:customization.cameraFrameCornerRadius];
-    result[@"torchButtonOnImage"] = [UIImageJPEGRepresentation(customization.torchButtonOnImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"torchButtonOffImage"] = [UIImageJPEGRepresentation(customization.torchButtonOffImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"closeButtonImage"] = [UIImageJPEGRepresentation(customization.closeButtonImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"captureButtonImage"] = [UIImageJPEGRepresentation(customization.captureButtonImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"changeFrameButtonCollapseImage"] = [UIImageJPEGRepresentation(customization.changeFrameButtonCollapseImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"changeFrameButtonExpandImage"] = [UIImageJPEGRepresentation(customization.changeFrameButtonExpandImage, 1.0) base64EncodedStringWithOptions:0];
-    result[@"cameraSwitchButtonImage"] = [UIImageJPEGRepresentation(customization.cameraSwitchButtonImage, 1.0) base64EncodedStringWithOptions:0];
+    result[@"torchButtonOnImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOnImage];
+    result[@"torchButtonOffImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOffImage];
+    result[@"closeButtonImage"] = [RGLWJSONConstructor base64WithImage:customization.closeButtonImage];
+    result[@"captureButtonImage"] = [RGLWJSONConstructor base64WithImage:customization.captureButtonImage];
+    result[@"changeFrameButtonCollapseImage"] = [RGLWJSONConstructor base64WithImage:customization.changeFrameButtonCollapseImage];
+    result[@"changeFrameButtonExpandImage"] = [RGLWJSONConstructor base64WithImage:customization.changeFrameButtonExpandImage];
+    result[@"cameraSwitchButtonImage"] = [RGLWJSONConstructor base64WithImage:customization.cameraSwitchButtonImage];
     result[@"cameraFrameLineCap"] = [NSNumber numberWithInteger:[self NSIntegerWithCGLineCap:customization.cameraFrameLineCap]];
     result[@"cameraFrameOffsetWidth"] = [NSNumber numberWithFloat:customization.cameraFrameOffsetWidth];
     result[@"cameraFramePortraitAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFramePortraitAspectRatio];
@@ -814,7 +874,7 @@
     result[@"hologramAnimationImageContentMode"] = [NSNumber numberWithInteger:[self NSIntegerWithUIViewContentMode:customization.hologramAnimationImageContentMode]];
     result[@"hologramAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.hologramAnimationPositionMultiplier];
     result[@"uiCustomizationLayer"] = customization.customUILayerJSON;
-    result[@"hologramAnimationImage"] = [UIImageJPEGRepresentation(customization.hologramAnimationImage, 1.0) base64EncodedStringWithOptions:0];
+    result[@"hologramAnimationImage"] = [RGLWJSONConstructor base64WithImage:customization.hologramAnimationImage];
     if(customization.customLabelStatus != nil)
         result[@"customLabelStatus"] = customization.customLabelStatus.string;
     if(customization.activityIndicatorColor != nil)
@@ -932,7 +992,9 @@
     result[@"splitNames"] = processParams.splitNames;
     result[@"processAuth"] = processParams.processAuth;
     result[@"documentGroupFilter"] = processParams.documentGroupFilter;
-    result[@"convertCase"] = processParams.convertCase;
+    result[@"convertCase"] = [RGLWRegulaConfig NSNumberWithRGLTextProcessing:processParams.convertCase];
+    result[@"doDetectCan"] = [NSNumber numberWithBool:processParams.doDetectCan];
+    result[@"useFaceApi"] = [NSNumber numberWithBool:processParams.useFaceApi];
 
     return result;
 }
@@ -1037,7 +1099,7 @@
     if([options valueForKey:@"authorizedInstallQCert"] != nil)
         rfidScenario.authorizedInstallQCert = [[options valueForKey:@"authorizedInstallQCert"] boolValue];
     if([options valueForKey:@"reprocessParams"] != nil)
-        rfidScenario.reprocParams = [self RGLReprocParamsFromJSON: [options valueForKey:@"reprocessParams"]];
+        rfidScenario.reprocParams = [self RGLReprocParamsFromJSON:[options valueForKey:@"reprocessParams"]];
     if([options valueForKey:@"defaultReadingBufferSize"] != nil)
         rfidScenario.defaultReadingBufferSize = [[options valueForKey:@"defaultReadingBufferSize"] intValue];
 }
@@ -1047,6 +1109,42 @@
 
     if([input valueForKey:@"paIgnoreNotificationCodes"] != nil)
         result.paIgnoreNotificationCodes = [input valueForKey:@"paIgnoreNotificationCodes"];
+
+    return result;
+}
+
++(RGLFaceAPIParams*)RGLFaceAPIParamsFromJSON:(NSDictionary*)input {
+    RGLFaceAPIParams* result = [RGLFaceAPIParams new];
+
+    if([input valueForKey:@"url"] != nil)
+        result.url = [input valueForKey:@"url"];
+    if([input valueForKey:@"mode"] != nil)
+        result.mode = [input valueForKey:@"mode"];
+    if([input valueForKey:@"threshold"] != nil)
+        result.threshold = [input valueForKey:@"threshold"];
+    if([input valueForKey:@"searchParams"] != nil)
+        result.searchParams = [self RGLFaceAPISearchParamsFromJSON:[input valueForKey:@"searchParams"]];
+    if([input valueForKey:@"serviceTimeout"] != nil)
+        result.serviceTimeout = [input valueForKey:@"serviceTimeout"];
+    if([input valueForKey:@"proxy"] != nil)
+        result.proxy = [input valueForKey:@"proxy"];
+    if([input valueForKey:@"proxyPassword"] != nil)
+        result.proxyPassword = [input valueForKey:@"proxyPassword"];
+    if([input valueForKey:@"proxyType"] != nil)
+        result.proxyType = [input valueForKey:@"proxyType"];
+
+    return result;
+}
+
++(RGLFaceAPISearchParams*)RGLFaceAPISearchParamsFromJSON:(NSDictionary*)input {
+    RGLFaceAPISearchParams* result = [RGLFaceAPISearchParams new];
+
+    if([input valueForKey:@"limit"] != nil)
+        result.limit = [input valueForKey:@"limit"];
+    if([input valueForKey:@"threshold"] != nil)
+        result.threshold = [input valueForKey:@"threshold"];
+    if([input valueForKey:@"groupIds"] != nil)
+        result.groupIDs = [input valueForKey:@"groupIds"];
 
     return result;
 }

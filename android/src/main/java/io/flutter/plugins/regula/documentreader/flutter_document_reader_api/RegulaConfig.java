@@ -1,31 +1,28 @@
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
-
-import com.regula.documentreader.api.DocumentReader;
-import com.regula.documentreader.api.params.ImageQA;
-import com.regula.documentreader.api.params.OnlineProcessingConfig;
-import com.regula.documentreader.api.params.ParamsCustomization;
-import com.regula.documentreader.api.params.Functionality;
-import com.regula.documentreader.api.params.ProcessParam;
-import com.regula.documentreader.api.params.rfid.RFIDParams;
-import com.regula.documentreader.api.params.rfid.ReprocParams;
-import com.regula.documentreader.api.params.rfid.dg.DataGroups;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.widget.ImageView.ScaleType;
-import android.graphics.Typeface;
+
+import com.regula.documentreader.api.DocumentReader;
+import com.regula.documentreader.api.params.*;
+import com.regula.documentreader.api.params.rfid.RFIDParams;
+import com.regula.documentreader.api.params.rfid.ReprocParams;
+import com.regula.documentreader.api.params.rfid.dg.DataGroups;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
-import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
-import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
-
+@SuppressWarnings("deprecation")
 class RegulaConfig {
     static void setConfig(DocumentReader reader, JSONObject opts, Context context) throws JSONException {
         if (opts.has("customization"))
@@ -191,11 +188,8 @@ class RegulaConfig {
             processParams.fastDocDetect = opts.getBoolean("fastDocDetect");
         if (opts.has("updateOCRValidityByGlare"))
             processParams.updateOCRValidityByGlare = opts.getBoolean("updateOCRValidityByGlare");
-        if (opts.has("imageQA")) {
-            ImageQA img = new ImageQA();
-            img.fromJson(opts.getJSONObject("imageQA"));
-            processParams.imageQA = img;
-        }
+        if (opts.has("imageQA"))
+            processParams.imageQA = ImageQAFromJSON(opts.getJSONObject("imageQA"));
         if (opts.has("forceDocFormat"))
             processParams.forceDocFormat = opts.getInt("forceDocFormat");
         if (opts.has("noGraphics"))
@@ -234,6 +228,12 @@ class RegulaConfig {
             processParams.doFlipYAxis = opts.getBoolean("doFlipYAxis");
         if (opts.has("rfidParams"))
             processParams.rfidParams = RFIDParamsFromJSON(opts.getJSONObject("rfidParams"));
+        if (opts.has("doDetectCan"))
+            processParams.doDetectCan = opts.getBoolean("doDetectCan");
+        if (opts.has("faceApiParams"))
+            processParams.faceApiParams = FaceApiParamsFromJSON(opts.getJSONObject("faceApiParams"));
+        if (opts.has("useFaceApi"))
+            processParams.useFaceApi = opts.getBoolean("useFaceApi");
     }
 
     private static void setCustomization(ParamsCustomization customization, JSONObject opts, Context context) throws JSONException {
@@ -308,12 +308,16 @@ class RegulaConfig {
             editor.setMultipageAnimationFrontImageScaleType(ScaleType.valueOf(opts.getString("multipageAnimationFrontImageScaleType")));
         if (opts.has("multipageAnimationBackImageScaleType"))
             editor.setMultipageAnimationBackImageScaleType(ScaleType.valueOf(opts.getString("multipageAnimationBackImageScaleType")));
+        if (opts.has("borderBackgroundImageScaleType"))
+            editor.setBorderBackgroundImageScaleType(ScaleType.valueOf(opts.getString("borderBackgroundImageScaleType")));
         if (opts.has("helpAnimationImageMatrix"))
             editor.setHelpAnimationImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("helpAnimationImageMatrix"))));
         if (opts.has("multipageAnimationFrontImageMatrix"))
             editor.setMultipageAnimationFrontImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("multipageAnimationFrontImageMatrix"))));
         if (opts.has("multipageAnimationBackImageMatrix"))
             editor.setMultipageAnimationBackImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("multipageAnimationBackImageMatrix"))));
+        if (opts.has("borderBackgroundImageMatrix"))
+            editor.setBorderBackgroundImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("borderBackgroundImageMatrix"))));
         if (opts.has("customStatusPositionMultiplier"))
             editor.setCustomStatusPositionMultiplier((float) opts.getDouble("customStatusPositionMultiplier"));
         if (opts.has("cameraFrameVerticalPositionMultiplier"))
@@ -432,9 +436,11 @@ class RegulaConfig {
         object.put("helpAnimationImageScaleType", customization.getHelpAnimationImageScaleType());
         object.put("multipageAnimationFrontImageScaleType", customization.getMultipageAnimationFrontImageScaleType());
         object.put("multipageAnimationBackImageScaleType", customization.getMultipageAnimationBackImageScaleType());
+        object.put("borderBackgroundImageScaleType", customization.getBorderBackgroundImageScaleType());
         object.put("helpAnimationImageMatrix", customization.getHelpAnimationImageMatrix());
         object.put("multipageAnimationFrontImageMatrix", customization.getMultipageAnimationFrontImageMatrix());
         object.put("multipageAnimationBackImageMatrix", customization.getMultipageAnimationBackImageMatrix());
+        object.put("borderBackgroundImageMatrix", customization.getBorderBackgroundImageMatrix());
         object.put("statusTextFont", customization.getStatusTextFont());
         object.put("resultStatusTextFont", customization.getResultStatusTextFont());
         object.put("statusPositionMultiplier", customization.getStatusPositionMultiplier());
@@ -475,7 +481,6 @@ class RegulaConfig {
         object.put("documentIDList", processParams.documentIDList != null ? generateIntArray(processParams.documentIDList) : null);
         object.put("barcodeTypes", processParams.doBarcodes != null ? generateArray(processParams.doBarcodes) : null);
         object.put("fieldTypesFilter", processParams.fieldTypesFilter != null ? generateIntArray(processParams.fieldTypesFilter) : null);
-        object.put("faceMetaData", processParams.faceMetaData != null ? generateArray(processParams.faceMetaData, JSONConstructor::generateFaceMetaData) : null);
         object.put("scenario", processParams.scenario);
         object.put("measureSystem", processParams.measureSystem);
         object.put("uvTorchEnabled", processParams.uvTorchEnabled);
@@ -512,7 +517,7 @@ class RegulaConfig {
         object.put("matchTextFieldMask", processParams.matchTextFieldMask);
         object.put("fastDocDetect", processParams.fastDocDetect);
         object.put("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare);
-        object.put("imageQA", processParams.imageQA.toJsonObject());
+        object.put("imageQA", generateImageQA(processParams.imageQA));
         object.put("forceDocFormat", processParams.forceDocFormat);
         object.put("noGraphics", processParams.noGraphics);
         object.put("documentAreaMin", processParams.documentAreaMin);
@@ -531,6 +536,8 @@ class RegulaConfig {
         object.put("splitNames", processParams.splitNames);
         object.put("convertCase", processParams.convertCase);
         object.put("doFlipYAxis", processParams.doFlipYAxis);
+        object.put("doDetectCan", processParams.doDetectCan);
+        object.put("useFaceApi", processParams.useFaceApi);
 
         return object;
     }
@@ -695,6 +702,8 @@ class RegulaConfig {
             else return null;
             if (input.has("failIfNoService"))
                 result.setFailIfNoService(input.getBoolean("failIfNoService"));
+            if (input.has("httpHeaders"))
+                result.setHttpHeaders(stringMapFromJson(input.getJSONObject("httpHeaders")));
             return result;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -702,7 +711,8 @@ class RegulaConfig {
         return null;
     }
 
-    private static OnlineProcessingConfig OnlineProcessingConfigFromJSON(JSONObject input) {
+    static OnlineProcessingConfig OnlineProcessingConfigFromJSON(JSONObject input) {
+        if(input == null) return null;
         try {
             OnlineProcessingConfig.Builder builder;
             if (input.has("mode"))
@@ -731,8 +741,86 @@ class RegulaConfig {
             RFIDParams result = new RFIDParams();
 
             if (input.has("paIgnoreNotificationCodes"))
-                result.setPaIgnoreNotificationCodes(JSONConstructor.intArrayFromJSON(input.getJSONArray("paIgnoreNotificationCodes")));
+                result.setPaIgnoreNotificationCodes(intArrayFromJSON(input.getJSONArray("paIgnoreNotificationCodes")));
 
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static FaceApiParams FaceApiParamsFromJSON(JSONObject input) {
+        try {
+            FaceApiParams result = new FaceApiParams();
+            String url;
+            if (input.has("url") && !input.isNull("url")) {
+                url = input.getString("url");
+                result.setUrl(url);
+            }
+            String mode;
+            if (input.has("mode") && !input.isNull("mode")) {
+                mode = input.getString("mode");
+                result.setMode(mode);
+            }
+            FaceApiParams.Search search;
+            if (input.has("searchParams") && !input.isNull("searchParams")) {
+                search = SearchFromJSON(input.getJSONObject("searchParams"));
+                result.setSearch(search);
+            }
+            int threshold;
+            if (input.has("threshold") && !input.isNull("threshold")) {
+                threshold = input.getInt("threshold");
+                result.setThreshold(threshold);
+            }
+            int serviceTimeout;
+            if (input.has("serviceTimeout") && !input.isNull("serviceTimeout")) {
+                serviceTimeout = input.getInt("serviceTimeout");
+                result.setServiceTimeout(serviceTimeout);
+            }
+            String proxy;
+            if (input.has("proxy") && !input.isNull("proxy")) {
+                proxy = input.getString("proxy");
+                result.setProxy(proxy);
+            }
+            String proxyUserPwd;
+            if (input.has("proxyPassword") && !input.isNull("proxyPassword")) {
+                proxyUserPwd = input.getString("proxyPassword");
+                result.setProxyUserPwd(proxyUserPwd);
+            }
+            int proxyType;
+            if (input.has("proxyType") && !input.isNull("proxyType")) {
+                proxyType = input.getInt("proxyType");
+                result.setProxyType(proxyType);
+            }
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static FaceApiParams.Search SearchFromJSON(JSONObject input) {
+        try {
+            FaceApiParams.Search result = new FaceApiParams.Search();
+            int limit;
+            if (input.has("limit") && !input.isNull("limit")) {
+                limit = input.getInt("limit");
+                result.setLimit(limit);
+            }
+            double threshold;
+            if (input.has("threshold") && !input.isNull("threshold")) {
+                threshold = input.getDouble("threshold");
+                result.setThreshold((float) threshold);
+            }
+            int[] groupIds;
+            if (input.has("groupIds") && !input.isNull("groupIds")) {
+                JSONArray jsonArray_groupIds = input.getJSONArray("groupIds");
+                groupIds = new int[jsonArray_groupIds.length()];
+                for (int i = 0; i < jsonArray_groupIds.length(); i++)
+                    groupIds[i] = jsonArray_groupIds.getInt(i);
+                result.setGroupIds(groupIds);
+            }
             return result;
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,180 +1,31 @@
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 
-import static com.regula.documentreader.api.completions.IRfidNotificationCompletion.RFID_EXTRA_ERROR_CODE;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.util.Base64;
 
-import com.regula.documentreader.api.enums.DocReaderAction;
-import com.regula.documentreader.api.enums.PDF417Info;
-import com.regula.documentreader.api.enums.eGraphicFieldType;
-import com.regula.documentreader.api.enums.eRPRM_Lights;
-import com.regula.documentreader.api.errors.DocumentReaderException;
-import com.regula.documentreader.api.internal.core.CoreDetailedScenario;
-import com.regula.documentreader.api.params.DocReaderConfig;
-import com.regula.documentreader.api.internal.params.FaceMetaData;
-import com.regula.documentreader.api.params.ImageInputData;
-import com.regula.documentreader.api.params.rfid.TccParams;
-import com.regula.documentreader.api.params.rfid.authorization.PAAttribute;
-import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
-import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
-import com.regula.documentreader.api.results.Bounds;
-import com.regula.documentreader.api.results.BytesData;
-import com.regula.documentreader.api.results.Coordinate;
-import com.regula.documentreader.api.results.DocReaderDocumentsDatabase;
-import com.regula.documentreader.api.results.DocReaderFieldRect;
-import com.regula.documentreader.api.results.DocumentReaderBarcodeField;
-import com.regula.documentreader.api.results.DocumentReaderBarcodeResult;
-import com.regula.documentreader.api.results.DocumentReaderComparison;
-import com.regula.documentreader.api.results.DocumentReaderDocumentType;
-import com.regula.documentreader.api.results.DocumentReaderGraphicField;
-import com.regula.documentreader.api.results.DocumentReaderGraphicResult;
-import com.regula.documentreader.api.results.DocumentReaderNotification;
-import com.regula.documentreader.api.results.DocumentReaderResults;
-import com.regula.documentreader.api.results.DocumentReaderResultsStatus;
-import com.regula.documentreader.api.results.DocumentReaderRfidOrigin;
-import com.regula.documentreader.api.results.DocumentReaderScenario;
-import com.regula.documentreader.api.results.DocumentReaderSymbol;
-import com.regula.documentreader.api.results.DocumentReaderTextField;
-import com.regula.documentreader.api.results.DocumentReaderTextResult;
-import com.regula.documentreader.api.results.DocumentReaderTextSource;
-import com.regula.documentreader.api.results.DocumentReaderValidity;
-import com.regula.documentreader.api.results.DocumentReaderValue;
-import com.regula.documentreader.api.results.ElementPosition;
-import com.regula.documentreader.api.results.ImageQuality;
-import com.regula.documentreader.api.results.ImageQualityGroup;
-import com.regula.documentreader.api.results.VDSNCData;
-import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityCheck;
-import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityElement;
-import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityResult;
-import com.regula.documentreader.api.results.rfid.AccessControlProcedureType;
-import com.regula.documentreader.api.results.rfid.Application;
-import com.regula.documentreader.api.results.rfid.Attribute;
-import com.regula.documentreader.api.results.rfid.Authority;
-import com.regula.documentreader.api.results.rfid.CardProperties;
-import com.regula.documentreader.api.results.rfid.CertificateChain;
-import com.regula.documentreader.api.results.rfid.CertificateData;
-import com.regula.documentreader.api.results.rfid.Extension;
-import com.regula.documentreader.api.results.rfid.File;
-import com.regula.documentreader.api.results.rfid.FileData;
-import com.regula.documentreader.api.results.rfid.RFIDSessionData;
-import com.regula.documentreader.api.results.rfid.SecurityObject;
-import com.regula.documentreader.api.results.rfid.SecurityObjectCertificates;
-import com.regula.documentreader.api.results.rfid.SignerInfo;
-import com.regula.documentreader.api.results.rfid.Validity;
-import com.regula.documentreader.api.results.rfid.Value;
+import com.regula.common.exception.RegulaException;
+import com.regula.documentreader.api.config.RecognizeConfig;
+import com.regula.documentreader.api.config.ScannerConfig;
+import com.regula.documentreader.api.enums.*;
+import com.regula.documentreader.api.params.*;
+import com.regula.documentreader.api.params.rfid.*;
+import com.regula.documentreader.api.params.rfid.authorization.*;
+import com.regula.documentreader.api.results.*;
+import com.regula.documentreader.api.results.authenticity.*;
+import com.regula.documentreader.api.results.rfid.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
+@SuppressWarnings("deprecation")
 class JSONConstructor {
-    interface JSONObjectGeneratorWithContext<T> {
-        JSONObject generateJSONObject(T param, Context context) throws JSONException;
-    }
-
-    interface JSONObjectGenerator<T> {
-        JSONObject generateJSONObject(T param) throws JSONException;
-    }
-
-    static <T> JSONArray generateList(List<T> list) {
-        JSONArray result = new JSONArray();
-        if (list == null) return result;
-        for (T t : list)
-            if (t != null)
-                result.put(t);
-
-        return result;
-    }
-
-    static <T> JSONArray generateList(List<T> list, JSONObjectGenerator<T> generator) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (list == null) return result;
-        for (T t : list)
-            if (t != null)
-                result.put(generator.generateJSONObject(t));
-
-        return result;
-    }
-
-    static <T> JSONArray generateList(List<T> list, JSONObjectGeneratorWithContext<T> generator, Context context) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (list == null) return result;
-        for (T t : list)
-            if (t != null)
-                result.put(generator.generateJSONObject(t, context));
-
-        return result;
-    }
-
-    static <T> JSONArray generateArray(T[] array) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (array == null) return result;
-        for (int i = 0; i < array.length; i++)
-            result.put(i, array[i]);
-
-        return result;
-    }
-
-    static <T> JSONArray generateArray(T[] array, JSONObjectGenerator<T> generator) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (array == null) return result;
-        for (int i = 0; i < array.length; i++)
-            result.put(i, generator.generateJSONObject(array[i]));
-
-        return result;
-    }
-
-    static <T, V> JSONObject generateMap(Map<T, V> map) throws JSONException {
-        JSONObject result = new JSONObject();
-        if (map == null) return result;
-        for (Map.Entry<T, V> entry : map.entrySet())
-            if (entry != null)
-                result.put(entry.getKey().toString(), entry.getValue());
-        return result;
-    }
-
-    static JSONArray generateIntArray(int[] array) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (array == null) return result;
-        for (int i = 0; i < array.length; i++)
-            result.put(i, array[i]);
-
-        return result;
-    }
-
-    static int[] intArrayFromJSON(JSONArray input) throws JSONException {
-        int[] result = new int[input.length()];
-        for (int i = 0; i < input.length(); i++)
-            result[i] = input.getInt(i);
-
-        return result;
-    }
-
-    static JSONArray generateByteArray(byte[] array) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (array == null) return result;
-        for (int i = 0; i < array.length; i++)
-            result.put(i, array[i]);
-
-        return result;
-    }
-
-    static JSONArray generateLongArray(long[] array) throws JSONException {
-        JSONArray result = new JSONArray();
-        if (array == null) return result;
-        for (int i = 0; i < array.length; i++)
-            result.put(i, array[i]);
-
-        return result;
-    }
-
     static JSONObject generateVideoEncoderCompletion(String sessionId, java.io.File file) {
         JSONObject result = new JSONObject();
 
@@ -189,41 +40,33 @@ class JSONConstructor {
         return result;
     }
 
-    static JSONObject generateCompletion(int action, DocumentReaderResults results, DocumentReaderException error, Context context) {
+    static JSONObject generateCompletion(int action, DocumentReaderResults results, RegulaException error, Context context) {
         JSONObject result = new JSONObject();
         try {
+            if (Arrays.asList(
+                    DocReaderAction.COMPLETE,
+                    DocReaderAction.MORE_PAGES_AVAILABLE,
+                    DocReaderAction.CANCEL,
+                    DocReaderAction.ERROR,
+                    DocReaderAction.TIMEOUT
+            ).contains(action))
+                result.put("results", generateDocumentReaderResults(results, context));
             result.put("action", action);
-            switch (action) {
-                case DocReaderAction.COMPLETE:
-                case DocReaderAction.MORE_PAGES_AVAILABLE:
-                case DocReaderAction.CANCEL:
-                case DocReaderAction.ERROR:
-                case DocReaderAction.TIMEOUT:
-                    result.put("results", generateDocumentReaderResults(results, context));
-                    break;
-                case DocReaderAction.NOTIFICATION:
-                    result.put("results", generateDocumentReaderResultsNotification(results));
-                    break;
-                default:
-                    break;
-            }
-            if (error != null)
-                result.put("error", generateDocumentReaderException(error));
+            result.put("error", generateRegulaException(error));
         } catch (JSONException ignored) {
         }
-
         return result;
     }
 
-    static JSONObject generateRfidNotificationCompletion(int notification, Bundle value) {
+    static JSONObject generateRegulaException(RegulaException input) {
         JSONObject result = new JSONObject();
+        if (input == null) return null;
         try {
-            result.put("notification", notification);
-            if (value != null)
-                result.put("value", value.get(RFID_EXTRA_ERROR_CODE));
-        } catch (JSONException ignored) {
+            result.put("errorCode", input.getErrorCode());
+            result.put("message", input.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
         return result;
     }
 
@@ -236,12 +79,6 @@ class JSONConstructor {
         }
 
         return result;
-    }
-
-    static JSONObject generateDocumentReaderResultsNotification(DocumentReaderResults results) throws JSONException {
-        if (results != null && results.documentReaderNotification != null)
-            return new JSONObject().put("documentReaderNotification", generateDocumentReaderNotification(results.documentReaderNotification));
-        return new JSONObject();
     }
 
     static TccParams TCCParamsFromJSON(JSONObject input) {
@@ -261,6 +98,28 @@ class JSONConstructor {
             e.printStackTrace();
         }
         return result;
+    }
+
+    static ImageInputData ImageInputDataFromJSON(JSONObject input) {
+        if (input == null) return null;
+        try {
+            Bitmap image;
+            int light = 6;
+            int pageIndex = 0;
+
+            if (input.has("image"))
+                image = bitmapFromBase64(input.getString("image"));
+            else return null;
+            if (input.has("light"))
+                pageIndex = input.getInt("light");
+            if (input.has("pageIndex"))
+                pageIndex = input.getInt("pageIndex");
+            return new ImageInputData(image, light, pageIndex);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     static DocReaderConfig DocReaderConfigFromJSON(JSONObject input) {
@@ -287,38 +146,139 @@ class JSONConstructor {
         return null;
     }
 
-    static ImageInputData ImageInputDataFromJSON(JSONObject input) {
-        ImageInputData result = null;
-        int pageIndex = 0;
-        int light = 6;
-        int width = 0;
-        int height = 0;
-        Bitmap bitmap;
-        byte[] imgBytes;
-
+    static ScannerConfig ScannerConfigFromJSON(JSONObject input) {
+        if (!input.has("scenario") && !input.has("onlineProcessingConfig")) return null;
         try {
-            if (input.has("pageIndex"))
-                pageIndex = input.optInt("pageIndex");
-            if (input.has("light"))
-                pageIndex = input.optInt("light");
-            if (input.has("type"))
-                pageIndex = input.optInt("type");
-            if (input.has("bitmap")) {
-                bitmap = Helpers.bitmapFromBase64(input.getString("bitmap"));
-                result = new ImageInputData(bitmap, light, pageIndex);
+            ScannerConfig.Builder builder;
+            if (input.has("scenario"))
+                builder = new ScannerConfig.Builder(input.getString("scenario"));
+            else
+                builder = new ScannerConfig.Builder(RegulaConfig.OnlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig")));
+            if (input.has("onlineProcessingConfig"))
+                builder.setOnlineProcessingConfig(RegulaConfig.OnlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig")));
+            if (input.has("livePortrait"))
+                builder.setLivePortrait(bitmapFromBase64(input.getString("livePortrait")));
+            if (input.has("extPortrait"))
+                builder.setExtPortrait(bitmapFromBase64(input.getString("extPortrait")));
+            if (input.has("cameraId"))
+                builder.setCameraId(input.getInt("cameraId"));
+            return builder.build();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static RecognizeConfig RecognizeConfigFromJSON(JSONObject input) {
+        if (!input.has("scenario") && !input.has("onlineProcessingConfig")) return null;
+        if (!input.has("image") && !input.has("images") && !input.has("imageInputData")) return null;
+        try {
+            RecognizeConfig.Builder builder;
+            if (input.has("scenario"))
+                builder = new RecognizeConfig.Builder(input.getString("scenario"));
+            else
+                builder = new RecognizeConfig.Builder(RegulaConfig.OnlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig")));
+            if (input.has("livePortrait"))
+                builder.setLivePortrait(bitmapFromBase64(input.getString("livePortrait")));
+            if (input.has("extPortrait"))
+                builder.setExtPortrait(bitmapFromBase64(input.getString("extPortrait")));
+            if (input.has("image"))
+                builder.setBitmap(bitmapFromBase64(input.getString("image")));
+            if (input.has("oneShotIdentification"))
+                builder.setOneShotIdentification(input.getBoolean("oneShotIdentification"));
+            if (input.has("images")) {
+                JSONArray base64Images = input.getJSONArray("images");
+                Bitmap[] images = new Bitmap[base64Images.length()];
+                for (int i = 0; i < images.length; i++)
+                    images[i] = bitmapFromBase64(base64Images.getString(i));
+                builder.setBitmaps(images);
             }
-            if (input.has("imgBytes")) {
-                JSONArray jsonArray_data = input.getJSONArray("data");
-                byte[] data = new byte[jsonArray_data.length()];
-                for (int i = 0; i < jsonArray_data.length(); i++)
-                    data[i] = (byte) jsonArray_data.get(i);
-                imgBytes = data;
-                result = new ImageInputData(imgBytes, width, height, light, pageIndex);
+            if (input.has("imageInputData")) {
+                JSONArray base64InputData = input.getJSONArray("imageInputData");
+                ImageInputData[] inputData = new ImageInputData[base64InputData.length()];
+                for (int i = 0; i < inputData.length; i++)
+                    inputData[i] = ImageInputDataFromJSON(base64InputData.getJSONObject(i));
+                builder.setImageInputData(inputData);
             }
+            return builder.build();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static ImageQA ImageQAFromJSON(JSONObject input) {
+        if (input == null) return null;
+        ImageQA result = new ImageQA();
+        try {
+            if (input.has("dpiThreshold"))
+                result.dpiThreshold = input.getInt("dpiThreshold");
+            if (input.has("angleThreshold"))
+                result.angleThreshold = input.getInt("angleThreshold");
+            if (input.has("focusCheck"))
+                result.focusCheck = input.getBoolean("focusCheck");
+            if (input.has("glaresCheck"))
+                result.glaresCheck = input.getBoolean("glaresCheck");
+            if (input.has("colornessCheck"))
+                result.colornessCheck = input.getBoolean("colornessCheck");
+            if (input.has("moireCheck"))
+                result.moireCheck = input.getBoolean("moireCheck");
+            if (input.has("expectedPass"))
+                result.expectedPass = intArrayFromJSON(input.getJSONArray("expectedPass"));
+            if (input.has("documentPositionIndent"))
+                result.documentPositionIndent = input.getInt("documentPositionIndent");
+            if (input.has("glaresCheckParams"))
+                result.glaresCheckParams = GlaresCheckParamsFromJSON(input.getJSONObject("glaresCheckParams"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        return result;
+    }
+
+    static ImageQA.GlaresCheckParams GlaresCheckParamsFromJSON(JSONObject input) {
+        if (input == null) return null;
+        ImageQA.GlaresCheckParams result = new ImageQA.GlaresCheckParams();
+        try {
+            if (input.has("imgMarginPart"))
+                result.imgMarginPart = input.getDouble("imgMarginPart");
+            if (input.has("maxGlaringPart"))
+                result.maxGlaringPart = input.getDouble("maxGlaringPart");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    static JSONObject generateImageQA(ImageQA input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("dpiThreshold", input.dpiThreshold);
+            result.put("angleThreshold", input.angleThreshold);
+            result.put("focusCheck", input.focusCheck);
+            result.put("glaresCheck", input.glaresCheck);
+            result.put("colornessCheck", input.colornessCheck);
+            result.put("moireCheck", input.moireCheck);
+            result.put("documentPositionIndent", input.documentPositionIndent);
+            result.put("expectedPass", generateIntArray(input.expectedPass));
+            result.put("glaresCheckParams", generateGlaresCheckParams(input.glaresCheckParams));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateGlaresCheckParams(ImageQA.GlaresCheckParams input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("imgMarginPart", input.imgMarginPart);
+            result.put("maxGlaringPart", input.maxGlaringPart);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -331,56 +291,16 @@ class JSONConstructor {
             result.put("name", input.name);
             result.put("caption", input.caption);
             result.put("description", input.description);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    static JSONObject generateCoreDetailedScenario(CoreDetailedScenario input) {
-        JSONObject result = new JSONObject();
-        if (input == null) return null;
-        try {
-            result.put("uvTorch", input.uvTorch);
-            result.put("frameOrientation", input.frameOrientation);
-            result.put("faceExt", input.faceExt);
             result.put("multiPageOff", input.multiPageOff);
-            result.put("seriesProcessMode", input.seriesProcessMode);
             result.put("frameKWHLandscape", input.frameKWHLandscape);
             result.put("frameKWHPortrait", input.frameKWHPortrait);
             result.put("frameKWHDoublePageSpreadPortrait", input.frameKWHDoublePageSpreadPortrait);
             result.put("frameKWHDoublePageSpreadLandscape", input.frameKWHDoublePageSpreadLandscape);
-            result.put("name", input.name);
-            result.put("caption", input.caption);
-            result.put("description", input.description);
+            result.put("frameOrientation", input.frameOrientation);
+            result.put("uvTorch", input.uvTorch);
+            result.put("faceExt", input.faceExt);
+            result.put("seriesProcessMode", input.seriesProcessMode);
             result.put("manualCrop", input.manualCrop);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    static JSONObject generateFaceMetaData(FaceMetaData input) {
-        JSONObject result = new JSONObject();
-        if (input == null) return null;
-        try {
-            result.put("ID", input.ID);
-            result.put("rollAngle", input.rollAngle);
-            result.put("bounds", generateBounds(input.bounds));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    static JSONObject generateBounds(Bounds input) {
-        JSONObject result = new JSONObject();
-        if (input == null) return null;
-        try {
-            result.put("x", input.x);
-            result.put("y", input.y);
-            result.put("width", input.width);
-            result.put("height", input.height);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -421,7 +341,7 @@ class JSONConstructor {
         try {
             result.put("sourceType", input.sourceType);
             result.put("fieldType", input.fieldType);
-            result.put("lightType", input.light);
+            result.put("light", input.light);
             result.put("pageIndex", input.pageIndex);
             result.put("originalPageIndex", input.originalPageIndex);
             result.put("fieldName", eGraphicFieldType.getTranslation(context, input.fieldType));
@@ -593,8 +513,6 @@ class JSONConstructor {
         JSONObject result = new JSONObject();
         if (input == null) return null;
         try {
-            result.put("code", input.code);
-            result.put("value", input.value);
             result.put("notificationCode", input.getNotificationCode());
             result.put("dataFileType", input.getDataFileType());
             result.put("progress", input.getProgress());
@@ -854,6 +772,20 @@ class JSONConstructor {
             result.put("accessControls", generateList(input.accessControls, JSONConstructor::generateAccessControlProcedureType));
             result.put("applications", generateList(input.applications, JSONConstructor::generateApplication));
             result.put("securityObjects", generateList(input.securityObjects, JSONConstructor::generateSecurityObject));
+            result.put("dataGroups", generateIntArray(input.dataGroups));
+            result.put("dataFields", generateList(input.dataFields, JSONConstructor::generateDataField));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static JSONObject generateDataField(DataField input) {
+        JSONObject result = new JSONObject();
+        if (input == null) return null;
+        try {
+            result.put("data", input.getData());
+            result.put("fieldType", input.getFieldType());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -935,18 +867,6 @@ class JSONConstructor {
             result.put("elementDiagnose", input.elementDiagnose);
             result.put("elementTypeName", input.getElementTypeName(context));
             result.put("elementDiagnoseName", input.getElementDiagnoseName(context));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    static JSONObject generateDocumentReaderException(DocumentReaderException input) {
-        JSONObject result = new JSONObject();
-        if (input == null) return null;
-        try {
-            result.put("errorCode", input.getErrorCode());
-            result.put("message", input.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1089,6 +1009,7 @@ class JSONConstructor {
             result.put("databaseDescription", input.databaseDescription);
             result.put("countriesNumber", input.countriesNumber);
             result.put("documentsNumber", input.documentsNumber);
+            result.put("size", input.size);
         } catch (JSONException e) {
             e.printStackTrace();
         }

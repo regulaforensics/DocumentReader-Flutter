@@ -69,8 +69,8 @@ class BluetoothUtil {
         }
 
         private fun deniedBluetoothPermission(
-                activity: Activity,
-                permission: String
+            activity: Activity,
+            permission: String
         ): Array<String> {
             if (checkSelfPermission(activity, permission) != PERMISSION_GRANTED)
                 return arrayOf(permission)
@@ -78,10 +78,10 @@ class BluetoothUtil {
         }
 
         fun startBluetoothService(
-                activity: Activity,
-                onConnected: (Boolean) -> Unit,
-                onDisconnected: () -> Unit,
-                onReady: () -> Unit,
+            activity: Activity,
+            onConnected: (Boolean) -> Unit,
+            onDisconnected: () -> Unit,
+            onReady: () -> Unit
         ) {
             val bleIntent = Intent(activity, RegulaBleService::class.java)
             activity.startService(bleIntent)

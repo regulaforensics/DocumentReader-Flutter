@@ -12,6 +12,16 @@
     return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
 }
 
++(NSMutableDictionary* _Nonnull)generateNSError:(NSError* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"errorCode"] = [NSNumber numberWithInteger:input.code];
+    result[@"message"] = input.localizedDescription;
+
+    return result;
+}
+
 +(NSMutableDictionary* _Nonnull)generateNSDictionary:(NSDictionary<NSNumber*, NSNumber*>* _Nullable)input {
     NSMutableDictionary *result = [NSMutableDictionary new];
     if(input == nil) return result;
@@ -20,6 +30,16 @@
         result[[key stringValue]] = input[key];
 
     return result;
+}
+
++(UIImage*)imageWithBase64:(NSString*)input {
+    if(input == nil) return nil;
+    return [UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:input options:NSDataBase64DecodingIgnoreUnknownCharacters]];
+}
+
++(NSString*)base64WithImage:(UIImage*)input {
+    if(input == nil) return nil;
+    return [UIImageJPEGRepresentation(input, 1.0) base64EncodedStringWithOptions:0];
 }
 
 +(RGLPKDCertificate*)RGLPKDCertificateFromJson:(NSDictionary*)input {
@@ -41,26 +61,67 @@
 }
 
 +(RGLConfig*)RGLConfigFromJson:(NSDictionary*)input {
-    NSData* license;
-    if([input valueForKey:@"license"] != nil)
-        license = [[NSData alloc] initWithBase64EncodedString:[input valueForKey:@"license"] options:0];
-    else return nil;
+    if([input valueForKey:@"license"] == nil) return nil;
+    RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:[[NSData alloc] initWithBase64EncodedString:[input valueForKey:@"license"] options:0]];
 
-    RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:license];
-
-    if([input valueForKey:@"databasePath"] != nil){
+    if([input valueForKey:@"databasePath"] != nil)
         config.databasePath = [[input valueForKey:@"databasePath"] stringValue];
-    }
-    if([input valueForKey:@"licenseUpdate"] != nil){
+    if([input valueForKey:@"licenseUpdate"] != nil)
         config.licenseUpdateCheck = [[input valueForKey:@"licenseUpdate"] boolValue];
-    }
-    if([input valueForKey:@"delayedNNLoad"] != nil){
+    if([input valueForKey:@"delayedNNLoad"] != nil)
         config.delayedNNLoadEnabled = [[input valueForKey:@"delayedNNLoad"] boolValue];
-    }
 
     return config;
 }
 
++(RGLScannerConfig*)RGLScannerConfigFromJson:(NSDictionary*)input {
+    if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
+    RGLScannerConfig *config = [RGLScannerConfig new];
+
+    if([input valueForKey:@"scenario"] != nil)
+        config.scenario = [input valueForKey:@"scenario"];
+    if([input valueForKey:@"onlineProcessingConfig"] != nil)
+        config.onlineProcessingConfig = [RGLWRegulaConfig RGLOnlineProcessingConfigFromJSON:[input valueForKey:@"onlineProcessingConfig"]];
+    if([input valueForKey:@"livePortrait"] != nil)
+        config.livePortrait = [self imageWithBase64:[input valueForKey:@"livePortrait"]];
+    if([input valueForKey:@"extPortrait"] != nil)
+        config.extPortrait = [self imageWithBase64:[input valueForKey:@"extPortrait"]];
+
+    return config;
+}
+
++(RGLRecognizeConfig*)RGLRecognizeConfigFromJson:(NSDictionary*)input {
+    if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
+    if([input valueForKey:@"image"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
+    RGLRecognizeConfig *config = [RGLRecognizeConfig alloc];
+
+    if([input valueForKey:@"image"] != nil)
+        config = [config initWithImage:[RGLWJSONConstructor imageWithBase64:[input valueForKey:@"image"]]];
+    else if([input valueForKey:@"images"] != nil){
+        NSMutableArray<UIImage*>* images = [[NSMutableArray alloc] init];
+        for(NSMutableString* base64 in [input valueForKey:@"images"])
+            [images addObject:[RGLWJSONConstructor imageWithBase64:base64]];
+        config = [config initWithImages:images];
+    } else if([input valueForKey:@"imageInputs"] != nil){
+        NSMutableArray<RGLImageInput*>* images = [[NSMutableArray alloc] init];
+        for(NSDictionary* image in [input valueForKey:@"imageInputs"])
+            [images addObject:[RGLWJSONConstructor RGLImageInputFromJson: image]];
+        config = [config initWithImageInputs:images];
+    }
+
+    if([input valueForKey:@"scenario"] != nil)
+        config.scenario = [input valueForKey:@"scenario"];
+    if([input valueForKey:@"onlineProcessingConfig"] != nil)
+        config.onlineProcessingConfig = [RGLWRegulaConfig RGLOnlineProcessingConfigFromJSON:[input valueForKey:@"onlineProcessingConfig"]];
+    if([input valueForKey:@"livePortrait"] != nil)
+        config.livePortrait = [self imageWithBase64:[input valueForKey:@"livePortrait"]];
+    if([input valueForKey:@"extPortrait"] != nil)
+        config.extPortrait = [self imageWithBase64:[input valueForKey:@"extPortrait"]];
+    if([input valueForKey:@"oneShotIdentification"] != nil)
+        config.oneShotIdentification = [input valueForKey:@"oneShotIdentification"];
+
+    return config;
+}
 
 +(RGLImageInput*)RGLImageInputFromJson:(NSDictionary*)input {
     NSInteger pageIndex = 0;
@@ -68,11 +129,9 @@
         pageIndex = [[input valueForKey:@"pageIndex"] integerValue];
     NSInteger light = 6;
     if([input valueForKey:@"light"] != nil)
-        pageIndex = [[input valueForKey:@"light"] integerValue];
-    if([input valueForKey:@"bitmap"] != nil){
-        UIImage* image = [UIImage imageWithData:[[NSData alloc]initWithBase64EncodedString:[input valueForKey:@"bitmap"] options:NSDataBase64DecodingIgnoreUnknownCharacters]];
-        return [[RGLImageInput alloc] initWithImage:image light:light pageIndex:pageIndex];
-    }
+        light = [[input valueForKey:@"light"] integerValue];
+    if([input valueForKey:@"image"] != nil)
+        return [[RGLImageInput alloc] initWithImage:[self imageWithBase64:[input valueForKey:@"image"]] light:light pageIndex:pageIndex];
     return nil;
 }
 
@@ -109,23 +168,6 @@
 
     result[@"filePath"] = input.absoluteString;
     result[@"error"] = [self generateNSError:error];
-
-    return result;
-}
-
-+(NSMutableDictionary*)generateRfidNotificationCompletion:(NSInteger)notification {
-    NSMutableDictionary *result = [NSMutableDictionary new];
-
-    result[@"notification"] = [NSNumber numberWithInteger:notification];
-
-    return result;
-}
-
-+(NSMutableDictionary*)generateRfidNotificationCompletionWithError:(NSInteger)notification :(NSInteger)value {
-    NSMutableDictionary *result = [NSMutableDictionary new];
-
-    result[@"notification"] = [NSNumber numberWithInteger:notification];
-    result[@"value"] = [NSNumber numberWithInteger:value];
 
     return result;
 }
@@ -168,7 +210,7 @@
     NSInteger result = 0;
     switch (input) {
         case RGLRFIDCompleteActionComplete:
-            result = 999;
+            result = 0;
             break;
         case RGLRFIDCompleteActionError:
             result = 4;
@@ -186,51 +228,13 @@
     return result;
 }
 
-+(NSInteger)generateRFIDNotificationAction:(RGLRFIDNotificationAction)input {
-    return 101;
-}
-
-+(NSMutableDictionary*)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*)results :(NSError*)error :(RGLRFIDNotify*)notify {
++(NSMutableDictionary*)generateCompletion:(NSInteger)action :(RGLDocumentReaderResults*)results :(NSError*)error {
     NSMutableDictionary *result = [NSMutableDictionary new];
 
-    switch (action) {
-        case 0:
-        case 2:
-        case 3:
-        case 4:
-        case 6:
-            result[@"results"] = [self generateRGLDocumentReaderResults:results];
-            break;
-        case 101:
-            result[@"results"] = [self generateResultsWithNotification:[self generateRGLRFIDNotify:notify]];
-            break;
-        case 999:
-            result[@"results"] = [self generateResultsWithRFID :results :1];
-            action = 0;
-            break;
-        default:
-            break;
-    }
-
+    if(action == 0 || action == 2 || action == 3 || action == 4 || action == 6)
+        result[@"results"] = [self generateRGLDocumentReaderResults:results];
     result[@"action"] = [NSNumber numberWithInteger:action];
-    if(error != nil)
-        result[@"error"] = [self generateNSError:error];
-
-    return result;
-}
-
-+(NSMutableDictionary*)generateResultsWithNotification:(NSMutableDictionary*)input {
-    NSMutableDictionary *result = [NSMutableDictionary new];
-
-    result[@"documentReaderNotification"] = input;
-
-    return result;
-}
-
-+(NSMutableDictionary*)generateResultsWithRFID:(RGLDocumentReaderResults*)results :(NSInteger)input {
-    NSMutableDictionary *result = [self generateRGLDocumentReaderResults:results];
-
-    result[@"rfidResult"] = [NSNumber numberWithInteger:input];
+    result[@"error"] = [self generateNSError:error];
 
     return result;
 }
@@ -271,15 +275,13 @@
     return result;
 }
 
-+(NSMutableDictionary* _Nonnull)generateRGLRFIDNotify:(RGLRFIDNotify* _Nullable)input {
++(NSMutableDictionary* _Nonnull)generateDocumentReaderNotification:(RGLRFIDNotify* _Nullable)input{
     NSMutableDictionary *result = [NSMutableDictionary new];
     if(input == nil) return result;
 
-    result[@"code"] = @(input.code);
-    result[@"value"] = @(input.value);
     result[@"notificationCode"] = @(input.code & 0xFFFF0000);
     result[@"dataFileType"] = @(input.code & 0x0000FFFF);
-//    result[@"progress"] = @(input.value & 0xFFFFFFF0);
+    result[@"progress"] = @((int)input.value & 0xFFFFFFF0);
 
     return result;
 }
@@ -506,7 +508,7 @@
     result[@"fieldName"] = input.fieldName;
     result[@"fieldRect"] = [self generateCGRect:input.boundRect];
     result[@"value"] = [UIImageJPEGRepresentation(input.value, 1.0) base64EncodedStringWithOptions:0];
-    result[@"lightType"] = @(input.lightType);
+    result[@"light"] = @(input.lightType);
     result[@"lightName"] = input.lightName;
     result[@"pageIndex"] = @(input.pageIndex);
     result[@"originalPageIndex"] = @(input.originalPageIndex);
@@ -679,6 +681,30 @@
     result[@"status"] = @(input.status);
     result[@"extLeSupport"] = @(input.extLeSupport);
     result[@"processTime"] = @(input.processTime);
+    if(input.dataGroups != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.dataGroups)
+            if(item != nil)
+                [array addObject:item];
+        result[@"dataGroups"] = array;
+    }
+    if(input.dataFields != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDataField* item in input.dataFields)
+            if(item != nil)
+                [array addObject:[self generateRGLDataField:item]];
+        result[@"dataFields"] = array;
+    }
+
+    return result;
+}
+
++(NSMutableDictionary* _Nonnull)generateRGLDataField:(RGLDataField* _Nullable)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if(input == nil) return result;
+
+    result[@"data"] = input.data;
+    result[@"fieldType"] = @(input.fieldType);
 
     return result;
 }
@@ -990,16 +1016,6 @@
     return result;
 }
 
-+(NSMutableDictionary* _Nonnull)generateNSError:(NSError* _Nullable)input {
-    NSMutableDictionary *result = [NSMutableDictionary new];
-    if(input == nil) return result;
-
-    result[@"code"] = @(input.code);
-    result[@"localizedDescription"] = input.localizedDescription;
-
-    return result;
-}
-
 +(NSMutableDictionary* _Nonnull)generateRGLPAResourcesIssuer:(RGLPAResourcesIssuer* _Nullable)input {
     NSMutableDictionary *result = [NSMutableDictionary new];
     if(input == nil) return result;
@@ -1173,6 +1189,7 @@
     result[@"databaseDescription"] = input.databaseDescription;
     result[@"countriesNumber"] = @(input.countriesNumber);
     result[@"documentsNumber"] = @(input.documentsNumber);
+    result[@"size"] = input.size;
 
     return result;
 }

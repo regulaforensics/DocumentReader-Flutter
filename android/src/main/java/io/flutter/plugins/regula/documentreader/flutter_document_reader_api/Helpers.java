@@ -19,11 +19,114 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 class Helpers {
+    interface JSONObjectGeneratorWithContext<T> {
+        JSONObject generateJSONObject(T param, Context context) throws JSONException;
+    }
+
+    interface JSONObjectGenerator<T> {
+        JSONObject generateJSONObject(T param) throws JSONException;
+    }
+
+    static <T> JSONArray generateList(List<T> list) {
+        JSONArray result = new JSONArray();
+        if (list == null) return result;
+        for (T t : list)
+            if (t != null)
+                result.put(t);
+
+        return result;
+    }
+
+    static <T> JSONArray generateList(List<T> list, JSONObjectGenerator<T> generator) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (list == null) return result;
+        for (T t : list)
+            if (t != null)
+                result.put(generator.generateJSONObject(t));
+
+        return result;
+    }
+
+    static <T> JSONArray generateList(List<T> list, JSONObjectGeneratorWithContext<T> generator, Context context) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (list == null) return result;
+        for (T t : list)
+            if (t != null)
+                result.put(generator.generateJSONObject(t, context));
+
+        return result;
+    }
+
+    static <T> JSONArray generateArray(T[] array) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (array == null) return result;
+        for (int i = 0; i < array.length; i++)
+            result.put(i, array[i]);
+
+        return result;
+    }
+
+    static <T> JSONArray generateArray(T[] array, JSONObjectGenerator<T> generator) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (array == null) return result;
+        for (int i = 0; i < array.length; i++)
+            result.put(i, generator.generateJSONObject(array[i]));
+
+        return result;
+    }
+
+    static <T, V> JSONObject generateMap(Map<T, V> map) throws JSONException {
+        JSONObject result = new JSONObject();
+        if (map == null) return result;
+        for (Map.Entry<T, V> entry : map.entrySet())
+            if (entry != null)
+                result.put(entry.getKey().toString(), entry.getValue());
+        return result;
+    }
+
+    static JSONArray generateIntArray(int[] array) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (array == null) return result;
+        for (int i = 0; i < array.length; i++)
+            result.put(i, array[i]);
+
+        return result;
+    }
+
+    static int[] intArrayFromJSON(JSONArray input) throws JSONException {
+        int[] result = new int[input.length()];
+        for (int i = 0; i < input.length(); i++)
+            result[i] = input.getInt(i);
+
+        return result;
+    }
+
+    static JSONArray generateByteArray(byte[] array) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (array == null) return result;
+        for (int i = 0; i < array.length; i++)
+            result.put(i, array[i]);
+
+        return result;
+    }
+
+    static JSONArray generateLongArray(long[] array) throws JSONException {
+        JSONArray result = new JSONArray();
+        if (array == null) return result;
+        for (int i = 0; i < array.length; i++)
+            result.put(i, array[i]);
+
+        return result;
+    }
+
     static Bitmap bitmapFromBase64(String base64) {
-        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(base64, Base64.NO_WRAP);
         Bitmap result = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         int sizeMultiplier = result.getByteCount() / 5000000;
         if (result.getByteCount() > 5000000)
@@ -63,13 +166,13 @@ class Helpers {
     }
 
     static String bitmapToBase64String(Bitmap bitmap) {
-        if(bitmap == null) return null;
+        if (bitmap == null) return null;
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
     }
 
     static Matrix matrixFromFloatArray(float[] floats) {
@@ -140,6 +243,17 @@ class Helpers {
         String[] result = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++)
             result[i] = jsonArray.optString(i);
+        return result;
+    }
+
+    static Map<String, String> stringMapFromJson(JSONObject input) throws JSONException {
+        Map<String, String> result = new HashMap<>();
+        Iterator<String> keys = input.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            String value = input.getString(key);
+            result.put(key, value);
+        }
         return result;
     }
 }
