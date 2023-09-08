@@ -249,8 +249,8 @@ static NSNumber * _databasePercentageDownloaded;
 
 -(RGLRFIDNotificationCallback _Nonnull)getRFIDNotificationCallback {
     return ^(RGLRFIDNotificationAction action, RGLRFIDNotify* _Nullable notification) {
-        if(RGLWCompletionEvent == nil) return;
-        RGLWCompletionEvent([RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateDocumentReaderNotification:notification]]);
+        if(RGLWRfidOnProgressEvent == nil) return;
+        RGLWRfidOnProgressEvent([RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateDocumentReaderNotification:notification]]);
     };
 }
 
