@@ -1,17 +1,13 @@
 # Regula Document Reader plugin for Flutter
 <?code-excerpt path-base="example/lib"?>
 
-[![pub package](https://img.shields.io/pub/v/flutter_document_reader_api.svg)](https://pub.dev/packages/flutter_document_reader_api)
+[![pub package](https://img.shields.io/pub/v/flutter_document_reader_api_beta.svg)](https://pub.dev/packages/flutter_document_reader_api)
 
 Regula Document Reader SDK allows you to read various kinds of identification documents, passports, driving licenses, ID cards, etc. All processing is performed completely _**offline**_ on your device. No any data leaving your device.
 
 You can use native camera to scan the documents or image from gallery for extract all data from it.
 
 This repository contains the source code of the Document Reader API, and the sample application that demonstrates the _**API**_ calls you can use to interact with the Document Reader library.
-
-|             | Android | iOS     |
-|-------------|---------|---------|
-| **Support** | SDK 21+ | iOS 11+ |
 
 ## Documentation
 

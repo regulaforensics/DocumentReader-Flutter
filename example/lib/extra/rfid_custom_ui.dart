@@ -108,7 +108,7 @@ class RFIDCustomUI {
       padding: const EdgeInsets.only(bottom: 40),
       child: Text(
         rfidUIHeader,
-        textScaleFactor: 1.75,
+        textScaler: TextScaler.linear(1.75),
         style: TextStyle(color: rfidUIHeaderColor),
       ),
     );
@@ -116,7 +116,7 @@ class RFIDCustomUI {
 
   Widget description() {
     return Container(
-        child: Text(rfidDescription, textScaleFactor: 1.4),
+        child: Text(rfidDescription, textScaler: TextScaler.linear(1.4)),
         padding: const EdgeInsets.only(bottom: 40));
   }
 
