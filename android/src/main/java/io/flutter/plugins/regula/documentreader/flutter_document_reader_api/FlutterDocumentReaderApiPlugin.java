@@ -1,34 +1,34 @@
+//
+//  FlutterDocumentReaderApiPlugin.java
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 
 import static com.regula.documentreader.api.DocumentReader.Instance;
-
-import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Helpers.*;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Utils.*;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.*;
 import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.LocaleManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.os.Build;
 import android.os.Handler;
-import android.os.LocaleList;
 import android.os.Looper;
-import android.util.Base64;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 
-import com.regula.documentreader.api.completions.ICheckDatabaseUpdate;
+import com.regula.common.LocalizationCallbacks;
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion;
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareCompletion;
@@ -36,22 +36,25 @@ import com.regula.documentreader.api.completions.rfid.IRfidPKDCertificateComplet
 import com.regula.documentreader.api.completions.rfid.IRfidReaderCompletion;
 import com.regula.documentreader.api.completions.rfid.IRfidReaderRequest;
 import com.regula.documentreader.api.completions.rfid.IRfidTASignatureCompletion;
-import com.regula.documentreader.api.completions.rfid.ITccParamsCompletion;
 import com.regula.documentreader.api.enums.DocReaderAction;
+import com.regula.documentreader.api.enums.LCID;
+import com.regula.documentreader.api.enums.eImageQualityCheckType;
+import com.regula.documentreader.api.enums.eLDS_ParsingErrorCodes;
+import com.regula.documentreader.api.enums.eLDS_ParsingNotificationCodes;
+import com.regula.documentreader.api.enums.eRFID_DataFile_Type;
+import com.regula.documentreader.api.enums.eRFID_ErrorCodes;
+import com.regula.documentreader.api.enums.eVisualFieldType;
 import com.regula.documentreader.api.errors.DocReaderRfidException;
 import com.regula.documentreader.api.errors.DocumentReaderException;
+import com.regula.documentreader.api.results.DocumentReaderNotification;
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil;
-import com.regula.documentreader.api.internal.params.ImageInputParam;
-import com.regula.documentreader.api.internal.parser.DocReaderResultsJsonParser;
-import com.regula.documentreader.api.params.BleDeviceConfig;
 import com.regula.documentreader.api.params.DocReaderConfig;
-import com.regula.documentreader.api.params.ImageInputData;
 import com.regula.documentreader.api.params.rfid.PKDCertificate;
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer;
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge;
 import com.regula.documentreader.api.results.DocumentReaderGraphicField;
-import com.regula.documentreader.api.results.DocumentReaderNotification;
 import com.regula.documentreader.api.results.DocumentReaderResults;
+import com.regula.documentreader.api.results.DocumentReaderScenario;
 import com.regula.documentreader.api.results.DocumentReaderTextField;
 
 import org.json.JSONArray;
@@ -61,10 +64,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -76,7 +76,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
-@SuppressWarnings({"unchecked", "NullableProblems", "ConstantConditions", "RedundantSuppression", "deprecation"})
 public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
     private Activity activity;
     private ArrayList<Object> args;
@@ -106,11 +105,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private EventChannel.EventSink onCustomButtonTappedEvent;
 
     @Override
-    public void onAttachedToEngine(FlutterPluginBinding binding) {
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         setupEventChannel(binding, "completion", (events) -> eventCompletion = events);
         setupEventChannel(binding, "database_progress", (events) -> eventDatabaseProgress = events);
         setupEventChannel(binding, "video_encoder_completion", (events) -> eventVideoEncoderCompletion = events);
-        setupEventChannel(binding, "rfid_notification_completion", (events) -> rfidOnProgressEvent = events);
+        setupEventChannel(binding, "rfidOnProgressCompletion", (events) -> rfidOnProgressEvent = events);
         setupEventChannel(binding, "rfidOnChipDetectedEvent", (events) -> rfidOnChipDetectedEvent = events);
         setupEventChannel(binding, "rfidOnRetryReadChipEvent", (events) -> rfidOnRetryReadChipEvent = events);
         setupEventChannel(binding, "pa_certificate_completion", (events) -> eventPACertificateCompletion = events);
@@ -170,7 +169,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     @Override
-    public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
+    public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
     }
 
     @Override
@@ -178,68 +177,28 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     @Override
-    public void onDetachedFromEngine(FlutterPluginBinding binding) {
-    }
-
-    private interface Callback {
-        void success(Object o);
-
-        void error(String s);
-
-        default void success() {
-            success("");
-        }
-    }
-
-    private JSONArray arrayListToJSONArray(ArrayList<?> list) {
-        JSONArray result = new JSONArray();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getClass().equals(java.util.HashMap.class))
-                result.put(hashMapToJSONObject((HashMap<String, ?>) list.get(i)));
-            else if (list.get(i).getClass().equals(java.util.ArrayList.class))
-                result.put(arrayListToJSONArray((ArrayList<?>) list.get(i)));
-            else
-                result.put(list.get(i));
-        }
-
-        return result;
-    }
-
-    private JSONObject hashMapToJSONObject(HashMap<String, ?> map) {
-        JSONObject result = new JSONObject();
-        try {
-            for (Map.Entry<String, ?> entry : map.entrySet()) {
-                if (entry.getValue().getClass().equals(java.util.HashMap.class))
-                    result.put(entry.getKey(), hashMapToJSONObject((HashMap<String, ?>) entry.getValue()));
-                else if (entry.getValue().getClass().equals(java.util.ArrayList.class))
-                    result.put(entry.getKey(), arrayListToJSONArray((ArrayList<?>) entry.getValue()));
-                else
-                    result.put(entry.getKey(), entry.getValue());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private <T> T args(int index) {
-        if (args.get(index).getClass().equals(java.util.HashMap.class))
-            return (T) hashMapToJSONObject((HashMap<String, ?>) args.get(index));
-        if (args.get(index).getClass().equals(java.util.ArrayList.class))
-            return (T) arrayListToJSONArray((ArrayList<?>) args.get(index));
-        return (T) args.get(index);
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     }
 
     private void sendEvent(EventChannel.EventSink event, Object data) {
         if (event == null) return;
         if (data instanceof JSONObject || data instanceof JSONArray) data = data.toString();
-        final Object finalData = data;
+        final Object finalData = data + "";
         new Handler(Looper.getMainLooper()).post(() -> event.success(finalData));
     }
 
+    private void sendEvent(EventChannel.EventSink event) {
+        sendEvent(event, "");
+    }
+
+    private <T> T args(int index) {
+        return Utils.args(args, index);
+    }
+
     @Override
-    public void onMethodCall(MethodCall call, Result result) {
+    public void onMethodCall(MethodCall call, @NonNull Result result) {
         String action = call.method;
+        //noinspection unchecked
         args = (ArrayList<Object>) call.arguments;
         Callback callback = new Callback() {
             @Override
@@ -254,267 +213,71 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         };
         try {
             switch (action) {
-                case "initializeReaderAutomatically":
-                    initializeReaderAutomatically(callback);
-                    break;
-                case "isBlePermissionsGranted":
-                    isBlePermissionsGranted(callback);
-                    break;
-                case "startBluetoothService":
-                    startBluetoothService(callback);
-                    break;
-                case "initializeReaderBleDeviceConfig":
-                    initializeReaderBleDeviceConfig(callback);
-                    break;
-                case "getTag":
-                    getTag(callback);
-                    break;
-                case "getAPIVersion":
-                    getAPIVersion(callback);
-                    break;
-                case "getAvailableScenarios":
-                    getAvailableScenarios(callback);
-                    break;
-                case "isRFIDAvailableForUse":
-                    isRFIDAvailableForUse(callback);
-                    break;
-                case "getCoreMode":
-                    getCoreMode(callback);
-                    break;
-                case "getCoreVersion":
-                    getCoreVersion(callback);
-                    break;
-                case "getDatabaseDate":
-                    getDatabaseDate(callback);
-                    break;
-                case "getDatabaseID":
-                    getDatabaseID(callback);
-                    break;
-                case "getDatabaseVersion":
-                    getDatabaseVersion(callback);
-                    break;
-                case "getDocumentReaderIsReady":
-                    getDocumentReaderIsReady(callback);
-                    break;
-                case "getDocumentReaderStatus":
-                    getDocumentReaderStatus(callback);
-                    break;
-                case "getDatabaseCountriesNumber":
-                    getDatabaseCountriesNumber(callback);
-                    break;
-                case "getDatabaseDocumentsNumber":
-                    getDatabaseDocumentsNumber(callback);
-                    break;
-                case "selectedScenario":
-                    selectedScenario(callback);
-                    break;
-                case "getSessionLogFolder":
-                    getSessionLogFolder(callback);
-                    break;
-                case "getDatabaseDescription":
-                    getDatabaseDescription(callback);
-                    break;
-                case "showScanner":
-                    showScanner(callback);
-                    break;
-                case "startNewPage":
-                    startNewPage(callback);
-                    break;
-                case "startNewSession":
-                    startNewSession(callback);
-                    break;
-                case "startRFIDReader":
-                    startRFIDReader(callback);
-                    break;
-                case "stopRFIDReader":
-                    stopRFIDReader(callback);
-                    break;
-                case "stopRFIDReaderWithErrorMessage":
-                    stopRFIDReaderWithErrorMessage(callback, args(0));
-                    break;
-                case "stopScanner":
-                    stopScanner(callback);
-                    break;
-                case "deinitializeReader":
-                    deinitializeReader(callback);
-                    break;
-                case "isAuthenticatorAvailableForUse":
-                    isAuthenticatorAvailableForUse(callback);
-                    break;
-                case "getConfig":
-                    getConfig(callback);
-                    break;
-                case "getRfidScenario":
-                    getRfidScenario(callback);
-                    break;
-                case "getLicenseExpiryDate":
-                    getLicenseExpiryDate(callback);
-                    break;
-                case "getLicenseCountryFilter":
-                    getLicenseCountryFilter(callback);
-                    break;
-                case "licenseIsRfidAvailable":
-                    licenseIsRfidAvailable(callback);
-                    break;
-                case "getCameraSessionIsPaused":
-                    getCameraSessionIsPaused(callback);
-                    break;
-                case "removeDatabase":
-                    removeDatabase(callback);
-                    break;
-                case "cancelDBUpdate":
-                    cancelDBUpdate(callback);
-                    break;
-                case "resetConfiguration":
-                    resetConfiguration(callback);
-                    break;
-                case "clearPKDCertificates":
-                    clearPKDCertificates(callback);
-                    break;
-                case "readRFID":
-                    readRFID(callback);
-                    break;
-                case "getRfidSessionStatus":
-                    getRfidSessionStatus(callback);
-                    break;
-                case "setRfidDelegate":
-                    setRfidDelegate(callback, args(0));
-                    break;
-                case "setEnableCoreLogs":
-                    setEnableCoreLogs(callback, args(0));
-                    break;
-                case "addPKDCertificates":
-                    addPKDCertificates(callback, args(0));
-                    break;
-                case "setCameraSessionIsPaused":
-                    setCameraSessionIsPaused(callback, args(0));
-                    break;
-                case "setTag":
-                    setTag(callback, args(0));
-                    break;
-                case "checkDatabaseUpdate":
-                    checkDatabaseUpdate(callback, args(0));
-                    break;
-                case "scan":
-                    scan(callback, args(0));
-                    break;
-                case "recognize":
-                    recognize(callback, args(0));
-                    break;
-                case "recognizeImages":
-                    recognizeImages(callback, args(0));
-                    break;
-                case "showScannerWithCameraID":
-                    showScannerWithCameraID(callback, args(0));
-                    break;
-                case "runAutoUpdate":
-                    runAutoUpdate(callback, args(0));
-                    break;
-                case "setConfig":
-                    setConfig(callback, args(0));
-                    break;
-                case "setRfidScenario":
-                    setRfidScenario(callback, args(0));
-                    break;
-                case "initializeReader":
-                    initializeReader(callback, args(0));
-                    break;
-                case "prepareDatabase":
-                    prepareDatabase(callback, args(0));
-                    break;
-                case "recognizeImage":
-                    recognizeImage(callback, args(0));
-                    break;
-                case "recognizeData":
-                    recognizeData(callback, args(0));
-                    break;
-                case "setRfidSessionStatus":
-                    setRfidSessionStatus(callback, args(0));
-                    break;
-                case "providePACertificates":
-                    providePACertificates(callback, args(0));
-                    break;
-                case "provideTACertificates":
-                    provideTACertificates(callback, args(0));
-                    break;
-                case "provideTASignature":
-                    provideTASignature(callback, args(0));
-                    break;
-                case "parseCoreResults":
-                    parseCoreResults(callback, args(0));
-                    break;
-                case "setTCCParams":
-                    setTCCParams(callback, args(0));
-                    break;
-                case "recognizeImageWithOpts":
-                    recognizeImageWithOpts(callback, args(0), args(1));
-                    break;
-                case "recognizeVideoFrame":
-                    recognizeVideoFrame(callback, args(0), args(1));
-                    break;
-                case "showScannerWithCameraIDAndOpts":
-                    showScannerWithCameraIDAndOpts(callback, args(0), args(1));
-                    break;
-                case "recognizeImageWithCameraMode":
-                    recognizeImageWithCameraMode(callback, args(0), args(1));
-                    break;
-                case "recognizeImagesWithImageInputs":
-                    recognizeImagesWithImageInputs(callback, args(0));
-                    break;
-                case "setLanguage":
-                    setLanguage(callback, args(0));
-                    break;
-                case "textFieldValueByType":
-                    textFieldValueByType(callback, args(0), args(1));
-                    break;
-                case "textFieldValueByTypeLcid":
-                    textFieldValueByTypeLcid(callback, args(0), args(1), args(2));
-                    break;
-                case "textFieldValueByTypeSource":
-                    textFieldValueByTypeSource(callback, args(0), args(1), args(2));
-                    break;
-                case "textFieldValueByTypeLcidSource":
-                    textFieldValueByTypeLcidSource(callback, args(0), args(1), args(2), args(3));
-                    break;
-                case "textFieldValueByTypeSourceOriginal":
-                    textFieldValueByTypeSourceOriginal(callback, args(0), args(1), args(2), args(3));
-                    break;
-                case "textFieldValueByTypeLcidSourceOriginal":
-                    textFieldValueByTypeLcidSourceOriginal(callback, args(0), args(1), args(2), args(3), args(4));
-                    break;
-                case "textFieldByType":
-                    textFieldByType(callback, args(0), args(1));
-                    break;
-                case "textFieldByTypeLcid":
-                    textFieldByTypeLcid(callback, args(0), args(1), args(2));
-                    break;
-                case "graphicFieldByTypeSource":
-                    graphicFieldByTypeSource(callback, args(0), args(1), args(2));
-                    break;
-                case "graphicFieldByTypeSourcePageIndex":
-                    graphicFieldByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
-                    break;
-                case "graphicFieldByTypeSourcePageIndexLight":
-                    graphicFieldByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
-                    break;
-                case "graphicFieldImageByType":
-                    graphicFieldImageByType(callback, args(0), args(1));
-                    break;
-                case "graphicFieldImageByTypeSource":
-                    graphicFieldImageByTypeSource(callback, args(0), args(1), args(2));
-                    break;
-                case "graphicFieldImageByTypeSourcePageIndex":
-                    graphicFieldImageByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
-                    break;
-                case "graphicFieldImageByTypeSourcePageIndexLight":
-                    graphicFieldImageByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
-                    break;
-                case "containers":
-                    containers(callback, args(0), args(1));
-                    break;
-                case "encryptedContainers":
-                    encryptedContainers(callback, args(0));
-                    break;
+                case "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback);
+                case "getDocumentReaderStatus" -> getDocumentReaderStatus(callback);
+                case "isAuthenticatorAvailableForUse" -> isAuthenticatorAvailableForUse(callback);
+                case "isBlePermissionsGranted" -> isBlePermissionsGranted(callback);
+                case "getRfidSessionStatus" -> getRfidSessionStatus(callback);
+                case "setRfidSessionStatus" -> setRfidSessionStatus(callback, args(0));
+                case "getTag" -> getTag(callback);
+                case "setTag" -> setTag(callback, args(0));
+                case "getFunctionality" -> getFunctionality(callback);
+                case "setFunctionality" -> setFunctionality(callback, args(0));
+                case "getProcessParams" -> getProcessParams(callback);
+                case "setProcessParams" -> setProcessParams(callback, args(0));
+                case "getCustomization" -> getCustomization(callback);
+                case "setCustomization" -> setCustomization(callback, args(0));
+                case "getRfidScenario" -> getRfidScenario(callback);
+                case "setRfidScenario" -> setRfidScenario(callback, args(0));
+                case "resetConfiguration" -> resetConfiguration(callback);
+                case "initializeReader" -> initializeReader(callback, args(0));
+                case "initializeReaderAutomatically" -> initializeReaderAutomatically(callback);
+                case "initializeReaderWithBleDeviceConfig" -> initializeReaderWithBleDeviceConfig(callback, args(0));
+                case "deinitializeReader" -> deinitializeReader(callback);
+                case "prepareDatabase" -> prepareDatabase(callback, args(0));
+                case "removeDatabase" -> removeDatabase(callback);
+                case "runAutoUpdate" -> runAutoUpdate(callback, args(0));
+                case "cancelDBUpdate" -> cancelDBUpdate(callback);
+                case "checkDatabaseUpdate" -> checkDatabaseUpdate(callback, args(0));
+                case "scan" -> scan(callback, args(0));
+                case "recognize" -> recognize(callback, args(0));
+                case "startNewPage" -> startNewPage(callback);
+                case "stopScanner" -> stopScanner(callback);
+                case "startRFIDReader" -> startRFIDReader(callback, args(0));
+                case "stopRFIDReader" -> stopRFIDReader(callback);
+                case "readRFID" -> readRFID(callback, args(0));
+                case "providePACertificates" -> providePACertificates(callback, args(0));
+                case "provideTACertificates" -> provideTACertificates(callback, args(0));
+                case "provideTASignature" -> provideTASignature(callback, args(0));
+                case "setTCCParams" -> setTCCParams(callback, args(0));
+                case "addPKDCertificates" -> addPKDCertificates(callback, args(0));
+                case "clearPKDCertificates" -> clearPKDCertificates(callback);
+                case "startNewSession" -> startNewSession(callback);
+                case "startBluetoothService" -> startBluetoothService(callback);
+                case "setLocalizationDictionary" -> setLocalizationDictionary(callback, args(0));
+                case "getLicense" -> getLicense(callback);
+                case "getAvailableScenarios" -> getAvailableScenarios(callback);
+                case "getIsRFIDAvailableForUse" -> getIsRFIDAvailableForUse(callback);
+                case "getDocReaderVersion" -> getDocReaderVersion(callback);
+                case "getDocReaderDocumentsDatabase" -> getDocReaderDocumentsDatabase(callback);
+                case "textFieldValueByType" -> textFieldValueByType(callback, args(0), args(1));
+                case "textFieldValueByTypeLcid" -> textFieldValueByTypeLcid(callback, args(0), args(1), args(2));
+                case "textFieldValueByTypeSource" -> textFieldValueByTypeSource(callback, args(0), args(1), args(2));
+                case "textFieldValueByTypeLcidSource" -> textFieldValueByTypeLcidSource(callback, args(0), args(1), args(2), args(3));
+                case "textFieldValueByTypeSourceOriginal" -> textFieldValueByTypeSourceOriginal(callback, args(0), args(1), args(2), args(3));
+                case "textFieldValueByTypeLcidSourceOriginal" -> textFieldValueByTypeLcidSourceOriginal(callback, args(0), args(1), args(2), args(3), args(4));
+                case "textFieldByType" -> textFieldByType(callback, args(0), args(1));
+                case "textFieldByTypeLcid" -> textFieldByTypeLcid(callback, args(0), args(1), args(2));
+                case "graphicFieldByTypeSource" -> graphicFieldByTypeSource(callback, args(0), args(1), args(2));
+                case "graphicFieldByTypeSourcePageIndex" -> graphicFieldByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
+                case "graphicFieldByTypeSourcePageIndexLight" -> graphicFieldByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
+                case "graphicFieldImageByType" -> graphicFieldImageByType(callback, args(0), args(1));
+                case "graphicFieldImageByTypeSource" -> graphicFieldImageByTypeSource(callback, args(0), args(1), args(2));
+                case "graphicFieldImageByTypeSourcePageIndex" -> graphicFieldImageByTypeSourcePageIndex(callback, args(0), args(1), args(2), args(3));
+                case "graphicFieldImageByTypeSourcePageIndexLight" -> graphicFieldImageByTypeSourcePageIndexLight(callback, args(0), args(1), args(2), args(3), args(4));
+                case "containers" -> containers(callback, args(0), args(1));
+                case "encryptedContainers" -> encryptedContainers(callback, args(0));
+                case "getTranslation" -> getTranslation(callback, args(0), args(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -542,165 +305,28 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         backgroundRFIDEnabled = false;
     }
 
-    private void initializeReaderAutomatically(Callback callback) {
-        if (!Instance().isReady())
-            try {
-                InputStream is = getContext().getAssets().open("regula.license");
-                byte[] license = new byte[is.available()];
-                //noinspection ResultOfMethodCallIgnored
-                is.read(license);
-                Instance().initializeReader(getContext(), new DocReaderConfig(license), getInitCompletion(callback));
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                callback.error("problem reading license(see logs)");
-            }
-        else
-            callback.success("already initialized");
+    private void getDocumentReaderIsReady(Callback callback) {
+        callback.success(Instance().isReady());
     }
 
-    private void isBlePermissionsGranted(Callback callback) {
-        callback.success(BluetoothUtil.Companion.isBlePermissionsGranted(getActivity()));
-    }
-
-    private void startBluetoothService(Callback callback) {
-        BluetoothUtil.Companion.startBluetoothService(
-                getActivity(),
-                isBleManagerConnected -> {
-                    sendEvent(bleOnServiceConnectedEvent, isBleManagerConnected);
-                    return null;
-                },
-                () -> {
-                    sendEvent(bleOnServiceDisconnectedEvent, "");
-                    return null;
-                },
-                () -> {
-                    sendEvent(bleOnDeviceReadyEvent, "");
-                    return null;
-                }
-        );
-        callback.success();
-    }
-
-    @SuppressLint("MissingPermission")
-    private void initializeReaderBleDeviceConfig(Callback callback) {
-        if (BluetoothUtil.Companion.getBleManager() == null) callback.error("bleManager is null");
-        if (!Instance().isReady())
-            Instance().initializeReader(getContext(), new BleDeviceConfig(BluetoothUtil.Companion.getBleManager()), getInitCompletion(callback));
-        else
-            callback.success("already initialized");
-    }
-
-    private void getAvailableScenarios(Callback callback) throws JSONException {
-        callback.success(generateList(Instance().availableScenarios, JSONConstructor::generateDocumentReaderScenario).toString());
-    }
-
-    private void parseCoreResults(Callback callback, String json) {
-        DocumentReaderResults results = (DocumentReaderResults) DocReaderResultsJsonParser.parseCoreResults(json).get("docReaderResults");
-        callback.success(generateDocumentReaderResults(results, getContext()).toString());
-    }
-
-    private void getAPIVersion(Callback callback) {
-        callback.success(Instance().version.api);
-    }
-
-    private void getCoreVersion(Callback callback) {
-        callback.success(Instance().version.core);
-    }
-
-    private void getCoreMode(Callback callback) {
-        callback.success(Instance().version.coreMode);
-    }
-
-    private void getDatabaseID(Callback callback) {
-        callback.success(Instance().version.database.databaseID);
-    }
-
-    private void getDatabaseVersion(Callback callback) {
-        callback.success(Instance().version.database.version);
-    }
-
-    private void getDatabaseDate(Callback callback) {
-        callback.success(Instance().version.database.date);
-    }
-
-    private void getDatabaseDescription(Callback callback) {
-        callback.success(Instance().version.database.databaseDescription);
-    }
-
-    private void getDatabaseCountriesNumber(Callback callback) {
-        callback.success(Instance().version.database.countriesNumber);
-    }
-
-    private void getDatabaseDocumentsNumber(Callback callback) {
-        callback.success(Instance().version.database.documentsNumber);
-    }
-
-    private void setTCCParams(Callback callback, final JSONObject params) {
-        Instance().setTccParams(TCCParamsFromJSON(params), getTCCParamsCompletion(callback));
-    }
-
-    private void deinitializeReader(Callback callback) {
-        Instance().deinitializeReader();
-        callback.success();
+    private void getDocumentReaderStatus(Callback callback) {
+        callback.success(Instance().getStatus());
     }
 
     private void isAuthenticatorAvailableForUse(Callback callback) {
         callback.success(Instance().isAuthenticatorAvailableForUse());
     }
 
-    private void getConfig(Callback callback) throws JSONException {
-        callback.success(RegulaConfig.getConfig(Instance()).toString());
+    private void isBlePermissionsGranted(Callback callback) {
+        callback.success(BluetoothUtil.Companion.isBlePermissionsGranted(getActivity()));
     }
 
-    private void getRfidScenario(Callback callback) {
-        callback.success(Instance().rfidScenario().toJson());
+    private void getRfidSessionStatus(Callback callback) {
+        callback.error("getRfidSessionStatus() is an ios-only method");
     }
 
-    private void selectedScenario(Callback callback) {
-        callback.success(generateDocumentReaderScenario(CoreScenarioUtil.getScenario(Instance().processParams().getScenario())).toString());
-    }
-
-    private void getLicenseExpiryDate(Callback callback) {
-        if (Instance().license().getExpiryDate() == null)
-            callback.error("null");
-        else
-            callback.success(Instance().license().getExpiryDate().toString());
-    }
-
-    private void getLicenseCountryFilter(Callback callback) {
-        if (Instance().license().getCountryFilter() == null)
-            callback.error("null");
-        else
-            callback.success(generateList(Instance().license().getCountryFilter()).toString());
-    }
-
-    private void licenseIsRfidAvailable(Callback callback) {
-        callback.success(Instance().license().isRfidAvailable());
-    }
-
-    private void getDocumentReaderIsReady(Callback callback) {
-        callback.success(Instance().isReady());
-    }
-
-    private void getDocumentReaderStatus(Callback callback) {
-        callback.success(Instance().isReady());
-    }
-
-    private void isRFIDAvailableForUse(Callback callback) {
-        callback.success(Instance().isRFIDAvailableForUse());
-    }
-
-    private void initializeReader(Callback callback, JSONObject config) {
-        if (!Instance().isReady())
-            Instance().initializeReader(getContext(), DocReaderConfigFromJSON(config), getInitCompletion(callback));
-        else
-            callback.success("already initialized");
-    }
-
-    private void startNewSession(Callback callback) {
-        Instance().startNewSession();
-        callback.success();
+    private void setRfidSessionStatus(Callback callback, @SuppressWarnings("unused") String status) {
+        callback.error("setRfidSessionStatus() is an ios-only method");
     }
 
     private void getTag(Callback callback) {
@@ -712,9 +338,107 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void checkDatabaseUpdate(Callback callback, String databaseId) {
-        Instance().checkDatabaseUpdate(getContext(), databaseId, getCheckDatabaseUpdateCompletion(callback));
+    private void getFunctionality(Callback callback) throws JSONException {
+        callback.success(Config.getFunctionality(Instance().functionality()).toString());
+    }
+
+    private void setFunctionality(Callback callback, final JSONObject functionality) throws JSONException {
+        Config.setFunctionality(Instance().functionality(), functionality);
         callback.success();
+    }
+
+    private void getProcessParams(Callback callback) throws JSONException {
+        callback.success(Config.getProcessParams(Instance().processParams()).toString());
+    }
+
+    private void setProcessParams(Callback callback, final JSONObject processParams) throws JSONException {
+        Config.setProcessParams(Instance().processParams(), processParams);
+        callback.success();
+    }
+
+    private void getCustomization(Callback callback) throws JSONException {
+        callback.success(Config.getCustomization(Instance().customization()).toString());
+    }
+
+    private void setCustomization(Callback callback, final JSONObject customization) throws JSONException {
+        Config.setCustomization(Instance().customization(), customization, getContext());
+        callback.success();
+    }
+
+    private void getRfidScenario(Callback callback) throws JSONException {
+        callback.success(Config.getRfidScenario(Instance().rfidScenario()).toString());
+    }
+
+    private void setRfidScenario(Callback callback, final JSONObject rfidScenario) throws JSONException {
+        Config.setRfidScenario(Instance().rfidScenario(), rfidScenario);
+        callback.success();
+    }
+
+    private void resetConfiguration(Callback callback) {
+        Instance().resetConfiguration();
+        Config.setupScaleType();
+        callback.success();
+    }
+
+    private void initializeReader(Callback callback, JSONObject config) {
+        Instance().initializeReader(getContext(), docReaderConfigFromJSON(config), getInitCompletion(callback));
+    }
+
+    private void initializeReaderAutomatically(Callback callback) {
+        try {
+            InputStream is = getContext().getAssets().open("regula.license");
+            byte[] license = new byte[is.available()];
+            //noinspection ResultOfMethodCallIgnored
+            is.read(license);
+            Instance().initializeReader(getContext(), new DocReaderConfig(license), getInitCompletion(callback));
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.error("problem reading license(see logs)");
+        }
+    }
+
+    private void initializeReaderWithBleDeviceConfig(Callback callback, JSONObject config) {
+        if (BluetoothUtil.Companion.getBleManager() == null) {
+            callback.error("bleManager is null");
+            return;
+        }
+        Instance().initializeReader(getContext(), bleDeviceConfigFromJSON(config), getInitCompletion(callback));
+    }
+
+    private void deinitializeReader(Callback callback) {
+        Instance().deinitializeReader();
+        callback.success();
+    }
+
+    private void prepareDatabase(Callback callback, String databaseID) {
+        Instance().prepareDatabase(getContext(), databaseID, getPrepareCompletion(callback));
+    }
+
+    private void removeDatabase(Callback callback) {
+        callback.success(Instance().removeDatabase(getContext()));
+    }
+
+    private void runAutoUpdate(Callback callback, String databaseID) {
+        Instance().runAutoUpdate(getContext(), databaseID, getPrepareCompletion(callback));
+    }
+
+    private void cancelDBUpdate(Callback callback) {
+        callback.success(Instance().cancelDBUpdate(getContext()));
+    }
+
+    private void checkDatabaseUpdate(Callback callback, String databaseID) {
+        Instance().checkDatabaseUpdate(getContext(), databaseID, (database) -> callback.success(toStringOrNull(generateDocReaderDocumentsDatabase(database))));
+    }
+
+    private void scan(@SuppressWarnings("unused") Callback callback, JSONObject config) {
+        stopBackgroundRFID();
+        Instance().showScanner(getContext(), scannerConfigFromJSON(config), getCompletion());
+    }
+
+    private void recognize(@SuppressWarnings("unused") Callback callback, JSONObject config) {
+        stopBackgroundRFID();
+        Instance().recognize(getContext(), recognizeConfigFromJSON(config), getCompletion());
     }
 
     private void startNewPage(Callback callback) {
@@ -722,108 +446,21 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void scan(@SuppressWarnings("unused") Callback callback, JSONObject config) {
-        stopBackgroundRFID();
-        Instance().showScanner(getContext(), ScannerConfigFromJSON(config), getCompletion());
-    }
-
-    private void recognize(@SuppressWarnings("unused") Callback callback, JSONObject config) {
-        stopBackgroundRFID();
-        Instance().recognize(getContext(), RecognizeConfigFromJSON(config), getCompletion());
-    }
-
-    private void recognizeImageWithOpts(Callback callback, String base64Image, final JSONObject opts) throws JSONException {
-        RegulaConfig.setConfig(Instance(), opts, getContext());
-        recognizeImage(callback, base64Image);
-    }
-
-    private void recognizeImage(@SuppressWarnings("unused") Callback callback, String base64Image) {
-        stopBackgroundRFID();
-        Instance().recognizeImage(Helpers.bitmapFromBase64(base64Image), getCompletion());
-    }
-
-    private void recognizeData(@SuppressWarnings("unused") Callback callback, Object data) {
-        stopBackgroundRFID();
-        Instance().recognizeImage(Base64.decode(data.toString(), Base64.DEFAULT), getCompletion());
-    }
-
-    private void recognizeImages(@SuppressWarnings("unused") Callback callback, JSONArray base64Images) throws JSONException {
-        stopBackgroundRFID();
-        Bitmap[] images = new Bitmap[base64Images.length()];
-        for (int i = 0; i < images.length; i++)
-            images[i] = bitmapFromBase64(base64Images.getString(i));
-        Instance().recognizeImages(images, getCompletion());
-    }
-
-    private void recognizeImagesWithImageInputs(@SuppressWarnings("unused") Callback callback, JSONArray base64Images) throws JSONException {
-        stopBackgroundRFID();
-        ImageInputData[] images = new ImageInputData[base64Images.length()];
-        for (int i = 0; i < images.length; i++)
-            images[i] = ImageInputDataFromJSON(base64Images.getJSONObject(i));
-        Instance().recognizeImages(images, getCompletion());
-    }
-
-    private void removeDatabase(Callback callback) {
-        callback.success(Instance().removeDatabase(getContext()));
-    }
-
-    private void cancelDBUpdate(Callback callback) {
-        callback.success(Instance().cancelDBUpdate(getContext()));
-    }
-
-    private void resetConfiguration(Callback callback) {
-        Instance().resetConfiguration();
-        callback.success();
-    }
-
-    private void setEnableCoreLogs(Callback callback, boolean enableLogs) {
-        Instance().setEnableCoreLogs(enableLogs);
-        callback.success();
-    }
-
-    private void addPKDCertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {
-        List<PKDCertificate> certificates = new ArrayList<>();
-        for (int i = 0; i < certificatesJSON.length(); i++) {
-            JSONObject certificate = certificatesJSON.getJSONObject(i);
-            certificates.add(new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null));
-        }
-        Instance().addPKDCertificates(certificates);
-        callback.success();
-    }
-
-    private void clearPKDCertificates(Callback callback) {
-        Instance().clearPKDCertificates();
-        callback.success();
-    }
-
-    private void recognizeVideoFrame(@SuppressWarnings("unused") Callback callback, String byteString, final JSONObject opts) throws JSONException {
-        stopBackgroundRFID();
-        Instance().recognizeVideoFrame(byteString.getBytes(), new ImageInputParam(opts.getInt("width"), opts.getInt("height"), opts.getInt("type")), getCompletion());
-    }
-
-    private void showScannerWithCameraID(@SuppressWarnings("unused") Callback callback, int cameraID) {
-        stopBackgroundRFID();
-        Instance().showScanner(getContext(), cameraID, getCompletion());
-    }
-
-    private void showScanner(Callback callback) {
-        showScannerWithCameraID(callback, -1);
-    }
-
-    private void showScannerWithCameraIDAndOpts(@SuppressWarnings("unused") Callback callback, int cameraID, final JSONObject opts) throws JSONException {
-        stopBackgroundRFID();
-        RegulaConfig.setConfig(Instance(), opts, getContext());
-        Instance().showScanner(getContext(), cameraID, getCompletion());
-    }
-
     private void stopScanner(Callback callback) {
         Instance().stopScanner(getContext());
         callback.success();
     }
 
-    private void startRFIDReader(@SuppressWarnings("unused") Callback callback) {
+    private void startRFIDReader(@SuppressWarnings("unused") Callback callback, int type) {
         stopBackgroundRFID();
+        rfidReaderRequestType = type;
         Instance().startRFIDReader(getContext(), getRfidReaderCompletion(), getRfidReaderRequest());
+    }
+
+    private void readRFID(@SuppressWarnings("unused") Callback callback, int type) {
+        backgroundRFIDEnabled = true;
+        rfidReaderRequestType = type;
+        startForegroundDispatch(getActivity());
     }
 
     private void stopRFIDReader(Callback callback) {
@@ -832,90 +469,105 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success();
     }
 
-    private void prepareDatabase(Callback callback, String dbID) {
-        Instance().prepareDatabase(getContext(), dbID, getPrepareCompletion(callback));
-    }
-
-    private void runAutoUpdate(Callback callback, String dbID) {
-        Instance().runAutoUpdate(getContext(), dbID, getPrepareCompletion(callback));
-    }
-
-    private void setRfidScenario(Callback callback, final JSONObject opts) throws JSONException {
-        RegulaConfig.setRfidScenario(opts);
-        callback.success();
-    }
-
-    private void getSessionLogFolder(Callback callback) {
-        callback.success(Instance().processParams().sessionLogFolder);
-    }
-
-    private void setConfig(Callback callback, final JSONObject opts) throws JSONException {
-        RegulaConfig.setConfig(Instance(), opts, getContext());
-        callback.success();
-    }
-
-    private void readRFID(@SuppressWarnings("unused") Callback callback) {
-        backgroundRFIDEnabled = true;
-        startForegroundDispatch(getActivity());
-    }
-
-    private void setLanguage(Callback callback, String language) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            LocaleManager localeManager = (LocaleManager) getContext().getSystemService(Context.LOCALE_SERVICE);
-            localeManager.setApplicationLocales(new LocaleList(Locale.forLanguageTag(language)));
-        } else {
-            Locale locale = new Locale(language);
-            Locale.setDefault(locale);
-            Resources resources = getContext().getResources();
-            Configuration config = resources.getConfiguration();
-            config.setLocale(locale);
-            resources.updateConfiguration(config, resources.getDisplayMetrics());
-        }
-        callback.success();
-    }
-
-    private void providePACertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {
+    private void providePACertificates(Callback callback, JSONArray certificates) throws JSONException {
         if (paCertificateCompletion == null) {
             callback.error("paCertificateCompletion is null");
             return;
         }
-        PKDCertificate[] certificates = new PKDCertificate[certificatesJSON.length()];
-        for (int i = 0; i < certificatesJSON.length(); i++) {
-            JSONObject certificate = certificatesJSON.getJSONObject(i);
-            certificates[i] = new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null);
-        }
-        paCertificateCompletion.onCertificatesReceived(certificates);
+        paCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON, new PKDCertificate[0]));
         callback.success();
     }
 
-    private void provideTACertificates(Callback callback, JSONArray certificatesJSON) throws JSONException {
+    private void provideTACertificates(Callback callback, JSONArray certificates) throws JSONException {
         if (taCertificateCompletion == null) {
             callback.error("taCertificateCompletion is null");
             return;
         }
-        PKDCertificate[] certificates = new PKDCertificate[certificatesJSON.length()];
-        for (int i = 0; i < certificatesJSON.length(); i++) {
-            JSONObject certificate = certificatesJSON.getJSONObject(i);
-            certificates[i] = new PKDCertificate(Base64.decode(certificate.get("binaryData").toString(), Base64.DEFAULT), certificate.getInt("resourceType"), certificate.has("privateKey") ? Base64.decode(certificate.get("privateKey").toString(), Base64.DEFAULT) : null);
-        }
-        taCertificateCompletion.onCertificatesReceived(certificates);
+        taCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON, new PKDCertificate[0]));
         callback.success();
     }
 
-    private void provideTASignature(Callback callback, Object signature) {
+    private void provideTASignature(Callback callback, String signature) {
         if (taSignatureCompletion == null) {
             callback.error("taSignatureCompletion is null");
             return;
         }
-        taSignatureCompletion.onSignatureReceived(Base64.decode(signature.toString(), Base64.DEFAULT));
+        taSignatureCompletion.onSignatureReceived(byteArrayFromBase64(signature));
         callback.success();
     }
 
-    private void setRfidDelegate(Callback callback, int delegate) {
-        rfidDelegate = delegate;
+    private void setTCCParams(Callback callback, final JSONObject params) {
+        Instance().setTccParams(tccParamsFromJSON(params), (success, error) -> callback.success(toStringOrNull(generateSuccessCompletion(success, error))));
+    }
+
+    private void addPKDCertificates(Callback callback, JSONArray certificates) throws JSONException {
+        Instance().addPKDCertificates(listFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON));
         callback.success();
     }
 
+    private void clearPKDCertificates(Callback callback) {
+        Instance().clearPKDCertificates();
+        callback.success();
+    }
+
+    private void startNewSession(Callback callback) {
+        Instance().startNewSession();
+        callback.success();
+    }
+
+    private void startBluetoothService(Callback callback) {
+        BluetoothUtil.Companion.startBluetoothService(
+                getActivity(),
+                isBleManagerConnected -> {
+                    sendEvent(bleOnServiceConnectedEvent, isBleManagerConnected);
+                    return null;
+                },
+                () -> {
+                    sendEvent(bleOnServiceDisconnectedEvent);
+                    return null;
+                },
+                () -> {
+                    sendEvent(bleOnDeviceReadyEvent);
+                    return null;
+                }
+        );
+        callback.success();
+    }
+
+    private void setLocalizationDictionary(Callback callback, JSONObject dictionary) {
+        //noinspection DataFlowIssue
+        localizationCallbacks = key -> dictionary == null ? null : dictionary.optString(key, null);
+        Instance().setLocalizationCallback(localizationCallbacks);
+        callback.success();
+    }
+
+    private void getLicense(Callback callback) {
+        callback.success(toStringOrNull(generateLicense(Instance().license())));
+    }
+
+    private void getAvailableScenarios(Callback callback) throws JSONException {
+        List<DocumentReaderScenario> scenarios = new ArrayList<>();
+        for (DocumentReaderScenario scenario : Instance().availableScenarios)
+            scenarios.add(CoreScenarioUtil.getScenario(scenario.name));
+        callback.success(toStringOrNull(generateList(scenarios, JSONConstructor::generateDocumentReaderScenario)));
+    }
+
+    private void getIsRFIDAvailableForUse(Callback callback) {
+        callback.success(Instance().isRFIDAvailableForUse());
+    }
+
+    private void getDocReaderVersion(Callback callback) {
+        callback.success(toStringOrNull(generateDocReaderVersion(Instance().version)));
+    }
+
+    private void getDocReaderDocumentsDatabase(Callback callback) {
+        if (Instance().version != null)
+            //noinspection ConstantConditions
+            callback.success(toStringOrNull(generateDocReaderDocumentsDatabase(Instance().version.database)));
+        else
+            callback.success(null);
+    }
+    
     private void textFieldValueByType(Callback callback, String raw, int fieldType) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         callback.success(results.getTextFieldValueByType(fieldType));
@@ -949,76 +601,60 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private void textFieldByType(Callback callback, String raw, int fieldType) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         DocumentReaderTextField result = results.getTextFieldByType(fieldType);
-        if (result == null)
-            callback.success(null);
-        else
-            callback.success(generateDocumentReaderTextField(result, getContext()).toString());
+        callback.success(toStringOrNull(generateDocumentReaderTextField(result, getContext())));
     }
 
     private void textFieldByTypeLcid(Callback callback, String raw, int fieldType, int lcid) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         DocumentReaderTextField result = results.getTextFieldByType(fieldType, lcid);
-        if (result == null)
-            callback.success(null);
-        else
-            callback.success(generateDocumentReaderTextField(result, getContext()).toString());
+        callback.success(toStringOrNull(generateDocumentReaderTextField(result, getContext())));
     }
 
     private void graphicFieldByTypeSource(Callback callback, String raw, int fieldType, int source) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source);
-        if (result == null)
-            callback.success(null);
-        else
-            callback.success(generateDocumentReaderGraphicField(result, getContext()).toString());
+        callback.success(toStringOrNull(generateDocumentReaderGraphicField(result, getContext())));
     }
 
     private void graphicFieldByTypeSourcePageIndex(Callback callback, String raw, int fieldType, int source, int pageIndex) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source, pageIndex);
-        if (result == null)
-            callback.success(null);
-        else
-            callback.success(generateDocumentReaderGraphicField(result, getContext()).toString());
+        callback.success(toStringOrNull(generateDocumentReaderGraphicField(result, getContext())));
     }
 
     private void graphicFieldByTypeSourcePageIndexLight(Callback callback, String raw, int fieldType, int source, int pageIndex, int light) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
         DocumentReaderGraphicField result = results.getGraphicFieldByType(fieldType, source, pageIndex, light);
-        if (result == null)
-            callback.success(null);
-        else
-            callback.success(generateDocumentReaderGraphicField(result, getContext()).toString());
+        callback.success(toStringOrNull(generateDocumentReaderGraphicField(result, getContext())));
     }
 
     private void graphicFieldImageByType(Callback callback, String raw, int fieldType) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
-        callback.success(bitmapToBase64String(results.getGraphicFieldImageByType(fieldType)));
+        callback.success(bitmapToBase64(results.getGraphicFieldImageByType(fieldType)));
     }
 
     private void graphicFieldImageByTypeSource(Callback callback, String raw, int fieldType, int source) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
-        callback.success(bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source)));
+        callback.success(bitmapToBase64(results.getGraphicFieldImageByType(fieldType, source)));
     }
 
     private void graphicFieldImageByTypeSourcePageIndex(Callback callback, String raw, int fieldType, int source, int pageIndex) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
-        callback.success(bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source, pageIndex)));
+        callback.success(bitmapToBase64(results.getGraphicFieldImageByType(fieldType, source, pageIndex)));
     }
 
     private void graphicFieldImageByTypeSourcePageIndexLight(Callback callback, String raw, int fieldType, int source, int pageIndex, int light) {
         DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
-        callback.success(bitmapToBase64String(results.getGraphicFieldImageByType(fieldType, source, pageIndex, light)));
+        callback.success(bitmapToBase64(results.getGraphicFieldImageByType(fieldType, source, pageIndex, light)));
     }
 
-    @SuppressLint("WrongConstant")
     private void containers(Callback callback, String raw, JSONArray resultType) {
         try {
             DocumentReaderResults results = DocumentReaderResults.fromRawResults(raw);
             callback.success(results.getContainers(intArrayFromJSON(resultType)));
         } catch (JSONException e) {
             e.printStackTrace();
-            callback.error(e.toString());
+            callback.error(e.getMessage());
         }
     }
 
@@ -1027,30 +663,16 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         callback.success(results.getEncryptedContainers());
     }
 
-    private void setCameraSessionIsPaused(Callback callback, @SuppressWarnings("unused") boolean ignored) {
-        callback.error("setCameraSessionIsPaused() is an ios-only method");
-    }
-
-    private void getCameraSessionIsPaused(Callback callback) {
-        callback.error("getCameraSessionIsPaused() is an ios-only method");
-    }
-
-    private void stopRFIDReaderWithErrorMessage(Callback callback, @SuppressWarnings("unused") String message) {
-        callback.error("stopRFIDReaderWithErrorMessage() is an ios-only method");
-    }
-
-    @SuppressWarnings("unused")
-    private void recognizeImageWithCameraMode(Callback callback, String base64, boolean mode) {
-        callback.error("recognizeImageWithCameraMode() is an ios-only method");
-    }
-
-    @SuppressWarnings("unused")
-    private void setRfidSessionStatus(Callback callback, String s) {
-        callback.error("setRfidSessionStatus() is an ios-only method");
-    }
-
-    private void getRfidSessionStatus(Callback callback) {
-        callback.error("getRfidSessionStatus() is an ios-only method");
+    private void getTranslation(Callback callback, String className, int value) {
+        switch (className) {
+            case "RFIDErrorCodes" -> callback.success(eRFID_ErrorCodes.getTranslation(getContext(), value));
+            case "LDSParsingErrorCodes" -> callback.success(eLDS_ParsingErrorCodes.getTranslation(getContext(), value));
+            case "LDSParsingNotificationCodes" -> callback.success(eLDS_ParsingNotificationCodes.getTranslation(getContext(), value));
+            case "ImageQualityCheckType" -> callback.success(eImageQualityCheckType.getTranslation(getContext(), value));
+            case "RFIDDataFileType" -> callback.success(eRFID_DataFile_Type.getTranslation(getContext(), value));
+            case "VisualFieldType" -> callback.success(eVisualFieldType.getTranslation(getContext(), value));
+            case "LCID" -> callback.success(LCID.getTranslation(getContext(), value));
+        }
     }
 
     private IDocumentReaderCompletion getCompletion() {
@@ -1064,7 +686,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private IRfidReaderCompletion getRfidReaderCompletion() {
         return new IRfidReaderCompletion() {
             @Override
-            public void onCompleted(int action, @Nullable DocumentReaderResults results, @Nullable DocumentReaderException error) {
+            public void onCompleted(int action, DocumentReaderResults results, DocumentReaderException error) {
                 sendEvent(eventCompletion, generateCompletion(action, results, error, getContext()));
                 if (action == DocReaderAction.ERROR || action == DocReaderAction.CANCEL || (action == DocReaderAction.COMPLETE && results != null && results.rfidResult == 1))
                     stopBackgroundRFID();
@@ -1072,7 +694,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
 
             @Override
             public void onChipDetected() {
-                sendEvent(rfidOnChipDetectedEvent, "");
+                sendEvent(rfidOnChipDetectedEvent);
             }
 
             @Override
@@ -1081,7 +703,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             }
 
             @Override
-            public void onProgress(@Nullable DocumentReaderNotification notification) {
+            public void onProgress(@NonNull DocumentReaderNotification notification) {
                 sendEvent(rfidOnProgressEvent, generateDocumentReaderNotification(notification));
             }
         };
@@ -1092,17 +714,14 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             @Override
             public void onPrepareProgressChanged(int progress) {
                 if (progress != databaseDownloadProgress) {
-                    sendEvent(eventDatabaseProgress, progress + "");
+                    sendEvent(eventDatabaseProgress, progress);
                     databaseDownloadProgress = progress;
                 }
             }
 
             @Override
-            public void onPrepareCompleted(boolean status, @Nullable DocumentReaderException error) {
-                if (status)
-                    callback.success("database prepared");
-                else
-                    callback.error("database preparation failed: " + error.toString());
+            public void onPrepareCompleted(boolean success, DocumentReaderException error) {
+                callback.success(toStringOrNull(generateSuccessCompletion(success, error)));
             }
         };
     }
@@ -1110,85 +729,55 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     private IDocumentReaderInitCompletion getInitCompletion(Callback callback) {
         return (success, error) -> {
             if (success) {
-                Instance().setVideoEncoderCompletion((sessionId, file) -> sendEvent(eventVideoEncoderCompletion, generateVideoEncoderCompletion(sessionId, file)));
+                Instance().setVideoEncoderCompletion((sessionId, file) -> sendEvent(eventVideoEncoderCompletion, file.getPath()));
                 Instance().setOnClickListener(view -> sendEvent(onCustomButtonTappedEvent, view.getTag()));
-                callback.success("init completed");
-            } else
-                callback.error("Init failed:" + error);
-        };
-    }
-
-    private ICheckDatabaseUpdate getCheckDatabaseUpdateCompletion(Callback callback) {
-        return (database) -> callback.success(generateDocReaderDocumentsDatabase(database));
-    }
-
-    private ITccParamsCompletion getTCCParamsCompletion(Callback callback) {
-        return (success, error) -> {
-            if (success)
-                callback.success("success");
-            else
-                callback.error("failed: " + error.getMessage());
-        };
-    }
-
-    private IRfidReaderRequest getIRfidReaderRequest() {
-        return new IRfidReaderRequest() {
-            @Override
-            public void onRequestPACertificates(byte[] serialNumber, PAResourcesIssuer issuer, @NonNull IRfidPKDCertificateCompletion completion) {
-                paCertificateCompletion = completion;
-                sendEvent(eventPACertificateCompletion, generatePACertificateCompletion(serialNumber, issuer));
+                Config.setupScaleType();
             }
-
-            @Override
-            public void onRequestTACertificates(String keyCAR, @NonNull IRfidPKDCertificateCompletion completion) {
-                taCertificateCompletion = completion;
-                sendEvent(eventTACertificateCompletion, keyCAR);
-            }
-
-            @Override
-            public void onRequestTASignature(TAChallenge challenge, @NonNull IRfidTASignatureCompletion completion) {
-                taSignatureCompletion = completion;
-                sendEvent(eventTASignatureCompletion, generateTAChallenge(challenge));
-            }
-        };
-    }
-
-    private IRfidReaderRequest getIRfidReaderRequestNoPA() {
-        return new IRfidReaderRequest() {
-            @Override
-            public void onRequestPACertificates(byte[] serialNumber, PAResourcesIssuer issuer, @NonNull IRfidPKDCertificateCompletion completion) {
-                paCertificateCompletion = null;
-                completion.onCertificatesReceived(new PKDCertificate[0]);
-            }
-
-            @Override
-            public void onRequestTACertificates(String keyCAR, @NonNull IRfidPKDCertificateCompletion completion) {
-                taCertificateCompletion = completion;
-                sendEvent(eventTACertificateCompletion, keyCAR);
-            }
-
-            @Override
-            public void onRequestTASignature(TAChallenge challenge, @NonNull IRfidTASignatureCompletion completion) {
-                taSignatureCompletion = completion;
-                sendEvent(eventTASignatureCompletion, generateTAChallenge(challenge));
-            }
+            callback.success(toStringOrNull(generateSuccessCompletion(success, error)));
         };
     }
 
     private IRfidReaderRequest getRfidReaderRequest() {
-        IRfidReaderRequest delegate = null;
-        if (rfidDelegate == RFIDDelegate.NO_PA)
-            delegate = getIRfidReaderRequestNoPA();
-        if (rfidDelegate == RFIDDelegate.FULL)
-            delegate = getIRfidReaderRequest();
-        return delegate;
+        if (rfidReaderRequestType == RfidReaderRequest.NULL) return null;
+        return new IRfidReaderRequest() {
+            @Override
+            public void onRequestPACertificates(byte[] serialNumber, PAResourcesIssuer issuer, @NonNull IRfidPKDCertificateCompletion completion) {
+                if (rfidReaderRequestType == RfidReaderRequest.FULL) {
+                    paCertificateCompletion = completion;
+                    sendEvent(eventPACertificateCompletion, generatePACertificateCompletion(serialNumber, issuer));
+                }
+                if (rfidReaderRequestType == RfidReaderRequest.NO_PA) {
+                    paCertificateCompletion = null;
+                    completion.onCertificatesReceived(null);
+                }
+            }
+
+            @Override
+            public void onRequestTACertificates(String keyCAR, @NonNull IRfidPKDCertificateCompletion completion) {
+                taCertificateCompletion = completion;
+                sendEvent(eventTACertificateCompletion, keyCAR);
+            }
+
+            @Override
+            public void onRequestTASignature(TAChallenge challenge, @NonNull IRfidTASignatureCompletion completion) {
+                taSignatureCompletion = completion;
+                sendEvent(eventTASignatureCompletion, generateTAChallenge(challenge));
+            }
+        };
     }
 
-    private static int rfidDelegate = RFIDDelegate.NULL;
+    private int rfidReaderRequestType = RfidReaderRequest.NULL;
 
-    private static class RFIDDelegate {
+    // On native side we set RfidReaderRequest and allow user to ignore it
+    // But if we set it and ignore, rfid will stop
+    // So depending on how much of this callback the user wants to ignore, we
+    // set null, full callback or callback with ignored onRequestPACertificates
+    private static class RfidReaderRequest {
         public static final int NULL = 0;
         public static final int NO_PA = 1;
         public static final int FULL = 2;
     }
+
+    // Weak references
+    LocalizationCallbacks localizationCallbacks = null;
 }

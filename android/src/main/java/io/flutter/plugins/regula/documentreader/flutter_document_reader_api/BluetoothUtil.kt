@@ -1,3 +1,11 @@
+//
+//  BluetoothUtil.kt
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.Manifest.permission.*

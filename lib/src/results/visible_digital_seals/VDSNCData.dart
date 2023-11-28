@@ -1,0 +1,95 @@
+//
+//  VDSNCData.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
+part of document_reader;
+
+/// Visible Digital Seal for Non Constrained environments.
+class VDSNCData {
+  /// Visible Digital Seal use case type.
+  /// Type is set to `icao.test` for Proof of Testing (data defined by CAPSCA),
+  /// `icao.vacc` for Proof of Vaccination (data defined by WHO).
+  /// Other Types may be added in the future.
+  String? get type => _type;
+  String? _type;
+
+  /// Visible Digital Seal use case version.
+  int get version => _version;
+  late int _version;
+
+  /// Three letter code identifying the issuing state or organization.
+  String? get issuingCountry => _issuingCountry;
+  String? _issuingCountry;
+
+  /// The message field contains the actual data as a dictionary (JSON).
+  dynamic get message => _message;
+  dynamic _message;
+
+  /// The signature algorithm used to produce the signature. ECDSA scheme.
+  String? get signatureAlgorithm => _signatureAlgorithm;
+  String? _signatureAlgorithm;
+
+  /// The binary data of the verified digital signature.
+  BytesData? get signature => _signature;
+  BytesData? _signature;
+
+  /// The binary data of the signer certificate.
+  BytesData? get certificate => _certificate;
+  BytesData? _certificate;
+
+  /// The certificate chain, used for the digital signature verification.
+  List<CertificateChain> get certificateChain => _certificateChain;
+  List<CertificateChain> _certificateChain = [];
+
+  /// The list of remarks occured during the scanning procedure.
+  ///
+  /// Each element belongs to the [LDSParsingErrorCodes] or the [LDSParsingNotificationCodes].
+  List<int>? get notifications => _notifications;
+  List<int>? _notifications;
+
+  /// Allows you to deserialize object.
+  static VDSNCData? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
+    var result = new VDSNCData();
+
+    result._type = jsonObject["type"];
+    result._version = jsonObject["version"];
+    result._issuingCountry = jsonObject["issuingCountry"];
+    result._message = jsonObject["message"];
+    result._signatureAlgorithm = jsonObject["signatureAlgorithm"];
+    result._signature = BytesData.fromJson(jsonObject["signature"]);
+    result._certificate = BytesData.fromJson(jsonObject["certificate"]);
+    for (var item in jsonObject["certificateChain"])
+      result._certificateChain.addSafe(CertificateChain.fromJson(item));
+    if (jsonObject["notifications"] != null) {
+      result._notifications = [];
+      for (var item in jsonObject["notifications"])
+        result._notifications!.add(item);
+    }
+
+    return result;
+  }
+
+  /// Allows you to serialize object.
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> result = {};
+
+    result["type"] = type;
+    result["version"] = version;
+    result["issuingCountry"] = issuingCountry;
+    result["message"] = message;
+    result["signatureAlgorithm"] = signatureAlgorithm;
+    result["signature"] = signature?.toJson();
+    result["certificate"] = certificate?.toJson();
+    List<dynamic> list = [];
+    for (var item in certificateChain) list.add(item.toJson());
+    result["certificateChain"] = list;
+    result["notifications"] = notifications;
+
+    return result;
+  }
+}

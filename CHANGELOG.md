@@ -1,4 +1,14 @@
-## 0.1.125
+## 0.1.127
+# 6.10.0
+
+#### Plugin:
+
+* BREAKING CHANGE: whole DocumentReader plugin rewritten from scratch with focus on user experience and convenience. Migration instructions can be found [here]().
+
+#### API:
+
+#### Core:
+
 # 5.8.0
 
 #### API:
