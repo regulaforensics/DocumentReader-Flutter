@@ -9,7 +9,7 @@
 import 'dart:convert';
 import 'dart:io' as io;
 
-import 'package:flutter_document_reader_api_beta/document_reader.dart';
+import 'package:flutter_document_reader_api_beta/flutter_document_reader_api_beta.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> writeJson(String name, Map<String, dynamic> contents) async {

@@ -12,7 +12,7 @@ import 'package:flutter_document_reader_api_example/extra/rfid_custom_ui.dart';
 import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_document_reader_api_beta/document_reader.dart';
+import 'package:flutter_document_reader_api_beta/flutter_document_reader_api_beta.dart';
 
 void main() => runApp(MyApp());
 

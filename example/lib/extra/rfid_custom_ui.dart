@@ -9,7 +9,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_document_reader_api_beta/document_reader.dart';
+import 'package:flutter_document_reader_api_beta/flutter_document_reader_api_beta.dart';
 
 class RFIDCustomUI {
   // Connections to the main app
