@@ -11,7 +11,7 @@ package io.flutter.plugins.regula.documentreader.flutter_document_reader_api;
 import static com.regula.documentreader.api.DocumentReader.Instance;
 import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Utils.*;
 import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.*;
-import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructor.*;
+import static io.flutter.plugins.regula.documentreader.flutter_document_reader_api.JSONConstructorKt.*;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -65,6 +65,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -318,7 +319,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void isBlePermissionsGranted(Callback callback) {
-        callback.success(BluetoothUtil.Companion.isBlePermissionsGranted(getActivity()));
+        callback.success(BluetoothUtilKt.isBlePermissionsGranted(getActivity()));
     }
 
     private void getRfidSessionStatus(Callback callback) {
@@ -339,49 +340,49 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void getFunctionality(Callback callback) throws JSONException {
-        callback.success(Config.getFunctionality(Instance().functionality()).toString());
+        callback.success(ConfigKt.getFunctionality(Instance().functionality()).toString());
     }
 
     private void setFunctionality(Callback callback, final JSONObject functionality) throws JSONException {
-        Config.setFunctionality(Instance().functionality(), functionality);
+        ConfigKt.setFunctionality(Instance().functionality(), functionality);
         callback.success();
     }
 
     private void getProcessParams(Callback callback) throws JSONException {
-        callback.success(Config.getProcessParams(Instance().processParams()).toString());
+        callback.success(ConfigKt.getProcessParams(Instance().processParams()).toString());
     }
 
     private void setProcessParams(Callback callback, final JSONObject processParams) throws JSONException {
-        Config.setProcessParams(Instance().processParams(), processParams);
+        ConfigKt.setProcessParams(Instance().processParams(), processParams);
         callback.success();
     }
 
     private void getCustomization(Callback callback) throws JSONException {
-        callback.success(Config.getCustomization(Instance().customization()).toString());
+        callback.success(ConfigKt.getCustomization(Instance().customization()).toString());
     }
 
     private void setCustomization(Callback callback, final JSONObject customization) throws JSONException {
-        Config.setCustomization(Instance().customization(), customization, getContext());
+        ConfigKt.setCustomization(Instance().customization(), customization, getContext());
         callback.success();
     }
 
     private void getRfidScenario(Callback callback) throws JSONException {
-        callback.success(Config.getRfidScenario(Instance().rfidScenario()).toString());
+        callback.success(ConfigKt.getRfidScenario(Instance().rfidScenario()).toString());
     }
 
     private void setRfidScenario(Callback callback, final JSONObject rfidScenario) throws JSONException {
-        Config.setRfidScenario(Instance().rfidScenario(), rfidScenario);
+        ConfigKt.setRfidScenario(Instance().rfidScenario(), rfidScenario);
         callback.success();
     }
 
     private void resetConfiguration(Callback callback) {
         Instance().resetConfiguration();
-        Config.setupScaleType();
+        ConfigKt.setupScaleType();
         callback.success();
     }
 
     private void initializeReader(Callback callback, JSONObject config) {
-        Instance().initializeReader(getContext(), docReaderConfigFromJSON(config), getInitCompletion(callback));
+        Instance().initializeReader(getContext(), Objects.requireNonNull(docReaderConfigFromJSON(config)), getInitCompletion(callback));
     }
 
     private void initializeReaderAutomatically(Callback callback) {
@@ -399,7 +400,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void initializeReaderWithBleDeviceConfig(Callback callback, JSONObject config) {
-        if (BluetoothUtil.Companion.getBleManager() == null) {
+        if (BluetoothUtilKt.getBleManager() == null) {
             callback.error("bleManager is null");
             return;
         }
@@ -433,12 +434,12 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
 
     private void scan(@SuppressWarnings("unused") Callback callback, JSONObject config) {
         stopBackgroundRFID();
-        Instance().showScanner(getContext(), scannerConfigFromJSON(config), getCompletion());
+        Instance().showScanner(getContext(), Objects.requireNonNull(scannerConfigFromJSON(config)), getCompletion());
     }
 
     private void recognize(@SuppressWarnings("unused") Callback callback, JSONObject config) {
         stopBackgroundRFID();
-        Instance().recognize(getContext(), recognizeConfigFromJSON(config), getCompletion());
+        Instance().recognize(getContext(), Objects.requireNonNull(recognizeConfigFromJSON(config)), getCompletion());
     }
 
     private void startNewPage(Callback callback) {
@@ -474,7 +475,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             callback.error("paCertificateCompletion is null");
             return;
         }
-        paCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON, new PKDCertificate[0]));
+        paCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructorKt::pkdCertificateFromJSON, new PKDCertificate[0]));
         callback.success();
     }
 
@@ -483,7 +484,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             callback.error("taCertificateCompletion is null");
             return;
         }
-        taCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON, new PKDCertificate[0]));
+        taCertificateCompletion.onCertificatesReceived(arrayFromJSON(certificates, JSONConstructorKt::pkdCertificateFromJSON, new PKDCertificate[0]));
         callback.success();
     }
 
@@ -497,11 +498,11 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void setTCCParams(Callback callback, final JSONObject params) {
-        Instance().setTccParams(tccParamsFromJSON(params), (success, error) -> callback.success(toStringOrNull(generateSuccessCompletion(success, error))));
+        Instance().setTccParams(Objects.requireNonNull(tccParamsFromJSON(params)), (success, error) -> callback.success(toStringOrNull(generateSuccessCompletion(success, error))));
     }
 
     private void addPKDCertificates(Callback callback, JSONArray certificates) throws JSONException {
-        Instance().addPKDCertificates(listFromJSON(certificates, JSONConstructor::pkdCertificateFromJSON));
+        Instance().addPKDCertificates(listFromJSON(certificates, JSONConstructorKt::pkdCertificateFromJSON));
         callback.success();
     }
 
@@ -516,7 +517,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
     }
 
     private void startBluetoothService(Callback callback) {
-        BluetoothUtil.Companion.startBluetoothService(
+        BluetoothUtilKt.startBluetoothService(
                 getActivity(),
                 isBleManagerConnected -> {
                     sendEvent(bleOnServiceConnectedEvent, isBleManagerConnected);
@@ -549,7 +550,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
         List<DocumentReaderScenario> scenarios = new ArrayList<>();
         for (DocumentReaderScenario scenario : Instance().availableScenarios)
             scenarios.add(CoreScenarioUtil.getScenario(scenario.name));
-        callback.success(toStringOrNull(generateList(scenarios, JSONConstructor::generateDocumentReaderScenario)));
+        callback.success(toStringOrNull(generateList(scenarios, JSONConstructorKt::generateDocumentReaderScenario)));
     }
 
     private void getIsRFIDAvailableForUse(Callback callback) {
@@ -731,7 +732,7 @@ public class FlutterDocumentReaderApiPlugin implements FlutterPlugin, MethodCall
             if (success) {
                 Instance().setVideoEncoderCompletion((sessionId, file) -> sendEvent(eventVideoEncoderCompletion, file.getPath()));
                 Instance().setOnClickListener(view -> sendEvent(onCustomButtonTappedEvent, view.getTag()));
-                Config.setupScaleType();
+                ConfigKt.setupScaleType();
             }
             callback.success(toStringOrNull(generateSuccessCompletion(success, error)));
         };
