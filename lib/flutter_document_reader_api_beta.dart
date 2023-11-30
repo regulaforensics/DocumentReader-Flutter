@@ -303,7 +303,7 @@ class DocumentReader {
   /// Used to connect to the ble device.
   ///
   /// Android only.
-  Future<void> startBluetoothService(
+  startBluetoothService(
     BluetoothServiceCompletion completion,
   ) async {
     if (!Platform.isAndroid)
@@ -312,7 +312,7 @@ class DocumentReader {
         message: "startBluetoothService is accessible only on Android",
       );
     _setBluetoothServiceCompletion(completion);
-    await _bridge.invokeMethod("startBluetoothService", []);
+    _bridge.invokeMethod("startBluetoothService", []);
   }
 
   /// Used to deinitialize Document Reader and free up RAM as a

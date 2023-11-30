@@ -48,7 +48,7 @@ _setDocumentReaderPrepareCompletion(
     DocumentReaderPrepareCompletion completion) {
   _documentReaderPrepareCompletion = completion;
   _eventChannel('database_progress', (msg) {
-    _documentReaderPrepareCompletion(int.parse(msg));
+    _documentReaderPrepareCompletion(msg);
   });
 }
 

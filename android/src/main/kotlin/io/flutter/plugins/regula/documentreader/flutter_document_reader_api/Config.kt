@@ -5,6 +5,8 @@
 //  Created by Pavel Masiuk on 21.09.2023.
 //  Copyright © 2023 Regula. All rights reserved.
 //
+@file:Suppress("USELESS_CAST")
+
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.content.Context
@@ -59,7 +61,7 @@ fun setFunctionality(functionality: Functionality, opts: JSONObject) {
     if (opts.has("exposure")) editor.setExposure(opts.getDouble("exposure").toFloat())
 
     // JSONArray
-    if (opts.has("excludedCamera2Models")) editor.setExcludedCamera2Models(Utils.stringListFromJson(opts.getJSONArray("excludedCamera2Models")))
+    if (opts.has("excludedCamera2Models")) editor.setExcludedCamera2Models(stringListFromJson(opts.getJSONArray("excludedCamera2Models")))
 
     // Custom
     // in ios - videoSessionPreset
@@ -98,7 +100,7 @@ fun getFunctionality(functionality: Functionality): JSONObject {
     result.put("orientation", functionality.orientation)
     result.put("captureMode", functionality.captureMode)
     result.put("cameraPosition", functionality.cameraMode)
-    result.put("rfidTimeout", functionality.rfidTimeout)
+    result.put("rfidTimeout", functionality.rfidTimeout as Int?)
     result.put("forcePagesCount", functionality.forcePagesCount)
 
     // String
@@ -110,7 +112,7 @@ fun getFunctionality(functionality: Functionality): JSONObject {
     result.put("exposure", functionality.exposure)
 
     // JSONArray
-    result.put("excludedCamera2Models", Utils.generateList(functionality.excludedCamera2Models))
+    result.put("excludedCamera2Models", generateList(functionality.excludedCamera2Models))
 
     // Custom
     // in ios - videoSessionPreset
@@ -187,12 +189,12 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) {
     if (opts.has("documentAreaMin")) processParams.documentAreaMin = opts.getDouble("documentAreaMin")
 
     // JSONArray
-    if (opts.has("documentIDList")) processParams.documentIDList = Utils.intArrayFromJSON(opts.getJSONArray("documentIDList"))
-    if (opts.has("fieldTypesFilter")) processParams.fieldTypesFilter = Utils.intArrayFromJSON(opts.getJSONArray("fieldTypesFilter"))
+    if (opts.has("documentIDList")) processParams.documentIDList = intArrayFromJSON(opts.getJSONArray("documentIDList"))
+    if (opts.has("fieldTypesFilter")) processParams.fieldTypesFilter = intArrayFromJSON(opts.getJSONArray("fieldTypesFilter"))
     if (opts.has("barcodeTypes")) processParams.doBarcodes = barcodeTypeArrayFromJson(opts.getJSONArray("barcodeTypes"))
-    if (opts.has("resultTypeOutput")) processParams.resultTypeOutput = Utils.intArrayFromJSON(opts.getJSONArray("resultTypeOutput"))
-    if (opts.has("mrzFormatsFilter")) processParams.mrzFormatsFilter = Utils.stringArrayFromJson(opts.getJSONArray("mrzFormatsFilter"))
-    if (opts.has("documentGroupFilter")) processParams.documentGroupFilter = Utils.intArrayFromJSON(opts.getJSONArray("documentGroupFilter"))
+    if (opts.has("resultTypeOutput")) processParams.resultTypeOutput = intArrayFromJSON(opts.getJSONArray("resultTypeOutput"))
+    if (opts.has("mrzFormatsFilter")) processParams.mrzFormatsFilter = stringArrayFromJson(opts.getJSONArray("mrzFormatsFilter"))
+    if (opts.has("documentGroupFilter")) processParams.documentGroupFilter = intArrayFromJSON(opts.getJSONArray("documentGroupFilter"))
 
     // JSONObject
     if (opts.has("imageQA")) processParams.imageQA = imageQAFromJSON(opts.getJSONObject("imageQA"))!!
@@ -268,12 +270,12 @@ fun getProcessParams(processParams: ProcessParam): JSONObject {
     result.put("documentAreaMin", processParams.documentAreaMin)
 
     // JSONArray
-    result.put("documentIDList", Utils.generateIntArray(processParams.documentIDList))
+    result.put("documentIDList", generateIntArray(processParams.documentIDList))
     result.put("barcodeTypes", generateBarcodeTypeArray(processParams.doBarcodes))
-    result.put("fieldTypesFilter", Utils.generateIntArray(processParams.fieldTypesFilter))
-    result.put("documentGroupFilter", Utils.generateIntArray(processParams.documentGroupFilter))
-    result.put("mrzFormatsFilter", Utils.generateArray(processParams.mrzFormatsFilter))
-    result.put("resultTypeOutput", Utils.generateIntArray(processParams.resultTypeOutput))
+    result.put("fieldTypesFilter", generateIntArray(processParams.fieldTypesFilter))
+    result.put("documentGroupFilter", generateIntArray(processParams.documentGroupFilter))
+    result.put("mrzFormatsFilter", generateArray(processParams.mrzFormatsFilter))
+    result.put("resultTypeOutput", generateIntArray(processParams.resultTypeOutput))
 
     // JSONObject
     result.put("imageQA", generateImageQA(processParams.imageQA))
@@ -285,7 +287,7 @@ fun getProcessParams(processParams: ProcessParam): JSONObject {
     return result
 }
 
-fun setCustomization(customization: ParamsCustomization, opts: JSONObject, context: Context?) {
+fun setCustomization(customization: ParamsCustomization, opts: JSONObject, context: Context) {
     val editor = customization.edit()
 
     // Boolean
@@ -307,16 +309,16 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
     if (opts.has("resultStatus")) editor.setResultStatus(opts.getString("resultStatus"))
 
     // Color
-    if (opts.has("cameraFrameDefaultColor")) editor.setCameraFrameDefaultColor(Utils.colorWithLong(opts.getLong("cameraFrameDefaultColor")))
-    if (opts.has("cameraFrameActiveColor")) editor.setCameraFrameActiveColor(Utils.colorWithLong(opts.getLong("cameraFrameActiveColor")))
-    if (opts.has("statusTextColor")) editor.setStatusTextColor(Utils.colorWithLong(opts.getLong("statusTextColor")))
-    if (opts.has("resultStatusTextColor")) editor.setResultStatusTextColor(Utils.colorWithLong(opts.getLong("resultStatusTextColor")))
-    if (opts.has("resultStatusBackgroundColor")) editor.setResultStatusBackgroundColor(Utils.colorWithLong(opts.getLong("resultStatusBackgroundColor")))
-    if (opts.has("multipageButtonBackgroundColor")) editor.setMultipageButtonBackgroundColor(Utils.colorWithLong(opts.getLong("multipageButtonBackgroundColor")))
-    if (opts.has("tintColor")) editor.setTintColor(Utils.colorWithLong(opts.getLong("tintColor")))
-    if (opts.has("activityIndicatorColor")) editor.setActivityIndicatorColor(Utils.colorWithLong(opts.getLong("activityIndicatorColor")))
-    if (opts.has("statusBackgroundColor")) editor.setStatusBackgroundColor(Utils.colorWithLong(opts.getLong("statusBackgroundColor")))
-    if (opts.has("cameraPreviewBackgroundColor")) editor.setCameraPreviewBackgroundColor(Utils.colorWithLong(opts.getLong("cameraPreviewBackgroundColor")))
+    if (opts.has("cameraFrameDefaultColor")) editor.setCameraFrameDefaultColor(colorWithLong(opts.getLong("cameraFrameDefaultColor")))
+    if (opts.has("cameraFrameActiveColor")) editor.setCameraFrameActiveColor(colorWithLong(opts.getLong("cameraFrameActiveColor")))
+    if (opts.has("statusTextColor")) editor.setStatusTextColor(colorWithLong(opts.getLong("statusTextColor")))
+    if (opts.has("resultStatusTextColor")) editor.setResultStatusTextColor(colorWithLong(opts.getLong("resultStatusTextColor")))
+    if (opts.has("resultStatusBackgroundColor")) editor.setResultStatusBackgroundColor(colorWithLong(opts.getLong("resultStatusBackgroundColor")))
+    if (opts.has("multipageButtonBackgroundColor")) editor.setMultipageButtonBackgroundColor(colorWithLong(opts.getLong("multipageButtonBackgroundColor")))
+    if (opts.has("tintColor")) editor.setTintColor(colorWithLong(opts.getLong("tintColor")))
+    if (opts.has("activityIndicatorColor")) editor.setActivityIndicatorColor(colorWithLong(opts.getLong("activityIndicatorColor")))
+    if (opts.has("statusBackgroundColor")) editor.setStatusBackgroundColor(colorWithLong(opts.getLong("statusBackgroundColor")))
+    if (opts.has("cameraPreviewBackgroundColor")) editor.setCameraPreviewBackgroundColor(colorWithLong(opts.getLong("cameraPreviewBackgroundColor")))
 
     // Float
     if (opts.has("statusPositionMultiplier")) editor.setStatusPositionMultiplier(opts.getDouble("statusPositionMultiplier").toFloat())
@@ -348,12 +350,12 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
     if (opts.has("statusTextFont")) {
         val font = typeFaceFromJSON(opts.getJSONObject("statusTextFont"))!!
         editor.setStatusTextFont(font.first)
-        if (font.second != null) editor.setStatusTextSize(font.second)
+        font.second?.let { editor.setStatusTextSize(it) }
     }
     if (opts.has("resultStatusTextFont")) {
         val font = typeFaceFromJSON(opts.getJSONObject("resultStatusTextFont"))!!
         editor.setResultStatusTextFont(font.first)
-        if (font.second != null) editor.setResultStatusTextSize(font.second)
+        font.second?.let { editor.setResultStatusTextSize(it) }
     }
 
     // Custom
@@ -362,12 +364,12 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
     if (opts.has("uiCustomizationLayer")) editor.setUiCustomizationLayer(opts.getJSONObject("uiCustomizationLayer"))
 
     // Matrix
-    if (opts.has("helpAnimationImageMatrix")) editor.setHelpAnimationImageMatrix(Utils.matrixFromFloatArray(Utils.floatArrayFromJson(opts.getJSONArray("helpAnimationImageMatrix"))))
-    if (opts.has("multipageAnimationFrontImageMatrix")) editor.setMultipageAnimationFrontImageMatrix(Utils.matrixFromFloatArray(Utils.floatArrayFromJson(opts.getJSONArray("multipageAnimationFrontImageMatrix"))))
-    if (opts.has("multipageAnimationBackImageMatrix")) editor.setMultipageAnimationBackImageMatrix(Utils.matrixFromFloatArray(Utils.floatArrayFromJson(opts.getJSONArray("multipageAnimationBackImageMatrix"))))
-    if (opts.has("hologramAnimationImageMatrix")) editor.setHologramAnimationImageMatrix(Utils.matrixFromFloatArray(Utils.floatArrayFromJson(opts.getJSONArray("hologramAnimationImageMatrix"))))
-    if (opts.has("borderBackgroundImageMatrix")) editor.setBorderBackgroundImageMatrix(Utils.matrixFromFloatArray(Utils.floatArrayFromJson(opts.getJSONArray("borderBackgroundImageMatrix"))))
-    editor.applyImmediately(context!!)
+    if (opts.has("helpAnimationImageMatrix")) editor.setHelpAnimationImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("helpAnimationImageMatrix"))))
+    if (opts.has("multipageAnimationFrontImageMatrix")) editor.setMultipageAnimationFrontImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("multipageAnimationFrontImageMatrix"))))
+    if (opts.has("multipageAnimationBackImageMatrix")) editor.setMultipageAnimationBackImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("multipageAnimationBackImageMatrix"))))
+    if (opts.has("hologramAnimationImageMatrix")) editor.setHologramAnimationImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("hologramAnimationImageMatrix"))))
+    if (opts.has("borderBackgroundImageMatrix")) editor.setBorderBackgroundImageMatrix(matrixFromFloatArray(floatArrayFromJson(opts.getJSONArray("borderBackgroundImageMatrix"))))
+    editor.applyImmediately(context)
 }
 
 fun getCustomization(customization: ParamsCustomization): JSONObject {
@@ -381,12 +383,11 @@ fun getCustomization(customization: ParamsCustomization): JSONObject {
     result.put("showBackgroundMask", customization.isShowBackgroundMask)
 
     // Int
-    result.put("cameraFrameBorderWidth", customization.cameraFrameBorderWidth)
-    result.put("cameraFrameLineLength", customization.cameraFrameLineLength)
-    result.put("cameraFrameShapeType", customization.cameraFrameShapeType)
-    result.put("cameraFrameOffsetWidth", customization.cameraFrameOffsetWidth)
+    result.put("cameraFrameBorderWidth", customization.cameraFrameBorderWidth as Int?)
+    result.put("cameraFrameLineLength", customization.cameraFrameLineLength as Int?)
+    result.put("cameraFrameShapeType", customization.cameraFrameShapeType as Int?)
+    result.put("cameraFrameOffsetWidth", customization.cameraFrameOffsetWidth as Int?)
 
-    @Suppress("USELESS_CAST")
     result.put("activityIndicatorSize", customization.activityIndicatorSize as Int?)
 
     // String
@@ -394,16 +395,16 @@ fun getCustomization(customization: ParamsCustomization): JSONObject {
     result.put("resultStatus", customization.resultStatus)
 
     // Color
-    result.put("cameraFrameDefaultColor", Utils.longWithColor(customization.cameraFrameDefaultColor))
-    result.put("cameraFrameActiveColor", Utils.longWithColor(customization.cameraFrameActiveColor))
-    result.put("statusTextColor", Utils.longWithColor(customization.statusTextColor))
-    result.put("resultStatusTextColor", Utils.longWithColor(customization.resultStatusTextColor))
-    result.put("resultStatusBackgroundColor", Utils.longWithColor(customization.resultStatusBackgroundColor))
-    result.put("multipageButtonBackgroundColor", Utils.longWithColor(customization.multipageButtonBackgroundColor))
-    result.put("tintColor", Utils.longWithColor(customization.tintColor))
-    result.put("activityIndicatorColor", Utils.longWithColor(customization.activityIndicatorColor))
-    result.put("statusBackgroundColor", Utils.longWithColor(customization.statusBackgroundColor))
-    result.put("cameraPreviewBackgroundColor", Utils.longWithColor(customization.cameraPreviewBackgroundColor))
+    result.put("cameraFrameDefaultColor", longWithColor(customization.cameraFrameDefaultColor))
+    result.put("cameraFrameActiveColor", longWithColor(customization.cameraFrameActiveColor))
+    result.put("statusTextColor", longWithColor(customization.statusTextColor))
+    result.put("resultStatusTextColor", longWithColor(customization.resultStatusTextColor))
+    result.put("resultStatusBackgroundColor", longWithColor(customization.resultStatusBackgroundColor))
+    result.put("multipageButtonBackgroundColor", longWithColor(customization.multipageButtonBackgroundColor))
+    result.put("tintColor", longWithColor(customization.tintColor))
+    result.put("activityIndicatorColor", longWithColor(customization.activityIndicatorColor))
+    result.put("statusBackgroundColor", longWithColor(customization.statusBackgroundColor))
+    result.put("cameraPreviewBackgroundColor", longWithColor(customization.cameraPreviewBackgroundColor))
 
     // Float
     result.put("statusPositionMultiplier", customization.statusPositionMultiplier)
@@ -435,16 +436,16 @@ fun getCustomization(customization: ParamsCustomization): JSONObject {
     // fonts have no getters
 
     // Custom
-    result.put("customLabelStatus", Utils.toStringOrNull(customization.customLabelStatus))
-    result.put("cameraFrameLineCap", Utils.paintCapToInt(customization.cameraFrameLineCap))
+    result.put("customLabelStatus", customization.customLabelStatus?.toString())
+    result.put("cameraFrameLineCap", paintCapToInt(customization.cameraFrameLineCap))
     result.put("uiCustomizationLayer", customization.uiCustomizationLayer)
 
     // Matrix
-    result.put("helpAnimationImageMatrix", Utils.generateFloatArray(Utils.matrixToFloatArray(customization.helpAnimationImageMatrix)))
-    result.put("multipageAnimationFrontImageMatrix", Utils.generateFloatArray(Utils.matrixToFloatArray(customization.multipageAnimationFrontImageMatrix)))
-    result.put("multipageAnimationBackImageMatrix", Utils.generateFloatArray(Utils.matrixToFloatArray(customization.multipageAnimationBackImageMatrix)))
-    result.put("hologramAnimationImageMatrix", Utils.generateFloatArray(Utils.matrixToFloatArray(customization.hologramAnimationImageMatrix)))
-    result.put("borderBackgroundImageMatrix", Utils.generateFloatArray(Utils.matrixToFloatArray(customization.borderBackgroundImageMatrix)))
+    result.put("helpAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.helpAnimationImageMatrix)))
+    result.put("multipageAnimationFrontImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationFrontImageMatrix)))
+    result.put("multipageAnimationBackImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationBackImageMatrix)))
+    result.put("hologramAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.hologramAnimationImageMatrix)))
+    result.put("borderBackgroundImageMatrix", generateFloatArray(matrixToFloatArray(customization.borderBackgroundImageMatrix)))
     return result
 }
 

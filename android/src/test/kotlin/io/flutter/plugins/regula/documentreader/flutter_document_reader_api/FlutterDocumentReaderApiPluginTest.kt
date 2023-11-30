@@ -8,17 +8,11 @@
 
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import org.json.JSONArray
-import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import org.skyscreamer.jsonassert.JSONAssert
-import java.nio.file.Files
-import java.nio.file.Paths
 
 @RunWith(RobolectricTestRunner::class)
 @Config(shadows = [MyShadowBitmap::class, MyShadowDrawable::class, MyShadowBitmapDrawable::class])
@@ -279,81 +273,4 @@ class FlutterDocumentReaderApiPluginTest {
 
     @Test
     fun tccParams() = compare("TccParams", ::tccParamsFromJSON, ::generateTccParams)
-}
-
-private fun readFile(name: String): JSONObject {
-    val bytes = Files.readAllBytes(Paths.get("../test/json/$name.json"))
-    return JSONObject(String(bytes))
-}
-
-private fun compareJSONs(name: String, expected: JSONObject, actual: JSONObject) =
-    try {
-        JSONAssert.assertEquals(expected, actual, false)
-    } catch (e: Throwable) {
-        println("\nAndroid test failed: $name")
-        println(" Expected JSON:\n$expected")
-        println(" Actual JSON:\n$actual")
-        throw e
-    }
-
-private fun <T> compare(
-    name: String,
-    fromJson: (JSONObject) -> T,
-    toJson: (T) -> JSONObject?,
-    vararg omit: String
-) {
-    var expected = readFile(name)
-    for (key in omit) expected = omitDeep(expected, key.split("."), 0)
-    val actual = toJson(fromJson(expected))!!
-    compareJSONs(name, expected, actual)
-}
-
-fun omitDeep(dict: JSONObject, path: List<String>, index: Int): JSONObject {
-    if (index < path.size - 1) {
-        val node = dict.get(path[index])
-        if (node is JSONObject)
-            dict.put(path[index], omitDeep(node, path, index + 1))
-        else if (node is JSONArray)
-            dict.put(path[index], omitDeep(node, path, index + 1))
-    } else
-        dict.remove(path[index])
-    return dict
-}
-
-fun omitDeep(dict: JSONArray, path: List<String>, index: Int): JSONArray {
-    for (i in 0..<dict.length())
-        dict.put(i, omitDeep(dict.getJSONObject(i), path, index))
-    return dict
-}
-
-private fun <T> compare(
-    name: String,
-    fromJson: (JSONObject) -> T,
-    toJson: (T, Context) -> JSONObject?,
-    vararg omit: String
-) {
-    var expected = readFile(name)
-    for (key in omit) expected = omitDeep(expected, key.split("."), 0)
-    val actual = toJson(fromJson(expected), ApplicationProvider.getApplicationContext())!!
-    compareJSONs(name, expected, actual)
-}
-
-private fun floatToDouble(input: JSONObject): JSONObject {
-    for (key in input.keys()) {
-        val value = input.get(key)
-        if (value is JSONObject) input.put(key, floatToDouble(value))
-        if (value is JSONArray) input.put(key, floatToDouble(value))
-        if (value is Float) input.put(key, value.toString().toDouble())
-    }
-    return input
-}
-
-private fun floatToDouble(input: JSONArray): JSONArray {
-    for (i in 0..<input.length()) {
-        val value = input.get(i)
-        if (value is JSONObject) input.put(i, floatToDouble(value))
-        if (value is JSONArray) input.put(i, floatToDouble(value))
-        if (value is Float) input.put(i, value.toString().toDouble())
-    }
-    return input
 }
