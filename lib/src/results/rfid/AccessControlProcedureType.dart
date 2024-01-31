@@ -31,7 +31,7 @@ class AccessControlProcedureType {
   /// Allows you to deserialize object.
   static AccessControlProcedureType? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new AccessControlProcedureType();
+    var result = AccessControlProcedureType();
 
     result._activeOptionIdx = jsonObject["activeOptionIdx"];
     result._type =
@@ -43,14 +43,10 @@ class AccessControlProcedureType {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["activeOptionIdx"] = activeOptionIdx;
-    result["notifications"] = notifications;
-    result["status"] = status.value;
-    result["type"] = type.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "activeOptionIdx": activeOptionIdx,
+        "notifications": notifications,
+        "status": status.value,
+        "type": type.value,
+      }.clearNulls();
 }

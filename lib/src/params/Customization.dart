@@ -18,7 +18,7 @@ class Customization {
   bool? _showStatusMessages;
   set showStatusMessages(bool? val) {
     _showStatusMessages = val;
-    _setCustomization({"showStatusMessages": val}, this);
+    _set({"showStatusMessages": val});
   }
 
   /// If it's set to `true`, result status messages during the document processing
@@ -29,7 +29,7 @@ class Customization {
   bool? _showResultStatusMessages;
   set showResultStatusMessages(bool? val) {
     _showResultStatusMessages = val;
-    _setCustomization({"showResultStatusMessages": val}, this);
+    _set({"showResultStatusMessages": val});
   }
 
   /// If it's set to `true`, the animation showing how to position a document
@@ -40,7 +40,7 @@ class Customization {
   bool? _showHelpAnimation;
   set showHelpAnimation(bool? val) {
     _showHelpAnimation = val;
-    _setCustomization({"showHelpAnimation": val}, this);
+    _set({"showHelpAnimation": val});
   }
 
   /// If it's set to `true`, the animation asking for processing
@@ -51,7 +51,7 @@ class Customization {
   bool? _showNextPageAnimation;
   set showNextPageAnimation(bool? val) {
     _showNextPageAnimation = val;
-    _setCustomization({"showNextPageAnimation": val}, this);
+    _set({"showNextPageAnimation": val});
   }
 
   /// If it's set to `true`, the background mask next to the camera frame
@@ -62,7 +62,7 @@ class Customization {
   bool? _showBackgroundMask;
   set showBackgroundMask(bool? val) {
     _showBackgroundMask = val;
-    _setCustomization({"showBackgroundMask": val}, this);
+    _set({"showBackgroundMask": val});
   }
 
   /// Allows you to set thickness of the camera frame borders.
@@ -72,7 +72,7 @@ class Customization {
   int? _cameraFrameBorderWidth;
   set cameraFrameBorderWidth(int? val) {
     _cameraFrameBorderWidth = val;
-    _setCustomization({"cameraFrameBorderWidth": val}, this);
+    _set({"cameraFrameBorderWidth": val});
   }
 
   /// Allows you to set length of the lines of the camera frame.
@@ -85,7 +85,7 @@ class Customization {
   int? _cameraFrameLineLength;
   set cameraFrameLineLength(int? val) {
     _cameraFrameLineLength = val;
-    _setCustomization({"cameraFrameLineLength": val}, this);
+    _set({"cameraFrameLineLength": val});
   }
 
   /// Allows you to set an offset for the camera frame (portrait orientation).
@@ -95,7 +95,7 @@ class Customization {
   int? _cameraFrameOffsetWidth;
   set cameraFrameOffsetWidth(int? val) {
     _cameraFrameOffsetWidth = val;
-    _setCustomization({"cameraFrameOffsetWidth": val}, this);
+    _set({"cameraFrameOffsetWidth": val});
   }
 
   /// Allows you to set a shape type for the camera frame.
@@ -105,7 +105,7 @@ class Customization {
   FrameShapeType? _cameraFrameShapeType;
   set cameraFrameShapeType(FrameShapeType? val) {
     _cameraFrameShapeType = val;
-    _setCustomization({"cameraFrameShapeType": val?.value}, this);
+    _set({"cameraFrameShapeType": val?.value});
   }
 
   /// Allows you to set any string to the status.
@@ -113,7 +113,7 @@ class Customization {
   String? _status;
   set status(String? val) {
     _status = val;
-    _setCustomization({"status": val}, this);
+    _set({"status": val});
   }
 
   /// Allows you to set any string to the result status.
@@ -121,7 +121,7 @@ class Customization {
   String? _resultStatus;
   set resultStatus(String? val) {
     _resultStatus = val;
-    _setCustomization({"resultStatus": val}, this);
+    _set({"resultStatus": val});
   }
 
   /// Allows you to set a color for the camera frame when a document is out
@@ -132,7 +132,7 @@ class Customization {
   Color? _cameraFrameDefaultColor;
   set cameraFrameDefaultColor(Color? val) {
     _cameraFrameDefaultColor = val;
-    _setCustomization({"cameraFrameDefaultColor": _intFromColor(val)}, this);
+    _set({"cameraFrameDefaultColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for the camera frame when a document is detected.
@@ -142,7 +142,7 @@ class Customization {
   Color? _cameraFrameActiveColor;
   set cameraFrameActiveColor(Color? val) {
     _cameraFrameActiveColor = val;
-    _setCustomization({"cameraFrameActiveColor": _intFromColor(val)}, this);
+    _set({"cameraFrameActiveColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for the status messages.
@@ -152,7 +152,7 @@ class Customization {
   Color? _statusTextColor;
   set statusTextColor(Color? val) {
     _statusTextColor = val;
-    _setCustomization({"statusTextColor": _intFromColor(val)}, this);
+    _set({"statusTextColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for the result status messages.
@@ -162,7 +162,7 @@ class Customization {
   Color? _resultStatusTextColor;
   set resultStatusTextColor(Color? val) {
     _resultStatusTextColor = val;
-    _setCustomization({"resultStatusTextColor": _intFromColor(val)}, this);
+    _set({"resultStatusTextColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color of the background for the result status messages.
@@ -170,8 +170,7 @@ class Customization {
   Color? _resultStatusBackgroundColor;
   set resultStatusBackgroundColor(Color? val) {
     _resultStatusBackgroundColor = val;
-    _setCustomization(
-        {"resultStatusBackgroundColor": _intFromColor(val)}, this);
+    _set({"resultStatusBackgroundColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for the "Skip next page" button.
@@ -179,8 +178,7 @@ class Customization {
   Color? _multipageButtonBackgroundColor;
   set multipageButtonBackgroundColor(Color? val) {
     _multipageButtonBackgroundColor = val;
-    _setCustomization(
-        {"multipageButtonBackgroundColor": _intFromColor(val)}, this);
+    _set({"multipageButtonBackgroundColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for all visual elements.
@@ -188,7 +186,7 @@ class Customization {
   Color? _tintColor;
   set tintColor(Color? val) {
     _tintColor = val;
-    _setCustomization({"tintColor": _intFromColor(val)}, this);
+    _set({"tintColor": _intFromColor(val)});
   }
 
   /// Allows you to set a color for the activity indicator.
@@ -196,7 +194,7 @@ class Customization {
   Color? _activityIndicatorColor;
   set activityIndicatorColor(Color? val) {
     _activityIndicatorColor = val;
-    _setCustomization({"activityIndicatorColor": _intFromColor(val)}, this);
+    _set({"activityIndicatorColor": _intFromColor(val)});
   }
 
   /// Allows you to set a background color for the status messages.
@@ -206,7 +204,7 @@ class Customization {
   Color? _statusBackgroundColor;
   set statusBackgroundColor(Color? val) {
     _statusBackgroundColor = val;
-    _setCustomization({"statusBackgroundColor": _intFromColor(val)}, this);
+    _set({"statusBackgroundColor": _intFromColor(val)});
   }
 
   /// Allows you to set a background color for the camera preview
@@ -217,8 +215,7 @@ class Customization {
   Color? _cameraPreviewBackgroundColor;
   set cameraPreviewBackgroundColor(Color? val) {
     _cameraPreviewBackgroundColor = val;
-    _setCustomization(
-        {"cameraPreviewBackgroundColor": _intFromColor(val)}, this);
+    _set({"cameraPreviewBackgroundColor": _intFromColor(val)});
   }
 
   /// Allows you to change the location of the status.
@@ -234,7 +231,7 @@ class Customization {
   double? _statusPositionMultiplier;
   set statusPositionMultiplier(double? val) {
     _statusPositionMultiplier = val;
-    _setCustomization({"statusPositionMultiplier": val}, this);
+    _set({"statusPositionMultiplier": val});
   }
 
   /// Allows you to change the location of the result status.
@@ -250,7 +247,7 @@ class Customization {
   double? _resultStatusPositionMultiplier;
   set resultStatusPositionMultiplier(double? val) {
     _resultStatusPositionMultiplier = val;
-    _setCustomization({"resultStatusPositionMultiplier": val}, this);
+    _set({"resultStatusPositionMultiplier": val});
   }
 
   /// Allows you to set a size for the toolbar
@@ -259,7 +256,7 @@ class Customization {
   double? _toolbarSize;
   set toolbarSize(double? val) {
     _toolbarSize = val;
-    _setCustomization({"toolbarSize": val}, this);
+    _set({"toolbarSize": val});
   }
 
   /// Allows you to set intensity of the background mask.
@@ -269,7 +266,7 @@ class Customization {
   double? _backgroundMaskAlpha;
   set backgroundMaskAlpha(double? val) {
     _backgroundMaskAlpha = val;
-    _setCustomization({"backgroundMaskAlpha": val}, this);
+    _set({"backgroundMaskAlpha": val});
   }
 
   /// Allows you to change the location of the custom status.
@@ -285,7 +282,7 @@ class Customization {
   double? _customStatusPositionMultiplier;
   set customStatusPositionMultiplier(double? val) {
     _customStatusPositionMultiplier = val;
-    _setCustomization({"customStatusPositionMultiplier": val}, this);
+    _set({"customStatusPositionMultiplier": val});
   }
 
   /// Allows you to change the location of the hologram animation.
@@ -302,7 +299,7 @@ class Customization {
   double? _hologramAnimationPositionMultiplier;
   set hologramAnimationPositionMultiplier(double? val) {
     _hologramAnimationPositionMultiplier = val;
-    _setCustomization({"hologramAnimationPositionMultiplier": val}, this);
+    _set({"hologramAnimationPositionMultiplier": val});
   }
 
   /// Allows you to change the location of the camera frame vertically.
@@ -311,7 +308,7 @@ class Customization {
   double? _cameraFrameVerticalPositionMultiplier;
   set cameraFrameVerticalPositionMultiplier(double? val) {
     _cameraFrameVerticalPositionMultiplier = val;
-    _setCustomization({"cameraFrameVerticalPositionMultiplier": val}, this);
+    _set({"cameraFrameVerticalPositionMultiplier": val});
   }
 
   /// Allows you to set an aspect ratio of the camera frame (landscape orientation).
@@ -321,7 +318,7 @@ class Customization {
   double? _cameraFrameLandscapeAspectRatio;
   set cameraFrameLandscapeAspectRatio(double? val) {
     _cameraFrameLandscapeAspectRatio = val;
-    _setCustomization({"cameraFrameLandscapeAspectRatio": val}, this);
+    _set({"cameraFrameLandscapeAspectRatio": val});
   }
 
   /// Allows you to set an aspect ratio of the camera frame (portrait orientation).
@@ -331,7 +328,7 @@ class Customization {
   double? _cameraFramePortraitAspectRatio;
   set cameraFramePortraitAspectRatio(double? val) {
     _cameraFramePortraitAspectRatio = val;
-    _setCustomization({"cameraFramePortraitAspectRatio": val}, this);
+    _set({"cameraFramePortraitAspectRatio": val});
   }
 
   /// Allows you to set a corner radius of the camera frame.
@@ -341,99 +338,98 @@ class Customization {
   double? _cameraFrameCornerRadius;
   set cameraFrameCornerRadius(double? val) {
     _cameraFrameCornerRadius = val;
-    _setCustomization({"cameraFrameCornerRadius": val}, this);
+    _set({"cameraFrameCornerRadius": val});
   }
 
   /// Allows you to set any image for the multipage animation (front side).
-  Uint8List? get multipageAnimationFrontImage => _multipageAnimationFrontImage;
-  Uint8List? _multipageAnimationFrontImage;
-  set multipageAnimationFrontImage(Uint8List? val) {
+  Image? get multipageAnimationFrontImage => _multipageAnimationFrontImage;
+  Image? _multipageAnimationFrontImage;
+  set multipageAnimationFrontImage(Image? val) {
     _multipageAnimationFrontImage = val;
-    _setCustomization({"multipageAnimationFrontImage": _toBase64(val)}, this);
+    _set({"multipageAnimationFrontImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the multipage animation (back side).
-  Uint8List? get multipageAnimationBackImage => _multipageAnimationBackImage;
-  Uint8List? _multipageAnimationBackImage;
-  set multipageAnimationBackImage(Uint8List? val) {
+  Image? get multipageAnimationBackImage => _multipageAnimationBackImage;
+  Image? _multipageAnimationBackImage;
+  set multipageAnimationBackImage(Image? val) {
     _multipageAnimationBackImage = val;
-    _setCustomization({"multipageAnimationBackImage": _toBase64(val)}, this);
+    _set({"multipageAnimationBackImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image within the camera frame.
-  Uint8List? get borderBackgroundImage => _borderBackgroundImage;
-  Uint8List? _borderBackgroundImage;
-  set borderBackgroundImage(Uint8List? val) {
+  Image? get borderBackgroundImage => _borderBackgroundImage;
+  Image? _borderBackgroundImage;
+  set borderBackgroundImage(Image? val) {
     _borderBackgroundImage = val;
-    _setCustomization({"borderBackgroundImage": _toBase64(val)}, this);
+    _set({"borderBackgroundImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the help animation.
-  Uint8List? get helpAnimationImage => _helpAnimationImage;
-  Uint8List? _helpAnimationImage;
-  set helpAnimationImage(Uint8List? val) {
+  Image? get helpAnimationImage => _helpAnimationImage;
+  Image? _helpAnimationImage;
+  set helpAnimationImage(Image? val) {
     _helpAnimationImage = val;
-    _setCustomization({"helpAnimationImage": _toBase64(val)}, this);
+    _set({"helpAnimationImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the close button.
-  Uint8List? get closeButtonImage => _closeButtonImage;
-  Uint8List? _closeButtonImage;
-  set closeButtonImage(Uint8List? val) {
+  Image? get closeButtonImage => _closeButtonImage;
+  Image? _closeButtonImage;
+  set closeButtonImage(Image? val) {
     _closeButtonImage = val;
-    _setCustomization({"closeButtonImage": _toBase64(val)}, this);
+    _set({"closeButtonImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the capture button.
-  Uint8List? get captureButtonImage => _captureButtonImage;
-  Uint8List? _captureButtonImage;
-  set captureButtonImage(Uint8List? val) {
+  Image? get captureButtonImage => _captureButtonImage;
+  Image? _captureButtonImage;
+  set captureButtonImage(Image? val) {
     _captureButtonImage = val;
-    _setCustomization({"captureButtonImage": _toBase64(val)}, this);
+    _set({"captureButtonImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the button that allows
   /// changing positions of the capture device.
-  Uint8List? get cameraSwitchButtonImage => _cameraSwitchButtonImage;
-  Uint8List? _cameraSwitchButtonImage;
-  set cameraSwitchButtonImage(Uint8List? val) {
+  Image? get cameraSwitchButtonImage => _cameraSwitchButtonImage;
+  Image? _cameraSwitchButtonImage;
+  set cameraSwitchButtonImage(Image? val) {
     _cameraSwitchButtonImage = val;
-    _setCustomization({"cameraSwitchButtonImage": _toBase64(val)}, this);
+    _set({"cameraSwitchButtonImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the torch button when its state is ON.
-  Uint8List? get torchButtonOnImage => _torchButtonOnImage;
-  Uint8List? _torchButtonOnImage;
-  set torchButtonOnImage(Uint8List? val) {
+  Image? get torchButtonOnImage => _torchButtonOnImage;
+  Image? _torchButtonOnImage;
+  set torchButtonOnImage(Image? val) {
     _torchButtonOnImage = val;
-    _setCustomization({"torchButtonOnImage": _toBase64(val)}, this);
+    _set({"torchButtonOnImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the torch button when its state is OFF.
-  Uint8List? get torchButtonOffImage => _torchButtonOffImage;
-  Uint8List? _torchButtonOffImage;
-  set torchButtonOffImage(Uint8List? val) {
+  Image? get torchButtonOffImage => _torchButtonOffImage;
+  Image? _torchButtonOffImage;
+  set torchButtonOffImage(Image? val) {
     _torchButtonOffImage = val;
-    _setCustomization({"torchButtonOffImage": _toBase64(val)}, this);
+    _set({"torchButtonOffImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the button that allows changing
   /// shapes of the camera (expanded state).
-  Uint8List? get changeFrameButtonExpandImage => _changeFrameButtonExpandImage;
-  Uint8List? _changeFrameButtonExpandImage;
-  set changeFrameButtonExpandImage(Uint8List? val) {
+  Image? get changeFrameButtonExpandImage => _changeFrameButtonExpandImage;
+  Image? _changeFrameButtonExpandImage;
+  set changeFrameButtonExpandImage(Image? val) {
     _changeFrameButtonExpandImage = val;
-    _setCustomization({"changeFrameButtonExpandImage": _toBase64(val)}, this);
+    _set({"changeFrameButtonExpandImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the button that allows changing
   /// shapes of the camera (collapsed state).
-  Uint8List? get changeFrameButtonCollapseImage =>
-      _changeFrameButtonCollapseImage;
-  Uint8List? _changeFrameButtonCollapseImage;
-  set changeFrameButtonCollapseImage(Uint8List? val) {
+  Image? get changeFrameButtonCollapseImage => _changeFrameButtonCollapseImage;
+  Image? _changeFrameButtonCollapseImage;
+  set changeFrameButtonCollapseImage(Image? val) {
     _changeFrameButtonCollapseImage = val;
-    _setCustomization({"changeFrameButtonCollapseImage": _toBase64(val)}, this);
+    _set({"changeFrameButtonCollapseImage": _imageToBase64(val)});
   }
 
   /// Allows you to set any image for the hologram animation.
@@ -441,11 +437,11 @@ class Customization {
   /// When set to `null` the default image will be used.
   /// This property can be set during the scanning process to tailor
   /// the user experiese for different types of documents.
-  Uint8List? get hologramAnimationImage => _hologramAnimationImage;
-  Uint8List? _hologramAnimationImage;
-  set hologramAnimationImage(Uint8List? val) {
+  Image? get hologramAnimationImage => _hologramAnimationImage;
+  Image? _hologramAnimationImage;
+  set hologramAnimationImage(Image? val) {
     _hologramAnimationImage = val;
-    _setCustomization({"hologramAnimationImage": _toBase64(val)}, this);
+    _set({"hologramAnimationImage": _imageToBase64(val)});
   }
 
   /// Allows you to set a font for the status messages.
@@ -453,7 +449,7 @@ class Customization {
   Font? _statusTextFont;
   set statusTextFont(Font? val) {
     _statusTextFont = val;
-    _setCustomization({"statusTextFont": val?.toJson()}, this);
+    _set({"statusTextFont": val?.toJson()});
   }
 
   /// Allows you to set a font for the result status messages.
@@ -461,7 +457,7 @@ class Customization {
   Font? _resultStatusTextFont;
   set resultStatusTextFont(Font? val) {
     _resultStatusTextFont = val;
-    _setCustomization({"resultStatusTextFont": val?.toJson()}, this);
+    _set({"resultStatusTextFont": val?.toJson()});
   }
 
   /// Allows you to create a custom status.
@@ -469,7 +465,7 @@ class Customization {
   String? _customLabelStatus;
   set customLabelStatus(String? val) {
     _customLabelStatus = val;
-    _setCustomization({"customLabelStatus": val}, this);
+    _set({"customLabelStatus": val});
   }
 
   /// Allows you to customize the beginning and ending of stroked lines
@@ -480,16 +476,16 @@ class Customization {
   Cap? _cameraFrameLineCap;
   set cameraFrameLineCap(Cap? val) {
     _cameraFrameLineCap = val;
-    _setCustomization({"cameraFrameLineCap": val?.value}, this);
+    _set({"cameraFrameLineCap": val?.value});
   }
 
   /// JSON structure defining labels and graphic elements
   /// to be added to the Camera UI
-  dynamic get uiCustomizationLayer => _uiCustomizationLayer;
-  dynamic _uiCustomizationLayer;
-  set uiCustomizationLayer(dynamic val) {
+  Map<String, dynamic>? get uiCustomizationLayer => _uiCustomizationLayer;
+  Map<String, dynamic>? _uiCustomizationLayer;
+  set uiCustomizationLayer(Map<String, dynamic>? val) {
     _uiCustomizationLayer = val;
-    _setCustomization({"uiCustomizationLayer": val}, this);
+    _set({"uiCustomizationLayer": val});
   }
 
   /// Allows you to specify how a view of the help animation adjusts
@@ -503,7 +499,7 @@ class Customization {
   ViewContentMode? _helpAnimationImageTransformsIOS;
   set helpAnimationImageTransformsIOS(ViewContentMode? val) {
     _helpAnimationImageTransformsIOS = val;
-    _setCustomization({"helpAnimationImageContentMode": val?.value}, this);
+    _set({"helpAnimationImageContentMode": val?.value});
   }
 
   /// Allows you to specify how a view of the multipage animation (front side)
@@ -517,8 +513,7 @@ class Customization {
   ViewContentMode? _multipageAnimationFrontImageTransformsIOS;
   set multipageAnimationFrontImageTransformsIOS(ViewContentMode? val) {
     _multipageAnimationFrontImageTransformsIOS = val;
-    _setCustomization(
-        {"multipageAnimationFrontImageContentMode": val?.value}, this);
+    _set({"multipageAnimationFrontImageContentMode": val?.value});
   }
 
   /// Allows you to specify how a view of the multipage animation (back side)
@@ -532,8 +527,7 @@ class Customization {
   ViewContentMode? _multipageAnimationBackImageTransformsIOS;
   set multipageAnimationBackImageTransformsIOS(ViewContentMode? val) {
     _multipageAnimationBackImageTransformsIOS = val;
-    _setCustomization(
-        {"multipageAnimationBackImageContentMode": val?.value}, this);
+    _set({"multipageAnimationBackImageContentMode": val?.value});
   }
 
   /// Allows you to specify how a view of the hologram animation
@@ -547,7 +541,7 @@ class Customization {
   ViewContentMode? _hologramAnimationImageTransformsIOS;
   set hologramAnimationImageTransformsIOS(ViewContentMode? val) {
     _hologramAnimationImageTransformsIOS = val;
-    _setCustomization({"hologramAnimationImageContentMode": val?.value}, this);
+    _set({"hologramAnimationImageContentMode": val?.value});
   }
 
   /// Allows you to specify how a view within the camera frame adjusts
@@ -561,7 +555,7 @@ class Customization {
   ViewContentMode? _borderBackgroundImageTransformsIOS;
   set borderBackgroundImageTransformsIOS(ViewContentMode? val) {
     _borderBackgroundImageTransformsIOS = val;
-    _setCustomization({"borderBackgroundImageContentMode": val?.value}, this);
+    _set({"borderBackgroundImageContentMode": val?.value});
   }
 
   /// Matrix used to scale help animation.
@@ -575,7 +569,7 @@ class Customization {
   List<double>? _helpAnimationImageTransformsAndroid;
   set helpAnimationImageTransformsAndroid(List<double>? val) {
     _helpAnimationImageTransformsAndroid = val;
-    _setCustomization({"helpAnimationImageMatrix": val}, this);
+    _set({"helpAnimationImageMatrix": val});
   }
 
   /// Matrix used to scale multipage animation (front side).
@@ -589,7 +583,7 @@ class Customization {
   List<double>? _multipageAnimationFrontImageTransformsAndroid;
   set multipageAnimationFrontImageTransformsAndroid(List<double>? val) {
     _multipageAnimationFrontImageTransformsAndroid = val;
-    _setCustomization({"multipageAnimationFrontImageMatrix": val}, this);
+    _set({"multipageAnimationFrontImageMatrix": val});
   }
 
   /// Matrix used to scale multipage animation (back side).
@@ -603,7 +597,7 @@ class Customization {
   List<double>? _multipageAnimationBackImageTransformsAndroid;
   set multipageAnimationBackImageTransformsAndroid(List<double>? val) {
     _multipageAnimationBackImageTransformsAndroid = val;
-    _setCustomization({"multipageAnimationBackImageMatrix": val}, this);
+    _set({"multipageAnimationBackImageMatrix": val});
   }
 
   /// Matrix used to scale hologram animation.
@@ -617,7 +611,7 @@ class Customization {
   List<double>? _hologramAnimationImageTransformsAndroid;
   set hologramAnimationImageTransformsAndroid(List<double>? val) {
     _hologramAnimationImageTransformsAndroid = val;
-    _setCustomization({"hologramAnimationImageMatrix": val}, this);
+    _set({"hologramAnimationImageMatrix": val});
   }
 
   /// Matrix used to scale the view within the camera frame.
@@ -631,126 +625,149 @@ class Customization {
   List<double>? _borderBackgroundImageTransformsAndroid;
   set borderBackgroundImageTransformsAndroid(List<double>? val) {
     _borderBackgroundImageTransformsAndroid = val;
-    _setCustomization({"borderBackgroundImageMatrix": val}, this);
+    _set({"borderBackgroundImageMatrix": val});
   }
 
   /// Allows you to deserialize object.
-  fromJson(Map<String, dynamic> jsonObject) {
-    _showStatusMessages = jsonObject["showStatusMessages"];
-    _showResultStatusMessages = jsonObject["showResultStatusMessages"];
-    _showHelpAnimation = jsonObject["showHelpAnimation"];
-    _showNextPageAnimation = jsonObject["showNextPageAnimation"];
-    _showBackgroundMask = jsonObject["showBackgroundMask"];
+  static Customization fromJson(jsonObject) {
+    var result = Customization();
+    result.testSetters = {};
 
-    _cameraFrameBorderWidth = jsonObject["cameraFrameBorderWidth"];
-    _cameraFrameLineLength = jsonObject["cameraFrameLineLength"];
-    _cameraFrameShapeType =
+    result.showStatusMessages = jsonObject["showStatusMessages"];
+    result.showResultStatusMessages = jsonObject["showResultStatusMessages"];
+    result.showHelpAnimation = jsonObject["showHelpAnimation"];
+    result.showNextPageAnimation = jsonObject["showNextPageAnimation"];
+    result.showBackgroundMask = jsonObject["showBackgroundMask"];
+
+    result.cameraFrameBorderWidth = jsonObject["cameraFrameBorderWidth"];
+    result.cameraFrameLineLength = jsonObject["cameraFrameLineLength"];
+    result.cameraFrameShapeType =
         FrameShapeType.getByValue(jsonObject["cameraFrameShapeType"]);
-    _cameraFrameOffsetWidth = jsonObject["cameraFrameOffsetWidth"];
+    result.cameraFrameOffsetWidth = jsonObject["cameraFrameOffsetWidth"];
 
-    _status = jsonObject["status"];
-    _resultStatus = jsonObject["resultStatus"];
+    result.status = jsonObject["status"];
+    result.resultStatus = jsonObject["resultStatus"];
 
-    _cameraFrameDefaultColor =
+    result.cameraFrameDefaultColor =
         _intToColor(jsonObject["cameraFrameDefaultColor"]);
-    _cameraFrameActiveColor = _intToColor(jsonObject["cameraFrameActiveColor"]);
-    _statusTextColor = _intToColor(jsonObject["statusTextColor"]);
-    _resultStatusTextColor = _intToColor(jsonObject["resultStatusTextColor"]);
-    _resultStatusBackgroundColor =
+    result.cameraFrameActiveColor =
+        _intToColor(jsonObject["cameraFrameActiveColor"]);
+    result.statusTextColor = _intToColor(jsonObject["statusTextColor"]);
+    result.resultStatusTextColor =
+        _intToColor(jsonObject["resultStatusTextColor"]);
+    result.resultStatusBackgroundColor =
         _intToColor(jsonObject["resultStatusBackgroundColor"]);
-    _multipageButtonBackgroundColor =
+    result.multipageButtonBackgroundColor =
         _intToColor(jsonObject["multipageButtonBackgroundColor"]);
-    _tintColor = _intToColor(jsonObject["tintColor"]);
-    _activityIndicatorColor = _intToColor(jsonObject["activityIndicatorColor"]);
-    _statusBackgroundColor = _intToColor(jsonObject["statusBackgroundColor"]);
-    _cameraPreviewBackgroundColor =
+    result.tintColor = _intToColor(jsonObject["tintColor"]);
+    result.activityIndicatorColor =
+        _intToColor(jsonObject["activityIndicatorColor"]);
+    result.statusBackgroundColor =
+        _intToColor(jsonObject["statusBackgroundColor"]);
+    result.cameraPreviewBackgroundColor =
         _intToColor(jsonObject["cameraPreviewBackgroundColor"]);
 
-    _statusPositionMultiplier =
+    result.statusPositionMultiplier =
         _toDouble(jsonObject["statusPositionMultiplier"]);
-    _resultStatusPositionMultiplier =
+    result.resultStatusPositionMultiplier =
         _toDouble(jsonObject["resultStatusPositionMultiplier"]);
-    _toolbarSize = _toDouble(jsonObject["toolbarSize"]);
-    _backgroundMaskAlpha = _toDouble(jsonObject["backgroundMaskAlpha"]);
-    _customStatusPositionMultiplier =
+    result.toolbarSize = _toDouble(jsonObject["toolbarSize"]);
+    result.backgroundMaskAlpha = _toDouble(jsonObject["backgroundMaskAlpha"]);
+    result.customStatusPositionMultiplier =
         _toDouble(jsonObject["customStatusPositionMultiplier"]);
-    _cameraFrameVerticalPositionMultiplier =
+    result.cameraFrameVerticalPositionMultiplier =
         _toDouble(jsonObject["cameraFrameVerticalPositionMultiplier"]);
-    _cameraFrameLandscapeAspectRatio =
+    result.cameraFrameLandscapeAspectRatio =
         _toDouble(jsonObject["cameraFrameLandscapeAspectRatio"]);
-    _cameraFrameCornerRadius = _toDouble(jsonObject["cameraFrameCornerRadius"]);
-    _cameraFramePortraitAspectRatio =
+    result.cameraFrameCornerRadius =
+        _toDouble(jsonObject["cameraFrameCornerRadius"]);
+    result.cameraFramePortraitAspectRatio =
         _toDouble(jsonObject["cameraFramePortraitAspectRatio"]);
-    _hologramAnimationPositionMultiplier =
+    result.hologramAnimationPositionMultiplier =
         _toDouble(jsonObject["hologramAnimationPositionMultiplier"]);
 
-    _multipageAnimationFrontImage =
-        _fromBase64(jsonObject["multipageAnimationFrontImage"]);
-    _multipageAnimationBackImage =
-        _fromBase64(jsonObject["multipageAnimationBackImage"]);
-    _borderBackgroundImage = _fromBase64(jsonObject["borderBackgroundImage"]);
-    _helpAnimationImage = _fromBase64(jsonObject["helpAnimationImage"]);
-    _closeButtonImage = _fromBase64(jsonObject["closeButtonImage"]);
-    _captureButtonImage = _fromBase64(jsonObject["captureButtonImage"]);
-    _cameraSwitchButtonImage =
-        _fromBase64(jsonObject["cameraSwitchButtonImage"]);
-    _torchButtonOnImage = _fromBase64(jsonObject["torchButtonOnImage"]);
-    _torchButtonOffImage = _fromBase64(jsonObject["torchButtonOffImage"]);
-    _changeFrameButtonExpandImage =
-        _fromBase64(jsonObject["changeFrameButtonExpandImage"]);
-    _changeFrameButtonCollapseImage =
-        _fromBase64(jsonObject["changeFrameButtonCollapseImage"]);
-    _hologramAnimationImage = _fromBase64(jsonObject["hologramAnimationImage"]);
+    result.multipageAnimationFrontImage =
+        _imageFromBase64(jsonObject["multipageAnimationFrontImage"]);
+    result.multipageAnimationBackImage =
+        _imageFromBase64(jsonObject["multipageAnimationBackImage"]);
+    result.borderBackgroundImage =
+        _imageFromBase64(jsonObject["borderBackgroundImage"]);
+    result.helpAnimationImage =
+        _imageFromBase64(jsonObject["helpAnimationImage"]);
+    result.closeButtonImage = _imageFromBase64(jsonObject["closeButtonImage"]);
+    result.captureButtonImage =
+        _imageFromBase64(jsonObject["captureButtonImage"]);
+    result.cameraSwitchButtonImage =
+        _imageFromBase64(jsonObject["cameraSwitchButtonImage"]);
+    result.torchButtonOnImage =
+        _imageFromBase64(jsonObject["torchButtonOnImage"]);
+    result.torchButtonOffImage =
+        _imageFromBase64(jsonObject["torchButtonOffImage"]);
+    result.changeFrameButtonExpandImage =
+        _imageFromBase64(jsonObject["changeFrameButtonExpandImage"]);
+    result.changeFrameButtonCollapseImage =
+        _imageFromBase64(jsonObject["changeFrameButtonCollapseImage"]);
+    result.hologramAnimationImage =
+        _imageFromBase64(jsonObject["hologramAnimationImage"]);
 
-    _customLabelStatus = jsonObject["customLabelStatus"];
-    _cameraFrameLineCap = Cap.getByValue(jsonObject["cameraFrameLineCap"]);
-    _uiCustomizationLayer = jsonObject["uiCustomizationLayer"];
-    _statusTextFont = Font.fromJson(jsonObject["statusTextFont"]);
-    _resultStatusTextFont = Font.fromJson(jsonObject["resultStatusTextFont"]);
+    result.customLabelStatus = jsonObject["customLabelStatus"];
+    result.cameraFrameLineCap =
+        Cap.getByValue(jsonObject["cameraFrameLineCap"]);
+    result.uiCustomizationLayer = jsonObject["uiCustomizationLayer"];
+    result.statusTextFont = Font.fromJson(jsonObject["statusTextFont"]);
+    result.resultStatusTextFont =
+        Font.fromJson(jsonObject["resultStatusTextFont"]);
 
-    _helpAnimationImageTransformsIOS =
+    result.helpAnimationImageTransformsIOS =
         ViewContentMode.getByValue(jsonObject["helpAnimationImageContentMode"]);
-    _multipageAnimationFrontImageTransformsIOS = ViewContentMode.getByValue(
-        jsonObject["multipageAnimationFrontImageContentMode"]);
-    _multipageAnimationBackImageTransformsIOS = ViewContentMode.getByValue(
-        jsonObject["multipageAnimationBackImageContentMode"]);
-    _hologramAnimationImageTransformsIOS = ViewContentMode.getByValue(
+    result.multipageAnimationFrontImageTransformsIOS =
+        ViewContentMode.getByValue(
+            jsonObject["multipageAnimationFrontImageContentMode"]);
+    result.multipageAnimationBackImageTransformsIOS =
+        ViewContentMode.getByValue(
+            jsonObject["multipageAnimationBackImageContentMode"]);
+    result.hologramAnimationImageTransformsIOS = ViewContentMode.getByValue(
         jsonObject["hologramAnimationImageContentMode"]);
-    _borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
+    result.borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
         jsonObject["borderBackgroundImageContentMode"]);
 
     if (jsonObject["helpAnimationImageMatrix"] != null) {
-      _helpAnimationImageTransformsAndroid = [];
+      List<double> array = [];
       for (var value in jsonObject["helpAnimationImageMatrix"])
-        _helpAnimationImageTransformsAndroid!.add(value.toDouble());
+        array.add(value.toDouble());
+      result.helpAnimationImageTransformsAndroid = array;
     } else
-      _helpAnimationImageTransformsAndroid = null;
+      result.helpAnimationImageTransformsAndroid = null;
     if (jsonObject["multipageAnimationFrontImageMatrix"] != null) {
-      _multipageAnimationFrontImageTransformsAndroid = [];
+      List<double> array = [];
       for (var value in jsonObject["multipageAnimationFrontImageMatrix"])
-        _multipageAnimationFrontImageTransformsAndroid!.add(value.toDouble());
+        array.add(value.toDouble());
+      result.multipageAnimationFrontImageTransformsAndroid = array;
     } else
-      _multipageAnimationFrontImageTransformsAndroid = null;
+      result.multipageAnimationFrontImageTransformsAndroid = null;
     if (jsonObject["multipageAnimationBackImageMatrix"] != null) {
-      _multipageAnimationBackImageTransformsAndroid = [];
+      List<double> array = [];
       for (var value in jsonObject["multipageAnimationBackImageMatrix"])
-        _multipageAnimationBackImageTransformsAndroid!.add(value.toDouble());
+        array.add(value.toDouble());
+      result.multipageAnimationBackImageTransformsAndroid = array;
     } else
-      _multipageAnimationBackImageTransformsAndroid = null;
+      result.multipageAnimationBackImageTransformsAndroid = null;
     if (jsonObject["hologramAnimationImageMatrix"] != null) {
-      _hologramAnimationImageTransformsAndroid = [];
+      List<double> array = [];
       for (var value in jsonObject["hologramAnimationImageMatrix"])
-        _hologramAnimationImageTransformsAndroid!.add(value.toDouble());
+        array.add(value.toDouble());
+      result.hologramAnimationImageTransformsAndroid = array;
     } else
-      _hologramAnimationImageTransformsAndroid = null;
+      result.hologramAnimationImageTransformsAndroid = null;
     if (jsonObject["borderBackgroundImageMatrix"] != null) {
-      _borderBackgroundImageTransformsAndroid = [];
+      List<double> array = [];
       for (var value in jsonObject["borderBackgroundImageMatrix"])
-        _borderBackgroundImageTransformsAndroid!.add(value.toDouble());
+        array.add(value.toDouble());
+      result.borderBackgroundImageTransformsAndroid = array;
     } else
-      _borderBackgroundImageTransformsAndroid = null;
+      result.borderBackgroundImageTransformsAndroid = null;
 
-    return this;
+    return result;
   }
 
   /// Allows you to serialize object.
@@ -791,19 +808,22 @@ class Customization {
         "cameraFrameCornerRadius": cameraFrameCornerRadius,
         "hologramAnimationPositionMultiplier":
             hologramAnimationPositionMultiplier,
-        "multipageAnimationFrontImage": _toBase64(multipageAnimationFrontImage),
-        "multipageAnimationBackImage": _toBase64(multipageAnimationBackImage),
-        "borderBackgroundImage": _toBase64(borderBackgroundImage),
-        "helpAnimationImage": _toBase64(helpAnimationImage),
-        "closeButtonImage": _toBase64(closeButtonImage),
-        "captureButtonImage": _toBase64(captureButtonImage),
-        "cameraSwitchButtonImage": _toBase64(cameraSwitchButtonImage),
-        "torchButtonOnImage": _toBase64(torchButtonOnImage),
-        "torchButtonOffImage": _toBase64(torchButtonOffImage),
-        "changeFrameButtonExpandImage": _toBase64(changeFrameButtonExpandImage),
+        "multipageAnimationFrontImage":
+            _imageToBase64(multipageAnimationFrontImage),
+        "multipageAnimationBackImage":
+            _imageToBase64(multipageAnimationBackImage),
+        "borderBackgroundImage": _imageToBase64(borderBackgroundImage),
+        "helpAnimationImage": _imageToBase64(helpAnimationImage),
+        "closeButtonImage": _imageToBase64(closeButtonImage),
+        "captureButtonImage": _imageToBase64(captureButtonImage),
+        "cameraSwitchButtonImage": _imageToBase64(cameraSwitchButtonImage),
+        "torchButtonOnImage": _imageToBase64(torchButtonOnImage),
+        "torchButtonOffImage": _imageToBase64(torchButtonOffImage),
+        "changeFrameButtonExpandImage":
+            _imageToBase64(changeFrameButtonExpandImage),
         "changeFrameButtonCollapseImage":
-            _toBase64(changeFrameButtonCollapseImage),
-        "hologramAnimationImage": _toBase64(hologramAnimationImage),
+            _imageToBase64(changeFrameButtonCollapseImage),
+        "hologramAnimationImage": _imageToBase64(hologramAnimationImage),
         "customLabelStatus": customLabelStatus,
         "cameraFrameLineCap": cameraFrameLineCap?.value,
         "uiCustomizationLayer": uiCustomizationLayer,
@@ -825,22 +845,18 @@ class Customization {
             multipageAnimationBackImageTransformsAndroid,
         "hologramAnimationImageMatrix": hologramAnimationImageTransformsAndroid,
         "borderBackgroundImageMatrix": borderBackgroundImageTransformsAndroid,
-      };
+      }.clearNulls();
 
-  static _setCustomization(
-    Map<String, dynamic> json,
-    Customization instance,
-  ) {
-    if (identical(instance, DocumentReader.instance.customization))
+  void _set(Map<String, dynamic> json) {
+    if (identical(this, DocumentReader.instance.customization))
       _bridge.invokeMethod("setCustomization", [json]);
+    testSetters.addAll(json);
   }
 
-  Future<void> _sync() async {
-    String response = await _bridge.invokeMethod("getCustomization", []);
-    this.fromJson(_decode(response));
-  }
+  void _apply() => _set(toJson());
 
-  _apply() => _setCustomization(this.toJson(), this);
+  @visibleForTesting
+  Map<String, dynamic> testSetters = {};
 }
 
 enum Cap {
@@ -955,7 +971,7 @@ class Font {
   static Font? fromJson(jsonObject) {
     if (jsonObject == null) return null;
 
-    var result = new Font(jsonObject["name"]);
+    var result = Font(jsonObject["name"]);
     result.size = jsonObject["size"];
     result.style = FontStyle.getByValue(jsonObject["style"]);
 
@@ -967,7 +983,7 @@ class Font {
         "name": name,
         "size": size,
         "style": style?.value,
-      };
+      }.clearNulls();
 }
 
 enum FontStyle {

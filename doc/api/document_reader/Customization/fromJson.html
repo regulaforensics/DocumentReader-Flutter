@@ -31,7 +31,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/Customization-class.html">Customization</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
   </ol>
   <div class="self-name">fromJson</div>
   <form class="search navbar-right" role="search">
@@ -57,14 +57,14 @@
       data-above-sidebar="document_reader&#47;Customization-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">fromJson</span> method 
+<h1><span class="kind-method">fromJson</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
-<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">jsonObject</span></span></li>
+<span class="returntype"><a href="../../document_reader/Customization-class.html">Customization</a></span>
+<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span></li>
 </ol>)
 
       
@@ -79,122 +79,145 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">fromJson(Map&lt;String, dynamic&gt; jsonObject) {
-  _showStatusMessages = jsonObject[&quot;showStatusMessages&quot;];
-  _showResultStatusMessages = jsonObject[&quot;showResultStatusMessages&quot;];
-  _showHelpAnimation = jsonObject[&quot;showHelpAnimation&quot;];
-  _showNextPageAnimation = jsonObject[&quot;showNextPageAnimation&quot;];
-  _showBackgroundMask = jsonObject[&quot;showBackgroundMask&quot;];
+  <pre class="language-dart"><code class="language-dart">static Customization fromJson(jsonObject) {
+  var result = Customization();
+  result.testSetters = {};
 
-  _cameraFrameBorderWidth = jsonObject[&quot;cameraFrameBorderWidth&quot;];
-  _cameraFrameLineLength = jsonObject[&quot;cameraFrameLineLength&quot;];
-  _cameraFrameShapeType =
+  result.showStatusMessages = jsonObject[&quot;showStatusMessages&quot;];
+  result.showResultStatusMessages = jsonObject[&quot;showResultStatusMessages&quot;];
+  result.showHelpAnimation = jsonObject[&quot;showHelpAnimation&quot;];
+  result.showNextPageAnimation = jsonObject[&quot;showNextPageAnimation&quot;];
+  result.showBackgroundMask = jsonObject[&quot;showBackgroundMask&quot;];
+
+  result.cameraFrameBorderWidth = jsonObject[&quot;cameraFrameBorderWidth&quot;];
+  result.cameraFrameLineLength = jsonObject[&quot;cameraFrameLineLength&quot;];
+  result.cameraFrameShapeType =
       FrameShapeType.getByValue(jsonObject[&quot;cameraFrameShapeType&quot;]);
-  _cameraFrameOffsetWidth = jsonObject[&quot;cameraFrameOffsetWidth&quot;];
+  result.cameraFrameOffsetWidth = jsonObject[&quot;cameraFrameOffsetWidth&quot;];
 
-  _status = jsonObject[&quot;status&quot;];
-  _resultStatus = jsonObject[&quot;resultStatus&quot;];
+  result.status = jsonObject[&quot;status&quot;];
+  result.resultStatus = jsonObject[&quot;resultStatus&quot;];
 
-  _cameraFrameDefaultColor =
+  result.cameraFrameDefaultColor =
       _intToColor(jsonObject[&quot;cameraFrameDefaultColor&quot;]);
-  _cameraFrameActiveColor = _intToColor(jsonObject[&quot;cameraFrameActiveColor&quot;]);
-  _statusTextColor = _intToColor(jsonObject[&quot;statusTextColor&quot;]);
-  _resultStatusTextColor = _intToColor(jsonObject[&quot;resultStatusTextColor&quot;]);
-  _resultStatusBackgroundColor =
+  result.cameraFrameActiveColor =
+      _intToColor(jsonObject[&quot;cameraFrameActiveColor&quot;]);
+  result.statusTextColor = _intToColor(jsonObject[&quot;statusTextColor&quot;]);
+  result.resultStatusTextColor =
+      _intToColor(jsonObject[&quot;resultStatusTextColor&quot;]);
+  result.resultStatusBackgroundColor =
       _intToColor(jsonObject[&quot;resultStatusBackgroundColor&quot;]);
-  _multipageButtonBackgroundColor =
+  result.multipageButtonBackgroundColor =
       _intToColor(jsonObject[&quot;multipageButtonBackgroundColor&quot;]);
-  _tintColor = _intToColor(jsonObject[&quot;tintColor&quot;]);
-  _activityIndicatorColor = _intToColor(jsonObject[&quot;activityIndicatorColor&quot;]);
-  _statusBackgroundColor = _intToColor(jsonObject[&quot;statusBackgroundColor&quot;]);
-  _cameraPreviewBackgroundColor =
+  result.tintColor = _intToColor(jsonObject[&quot;tintColor&quot;]);
+  result.activityIndicatorColor =
+      _intToColor(jsonObject[&quot;activityIndicatorColor&quot;]);
+  result.statusBackgroundColor =
+      _intToColor(jsonObject[&quot;statusBackgroundColor&quot;]);
+  result.cameraPreviewBackgroundColor =
       _intToColor(jsonObject[&quot;cameraPreviewBackgroundColor&quot;]);
 
-  _statusPositionMultiplier =
+  result.statusPositionMultiplier =
       _toDouble(jsonObject[&quot;statusPositionMultiplier&quot;]);
-  _resultStatusPositionMultiplier =
+  result.resultStatusPositionMultiplier =
       _toDouble(jsonObject[&quot;resultStatusPositionMultiplier&quot;]);
-  _toolbarSize = _toDouble(jsonObject[&quot;toolbarSize&quot;]);
-  _backgroundMaskAlpha = _toDouble(jsonObject[&quot;backgroundMaskAlpha&quot;]);
-  _customStatusPositionMultiplier =
+  result.toolbarSize = _toDouble(jsonObject[&quot;toolbarSize&quot;]);
+  result.backgroundMaskAlpha = _toDouble(jsonObject[&quot;backgroundMaskAlpha&quot;]);
+  result.customStatusPositionMultiplier =
       _toDouble(jsonObject[&quot;customStatusPositionMultiplier&quot;]);
-  _cameraFrameVerticalPositionMultiplier =
+  result.cameraFrameVerticalPositionMultiplier =
       _toDouble(jsonObject[&quot;cameraFrameVerticalPositionMultiplier&quot;]);
-  _cameraFrameLandscapeAspectRatio =
+  result.cameraFrameLandscapeAspectRatio =
       _toDouble(jsonObject[&quot;cameraFrameLandscapeAspectRatio&quot;]);
-  _cameraFrameCornerRadius = _toDouble(jsonObject[&quot;cameraFrameCornerRadius&quot;]);
-  _cameraFramePortraitAspectRatio =
+  result.cameraFrameCornerRadius =
+      _toDouble(jsonObject[&quot;cameraFrameCornerRadius&quot;]);
+  result.cameraFramePortraitAspectRatio =
       _toDouble(jsonObject[&quot;cameraFramePortraitAspectRatio&quot;]);
-  _hologramAnimationPositionMultiplier =
+  result.hologramAnimationPositionMultiplier =
       _toDouble(jsonObject[&quot;hologramAnimationPositionMultiplier&quot;]);
 
-  _multipageAnimationFrontImage =
-      _fromBase64(jsonObject[&quot;multipageAnimationFrontImage&quot;]);
-  _multipageAnimationBackImage =
-      _fromBase64(jsonObject[&quot;multipageAnimationBackImage&quot;]);
-  _borderBackgroundImage = _fromBase64(jsonObject[&quot;borderBackgroundImage&quot;]);
-  _helpAnimationImage = _fromBase64(jsonObject[&quot;helpAnimationImage&quot;]);
-  _closeButtonImage = _fromBase64(jsonObject[&quot;closeButtonImage&quot;]);
-  _captureButtonImage = _fromBase64(jsonObject[&quot;captureButtonImage&quot;]);
-  _cameraSwitchButtonImage =
-      _fromBase64(jsonObject[&quot;cameraSwitchButtonImage&quot;]);
-  _torchButtonOnImage = _fromBase64(jsonObject[&quot;torchButtonOnImage&quot;]);
-  _torchButtonOffImage = _fromBase64(jsonObject[&quot;torchButtonOffImage&quot;]);
-  _changeFrameButtonExpandImage =
-      _fromBase64(jsonObject[&quot;changeFrameButtonExpandImage&quot;]);
-  _changeFrameButtonCollapseImage =
-      _fromBase64(jsonObject[&quot;changeFrameButtonCollapseImage&quot;]);
-  _hologramAnimationImage = _fromBase64(jsonObject[&quot;hologramAnimationImage&quot;]);
+  result.multipageAnimationFrontImage =
+      _imageFromBase64(jsonObject[&quot;multipageAnimationFrontImage&quot;]);
+  result.multipageAnimationBackImage =
+      _imageFromBase64(jsonObject[&quot;multipageAnimationBackImage&quot;]);
+  result.borderBackgroundImage =
+      _imageFromBase64(jsonObject[&quot;borderBackgroundImage&quot;]);
+  result.helpAnimationImage =
+      _imageFromBase64(jsonObject[&quot;helpAnimationImage&quot;]);
+  result.closeButtonImage = _imageFromBase64(jsonObject[&quot;closeButtonImage&quot;]);
+  result.captureButtonImage =
+      _imageFromBase64(jsonObject[&quot;captureButtonImage&quot;]);
+  result.cameraSwitchButtonImage =
+      _imageFromBase64(jsonObject[&quot;cameraSwitchButtonImage&quot;]);
+  result.torchButtonOnImage =
+      _imageFromBase64(jsonObject[&quot;torchButtonOnImage&quot;]);
+  result.torchButtonOffImage =
+      _imageFromBase64(jsonObject[&quot;torchButtonOffImage&quot;]);
+  result.changeFrameButtonExpandImage =
+      _imageFromBase64(jsonObject[&quot;changeFrameButtonExpandImage&quot;]);
+  result.changeFrameButtonCollapseImage =
+      _imageFromBase64(jsonObject[&quot;changeFrameButtonCollapseImage&quot;]);
+  result.hologramAnimationImage =
+      _imageFromBase64(jsonObject[&quot;hologramAnimationImage&quot;]);
 
-  _customLabelStatus = jsonObject[&quot;customLabelStatus&quot;];
-  _cameraFrameLineCap = Cap.getByValue(jsonObject[&quot;cameraFrameLineCap&quot;]);
-  _uiCustomizationLayer = jsonObject[&quot;uiCustomizationLayer&quot;];
-  _statusTextFont = Font.fromJson(jsonObject[&quot;statusTextFont&quot;]);
-  _resultStatusTextFont = Font.fromJson(jsonObject[&quot;resultStatusTextFont&quot;]);
+  result.customLabelStatus = jsonObject[&quot;customLabelStatus&quot;];
+  result.cameraFrameLineCap =
+      Cap.getByValue(jsonObject[&quot;cameraFrameLineCap&quot;]);
+  result.uiCustomizationLayer = jsonObject[&quot;uiCustomizationLayer&quot;];
+  result.statusTextFont = Font.fromJson(jsonObject[&quot;statusTextFont&quot;]);
+  result.resultStatusTextFont =
+      Font.fromJson(jsonObject[&quot;resultStatusTextFont&quot;]);
 
-  _helpAnimationImageTransformsIOS =
+  result.helpAnimationImageTransformsIOS =
       ViewContentMode.getByValue(jsonObject[&quot;helpAnimationImageContentMode&quot;]);
-  _multipageAnimationFrontImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject[&quot;multipageAnimationFrontImageContentMode&quot;]);
-  _multipageAnimationBackImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject[&quot;multipageAnimationBackImageContentMode&quot;]);
-  _hologramAnimationImageTransformsIOS = ViewContentMode.getByValue(
+  result.multipageAnimationFrontImageTransformsIOS =
+      ViewContentMode.getByValue(
+          jsonObject[&quot;multipageAnimationFrontImageContentMode&quot;]);
+  result.multipageAnimationBackImageTransformsIOS =
+      ViewContentMode.getByValue(
+          jsonObject[&quot;multipageAnimationBackImageContentMode&quot;]);
+  result.hologramAnimationImageTransformsIOS = ViewContentMode.getByValue(
       jsonObject[&quot;hologramAnimationImageContentMode&quot;]);
-  _borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
+  result.borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
       jsonObject[&quot;borderBackgroundImageContentMode&quot;]);
 
   if (jsonObject[&quot;helpAnimationImageMatrix&quot;] != null) {
-    _helpAnimationImageTransformsAndroid = [];
+    List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;helpAnimationImageMatrix&quot;])
-      _helpAnimationImageTransformsAndroid!.add(value.toDouble());
+      array.add(value.toDouble());
+    result.helpAnimationImageTransformsAndroid = array;
   } else
-    _helpAnimationImageTransformsAndroid = null;
+    result.helpAnimationImageTransformsAndroid = null;
   if (jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;] != null) {
-    _multipageAnimationFrontImageTransformsAndroid = [];
+    List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;])
-      _multipageAnimationFrontImageTransformsAndroid!.add(value.toDouble());
+      array.add(value.toDouble());
+    result.multipageAnimationFrontImageTransformsAndroid = array;
   } else
-    _multipageAnimationFrontImageTransformsAndroid = null;
+    result.multipageAnimationFrontImageTransformsAndroid = null;
   if (jsonObject[&quot;multipageAnimationBackImageMatrix&quot;] != null) {
-    _multipageAnimationBackImageTransformsAndroid = [];
+    List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;multipageAnimationBackImageMatrix&quot;])
-      _multipageAnimationBackImageTransformsAndroid!.add(value.toDouble());
+      array.add(value.toDouble());
+    result.multipageAnimationBackImageTransformsAndroid = array;
   } else
-    _multipageAnimationBackImageTransformsAndroid = null;
+    result.multipageAnimationBackImageTransformsAndroid = null;
   if (jsonObject[&quot;hologramAnimationImageMatrix&quot;] != null) {
-    _hologramAnimationImageTransformsAndroid = [];
+    List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;hologramAnimationImageMatrix&quot;])
-      _hologramAnimationImageTransformsAndroid!.add(value.toDouble());
+      array.add(value.toDouble());
+    result.hologramAnimationImageTransformsAndroid = array;
   } else
-    _hologramAnimationImageTransformsAndroid = null;
+    result.hologramAnimationImageTransformsAndroid = null;
   if (jsonObject[&quot;borderBackgroundImageMatrix&quot;] != null) {
-    _borderBackgroundImageTransformsAndroid = [];
+    List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;borderBackgroundImageMatrix&quot;])
-      _borderBackgroundImageTransformsAndroid!.add(value.toDouble());
+      array.add(value.toDouble());
+    result.borderBackgroundImageTransformsAndroid = array;
   } else
-    _borderBackgroundImageTransformsAndroid = null;
+    result.borderBackgroundImageTransformsAndroid = null;
 
-  return this;
+  return result;
 }</code></pre>
 </section>
 
@@ -213,7 +236,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/Customization-class.html">Customization</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
 </ol>
 
 
@@ -228,7 +251,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

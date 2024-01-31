@@ -29,7 +29,7 @@ class DocReaderVersion {
   @visibleForTesting
   static DocReaderVersion? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DocReaderVersion();
+    var result = DocReaderVersion();
 
     result._api = jsonObject["api"];
     result._core = jsonObject["core"];
@@ -45,5 +45,5 @@ class DocReaderVersion {
         "core": core,
         "coreMode": coreMode,
         "database": database?.toJson()
-      };
+      }.clearNulls();
 }

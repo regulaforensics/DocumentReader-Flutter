@@ -78,19 +78,13 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;fileReference&quot;] = fileReference;
-  result[&quot;objectType&quot;] = objectType;
-  result[&quot;version&quot;] = version;
-  List&lt;dynamic&gt; list = [];
-  for (var item in signerInfos) list.add(item.toJson());
-  result[&quot;signerInfos&quot;] = list;
-  result[&quot;notifications&quot;] = notifications;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;fileReference&quot;: fileReference,
+      &quot;objectType&quot;: objectType,
+      &quot;version&quot;: version,
+      &quot;signerInfos&quot;: signerInfos.map((e) =&gt; e.toJson()).toList(),
+      &quot;notifications&quot;: notifications,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -123,7 +117,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

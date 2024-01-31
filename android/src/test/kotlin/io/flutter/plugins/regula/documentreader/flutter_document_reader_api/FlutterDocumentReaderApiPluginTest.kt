@@ -29,10 +29,16 @@ class FlutterDocumentReaderApiPluginTest {
     fun imageInputData() = compare("ImageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
 
     @Test
-    fun recognizeConfig() = compare("RecognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig, "onlineProcessingConfig")
+    fun recognizeConfig() = compare("RecognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
+
+    @Test
+    fun recognizeConfig2() = compare("RecognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
 
     @Test
     fun scannerConfig() = compare("ScannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig)
+
+    @Test
+    fun scannerConfig2() = compare("ScannerConfig2", ::scannerConfigFromJSON, ::generateScannerConfig)
 
     // params.process_params
 
@@ -99,27 +105,27 @@ class FlutterDocumentReaderApiPluginTest {
     // info
 
     @Test
-    fun docReaderDocumentsDatabase() = compare("DocReaderDocumentsDatabase", ::docReaderDocumentsDatabaseFromJSON, ::generateDocReaderDocumentsDatabase)
+    fun documentsDatabase() = compare("DocumentsDatabase", ::docReaderDocumentsDatabaseFromJSON, ::generateDocReaderDocumentsDatabase)
 
     @Test
-    fun documentReaderScenario() = compare(
-        "DocumentReaderScenario", ::documentReaderScenarioFromJSON, ::generateDocumentReaderScenario,
+    fun docReaderScenario() = compare(
+        "DocReaderScenario", ::documentReaderScenarioFromJSON, ::generateDocumentReaderScenario,
         "barcodeExt", "frame"
     )
 
     @Test
-    fun documentReaderException() = compare("DocumentReaderException", ::regulaExceptionFromJSON, ::generateRegulaException)
+    fun docReaderException() = compare("DocReaderException", ::regulaExceptionFromJSON, ::generateRegulaException)
 
     // results.authenticity
 
     @Test
-    fun documentReaderAuthenticityElement() = compare("DocumentReaderAuthenticityElement", ::documentReaderAuthenticityElementFromJSON, ::generateDocumentReaderAuthenticityElement)
+    fun authenticityElement() = compare("AuthenticityElement", ::documentReaderAuthenticityElementFromJSON, ::generateDocumentReaderAuthenticityElement)
 
     @Test
-    fun documentReaderAuthenticityCheck() = compare("DocumentReaderAuthenticityCheck", ::documentReaderAuthenticityCheckFromJSON, ::generateDocumentReaderAuthenticityCheck)
+    fun authenticityCheck() = compare("AuthenticityCheck", ::documentReaderAuthenticityCheckFromJSON, ::generateDocumentReaderAuthenticityCheck)
 
     @Test
-    fun documentReaderAuthenticityResult() = compare("DocumentReaderAuthenticityResult", ::documentReaderAuthenticityResultFromJSON, ::generateDocumentReaderAuthenticityResult)
+    fun authenticityResult() = compare("AuthenticityResult", ::documentReaderAuthenticityResultFromJSON, ::generateDocumentReaderAuthenticityResult)
 
     // results.barcode
 
@@ -127,10 +133,10 @@ class FlutterDocumentReaderApiPluginTest {
     fun pdf417Info() = compare("PDF417Info", ::pdf417InfoFromJSON, ::generatePDF417Info)
 
     @Test
-    fun documentReaderBarcodeField() = compare("DocumentReaderBarcodeField", ::documentReaderBarcodeFieldFromJSON, ::generateDocumentReaderBarcodeField)
+    fun barcodeField() = compare("BarcodeField", ::documentReaderBarcodeFieldFromJSON, ::generateDocumentReaderBarcodeField)
 
     @Test
-    fun documentReaderBarcodeResult() = compare("DocumentReaderBarcodeResult", ::documentReaderBarcodeResultFromJSON, ::generateDocumentReaderBarcodeResult)
+    fun barcodeResult() = compare("BarcodeResult", ::documentReaderBarcodeResultFromJSON, ::generateDocumentReaderBarcodeResult)
 
     // results.image_quality
 
@@ -161,7 +167,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun application() = compare("Application", ::applicationFromJSON, ::generateApplication)
 
     @Test
-    fun value() = compare("Value", ::valueFromJSON, ::generateValue)
+    fun rfidValue() = compare("RFIDValue", ::valueFromJSON, ::generateValue)
 
     @Test
     fun attribute() = compare("Attribute", ::attributeFromJSON, ::generateAttribute)
@@ -176,7 +182,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun extension() = compare("Extension", ::extensionFromJSON, ::generateExtension)
 
     @Test
-    fun validity() = compare("Validity", ::validityFromJSON, ::generateValidity)
+    fun rfidValidity() = compare("RFIDValidity", ::validityFromJSON, ::generateValidity)
 
     @Test
     fun certificateChain() = compare("CertificateChain", ::certificateChainFromJSON, ::generateCertificateChain)
@@ -205,55 +211,55 @@ class FlutterDocumentReaderApiPluginTest {
     // results.visual_results
 
     @Test
-    fun documentReaderComparison() = compare("DocumentReaderComparison", ::documentReaderComparisonFromJSON, ::generateDocumentReaderComparison)
+    fun comparison() = compare("Comparison", ::documentReaderComparisonFromJSON, ::generateDocumentReaderComparison)
 
     @Test
     fun rect() = compare("Rect", ::rectFromJSON, ::generateRect)
 
     @Test
-    fun documentReaderGraphicField() = compare("DocumentReaderGraphicField", ::documentReaderGraphicFieldFromJSON, ::generateDocumentReaderGraphicField)
+    fun graphicField() = compare("GraphicField", ::documentReaderGraphicFieldFromJSON, ::generateDocumentReaderGraphicField)
 
     @Test
-    fun documentReaderGraphicResult() = compare("DocumentReaderGraphicResult", ::documentReaderGraphicResultFromJSON, ::generateDocumentReaderGraphicResult)
+    fun graphicResult() = compare("GraphicResult", ::documentReaderGraphicResultFromJSON, ::generateDocumentReaderGraphicResult)
 
     @Test
-    fun documentReaderRFIDOrigin() = compare("DocumentReaderRFIDOrigin", ::documentReaderRFIDOriginFromJSON, ::generateDocumentReaderRFIDOrigin)
+    fun rfidOrigin() = compare("RFIDOrigin", ::documentReaderRFIDOriginFromJSON, ::generateDocumentReaderRFIDOrigin)
 
     @Test
-    fun documentReaderSymbol() = compare("DocumentReaderSymbol", ::documentReaderSymbolFromJSON, ::generateDocumentReaderSymbol)
+    fun symbol() = compare("Symbol", ::documentReaderSymbolFromJSON, ::generateDocumentReaderSymbol)
 
     @Test
-    fun documentReaderValidity() = compare("DocumentReaderValidity", ::documentReaderValidityFromJSON, ::generateDocumentReaderValidity)
+    fun validity() = compare("Validity", ::documentReaderValidityFromJSON, ::generateDocumentReaderValidity)
 
     @Test
-    fun documentReaderValue() = compare("DocumentReaderValue", ::documentReaderValueFromJSON, ::generateDocumentReaderValue)
+    fun value() = compare("Value", ::documentReaderValueFromJSON, ::generateDocumentReaderValue)
 
     @Test
-    fun documentReaderTextField() = compare("DocumentReaderTextField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField)
+    fun textField() = compare("TextField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField)
 
     @Test
-    fun documentReaderTextSource() = compare("DocumentReaderTextSource", ::documentReaderTextSourceFromJSON, ::generateDocumentReaderTextSource)
+    fun textSource() = compare("TextSource", ::documentReaderTextSourceFromJSON, ::generateDocumentReaderTextSource)
 
     @Test
-    fun documentReaderTextResult() = compare("DocumentReaderTextResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult)
+    fun textResult() = compare("TextResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult)
 
     // results
 
     @Test
-    fun documentReaderResultsStatus() = compare("DocumentReaderResultsStatus", ::documentReaderResultsStatusFromJSON, ::generateDocumentReaderResultsStatus)
+    fun resultsStatus() = compare("ResultsStatus", ::documentReaderResultsStatusFromJSON, ::generateDocumentReaderResultsStatus)
 
     @Test
-    fun documentReaderDocumentType() = compare("DocumentReaderDocumentType", ::documentReaderDocumentTypeFromJSON, ::generateDocumentReaderDocumentType)
+    fun documentType() = compare("DocumentType", ::documentReaderDocumentTypeFromJSON, ::generateDocumentReaderDocumentType)
 
     @Test
     fun coordinate() = compare("Coordinate", ::coordinateFromJSON, ::generateCoordinate)
 
     @Test
-    fun elementPosition() = compare("ElementPosition", ::elementPositionFromJSON, ::generateElementPosition)
+    fun position() = compare("Position", ::elementPositionFromJSON, ::generateElementPosition)
 
     @Test
-    fun documentReaderResults() = compare(
-        "DocumentReaderResults", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
+    fun results() = compare(
+        "Results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
         "imageQuality.imageQualityList.boundRects", "vdsncData.certificateChain"
     )
 

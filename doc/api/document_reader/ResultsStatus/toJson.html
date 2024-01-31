@@ -78,19 +78,15 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;overallStatus&quot;] = overallStatus.value;
-  result[&quot;optical&quot;] = optical.value;
-  result[&quot;rfid&quot;] = rfid.value;
-  result[&quot;portrait&quot;] = portrait.value;
-  result[&quot;stopList&quot;] = stopList.value;
-  result[&quot;detailsOptical&quot;] = detailsOptical.toJson();
-  result[&quot;detailsRFID&quot;] = detailsRFID.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;overallStatus&quot;: overallStatus.value,
+      &quot;optical&quot;: optical.value,
+      &quot;rfid&quot;: rfid.value,
+      &quot;portrait&quot;: portrait.value,
+      &quot;stopList&quot;: stopList.value,
+      &quot;detailsOptical&quot;: detailsOptical.toJson(),
+      &quot;detailsRFID&quot;: detailsRFID.toJson(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -123,7 +119,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -11,70 +11,39 @@ part of document_reader;
 /// Class contains information about PKD certificate.
 class PKDCertificate {
   /// Certificate in binary type.
-  Uint8List get binaryData => _binaryData;
-  late Uint8List _binaryData;
+  ByteData get binaryData => _binaryData;
+  ByteData _binaryData;
 
   /// Indicates type of certificate.
   PKDResourceType get resourceType => _resourceType;
-  late PKDResourceType _resourceType;
+  PKDResourceType _resourceType;
 
   /// Private key in binary type.
-  Uint8List? get privateKey => _privateKey;
-  Uint8List? _privateKey;
+  ByteData? get privateKey => _privateKey;
+  ByteData? _privateKey;
 
-  PKDCertificate._empty();
-
-  PKDCertificate(Uint8List binaryData, PKDResourceType resourceType) {
-    _binaryData = binaryData;
-    _resourceType = resourceType;
-  }
-
-  PKDCertificate.withPrivateKey(
-    Uint8List binaryData,
-    PKDResourceType resourceType,
-    Uint8List privateKey,
-  ) {
-    _binaryData = binaryData;
-    _resourceType = resourceType;
-    _privateKey = privateKey;
-  }
+  PKDCertificate(ByteData binaryData, PKDResourceType resourceType,
+      {ByteData? privateKey})
+      : _binaryData = binaryData,
+        _resourceType = resourceType,
+        _privateKey = privateKey;
 
   @visibleForTesting
   static PKDCertificate? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new PKDCertificate._empty();
-
-    result._binaryData = base64Decode(jsonObject["binaryData"]);
-    result._resourceType =
-        PKDResourceType.getByValue(jsonObject["resourceType"])!;
-    result._privateKey = base64Decode(jsonObject["privateKey"]);
-
-    return result;
+    return PKDCertificate(
+      _fromBase64(jsonObject["binaryData"])!,
+      PKDResourceType.getByValue(jsonObject["resourceType"])!,
+      privateKey: _fromBase64(jsonObject["privateKey"]),
+    );
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {
-      "binaryData": base64Encode(binaryData),
-      "resourceType": resourceType.value
-    };
-
-    if (privateKey != null) result["privateKey"] = base64Encode(privateKey!);
-
-    return result;
-  }
-
-  static List<dynamic>? _listToJson(List<PKDCertificate>? certificates) {
-    List<dynamic>? json = [];
-    if (certificates != null) {
-      for (PKDCertificate cert in certificates) {
-        json.add(cert.toJson());
-      }
-    } else {
-      json = null;
-    }
-    return json;
-  }
+  Map<String, dynamic> toJson() => {
+        "binaryData": _toBase64(binaryData),
+        "resourceType": resourceType.value,
+        "privateKey": _toBase64(privateKey)
+      }.clearNulls();
 }
 
 enum PKDResourceType {

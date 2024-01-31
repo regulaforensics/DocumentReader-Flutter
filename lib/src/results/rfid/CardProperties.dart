@@ -75,7 +75,7 @@ class CardProperties {
   /// Allows you to deserialize object.
   static CardProperties? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new CardProperties();
+    var result = CardProperties();
 
     result._aTQA = jsonObject["aTQA"];
     result._bitRateR = jsonObject["bitRateR"];
@@ -96,24 +96,20 @@ class CardProperties {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["aTQA"] = aTQA;
-    result["bitRateR"] = bitRateR;
-    result["bitRateS"] = bitRateS;
-    result["chipTypeA"] = chipTypeA;
-    result["mifareMemory"] = mifareMemory;
-    result["rfidType"] = rfidType;
-    result["sAK"] = sAK;
-    result["support4"] = support4;
-    result["supportMifare"] = supportMifare;
-    result["aTQB"] = aTQB;
-    result["aTR"] = aTR;
-    result["baudrate1"] = baudrate1;
-    result["baudrate2"] = baudrate2;
-    result["uID"] = uID;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "aTQA": aTQA,
+        "bitRateR": bitRateR,
+        "bitRateS": bitRateS,
+        "chipTypeA": chipTypeA,
+        "mifareMemory": mifareMemory,
+        "rfidType": rfidType,
+        "sAK": sAK,
+        "support4": support4,
+        "supportMifare": supportMifare,
+        "aTQB": aTQB,
+        "aTR": aTR,
+        "baudrate1": baudrate1,
+        "baudrate2": baudrate2,
+        "uID": uID,
+      }.clearNulls();
 }

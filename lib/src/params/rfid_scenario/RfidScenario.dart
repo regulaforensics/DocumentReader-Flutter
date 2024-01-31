@@ -14,28 +14,28 @@ class RFIDScenario {
   bool? _paceStaticBinding;
   set paceStaticBinding(bool? val) {
     _paceStaticBinding = val;
-    _setRfidScenario({"paceStaticBinding": val}, this);
+    _set({"paceStaticBinding": val});
   }
 
   bool? get onlineTA => _onlineTA;
   bool? _onlineTA;
   set onlineTA(bool? val) {
     _onlineTA = val;
-    _setRfidScenario({"onlineTA": val}, this);
+    _set({"onlineTA": val});
   }
 
   bool? get writeEid => _writeEid;
   bool? _writeEid;
   set writeEid(bool? val) {
     _writeEid = val;
-    _setRfidScenario({"writeEid": val}, this);
+    _set({"writeEid": val});
   }
 
   bool? get universalAccessRights => _universalAccessRights;
   bool? _universalAccessRights;
   set universalAccessRights(bool? val) {
     _universalAccessRights = val;
-    _setRfidScenario({"universalAccessRights": val}, this);
+    _set({"universalAccessRights": val});
   }
 
   bool? get authorizedRestrictedIdentification =>
@@ -43,217 +43,217 @@ class RFIDScenario {
   bool? _authorizedRestrictedIdentification;
   set authorizedRestrictedIdentification(bool? val) {
     _authorizedRestrictedIdentification = val;
-    _setRfidScenario({"authorizedRestrictedIdentification": val}, this);
+    _set({"authorizedRestrictedIdentification": val});
   }
 
   bool? get auxVerificationCommunityID => _auxVerificationCommunityID;
   bool? _auxVerificationCommunityID;
   set auxVerificationCommunityID(bool? val) {
     _auxVerificationCommunityID = val;
-    _setRfidScenario({"auxVerificationCommunityID": val}, this);
+    _set({"auxVerificationCommunityID": val});
   }
 
   bool? get auxVerificationDateOfBirth => _auxVerificationDateOfBirth;
   bool? _auxVerificationDateOfBirth;
   set auxVerificationDateOfBirth(bool? val) {
     _auxVerificationDateOfBirth = val;
-    _setRfidScenario({"auxVerificationDateOfBirth": val}, this);
+    _set({"auxVerificationDateOfBirth": val});
   }
 
   bool? get skipAA => _skipAA;
   bool? _skipAA;
   set skipAA(bool? val) {
     _skipAA = val;
-    _setRfidScenario({"skipAA": val}, this);
+    _set({"skipAA": val});
   }
 
   bool? get strictProcessing => _strictProcessing;
   bool? _strictProcessing;
   set strictProcessing(bool? val) {
     _strictProcessing = val;
-    _setRfidScenario({"strictProcessing": val}, this);
+    _set({"strictProcessing": val});
   }
 
   bool? get pkdDSCertPriority => _pkdDSCertPriority;
   bool? _pkdDSCertPriority;
   set pkdDSCertPriority(bool? val) {
     _pkdDSCertPriority = val;
-    _setRfidScenario({"pkdDSCertPriority": val}, this);
+    _set({"pkdDSCertPriority": val});
   }
 
   bool? get pkdUseExternalCSCA => _pkdUseExternalCSCA;
   bool? _pkdUseExternalCSCA;
   set pkdUseExternalCSCA(bool? val) {
     _pkdUseExternalCSCA = val;
-    _setRfidScenario({"pkdUseExternalCSCA": val}, this);
+    _set({"pkdUseExternalCSCA": val});
   }
 
   bool? get trustedPKD => _trustedPKD;
   bool? _trustedPKD;
   set trustedPKD(bool? val) {
     _trustedPKD = val;
-    _setRfidScenario({"trustedPKD": val}, this);
+    _set({"trustedPKD": val});
   }
 
   bool? get passiveAuth => _passiveAuth;
   bool? _passiveAuth;
   set passiveAuth(bool? val) {
     _passiveAuth = val;
-    _setRfidScenario({"passiveAuth": val}, this);
+    _set({"passiveAuth": val});
   }
 
   bool? get useSFI => _useSFI;
   bool? _useSFI;
   set useSFI(bool? val) {
     _useSFI = val;
-    _setRfidScenario({"useSFI": val}, this);
+    _set({"useSFI": val});
   }
 
   bool? get readEPassport => _readEPassport;
   bool? _readEPassport;
   set readEPassport(bool? val) {
     _readEPassport = val;
-    _setRfidScenario({"readEPassport": val}, this);
+    _set({"readEPassport": val});
   }
 
   bool? get readEID => _readEID;
   bool? _readEID;
   set readEID(bool? val) {
     _readEID = val;
-    _setRfidScenario({"readEID": val}, this);
+    _set({"readEID": val});
   }
 
   bool? get readEDL => _readEDL;
   bool? _readEDL;
   set readEDL(bool? val) {
     _readEDL = val;
-    _setRfidScenario({"readEDL": val}, this);
+    _set({"readEDL": val});
   }
 
   bool? get authorizedSTSignature => _authorizedSTSignature;
   bool? _authorizedSTSignature;
   set authorizedSTSignature(bool? val) {
     _authorizedSTSignature = val;
-    _setRfidScenario({"authorizedSTSignature": val}, this);
+    _set({"authorizedSTSignature": val});
   }
 
   bool? get authorizedSTQSignature => _authorizedSTQSignature;
   bool? _authorizedSTQSignature;
   set authorizedSTQSignature(bool? val) {
     _authorizedSTQSignature = val;
-    _setRfidScenario({"authorizedSTQSignature": val}, this);
+    _set({"authorizedSTQSignature": val});
   }
 
   bool? get authorizedWriteDG17 => _authorizedWriteDG17;
   bool? _authorizedWriteDG17;
   set authorizedWriteDG17(bool? val) {
     _authorizedWriteDG17 = val;
-    _setRfidScenario({"authorizedWriteDG17": val}, this);
+    _set({"authorizedWriteDG17": val});
   }
 
   bool? get authorizedWriteDG18 => _authorizedWriteDG18;
   bool? _authorizedWriteDG18;
   set authorizedWriteDG18(bool? val) {
     _authorizedWriteDG18 = val;
-    _setRfidScenario({"authorizedWriteDG18": val}, this);
+    _set({"authorizedWriteDG18": val});
   }
 
   bool? get authorizedWriteDG19 => _authorizedWriteDG19;
   bool? _authorizedWriteDG19;
   set authorizedWriteDG19(bool? val) {
     _authorizedWriteDG19 = val;
-    _setRfidScenario({"authorizedWriteDG19": val}, this);
+    _set({"authorizedWriteDG19": val});
   }
 
   bool? get authorizedWriteDG20 => _authorizedWriteDG20;
   bool? _authorizedWriteDG20;
   set authorizedWriteDG20(bool? val) {
     _authorizedWriteDG20 = val;
-    _setRfidScenario({"authorizedWriteDG20": val}, this);
+    _set({"authorizedWriteDG20": val});
   }
 
   bool? get authorizedWriteDG21 => _authorizedWriteDG21;
   bool? _authorizedWriteDG21;
   set authorizedWriteDG21(bool? val) {
     _authorizedWriteDG21 = val;
-    _setRfidScenario({"authorizedWriteDG21": val}, this);
+    _set({"authorizedWriteDG21": val});
   }
 
   bool? get authorizedVerifyAge => _authorizedVerifyAge;
   bool? _authorizedVerifyAge;
   set authorizedVerifyAge(bool? val) {
     _authorizedVerifyAge = val;
-    _setRfidScenario({"authorizedVerifyAge": val}, this);
+    _set({"authorizedVerifyAge": val});
   }
 
   bool? get authorizedVerifyCommunityID => _authorizedVerifyCommunityID;
   bool? _authorizedVerifyCommunityID;
   set authorizedVerifyCommunityID(bool? val) {
     _authorizedVerifyCommunityID = val;
-    _setRfidScenario({"authorizedVerifyCommunityID": val}, this);
+    _set({"authorizedVerifyCommunityID": val});
   }
 
   bool? get authorizedPrivilegedTerminal => _authorizedPrivilegedTerminal;
   bool? _authorizedPrivilegedTerminal;
   set authorizedPrivilegedTerminal(bool? val) {
     _authorizedPrivilegedTerminal = val;
-    _setRfidScenario({"authorizedPrivilegedTerminal": val}, this);
+    _set({"authorizedPrivilegedTerminal": val});
   }
 
   bool? get authorizedCANAllowed => _authorizedCANAllowed;
   bool? _authorizedCANAllowed;
   set authorizedCANAllowed(bool? val) {
     _authorizedCANAllowed = val;
-    _setRfidScenario({"authorizedCANAllowed": val}, this);
+    _set({"authorizedCANAllowed": val});
   }
 
   bool? get authorizedPINManagement => _authorizedPINManagement;
   bool? _authorizedPINManagement;
   set authorizedPINManagement(bool? val) {
     _authorizedPINManagement = val;
-    _setRfidScenario({"authorizedPINManagement": val}, this);
+    _set({"authorizedPINManagement": val});
   }
 
   bool? get authorizedInstallCert => _authorizedInstallCert;
   bool? _authorizedInstallCert;
   set authorizedInstallCert(bool? val) {
     _authorizedInstallCert = val;
-    _setRfidScenario({"authorizedInstallCert": val}, this);
+    _set({"authorizedInstallCert": val});
   }
 
   bool? get authorizedInstallQCert => _authorizedInstallQCert;
   bool? _authorizedInstallQCert;
   set authorizedInstallQCert(bool? val) {
     _authorizedInstallQCert = val;
-    _setRfidScenario({"authorizedInstallQCert": val}, this);
+    _set({"authorizedInstallQCert": val});
   }
 
   bool? get applyAmendments => _applyAmendments;
   bool? _applyAmendments;
   set applyAmendments(bool? val) {
     _applyAmendments = val;
-    _setRfidScenario({"applyAmendments": val}, this);
+    _set({"applyAmendments": val});
   }
 
   bool? get autoSettings => _autoSettings;
   bool? _autoSettings;
   set autoSettings(bool? val) {
     _autoSettings = val;
-    _setRfidScenario({"autoSettings": val}, this);
+    _set({"autoSettings": val});
   }
 
   int? get readingBuffer => _readingBuffer;
   int? _readingBuffer;
   set readingBuffer(int? val) {
     _readingBuffer = val;
-    _setRfidScenario({"readingBuffer": val}, this);
+    _set({"readingBuffer": val});
   }
 
   int? get onlineTAToSignDataType => _onlineTAToSignDataType;
   int? _onlineTAToSignDataType;
   set onlineTAToSignDataType(int? val) {
     _onlineTAToSignDataType = val;
-    _setRfidScenario({"onlineTAToSignDataType": val}, this);
+    _set({"onlineTAToSignDataType": val});
   }
 
   static final int _coreDefaultReadingBufferSize = 231;
@@ -262,186 +262,194 @@ class RFIDScenario {
   int _defaultReadingBufferSize = _coreDefaultReadingBufferSize;
   set defaultReadingBufferSize(int val) {
     _defaultReadingBufferSize = val;
-    _setRfidScenario({"defaultReadingBufferSize": val}, this);
+    _set({"defaultReadingBufferSize": val});
   }
 
   SignManagementAction? get signManagementAction => _signManagementAction;
   SignManagementAction? _signManagementAction;
   set signManagementAction(SignManagementAction? val) {
     _signManagementAction = val;
-    _setRfidScenario({"signManagementAction": val?.value}, this);
+    _set({"signManagementAction": val?.value});
   }
 
   RFIDSDKProfilerType? get profilerType => _profilerType;
   RFIDSDKProfilerType? _profilerType;
   set profilerType(RFIDSDKProfilerType? val) {
     _profilerType = val;
-    _setRfidScenario({"profilerType": val?.value}, this);
+    _set({"profilerType": val?.value});
   }
 
   RFIDAuthenticationProcedureType? get authProcType => _authProcType;
   RFIDAuthenticationProcedureType? _authProcType;
   set authProcType(RFIDAuthenticationProcedureType? val) {
     _authProcType = val;
-    _setRfidScenario({"authProcType": val?.value}, this);
+    _set({"authProcType": val?.value});
   }
 
   RFIDAccessControlProcedureType? get baseSMProcedure => _baseSMProcedure;
   RFIDAccessControlProcedureType? _baseSMProcedure;
   set baseSMProcedure(RFIDAccessControlProcedureType? val) {
     _baseSMProcedure = val;
-    _setRfidScenario({"baseSMProcedure": val?.value}, this);
+    _set({"baseSMProcedure": val?.value});
   }
 
   RFIDPasswordType? get pacePasswordType => _pacePasswordType;
   RFIDPasswordType? _pacePasswordType;
   set pacePasswordType(RFIDPasswordType? val) {
     _pacePasswordType = val;
-    _setRfidScenario({"pacePasswordType": val?.value}, this);
+    _set({"pacePasswordType": val?.value});
   }
 
   RFIDTerminalType? get terminalType => _terminalType;
   RFIDTerminalType? _terminalType;
   set terminalType(RFIDTerminalType? val) {
     _terminalType = val;
-    _setRfidScenario({"terminalType": val?.value}, this);
+    _set({"terminalType": val?.value});
   }
 
   String? get password => _password;
   String? _password;
   set password(String? val) {
     _password = val;
-    _setRfidScenario({"password": val}, this);
+    _set({"password": val});
   }
 
   String? get pkdPA => _pkdPA;
   String? _pkdPA;
   set pkdPA(String? val) {
     _pkdPA = val;
-    _setRfidScenario({"pkdPA": val}, this);
+    _set({"pkdPA": val});
   }
 
   String? get pkdEAC => _pkdEAC;
   String? _pkdEAC;
   set pkdEAC(String? val) {
     _pkdEAC = val;
-    _setRfidScenario({"pkdEAC": val}, this);
+    _set({"pkdEAC": val});
   }
 
   String? get mrz => _mrz;
   String? _mrz;
   set mrz(String? val) {
     _mrz = val;
-    _setRfidScenario({"mrz": val}, this);
+    _set({"mrz": val});
   }
 
   String? get eSignPINDefault => _eSignPINDefault;
   String? _eSignPINDefault;
   set eSignPINDefault(String? val) {
     _eSignPINDefault = val;
-    _setRfidScenario({"eSignPINDefault": val}, this);
+    _set({"eSignPINDefault": val});
   }
 
   String? get eSignPINNewValue => _eSignPINNewValue;
   String? _eSignPINNewValue;
   set eSignPINNewValue(String? val) {
     _eSignPINNewValue = val;
-    _setRfidScenario({"eSignPINNewValue": val}, this);
+    _set({"eSignPINNewValue": val});
   }
 
   ReprocParams? get reprocessParams => _reprocessParams;
   ReprocParams? _reprocessParams;
   set reprocessParams(ReprocParams? val) {
     _reprocessParams = val;
-    _setRfidScenario({"reprocessParams": val?.toJson()}, this);
+    _set({"reprocessParams": val?.toJson()});
   }
 
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
-  EDLDataGroups _eDLDataGroups = new EDLDataGroups();
+  EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
-    _eDLDataGroups = val;
-    _eDLDataGroups._apply();
+    (_eDLDataGroups = val)._apply(this);
   }
 
   EPassportDataGroups get ePassportDataGroups => _ePassportDataGroups;
-  EPassportDataGroups _ePassportDataGroups = new EPassportDataGroups();
+  EPassportDataGroups _ePassportDataGroups = EPassportDataGroups();
   set ePassportDataGroups(EPassportDataGroups val) {
-    _ePassportDataGroups = val;
-    _ePassportDataGroups._apply();
+    (_ePassportDataGroups = val)._apply(this);
   }
 
   EIDDataGroups get eIDDataGroups => _eIDDataGroups;
-  EIDDataGroups _eIDDataGroups = new EIDDataGroups();
+  EIDDataGroups _eIDDataGroups = EIDDataGroups();
   set eIDDataGroups(EIDDataGroups val) {
-    _eIDDataGroups = val;
-    _eIDDataGroups._apply();
+    (_eIDDataGroups = val)._apply(this);
   }
 
   /// Allows you to deserialize object.
-  fromJson(Map<String, dynamic> jsonObject) {
-    _paceStaticBinding = jsonObject["paceStaticBinding"];
-    _onlineTA = jsonObject["onlineTA"];
-    _writeEid = jsonObject["writeEid"];
-    _universalAccessRights = jsonObject["universalAccessRights"];
-    _authorizedRestrictedIdentification =
+  static RFIDScenario fromJson(jsonObject) {
+    var result = RFIDScenario();
+    result.testSetters = {};
+
+    result.paceStaticBinding = jsonObject["paceStaticBinding"];
+    result.onlineTA = jsonObject["onlineTA"];
+    result.writeEid = jsonObject["writeEid"];
+    result.universalAccessRights = jsonObject["universalAccessRights"];
+    result.authorizedRestrictedIdentification =
         jsonObject["authorizedRestrictedIdentification"];
-    _auxVerificationCommunityID = jsonObject["auxVerificationCommunityID"];
-    _auxVerificationDateOfBirth = jsonObject["auxVerificationDateOfBirth"];
-    _skipAA = jsonObject["skipAA"];
-    _strictProcessing = jsonObject["strictProcessing"];
-    _pkdDSCertPriority = jsonObject["pkdDSCertPriority"];
-    _pkdUseExternalCSCA = jsonObject["pkdUseExternalCSCA"];
-    _trustedPKD = jsonObject["trustedPKD"];
-    _passiveAuth = jsonObject["passiveAuth"];
-    _useSFI = jsonObject["useSFI"];
-    _readEPassport = jsonObject["readEPassport"];
-    _readEID = jsonObject["readEID"];
-    _readEDL = jsonObject["readEDL"];
-    _authorizedSTSignature = jsonObject["authorizedSTSignature"];
-    _authorizedSTQSignature = jsonObject["authorizedSTQSignature"];
-    _authorizedWriteDG17 = jsonObject["authorizedWriteDG17"];
-    _authorizedWriteDG18 = jsonObject["authorizedWriteDG18"];
-    _authorizedWriteDG19 = jsonObject["authorizedWriteDG19"];
-    _authorizedWriteDG20 = jsonObject["authorizedWriteDG20"];
-    _authorizedWriteDG21 = jsonObject["authorizedWriteDG21"];
-    _authorizedVerifyAge = jsonObject["authorizedVerifyAge"];
-    _authorizedVerifyCommunityID = jsonObject["authorizedVerifyCommunityID"];
-    _authorizedPrivilegedTerminal = jsonObject["authorizedPrivilegedTerminal"];
-    _authorizedCANAllowed = jsonObject["authorizedCANAllowed"];
-    _authorizedPINManagement = jsonObject["authorizedPINManagement"];
-    _authorizedInstallCert = jsonObject["authorizedInstallCert"];
-    _authorizedInstallQCert = jsonObject["authorizedInstallQCert"];
-    _applyAmendments = jsonObject["applyAmendments"];
-    _autoSettings = jsonObject["autoSettings"];
+    result.auxVerificationCommunityID =
+        jsonObject["auxVerificationCommunityID"];
+    result.auxVerificationDateOfBirth =
+        jsonObject["auxVerificationDateOfBirth"];
+    result.skipAA = jsonObject["skipAA"];
+    result.strictProcessing = jsonObject["strictProcessing"];
+    result.pkdDSCertPriority = jsonObject["pkdDSCertPriority"];
+    result.pkdUseExternalCSCA = jsonObject["pkdUseExternalCSCA"];
+    result.trustedPKD = jsonObject["trustedPKD"];
+    result.passiveAuth = jsonObject["passiveAuth"];
+    result.useSFI = jsonObject["useSFI"];
+    result.readEPassport = jsonObject["readEPassport"];
+    result.readEID = jsonObject["readEID"];
+    result.readEDL = jsonObject["readEDL"];
+    result.authorizedSTSignature = jsonObject["authorizedSTSignature"];
+    result.authorizedSTQSignature = jsonObject["authorizedSTQSignature"];
+    result.authorizedWriteDG17 = jsonObject["authorizedWriteDG17"];
+    result.authorizedWriteDG18 = jsonObject["authorizedWriteDG18"];
+    result.authorizedWriteDG19 = jsonObject["authorizedWriteDG19"];
+    result.authorizedWriteDG20 = jsonObject["authorizedWriteDG20"];
+    result.authorizedWriteDG21 = jsonObject["authorizedWriteDG21"];
+    result.authorizedVerifyAge = jsonObject["authorizedVerifyAge"];
+    result.authorizedVerifyCommunityID =
+        jsonObject["authorizedVerifyCommunityID"];
+    result.authorizedPrivilegedTerminal =
+        jsonObject["authorizedPrivilegedTerminal"];
+    result.authorizedCANAllowed = jsonObject["authorizedCANAllowed"];
+    result.authorizedPINManagement = jsonObject["authorizedPINManagement"];
+    result.authorizedInstallCert = jsonObject["authorizedInstallCert"];
+    result.authorizedInstallQCert = jsonObject["authorizedInstallQCert"];
+    result.applyAmendments = jsonObject["applyAmendments"];
+    result.autoSettings = jsonObject["autoSettings"];
 
-    _readingBuffer = jsonObject["readingBuffer"];
-    _onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
-    _defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
-    _signManagementAction =
+    result.readingBuffer = jsonObject["readingBuffer"];
+    result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
+    result.defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
+    result.signManagementAction =
         SignManagementAction.getByValue(jsonObject["signManagementAction"]);
-    _profilerType = RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
-    _authProcType =
+    result.profilerType =
+        RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
+    result.authProcType =
         RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
-    _baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
+    result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
         jsonObject["baseSMProcedure"]);
-    _pacePasswordType =
+    result.pacePasswordType =
         RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
-    _terminalType = RFIDTerminalType.getByValue(jsonObject["terminalType"]);
+    result.terminalType =
+        RFIDTerminalType.getByValue(jsonObject["terminalType"]);
 
-    _password = jsonObject["password"];
-    _pkdPA = jsonObject["pkdPA"];
-    _pkdEAC = jsonObject["pkdEAC"];
-    _mrz = jsonObject["mrz"];
-    _eSignPINDefault = jsonObject["eSignPINDefault"];
-    _eSignPINNewValue = jsonObject["eSignPINNewValue"];
+    result.password = jsonObject["password"];
+    result.pkdPA = jsonObject["pkdPA"];
+    result.pkdEAC = jsonObject["pkdEAC"];
+    result.mrz = jsonObject["mrz"];
+    result.eSignPINDefault = jsonObject["eSignPINDefault"];
+    result.eSignPINNewValue = jsonObject["eSignPINNewValue"];
 
-    _reprocessParams = ReprocParams.fromJson(jsonObject["reprocessParams"]);
+    result.reprocessParams =
+        ReprocParams.fromJson(jsonObject["reprocessParams"]);
 
-    _eDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
-    _ePassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
-    _eIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
+    result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
+    result.ePassportDataGroups =
+        EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
+    result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
 
-    return this;
+    return result;
   }
 
   /// Allows you to serialize object.
@@ -499,22 +507,18 @@ class RFIDScenario {
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),
-      };
+      }.clearNulls();
 
-  static _setRfidScenario(
-    Map<String, dynamic> json,
-    RFIDScenario instance,
-  ) {
-    if (identical(instance, DocumentReader.instance.rfidScenario))
+  void _set(Map<String, dynamic> json) {
+    if (identical(this, DocumentReader.instance.rfidScenario))
       _bridge.invokeMethod("setRfidScenario", [json]);
+    testSetters.addAll(json);
   }
 
-  Future<void> _sync() async {
-    String response = await _bridge.invokeMethod("getRfidScenario", []);
-    this.fromJson(_decode(response));
-  }
+  void _apply() => _set(toJson());
 
-  _apply() => _setRfidScenario(this.toJson(), this);
+  @visibleForTesting
+  Map<String, dynamic> testSetters = {};
 }
 
 enum RFIDAuthenticationProcedureType {

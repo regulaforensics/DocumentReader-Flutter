@@ -21,7 +21,7 @@ class Authority {
   /// Allows you to deserialize object.
   static Authority? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Authority();
+    var result = Authority();
 
     result._data = jsonObject["data"];
     result._friendlyName = RFIDValue.fromJson(jsonObject["friendlyName"]);
@@ -32,15 +32,9 @@ class Authority {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    List<dynamic> list = [];
-    for (var item in attributes) list.add(item.toJson());
-    result["attributes"] = list;
-    result["data"] = data;
-    result["friendlyName"] = friendlyName?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "attributes": attributes.map((e) => e.toJson()).toList(),
+        "data": data,
+        "friendlyName": friendlyName?.toJson(),
+      }.clearNulls();
 }

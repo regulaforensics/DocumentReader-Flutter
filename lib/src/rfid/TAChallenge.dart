@@ -9,41 +9,41 @@
 part of document_reader;
 
 class TAChallenge {
-  Uint8List get data => _data;
-  late Uint8List _data;
+  ByteData get data => _data;
+  late ByteData _data;
 
-  String? get auxPCD => _auxPCD;
-  String? _auxPCD;
+  String get auxPCD => _auxPCD;
+  late String _auxPCD;
 
-  String? get challengePICC => _challengePICC;
-  String? _challengePICC;
+  String get challengePICC => _challengePICC;
+  late String _challengePICC;
 
-  String? get hashPK => _hashPK;
-  String? _hashPK;
+  String get hashPK => _hashPK;
+  late String _hashPK;
 
-  String? get idPICC => _idPICC;
-  String? _idPICC;
+  String get idPICC => _idPICC;
+  late String _idPICC;
 
   @visibleForTesting
   static TAChallenge? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new TAChallenge();
+    var result = TAChallenge();
 
-    result._data = base64Decode(jsonObject["data"]);
-    result._auxPCD = jsonObject["auxPCD"];
-    result._challengePICC = jsonObject["challengePICC"];
-    result._hashPK = jsonObject["hashPK"];
-    result._idPICC = jsonObject["idPICC"];
+    result._data = _fromBase64(jsonObject["data"])!;
+    result._auxPCD = jsonObject["auxPCD"] ?? "";
+    result._challengePICC = jsonObject["challengePICC"] ?? "";
+    result._hashPK = jsonObject["hashPK"] ?? "";
+    result._idPICC = jsonObject["idPICC"] ?? "";
 
     return result;
   }
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "data": base64Encode(data),
+        "data": _toBase64(data),
         "auxPCD": auxPCD,
         "challengePICC": challengePICC,
         "hashPK": hashPK,
         "idPICC": idPICC,
-      };
+      }.clearNulls();
 }

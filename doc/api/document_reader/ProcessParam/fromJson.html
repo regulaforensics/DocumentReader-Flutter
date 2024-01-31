@@ -31,7 +31,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/ProcessParam-class.html">ProcessParam</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
   </ol>
   <div class="self-name">fromJson</div>
   <form class="search navbar-right" role="search">
@@ -57,14 +57,14 @@
       data-above-sidebar="document_reader&#47;ProcessParam-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">fromJson</span> method 
+<h1><span class="kind-method">fromJson</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
-<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">jsonObject</span></span></li>
+<span class="returntype"><a href="../../document_reader/ProcessParam-class.html">ProcessParam</a></span>
+<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span></li>
 </ol>)
 
       
@@ -79,83 +79,92 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">fromJson(Map&lt;String, dynamic&gt; jsonObject) {
-  _multipageProcessing = jsonObject[&quot;multipageProcessing&quot;];
-  _logs = jsonObject[&quot;logs&quot;];
-  _debugSaveImages = jsonObject[&quot;debugSaveImages&quot;];
-  _debugSaveLogs = jsonObject[&quot;debugSaveLogs&quot;];
-  _returnUncroppedImage = jsonObject[&quot;returnUncroppedImage&quot;];
-  _uvTorchEnabled = jsonObject[&quot;uvTorchEnabled&quot;];
-  _debugSaveCroppedImages = jsonObject[&quot;debugSaveCroppedImages&quot;];
-  _disableFocusingCheck = jsonObject[&quot;disableFocusingCheck&quot;];
-  _debugSaveRFIDSession = jsonObject[&quot;debugSaveRFIDSession&quot;];
-  _doublePageSpread = jsonObject[&quot;doublePageSpread&quot;];
-  _manualCrop = jsonObject[&quot;manualCrop&quot;];
-  _integralImage = jsonObject[&quot;integralImage&quot;];
-  _returnCroppedBarcode = jsonObject[&quot;returnCroppedBarcode&quot;];
-  _checkHologram = jsonObject[&quot;checkHologram&quot;];
-  _checkRequiredTextFields = jsonObject[&quot;checkRequiredTextFields&quot;];
-  _depersonalizeLog = jsonObject[&quot;depersonalizeLog&quot;];
-  _generateDoublePageSpreadImage =
+  <pre class="language-dart"><code class="language-dart">static ProcessParam fromJson(jsonObject) {
+  var result = ProcessParam();
+  result.testSetters = {};
+
+  result.multipageProcessing = jsonObject[&quot;multipageProcessing&quot;];
+  result.logs = jsonObject[&quot;logs&quot;];
+  result.debugSaveImages = jsonObject[&quot;debugSaveImages&quot;];
+  result.debugSaveLogs = jsonObject[&quot;debugSaveLogs&quot;];
+  result.returnUncroppedImage = jsonObject[&quot;returnUncroppedImage&quot;];
+  result.uvTorchEnabled = jsonObject[&quot;uvTorchEnabled&quot;];
+  result.debugSaveCroppedImages = jsonObject[&quot;debugSaveCroppedImages&quot;];
+  result.disableFocusingCheck = jsonObject[&quot;disableFocusingCheck&quot;];
+  result.debugSaveRFIDSession = jsonObject[&quot;debugSaveRFIDSession&quot;];
+  result.doublePageSpread = jsonObject[&quot;doublePageSpread&quot;];
+  result.manualCrop = jsonObject[&quot;manualCrop&quot;];
+  result.integralImage = jsonObject[&quot;integralImage&quot;];
+  result.returnCroppedBarcode = jsonObject[&quot;returnCroppedBarcode&quot;];
+  result.checkLiveness = jsonObject[&quot;checkLiveness&quot;];
+  result.checkRequiredTextFields = jsonObject[&quot;checkRequiredTextFields&quot;];
+  result.depersonalizeLog = jsonObject[&quot;depersonalizeLog&quot;];
+  result.generateDoublePageSpreadImage =
       jsonObject[&quot;generateDoublePageSpreadImage&quot;];
-  _alreadyCropped = jsonObject[&quot;alreadyCropped&quot;];
-  _matchTextFieldMask = jsonObject[&quot;matchTextFieldMask&quot;];
-  _fastDocDetect = jsonObject[&quot;fastDocDetect&quot;];
-  _updateOCRValidityByGlare = jsonObject[&quot;updateOCRValidityByGlare&quot;];
-  _noGraphics = jsonObject[&quot;noGraphics&quot;];
-  _multiDocOnImage = jsonObject[&quot;multiDocOnImage&quot;];
-  _forceReadMrzBeforeLocate = jsonObject[&quot;forceReadMrzBeforeLocate&quot;];
-  _parseBarcodes = jsonObject[&quot;parseBarcodes&quot;];
-  _shouldReturnPackageForReprocess =
+  result.alreadyCropped = jsonObject[&quot;alreadyCropped&quot;];
+  result.matchTextFieldMask = jsonObject[&quot;matchTextFieldMask&quot;];
+  result.fastDocDetect = jsonObject[&quot;fastDocDetect&quot;];
+  result.updateOCRValidityByGlare = jsonObject[&quot;updateOCRValidityByGlare&quot;];
+  result.noGraphics = jsonObject[&quot;noGraphics&quot;];
+  result.multiDocOnImage = jsonObject[&quot;multiDocOnImage&quot;];
+  result.forceReadMrzBeforeLocate = jsonObject[&quot;forceReadMrzBeforeLocate&quot;];
+  result.parseBarcodes = jsonObject[&quot;parseBarcodes&quot;];
+  result.shouldReturnPackageForReprocess =
       jsonObject[&quot;shouldReturnPackageForReprocess&quot;];
-  _disablePerforationOCR = jsonObject[&quot;disablePerforationOCR&quot;];
-  _respectImageQuality = jsonObject[&quot;respectImageQuality&quot;];
-  _splitNames = jsonObject[&quot;splitNames&quot;];
-  _doDetectCan = jsonObject[&quot;doDetectCan&quot;];
-  _useFaceApi = jsonObject[&quot;useFaceApi&quot;];
+  result.disablePerforationOCR = jsonObject[&quot;disablePerforationOCR&quot;];
+  result.respectImageQuality = jsonObject[&quot;respectImageQuality&quot;];
+  result.splitNames = jsonObject[&quot;splitNames&quot;];
+  result.doDetectCan = jsonObject[&quot;doDetectCan&quot;];
+  result.useFaceApi = jsonObject[&quot;useFaceApi&quot;];
 
-  _measureSystem = MeasureSystem.getByValue(jsonObject[&quot;measureSystem&quot;]);
-  _barcodeParserType = jsonObject[&quot;barcodeParserType&quot;];
-  _perspectiveAngle = jsonObject[&quot;perspectiveAngle&quot;];
-  _minDPI = jsonObject[&quot;minDPI&quot;];
-  _imageDpiOutMax = jsonObject[&quot;imageDpiOutMax&quot;];
-  _forceDocID = DocFormat.getByValue(jsonObject[&quot;forceDocID&quot;]);
-  _forceDocFormat = jsonObject[&quot;forceDocFormat&quot;];
-  _shiftExpiryDate = jsonObject[&quot;shiftExpiryDate&quot;];
-  _minimalHolderAge = jsonObject[&quot;minimalHolderAge&quot;];
-  _imageOutputMaxHeight = jsonObject[&quot;imageOutputMaxHeight&quot;];
-  _imageOutputMaxWidth = jsonObject[&quot;imageOutputMaxWidth&quot;];
-  _processAuth = jsonObject[&quot;processAuth&quot;];
-  _convertCase = jsonObject[&quot;convertCase&quot;];
+  result.measureSystem =
+      MeasureSystem.getByValue(jsonObject[&quot;measureSystem&quot;]);
+  result.barcodeParserType = jsonObject[&quot;barcodeParserType&quot;];
+  result.perspectiveAngle = jsonObject[&quot;perspectiveAngle&quot;];
+  result.minDPI = jsonObject[&quot;minDPI&quot;];
+  result.imageDpiOutMax = jsonObject[&quot;imageDpiOutMax&quot;];
+  result.forceDocID = DocFormat.getByValue(jsonObject[&quot;forceDocID&quot;]);
+  result.forceDocFormat = jsonObject[&quot;forceDocFormat&quot;];
+  result.shiftExpiryDate = jsonObject[&quot;shiftExpiryDate&quot;];
+  result.minimalHolderAge = jsonObject[&quot;minimalHolderAge&quot;];
+  result.imageOutputMaxHeight = jsonObject[&quot;imageOutputMaxHeight&quot;];
+  result.imageOutputMaxWidth = jsonObject[&quot;imageOutputMaxWidth&quot;];
+  result.processAuth = jsonObject[&quot;processAuth&quot;];
+  result.convertCase = jsonObject[&quot;convertCase&quot;];
 
-  _dateFormat = jsonObject[&quot;dateFormat&quot;];
-  _scenario = Scenario.getByValue(jsonObject[&quot;scenario&quot;]);
-  _captureButtonScenario = jsonObject[&quot;captureButtonScenario&quot;];
-  _sessionLogFolder = jsonObject[&quot;sessionLogFolder&quot;];
+  result.dateFormat = jsonObject[&quot;dateFormat&quot;];
+  result.scenario = Scenario.getByValue(jsonObject[&quot;scenario&quot;]);
+  result.captureButtonScenario = jsonObject[&quot;captureButtonScenario&quot;];
+  result.sessionLogFolder = jsonObject[&quot;sessionLogFolder&quot;];
 
-  _timeout = _toDouble(jsonObject[&quot;timeout&quot;]);
-  _timeoutFromFirstDetect = _toDouble(jsonObject[&quot;timeoutFromFirstDetect&quot;]);
-  _timeoutFromFirstDocType = _toDouble(jsonObject[&quot;timeoutFromFirstDocType&quot;]);
-  _documentAreaMin = _toDouble(jsonObject[&quot;documentAreaMin&quot;]);
+  result.timeout = _toDouble(jsonObject[&quot;timeout&quot;]);
+  result.timeoutFromFirstDetect =
+      _toDouble(jsonObject[&quot;timeoutFromFirstDetect&quot;]);
+  result.timeoutFromFirstDocType =
+      _toDouble(jsonObject[&quot;timeoutFromFirstDocType&quot;]);
+  result.documentAreaMin = _toDouble(jsonObject[&quot;documentAreaMin&quot;]);
 
-  _documentIDList = jsonObject[&quot;documentIDList&quot;];
-  _barcodeTypes = BarcodeType.fromIntList(jsonObject[&quot;barcodeTypes&quot;]);
+  result.documentIDList = jsonObject[&quot;documentIDList&quot;];
+  result.barcodeTypes = BarcodeType.fromIntList(jsonObject[&quot;barcodeTypes&quot;]);
 
-  _fieldTypesFilter =
+  result.fieldTypesFilter =
       VisualFieldType.fromIntList(jsonObject[&quot;fieldTypesFilter&quot;]);
-  _resultTypeOutput = ResultType.fromIntList(jsonObject[&quot;resultTypeOutput&quot;]);
-  _mrzFormatsFilter =
+  result.resultTypeOutput =
+      ResultType.fromIntList(jsonObject[&quot;resultTypeOutput&quot;]);
+  result.mrzFormatsFilter =
       MRZFormat.fromStringList(jsonObject[&quot;mrzFormatsFilter&quot;]);
-  _documentGroupFilter =
+  result.documentGroupFilter =
       DocType.fromIntList(jsonObject[&quot;documentGroupFilter&quot;]);
+  result.lcidIgnoreFilter = LCID.fromIntList(jsonObject[&quot;lcidIgnoreFilter&quot;]);
+  result.lcidFilter = LCID.fromIntList(jsonObject[&quot;lcidFilter&quot;]);
 
-  _imageQA = ImageQA.fromJson(jsonObject[&quot;imageQA&quot;])!;
-  _rfidParams = RFIDParams.fromJson(jsonObject[&quot;rfidParams&quot;]);
-  _faceApiParams = FaceApiParams.fromJson(jsonObject[&quot;faceApiParams&quot;]);
+  result.imageQA = ImageQA.fromJson(jsonObject[&quot;imageQA&quot;]);
+  result.rfidParams = RFIDParams.fromJson(jsonObject[&quot;rfidParams&quot;]);
+  result.faceApiParams = FaceApiParams.fromJson(jsonObject[&quot;faceApiParams&quot;]);
 
-  _customParams = jsonObject[&quot;customParams&quot;];
+  result.customParams = jsonObject[&quot;customParams&quot;];
 
-  return this;
+  return result;
 }</code></pre>
 </section>
 
@@ -174,7 +183,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/ProcessParam-class.html">ProcessParam</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
 </ol>
 
 
@@ -189,7 +198,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

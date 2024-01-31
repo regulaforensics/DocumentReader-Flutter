@@ -78,23 +78,17 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;type&quot;] = type;
-  result[&quot;version&quot;] = version;
-  result[&quot;issuingCountry&quot;] = issuingCountry;
-  result[&quot;message&quot;] = message;
-  result[&quot;signatureAlgorithm&quot;] = signatureAlgorithm;
-  result[&quot;signature&quot;] = signature?.toJson();
-  result[&quot;certificate&quot;] = certificate?.toJson();
-  List&lt;dynamic&gt; list = [];
-  for (var item in certificateChain) list.add(item.toJson());
-  result[&quot;certificateChain&quot;] = list;
-  result[&quot;notifications&quot;] = notifications;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;type&quot;: type,
+      &quot;version&quot;: version,
+      &quot;issuingCountry&quot;: issuingCountry,
+      &quot;message&quot;: message,
+      &quot;signatureAlgorithm&quot;: signatureAlgorithm,
+      &quot;signature&quot;: signature?.toJson(),
+      &quot;certificate&quot;: certificate?.toJson(),
+      &quot;certificateChain&quot;: certificateChain.map((e) =&gt; e.toJson()).toList(),
+      &quot;notifications&quot;: notifications,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -127,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

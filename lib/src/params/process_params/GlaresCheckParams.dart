@@ -11,30 +11,30 @@ part of document_reader;
 class GlaresCheckParams {
   /// Part of margin from the edges of the image that is ignored by glares check.
   /// Example: value 0.07 is 7% of image area is ignored.
-  double? imgMarginPart;
+  double? get imgMarginPart => _imgMarginPart;
+  double? _imgMarginPart;
 
   /// The maximum allowable part of glared area.
   /// Example: value 0.1 is 10% allowed.
-  double? maxGlaringPart;
+  double? get maxGlaringPart => _maxGlaringPart;
+  double? _maxGlaringPart;
+
+  GlaresCheckParams({double? imgMarginPart, double? maxGlaringPart})
+      : _imgMarginPart = imgMarginPart,
+        _maxGlaringPart = maxGlaringPart;
 
   /// Allows you to deserialize object.
   static GlaresCheckParams? fromJson(jsonObject) {
-    var result = new GlaresCheckParams();
     if (jsonObject == null) return null;
-
-    result.imgMarginPart = _toDouble(jsonObject["imgMarginPart"]);
-    result.maxGlaringPart = _toDouble(jsonObject["maxGlaringPart"]);
-
-    return result;
+    return GlaresCheckParams(
+      imgMarginPart: _toDouble(jsonObject["imgMarginPart"]),
+      maxGlaringPart: _toDouble(jsonObject["maxGlaringPart"]),
+    );
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    if (imgMarginPart != null) result["imgMarginPart"] = imgMarginPart;
-    if (maxGlaringPart != null) result["maxGlaringPart"] = maxGlaringPart;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "imgMarginPart": imgMarginPart,
+        "maxGlaringPart": maxGlaringPart,
+      }.clearNulls();
 }

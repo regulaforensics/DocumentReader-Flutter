@@ -78,17 +78,11 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  List&lt;dynamic&gt; list = [];
-  for (var item in attributes) list.add(item.toJson());
-  result[&quot;attributes&quot;] = list;
-  result[&quot;data&quot;] = data;
-  result[&quot;friendlyName&quot;] = friendlyName?.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;attributes&quot;: attributes.map((e) =&gt; e.toJson()).toList(),
+      &quot;data&quot;: data,
+      &quot;friendlyName&quot;: friendlyName?.toJson(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -121,7 +115,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

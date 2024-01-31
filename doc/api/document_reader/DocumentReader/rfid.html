@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
+<span class="returntype">void</span>
 <span class="name ">rfid</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="rfid-param-config"><span class="type-annotation"><a href="../../document_reader/RFIDConfig-class.html">RFIDConfig</a></span> <span class="parameter-name">config</span></span></li>
 </ol>)
 
@@ -73,14 +73,14 @@
     
 <section class="desc markdown">
   <p>Used for the RFID chip processing.</p>
-<p><code>config</code> Chip reading configuration.</p>
+<p><code>config</code> - chip reading configuration.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">rfid(RFIDConfig config) {
+  <pre class="language-dart"><code class="language-dart">void rfid(RFIDConfig config) {
   config._disableUI
       ? _setRFIDCompletion(config._rfidCompletion!)
       : _setDocumentReaderCompletion(config._completion!);
@@ -93,23 +93,24 @@
   _setTaCertificateCompletion(config.onRequestTACertificates);
   _setTaSignatureCompletion(config.onRequestTASignature);
 
-  var requestType = 0;
-  if (config.onRequestPACertificates != null)
-    requestType = 2;
-  else if (config.onRequestTACertificates != null ||
-      config.onRequestTASignature != null) requestType = 1;
-
   &#47;&#47; Currently(in 6.9) in iOS onChipDetected and onRetryReadChip
   &#47;&#47; are parts of RGLDocReaderRFIDDelegate.
   &#47;&#47; Waiting for iOS rfid rework in 6.10
-  if (Platform.isIOS &amp;&amp;
-      requestType == 0 &amp;&amp;
-      (config.onChipDetected != null || config.onRetryReadChip != null))
-    requestType = 1;
+
+  &#47;&#47; if (Platform.isIOS &amp;&amp;
+  &#47;&#47;     requestType == 0 &amp;&amp;
+  &#47;&#47;     (config.onChipDetected != null || config.onRetryReadChip != null))
+  &#47;&#47;   requestType = 1;
+
+  &#47;&#47; TODO Waiting for iOS rfid rework. Android already implemented.
 
   var nativeFunction = config._disableUI ? &quot;readRFID&quot; : &quot;startRFIDReader&quot;;
 
-  _bridge.invokeMethod(nativeFunction, [requestType]);
+  _bridge.invokeMethod(nativeFunction, [
+    config.onRequestPACertificates != null,
+    config.onRequestTACertificates != null,
+    config.onRequestTASignature != null,
+  ]);
 }</code></pre>
 </section>
 
@@ -143,7 +144,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

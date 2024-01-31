@@ -23,8 +23,8 @@ class BarcodeField {
   PDF417Info? _pdf417Info;
 
   /// Results of reading data from barcode modules.
-  Uint8List? get data => _data;
-  Uint8List? _data;
+  ByteData? get data => _data;
+  ByteData? _data;
 
   /// Indicates an index of the document page, whence the result is received.
   int get pageIndex => _pageIndex;
@@ -33,7 +33,7 @@ class BarcodeField {
   /// Allows you to deserialize object.
   static BarcodeField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new BarcodeField();
+    var result = BarcodeField();
 
     result._barcodeType = BarcodeType.getByValue(jsonObject["barcodeType"])!;
     result._status = BarcodeStatus.getByValue(jsonObject["status"])!;
@@ -45,15 +45,11 @@ class BarcodeField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["barcodeType"] = barcodeType.value;
-    result["status"] = status.value;
-    result["pdf417Info"] = pdf417Info?.toJson();
-    result["data"] = _toBase64(data);
-    result["pageIndex"] = pageIndex;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "barcodeType": barcodeType.value,
+        "status": status.value,
+        "pdf417Info": pdf417Info?.toJson(),
+        "data": _toBase64(data),
+        "pageIndex": pageIndex,
+      }.clearNulls();
 }

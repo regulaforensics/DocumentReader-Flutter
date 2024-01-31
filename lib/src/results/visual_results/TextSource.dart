@@ -25,7 +25,7 @@ class TextSource {
   /// Allows you to deserialize object.
   static TextSource? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new TextSource();
+    var result = TextSource();
 
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
     result._source = jsonObject["source"];
@@ -36,13 +36,9 @@ class TextSource {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["sourceType"] = sourceType.value;
-    result["source"] = source;
-    result["validityStatus"] = validityStatus.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "sourceType": sourceType.value,
+        "source": source,
+        "validityStatus": validityStatus.value,
+      }.clearNulls();
 }

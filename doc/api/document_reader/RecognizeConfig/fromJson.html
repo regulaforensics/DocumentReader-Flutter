@@ -79,19 +79,20 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static RecognizeConfig? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new RecognizeConfig._empty();
+  var result = RecognizeConfig._empty();
 
   result._scenario = Scenario.getByValue(jsonObject[&quot;scenario&quot;]);
   result._onlineProcessingConfig =
       OnlineProcessingConfig.fromJson(jsonObject[&quot;onlineProcessingConfig&quot;]);
-  result.livePortrait = base64Decode(jsonObject[&quot;livePortrait&quot;]);
-  result.extPortrait = base64Decode(jsonObject[&quot;extPortrait&quot;]);
+  result.livePortrait = _imageFromBase64(jsonObject[&quot;livePortrait&quot;]);
+  result.extPortrait = _imageFromBase64(jsonObject[&quot;extPortrait&quot;]);
   result.oneShotIdentification = jsonObject[&quot;oneShotIdentification&quot;];
-  result._image = base64Decode(jsonObject[&quot;image&quot;]);
+  result._image = _imageFromBase64(jsonObject[&quot;image&quot;]);
+  result._data = _fromBase64(jsonObject[&quot;data&quot;]);
   if (jsonObject[&quot;images&quot;] != null) {
     result._images = [];
     for (var item in jsonObject[&quot;images&quot;])
-      result._images!.addSafe(base64Decode(item));
+      result._images!.addSafe(_imageFromBase64(item));
   }
   if (jsonObject[&quot;imageInputData&quot;] != null) {
     result._imageInputData = [];
@@ -133,7 +134,7 @@ static RecognizeConfig? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

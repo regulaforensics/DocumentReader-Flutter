@@ -43,7 +43,7 @@ class RFIDConfig {
 
   /// Regular RFID chip reading.
   ///
-  /// [completion] the block to execute after the chip reading process finishes.
+  /// [completion] - block to execute after the chip reading process finishes.
   RFIDConfig(DocumentReaderCompletion completion) : _completion = completion;
 
   /// RFID chip reading with no UI.
@@ -54,7 +54,7 @@ class RFIDConfig {
   /// instead of [DocumentReaderCompletion], user will be provided
   /// with more in-depth error information.
   ///
-  /// [completion] the block to execute after the chip reading process finishes.
+  /// [completion] - block to execute after the chip reading process finishes.
   RFIDConfig.withoutUI(RFIDCompletion completion)
       : _rfidCompletion = completion,
         _disableUI = true;
@@ -95,7 +95,7 @@ typedef RetryReadChipCompletion = void Function(RFIDException error);
 
 /// Callback for receiving RFID request data
 typedef PaCertificateCompletion = void Function(
-  Uint8List serialNumber,
+  ByteData serialNumber,
   PAResourcesIssuer? issuer,
   PKDCertificateRequest request,
 );
@@ -121,5 +121,5 @@ typedef PKDCertificateRequest = Future<void> Function(
 /// Provided to a user for passing TASignature
 /// to the native part of DocumentReader.
 typedef TASignatureRequest = Future<void> Function(
-  Uint8List? signature,
+  ByteData? signature,
 );

@@ -29,19 +29,19 @@ import com.regula.documentreader.api.internal.permission.BluetoothPermissionHelp
 import com.regula.documentreader.api.internal.permission.BluetoothSettingsHelper.isBluetoothEnabled
 import com.regula.documentreader.api.internal.permission.BluetoothSettingsHelper.isLocationServiceEnabled
 
-private const val REQUEST_ENABLE_LOCATION = 196
-private const val REQUEST_ENABLE_BT = 197
+const val REQUEST_ENABLE_LOCATION = 196
+const val REQUEST_ENABLE_BT = 197
 
 @SuppressLint("StaticFieldLeak")
 var bleManager: BLEWrapper? = null
 
 @RequiresPermission("android.permission.BLUETOOTH_CONNECT")
-private fun requestEnableBle(activity: Activity) {
+fun requestEnableBle(activity: Activity) {
     val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
     activity.startActivityForResult(enableIntent, REQUEST_ENABLE_BT)
 }
 
-private fun requestEnableLocationService(activity: Activity) {
+fun requestEnableLocationService(activity: Activity) {
     val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
     activity.startActivityForResult(myIntent, REQUEST_ENABLE_LOCATION)
 }
@@ -64,7 +64,7 @@ fun isBlePermissionsGranted(activity: Activity): Boolean {
     return true
 }
 
-private fun deniedBluetoothPermissions(activity: Activity): Array<String>? {
+fun deniedBluetoothPermissions(activity: Activity): Array<String>? {
     val result = mutableListOf<String>()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         result.addAll(deniedBluetoothPermission(activity, BLUETOOTH_SCAN))
@@ -74,7 +74,7 @@ private fun deniedBluetoothPermissions(activity: Activity): Array<String>? {
     return result.let { if (it.size > 0) it.toTypedArray() else null }
 }
 
-private fun deniedBluetoothPermission(
+fun deniedBluetoothPermission(
     activity: Activity,
     permission: String
 ): Array<String> {

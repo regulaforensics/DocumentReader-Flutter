@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static GraphicField? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new GraphicField();
+  var result = GraphicField();
 
   result._sourceType = ResultType.getByValue(jsonObject[&quot;sourceType&quot;])!;
   result._fieldType = GraphicFieldType.getByValue(jsonObject[&quot;fieldType&quot;])!;
@@ -90,7 +90,7 @@
   result._originalPageIndex = jsonObject[&quot;originalPageIndex&quot;];
   result._fieldName = jsonObject[&quot;fieldName&quot;];
   result._lightName = jsonObject[&quot;lightName&quot;];
-  result._value = jsonObject[&quot;value&quot;];
+  result._value = _imageFromBase64(jsonObject[&quot;value&quot;]);
   result._fieldRect = Rect.fromJson(jsonObject[&quot;fieldRect&quot;]);
 
   return result;
@@ -127,7 +127,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

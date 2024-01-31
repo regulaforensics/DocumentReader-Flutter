@@ -27,12 +27,12 @@ class TccParams {
 
   /// The bytes of the certificate for a TCC service.
   /// This data will be used instead of loading the certificate via [pfxCertUrl].
-  Uint8List? pfxCert;
+  ByteData? pfxCert;
 
   @visibleForTesting
   static TccParams? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new TccParams();
+    var result = TccParams();
 
     result.serviceUrlTA = jsonObject["serviceUrlTA"];
     result.serviceUrlPA = jsonObject["serviceUrlPA"];
@@ -50,5 +50,5 @@ class TccParams {
         "pfxCertUrl": pfxCertUrl,
         "pfxPassPhrase": pfxPassPhrase,
         "pfxCert": _toBase64(pfxCert)
-      };
+      }.clearNulls();
 }

@@ -63,9 +63,8 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-<span class="name ">setTCCParams</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="setTCCParams-param-params"><span class="type-annotation"><a href="../../document_reader/TccParams-class.html">TccParams</a></span> <span class="parameter-name">params</span>, </span></li>
-<li><span class="parameter" id="setTCCParams-param-successCompletion"><span class="type-annotation"><a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+<span class="name ">setTCCParams</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="setTCCParams-param-params"><span class="type-annotation"><a href="../../document_reader/TccParams-class.html">TccParams</a></span> <span class="parameter-name">params</span></span></li>
 </ol>)
 
       
@@ -73,31 +72,22 @@
     </section>
     
 <section class="desc markdown">
-  <p>Bool 'success' is not only passed to <a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>,
-but for convenience it is also returned as <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a></p>
-<p>Sets the given <code>TCCParams</code> to the RFID  session.
+  <p>Sets the given <code>TCCParams</code> to the RFID  session.
 The parameters are required to be set before starting RFID session.</p>
-<p><code>params</code> TCC related parameters.</p>
-<p><code>successCompletion</code> Completion block of the operation.</p>
-<p>Note: for convinience function returns <code>Future&lt;bool&gt;</code>.
-This is the same <code>bool</code> that is returned by <a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>, indicating
-whether the function has succeeded or not. If you don't need to handle
-an error, you can leave <code>successCompletion</code> as <code>null</code> and only use the
-return value of the function.</p>
+<p><code>params</code> - TCC related parameters.</p>
+<p>Check out <code>SuccessOrError</code> documentation for handling return type.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; setTCCParams(
-  TccParams params,
-  SuccessCompletion? successCompletion,
-) async {
-  return _successCompletionFromJson(
-    await _bridge.invokeMethod(&quot;setTCCParams&quot;, [params.toJson()]),
-    successCompletion,
+  <pre class="language-dart"><code class="language-dart">Future&lt;SuccessOrError&gt; setTCCParams(TccParams params) async {
+  var response = await _bridge.invokeMethod(
+    &quot;setTCCParams&quot;,
+    [params.toJson()],
   );
+  return _successOrErrorFromJson(response);
 }</code></pre>
 </section>
 
@@ -131,7 +121,7 @@ return value of the function.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

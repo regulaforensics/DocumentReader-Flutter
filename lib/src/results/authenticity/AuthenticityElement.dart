@@ -30,7 +30,7 @@ class AuthenticityElement {
   /// Allows you to deserialize object.
   static AuthenticityElement? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new AuthenticityElement();
+    var result = AuthenticityElement();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
     result._elementType =
@@ -44,15 +44,11 @@ class AuthenticityElement {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["status"] = status.value;
-    result["elementType"] = elementType.value;
-    result["elementDiagnose"] = elementDiagnose.value;
-    result["elementTypeName"] = elementTypeName;
-    result["elementDiagnoseName"] = elementDiagnoseName;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "status": status.value,
+        "elementType": elementType.value,
+        "elementDiagnose": elementDiagnose.value,
+        "elementTypeName": elementTypeName,
+        "elementDiagnoseName": elementDiagnoseName,
+      }.clearNulls();
 }

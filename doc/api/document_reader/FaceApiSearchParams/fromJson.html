@@ -80,14 +80,12 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static FaceApiSearchParams? fromJson(jsonObject) {
-  var result = new FaceApiSearchParams();
   if (jsonObject == null) return null;
-
-  result.limit = jsonObject[&quot;limit&quot;];
-  result.threshold = _toDouble(jsonObject[&quot;threshold&quot;])!;
-  result.groupIds = jsonObject[&quot;groupIds&quot;];
-
-  return result;
+  return FaceApiSearchParams(
+    limit: jsonObject[&quot;limit&quot;],
+    threshold: _toDouble(jsonObject[&quot;threshold&quot;])!,
+    groupIds: jsonObject[&quot;groupIds&quot;],
+  );
 }</code></pre>
 </section>
 
@@ -121,7 +119,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

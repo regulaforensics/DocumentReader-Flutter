@@ -53,7 +53,7 @@ class CertificateChain {
   /// Allows you to deserialize object.
   static CertificateChain? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new CertificateChain();
+    var result = CertificateChain();
 
     result._origin = jsonObject["origin"];
     result._type = RFIDCertificateType.getByValue(jsonObject["type"])!;
@@ -74,25 +74,19 @@ class CertificateChain {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["type"] = type.value;
-    List<dynamic> list = [];
-    for (var item in extensions) list.add(item.toJson());
-    result["extensions"] = list;
-    result["fileName"] = fileName?.toJson();
-    result["issuer"] = issuer?.toJson();
-    result["notifications"] = notifications;
-    result["origin"] = origin;
-    result["paStatus"] = paStatus;
-    result["serialNumber"] = serialNumber;
-    result["signatureAlgorithm"] = signatureAlgorithm;
-    result["subject"] = subject?.toJson();
-    result["subjectPKAlgorithm"] = subjectPKAlgorithm;
-    result["validity"] = validity?.toJson();
-    result["version"] = version;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "type": type.value,
+        "extensions": extensions.map((e) => e.toJson()).toList(),
+        "fileName": fileName?.toJson(),
+        "issuer": issuer?.toJson(),
+        "notifications": notifications,
+        "origin": origin,
+        "paStatus": paStatus,
+        "serialNumber": serialNumber,
+        "signatureAlgorithm": signatureAlgorithm,
+        "subject": subject?.toJson(),
+        "subjectPKAlgorithm": subjectPKAlgorithm,
+        "validity": validity?.toJson(),
+        "version": version,
+      }.clearNulls();
 }

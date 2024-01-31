@@ -76,33 +76,17 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
-Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  if (scenario != null) result[&quot;scenario&quot;] = scenario!.value;
-  if (onlineProcessingConfig != null)
-    result[&quot;onlineProcessingConfig&quot;] = onlineProcessingConfig!.toJson();
-  if (livePortrait != null) result[&quot;livePortrait&quot;] = _toBase64(livePortrait);
-  if (extPortrait != null) result[&quot;extPortrait&quot;] = _toBase64(extPortrait);
-  if (image != null) result[&quot;image&quot;] = _toBase64(image);
-  if (images != null) {
-    List&lt;String&gt; list = [];
-    for (Uint8List item in images!) {
-      list.add(base64Encode(item));
-    }
-    result[&quot;images&quot;] = list;
-  }
-  if (imageInputData != null) {
-    List&lt;dynamic&gt; list = [];
-    for (ImageInputData item in imageInputData!) {
-      list.add(item.toJson());
-    }
-    result[&quot;imageInputData&quot;] = list;
-  }
-  result[&quot;oneShotIdentification&quot;] = oneShotIdentification;
-
-  return result;
-}</code></pre>
+Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;scenario&quot;: scenario?.value,
+      &quot;onlineProcessingConfig&quot;: onlineProcessingConfig?.toJson(),
+      &quot;oneShotIdentification&quot;: oneShotIdentification,
+      &quot;livePortrait&quot;: _imageToBase64(livePortrait),
+      &quot;extPortrait&quot;: _imageToBase64(extPortrait),
+      &quot;image&quot;: _imageToBase64(image),
+      &quot;data&quot;: _toBase64(data),
+      &quot;images&quot;: images?.map((e) =&gt; _imageToBase64(e)).toList(),
+      &quot;imageInputData&quot;: imageInputData?.map((e) =&gt; e.toJson()).toList(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -135,7 +119,7 @@ Map&lt;String, dynamic&gt; toJson() {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

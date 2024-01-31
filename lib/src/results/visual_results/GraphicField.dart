@@ -39,8 +39,8 @@ class GraphicField {
   late int _originalPageIndex;
 
   /// An image.
-  String? get value => _value;
-  String? _value;
+  Image? get value => _value;
+  Image? _value;
 
   /// Field area coordinates on the general image.
   Rect? get fieldRect => _fieldRect;
@@ -49,7 +49,7 @@ class GraphicField {
   /// Allows you to deserialize object.
   static GraphicField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new GraphicField();
+    var result = GraphicField();
 
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
     result._fieldType = GraphicFieldType.getByValue(jsonObject["fieldType"])!;
@@ -58,26 +58,22 @@ class GraphicField {
     result._originalPageIndex = jsonObject["originalPageIndex"];
     result._fieldName = jsonObject["fieldName"];
     result._lightName = jsonObject["lightName"];
-    result._value = jsonObject["value"];
+    result._value = _imageFromBase64(jsonObject["value"]);
     result._fieldRect = Rect.fromJson(jsonObject["fieldRect"]);
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["sourceType"] = sourceType.value;
-    result["fieldType"] = fieldType.value;
-    result["fieldName"] = fieldName;
-    result["light"] = light.value;
-    result["lightName"] = lightName;
-    result["pageIndex"] = pageIndex;
-    result["originalPageIndex"] = originalPageIndex;
-    result["value"] = value;
-    result["fieldRect"] = fieldRect?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "sourceType": sourceType.value,
+        "fieldType": fieldType.value,
+        "fieldName": fieldName,
+        "light": light.value,
+        "lightName": lightName,
+        "pageIndex": pageIndex,
+        "originalPageIndex": originalPageIndex,
+        "value": _imageToBase64(value),
+        "fieldRect": fieldRect?.toJson(),
+      }.clearNulls();
 }

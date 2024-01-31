@@ -35,8 +35,21 @@ class RunnerTests: XCTestCase {
                        "onlineProcessingConfig.processParams.uvTorchEnabled"])
     }
     
+    func test_RecognizeConfig2() {
+        compare(name: "RecognizeConfig2", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
+                omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
+                       "onlineProcessingConfig.processParams.uvTorchEnabled"])
+    }
+    
     func test_ScannerConfig() {
         compare(name: "ScannerConfig", fromJson: RGLWJSONConstructor.scannerConfig, generate: RGLWJSONConstructor.generate,
+                omit: ["cameraId",
+                       "onlineProcessingConfig.processParams.sessionLogFolder",
+                       "onlineProcessingConfig.processParams.uvTorchEnabled"])
+    }
+    
+    func test_ScannerConfig2() {
+        compare(name: "ScannerConfig2", fromJson: RGLWJSONConstructor.scannerConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["cameraId",
                        "onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled"])
@@ -118,30 +131,30 @@ class RunnerTests: XCTestCase {
     
     // info
     
-    func test_DocReaderDocumentsDatabase() {
-        compare(name: "DocReaderDocumentsDatabase", fromJson: RGLWJSONConstructor.docReaderDocumentsDatabase, generate: RGLWJSONConstructor.generate)
+    func test_DocumentsDatabase() {
+        compare(name: "DocumentsDatabase", fromJson: RGLWJSONConstructor.docReaderDocumentsDatabase, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderScenario() {
-        compare(name: "DocumentReaderScenario", fromJson: RGLWJSONConstructor.scenario, generate: RGLWJSONConstructor.generate)
+    func test_DocReaderScenario() {
+        compare(name: "DocReaderScenario", fromJson: RGLWJSONConstructor.scenario, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderException() {
-        compare(name: "DocumentReaderException", fromJson: RGLWJSONConstructor.error, generate: RGLWJSONConstructor.generateError)
+    func test_DocReaderException() {
+        compare(name: "DocReaderException", fromJson: RGLWJSONConstructor.error, generate: RGLWJSONConstructor.generateError)
     }
     
     // results.authenticity
     
-    func test_DocumentReaderAuthenticityElement() {
-        compare(name: "DocumentReaderAuthenticityElement", fromJson: RGLWJSONConstructor.authenticityElement, generate: RGLWJSONConstructor.generate)
+    func test_AuthenticityElement() {
+        compare(name: "AuthenticityElement", fromJson: RGLWJSONConstructor.authenticityElement, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderAuthenticityCheck() {
-        compare(name: "DocumentReaderAuthenticityCheck", fromJson: RGLWJSONConstructor.authenticityCheck, generate: RGLWJSONConstructor.generate)
+    func test_AuthenticityCheck() {
+        compare(name: "AuthenticityCheck", fromJson: RGLWJSONConstructor.authenticityCheck, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderAuthenticityResult() {
-        compare(name: "DocumentReaderAuthenticityResult", fromJson: RGLWJSONConstructor.documentReaderAuthenticityResult, generate: RGLWJSONConstructor.generate)
+    func test_AuthenticityResult() {
+        compare(name: "AuthenticityResult", fromJson: RGLWJSONConstructor.documentReaderAuthenticityResult, generate: RGLWJSONConstructor.generate)
     }
     
     // results.barcode
@@ -150,12 +163,12 @@ class RunnerTests: XCTestCase {
         compare(name: "PDF417Info", fromJson: RGLWJSONConstructor.pdf417Info, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderBarcodeField() {
-        compare(name: "DocumentReaderBarcodeField", fromJson: RGLWJSONConstructor.documentReaderBarcodeField, generate: RGLWJSONConstructor.generate)
+    func test_BarcodeField() {
+        compare(name: "BarcodeField", fromJson: RGLWJSONConstructor.documentReaderBarcodeField, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderBarcodeResult() {
-        compare(name: "DocumentReaderBarcodeResult", fromJson: RGLWJSONConstructor.documentReaderBarcodeResult, generate: RGLWJSONConstructor.generate)
+    func test_BarcodeResult() {
+        compare(name: "BarcodeResult", fromJson: RGLWJSONConstructor.documentReaderBarcodeResult, generate: RGLWJSONConstructor.generate)
     }
     
     // results.image_quality
@@ -194,8 +207,8 @@ class RunnerTests: XCTestCase {
         compare(name: "Application", fromJson: RGLWJSONConstructor.application, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_Value() {
-        compare(name: "Value", fromJson: RGLWJSONConstructor.rfidValue, generate: RGLWJSONConstructor.generate)
+    func test_RFIDValue() {
+        compare(name: "RFIDValue", fromJson: RGLWJSONConstructor.rfidValue, generate: RGLWJSONConstructor.generate)
     }
     
     func test_Attribute() {
@@ -214,8 +227,8 @@ class RunnerTests: XCTestCase {
         compare(name: "Extension", fromJson: RGLWJSONConstructor.extension, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_Validity() {
-        compare(name: "Validity", fromJson: RGLWJSONConstructor.validity, generate: RGLWJSONConstructor.generate)
+    func test_RFIDValidity() {
+        compare(name: "RFIDValidity", fromJson: RGLWJSONConstructor.validity, generate: RGLWJSONConstructor.generate)
     }
     
     func test_CertificateChain() {
@@ -248,82 +261,90 @@ class RunnerTests: XCTestCase {
     
     // results.status
     
-    func test_DetailsOptical() {
-        compare(name: "DetailsOptical", fromJson: RGLWJSONConstructor.opticalStatus, generate: RGLWJSONConstructor.generate)
+    func test_OpticalStatus() {
+        compare(name: "OpticalStatus", fromJson: RGLWJSONConstructor.opticalStatus, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DetailsRFID() {
-        compare(name: "DetailsRFID", fromJson: RGLWJSONConstructor.rfidSessionDataStatus, generate: RGLWJSONConstructor.generate)
+    func test_RFIDStatus() {
+        compare(name: "RFIDStatus", fromJson: RGLWJSONConstructor.rfidSessionDataStatus, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderResultsStatus() {
-        compare(name: "DocumentReaderResultsStatus", fromJson: RGLWJSONConstructor.documentReaderResultsStatus, generate: RGLWJSONConstructor.generate)
+    func test_ResultsStatus() {
+        compare(name: "ResultsStatus", fromJson: RGLWJSONConstructor.documentReaderResultsStatus, generate: RGLWJSONConstructor.generate)
     }
     
     // results.visual_results
     
     func test_Rect() {
-        let rect = readJSONFile(forName: "Rect")!
-        XCTAssertEqual(rect as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.rect(fromJson: rect))! as NSDictionary?)
+        do{
+            var rect = try readJSONFile(forName: "Rect")!
+            XCTAssertEqual(rect as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.rect(fromJson: rect))! as NSDictionary?)
+            rect = try readJSONFile(forName: "RectNullable")!
+            XCTAssertEqual(rect as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.rect(fromJson: rect))! as NSDictionary?)
+        }catch{}
     }
     
-    func test_DocumentReaderComparison() {
-        compare(name: "DocumentReaderComparison", fromJson: RGLWJSONConstructor.documentReaderComparison, generate: RGLWJSONConstructor.generate)
+    func test_Comparison() {
+        compare(name: "Comparison", fromJson: RGLWJSONConstructor.documentReaderComparison, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderGraphicField() {
-        compare(name: "DocumentReaderGraphicField", fromJson: RGLWJSONConstructor.documentReaderGraphicField, generate: RGLWJSONConstructor.generate)
+    func test_GraphicField() {
+        compare(name: "GraphicField", fromJson: RGLWJSONConstructor.documentReaderGraphicField, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderGraphicResult() {
-        compare(name: "DocumentReaderGraphicResult", fromJson: RGLWJSONConstructor.documentReaderGraphicResult, generate: RGLWJSONConstructor.generate)
+    func test_GraphicResult() {
+        compare(name: "GraphicResult", fromJson: RGLWJSONConstructor.documentReaderGraphicResult, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderRFIDOrigin() {
-        compare(name: "DocumentReaderRFIDOrigin", fromJson: RGLWJSONConstructor.documentReaderRfidOrigin, generate: RGLWJSONConstructor.generate)
+    func test_RFIDOrigin() {
+        compare(name: "RFIDOrigin", fromJson: RGLWJSONConstructor.documentReaderRfidOrigin, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderSymbol() {
-        compare(name: "DocumentReaderSymbol", fromJson: RGLWJSONConstructor.documentReaderSymbol, generate: RGLWJSONConstructor.generate)
+    func test_Symbol() {
+        compare(name: "Symbol", fromJson: RGLWJSONConstructor.documentReaderSymbol, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderValidity() {
-        compare(name: "DocumentReaderValidity", fromJson: RGLWJSONConstructor.documentReaderValidity, generate: RGLWJSONConstructor.generate)
+    func test_Validity() {
+        compare(name: "Validity", fromJson: RGLWJSONConstructor.documentReaderValidity, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderValue() {
-        compare(name: "DocumentReaderValue", fromJson: RGLWJSONConstructor.documentReaderValue, generate: RGLWJSONConstructor.generate)
+    func test_Value() {
+        compare(name: "Value", fromJson: RGLWJSONConstructor.documentReaderValue, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderTextField() {
-        compare(name: "DocumentReaderTextField", fromJson: RGLWJSONConstructor.documentReaderTextField, generate: RGLWJSONConstructor.generate)
+    func test_TextField() {
+        compare(name: "TextField", fromJson: RGLWJSONConstructor.documentReaderTextField, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderTextSource() {
-        compare(name: "DocumentReaderTextSource", fromJson: RGLWJSONConstructor.documentReaderTextSource, generate: RGLWJSONConstructor.generate)
+    func test_TextSource() {
+        compare(name: "TextSource", fromJson: RGLWJSONConstructor.documentReaderTextSource, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderTextResult() {
-        compare(name: "DocumentReaderTextResult", fromJson: RGLWJSONConstructor.documentReaderTextResult, generate: RGLWJSONConstructor.generate)
+    func test_TextResult() {
+        compare(name: "TextResult", fromJson: RGLWJSONConstructor.documentReaderTextResult, generate: RGLWJSONConstructor.generate)
     }
     
     // results
     
-    func test_DocumentReaderDocumentType() {
-        compare(name: "DocumentReaderDocumentType", fromJson: RGLWJSONConstructor.documentReaderDocumentType, generate: RGLWJSONConstructor.generate)
+    func test_DocumentType() {
+        compare(name: "DocumentType", fromJson: RGLWJSONConstructor.documentReaderDocumentType, generate: RGLWJSONConstructor.generate)
     }
     
     func test_Coordinate() {
-        let coordinate = readJSONFile(forName: "Coordinate")!
-        XCTAssertEqual(coordinate as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.point(fromJson: coordinate))! as NSDictionary?)
+        do{
+            var coordinate = try readJSONFile(forName: "Coordinate")!
+            XCTAssertEqual(coordinate as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.point(fromJson: coordinate))! as NSDictionary?)
+            coordinate = try readJSONFile(forName: "CoordinateNullable")!
+            XCTAssertEqual(coordinate as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.point(fromJson: coordinate))! as NSDictionary?)
+        } catch {}
     }
     
-    func test_ElementPosition() {
-        compare(name: "ElementPosition", fromJson: RGLWJSONConstructor.position, generate: RGLWJSONConstructor.generate)
+    func test_Position() {
+        compare(name: "Position", fromJson: RGLWJSONConstructor.position, generate: RGLWJSONConstructor.generate)
     }
     
-    func test_DocumentReaderResults() {
-        compare(name: "DocumentReaderResults", fromJson: RGLWJSONConstructor.documentReaderResults, generate: RGLWJSONConstructor.generate);
+    func test_Results() {
+        compare(name: "Results", fromJson: RGLWJSONConstructor.documentReaderResults, generate: RGLWJSONConstructor.generate);
     }
     
     // rfid
@@ -348,24 +369,39 @@ class RunnerTests: XCTestCase {
         compare(name: "TccParams", fromJson: RGLWJSONConstructor.tccParams, generate: RGLWJSONConstructor.generate)
     }
     
+    func compareSingle<T>(name: String,
+                    fromJson: ([AnyHashable : Any]?) -> T?,
+                    generate: (T?) -> [AnyHashable: Any]?,
+                    omit: [String] = []
+    ) {
+        do {
+            var expected = try readJSONFile(forName: name)!
+            for s in omit {
+                expected = omitDeep(dict: expected, path: s.components(separatedBy: "."), index: 0)
+            }
+            var actual = generate(fromJson(expected))!
+            for s in omit {
+                actual = omitDeep(dict: actual as! [String: Any], path: s.components(separatedBy: "."), index: 0)
+            }
+            XCTAssertEqual(expected as NSDictionary?, actual as NSDictionary?)
+        } catch { }
+    }
+    
     func compare<T>(name: String,
                     fromJson: ([AnyHashable : Any]?) -> T?,
                     generate: (T?) -> [AnyHashable: Any]?,
                     omit: [String] = []
     ) {
-        var expected = readJSONFile(forName: name)!
-        for s in omit {
-            expected = omitDeep(dict: expected, path: s.components(separatedBy: "."), index: 0)
-        }
-        var actual = generate(fromJson(expected))!
-        for s in omit {
-            actual = omitDeep(dict: actual as! [String: Any], path: s.components(separatedBy: "."), index: 0)
-        }
-        XCTAssertEqual(expected as NSDictionary?, actual as NSDictionary?)
+        compareSingle(name: name, fromJson: fromJson, generate: generate, omit: omit)
+        compareSingle(name: name + "Nullable", fromJson: fromJson, generate: generate, omit: omit)
     }
     
     func omitDeep(dict: [String: Any], path: [String], index: Int) -> [String: Any] {
         var mutableDict = dict
+        if(dict[path[index]] == nil) {
+            // not found
+            return mutableDict
+        }
         if (index < path.count - 1) {
             mutableDict[path[index]] = omitDeep(dict: dict[path[index]] as! [String : Any], path: path, index: index + 1)
         } else {
@@ -374,14 +410,18 @@ class RunnerTests: XCTestCase {
         return mutableDict
     }
     
-    func readJSONFile(forName name: String) -> [String: Any]? {
+    func readJSONFile(forName name: String) throws -> [String: Any]? {
         do {
-            let path = Bundle(for: RunnerTests.self).path(forResource: "json/" + name, ofType: "json")!
-            let data = try String(contentsOfFile: path).data(using: .utf8)!
+            let path = Bundle(for: RunnerTests.self).path(forResource: "json/" + name, ofType: "json")
+            if(path == nil){
+                throw "file not found"
+            }
+            let data = try String(contentsOfFile: path!).data(using: .utf8)!
             return try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? [String: Any]
         } catch {
-            print(error)
+            throw(error)
         }
-        return nil
     }
 }
+
+extension String: Error {}

@@ -18,7 +18,7 @@ class DocReaderException {
   @visibleForTesting
   static DocReaderException? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DocReaderException();
+    var result = DocReaderException();
 
     result._code = ErrorCodes.getByValue(jsonObject["code"])!;
     result._message = jsonObject["message"] ?? "";
@@ -30,7 +30,7 @@ class DocReaderException {
   Map<String, dynamic> toJson() => {
         "code": code.value,
         "message": message,
-      };
+      }.clearNulls();
 }
 
 /// Enum contains all possible error codes

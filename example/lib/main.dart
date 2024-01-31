@@ -6,7 +6,6 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_document_reader_api_example/extra/rfid_custom_ui.dart';
 import 'dart:async';
@@ -25,7 +24,6 @@ class MyAppState extends State<MyApp> {
   var selectedScenario = Scenario.MRZ;
   List<DocReaderScenario> scenarios = [];
   Object setStatus(String s) => {setState(() => status = s)};
-  late SuccessCompletion successCompletion;
 
   var doRfid = false;
   var isReadingRfid = false;
@@ -34,7 +32,8 @@ class MyAppState extends State<MyApp> {
 
   var colorPrimary = Colors.blue;
 
-  initPlatformState() async {
+  void init() async {
+    super.initState();
     if (!await prepareDatabase()) return;
     if (!await initializeReader()) return;
 
@@ -42,7 +41,7 @@ class MyAppState extends State<MyApp> {
     setState(() => scenarios = documentReader.availableScenarios);
   }
 
-  handleCompletion(
+  void handleCompletion(
       DocReaderAction action, Results? results, DocReaderException? error) {
     if (error != null) print(error.message);
     if (action.stopped() && !shouldRfid(results))
@@ -50,7 +49,7 @@ class MyAppState extends State<MyApp> {
     else if (action.finished() && shouldRfid(results)) readRfid();
   }
 
-  displayResults(Results? results) async {
+  void displayResults(Results? results) async {
     isReadingRfid = false;
     clearResults();
     if (results == null) return;
@@ -64,14 +63,12 @@ class MyAppState extends State<MyApp> {
 
     setState(() {
       status = name ?? "Ready";
-      if (newDocImage != null)
-        docImage = Image.memory(newDocImage.data!.contentAsBytes());
-      if (newPortrait != null)
-        portrait = Image.memory(newPortrait.data!.contentAsBytes());
+      if (newDocImage != null) docImage = newDocImage;
+      if (newPortrait != null) portrait = newPortrait;
     });
   }
 
-  clearResults() {
+  void clearResults() {
     setState(() {
       status = "Ready";
       docImage = Image.asset('assets/images/id.png');
@@ -79,18 +76,18 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  readRfid() {
+  void readRfid() {
     isReadingRfid = true;
     if (rfidOption == RfidOption.Basic) basicRfid();
     if (rfidOption == RfidOption.Advanced) advancedRfid();
     if (rfidOption == RfidOption.Custom) rfidCustomUiExample.run();
   }
 
-  basicRfid() {
+  void basicRfid() {
     documentReader.rfid(RFIDConfig(handleCompletion));
   }
 
-  advancedRfid() {
+  void advancedRfid() {
     var config = RFIDConfig(handleCompletion);
 
     config.onChipDetected = () => print("Chip detected, reading rfid.");
@@ -135,7 +132,7 @@ class MyAppState extends State<MyApp> {
         color: const Color.fromARGB(5, 10, 10, 10),
         child: ListView.builder(
           itemCount: scenarios.length,
-          itemBuilder: (BuildContext context, int index) => radioButton(index),
+          itemBuilder: (_, int index) => radioButton(index),
         ),
       ),
     );
@@ -164,16 +161,16 @@ class MyAppState extends State<MyApp> {
           button("Scan document", () {
             clearResults();
             documentReader.scan(
-              ScannerConfig.fromScenario(selectedScenario),
+              ScannerConfig.withScenario(selectedScenario),
               handleCompletion,
             );
           }),
           button("Scan image", () async {
             clearResults();
             documentReader.recognize(
-              RecognizeConfig.fromScenario(
+              RecognizeConfig.withScenario(
                 selectedScenario,
-                RecognizeData.fromImages(await getImages()),
+                RecognizeData.withImages(await getImages()),
               ),
               handleCompletion,
             );
@@ -202,7 +199,7 @@ class MyAppState extends State<MyApp> {
   }
 
   Widget radioButton(int index) {
-    Radio radio = new Radio(
+    Radio radio = Radio(
       value: scenarios[index].name,
       groupValue: selectedScenario.value,
       onChanged: (value) => setState(() {
@@ -239,52 +236,49 @@ class MyAppState extends State<MyApp> {
   }
 
   Future<bool> prepareDatabase() async {
-    return await documentReader.prepareDatabase(
+    var (success, error) = await documentReader.prepareDatabase(
       "Full",
       (progress) => setStatus("Downloading database: $progress%"),
-      successCompletion,
     );
+
+    if (!success) {
+      setStatus(error!.message);
+      printError(error);
+    }
+    return success;
   }
 
   Future<bool> initializeReader() async {
     setStatus("Initializing...");
-    rfidCustomUiExample =
-        RFIDCustomUI(context, setState, setStatus, displayResults);
-    ByteData byteData = await rootBundle.load("assets/regula.license");
-    Uint8List license = byteData.buffer.asUint8List(
-      byteData.offsetInBytes,
-      byteData.lengthInBytes,
-    );
-    var initConfig = new InitConfig(license);
+
+    ByteData license = await rootBundle.load("assets/regula.license");
+    var initConfig = InitConfig(license);
     initConfig.delayedNNLoad = true;
-    return await documentReader.initializeReader(initConfig, successCompletion);
+    var (success, error) = await documentReader.initializeReader(initConfig);
+
+    if (!success) {
+      setStatus(error!.message);
+      printError(error);
+    }
+    rfidCustomUiExample = RFIDCustomUI(setState, setStatus, displayResults);
+    return success;
   }
 
-  Future<List<Uint8List>> getImages() async {
+  void printError(DocReaderException error) =>
+      print("Error: \n  code: ${error.code}\n  message: ${error.message}");
+
+  Future<List<Image>> getImages() async {
     setStatus("Processing image...");
-    List<XFile>? files = await ImagePicker().pickMultiImage();
-    List<Uint8List> result = [];
+    List<XFile> files = await ImagePicker().pickMultiImage();
+    List<Image> result = [];
     for (XFile file in files) {
-      result.add(io.File(file.path).readAsBytesSync());
+      result.add(Image.memory(await file.readAsBytes()));
     }
     return result;
   }
 
   @override
-  initState() {
-    super.initState();
-
-    successCompletion = (success, error) {
-      if (success) return;
-      setStatus("Something went wrong");
-      print("ERROR: " + error!.code.toString());
-    };
-
-    initPlatformState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     final ThemeData theme = ThemeData();
     return MaterialApp(
       theme: theme.copyWith(
@@ -307,6 +301,12 @@ class MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 }
 

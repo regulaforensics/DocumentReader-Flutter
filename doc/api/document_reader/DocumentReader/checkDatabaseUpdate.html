@@ -73,16 +73,14 @@
     
 <section class="desc markdown">
   <p>Allows you to to check database update.</p>
-<p><code>databaseID</code> An identifier of the database.</p>
+<p><code>databaseID</code> - identifier of the database.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;DocumentsDatabase?&gt; checkDatabaseUpdate(
-  String databaseID,
-) async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;DocumentsDatabase?&gt; checkDatabaseUpdate(String databaseID) async {
   String? response = await _bridge.invokeMethod(
     &quot;checkDatabaseUpdate&quot;,
     [databaseID],
@@ -121,7 +119,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

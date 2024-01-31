@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Results? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new Results();
+  var result = Results();
 
   result._chipPage = jsonObject[&quot;chipPage&quot;];
   result._processingFinishedStatus = ProcessingFinishedStatus.getByValue(
@@ -94,17 +94,17 @@
   if (jsonObject[&quot;documentPosition&quot;] != null) {
     result._documentPosition = [];
     for (var item in jsonObject[&quot;documentPosition&quot;])
-      result._documentPosition!.addSafe(ElementPosition.fromJson(item));
+      result._documentPosition!.addSafe(Position.fromJson(item));
   }
   if (jsonObject[&quot;barcodePosition&quot;] != null) {
     result._barcodePosition = [];
     for (var item in jsonObject[&quot;barcodePosition&quot;])
-      result._barcodePosition!.addSafe(ElementPosition.fromJson(item));
+      result._barcodePosition!.addSafe(Position.fromJson(item));
   }
   if (jsonObject[&quot;mrzPosition&quot;] != null) {
     result._mrzPosition = [];
     for (var item in jsonObject[&quot;mrzPosition&quot;])
-      result._mrzPosition!.addSafe(ElementPosition.fromJson(item));
+      result._mrzPosition!.addSafe(Position.fromJson(item));
   }
   if (jsonObject[&quot;imageQuality&quot;] != null) {
     result._imageQuality = [];
@@ -122,7 +122,7 @@
   result._authenticityResult =
       AuthenticityResult.fromJson(jsonObject[&quot;authenticityResult&quot;]);
   result._barcodeResult = BarcodeResult.fromJson(jsonObject[&quot;barcodeResult&quot;]);
-  result._status = ResultsStatus.fromJson(jsonObject[&quot;status&quot;]);
+  result._status = ResultsStatus.fromJson(jsonObject[&quot;status&quot;])!;
   result._vdsncData = VDSNCData.fromJson(jsonObject[&quot;vdsncData&quot;]);
 
   return result;
@@ -159,7 +159,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

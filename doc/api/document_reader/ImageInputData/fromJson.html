@@ -79,7 +79,7 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static ImageInputData? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new ImageInputData(base64Decode(jsonObject[&quot;image&quot;]));
+  var result = ImageInputData(_imageFromBase64(jsonObject[&quot;image&quot;])!);
 
   result._pageIndex = jsonObject[&quot;pageIndex&quot;];
   result._light = Lights.getByValue(jsonObject[&quot;light&quot;])!;
@@ -118,7 +118,7 @@ static ImageInputData? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

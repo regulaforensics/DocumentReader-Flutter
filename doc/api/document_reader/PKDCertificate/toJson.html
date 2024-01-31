@@ -76,16 +76,11 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
-Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {
-    &quot;binaryData&quot;: base64Encode(binaryData),
-    &quot;resourceType&quot;: resourceType.value
-  };
-
-  if (privateKey != null) result[&quot;privateKey&quot;] = base64Encode(privateKey!);
-
-  return result;
-}</code></pre>
+Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;binaryData&quot;: _toBase64(binaryData),
+      &quot;resourceType&quot;: resourceType.value,
+      &quot;privateKey&quot;: _toBase64(privateKey)
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -118,7 +113,7 @@ Map&lt;String, dynamic&gt; toJson() {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

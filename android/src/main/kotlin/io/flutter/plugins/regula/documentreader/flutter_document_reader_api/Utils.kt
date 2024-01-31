@@ -28,7 +28,7 @@ fun Any?.toSendable(): Any? = this?.let {
     else this
 }
 
-private fun arrayListToJSONArray(list: ArrayList<*>): JSONArray {
+fun arrayListToJSONArray(list: ArrayList<*>): JSONArray {
     val result = JSONArray()
     for (i in list.indices) {
         when {
@@ -41,7 +41,7 @@ private fun arrayListToJSONArray(list: ArrayList<*>): JSONArray {
     return result
 }
 
-private fun hashMapToJSONObject(map: HashMap<String, *>): JSONObject {
+fun hashMapToJSONObject(map: HashMap<String, *>): JSONObject {
     val result = JSONObject()
     for ((key, value) in map) {
         when {
@@ -52,13 +52,6 @@ private fun hashMapToJSONObject(map: HashMap<String, *>): JSONObject {
         }
     }
     return result
-}
-
-fun <T> args(args: ArrayList<Any?>, index: Int) = when {
-    args[index] == null -> null
-    args[index]!!.javaClass == HashMap::class.java -> hashMapToJSONObject(args[index] as HashMap<String, *>) as T
-    args[index]!!.javaClass == ArrayList::class.java -> arrayListToJSONArray(args[index] as ArrayList<*>) as T
-    else -> args[index] as T
 }
 
 fun <T> generateList(list: List<T>?) = list?.let {
@@ -90,7 +83,7 @@ fun <T> listFromJSON(input: JSONArray): List<T> {
 
 fun <T> arrayFromJSON(input: JSONArray?, fromJson: (JSONObject?) -> T, result: Array<T>) = input?.let {
     for (i in 0 until input.length())
-        result[i] = (fromJson(input.getJSONObject(i)))
+        result[i] = fromJson(input.getJSONObject(i))
     result
 }
 
@@ -176,14 +169,17 @@ fun paintCapToInt(cap: Paint.Cap) = when (cap) {
     Paint.Cap.SQUARE -> 2
 }
 
-fun stringMapFromJson(input: JSONObject): Map<String, String> {
-    val result: MutableMap<String, String> = HashMap()
-    val keys = input.keys()
+fun JSONObject.forEach(action: (String, Any?) -> Unit) {
+    val keys: Iterator<String> = keys()
     while (keys.hasNext()) {
         val key = keys.next()
-        val value = input.getString(key)
-        result[key] = value
+        action(key, get(key))
     }
+}
+
+fun stringMapFromJson(input: JSONObject): Map<String, String> {
+    val result: MutableMap<String, String> = HashMap()
+    input.forEach { key, value -> result[key] = value as String }
     return result
 }
 
@@ -221,12 +217,12 @@ internal object Convert {
         BitmapDrawable(context.resources, Bitmap.createScaledBitmap(bitmap, width, height, false))
     }
 
-    fun bitmapFromDrawable(drawable: Drawable?) = drawable?.let {
-        if (drawable is BitmapDrawable) if (drawable.bitmap != null) return drawable.bitmap
+    fun drawableToBase64(drawable: Drawable?) = drawable?.let {
+        if (drawable is BitmapDrawable) if (drawable.bitmap != null) return bitmapToBase64(drawable.bitmap)
         val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) else Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
-        bitmap
+        bitmapToBase64(bitmap)
     }
 }

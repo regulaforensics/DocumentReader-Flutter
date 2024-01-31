@@ -78,20 +78,16 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;url&quot;] = url;
-  result[&quot;mode&quot;] = mode;
-  result[&quot;threshold&quot;] = threshold;
-  result[&quot;serviceTimeout&quot;] = serviceTimeout;
-  if (proxy != null) result[&quot;proxy&quot;] = proxy;
-  if (proxyPassword != null) result[&quot;proxyPassword&quot;] = proxyPassword;
-  if (proxyType != null) result[&quot;proxyType&quot;] = proxyType;
-  if (searchParams != null) result[&quot;searchParams&quot;] = searchParams!.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;url&quot;: url,
+      &quot;mode&quot;: mode,
+      &quot;threshold&quot;: threshold,
+      &quot;serviceTimeout&quot;: serviceTimeout,
+      &quot;proxy&quot;: proxy,
+      &quot;proxyPassword&quot;: proxyPassword,
+      &quot;proxyType&quot;: proxyType,
+      &quot;searchParams&quot;: searchParams?.toJson(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -124,7 +120,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

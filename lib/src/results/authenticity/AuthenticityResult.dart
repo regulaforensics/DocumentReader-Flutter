@@ -18,7 +18,7 @@ class AuthenticityResult {
   /// Allows you to deserialize object.
   static AuthenticityResult? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new AuthenticityResult();
+    var result = AuthenticityResult();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
     for (var item in jsonObject["checks"])
@@ -28,14 +28,8 @@ class AuthenticityResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["status"] = status.value;
-    List<dynamic> list = [];
-    for (var item in checks) list.add(item.toJson());
-    result["checks"] = list;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "status": status.value,
+        "checks": checks.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }

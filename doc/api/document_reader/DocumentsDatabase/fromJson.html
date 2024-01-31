@@ -79,7 +79,7 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static DocumentsDatabase? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new DocumentsDatabase();
+  var result = DocumentsDatabase();
 
   result._databaseID = jsonObject[&quot;databaseID&quot;];
   result._version = jsonObject[&quot;version&quot;];
@@ -123,7 +123,7 @@ static DocumentsDatabase? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

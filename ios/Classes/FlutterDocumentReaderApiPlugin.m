@@ -187,15 +187,8 @@ FlutterEventSink RGLWOnCustomButtonTappedEvent;
 @implementation FlutterDocumentReaderApiPlugin
 
 static FlutterMethodChannel * _channel;
-static NSNumber * _databasePercentageDownloaded;
 + (FlutterMethodChannel *)channel { return _channel; }
 + (void)setChannel:(FlutterMethodChannel *)newChannel { _channel = newChannel; }
-+ (NSNumber*)databasePercentageDownloaded{ return _databasePercentageDownloaded; }
-+ (void)setDatabasePercentageDownloaded:(NSNumber *)value { _databasePercentageDownloaded = value; }
-
-RGLRFIDCertificatesCallback paCertificateCompletion;
-RGLRFIDCertificatesCallback taCertificateCompletion;
-RGLWRFIDSignatureCallback taSignatureCompletion;
 
 RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable data) {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -232,8 +225,8 @@ RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable dat
     NSString* action = call.method;
     NSMutableArray* args = call.arguments;
     
-    RGLWCallback successCallback = ^(id _Nullable response){
-        result(response);
+    RGLWCallback successCallback = ^(id _Nullable data){
+        result(data);
     };
     RGLWCallback errorCallback = ^(NSString* error){
         result([FlutterError errorWithCode:@"error" message:error details:nil]);
@@ -373,6 +366,14 @@ RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable dat
         errorCallback([NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action]);
 }
 
+static NSNumber * _databasePercentageDownloaded;
++ (NSNumber*)databasePercentageDownloaded{ return _databasePercentageDownloaded; }
++ (void)setDatabasePercentageDownloaded:(NSNumber *)value { _databasePercentageDownloaded = value; }
+
+RGLRFIDCertificatesCallback paCertificateCompletion;
+RGLRFIDCertificatesCallback taCertificateCompletion;
+RGLWRFIDSignatureCallback taSignatureCompletion;
+
 - (void) getDocumentReaderIsReady:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     successCallback([RGLDocReader.shared isDocumentReaderIsReady] ? @YES : @NO);
 }
@@ -504,8 +505,10 @@ RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable dat
 }
 
 - (void) recognize:(NSDictionary*)config :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    UIViewController *currentViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-    [RGLDocReader.shared recognizeImageFromPresenter:currentViewController config:[RGLWJSONConstructor recognizeConfigFromJson:config] completion:[self getCompletion]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIViewController *currentViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+        [RGLDocReader.shared recognizeImageFromPresenter:currentViewController config:[RGLWJSONConstructor recognizeConfigFromJson:config] completion:[self getCompletion]];
+    });
 }
 
 - (void) startNewPage:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{

@@ -365,8 +365,8 @@ consequence of this.
 </dd>
 
         <dt id="initializeReader" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/initializeReader.html">initializeReader</a></span><span class="signature">(<wbr><span class="parameter" id="initializeReader-param-config"><span class="type-annotation"><a href="../document_reader/InitConfig-class.html">InitConfig</a></span> <span class="parameter-name">config</span>, </span><span class="parameter" id="initializeReader-param-successCompletion"><span class="type-annotation"><a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  <span class="name"><a href="../document_reader/DocumentReader/initializeReader.html">initializeReader</a></span><span class="signature">(<wbr><span class="parameter" id="initializeReader-param-config"><span class="type-annotation"><a href="../document_reader/InitConfig-class.html">InitConfig</a></span> <span class="parameter-name">config</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
   </span>
   
 
@@ -391,8 +391,8 @@ consequence of this.
 </dd>
 
         <dt id="prepareDatabase" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/prepareDatabase.html">prepareDatabase</a></span><span class="signature">(<wbr><span class="parameter" id="prepareDatabase-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="prepareDatabase-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span>, </span><span class="parameter" id="prepareDatabase-param-successCompletion"><span class="type-annotation"><a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  <span class="name"><a href="../document_reader/DocumentReader/prepareDatabase.html">prepareDatabase</a></span><span class="signature">(<wbr><span class="parameter" id="prepareDatabase-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="prepareDatabase-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
   </span>
   
 
@@ -406,7 +406,7 @@ in your app and compatible with the SDK, it won't be downloaded.
 
         <dt id="recognize" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/recognize.html">recognize</a></span><span class="signature">(<wbr><span class="parameter" id="recognize-param-config"><span class="type-annotation"><a href="../document_reader/RecognizeConfig-class.html">RecognizeConfig</a></span> <span class="parameter-name">config</span>, </span><span class="parameter" id="recognize-param-completion"><span class="type-annotation"><a href="../document_reader/DocumentReaderCompletion.html">DocumentReaderCompletion</a></span> <span class="parameter-name">completion</span></span>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
@@ -432,7 +432,7 @@ in your app and compatible with the SDK, it won't be downloaded.
 
         <dt id="resetConfiguration" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/resetConfiguration.html">resetConfiguration</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
@@ -445,7 +445,7 @@ in your app and compatible with the SDK, it won't be downloaded.
 
         <dt id="rfid" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/rfid.html">rfid</a></span><span class="signature">(<wbr><span class="parameter" id="rfid-param-config"><span class="type-annotation"><a href="../document_reader/RFIDConfig-class.html">RFIDConfig</a></span> <span class="parameter-name">config</span></span>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
@@ -457,8 +457,8 @@ in your app and compatible with the SDK, it won't be downloaded.
 </dd>
 
         <dt id="runAutoUpdate" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/runAutoUpdate.html">runAutoUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="runAutoUpdate-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="runAutoUpdate-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span>, </span><span class="parameter" id="runAutoUpdate-param-successCompletion"><span class="type-annotation"><a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  <span class="name"><a href="../document_reader/DocumentReader/runAutoUpdate.html">runAutoUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="runAutoUpdate-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="runAutoUpdate-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
   </span>
   
 
@@ -472,7 +472,7 @@ Each new update of the database will be downloaded.
 
         <dt id="scan" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/scan.html">scan</a></span><span class="signature">(<wbr><span class="parameter" id="scan-param-config"><span class="type-annotation"><a href="../document_reader/ScannerConfig-class.html">ScannerConfig</a></span> <span class="parameter-name">config</span>, </span><span class="parameter" id="scan-param-completion"><span class="type-annotation"><a href="../document_reader/DocumentReaderCompletion.html">DocumentReaderCompletion</a></span> <span class="parameter-name">completion</span></span>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
@@ -484,22 +484,22 @@ Each new update of the database will be downloaded.
 </dd>
 
         <dt id="setTCCParams" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/setTCCParams.html">setTCCParams</a></span><span class="signature">(<wbr><span class="parameter" id="setTCCParams-param-params"><span class="type-annotation"><a href="../document_reader/TccParams-class.html">TccParams</a></span> <span class="parameter-name">params</span>, </span><span class="parameter" id="setTCCParams-param-successCompletion"><span class="type-annotation"><a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  <span class="name"><a href="../document_reader/DocumentReader/setTCCParams.html">setTCCParams</a></span><span class="signature">(<wbr><span class="parameter" id="setTCCParams-param-params"><span class="type-annotation"><a href="../document_reader/TccParams-class.html">TccParams</a></span> <span class="parameter-name">params</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Bool 'success' is not only passed to <a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a>,
-but for convenience it is also returned as <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a>
+  Sets the given <code>TCCParams</code> to the RFID  session.
+The parameters are required to be set before starting RFID session.
   
 
 </dd>
 
         <dt id="startBluetoothService" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/startBluetoothService.html">startBluetoothService</a></span><span class="signature">(<wbr><span class="parameter" id="startBluetoothService-param-completion"><span class="type-annotation"><a href="../document_reader/BluetoothServiceCompletion-class.html">BluetoothServiceCompletion</a></span> <span class="parameter-name">completion</span></span>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; void</span>
   </span>
   
 
@@ -650,7 +650,7 @@ current one is processed.
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

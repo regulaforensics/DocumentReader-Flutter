@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../document_reader/ImageQA-class.html">ImageQA</a>?</span>
+<span class="returntype"><a href="../../document_reader/ImageQA-class.html">ImageQA</a></span>
 <span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span></li>
 </ol>)
 
@@ -79,20 +79,21 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static ImageQA? fromJson(jsonObject) {
-  var result = new ImageQA();
-  if (jsonObject == null) return null;
+  <pre class="language-dart"><code class="language-dart">static ImageQA fromJson(jsonObject) {
+  var result = ImageQA();
+  result.testSetters = {};
 
   result.dpiThreshold = jsonObject[&quot;dpiThreshold&quot;];
   result.angleThreshold = jsonObject[&quot;angleThreshold&quot;];
   result.focusCheck = jsonObject[&quot;focusCheck&quot;];
   result.glaresCheck = jsonObject[&quot;glaresCheck&quot;];
   result.colornessCheck = jsonObject[&quot;colornessCheck&quot;];
-  result.moireCheck = jsonObject[&quot;moireCheck&quot;];
+  result.screenCapture = jsonObject[&quot;screenCapture&quot;];
   result.expectedPass = jsonObject[&quot;expectedPass&quot;];
   result.glaresCheckParams =
       GlaresCheckParams.fromJson(jsonObject[&quot;glaresCheckParams&quot;]);
   result.documentPositionIndent = jsonObject[&quot;documentPositionIndent&quot;];
+  result.brightnessThreshold = _toDouble(jsonObject[&quot;brightnessThreshold&quot;]);
 
   return result;
 }</code></pre>
@@ -128,7 +129,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

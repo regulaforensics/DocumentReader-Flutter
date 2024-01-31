@@ -78,21 +78,17 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;overallStatus&quot;] = overallStatus.value;
-  result[&quot;mrz&quot;] = mrz.value;
-  result[&quot;text&quot;] = text.value;
-  result[&quot;docType&quot;] = docType.value;
-  result[&quot;security&quot;] = security.value;
-  result[&quot;imageQA&quot;] = imageQA.value;
-  result[&quot;expiry&quot;] = expiry.value;
-  result[&quot;vds&quot;] = vds.value;
-  result[&quot;pagesCount&quot;] = pagesCount;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;overallStatus&quot;: overallStatus.value,
+      &quot;mrz&quot;: mrz.value,
+      &quot;text&quot;: text.value,
+      &quot;docType&quot;: docType.value,
+      &quot;security&quot;: security.value,
+      &quot;imageQA&quot;: imageQA.value,
+      &quot;expiry&quot;: expiry.value,
+      &quot;vds&quot;: vds.value,
+      &quot;pagesCount&quot;: pagesCount,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -125,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

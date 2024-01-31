@@ -226,10 +226,11 @@ fun recognizeConfigFromJSON(input: JSONObject): RecognizeConfig {
     val builder = if (input.has("scenario")) RecognizeConfig.Builder(input.getString("scenario"))
     else RecognizeConfig.Builder(onlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig"))!!)
 
+    if (input.has("oneShotIdentification")) builder.setOneShotIdentification(input.getBoolean("oneShotIdentification"))
     if (input.has("livePortrait")) builder.setLivePortrait(bitmapFromBase64(input.getString("livePortrait"))!!)
     if (input.has("extPortrait")) builder.setExtPortrait(bitmapFromBase64(input.getString("extPortrait"))!!)
     if (input.has("image")) builder.setBitmap(bitmapFromBase64(input.getString("image"))!!)
-    if (input.has("oneShotIdentification")) builder.setOneShotIdentification(input.getBoolean("oneShotIdentification"))
+    if (input.has("data")) builder.setData(byteArrayFromBase64(input.getString("data"))!!)
     if (input.has("images")) {
         val base64Images = input.getJSONArray("images")
         val images = arrayOfNulls<Bitmap>(base64Images.length())
@@ -253,10 +254,11 @@ fun generateRecognizeConfig(temp: RecognizeConfig?): JSONObject? {
 
     result.put("scenario", input.scenario)
     result.put("onlineProcessingConfig", generateOnlineProcessingConfig(input.onlineProcessingConfig))
+    result.put("oneShotIdentification", input.oneShotIdentification)
     result.put("livePortrait", bitmapToBase64(input.livePortrait))
     result.put("extPortrait", bitmapToBase64(input.extPortrait))
     result.put("image", bitmapToBase64(input.bitmap))
-    result.put("oneShotIdentification", input.oneShotIdentification)
+    result.put("data", generateByteArray(input.data))
     if (input.bitmaps == null)
         result.put("images", null)
     else {
@@ -383,42 +385,6 @@ fun generateFaceApiSearchParams(temp: FaceApiParams.Search?): JSONObject? {
     return result
 }
 
-fun imageQAFromJSON(obj: JSONObject?): ImageQA? {
-    if (obj == null) return null
-    val input: JSONObject = obj
-    val result = ImageQA()
-
-    if (input.has("dpiThreshold")) result.dpiThreshold = input.getInt("dpiThreshold")
-    if (input.has("angleThreshold")) result.angleThreshold = input.getInt("angleThreshold")
-    if (input.has("focusCheck")) result.focusCheck = input.getBoolean("focusCheck")
-    if (input.has("glaresCheck")) result.glaresCheck = input.getBoolean("glaresCheck")
-    if (input.has("colornessCheck")) result.colornessCheck = input.getBoolean("colornessCheck")
-    if (input.has("moireCheck")) result.moireCheck = input.getBoolean("moireCheck")
-    if (input.has("expectedPass")) result.expectedPass = intArrayFromJSON(input.getJSONArray("expectedPass"))
-    if (input.has("documentPositionIndent")) result.documentPositionIndent = input.getInt("documentPositionIndent")
-    if (input.has("glaresCheckParams")) result.glaresCheckParams = glaresCheckParamsFromJSON(input.getJSONObject("glaresCheckParams"))
-
-    return result
-}
-
-fun generateImageQA(temp: ImageQA?): JSONObject? {
-    val result = JSONObject()
-    if (temp == null) return null
-    val input: ImageQA = temp
-
-    result.put("dpiThreshold", input.dpiThreshold)
-    result.put("angleThreshold", input.angleThreshold)
-    result.put("focusCheck", input.focusCheck)
-    result.put("glaresCheck", input.glaresCheck)
-    result.put("colornessCheck", input.colornessCheck)
-    result.put("moireCheck", input.moireCheck)
-    result.put("documentPositionIndent", input.documentPositionIndent as Int?)
-    result.put("expectedPass", generateIntArray(input.expectedPass))
-    result.put("glaresCheckParams", generateGlaresCheckParams(input.glaresCheckParams))
-
-    return result
-}
-
 fun rfidParamsFromJSON(temp: JSONObject?): RFIDParams? {
     val result = RFIDParams()
     if (temp == null) return null
@@ -445,9 +411,15 @@ fun processParamFromJSON(input: JSONObject): ProcessParam {
     return result
 }
 
-fun generateProcessParam(input: ProcessParam): JSONObject {
-    return getProcessParams(input)
+fun generateProcessParam(input: ProcessParam): JSONObject = getProcessParams(input)
+
+fun imageQAFromJSON(input: JSONObject): ImageQA {
+    val result = ImageQA()
+    setImageQA(result, input)
+    return result
 }
+
+fun generateImageQA(input: ImageQA): JSONObject = getImageQA(input)
 
 fun eDLDataGroupsFromJSON(input: JSONObject): EDLDataGroups {
     val result = EDLDataGroups()
@@ -455,9 +427,7 @@ fun eDLDataGroupsFromJSON(input: JSONObject): EDLDataGroups {
     return result
 }
 
-fun generateEDLDataGroups(input: EDLDataGroups): JSONObject {
-    return getDataGroups(input)
-}
+fun generateEDLDataGroups(input: EDLDataGroups): JSONObject = getDataGroups(input)
 
 fun ePassportDataGroupsFromJSON(input: JSONObject): EPassportDataGroups {
     val result = EPassportDataGroups()
@@ -465,9 +435,7 @@ fun ePassportDataGroupsFromJSON(input: JSONObject): EPassportDataGroups {
     return result
 }
 
-fun generateEPassportDataGroups(input: EPassportDataGroups): JSONObject {
-    return getDataGroups(input)
-}
+fun generateEPassportDataGroups(input: EPassportDataGroups): JSONObject = getDataGroups(input)
 
 fun eIDDataGroupsFromJSON(input: JSONObject): EIDDataGroups {
     val result = EIDDataGroups()
@@ -475,9 +443,7 @@ fun eIDDataGroupsFromJSON(input: JSONObject): EIDDataGroups {
     return result
 }
 
-fun generateEIDDataGroups(input: EIDDataGroups): JSONObject {
-    return getDataGroups(input)
-}
+fun generateEIDDataGroups(input: EIDDataGroups): JSONObject = getDataGroups(input)
 
 fun rfidScenarioFromJSON(input: JSONObject): RfidScenario {
     val result = RfidScenario()
@@ -485,9 +451,7 @@ fun rfidScenarioFromJSON(input: JSONObject): RfidScenario {
     return result
 }
 
-fun generateRfidScenario(input: RfidScenario): JSONObject {
-    return getRfidScenario(input)
-}
+fun generateRfidScenario(input: RfidScenario): JSONObject = getRfidScenario(input)
 
 fun customizationFromJSON(input: JSONObject, context: Context): ParamsCustomization {
     val result = ParamsCustomization()
@@ -495,9 +459,7 @@ fun customizationFromJSON(input: JSONObject, context: Context): ParamsCustomizat
     return result
 }
 
-fun generateCustomization(input: ParamsCustomization): JSONObject {
-    return getCustomization(input)
-}
+fun generateCustomization(input: ParamsCustomization): JSONObject = getCustomization(input)
 
 fun functionalityFromJSON(input: JSONObject): Functionality {
     val result = Functionality()
@@ -505,9 +467,7 @@ fun functionalityFromJSON(input: JSONObject): Functionality {
     return result
 }
 
-fun generateFunctionality(input: Functionality): JSONObject {
-    return getFunctionality(input)
-}
+fun generateFunctionality(input: Functionality): JSONObject = getFunctionality(input)
 
 fun glaresCheckParamsFromJSON(temp: JSONObject?): GlaresCheckParams? {
     if (temp == null) return null
@@ -584,10 +544,10 @@ fun pkdCertificateFromJSON(temp: JSONObject?): PKDCertificate? {
     if (temp == null) return null
     val input: JSONObject = temp
     var resourceType = 0
-    var binaryData: ByteArray? = ByteArray(0)
+    var binaryData = ByteArray(0)
 
     if (input.has("resourceType")) resourceType = input.getInt("resourceType")
-    if (input.has("binaryData")) binaryData = byteArrayFromBase64(input.getString("binaryData"))
+    if (input.has("binaryData")) binaryData = byteArrayFromBase64(input.getString("binaryData"))!!
     if (input.has("privateKey")) {
         val privateKey = byteArrayFromBase64(input.getString("privateKey"))
         return PKDCertificate(binaryData, resourceType, privateKey)

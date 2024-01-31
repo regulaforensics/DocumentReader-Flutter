@@ -9,7 +9,7 @@
 part of document_reader;
 
 class OnlineProcessingConfig {
-  late OnlineMode mode;
+  OnlineMode mode;
 
   String url = "https://api.regulaforensics.com";
 
@@ -20,7 +20,7 @@ class OnlineProcessingConfig {
   double imageCompressionQuality = 0.8;
 
   OnlineProcessingConfig(this.mode) {
-    processParams = new ProcessParam();
+    processParams = ProcessParam();
     processParams.scenario = Scenario.FULL_PROCESS;
   }
 
@@ -28,13 +28,13 @@ class OnlineProcessingConfig {
   static OnlineProcessingConfig? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     OnlineMode mode = OnlineMode.getByValue(jsonObject["mode"])!;
-    var result = new OnlineProcessingConfig(mode);
+    var result = OnlineProcessingConfig(mode);
 
     result.url = jsonObject["url"];
     result.imageFormat = ImageFormat.getByValue(jsonObject["imageFormat"])!;
     result.imageCompressionQuality =
         jsonObject["imageCompressionQuality"].toDouble();
-    result.processParams.fromJson(jsonObject["processParams"]);
+    result.processParams = ProcessParam.fromJson(jsonObject["processParams"]);
 
     return result;
   }
@@ -46,7 +46,7 @@ class OnlineProcessingConfig {
         "imageFormat": imageFormat.value,
         "imageCompressionQuality": imageCompressionQuality,
         "processParams": processParams.toJson(),
-      };
+      }.clearNulls();
 }
 
 enum ImageFormat {

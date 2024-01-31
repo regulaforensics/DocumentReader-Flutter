@@ -79,8 +79,6 @@
 Map&lt;String, dynamic&gt; toJson() =&gt; {
       &quot;uvTorch&quot;: uvTorch,
       &quot;frameOrientation&quot;: frameOrientation.value,
-      &quot;frame&quot;: frame?.value,
-      &quot;barcodeExt&quot;: barcodeExt,
       &quot;faceExt&quot;: faceExt,
       &quot;multiPageOff&quot;: multiPageOff,
       &quot;seriesProcessMode&quot;: seriesProcessMode,
@@ -92,7 +90,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
       &quot;caption&quot;: caption,
       &quot;description&quot;: description,
       &quot;manualCrop&quot;: manualCrop
-    };</code></pre>
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -125,7 +123,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

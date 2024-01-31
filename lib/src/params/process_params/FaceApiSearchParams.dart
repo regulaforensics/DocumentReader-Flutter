@@ -10,37 +10,42 @@ part of document_reader;
 
 class FaceApiSearchParams {
   /// The number of returned Persons limit.
-  int limit = 100;
+  int get limit => _limit;
+  int _limit;
 
   /// The similarity distance threshold, should be between 0.0 and 2.0,
   /// where 0.0 is for returning results for only the most similar persons
   /// and 2.0 is for all the persons, even the dissimilar ones.
   /// If not set, the default 1.0 value is used.
-  double threshold = 1;
+  double get threshold => _threshold;
+  double _threshold;
 
   /// The IDs of the groups in which the search is performed.
-  List<int>? groupIds;
+  List<int>? get groupIds => _groupIds;
+  List<int>? _groupIds;
+
+  FaceApiSearchParams({
+    int limit = 100,
+    double threshold = 1,
+    List<int>? groupIds,
+  })  : _limit = limit,
+        _threshold = threshold,
+        _groupIds = groupIds;
 
   /// Allows you to deserialize object.
   static FaceApiSearchParams? fromJson(jsonObject) {
-    var result = new FaceApiSearchParams();
     if (jsonObject == null) return null;
-
-    result.limit = jsonObject["limit"];
-    result.threshold = _toDouble(jsonObject["threshold"])!;
-    result.groupIds = jsonObject["groupIds"];
-
-    return result;
+    return FaceApiSearchParams(
+      limit: jsonObject["limit"],
+      threshold: _toDouble(jsonObject["threshold"])!,
+      groupIds: jsonObject["groupIds"],
+    );
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["limit"] = limit;
-    result["threshold"] = threshold;
-    if (groupIds != null) result["groupIds"] = groupIds;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "limit": limit,
+        "threshold": threshold,
+        "groupIds": groupIds,
+      }.clearNulls();
 }

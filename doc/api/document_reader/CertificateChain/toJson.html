@@ -78,27 +78,21 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;type&quot;] = type.value;
-  List&lt;dynamic&gt; list = [];
-  for (var item in extensions) list.add(item.toJson());
-  result[&quot;extensions&quot;] = list;
-  result[&quot;fileName&quot;] = fileName?.toJson();
-  result[&quot;issuer&quot;] = issuer?.toJson();
-  result[&quot;notifications&quot;] = notifications;
-  result[&quot;origin&quot;] = origin;
-  result[&quot;paStatus&quot;] = paStatus;
-  result[&quot;serialNumber&quot;] = serialNumber;
-  result[&quot;signatureAlgorithm&quot;] = signatureAlgorithm;
-  result[&quot;subject&quot;] = subject?.toJson();
-  result[&quot;subjectPKAlgorithm&quot;] = subjectPKAlgorithm;
-  result[&quot;validity&quot;] = validity?.toJson();
-  result[&quot;version&quot;] = version;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;type&quot;: type.value,
+      &quot;extensions&quot;: extensions.map((e) =&gt; e.toJson()).toList(),
+      &quot;fileName&quot;: fileName?.toJson(),
+      &quot;issuer&quot;: issuer?.toJson(),
+      &quot;notifications&quot;: notifications,
+      &quot;origin&quot;: origin,
+      &quot;paStatus&quot;: paStatus,
+      &quot;serialNumber&quot;: serialNumber,
+      &quot;signatureAlgorithm&quot;: signatureAlgorithm,
+      &quot;subject&quot;: subject?.toJson(),
+      &quot;subjectPKAlgorithm&quot;: subjectPKAlgorithm,
+      &quot;validity&quot;: validity?.toJson(),
+      &quot;version&quot;: version,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -131,7 +125,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

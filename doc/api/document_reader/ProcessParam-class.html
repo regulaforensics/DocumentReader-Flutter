@@ -135,13 +135,13 @@ All barcodes will be recognized if it's empty.
 
 </dd>
 
-        <dt id="checkHologram" class="property">
-  <span class="name"><a href="../document_reader/ProcessParam/checkHologram.html">checkHologram</a></span>
+        <dt id="checkLiveness" class="property">
+  <span class="name"><a href="../document_reader/ProcessParam/checkLiveness.html">checkLiveness</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> 
 
 </dt>
 <dd>
-  If set to <code>true</code>, a document's holograms presence will be checked.
+  This parameter is used to enable document liveness check.
   <div class="features"><span class="feature">getter/setter pair</span></div>
 
 </dd>
@@ -172,7 +172,7 @@ No changes applied by default to original values.
 
         <dt id="customParams" class="property">
   <span class="name"><a href="../document_reader/ProcessParam/customParams.html">customParams</a></span>
-  <span class="signature">&#8596; dynamic</span> 
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span>?</span> 
 
 </dt>
 <dd>
@@ -488,6 +488,30 @@ fixation of each of the individual images.
 
 </dd>
 
+        <dt id="lcidFilter" class="property">
+  <span class="name"><a href="../document_reader/ProcessParam/lcidFilter.html">lcidFilter</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/LCID.html">LCID</a></span>&gt;</span>?</span> 
+
+</dt>
+<dd>
+  The whitelist of LCID types to use during the recognition.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="lcidIgnoreFilter" class="property">
+  <span class="name"><a href="../document_reader/ProcessParam/lcidIgnoreFilter.html">lcidIgnoreFilter</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/LCID.html">LCID</a></span>&gt;</span>?</span> 
+
+</dt>
+<dd>
+  The list of LCID types to ignore during the recognition.
+If empty, values with all LCID types will be extracted.
+Narrowing&nbsp;down&nbsp;the list can&nbsp;reduce&nbsp;processing time.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
         <dt id="logs" class="property">
   <span class="name"><a href="../document_reader/ProcessParam/logs.html">logs</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span> 
@@ -779,6 +803,17 @@ will be divided into fields with fieldTypes <a href="../document_reader/VisualFi
 
 </dd>
 
+        <dt id="testSetters" class="property">
+  <span class="name"><a href="../document_reader/ProcessParam/testSetters.html">testSetters</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
         <dt id="timeout" class="property">
   <span class="name"><a href="../document_reader/ProcessParam/timeout.html">timeout</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a>?</span> 
@@ -864,19 +899,6 @@ Setting value to <code>0</code> means infinity.
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="fromJson" class="callable">
-  <span class="name"><a href="../document_reader/ProcessParam/fromJson.html">fromJson</a></span><span class="signature">(<wbr><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">jsonObject</span></span>)
-    <span class="returntype parameter">&#8594; dynamic</span>
-  </span>
-  
-
-</dt>
-<dd>
-  Allows you to deserialize object.
-  
-
-</dd>
-
         <dt id="noSuchMethod" class="callable inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
@@ -941,6 +963,24 @@ Setting value to <code>0</code> means infinity.
   </section>
     
     
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="fromJson" class="callable">
+  <span class="name"><a href="../document_reader/ProcessParam/fromJson.html">fromJson</a></span><span class="signature">(<wbr><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../document_reader/ProcessParam-class.html">ProcessParam</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to deserialize object.
+  
+
+</dd>
+
+    </dl>
+  </section>
     
 
 
@@ -973,7 +1013,7 @@ Setting value to <code>0</code> means infinity.
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

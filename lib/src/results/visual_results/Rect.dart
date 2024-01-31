@@ -24,7 +24,7 @@ class Rect {
   /// Allows you to deserialize object.
   static Rect? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Rect();
+    var result = Rect();
 
     result._bottom = jsonObject["bottom"];
     result._top = jsonObject["top"];
@@ -35,14 +35,10 @@ class Rect {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["bottom"] = bottom;
-    result["top"] = top;
-    result["left"] = left;
-    result["right"] = right;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "bottom": bottom,
+        "top": top,
+        "left": left,
+        "right": right,
+      }.clearNulls();
 }

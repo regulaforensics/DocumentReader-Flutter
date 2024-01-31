@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_document_reader_api_beta/flutter_document_reader_api_beta.dart';
 
 class RFIDCustomUI {
-  // Connections to the main app
-  late BuildContext context;
   var documentReader = DocumentReader.instance;
   var setState;
   var setStatus;
@@ -26,14 +24,9 @@ class RFIDCustomUI {
   double rfidProgress = -1;
 
   RFIDCustomUI.empty();
-  RFIDCustomUI(
-    this.context,
-    this.setState,
-    this.setStatus,
-    this.displayResults,
-  );
+  RFIDCustomUI(this.setState, this.setStatus, this.displayResults);
 
-  run() {
+  void run() {
     showRfidUI();
 
     RFIDConfig config = RFIDConfig.withoutUI((action, results, error) {
@@ -68,12 +61,12 @@ class RFIDCustomUI {
     documentReader.rfid(config);
   }
 
-  showRfidUI() {
+  void showRfidUI() {
     setStatus("");
     setState(() => isShowing = true);
   }
 
-  finish(Results? results) {
+  void finish(Results? results) {
     documentReader.stopRFIDReader();
     setState(() {
       isShowing = false;

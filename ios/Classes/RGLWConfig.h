@@ -23,12 +23,14 @@
 +(void)setCustomization:(NSDictionary*)options :(RGLCustomization*)customization;
 +(void)setRfidScenario:(NSDictionary*)options :(RGLRFIDScenario*)rfidScenario;
 +(void)setDataGroups:(RGLDataGroup*)dataGroup dict:(NSDictionary*)dict;
++(void)setImageQA:(RGLImageQA*)result input:(NSDictionary*)input;
 
 +(NSDictionary*)getFunctionality:(RGLFunctionality*)functionality;
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams;
 +(NSDictionary*)getCustomization:(RGLCustomization*)customization;
 +(NSDictionary*)getRfidScenario:(RGLRFIDScenario*)rfidScenario;
 +(NSDictionary*)getDataGroups:(RGLDataGroup*)dataGroup;
++(NSDictionary*)getImageQA:(RGLImageQA*)input;
 
 +(RGLImageQualityCheckType)imageQualityCheckTypeWithNumber:(NSNumber*)value;
 +(NSNumber*)generateDocReaderAction:(RGLDocReaderAction)action;

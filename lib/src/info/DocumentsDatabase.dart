@@ -42,7 +42,7 @@ class DocumentsDatabase {
   @visibleForTesting
   static DocumentsDatabase? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DocumentsDatabase();
+    var result = DocumentsDatabase();
 
     result._databaseID = jsonObject["databaseID"];
     result._version = jsonObject["version"];
@@ -64,5 +64,5 @@ class DocumentsDatabase {
         "countriesNumber": countriesNumber,
         "documentsNumber": documentsNumber,
         "size": size
-      };
+      }.clearNulls();
 }

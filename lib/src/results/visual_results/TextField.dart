@@ -32,7 +32,7 @@ class TextField {
   String? get value => _value;
   String? _value;
 
-  Value? get getValue => _getValue;
+  Value? getValue() => _getValue;
   Value? _getValue;
 
   /// An array of values.
@@ -62,7 +62,7 @@ class TextField {
   /// Allows you to deserialize object.
   static TextField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new TextField();
+    var result = TextField();
 
     result._fieldType = VisualFieldType.getByValue(jsonObject["fieldType"])!;
     result._lcid = LCID.getByValue(jsonObject["lcid"])!;
@@ -86,28 +86,18 @@ class TextField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["fieldType"] = fieldType.value;
-    result["fieldName"] = fieldName;
-    result["lcid"] = lcid.value;
-    result["lcidName"] = lcidName;
-    result["value"] = value;
-    result["getValue"] = getValue?.toJson();
-    List<dynamic> list = [];
-    for (var item in values) list.add(item.toJson());
-    result["values"] = list;
-    result["status"] = status.value;
-    list = [];
-    for (var item in comparisonList) list.add(item.toJson());
-    result["comparisonList"] = list;
-    list = [];
-    for (var item in validityList) list.add(item.toJson());
-    result["validityList"] = list;
-    result["comparisonStatus"] = comparisonStatus.value;
-    result["validityStatus"] = validityStatus.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "fieldType": fieldType.value,
+        "fieldName": fieldName,
+        "lcid": lcid.value,
+        "lcidName": lcidName,
+        "value": value,
+        "getValue": getValue()?.toJson(),
+        "values": values.map((e) => e.toJson()).toList(),
+        "status": status.value,
+        "comparisonList": comparisonList.map((e) => e.toJson()).toList(),
+        "validityList": validityList.map((e) => e.toJson()).toList(),
+        "comparisonStatus": comparisonStatus.value,
+        "validityStatus": validityStatus.value,
+      }.clearNulls();
 }

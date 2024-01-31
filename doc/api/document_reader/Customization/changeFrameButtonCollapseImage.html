@@ -81,8 +81,7 @@ shapes of the camera (collapsed state).</p>
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Uint8List? get changeFrameButtonCollapseImage =&gt;
-    _changeFrameButtonCollapseImage;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Image? get changeFrameButtonCollapseImage =&gt; _changeFrameButtonCollapseImage;</code></pre>
 </section>
 
 </section>
@@ -104,9 +103,9 @@ shapes of the camera (collapsed state).</p>
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">set changeFrameButtonCollapseImage(Uint8List? val) {
+  <pre class="language-dart"><code class="language-dart">set changeFrameButtonCollapseImage(Image? val) {
   _changeFrameButtonCollapseImage = val;
-  _setCustomization({&quot;changeFrameButtonCollapseImage&quot;: _toBase64(val)}, this);
+  _set({&quot;changeFrameButtonCollapseImage&quot;: _imageToBase64(val)});
 }</code></pre>
 </section>
 
@@ -141,7 +140,7 @@ shapes of the camera (collapsed state).</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

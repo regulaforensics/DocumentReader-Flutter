@@ -78,18 +78,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;count&quot;] = count;
-  result[&quot;result&quot;] = this.result.value;
-  result[&quot;pageIndex&quot;] = pageIndex;
-  List&lt;dynamic&gt; list = [];
-  for (var item in imageQualityList) list.add(item.toJson());
-  result[&quot;imageQualityList&quot;] = list;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;count&quot;: count,
+      &quot;result&quot;: result.value,
+      &quot;pageIndex&quot;: pageIndex,
+      &quot;imageQualityList&quot;: imageQualityList.map((e) =&gt; e.toJson()).toList(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -122,7 +116,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -80,13 +80,13 @@
 static OnlineProcessingConfig? fromJson(jsonObject) {
   if (jsonObject == null) return null;
   OnlineMode mode = OnlineMode.getByValue(jsonObject[&quot;mode&quot;])!;
-  var result = new OnlineProcessingConfig(mode);
+  var result = OnlineProcessingConfig(mode);
 
   result.url = jsonObject[&quot;url&quot;];
   result.imageFormat = ImageFormat.getByValue(jsonObject[&quot;imageFormat&quot;])!;
   result.imageCompressionQuality =
       jsonObject[&quot;imageCompressionQuality&quot;].toDouble();
-  result.processParams.fromJson(jsonObject[&quot;processParams&quot;]);
+  result.processParams = ProcessParam.fromJson(jsonObject[&quot;processParams&quot;]);
 
   return result;
 }</code></pre>
@@ -122,7 +122,7 @@ static OnlineProcessingConfig? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

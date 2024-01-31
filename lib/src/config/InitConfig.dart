@@ -12,8 +12,8 @@ part of document_reader;
 /// Controls initialization time properties such as licenseUpdate and delayedNNLoad.
 class InitConfig {
   /// The license binary file.
-  Uint8List? get license => _license;
-  Uint8List? _license;
+  ByteData get license => _license;
+  ByteData _license;
 
   /// Enables automatic license update check during [DocumentReader] initialization.
   bool licenseUpdate = true;
@@ -37,48 +37,36 @@ class InitConfig {
   /// Custom database binary.
   ///
   /// Android only. For iOS use [databasePath].
-  Uint8List? customDb;
+  ByteData? customDb;
 
   /// Android only.
-  dynamic blackList;
+  Map<String, dynamic>? blackList;
 
   /// Constructor for initialization using a license binary.
-  InitConfig(Uint8List license) : _license = license;
+  InitConfig(ByteData license) : _license = license;
+
+  bool _useBleDevice = false;
 
   /// Constructor for initialization using a ble device.
   /// Doesn't need a license file, it will be fetched automatically from your ble device.
   ///
   /// Android only.
-  InitConfig.withBleDevice() {
+  InitConfig.withBleDevice() : _license = ByteData(0) {
     if (!Platform.isAndroid)
       throw PlatformException(
         code: "android-only",
         message: "withBleDevice constructor is accessible only on Android",
       );
-  }
-
-  @visibleForTesting
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {
-      "license": _toBase64(license),
-      "delayedNNLoad": delayedNNLoad,
-      "licenseUpdate": licenseUpdate,
-      "blackList": blackList
-    };
-
-    if (customDb != null) result["customDb"] = base64Encode(customDb!);
-    if (databasePath != null) result["databasePath"] = databasePath;
-
-    return result;
+    _useBleDevice = true;
   }
 
   @visibleForTesting
   static InitConfig? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new InitConfig(base64Decode(jsonObject["license"]));
+    var result = InitConfig(_fromBase64(jsonObject["license"])!);
 
     if (jsonObject["customDb"] != null)
-      result.customDb = base64Decode(jsonObject["customDb"]);
+      result.customDb = _fromBase64(jsonObject["customDb"]);
     result.delayedNNLoad = jsonObject["delayedNNLoad"];
     result.licenseUpdate = jsonObject["licenseUpdate"];
     result.blackList = jsonObject["blackList"];
@@ -86,4 +74,14 @@ class InitConfig {
 
     return result;
   }
+
+  @visibleForTesting
+  Map<String, dynamic> toJson() => {
+        "license": _toBase64(license),
+        "delayedNNLoad": delayedNNLoad,
+        "licenseUpdate": licenseUpdate,
+        "blackList": blackList,
+        "customDb": _toBase64(customDb),
+        "databasePath": databasePath
+      }.clearNulls();
 }

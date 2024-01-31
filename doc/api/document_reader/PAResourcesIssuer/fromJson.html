@@ -79,9 +79,9 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static PAResourcesIssuer? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new PAResourcesIssuer();
+  var result = PAResourcesIssuer();
 
-  result._data = base64Decode(jsonObject[&quot;data&quot;]);
+  result._data = _fromBase64(jsonObject[&quot;data&quot;])!;
   result._friendlyName = jsonObject[&quot;friendlyName&quot;];
   for (var item in jsonObject[&quot;attributes&quot;])
     result._attributes.addSafe(PAAttribute.fromJson(item));
@@ -120,7 +120,7 @@ static PAResourcesIssuer? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

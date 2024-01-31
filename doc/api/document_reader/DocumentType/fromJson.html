@@ -81,19 +81,19 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static DocumentType? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new DocumentType();
+  var result = DocumentType();
 
   result._pageIndex = jsonObject[&quot;pageIndex&quot;];
-  result._documentID = jsonObject[&quot;documentID&quot;];
-  result._dType = DocType.getByValue(jsonObject[&quot;dType&quot;])!;
-  result._dFormat = DocFormat.getByValue(jsonObject[&quot;dFormat&quot;])!;
-  result._dMRZ = jsonObject[&quot;dMRZ&quot;];
+  result._id = jsonObject[&quot;documentID&quot;];
+  result._type = DocType.getByValue(jsonObject[&quot;dType&quot;])!;
+  result._format = DocFormat.getByValue(jsonObject[&quot;dFormat&quot;])!;
+  result._mrz = jsonObject[&quot;dMRZ&quot;];
   result._isDeprecated = jsonObject[&quot;isDeprecated&quot;];
   result._name = jsonObject[&quot;name&quot;];
   result._iCAOCode = jsonObject[&quot;ICAOCode&quot;];
-  result._dDescription = jsonObject[&quot;dDescription&quot;];
-  result._dYear = jsonObject[&quot;dYear&quot;];
-  result._dCountryName = jsonObject[&quot;dCountryName&quot;];
+  result._description = jsonObject[&quot;dDescription&quot;];
+  result._year = jsonObject[&quot;dYear&quot;];
+  result._countryName = jsonObject[&quot;dCountryName&quot;];
   if (jsonObject[&quot;FDSID&quot;] != null) {
     result._fDSID = [];
     for (var item in jsonObject[&quot;FDSID&quot;]) result._fDSID!.add(item);
@@ -133,7 +133,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

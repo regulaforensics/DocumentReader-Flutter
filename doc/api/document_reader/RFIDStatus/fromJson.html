@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static RFIDStatus? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new RFIDStatus();
+  var result = RFIDStatus();
 
   result._pa = CheckResult.getByValue(jsonObject[&quot;pa&quot;])!;
   result._ca = CheckResult.getByValue(jsonObject[&quot;ca&quot;])!;
@@ -126,7 +126,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

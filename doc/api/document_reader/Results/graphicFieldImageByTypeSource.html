@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Uri-class.html">Uri</a>?</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a></span>
 <span class="name ">graphicFieldImageByTypeSource</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="graphicFieldImageByTypeSource-param-fieldType"><span class="type-annotation"><a href="../../document_reader/GraphicFieldType.html">GraphicFieldType</a></span> <span class="parameter-name">fieldType</span>, </span></li>
 <li><span class="parameter" id="graphicFieldImageByTypeSource-param-source"><span class="type-annotation"><a href="../../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span></span></li>
 </ol>)
@@ -80,7 +80,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Uri?&gt; graphicFieldImageByTypeSource(
+  <pre class="language-dart"><code class="language-dart">Future&lt;Image?&gt; graphicFieldImageByTypeSource(
   GraphicFieldType fieldType,
   ResultType source,
 ) async {
@@ -93,7 +93,7 @@
     ],
   );
   if (result == null) return null;
-  return Uri.parse(&quot;data:image&#47;png;base64,&quot; + result);
+  return _imageFromBase64(result);
 }</code></pre>
 </section>
 
@@ -127,7 +127,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

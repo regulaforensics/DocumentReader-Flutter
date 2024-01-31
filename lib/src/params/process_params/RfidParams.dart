@@ -11,25 +11,22 @@ part of document_reader;
 class RFIDParams {
   /// A list of notification codes that should be ignored during
   /// passive authentication (PA).
-  List<int>? paIgnoreNotificationCodes;
+  List<int>? get paIgnoreNotificationCodes => _paIgnoreNotificationCodes;
+  List<int>? _paIgnoreNotificationCodes;
+
+  RFIDParams({List<int>? paIgnoreNotificationCodes})
+      : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
 
   /// Allows you to deserialize object.
   static RFIDParams? fromJson(jsonObject) {
-    var result = new RFIDParams();
     if (jsonObject == null) return null;
-
-    result.paIgnoreNotificationCodes = jsonObject["paIgnoreNotificationCodes"];
-
-    return result;
+    return RFIDParams(
+      paIgnoreNotificationCodes: jsonObject["paIgnoreNotificationCodes"],
+    );
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    if (paIgnoreNotificationCodes != null)
-      result["paIgnoreNotificationCodes"] = paIgnoreNotificationCodes;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "paIgnoreNotificationCodes": paIgnoreNotificationCodes,
+      }.clearNulls();
 }

@@ -50,7 +50,7 @@ class OpticalStatus {
   /// Allows you to deserialize object.
   static OpticalStatus? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new OpticalStatus();
+    var result = OpticalStatus();
 
     result._overallStatus =
         CheckResult.getByValue(jsonObject["overallStatus"])!;
@@ -67,19 +67,15 @@ class OpticalStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["overallStatus"] = overallStatus.value;
-    result["mrz"] = mrz.value;
-    result["text"] = text.value;
-    result["docType"] = docType.value;
-    result["security"] = security.value;
-    result["imageQA"] = imageQA.value;
-    result["expiry"] = expiry.value;
-    result["vds"] = vds.value;
-    result["pagesCount"] = pagesCount;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "overallStatus": overallStatus.value,
+        "mrz": mrz.value,
+        "text": text.value,
+        "docType": docType.value,
+        "security": security.value,
+        "imageQA": imageQA.value,
+        "expiry": expiry.value,
+        "vds": vds.value,
+        "pagesCount": pagesCount,
+      }.clearNulls();
 }

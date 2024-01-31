@@ -26,7 +26,7 @@ class RFIDNotification {
   @visibleForTesting
   static RFIDNotification? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDNotification();
+    var result = RFIDNotification();
 
     result._notificationCode =
         RFIDNotificationCodes.getByValue(jsonObject["notificationCode"])!;
@@ -42,7 +42,7 @@ class RFIDNotification {
         "notificationCode": notificationCode.value,
         "dataFileType": dataFileType.value,
         "progress": progress
-      };
+      }.clearNulls();
 }
 
 /// Enumeration contains a set of notification returned

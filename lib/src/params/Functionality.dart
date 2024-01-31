@@ -21,7 +21,7 @@ class Functionality {
   bool? _pictureOnBoundsReady;
   set pictureOnBoundsReady(bool? val) {
     _pictureOnBoundsReady = val;
-    _setFunctionality({"pictureOnBoundsReady": val}, this);
+    _set({"pictureOnBoundsReady": val});
   }
 
   /// If it's set to `true`, the button that allows you to turn on/off
@@ -32,7 +32,7 @@ class Functionality {
   bool? _showTorchButton;
   set showTorchButton(bool? val) {
     _showTorchButton = val;
-    _setFunctionality({"showTorchButton": val}, this);
+    _set({"showTorchButton": val});
   }
 
   /// If it's set to `true`, the button that allows you to close the scanner
@@ -43,7 +43,7 @@ class Functionality {
   bool? _showCloseButton;
   set showCloseButton(bool? val) {
     _showCloseButton = val;
-    _setFunctionality({"showCloseButton": val}, this);
+    _set({"showCloseButton": val});
   }
 
   /// If it's set to `true`, camera frames won't be taken for recognition
@@ -54,7 +54,7 @@ class Functionality {
   bool? _videoCaptureMotionControl;
   set videoCaptureMotionControl(bool? val) {
     _videoCaptureMotionControl = val;
-    _setFunctionality({"videoCaptureMotionControl": val}, this);
+    _set({"videoCaptureMotionControl": val});
   }
 
   /// If it's set to `true`, the button that allows you to take a picture
@@ -65,7 +65,7 @@ class Functionality {
   bool? _showCaptureButton;
   set showCaptureButton(bool? val) {
     _showCaptureButton = val;
-    _setFunctionality({"showCaptureButton": val}, this);
+    _set({"showCaptureButton": val});
   }
 
   /// If it's set to `true`, the button that allows you to change the camera
@@ -76,7 +76,7 @@ class Functionality {
   bool? _showChangeFrameButton;
   set showChangeFrameButton(bool? val) {
     _showChangeFrameButton = val;
-    _setFunctionality({"showChangeFrameButton": val}, this);
+    _set({"showChangeFrameButton": val});
   }
 
   /// If it's set to `true`, the button that allows you to skip processing
@@ -87,7 +87,7 @@ class Functionality {
   bool? _showSkipNextPageButton;
   set showSkipNextPageButton(bool? val) {
     _showSkipNextPageButton = val;
-    _setFunctionality({"showSkipNextPageButton": val}, this);
+    _set({"showSkipNextPageButton": val});
   }
 
   /// If it's set to `true`, allows you to connect to the external
@@ -96,7 +96,7 @@ class Functionality {
   bool? _useAuthenticator;
   set useAuthenticator(bool? val) {
     _useAuthenticator = val;
-    _setFunctionality({"useAuthenticator": val}, this);
+    _set({"useAuthenticator": val});
   }
 
   /// If it's set to `true`, camera frames won't be taken for recognition
@@ -107,7 +107,7 @@ class Functionality {
   bool? _skipFocusingFrames;
   set skipFocusingFrames(bool? val) {
     _skipFocusingFrames = val;
-    _setFunctionality({"skipFocusingFrames": val}, this);
+    _set({"skipFocusingFrames": val});
   }
 
   /// If it's set to `true`, the button that allows you to change a position
@@ -118,7 +118,7 @@ class Functionality {
   bool? _showCameraSwitchButton;
   set showCameraSwitchButton(bool? val) {
     _showCameraSwitchButton = val;
-    _setFunctionality({"showCameraSwitchButton": val}, this);
+    _set({"showCameraSwitchButton": val});
   }
 
   /// If it's set to `true`, the metadata will be displayed over the camera
@@ -129,7 +129,7 @@ class Functionality {
   bool? _displayMetadata;
   set displayMetadata(bool? val) {
     _displayMetadata = val;
-    _setFunctionality({"displayMetadata": val}, this);
+    _set({"displayMetadata": val});
   }
 
   /// If it's set to `true`, allows you to adjust a zoom level using the pinch
@@ -140,7 +140,7 @@ class Functionality {
   bool? _isZoomEnabled;
   set isZoomEnabled(bool? val) {
     _isZoomEnabled = val;
-    _setFunctionality({"isZoomEnabled": val}, this);
+    _set({"isZoomEnabled": val});
   }
 
   /// Allows you to disable all validations of having a torch in case Android
@@ -153,7 +153,7 @@ class Functionality {
   bool? _isCameraTorchCheckDisabled;
   set isCameraTorchCheckDisabled(bool? val) {
     _isCameraTorchCheckDisabled = val;
-    _setFunctionality({"isCameraTorchCheckDisabled": val}, this);
+    _set({"isCameraTorchCheckDisabled": val});
   }
 
   /// If set to `true`, video during processing of the document will be recorded.
@@ -164,7 +164,7 @@ class Functionality {
   bool? _recordScanningProcess;
   set recordScanningProcess(bool? val) {
     _recordScanningProcess = val;
-    _setFunctionality({"recordScanningProcess": val}, this);
+    _set({"recordScanningProcess": val});
   }
 
   /// If it's set to `true`, scanner operate in manual multipage scanning mode.
@@ -176,7 +176,7 @@ class Functionality {
   bool? _manualMultipageMode;
   set manualMultipageMode(bool? val) {
     _manualMultipageMode = val;
-    _setFunctionality({"manualMultipageMode": val}, this);
+    _set({"manualMultipageMode": val});
   }
 
   /// If it's set to `true`, once the scanning process is finished,
@@ -189,7 +189,7 @@ class Functionality {
   bool? _singleResult;
   set singleResult(bool? val) {
     _singleResult = val;
-    _setFunctionality({"singleResult": val}, this);
+    _set({"singleResult": val});
   }
 
   /// Allows you to specify a time interval when the Capture button
@@ -203,7 +203,7 @@ class Functionality {
   int? _showCaptureButtonDelayFromDetect;
   set showCaptureButtonDelayFromDetect(int? val) {
     _showCaptureButtonDelayFromDetect = val;
-    _setFunctionality({"showCaptureButtonDelayFromDetect": val}, this);
+    _set({"showCaptureButtonDelayFromDetect": val});
   }
 
   /// Allows you to specify a time interval when the Capture button
@@ -216,7 +216,7 @@ class Functionality {
   int? _showCaptureButtonDelayFromStart;
   set showCaptureButtonDelayFromStart(int? val) {
     _showCaptureButtonDelayFromStart = val;
-    _setFunctionality({"showCaptureButtonDelayFromStart": val}, this);
+    _set({"showCaptureButtonDelayFromStart": val});
   }
 
   /// Use the parameter to set the time limit (in seconds) for the RFID chip reading,
@@ -227,7 +227,7 @@ class Functionality {
   int? _rfidTimeout;
   set rfidTimeout(int? val) {
     _rfidTimeout = val;
-    _setFunctionality({"rfidTimeout": val}, this);
+    _set({"rfidTimeout": val});
   }
 
   /// Sets a limit on the number of pages to be processed.
@@ -235,7 +235,7 @@ class Functionality {
   int? _forcePagesCount;
   set forcePagesCount(int? val) {
     _forcePagesCount = val;
-    _setFunctionality({"forcePagesCount": val}, this);
+    _set({"forcePagesCount": val});
   }
 
   /// Allows you to specify an orientation of the camera view controller.
@@ -245,7 +245,7 @@ class Functionality {
   DocReaderOrientation? _orientation;
   set orientation(DocReaderOrientation? val) {
     _orientation = val;
-    _setFunctionality({"orientation": val?.value}, this);
+    _set({"orientation": val?.value});
   }
 
   /// Allows you to specify the video processing mode.
@@ -255,7 +255,7 @@ class Functionality {
   CaptureMode? _captureMode;
   set captureMode(CaptureMode? val) {
     _captureMode = val;
-    _setFunctionality({"captureMode": val}, this);
+    _set({"captureMode": val?.value});
   }
 
   /// Allows you to specify a position of a capture device for the video session.
@@ -265,7 +265,7 @@ class Functionality {
   CameraPosition? _cameraPosition;
   set cameraPosition(CameraPosition? val) {
     _cameraPosition = val;
-    _setFunctionality({"cameraPosition": val?.value}, this);
+    _set({"cameraPosition": val?.value});
   }
 
   /// Set this setting to override the default cropping frame provided by scenarios.
@@ -275,7 +275,7 @@ class Functionality {
   DocReaderFrame? _cameraFrame;
   set cameraFrame(DocReaderFrame? val) {
     _cameraFrame = val;
-    _setFunctionality({"cameraFrame": val?.value}, this);
+    _set({"cameraFrame": val?.value});
   }
 
   /// Allows you to specify a name of a Regula device that will be used
@@ -284,7 +284,7 @@ class Functionality {
   String? _btDeviceName;
   set btDeviceName(String? val) {
     _btDeviceName = val;
-    _setFunctionality({"btDeviceName": val}, this);
+    _set({"btDeviceName": val});
   }
 
   /// Allows you to set the desired zoom level (its range from 1x to 10x).
@@ -294,7 +294,7 @@ class Functionality {
   double? _zoomFactor;
   set zoomFactor(double? val) {
     _zoomFactor = val;
-    _setFunctionality({"zoomFactor": val}, this);
+    _set({"zoomFactor": val});
   }
 
   /// Allows you to control exposure.
@@ -304,7 +304,7 @@ class Functionality {
   double? _exposure;
   set exposure(double? val) {
     _exposure = val;
-    _setFunctionality({"exposure": val}, this);
+    _set({"exposure": val});
   }
 
   /// A list of devices that must not use the camera2 API.
@@ -314,7 +314,7 @@ class Functionality {
   List<String>? _excludedCamera2Models;
   set excludedCamera2Models(List<String>? val) {
     _excludedCamera2Models = val;
-    _setFunctionality({"excludedCamera2Models": val}, this);
+    _set({"excludedCamera2Models": val});
   }
 
   /// Allows you to specify the frame resolution.
@@ -324,7 +324,7 @@ class Functionality {
   CameraSize? _cameraResolutionAndroid;
   set cameraResolutionAndroid(CameraSize? val) {
     _cameraResolutionAndroid = val;
-    _setFunctionality({"cameraSize": val}, this);
+    _set({"cameraSize": val?.toJson()});
   }
 
   /// Allows you to specify the frame resolution.
@@ -334,53 +334,60 @@ class Functionality {
   CaptureSessionPreset? _cameraResolutionIOS;
   set cameraResolutionIOS(CaptureSessionPreset? val) {
     _cameraResolutionIOS = val;
-    _setFunctionality({"videoSessionPreset": val}, this);
+    _set({"videoSessionPreset": val?.value});
   }
 
   /// Allows you to deserialize object.
-  fromJson(Map<String, dynamic> jsonObject) {
-    _pictureOnBoundsReady = jsonObject["pictureOnBoundsReady"];
-    _showTorchButton = jsonObject["showTorchButton"];
-    _showCloseButton = jsonObject["showCloseButton"];
-    _videoCaptureMotionControl = jsonObject["videoCaptureMotionControl"];
-    _showCaptureButton = jsonObject["showCaptureButton"];
-    _showChangeFrameButton = jsonObject["showChangeFrameButton"];
-    _showSkipNextPageButton = jsonObject["showSkipNextPageButton"];
-    _useAuthenticator = jsonObject["useAuthenticator"];
-    _skipFocusingFrames = jsonObject["skipFocusingFrames"];
-    _showCameraSwitchButton = jsonObject["showCameraSwitchButton"];
-    _displayMetadata = jsonObject["displayMetadata"];
-    _isZoomEnabled = jsonObject["isZoomEnabled"];
-    _isCameraTorchCheckDisabled = jsonObject["isCameraTorchCheckDisabled"];
-    _recordScanningProcess = jsonObject["recordScanningProcess"];
-    _manualMultipageMode = jsonObject["manualMultipageMode"];
-    _singleResult = jsonObject["singleResult"];
+  static Functionality fromJson(jsonObject) {
+    var result = Functionality();
+    result.testSetters = {};
 
-    _showCaptureButtonDelayFromDetect =
+    result.pictureOnBoundsReady = jsonObject["pictureOnBoundsReady"];
+    result.showTorchButton = jsonObject["showTorchButton"];
+    result.showCloseButton = jsonObject["showCloseButton"];
+    result.videoCaptureMotionControl = jsonObject["videoCaptureMotionControl"];
+    result.showCaptureButton = jsonObject["showCaptureButton"];
+    result.showChangeFrameButton = jsonObject["showChangeFrameButton"];
+    result.showSkipNextPageButton = jsonObject["showSkipNextPageButton"];
+    result.useAuthenticator = jsonObject["useAuthenticator"];
+    result.skipFocusingFrames = jsonObject["skipFocusingFrames"];
+    result.showCameraSwitchButton = jsonObject["showCameraSwitchButton"];
+    result.displayMetadata = jsonObject["displayMetadata"];
+    result.isZoomEnabled = jsonObject["isZoomEnabled"];
+    result.isCameraTorchCheckDisabled =
+        jsonObject["isCameraTorchCheckDisabled"];
+    result.recordScanningProcess = jsonObject["recordScanningProcess"];
+    result.manualMultipageMode = jsonObject["manualMultipageMode"];
+    result.singleResult = jsonObject["singleResult"];
+
+    result.showCaptureButtonDelayFromDetect =
         jsonObject["showCaptureButtonDelayFromDetect"];
-    _showCaptureButtonDelayFromStart =
+    result.showCaptureButtonDelayFromStart =
         jsonObject["showCaptureButtonDelayFromStart"];
-    _rfidTimeout = jsonObject["rfidTimeout"];
-    _forcePagesCount = jsonObject["forcePagesCount"];
-    _orientation = DocReaderOrientation.getByValue(jsonObject["orientation"]);
-    _captureMode = CaptureMode.getByValue(jsonObject["captureMode"]);
-    _cameraPosition = CameraPosition.getByValue(jsonObject["cameraPosition"]);
+    result.rfidTimeout = jsonObject["rfidTimeout"];
+    result.forcePagesCount = jsonObject["forcePagesCount"];
+    result.orientation =
+        DocReaderOrientation.getByValue(jsonObject["orientation"]);
+    result.captureMode = CaptureMode.getByValue(jsonObject["captureMode"]);
+    result.cameraPosition =
+        CameraPosition.getByValue(jsonObject["cameraPosition"]);
 
-    _cameraFrame = DocReaderFrame.getByValue(jsonObject["cameraFrame"]);
-    _btDeviceName = jsonObject["btDeviceName"];
+    result.cameraFrame = DocReaderFrame.getByValue(jsonObject["cameraFrame"]);
+    result.btDeviceName = jsonObject["btDeviceName"];
 
-    _zoomFactor = _toDouble(jsonObject["zoomFactor"]);
-    _exposure = _toDouble(jsonObject["exposure"]);
+    result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
+    result.exposure = _toDouble(jsonObject["exposure"]);
 
-    _excludedCamera2Models = jsonObject["excludedCamera2Models"] == null
+    result.excludedCamera2Models = jsonObject["excludedCamera2Models"] == null
         ? null
         : List<String>.from(jsonObject["excludedCamera2Models"]);
 
-    _cameraResolutionAndroid = CameraSize.fromJson(jsonObject["cameraSize"]);
-    _cameraResolutionIOS =
+    result.cameraResolutionAndroid =
+        CameraSize.fromJson(jsonObject["cameraSize"]);
+    result.cameraResolutionIOS =
         CaptureSessionPreset.getByValue(jsonObject["videoSessionPreset"]);
 
-    return this;
+    return result;
   }
 
   /// Allows you to serialize object.
@@ -415,22 +422,18 @@ class Functionality {
         "excludedCamera2Models": excludedCamera2Models,
         "cameraSize": cameraResolutionAndroid?.toJson(),
         "videoSessionPreset": cameraResolutionIOS?.value,
-      };
+      }.clearNulls();
 
-  static _setFunctionality(
-    Map<String, dynamic> json,
-    Functionality instance,
-  ) {
-    if (identical(instance, DocumentReader.instance.functionality))
+  void _set(Map<String, dynamic> json) {
+    if (identical(this, DocumentReader.instance.functionality))
       _bridge.invokeMethod("setFunctionality", [json]);
+    testSetters.addAll(json);
   }
 
-  Future<void> _sync() async {
-    String response = await _bridge.invokeMethod("getFunctionality", []);
-    this.fromJson(_decode(response));
-  }
+  void _apply() => _set(toJson());
 
-  _apply() => _setFunctionality(this.toJson(), this);
+  @visibleForTesting
+  Map<String, dynamic> testSetters = {};
 }
 
 enum CameraPosition {
@@ -566,19 +569,23 @@ enum DocReaderFrame {
 }
 
 class CameraSize {
-  late int width;
+  int get width => _width;
+  int _width;
 
-  late int height;
+  int get height => _height;
+  int _height;
+
+  CameraSize(int width, int height)
+      : _width = width,
+        _height = height;
 
   /// Allows you to deserialize object.
   static CameraSize? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new CameraSize();
-
-    result.width = jsonObject["width"];
-    result.height = jsonObject["height"];
-
-    return result;
+    return CameraSize(
+      jsonObject["width"],
+      jsonObject["height"],
+    );
   }
 
   /// Allows you to serialize object.
@@ -586,6 +593,6 @@ class CameraSize {
     return {
       "width": width,
       "height": height,
-    };
+    }.clearNulls();
   }
 }

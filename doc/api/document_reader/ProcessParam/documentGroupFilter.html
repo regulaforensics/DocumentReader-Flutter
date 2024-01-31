@@ -105,7 +105,7 @@ for example, specify only passports to be recognized by setting this property.</
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set documentGroupFilter(List&lt;DocType&gt;? val) {
   _documentGroupFilter = val;
-  _setProcessParams({&quot;documentGroupFilter&quot;: DocType.toIntList(val)}, this);
+  _set({&quot;documentGroupFilter&quot;: val?.map((e) =&gt; e.value).toList()});
 }</code></pre>
 </section>
 
@@ -140,7 +140,7 @@ for example, specify only passports to be recognized by setting this property.</
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

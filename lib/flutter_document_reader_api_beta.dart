@@ -14,6 +14,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 part 'src/internal/Utils.dart';
 part 'src/internal/Bridge.dart';
@@ -119,7 +120,7 @@ part 'src/results/visual_results/VisualFieldType.dart';
 part 'src/results/visual_results/LCID.dart';
 
 part 'src/results/Results.dart';
-part 'src/results/ElementPosition.dart';
+part 'src/results/Position.dart';
 part 'src/results/DocumentType.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
@@ -141,7 +142,7 @@ class DocumentReader {
 
   /// Information about your license.
   License get license => _license;
-  License _license = new License();
+  License _license = License();
 
   /// Allows you to check if RFID chip reading can be performed based on your
   /// license and Core framework capabilities.
@@ -194,7 +195,7 @@ class DocumentReader {
   /// Params that influence the scanning process, camera view controller
   /// customization and etc.
   Functionality get functionality => _functionality;
-  Functionality _functionality = new Functionality();
+  Functionality _functionality = Functionality();
   set functionality(Functionality val) {
     _functionality = val;
     _functionality._apply();
@@ -202,7 +203,7 @@ class DocumentReader {
 
   /// Params that influence the scanning process.
   ProcessParam get processParams => _processParams;
-  ProcessParam _processParams = new ProcessParam();
+  ProcessParam _processParams = ProcessParam();
   set processParams(ProcessParam val) {
     _processParams = val;
     _processParams._apply();
@@ -210,7 +211,7 @@ class DocumentReader {
 
   /// Params that relate to the camera view controller customization and etc.
   Customization get customization => _customization;
-  Customization _customization = new Customization();
+  Customization _customization = Customization();
   set customization(Customization val) {
     _customization = val;
     _customization._apply();
@@ -218,7 +219,7 @@ class DocumentReader {
 
   /// Params that influence the RFID chip processing.
   RFIDScenario get rfidScenario => _rfidScenario;
-  RFIDScenario _rfidScenario = new RFIDScenario();
+  RFIDScenario _rfidScenario = RFIDScenario();
   set rfidScenario(RFIDScenario val) {
     _rfidScenario = val;
     _rfidScenario._apply();
@@ -255,7 +256,7 @@ class DocumentReader {
   }
 
   /// Use this method to reset all parameters to their default values.
-  resetConfiguration() {
+  void resetConfiguration() {
     _bridge.invokeMethod("resetConfiguration", []);
     _functionality = Functionality();
     _processParams = ProcessParam();
@@ -273,39 +274,22 @@ class DocumentReader {
 
   /// Allows you to initialize Document Reader.
   ///
-  /// [config] A configuration file for DocumentReader initialization.
+  /// [config] - configuration file for DocumentReader initialization.
   ///
-  /// [successCompletion] The block to execute after the initialization finishes.
-  ///
-  /// Note: for convinience function returns `Future<bool>`.
-  /// This is the same `bool` that is returned by [SuccessCompletion], indicating
-  /// whether the function has succeeded or not. If you don't need to handle
-  /// an error, you can leave [successCompletion] as `null` and only use the
-  /// return value of the function.
-  Future<bool> initializeReader(
-    InitConfig config,
-    SuccessCompletion? successCompletion,
-  ) async {
-    var funcName = "initializeReader";
-    if (config.license == null)
-      funcName = "initializeReaderWithBleDeviceConfig";
-
-    bool success = _successCompletionFromJson(
-      await _bridge.invokeMethod(funcName, [config.toJson()]),
-      successCompletion,
-    );
-
-    await _onInit(success);
-
-    return success;
+  /// Check out [SuccessOrError] documentation for handling return type.
+  Future<SuccessOrError> initializeReader(InitConfig config) async {
+    var funcName = config._useBleDevice
+        ? "initializeReaderWithBleDeviceConfig"
+        : "initializeReader";
+    var response = await _bridge.invokeMethod(funcName, [config.toJson()]);
+    await _onInit();
+    return _successOrErrorFromJson(response);
   }
 
   /// Used to connect to the ble device.
   ///
   /// Android only.
-  startBluetoothService(
-    BluetoothServiceCompletion completion,
-  ) async {
+  void startBluetoothService(BluetoothServiceCompletion completion) {
     if (!Platform.isAndroid)
       throw PlatformException(
         code: "android-only",
@@ -324,61 +308,41 @@ class DocumentReader {
   /// Allows you to download a database from the Regula server. If it exists
   /// in your app and compatible with the SDK, it won't be downloaded.
   ///
-  /// [databaseID] An identifier of the database.
+  /// [databaseID] - identifier of the database.
   ///
-  /// [prepareCompletion] A callback that returns downloading progress.
+  /// [prepareCompletion] - callback that returns downloading progress.
   ///
-  /// [successCompletion] The block to execute after the download finishes.
-  ///
-  /// Note: for convinience function returns `Future<bool>`.
-  /// This is the same `bool` that is returned by [SuccessCompletion], indicating
-  /// whether the function has succeeded or not. If you don't need to handle
-  /// an error, you can leave [successCompletion] as `null` and only use the
-  /// return value of the function.
-  Future<bool> prepareDatabase(
+  /// Check out [SuccessOrError] documentation for handling return type.
+  Future<SuccessOrError> prepareDatabase(
     String databaseID,
     DocumentReaderPrepareCompletion prepareCompletion,
-    SuccessCompletion? successCompletion,
   ) async {
     _setDocumentReaderPrepareCompletion(prepareCompletion);
-    return _successCompletionFromJson(
-      await _bridge.invokeMethod("prepareDatabase", [databaseID]),
-      successCompletion,
-    );
+    var response = await _bridge.invokeMethod("prepareDatabase", [databaseID]);
+    return _successOrErrorFromJson(response);
   }
 
   /// Allows you to download a database from the Regula server.
   /// Each new update of the database will be downloaded.
   ///
-  /// [databaseID] An identifier of the database.
+  /// [databaseID] - identifier of the database.
   ///
-  /// [prepareCompletion] A callback that returns downloading progress.
+  /// [prepareCompletion] - callback that returns downloading progress.
   ///
-  /// [successCompletion] The block to execute after the download finishes.
-  ///
-  /// Note: for convinience function returns `Future<bool>`.
-  /// This is the same `bool` that is returned by [SuccessCompletion], indicating
-  /// whether the function has succeeded or not. If you don't need to handle
-  /// an error, you can leave [successCompletion] as `null` and only use the
-  /// return value of the function.
-  Future<bool> runAutoUpdate(
+  /// Check out [SuccessOrError] documentation for handling return type.
+  Future<SuccessOrError> runAutoUpdate(
     String databaseID,
     DocumentReaderPrepareCompletion prepareCompletion,
-    SuccessCompletion? successCompletion,
   ) async {
     _setDocumentReaderPrepareCompletion(prepareCompletion);
-    return _successCompletionFromJson(
-      await _bridge.invokeMethod("runAutoUpdate", [databaseID]),
-      successCompletion,
-    );
+    var response = await _bridge.invokeMethod("runAutoUpdate", [databaseID]);
+    return _successOrErrorFromJson(response);
   }
 
   /// Allows you to to check database update.
   ///
-  /// [databaseID] An identifier of the database.
-  Future<DocumentsDatabase?> checkDatabaseUpdate(
-    String databaseID,
-  ) async {
+  /// [databaseID] - identifier of the database.
+  Future<DocumentsDatabase?> checkDatabaseUpdate(String databaseID) async {
     String? response = await _bridge.invokeMethod(
       "checkDatabaseUpdate",
       [databaseID],
@@ -409,28 +373,28 @@ class DocumentReader {
 
   /// Used for multiple frames processing which are captured from the camera.
   ///
-  /// [config] Scanning configuration.
+  /// [config] - scanning configuration.
   ///
-  /// [completion] The block to execute after the recognition process finishes.
-  scan(ScannerConfig config, DocumentReaderCompletion completion) {
+  /// [completion] - block to execute after the recognition process finishes.
+  void scan(ScannerConfig config, DocumentReaderCompletion completion) {
     _setDocumentReaderCompletion(completion);
     _bridge.invokeMethod("scan", [config.toJson()]);
   }
 
   /// Used for proccessing predefined images.
   ///
-  /// [config] Scanning configuration.
+  /// [config] - scanning configuration.
   ///
-  /// [completion] The block to execute after the recognition process finishes.
-  recognize(RecognizeConfig config, DocumentReaderCompletion completion) {
+  /// [completion] - block to execute after the recognition process finishes.
+  void recognize(RecognizeConfig config, DocumentReaderCompletion completion) {
     _setDocumentReaderCompletion(completion);
     _bridge.invokeMethod("recognize", [config.toJson()]);
   }
 
   /// Used for the RFID chip processing.
   ///
-  /// [config] Chip reading configuration.
-  rfid(RFIDConfig config) {
+  /// [config] - chip reading configuration.
+  void rfid(RFIDConfig config) {
     config._disableUI
         ? _setRFIDCompletion(config._rfidCompletion!)
         : _setDocumentReaderCompletion(config._completion!);
@@ -443,23 +407,24 @@ class DocumentReader {
     _setTaCertificateCompletion(config.onRequestTACertificates);
     _setTaSignatureCompletion(config.onRequestTASignature);
 
-    var requestType = 0;
-    if (config.onRequestPACertificates != null)
-      requestType = 2;
-    else if (config.onRequestTACertificates != null ||
-        config.onRequestTASignature != null) requestType = 1;
-
     // Currently(in 6.9) in iOS onChipDetected and onRetryReadChip
     // are parts of RGLDocReaderRFIDDelegate.
     // Waiting for iOS rfid rework in 6.10
-    if (Platform.isIOS &&
-        requestType == 0 &&
-        (config.onChipDetected != null || config.onRetryReadChip != null))
-      requestType = 1;
+
+    // if (Platform.isIOS &&
+    //     requestType == 0 &&
+    //     (config.onChipDetected != null || config.onRetryReadChip != null))
+    //   requestType = 1;
+
+    // TODO Waiting for iOS rfid rework. Android already implemented.
 
     var nativeFunction = config._disableUI ? "readRFID" : "startRFIDReader";
 
-    _bridge.invokeMethod(nativeFunction, [requestType]);
+    _bridge.invokeMethod(nativeFunction, [
+      config.onRequestPACertificates != null,
+      config.onRequestTACertificates != null,
+      config.onRequestTASignature != null,
+    ]);
   }
 
   /// Used to stop the scanning process.
@@ -475,7 +440,7 @@ class DocumentReader {
   /// Used to pass certificates to Document Reader that will be used during the
   /// RFID chip processing.
   ///
-  /// [certificates] PKD certificates.
+  /// [certificates] - PKD certificates.
   Future<void> addPKDCertificates(List<PKDCertificate> certificates) async {
     List<dynamic> json = [];
     for (PKDCertificate cert in certificates) {
@@ -490,53 +455,58 @@ class DocumentReader {
     await _bridge.invokeMethod("clearPKDCertificates", []);
   }
 
-  /// Bool 'success' is not only passed to [SuccessCompletion],
-  /// but for convenience it is also returned as [Future]
-  ///
-  ///
   /// Sets the given `TCCParams` to the RFID  session.
   /// The parameters are required to be set before starting RFID session.
   ///
-  /// [params] TCC related parameters.
+  /// [params] - TCC related parameters.
   ///
-  /// [successCompletion] Completion block of the operation.
-  ///
-  /// Note: for convinience function returns `Future<bool>`.
-  /// This is the same `bool` that is returned by [SuccessCompletion], indicating
-  /// whether the function has succeeded or not. If you don't need to handle
-  /// an error, you can leave [successCompletion] as `null` and only use the
-  /// return value of the function.
-  Future<bool> setTCCParams(
-    TccParams params,
-    SuccessCompletion? successCompletion,
-  ) async {
-    return _successCompletionFromJson(
-      await _bridge.invokeMethod("setTCCParams", [params.toJson()]),
-      successCompletion,
+  /// Check out [SuccessOrError] documentation for handling return type.
+  Future<SuccessOrError> setTCCParams(TccParams params) async {
+    var response = await _bridge.invokeMethod(
+      "setTCCParams",
+      [params.toJson()],
     );
+    return _successOrErrorFromJson(response);
   }
 
-  bool _successCompletionFromJson(
-      String jsonString, SuccessCompletion? completion) {
+  (bool, DocReaderException?) _successOrErrorFromJson(String jsonString) {
     var jsonObject = json.decode(jsonString);
     var success = jsonObject["success"];
     var error = DocReaderException.fromJson(jsonObject["error"]);
-
-    completion?.call(success, error);
-    return success;
+    return (success, error);
   }
 
-  _onInit(bool success) async {
+  Future<void> _onInit() async {
     _version = await _getDocReaderVersion();
     _availableScenarios = await _getAvailableScenarios();
     _license = await _getLicense();
     _isRFIDAvailableForUse = await _getIsRFIDAvailableForUse();
     _tag = await _getTag();
     if (Platform.isIOS) _rfidSessionStatus = await _getRfidSessionStatus();
-    await _functionality._sync();
-    await _processParams._sync();
-    await _customization._sync();
-    await _rfidScenario._sync();
+    _functionality = await _getFunctionality();
+    _processParams = await _getProcessParams();
+    _customization = await _getCustomization();
+    _rfidScenario = await _getRfidScenario();
+  }
+
+  Future<ProcessParam> _getProcessParams() async {
+    String response = await _bridge.invokeMethod("getProcessParams", []);
+    return ProcessParam.fromJson(_decode(response));
+  }
+
+  Future<Functionality> _getFunctionality() async {
+    String response = await _bridge.invokeMethod("getFunctionality", []);
+    return Functionality.fromJson(_decode(response));
+  }
+
+  Future<Customization> _getCustomization() async {
+    String response = await _bridge.invokeMethod("getCustomization", []);
+    return Customization.fromJson(_decode(response));
+  }
+
+  Future<RFIDScenario> _getRfidScenario() async {
+    String response = await _bridge.invokeMethod("getRfidScenario", []);
+    return RFIDScenario.fromJson(_decode(response));
   }
 
   Future<License> _getLicense() async {
@@ -566,7 +536,7 @@ class DocumentReader {
     return await _bridge.invokeMethod("getRfidSessionStatus", []);
   }
 
-  _setRfidSessionStatus(String? status) {
+  void _setRfidSessionStatus(String? status) {
     _bridge.invokeMethod("setRfidSessionStatus", [status]);
   }
 
@@ -574,27 +544,60 @@ class DocumentReader {
     return await _bridge.invokeMethod("getTag", []);
   }
 
-  _setTag(String? tag) {
+  void _setTag(String? tag) {
     _bridge.invokeMethod("setTag", [tag]);
   }
 
-  _setLocalizationDictionary(Map<String, String>? dictionary) async {
-    await _bridge.invokeMethod("setLocalizationDictionary", [dictionary]);
+  void _setLocalizationDictionary(Map<String, String>? dictionary) {
+    _bridge.invokeMethod("setLocalizationDictionary", [dictionary]);
   }
 }
 
-/// Callback for receiving answer from any function
+/// A type specifically made for receiving answer from any function
 /// which does not return anything, but we need to know whether the function
 /// has succeeded or not.
 ///
-/// [success] Indicates success status.
+/// [bool] - indicates success status.
 ///
-/// [error] in case success status is `false` - brief message for developer,
+/// [DocReaderException] - in case success status is `false` - brief message for developer,
 /// `null` otherwise.
-typedef SuccessCompletion = void Function(
-  bool success,
-  DocReaderException? error,
-);
+///
+/// Examples(`myFunction` returns [SuccessOrError]):
+///
+/// With error handling:
+/// ```dart
+/// var (success, error) = await myFunction();
+/// if (success) {
+///   print("success!");
+/// } else {
+///   print("Error: ${error!.message}");
+/// }
+/// ```
+///
+/// Using then:
+/// ```dart
+/// myFunction().then((response) {
+///   var (success, error) = response;
+///   if (success) {
+///     print("success!");
+///   } else {
+///     print("Error: ${error!.message}");
+///   }
+/// });
+/// ```
+/// Without error handling:
+/// ```dart
+/// var (success, _) = await myFunction();
+/// if (success) {
+///   print("success!");
+/// }
+/// ```
+///
+/// Most compact:
+/// ```dart
+/// if ((await myFunction()).$1) print("success");
+/// ```
+typedef SuccessOrError = (bool, DocReaderException?);
 
 /// Callback for receiving answer from processing engine.
 ///

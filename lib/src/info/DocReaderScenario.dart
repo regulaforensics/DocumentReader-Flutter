@@ -25,14 +25,8 @@ class DocReaderScenario {
   DocReaderOrientation get frameOrientation => _frameOrientation;
   late DocReaderOrientation _frameOrientation;
 
-  DocReaderFrame? get frame => _frame;
-  DocReaderFrame? _frame;
-
   bool get uvTorch => _uvTorch;
   late bool _uvTorch;
-
-  bool? get barcodeExt => _barcodeExt;
-  bool? _barcodeExt;
 
   bool get faceExt => _faceExt;
   late bool _faceExt;
@@ -63,13 +57,11 @@ class DocReaderScenario {
   @visibleForTesting
   static DocReaderScenario? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DocReaderScenario();
+    var result = DocReaderScenario();
 
     result._uvTorch = jsonObject["uvTorch"];
     result._frameOrientation =
         DocReaderOrientation.getByValue(jsonObject["frameOrientation"])!;
-    result._frame = DocReaderFrame.getByValue(jsonObject["frame"]);
-    result._barcodeExt = jsonObject["barcodeExt"];
     result._faceExt = jsonObject["faceExt"];
     result._multiPageOff = jsonObject["multiPageOff"];
     result._seriesProcessMode = jsonObject["seriesProcessMode"];
@@ -91,8 +83,6 @@ class DocReaderScenario {
   Map<String, dynamic> toJson() => {
         "uvTorch": uvTorch,
         "frameOrientation": frameOrientation.value,
-        "frame": frame?.value,
-        "barcodeExt": barcodeExt,
         "faceExt": faceExt,
         "multiPageOff": multiPageOff,
         "seriesProcessMode": seriesProcessMode,
@@ -104,7 +94,7 @@ class DocReaderScenario {
         "caption": caption,
         "description": description,
         "manualCrop": manualCrop
-      };
+      }.clearNulls();
 }
 
 enum Scenario {

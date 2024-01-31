@@ -38,7 +38,10 @@ enum ImageQualityCheckType {
   PORTRAIT(7),
 
   /// Handwritten image check.
-  HANDWRITTEN(8);
+  HANDWRITTEN(8),
+
+  /// Signals whether the document image is bright enough.
+  BRIGHTNESS(9);
 
   const ImageQualityCheckType(this.value);
   final int value;

@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static SignerInfo? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new SignerInfo();
+  var result = SignerInfo();
 
   result._version = jsonObject[&quot;version&quot;];
   result._paStatus = jsonObject[&quot;paStatus&quot;];
@@ -133,7 +133,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

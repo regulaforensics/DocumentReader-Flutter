@@ -48,7 +48,7 @@ class File {
   /// Allows you to deserialize object.
   static File? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new File();
+    var result = File();
 
     result._readingTime = jsonObject["readingTime"];
     result._type = RFIDDataFileType.getByValue(jsonObject["type"])!;
@@ -69,22 +69,18 @@ class File {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["fileData"] = fileData?.toJson();
-    result["fileID"] = fileID;
-    result["notifications"] = notifications;
-    result["pAStatus"] = pAStatus.value;
-    result["readingStatus"] = readingStatus.value;
-    result["readingTime"] = readingTime;
-    result["type"] = type.value;
-    result["typeName"] = typeName;
-    result["docFieldsText"] = docFieldsText;
-    result["docFieldsGraphics"] = docFieldsGraphics;
-    result["docFieldsOriginals"] = docFieldsOriginals;
-    result["certificates"] = certificates?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "fileData": fileData?.toJson(),
+        "fileID": fileID,
+        "notifications": notifications,
+        "pAStatus": pAStatus.value,
+        "readingStatus": readingStatus.value,
+        "readingTime": readingTime,
+        "type": type.value,
+        "typeName": typeName,
+        "docFieldsText": docFieldsText,
+        "docFieldsGraphics": docFieldsGraphics,
+        "docFieldsOriginals": docFieldsOriginals,
+        "certificates": certificates?.toJson(),
+      }.clearNulls();
 }

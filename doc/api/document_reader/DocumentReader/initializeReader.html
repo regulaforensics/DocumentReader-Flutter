@@ -63,9 +63,8 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-<span class="name ">initializeReader</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="initializeReader-param-config"><span class="type-annotation"><a href="../../document_reader/InitConfig-class.html">InitConfig</a></span> <span class="parameter-name">config</span>, </span></li>
-<li><span class="parameter" id="initializeReader-param-successCompletion"><span class="type-annotation"><a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+<span class="name ">initializeReader</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="initializeReader-param-config"><span class="type-annotation"><a href="../../document_reader/InitConfig-class.html">InitConfig</a></span> <span class="parameter-name">config</span></span></li>
 </ol>)
 
       
@@ -74,35 +73,21 @@
     
 <section class="desc markdown">
   <p>Allows you to initialize Document Reader.</p>
-<p><code>config</code> A configuration file for DocumentReader initialization.</p>
-<p><code>successCompletion</code> The block to execute after the initialization finishes.</p>
-<p>Note: for convinience function returns <code>Future&lt;bool&gt;</code>.
-This is the same <code>bool</code> that is returned by <a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>, indicating
-whether the function has succeeded or not. If you don't need to handle
-an error, you can leave <code>successCompletion</code> as <code>null</code> and only use the
-return value of the function.</p>
+<p><code>config</code> - configuration file for DocumentReader initialization.</p>
+<p>Check out <code>SuccessOrError</code> documentation for handling return type.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; initializeReader(
-  InitConfig config,
-  SuccessCompletion? successCompletion,
-) async {
-  var funcName = &quot;initializeReader&quot;;
-  if (config.license == null)
-    funcName = &quot;initializeReaderWithBleDeviceConfig&quot;;
-
-  bool success = _successCompletionFromJson(
-    await _bridge.invokeMethod(funcName, [config.toJson()]),
-    successCompletion,
-  );
-
-  await _onInit(success);
-
-  return success;
+  <pre class="language-dart"><code class="language-dart">Future&lt;SuccessOrError&gt; initializeReader(InitConfig config) async {
+  var funcName = config._useBleDevice
+      ? &quot;initializeReaderWithBleDeviceConfig&quot;
+      : &quot;initializeReader&quot;;
+  var response = await _bridge.invokeMethod(funcName, [config.toJson()]);
+  await _onInit();
+  return _successOrErrorFromJson(response);
 }</code></pre>
 </section>
 
@@ -136,7 +121,7 @@ return value of the function.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

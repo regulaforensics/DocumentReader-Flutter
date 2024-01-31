@@ -45,7 +45,7 @@ class Value {
   /// Allows you to deserialize object.
   static Value? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Value();
+    var result = Value();
 
     result._pageIndex = jsonObject["pageIndex"];
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
@@ -61,20 +61,14 @@ class Value {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["sourceType"] = sourceType.value;
-    result["value"] = value;
-    result["originalValue"] = originalValue;
-    result["pageIndex"] = pageIndex;
-    result["boundRect"] = boundRect?.toJson();
-    result["rfidOrigin"] = rfidOrigin?.toJson();
-    List<dynamic> list = [];
-    for (var item in originalSymbols) list.add(item.toJson());
-    result["originalSymbols"] = list;
-    result["probability"] = probability;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "sourceType": sourceType.value,
+        "value": value,
+        "originalValue": originalValue,
+        "pageIndex": pageIndex,
+        "boundRect": boundRect?.toJson(),
+        "rfidOrigin": rfidOrigin?.toJson(),
+        "originalSymbols": originalSymbols.map((e) => e.toJson()).toList(),
+        "probability": probability,
+      }.clearNulls();
 }

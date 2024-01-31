@@ -11,38 +11,41 @@ part of document_reader;
 /// Class defines reprocessing parameters.
 class ReprocParams {
   /// Url
-  late String serviceUrl;
+  String get serviceUrl => _serviceUrl;
+  String _serviceUrl;
 
   /// If set to `true`, it will fail if service is unreachable.
-  bool? failIfNoService;
+  bool? get failIfNoService => _failIfNoService;
+  bool? _failIfNoService;
 
   /// Allows you to set custom headers to http request.
-  Map<String, String>? httpHeaders;
+  Map<String, String>? get httpHeaders => _httpHeaders;
+  Map<String, String>? _httpHeaders;
 
-  ReprocParams(String serviceUrl) {
-    this.serviceUrl = serviceUrl;
-  }
+  ReprocParams(
+    String serviceUrl, {
+    bool? failIfNoService,
+    Map<String, String>? httpHeaders,
+  })  : _serviceUrl = serviceUrl,
+        _failIfNoService = failIfNoService,
+        _httpHeaders = httpHeaders;
 
   /// Allows you to deserialize object.
   static ReprocParams? fromJson(jsonObject) {
     if (jsonObject == null) return null;
+    var result = ReprocParams(jsonObject["serviceUrl"]);
 
-    var result = new ReprocParams(jsonObject["serviceUrl"]);
-    result.failIfNoService = jsonObject["failIfNoService"];
-    result.httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);
+    result._failIfNoService = jsonObject["failIfNoService"];
+    if (jsonObject["httpHeaders"] != null)
+      result._httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {
-      "serviceUrl": serviceUrl,
-    };
-
-    if (failIfNoService != null) result["failIfNoService"] = failIfNoService;
-    if (httpHeaders != null) result["httpHeaders"] = httpHeaders;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "serviceUrl": serviceUrl,
+        "failIfNoService": failIfNoService,
+        "httpHeaders": httpHeaders
+      }.clearNulls();
 }

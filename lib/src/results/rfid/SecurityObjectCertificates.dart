@@ -15,7 +15,7 @@ class SecurityObjectCertificates {
   /// Allows you to deserialize object.
   static SecurityObjectCertificates? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new SecurityObjectCertificates();
+    var result = SecurityObjectCertificates();
 
     result._securityObject =
         CertificateData.fromJson(jsonObject["securityObject"]);
@@ -24,11 +24,7 @@ class SecurityObjectCertificates {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["securityObject"] = securityObject?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "securityObject": securityObject?.toJson(),
+      }.clearNulls();
 }

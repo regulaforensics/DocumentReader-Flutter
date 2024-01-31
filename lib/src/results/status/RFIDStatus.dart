@@ -41,7 +41,7 @@ class RFIDStatus {
   /// Allows you to deserialize object.
   static RFIDStatus? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDStatus();
+    var result = RFIDStatus();
 
     result._pa = CheckResult.getByValue(jsonObject["pa"])!;
     result._ca = CheckResult.getByValue(jsonObject["ca"])!;
@@ -56,17 +56,13 @@ class RFIDStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["overallStatus"] = overallStatus.value;
-    result["pa"] = pa.value;
-    result["ca"] = ca.value;
-    result["aa"] = aa.value;
-    result["ta"] = ta.value;
-    result["bac"] = bac.value;
-    result["pace"] = pace.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "overallStatus": overallStatus.value,
+        "pa": pa.value,
+        "ca": ca.value,
+        "aa": aa.value,
+        "ta": ta.value,
+        "bac": bac.value,
+        "pace": pace.value,
+      }.clearNulls();
 }

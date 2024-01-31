@@ -24,7 +24,7 @@ class BytesData {
   /// Allows you to deserialize object.
   static BytesData? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new BytesData();
+    var result = BytesData();
 
     result._data = jsonObject["data"];
     result._length = jsonObject["length"];
@@ -35,14 +35,10 @@ class BytesData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["data"] = data;
-    result["length"] = length;
-    result["status"] = status;
-    result["type"] = type;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data,
+        "length": length,
+        "status": status,
+        "type": type,
+      }.clearNulls();
 }

@@ -78,21 +78,17 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;sourceType&quot;] = sourceType.value;
-  result[&quot;fieldType&quot;] = fieldType.value;
-  result[&quot;fieldName&quot;] = fieldName;
-  result[&quot;light&quot;] = light.value;
-  result[&quot;lightName&quot;] = lightName;
-  result[&quot;pageIndex&quot;] = pageIndex;
-  result[&quot;originalPageIndex&quot;] = originalPageIndex;
-  result[&quot;value&quot;] = value;
-  result[&quot;fieldRect&quot;] = fieldRect?.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;sourceType&quot;: sourceType.value,
+      &quot;fieldType&quot;: fieldType.value,
+      &quot;fieldName&quot;: fieldName,
+      &quot;light&quot;: light.value,
+      &quot;lightName&quot;: lightName,
+      &quot;pageIndex&quot;: pageIndex,
+      &quot;originalPageIndex&quot;: originalPageIndex,
+      &quot;value&quot;: _imageToBase64(value),
+      &quot;fieldRect&quot;: fieldRect?.toJson(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -125,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

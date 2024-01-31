@@ -37,6 +37,7 @@ enum LCID {
   ARABIC_WORLD(4096),
   AZERI_CYRILIC(2092),
   AZERI_LATIN(1068),
+  ASSAMESE(1101),
   BASQUE(1069),
   BANK_CARD(10003),
   BANK_CARD_CVV2(10004),
@@ -44,7 +45,8 @@ enum LCID {
   BANK_CARD_NUMBER(10000),
   BANK_CARD_VALID_THRU(10001),
   BELARUSIAN(1059),
-  BENGALI(2117),
+  BENGALI_BANGLADESH(2117),
+  BENGALI_INDIA(1093),
   BULGARIAN(1026),
   CATALAN(1027),
   CHINESE_HONGKONG_SAR(3076),
@@ -167,7 +169,10 @@ enum LCID {
   UZBEK_LATIN(1091),
   VIETNAMESE(1066),
   CTC_SIMPLIFIED(50001),
-  CTC_TRADITIONAL(50002);
+  CTC_TRADITIONAL(50002),
+  MALTESE(1082),
+  BURMESE(1109),
+  KHMER(1107);
 
   const LCID(this.value);
   final int value;
@@ -184,5 +189,12 @@ enum LCID {
     } catch (_) {
       return LCID.UNKNOWN;
     }
+  }
+
+  static List<LCID>? fromIntList(List<int>? input) {
+    if (input == null) return null;
+    List<LCID> list = [];
+    for (int item in input) list.addSafe(getByValue(item));
+    return list;
   }
 }

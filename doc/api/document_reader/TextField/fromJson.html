@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static TextField? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new TextField();
+  var result = TextField();
 
   result._fieldType = VisualFieldType.getByValue(jsonObject[&quot;fieldType&quot;])!;
   result._lcid = LCID.getByValue(jsonObject[&quot;lcid&quot;])!;
@@ -135,7 +135,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

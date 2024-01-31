@@ -105,7 +105,7 @@ All barcodes will be recognized if it's empty.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set barcodeTypes(List&lt;BarcodeType&gt;? val) {
   _barcodeTypes = val;
-  _setProcessParams({&quot;barcodeTypes&quot;: BarcodeType.toIntList(val)}, this);
+  _set({&quot;barcodeTypes&quot;: val?.map((e) =&gt; e.value).toList()});
 }</code></pre>
 </section>
 
@@ -140,7 +140,7 @@ All barcodes will be recognized if it's empty.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

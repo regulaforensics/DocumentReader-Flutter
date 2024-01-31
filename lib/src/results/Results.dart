@@ -23,24 +23,24 @@ class Results {
   GraphicResult? _graphicResult;
 
   /// Position of a document.
-  List<ElementPosition>? get documentPosition => _documentPosition;
-  List<ElementPosition>? _documentPosition;
+  List<Position>? get documentPosition => _documentPosition;
+  List<Position>? _documentPosition;
 
   /// Position of a barcode.
-  List<ElementPosition>? get barcodePosition => _barcodePosition;
-  List<ElementPosition>? _barcodePosition;
+  List<Position>? get barcodePosition => _barcodePosition;
+  List<Position>? _barcodePosition;
 
   /// Position of MRZ.
-  List<ElementPosition>? get mrzPosition => _mrzPosition;
-  List<ElementPosition>? _mrzPosition;
+  List<Position>? get mrzPosition => _mrzPosition;
+  List<Position>? _mrzPosition;
 
   /// Image quality results.
   List<ImageQualityGroup>? get imageQuality => _imageQuality;
   List<ImageQualityGroup>? _imageQuality;
 
   /// Status information for each operation.
-  ResultsStatus? get status => _status;
-  ResultsStatus? _status;
+  ResultsStatus get status => _status;
+  late ResultsStatus _status;
 
   /// Authenticity results.
   AuthenticityResult? get authenticityResult => _authenticityResult;
@@ -276,7 +276,7 @@ class Results {
   }
 
   /// Allows you to get an image of a graphic field.
-  Future<Uri?> graphicFieldImageByType(
+  Future<Image?> graphicFieldImageByType(
     GraphicFieldType fieldType,
   ) async {
     String? result = await _bridge.invokeMethod(
@@ -287,11 +287,12 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result);
+    // return Uri.parse("data:image/png;base64," + result);
+    return _imageFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type.
-  Future<Uri?> graphicFieldImageByTypeSource(
+  Future<Image?> graphicFieldImageByTypeSource(
     GraphicFieldType fieldType,
     ResultType source,
   ) async {
@@ -304,12 +305,12 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result);
+    return _imageFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type
   /// and page index.
-  Future<Uri?> graphicFieldImageByTypeSourcePageIndex(
+  Future<Image?> graphicFieldImageByTypeSourcePageIndex(
     GraphicFieldType fieldType,
     ResultType source,
     int pageIndex,
@@ -324,12 +325,12 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result);
+    return _imageFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type,
   /// page index and light type.
-  Future<Uri?> graphicFieldImageByTypeSourcePageIndexLight(
+  Future<Image?> graphicFieldImageByTypeSourcePageIndexLight(
     GraphicFieldType fieldType,
     ResultType source,
     int pageIndex,
@@ -346,7 +347,7 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return Uri.parse("data:image/png;base64," + result);
+    return _imageFromBase64(result);
   }
 
   /// Method returns containers by result type. If result type doesn't exist,
@@ -371,7 +372,7 @@ class Results {
   /// Allows you to deserialize object.
   static Results? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Results();
+    var result = Results();
 
     result._chipPage = jsonObject["chipPage"];
     result._processingFinishedStatus = ProcessingFinishedStatus.getByValue(
@@ -384,17 +385,17 @@ class Results {
     if (jsonObject["documentPosition"] != null) {
       result._documentPosition = [];
       for (var item in jsonObject["documentPosition"])
-        result._documentPosition!.addSafe(ElementPosition.fromJson(item));
+        result._documentPosition!.addSafe(Position.fromJson(item));
     }
     if (jsonObject["barcodePosition"] != null) {
       result._barcodePosition = [];
       for (var item in jsonObject["barcodePosition"])
-        result._barcodePosition!.addSafe(ElementPosition.fromJson(item));
+        result._barcodePosition!.addSafe(Position.fromJson(item));
     }
     if (jsonObject["mrzPosition"] != null) {
       result._mrzPosition = [];
       for (var item in jsonObject["mrzPosition"])
-        result._mrzPosition!.addSafe(ElementPosition.fromJson(item));
+        result._mrzPosition!.addSafe(Position.fromJson(item));
     }
     if (jsonObject["imageQuality"] != null) {
       result._imageQuality = [];
@@ -412,64 +413,33 @@ class Results {
     result._authenticityResult =
         AuthenticityResult.fromJson(jsonObject["authenticityResult"]);
     result._barcodeResult = BarcodeResult.fromJson(jsonObject["barcodeResult"]);
-    result._status = ResultsStatus.fromJson(jsonObject["status"]);
+    result._status = ResultsStatus.fromJson(jsonObject["status"])!;
     result._vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    if (documentType != null) {
-      List<dynamic> list = [];
-      for (var item in documentType!) list.add(item.toJson());
-      result["documentType"] = list;
-    } else
-      result["documentType"] = null;
-    if (documentPosition != null) {
-      List<dynamic> list = [];
-      for (var item in documentPosition!) list.add(item.toJson());
-      result["documentPosition"] = list;
-    } else
-      result["documentPosition"] = null;
-    if (barcodePosition != null) {
-      List<dynamic> list = [];
-      for (var item in barcodePosition!) list.add(item.toJson());
-      result["barcodePosition"] = list;
-    } else
-      result["barcodePosition"] = null;
-    if (mrzPosition != null) {
-      List<dynamic> list = [];
-      for (var item in mrzPosition!) list.add(item.toJson());
-      result["mrzPosition"] = list;
-    } else
-      result["mrzPosition"] = null;
-    if (imageQuality != null) {
-      List<dynamic> list = [];
-      for (var item in imageQuality!) list.add(item.toJson());
-      result["imageQuality"] = list;
-    } else
-      result["imageQuality"] = null;
-
-    result["textResult"] = textResult?.toJson();
-    result["graphicResult"] = graphicResult?.toJson();
-    result["status"] = status?.toJson();
-    result["authenticityResult"] = authenticityResult?.toJson();
-    result["rfidSessionData"] = rfidSessionData?.toJson();
-    result["barcodeResult"] = barcodeResult?.toJson();
-    result["vdsncData"] = vdsncData?.toJson();
-
-    result["chipPage"] = chipPage;
-    result["processingFinishedStatus"] = processingFinishedStatus.value;
-    result["morePagesAvailable"] = morePagesAvailable;
-    result["elapsedTime"] = elapsedTime;
-    result["elapsedTimeRFID"] = elapsedTimeRFID;
-    result["rawResult"] = rawResult;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "documentType": documentType?.map((e) => e.toJson()).toList(),
+        "documentPosition": documentPosition?.map((e) => e.toJson()).toList(),
+        "barcodePosition": barcodePosition?.map((e) => e.toJson()).toList(),
+        "mrzPosition": mrzPosition?.map((e) => e.toJson()).toList(),
+        "imageQuality": imageQuality?.map((e) => e.toJson()).toList(),
+        "textResult": textResult?.toJson(),
+        "graphicResult": graphicResult?.toJson(),
+        "status": status.toJson(),
+        "authenticityResult": authenticityResult?.toJson(),
+        "rfidSessionData": rfidSessionData?.toJson(),
+        "barcodeResult": barcodeResult?.toJson(),
+        "vdsncData": vdsncData?.toJson(),
+        "chipPage": chipPage,
+        "processingFinishedStatus": processingFinishedStatus.value,
+        "morePagesAvailable": morePagesAvailable,
+        "elapsedTime": elapsedTime,
+        "elapsedTimeRFID": elapsedTimeRFID,
+        "rawResult": rawResult,
+      }.clearNulls();
 }
 
 /// Enumeration contains identifiers that determine the processing finish status.
@@ -662,13 +632,6 @@ enum ResultType {
     } catch (_) {
       return ResultType.NONE;
     }
-  }
-
-  static List<int>? toIntList(List<ResultType>? input) {
-    if (input == null) return null;
-    List<int> list = [];
-    for (var item in input) list.add(item.value);
-    return list;
   }
 
   static List<ResultType>? fromIntList(List<int>? input) {

@@ -29,7 +29,7 @@ class ImageQualityGroup {
   /// Allows you to deserialize object.
   static ImageQualityGroup? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new ImageQualityGroup();
+    var result = ImageQualityGroup();
 
     result._count = jsonObject["count"];
     result._result = CheckResult.getByValue(jsonObject["result"])!;
@@ -41,16 +41,10 @@ class ImageQualityGroup {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["count"] = count;
-    result["result"] = this.result.value;
-    result["pageIndex"] = pageIndex;
-    List<dynamic> list = [];
-    for (var item in imageQualityList) list.add(item.toJson());
-    result["imageQualityList"] = list;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "count": count,
+        "result": result.value,
+        "pageIndex": pageIndex,
+        "imageQualityList": imageQualityList.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }

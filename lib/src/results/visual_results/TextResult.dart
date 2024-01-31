@@ -34,7 +34,7 @@ class TextResult {
   /// Allows you to deserialize object.
   static TextResult? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new TextResult();
+    var result = TextResult();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
     result._comparisonStatus =
@@ -50,19 +50,12 @@ class TextResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["status"] = status.value;
-    result["comparisonStatus"] = comparisonStatus.value;
-    result["validityStatus"] = validityStatus.value;
-    List<dynamic> list = [];
-    for (var item in availableSourceList) list.add(item.toJson());
-    result["availableSourceList"] = list;
-    list = [];
-    for (var item in fields) list.add(item.toJson());
-    result["fields"] = list;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "status": status.value,
+        "comparisonStatus": comparisonStatus.value,
+        "validityStatus": validityStatus.value,
+        "availableSourceList":
+            availableSourceList.map((e) => e.toJson()).toList(),
+        "fields": fields.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }

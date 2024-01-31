@@ -41,7 +41,7 @@ class ResultsStatus {
   /// Allows you to deserialize object.
   static ResultsStatus? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new ResultsStatus();
+    var result = ResultsStatus();
 
     result._overallStatus =
         CheckResult.getByValue(jsonObject["overallStatus"])!;
@@ -57,17 +57,13 @@ class ResultsStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["overallStatus"] = overallStatus.value;
-    result["optical"] = optical.value;
-    result["rfid"] = rfid.value;
-    result["portrait"] = portrait.value;
-    result["stopList"] = stopList.value;
-    result["detailsOptical"] = detailsOptical.toJson();
-    result["detailsRFID"] = detailsRFID.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "overallStatus": overallStatus.value,
+        "optical": optical.value,
+        "rfid": rfid.value,
+        "portrait": portrait.value,
+        "stopList": stopList.value,
+        "detailsOptical": detailsOptical.toJson(),
+        "detailsRFID": detailsRFID.toJson(),
+      }.clearNulls();
 }

@@ -79,7 +79,7 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static TccParams? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new TccParams();
+  var result = TccParams();
 
   result.serviceUrlTA = jsonObject[&quot;serviceUrlTA&quot;];
   result.serviceUrlPA = jsonObject[&quot;serviceUrlPA&quot;];
@@ -121,7 +121,7 @@ static TccParams? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

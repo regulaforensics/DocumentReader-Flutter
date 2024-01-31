@@ -16,7 +16,7 @@ class ProcessParam {
   bool? _multipageProcessing;
   set multipageProcessing(bool? val) {
     _multipageProcessing = val;
-    _setProcessParams({"multipageProcessing": val}, this);
+    _set({"multipageProcessing": val});
   }
 
   /// If set to `true`, the DocumentReader logs will be shown in the console.
@@ -24,7 +24,7 @@ class ProcessParam {
   bool? _logs;
   set logs(bool? val) {
     _logs = val;
-    _setProcessParams({"logs": val}, this);
+    _set({"logs": val});
   }
 
   /// If set to `true`, images will be saved to the application's directory.
@@ -32,7 +32,7 @@ class ProcessParam {
   bool? _debugSaveImages;
   set debugSaveImages(bool? val) {
     _debugSaveImages = val;
-    _setProcessParams({"debugSaveImages": val}, this);
+    _set({"debugSaveImages": val});
   }
 
   /// If set to `true`, text logs will be saved to the application's directory.
@@ -40,7 +40,7 @@ class ProcessParam {
   bool? _debugSaveLogs;
   set debugSaveLogs(bool? val) {
     _debugSaveLogs = val;
-    _setProcessParams({"debugSaveLogs": val}, this);
+    _set({"debugSaveLogs": val});
   }
 
   /// If set to `true`, an original (uncropped) image will be received,
@@ -49,7 +49,7 @@ class ProcessParam {
   bool? _returnUncroppedImage;
   set returnUncroppedImage(bool? val) {
     _returnUncroppedImage = val;
-    _setProcessParams({"returnUncroppedImage": val}, this);
+    _set({"returnUncroppedImage": val});
   }
 
   /// Set to `true` when torch is connected and enabled by user.
@@ -59,7 +59,7 @@ class ProcessParam {
   bool? _uvTorchEnabled;
   set uvTorchEnabled(bool? val) {
     _uvTorchEnabled = val;
-    _setProcessParams({"uvTorchEnabled": val}, this);
+    _set({"uvTorchEnabled": val});
   }
 
   /// If set to `true`, cropped images will be saved to the application's directory.
@@ -67,7 +67,7 @@ class ProcessParam {
   bool? _debugSaveCroppedImages;
   set debugSaveCroppedImages(bool? val) {
     _debugSaveCroppedImages = val;
-    _setProcessParams({"debugSaveCroppedImages": val}, this);
+    _set({"debugSaveCroppedImages": val});
   }
 
   /// If set to `true`, document focus check will be omitted.
@@ -75,7 +75,7 @@ class ProcessParam {
   bool? _disableFocusingCheck;
   set disableFocusingCheck(bool? val) {
     _disableFocusingCheck = val;
-    _setProcessParams({"disableFocusingCheck": val}, this);
+    _set({"disableFocusingCheck": val});
   }
 
   /// If set to `true`, RFID sessions will be saved to the application's directory.
@@ -83,7 +83,7 @@ class ProcessParam {
   bool? _debugSaveRFIDSession;
   set debugSaveRFIDSession(bool? val) {
     _debugSaveRFIDSession = val;
-    _setProcessParams({"debugSaveRFIDSession": val}, this);
+    _set({"debugSaveRFIDSession": val});
   }
 
   /// If set to `true`, allows to process up to two pages of the document
@@ -93,7 +93,7 @@ class ProcessParam {
   bool? _doublePageSpread;
   set doublePageSpread(bool? val) {
     _doublePageSpread = val;
-    _setProcessParams({"doublePageSpread": val}, this);
+    _set({"doublePageSpread": val});
   }
 
   /// If set to `true`, allows you to manually set the document's bounds
@@ -102,7 +102,7 @@ class ProcessParam {
   bool? _manualCrop;
   set manualCrop(bool? val) {
     _manualCrop = val;
-    _setProcessParams({"manualCrop": val}, this);
+    _set({"manualCrop": val});
   }
 
   /// Allows to build an integral image, taking into account the quality of
@@ -111,7 +111,7 @@ class ProcessParam {
   bool? _integralImage;
   set integralImage(bool? val) {
     _integralImage = val;
-    _setProcessParams({"integralImage": val}, this);
+    _set({"integralImage": val});
   }
 
   /// If set to `true`, an image with cropped barcode will be returned.
@@ -119,15 +119,15 @@ class ProcessParam {
   bool? _returnCroppedBarcode;
   set returnCroppedBarcode(bool? val) {
     _returnCroppedBarcode = val;
-    _setProcessParams({"returnCroppedBarcode": val}, this);
+    _set({"returnCroppedBarcode": val});
   }
 
-  /// If set to `true`, a document's holograms presence will be checked.
-  bool? get checkHologram => _checkHologram;
-  bool? _checkHologram;
-  set checkHologram(bool? val) {
-    _checkHologram = val;
-    _setProcessParams({"checkHologram": val}, this);
+  /// This parameter is used to enable document liveness check.
+  bool? get checkLiveness => _checkLiveness;
+  bool? _checkLiveness;
+  set checkLiveness(bool? val) {
+    _checkLiveness = val;
+    _set({"checkLiveness": val});
   }
 
   /// If set to `true`, in case required fields are not read, their values
@@ -136,7 +136,7 @@ class ProcessParam {
   bool? _checkRequiredTextFields;
   set checkRequiredTextFields(bool? val) {
     _checkRequiredTextFields = val;
-    _setProcessParams({"checkRequiredTextFields": val}, this);
+    _set({"checkRequiredTextFields": val});
   }
 
   /// If set to `true`, personal information will be removed from logs.
@@ -144,7 +144,7 @@ class ProcessParam {
   bool? _depersonalizeLog;
   set depersonalizeLog(bool? val) {
     _depersonalizeLog = val;
-    _setProcessParams({"depersonalizeLog": val}, this);
+    _set({"depersonalizeLog": val});
   }
 
   /// When enabled together with [doublePageSpread] and there is a passport
@@ -154,7 +154,7 @@ class ProcessParam {
   bool? _generateDoublePageSpreadImage;
   set generateDoublePageSpreadImage(bool? val) {
     _generateDoublePageSpreadImage = val;
-    _setProcessParams({"generateDoublePageSpreadImage": val}, this);
+    _set({"generateDoublePageSpreadImage": val});
   }
 
   /// This option can be set to `true` if you know for sure that the image you
@@ -164,7 +164,7 @@ class ProcessParam {
   bool? _alreadyCropped;
   set alreadyCropped(bool? val) {
     _alreadyCropped = val;
-    _setProcessParams({"alreadyCropped": val}, this);
+    _set({"alreadyCropped": val});
   }
 
   /// When disabled, text field OCR will be done as is and then the recognized
@@ -176,7 +176,7 @@ class ProcessParam {
   bool? _matchTextFieldMask;
   set matchTextFieldMask(bool? val) {
     _matchTextFieldMask = val;
-    _setProcessParams({"matchTextFieldMask": val}, this);
+    _set({"matchTextFieldMask": val});
   }
 
   /// When enabled, shorten the list of candidates to process during document
@@ -186,7 +186,7 @@ class ProcessParam {
   bool? _fastDocDetect;
   set fastDocDetect(bool? val) {
     _fastDocDetect = val;
-    _setProcessParams({"fastDocDetect": val}, this);
+    _set({"fastDocDetect": val});
   }
 
   /// When enabled, fail OCR field validity, if there is a glare over the text
@@ -195,7 +195,7 @@ class ProcessParam {
   bool? _updateOCRValidityByGlare;
   set updateOCRValidityByGlare(bool? val) {
     _updateOCRValidityByGlare = val;
-    _setProcessParams({"updateOCRValidityByGlare": val}, this);
+    _set({"updateOCRValidityByGlare": val});
   }
 
   /// When enabled no graphic fields will be cropped from document image.
@@ -203,7 +203,7 @@ class ProcessParam {
   bool? _noGraphics;
   set noGraphics(bool? val) {
     _noGraphics = val;
-    _setProcessParams({"noGraphics": val}, this);
+    _set({"noGraphics": val});
   }
 
   /// This option allows locating and cropping multiple documents
@@ -212,7 +212,7 @@ class ProcessParam {
   bool? _multiDocOnImage;
   set multiDocOnImage(bool? val) {
     _multiDocOnImage = val;
-    _setProcessParams({"multiDocOnImage": val}, this);
+    _set({"multiDocOnImage": val});
   }
 
   /// This option can be set to `true` to make sure that in series processing
@@ -223,7 +223,7 @@ class ProcessParam {
   bool? _forceReadMrzBeforeLocate;
   set forceReadMrzBeforeLocate(bool? val) {
     _forceReadMrzBeforeLocate = val;
-    _setProcessParams({"forceReadMrzBeforeLocate": val}, this);
+    _set({"forceReadMrzBeforeLocate": val});
   }
 
   /// When set to `false`, the Barcode code parsing will be skipped
@@ -232,7 +232,7 @@ class ProcessParam {
   bool? _parseBarcodes;
   set parseBarcodes(bool? val) {
     _parseBarcodes = val;
-    _setProcessParams({"parseBarcodes": val}, this);
+    _set({"parseBarcodes": val});
   }
 
   /// When set to `true`, the `rawResults` property of the [Results]
@@ -242,7 +242,7 @@ class ProcessParam {
   bool? _shouldReturnPackageForReprocess;
   set shouldReturnPackageForReprocess(bool? val) {
     _shouldReturnPackageForReprocess = val;
-    _setProcessParams({"shouldReturnPackageForReprocess": val}, this);
+    _set({"shouldReturnPackageForReprocess": val});
   }
 
   /// When enabled, OCR of perforated fields in the document template
@@ -251,7 +251,7 @@ class ProcessParam {
   bool? _disablePerforationOCR;
   set disablePerforationOCR(bool? val) {
     _disablePerforationOCR = val;
-    _setProcessParams({"disablePerforationOCR": val}, this);
+    _set({"disablePerforationOCR": val});
   }
 
   /// When enabled, image quality checks status affects document optical
@@ -260,7 +260,7 @@ class ProcessParam {
   bool? _respectImageQuality;
   set respectImageQuality(bool? val) {
     _respectImageQuality = val;
-    _setProcessParams({"respectImageQuality": val}, this);
+    _set({"respectImageQuality": val});
   }
 
   /// When enabled, the Surname and GivenNames field ([TextField])
@@ -270,7 +270,7 @@ class ProcessParam {
   bool? _splitNames;
   set splitNames(bool? val) {
     _splitNames = val;
-    _setProcessParams({"splitNames": val}, this);
+    _set({"splitNames": val});
   }
 
   /// Enable the CAN (Card Access Number) detection when using scenarios
@@ -279,7 +279,7 @@ class ProcessParam {
   bool? _doDetectCan;
   set doDetectCan(bool? val) {
     _doDetectCan = val;
-    _setProcessParams({"doDetectCan": val}, this);
+    _set({"doDetectCan": val});
   }
 
   /// Use this property to set up the Face API integration.
@@ -287,7 +287,7 @@ class ProcessParam {
   bool? _useFaceApi;
   set useFaceApi(bool? val) {
     _useFaceApi = val;
-    _setProcessParams({"useFaceApi": val}, this);
+    _set({"useFaceApi": val});
   }
 
   /// There are documents that contain barcodes which data can be parsed only
@@ -298,7 +298,7 @@ class ProcessParam {
   int? _barcodeParserType;
   set barcodeParserType(int? val) {
     _barcodeParserType = val;
-    _setProcessParams({"barcodeParserType": val}, this);
+    _set({"barcodeParserType": val});
   }
 
   /// Allows you to set the maximum value of the deviation of the corners
@@ -307,7 +307,7 @@ class ProcessParam {
   int? _perspectiveAngle;
   set perspectiveAngle(int? val) {
     _perspectiveAngle = val;
-    _setProcessParams({"perspectiveAngle": val}, this);
+    _set({"perspectiveAngle": val});
   }
 
   /// Allows you to set the minimum acceptable DPI value of the camera frame
@@ -317,7 +317,7 @@ class ProcessParam {
   int? _minDPI;
   set minDPI(int? val) {
     _minDPI = val;
-    _setProcessParams({"minDPI": val}, this);
+    _set({"minDPI": val});
   }
 
   /// This option controls maximum resolution in dpi of output images.
@@ -326,7 +326,7 @@ class ProcessParam {
   int? _imageDpiOutMax;
   set imageDpiOutMax(int? val) {
     _imageDpiOutMax = val;
-    _setProcessParams({"imageDpiOutMax": val}, this);
+    _set({"imageDpiOutMax": val});
   }
 
   /// Force use of specified document format when locating and recognizing
@@ -335,7 +335,7 @@ class ProcessParam {
   int? _forceDocFormat;
   set forceDocFormat(int? val) {
     _forceDocFormat = val;
-    _setProcessParams({"forceDocFormat": val}, this);
+    _set({"forceDocFormat": val});
   }
 
   /// This option allows shifting the date of expiry into the future or past
@@ -348,7 +348,7 @@ class ProcessParam {
   int? _shiftExpiryDate;
   set shiftExpiryDate(int? val) {
     _shiftExpiryDate = val;
-    _setProcessParams({"shiftExpiryDate": val}, this);
+    _set({"shiftExpiryDate": val});
   }
 
   /// This options allows specifying the minimal age in years of the document
@@ -357,7 +357,7 @@ class ProcessParam {
   int? _minimalHolderAge;
   set minimalHolderAge(int? val) {
     _minimalHolderAge = val;
-    _setProcessParams({"minimalHolderAge": val}, this);
+    _set({"minimalHolderAge": val});
   }
 
   /// Maximum height of output images. In pixels.
@@ -365,7 +365,7 @@ class ProcessParam {
   int? _imageOutputMaxHeight;
   set imageOutputMaxHeight(int? val) {
     _imageOutputMaxHeight = val;
-    _setProcessParams({"imageOutputMaxHeight": val}, this);
+    _set({"imageOutputMaxHeight": val});
   }
 
   /// Maximum width of output images. In pixels.
@@ -373,7 +373,7 @@ class ProcessParam {
   int? _imageOutputMaxWidth;
   set imageOutputMaxWidth(int? val) {
     _imageOutputMaxWidth = val;
-    _setProcessParams({"imageOutputMaxWidth": val}, this);
+    _set({"imageOutputMaxWidth": val});
   }
 
   /// Accepts sum of [Authenticity] values.
@@ -381,7 +381,7 @@ class ProcessParam {
   int? _processAuth;
   set processAuth(int? val) {
     _processAuth = val;
-    _setProcessParams({"processAuth": val}, this);
+    _set({"processAuth": val});
   }
 
   /// This option allows output text case transformation.
@@ -390,7 +390,7 @@ class ProcessParam {
   int? _convertCase;
   set convertCase(int? val) {
     _convertCase = val;
-    _setProcessParams({"convertCase": val}, this);
+    _set({"convertCase": val});
   }
 
   /// Measure system of fields' values that are presented in results.
@@ -400,7 +400,7 @@ class ProcessParam {
   MeasureSystem? _measureSystem;
   set measureSystem(MeasureSystem? val) {
     _measureSystem = val;
-    _setProcessParams({"measureSystem": val?.value}, this);
+    _set({"measureSystem": val?.value});
   }
 
   /// Force use of specific template ID and skip document type identification step.
@@ -408,7 +408,7 @@ class ProcessParam {
   DocFormat? _forceDocID;
   set forceDocID(DocFormat? val) {
     _forceDocID = val;
-    _setProcessParams({"forceDocID": val?.value}, this);
+    _set({"forceDocID": val?.value});
   }
 
   /// Change the format string of displayed dates in the results.
@@ -421,7 +421,7 @@ class ProcessParam {
   String? _dateFormat;
   set dateFormat(String? val) {
     _dateFormat = val;
-    _setProcessParams({"dateFormat": val}, this);
+    _set({"dateFormat": val});
   }
 
   /// Documents processing scenario.
@@ -429,7 +429,7 @@ class ProcessParam {
   Scenario? _scenario;
   set scenario(Scenario? val) {
     _scenario = val;
-    _setProcessParams({"scenario": val?.value}, this);
+    _set({"scenario": val?.value});
   }
 
   /// Documents processing scenario for the Capture button.
@@ -437,7 +437,7 @@ class ProcessParam {
   String? _captureButtonScenario;
   set captureButtonScenario(String? val) {
     _captureButtonScenario = val;
-    _setProcessParams({"captureButtonScenario": val}, this);
+    _set({"captureButtonScenario": val});
   }
 
   /// The path to the folder of the current session. Before using this, save logs.
@@ -446,7 +446,7 @@ class ProcessParam {
   String? _sessionLogFolder;
   set sessionLogFolder(String? val) {
     _sessionLogFolder = val;
-    _setProcessParams({"sessionLogFolder": val}, this);
+    _set({"sessionLogFolder": val});
   }
 
   /// Allows you to set the time limit for document recognition (in seconds),
@@ -457,7 +457,7 @@ class ProcessParam {
   double? _timeout;
   set timeout(double? val) {
     _timeout = val;
-    _setProcessParams({"timeout": val}, this);
+    _set({"timeout": val});
   }
 
   /// Allows you to set the time limit for document recognition (in seconds),
@@ -468,7 +468,7 @@ class ProcessParam {
   double? _timeoutFromFirstDetect;
   set timeoutFromFirstDetect(double? val) {
     _timeoutFromFirstDetect = val;
-    _setProcessParams({"timeoutFromFirstDetect": val}, this);
+    _set({"timeoutFromFirstDetect": val});
   }
 
   /// Allows you to set the time limit for document recognition (in seconds),
@@ -479,7 +479,7 @@ class ProcessParam {
   double? _timeoutFromFirstDocType;
   set timeoutFromFirstDocType(double? val) {
     _timeoutFromFirstDocType = val;
-    _setProcessParams({"timeoutFromFirstDocType": val}, this);
+    _set({"timeoutFromFirstDocType": val});
   }
 
   /// Specifies minimal area of the image that document should cover to be treated
@@ -489,7 +489,7 @@ class ProcessParam {
   double? _documentAreaMin;
   set documentAreaMin(double? val) {
     _documentAreaMin = val;
-    _setProcessParams({"documentAreaMin": val}, this);
+    _set({"documentAreaMin": val});
   }
 
   /// Takes the list of the document IDs to process.
@@ -498,7 +498,7 @@ class ProcessParam {
   List<int>? _documentIDList;
   set documentIDList(List<int>? val) {
     _documentIDList = val;
-    _setProcessParams({"documentIDList": val}, this);
+    _set({"documentIDList": val});
   }
 
   /// Set types of barcodes that you wish to recognize.
@@ -507,7 +507,7 @@ class ProcessParam {
   List<BarcodeType>? _barcodeTypes;
   set barcodeTypes(List<BarcodeType>? val) {
     _barcodeTypes = val;
-    _setProcessParams({"barcodeTypes": BarcodeType.toIntList(val)}, this);
+    _set({"barcodeTypes": val?.map((e) => e.value).toList()});
   }
 
   /// If you recognize the MRZ of documents, all fields will be extracted.
@@ -518,8 +518,7 @@ class ProcessParam {
   List<VisualFieldType>? _fieldTypesFilter;
   set fieldTypesFilter(List<VisualFieldType>? val) {
     _fieldTypesFilter = val;
-    _setProcessParams(
-        {"fieldTypesFilter": VisualFieldType.toIntList(val)}, this);
+    _set({"fieldTypesFilter": val?.map((e) => e.value).toList()});
   }
 
   /// Types of results to return in response.
@@ -527,7 +526,7 @@ class ProcessParam {
   List<ResultType>? _resultTypeOutput;
   set resultTypeOutput(List<ResultType>? val) {
     _resultTypeOutput = val;
-    _setProcessParams({"resultTypeOutput": ResultType.toIntList(val)}, this);
+    _set({"resultTypeOutput": val?.map((e) => e.value).toList()});
   }
 
   /// This option allows limiting MRZ formats to be recognized by specifying
@@ -536,7 +535,7 @@ class ProcessParam {
   List<MRZFormat>? _mrzFormatsFilter;
   set mrzFormatsFilter(List<MRZFormat>? val) {
     _mrzFormatsFilter = val;
-    _setProcessParams({"mrzFormatsFilter": MRZFormat.toStringList(val)}, this);
+    _set({"mrzFormatsFilter": val?.map((e) => e.value).toList()});
   }
 
   /// Array of specific eligible document types to recognize from. You may,
@@ -545,15 +544,32 @@ class ProcessParam {
   List<DocType>? _documentGroupFilter;
   set documentGroupFilter(List<DocType>? val) {
     _documentGroupFilter = val;
-    _setProcessParams({"documentGroupFilter": DocType.toIntList(val)}, this);
+    _set({"documentGroupFilter": val?.map((e) => e.value).toList()});
+  }
+
+  /// The list of LCID types to ignore during the recognition.
+  /// If empty, values with all LCID types will be extracted.
+  /// Narrowing down the list can reduce processing time.
+  List<LCID>? get lcidIgnoreFilter => _lcidIgnoreFilter;
+  List<LCID>? _lcidIgnoreFilter;
+  set lcidIgnoreFilter(List<LCID>? val) {
+    _lcidIgnoreFilter = val;
+    _set({"lcidIgnoreFilter": val?.map((e) => e.value).toList()});
+  }
+
+  /// The whitelist of LCID types to use during the recognition.
+  List<LCID>? get lcidFilter => _lcidFilter;
+  List<LCID>? _lcidFilter;
+  set lcidFilter(List<LCID>? val) {
+    _lcidFilter = val;
+    _set({"lcidFilter": val?.map((e) => e.value).toList()});
   }
 
   /// Controls properties of [ImageQA] checks.
   ImageQA get imageQA => _imageQA;
   ImageQA _imageQA = ImageQA();
   set imageQA(ImageQA val) {
-    _imageQA = val;
-    _setProcessParams({"imageQA": val.toJson()}, this);
+    (_imageQA = val)._apply(this);
   }
 
   /// Custom RFID params.
@@ -561,7 +577,7 @@ class ProcessParam {
   RFIDParams? _rfidParams;
   set rfidParams(RFIDParams? val) {
     _rfidParams = val;
-    _setProcessParams({"rfidParams": val?.toJson()}, this);
+    _set({"rfidParams": val?.toJson()});
   }
 
   /// Custom Face API integration params.
@@ -569,95 +585,104 @@ class ProcessParam {
   FaceApiParams? _faceApiParams;
   set faceApiParams(FaceApiParams? val) {
     _faceApiParams = val;
-    _setProcessParams({"faceApiParams": val?.toJson()}, this);
+    _set({"faceApiParams": val?.toJson()});
   }
 
   /// Takes JSON with parameters that are not presented in the DocumentReader.
-  dynamic get customParams => _customParams;
-  dynamic _customParams;
-  set customParams(dynamic val) {
+  Map<String, dynamic>? get customParams => _customParams;
+  Map<String, dynamic>? _customParams;
+  set customParams(Map<String, dynamic>? val) {
     _customParams = val;
-    _setProcessParams({"customParams": val}, this);
+    _set({"customParams": val});
   }
 
   /// Allows you to deserialize object.
-  fromJson(Map<String, dynamic> jsonObject) {
-    _multipageProcessing = jsonObject["multipageProcessing"];
-    _logs = jsonObject["logs"];
-    _debugSaveImages = jsonObject["debugSaveImages"];
-    _debugSaveLogs = jsonObject["debugSaveLogs"];
-    _returnUncroppedImage = jsonObject["returnUncroppedImage"];
-    _uvTorchEnabled = jsonObject["uvTorchEnabled"];
-    _debugSaveCroppedImages = jsonObject["debugSaveCroppedImages"];
-    _disableFocusingCheck = jsonObject["disableFocusingCheck"];
-    _debugSaveRFIDSession = jsonObject["debugSaveRFIDSession"];
-    _doublePageSpread = jsonObject["doublePageSpread"];
-    _manualCrop = jsonObject["manualCrop"];
-    _integralImage = jsonObject["integralImage"];
-    _returnCroppedBarcode = jsonObject["returnCroppedBarcode"];
-    _checkHologram = jsonObject["checkHologram"];
-    _checkRequiredTextFields = jsonObject["checkRequiredTextFields"];
-    _depersonalizeLog = jsonObject["depersonalizeLog"];
-    _generateDoublePageSpreadImage =
+  static ProcessParam fromJson(jsonObject) {
+    var result = ProcessParam();
+    result.testSetters = {};
+
+    result.multipageProcessing = jsonObject["multipageProcessing"];
+    result.logs = jsonObject["logs"];
+    result.debugSaveImages = jsonObject["debugSaveImages"];
+    result.debugSaveLogs = jsonObject["debugSaveLogs"];
+    result.returnUncroppedImage = jsonObject["returnUncroppedImage"];
+    result.uvTorchEnabled = jsonObject["uvTorchEnabled"];
+    result.debugSaveCroppedImages = jsonObject["debugSaveCroppedImages"];
+    result.disableFocusingCheck = jsonObject["disableFocusingCheck"];
+    result.debugSaveRFIDSession = jsonObject["debugSaveRFIDSession"];
+    result.doublePageSpread = jsonObject["doublePageSpread"];
+    result.manualCrop = jsonObject["manualCrop"];
+    result.integralImage = jsonObject["integralImage"];
+    result.returnCroppedBarcode = jsonObject["returnCroppedBarcode"];
+    result.checkLiveness = jsonObject["checkLiveness"];
+    result.checkRequiredTextFields = jsonObject["checkRequiredTextFields"];
+    result.depersonalizeLog = jsonObject["depersonalizeLog"];
+    result.generateDoublePageSpreadImage =
         jsonObject["generateDoublePageSpreadImage"];
-    _alreadyCropped = jsonObject["alreadyCropped"];
-    _matchTextFieldMask = jsonObject["matchTextFieldMask"];
-    _fastDocDetect = jsonObject["fastDocDetect"];
-    _updateOCRValidityByGlare = jsonObject["updateOCRValidityByGlare"];
-    _noGraphics = jsonObject["noGraphics"];
-    _multiDocOnImage = jsonObject["multiDocOnImage"];
-    _forceReadMrzBeforeLocate = jsonObject["forceReadMrzBeforeLocate"];
-    _parseBarcodes = jsonObject["parseBarcodes"];
-    _shouldReturnPackageForReprocess =
+    result.alreadyCropped = jsonObject["alreadyCropped"];
+    result.matchTextFieldMask = jsonObject["matchTextFieldMask"];
+    result.fastDocDetect = jsonObject["fastDocDetect"];
+    result.updateOCRValidityByGlare = jsonObject["updateOCRValidityByGlare"];
+    result.noGraphics = jsonObject["noGraphics"];
+    result.multiDocOnImage = jsonObject["multiDocOnImage"];
+    result.forceReadMrzBeforeLocate = jsonObject["forceReadMrzBeforeLocate"];
+    result.parseBarcodes = jsonObject["parseBarcodes"];
+    result.shouldReturnPackageForReprocess =
         jsonObject["shouldReturnPackageForReprocess"];
-    _disablePerforationOCR = jsonObject["disablePerforationOCR"];
-    _respectImageQuality = jsonObject["respectImageQuality"];
-    _splitNames = jsonObject["splitNames"];
-    _doDetectCan = jsonObject["doDetectCan"];
-    _useFaceApi = jsonObject["useFaceApi"];
+    result.disablePerforationOCR = jsonObject["disablePerforationOCR"];
+    result.respectImageQuality = jsonObject["respectImageQuality"];
+    result.splitNames = jsonObject["splitNames"];
+    result.doDetectCan = jsonObject["doDetectCan"];
+    result.useFaceApi = jsonObject["useFaceApi"];
 
-    _measureSystem = MeasureSystem.getByValue(jsonObject["measureSystem"]);
-    _barcodeParserType = jsonObject["barcodeParserType"];
-    _perspectiveAngle = jsonObject["perspectiveAngle"];
-    _minDPI = jsonObject["minDPI"];
-    _imageDpiOutMax = jsonObject["imageDpiOutMax"];
-    _forceDocID = DocFormat.getByValue(jsonObject["forceDocID"]);
-    _forceDocFormat = jsonObject["forceDocFormat"];
-    _shiftExpiryDate = jsonObject["shiftExpiryDate"];
-    _minimalHolderAge = jsonObject["minimalHolderAge"];
-    _imageOutputMaxHeight = jsonObject["imageOutputMaxHeight"];
-    _imageOutputMaxWidth = jsonObject["imageOutputMaxWidth"];
-    _processAuth = jsonObject["processAuth"];
-    _convertCase = jsonObject["convertCase"];
+    result.measureSystem =
+        MeasureSystem.getByValue(jsonObject["measureSystem"]);
+    result.barcodeParserType = jsonObject["barcodeParserType"];
+    result.perspectiveAngle = jsonObject["perspectiveAngle"];
+    result.minDPI = jsonObject["minDPI"];
+    result.imageDpiOutMax = jsonObject["imageDpiOutMax"];
+    result.forceDocID = DocFormat.getByValue(jsonObject["forceDocID"]);
+    result.forceDocFormat = jsonObject["forceDocFormat"];
+    result.shiftExpiryDate = jsonObject["shiftExpiryDate"];
+    result.minimalHolderAge = jsonObject["minimalHolderAge"];
+    result.imageOutputMaxHeight = jsonObject["imageOutputMaxHeight"];
+    result.imageOutputMaxWidth = jsonObject["imageOutputMaxWidth"];
+    result.processAuth = jsonObject["processAuth"];
+    result.convertCase = jsonObject["convertCase"];
 
-    _dateFormat = jsonObject["dateFormat"];
-    _scenario = Scenario.getByValue(jsonObject["scenario"]);
-    _captureButtonScenario = jsonObject["captureButtonScenario"];
-    _sessionLogFolder = jsonObject["sessionLogFolder"];
+    result.dateFormat = jsonObject["dateFormat"];
+    result.scenario = Scenario.getByValue(jsonObject["scenario"]);
+    result.captureButtonScenario = jsonObject["captureButtonScenario"];
+    result.sessionLogFolder = jsonObject["sessionLogFolder"];
 
-    _timeout = _toDouble(jsonObject["timeout"]);
-    _timeoutFromFirstDetect = _toDouble(jsonObject["timeoutFromFirstDetect"]);
-    _timeoutFromFirstDocType = _toDouble(jsonObject["timeoutFromFirstDocType"]);
-    _documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
+    result.timeout = _toDouble(jsonObject["timeout"]);
+    result.timeoutFromFirstDetect =
+        _toDouble(jsonObject["timeoutFromFirstDetect"]);
+    result.timeoutFromFirstDocType =
+        _toDouble(jsonObject["timeoutFromFirstDocType"]);
+    result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
 
-    _documentIDList = jsonObject["documentIDList"];
-    _barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
+    result.documentIDList = jsonObject["documentIDList"];
+    result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
-    _fieldTypesFilter =
+    result.fieldTypesFilter =
         VisualFieldType.fromIntList(jsonObject["fieldTypesFilter"]);
-    _resultTypeOutput = ResultType.fromIntList(jsonObject["resultTypeOutput"]);
-    _mrzFormatsFilter =
+    result.resultTypeOutput =
+        ResultType.fromIntList(jsonObject["resultTypeOutput"]);
+    result.mrzFormatsFilter =
         MRZFormat.fromStringList(jsonObject["mrzFormatsFilter"]);
-    _documentGroupFilter =
+    result.documentGroupFilter =
         DocType.fromIntList(jsonObject["documentGroupFilter"]);
+    result.lcidIgnoreFilter = LCID.fromIntList(jsonObject["lcidIgnoreFilter"]);
+    result.lcidFilter = LCID.fromIntList(jsonObject["lcidFilter"]);
 
-    _imageQA = ImageQA.fromJson(jsonObject["imageQA"])!;
-    _rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
-    _faceApiParams = FaceApiParams.fromJson(jsonObject["faceApiParams"]);
+    result.imageQA = ImageQA.fromJson(jsonObject["imageQA"]);
+    result.rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
+    result.faceApiParams = FaceApiParams.fromJson(jsonObject["faceApiParams"]);
 
-    _customParams = jsonObject["customParams"];
+    result.customParams = jsonObject["customParams"];
 
-    return this;
+    return result;
   }
 
   /// Allows you to serialize object.
@@ -674,7 +699,7 @@ class ProcessParam {
         "manualCrop": manualCrop,
         "integralImage": integralImage,
         "returnCroppedBarcode": returnCroppedBarcode,
-        "checkHologram": checkHologram,
+        "checkLiveness": checkLiveness,
         "checkRequiredTextFields": checkRequiredTextFields,
         "depersonalizeLog": depersonalizeLog,
         "generateDoublePageSpreadImage": generateDoublePageSpreadImage,
@@ -714,31 +739,30 @@ class ProcessParam {
         "timeoutFromFirstDocType": timeoutFromFirstDocType,
         "documentAreaMin": documentAreaMin,
         "documentIDList": documentIDList,
-        "barcodeTypes": BarcodeType.toIntList(barcodeTypes),
-        "fieldTypesFilter": VisualFieldType.toIntList(fieldTypesFilter),
-        "resultTypeOutput": ResultType.toIntList(resultTypeOutput),
-        "mrzFormatsFilter": MRZFormat.toStringList(mrzFormatsFilter),
-        "documentGroupFilter": DocType.toIntList(documentGroupFilter),
+        "barcodeTypes": barcodeTypes?.map((e) => e.value).toList(),
+        "fieldTypesFilter": fieldTypesFilter?.map((e) => e.value).toList(),
+        "resultTypeOutput": resultTypeOutput?.map((e) => e.value).toList(),
+        "mrzFormatsFilter": mrzFormatsFilter?.map((e) => e.value).toList(),
+        "documentGroupFilter":
+            documentGroupFilter?.map((e) => e.value).toList(),
+        "lcidIgnoreFilter": lcidIgnoreFilter?.map((e) => e.value).toList(),
+        "lcidFilter": lcidFilter?.map((e) => e.value).toList(),
         "imageQA": imageQA.toJson(),
         "rfidParams": rfidParams?.toJson(),
         "faceApiParams": faceApiParams?.toJson(),
         "customParams": customParams,
-      };
+      }.clearNulls();
 
-  static _setProcessParams(
-    Map<String, dynamic> json,
-    ProcessParam instance,
-  ) {
-    if (identical(instance, DocumentReader.instance.processParams))
+  void _set(Map<String, dynamic> json) {
+    if (identical(this, DocumentReader.instance.processParams))
       _bridge.invokeMethod("setProcessParams", [json]);
+    testSetters.addAll(json);
   }
 
-  Future<void> _sync() async {
-    String response = await _bridge.invokeMethod("getProcessParams", []);
-    this.fromJson(_decode(response));
-  }
+  void _apply() => _set(toJson());
 
-  _apply() => _setProcessParams(this.toJson(), this);
+  @visibleForTesting
+  Map<String, dynamic> testSetters = {};
 }
 
 /// The constants of the enumeration identify the system
@@ -788,13 +812,6 @@ enum MRZFormat {
     } catch (_) {
       return MRZFormat.UNKNOWN;
     }
-  }
-
-  static List<String>? toStringList(List<MRZFormat>? input) {
-    if (input == null) return null;
-    List<String> list = [];
-    for (var item in input) list.add(item.value);
-    return list;
   }
 
   static List<MRZFormat>? fromStringList(List<String>? input) {

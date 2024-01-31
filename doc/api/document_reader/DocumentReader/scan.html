@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
+<span class="returntype">void</span>
 <span class="name ">scan</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="scan-param-config"><span class="type-annotation"><a href="../../document_reader/ScannerConfig-class.html">ScannerConfig</a></span> <span class="parameter-name">config</span>, </span></li>
 <li><span class="parameter" id="scan-param-completion"><span class="type-annotation"><a href="../../document_reader/DocumentReaderCompletion.html">DocumentReaderCompletion</a></span> <span class="parameter-name">completion</span></span></li>
 </ol>)
@@ -74,15 +74,15 @@
     
 <section class="desc markdown">
   <p>Used for multiple frames processing which are captured from the camera.</p>
-<p><code>config</code> Scanning configuration.</p>
-<p><code>completion</code> The block to execute after the recognition process finishes.</p>
+<p><code>config</code> - scanning configuration.</p>
+<p><code>completion</code> - block to execute after the recognition process finishes.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">scan(ScannerConfig config, DocumentReaderCompletion completion) {
+  <pre class="language-dart"><code class="language-dart">void scan(ScannerConfig config, DocumentReaderCompletion completion) {
   _setDocumentReaderCompletion(completion);
   _bridge.invokeMethod(&quot;scan&quot;, [config.toJson()]);
 }</code></pre>
@@ -118,7 +118,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

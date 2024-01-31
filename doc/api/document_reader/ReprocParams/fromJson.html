@@ -81,10 +81,11 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static ReprocParams? fromJson(jsonObject) {
   if (jsonObject == null) return null;
+  var result = ReprocParams(jsonObject[&quot;serviceUrl&quot;]);
 
-  var result = new ReprocParams(jsonObject[&quot;serviceUrl&quot;]);
-  result.failIfNoService = jsonObject[&quot;failIfNoService&quot;];
-  result.httpHeaders = Map&lt;String, String&gt;.from(jsonObject[&quot;httpHeaders&quot;]);
+  result._failIfNoService = jsonObject[&quot;failIfNoService&quot;];
+  if (jsonObject[&quot;httpHeaders&quot;] != null)
+    result._httpHeaders = Map&lt;String, String&gt;.from(jsonObject[&quot;httpHeaders&quot;]);
 
   return result;
 }</code></pre>
@@ -120,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

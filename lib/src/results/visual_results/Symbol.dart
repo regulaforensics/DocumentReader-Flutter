@@ -25,7 +25,7 @@ class Symbol {
   /// Allows you to deserialize object.
   static Symbol? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Symbol();
+    var result = Symbol();
 
     result._code = jsonObject["code"];
     result._rect = Rect.fromJson(jsonObject["rect"]);
@@ -35,13 +35,9 @@ class Symbol {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["rect"] = rect?.toJson();
-    result["code"] = code;
-    result["probability"] = probability;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "rect": rect?.toJson(),
+        "code": code,
+        "probability": probability,
+      }.clearNulls();
 }

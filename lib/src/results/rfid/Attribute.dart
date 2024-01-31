@@ -18,7 +18,7 @@ class Attribute {
   /// Allows you to deserialize object.
   static Attribute? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Attribute();
+    var result = Attribute();
 
     result._type = jsonObject["type"];
     result._value = RFIDValue.fromJson(jsonObject["value"]);
@@ -27,12 +27,8 @@ class Attribute {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["type"] = type;
-    result["value"] = value?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "value": value?.toJson(),
+      }.clearNulls();
 }

@@ -77,12 +77,12 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 Map&lt;String, dynamic&gt; toJson() =&gt; {
-      &quot;data&quot;: base64Encode(data),
+      &quot;data&quot;: _toBase64(data),
       &quot;auxPCD&quot;: auxPCD,
       &quot;challengePICC&quot;: challengePICC,
       &quot;hashPK&quot;: hashPK,
       &quot;idPICC&quot;: idPICC,
-    };</code></pre>
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -115,7 +115,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

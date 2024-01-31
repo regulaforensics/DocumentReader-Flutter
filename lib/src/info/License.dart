@@ -27,7 +27,7 @@ class License {
   @visibleForTesting
   static License? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new License();
+    var result = License();
 
     result._expiryDate = jsonObject["expiryDate"];
     result._countryFilter = jsonObject["countryFilter"];
@@ -41,5 +41,5 @@ class License {
         "expiryDate": expiryDate,
         "countryFilter": countryFilter,
         "isRfidAvailable": isRfidAvailable
-      };
+      }.clearNulls();
 }

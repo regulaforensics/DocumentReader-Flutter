@@ -27,7 +27,7 @@ class RFIDValue {
   /// Allows you to deserialize object.
   static RFIDValue? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDValue();
+    var result = RFIDValue();
 
     result._length = jsonObject["length"];
     result._type = jsonObject["type"];
@@ -39,15 +39,11 @@ class RFIDValue {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["data"] = data;
-    result["length"] = length;
-    result["status"] = status;
-    result["type"] = type;
-    result["format"] = format;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data,
+        "length": length,
+        "status": status,
+        "type": type,
+        "format": format,
+      }.clearNulls();
 }

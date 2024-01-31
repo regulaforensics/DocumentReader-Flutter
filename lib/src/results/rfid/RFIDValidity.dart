@@ -18,7 +18,7 @@ class RFIDValidity {
   /// Allows you to deserialize object.
   static RFIDValidity? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDValidity();
+    var result = RFIDValidity();
 
     result._notAfter = RFIDValue.fromJson(jsonObject["notAfter"]);
     result._notBefore = RFIDValue.fromJson(jsonObject["notBefore"]);
@@ -27,12 +27,8 @@ class RFIDValidity {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["notAfter"] = notAfter?.toJson();
-    result["notBefore"] = notBefore?.toJson();
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "notAfter": notAfter?.toJson(),
+        "notBefore": notBefore?.toJson(),
+      }.clearNulls();
 }

@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
+<span class="returntype">void</span>
 <span class="name ">startBluetoothService</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="startBluetoothService-param-completion"><span class="type-annotation"><a href="../../document_reader/BluetoothServiceCompletion-class.html">BluetoothServiceCompletion</a></span> <span class="parameter-name">completion</span></span></li>
 </ol>)
 
@@ -80,9 +80,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">startBluetoothService(
-  BluetoothServiceCompletion completion,
-) async {
+  <pre class="language-dart"><code class="language-dart">void startBluetoothService(BluetoothServiceCompletion completion) {
   if (!Platform.isAndroid)
     throw PlatformException(
       code: &quot;android-only&quot;,
@@ -123,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

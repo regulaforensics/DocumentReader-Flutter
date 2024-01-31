@@ -76,19 +76,14 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
-Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {
-    &quot;license&quot;: _toBase64(license),
-    &quot;delayedNNLoad&quot;: delayedNNLoad,
-    &quot;licenseUpdate&quot;: licenseUpdate,
-    &quot;blackList&quot;: blackList
-  };
-
-  if (customDb != null) result[&quot;customDb&quot;] = base64Encode(customDb!);
-  if (databasePath != null) result[&quot;databasePath&quot;] = databasePath;
-
-  return result;
-}</code></pre>
+Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;license&quot;: _toBase64(license),
+      &quot;delayedNNLoad&quot;: delayedNNLoad,
+      &quot;licenseUpdate&quot;: licenseUpdate,
+      &quot;blackList&quot;: blackList,
+      &quot;customDb&quot;: _toBase64(customDb),
+      &quot;databasePath&quot;: databasePath
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -121,7 +116,7 @@ Map&lt;String, dynamic&gt; toJson() {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

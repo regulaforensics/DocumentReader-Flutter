@@ -38,7 +38,7 @@ class SecurityObject {
   /// Allows you to deserialize object.
   static SecurityObject? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new SecurityObject();
+    var result = SecurityObject();
 
     result._fileReference = jsonObject["fileReference"];
     result._version = jsonObject["version"];
@@ -51,17 +51,11 @@ class SecurityObject {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["fileReference"] = fileReference;
-    result["objectType"] = objectType;
-    result["version"] = version;
-    List<dynamic> list = [];
-    for (var item in signerInfos) list.add(item.toJson());
-    result["signerInfos"] = list;
-    result["notifications"] = notifications;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "fileReference": fileReference,
+        "objectType": objectType,
+        "version": version,
+        "signerInfos": signerInfos.map((e) => e.toJson()).toList(),
+        "notifications": notifications,
+      }.clearNulls();
 }

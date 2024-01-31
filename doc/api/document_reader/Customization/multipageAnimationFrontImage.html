@@ -80,7 +80,7 @@
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Uint8List? get multipageAnimationFrontImage =&gt; _multipageAnimationFrontImage;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Image? get multipageAnimationFrontImage =&gt; _multipageAnimationFrontImage;</code></pre>
 </section>
 
 </section>
@@ -102,9 +102,9 @@
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">set multipageAnimationFrontImage(Uint8List? val) {
+  <pre class="language-dart"><code class="language-dart">set multipageAnimationFrontImage(Image? val) {
   _multipageAnimationFrontImage = val;
-  _setCustomization({&quot;multipageAnimationFrontImage&quot;: _toBase64(val)}, this);
+  _set({&quot;multipageAnimationFrontImage&quot;: _imageToBase64(val)});
 }</code></pre>
 </section>
 
@@ -139,7 +139,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

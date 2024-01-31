@@ -170,11 +170,13 @@
 
 +(RGLRecognizeConfig*)recognizeConfigFromJson:(NSDictionary*)input {
     if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
-    if([input valueForKey:@"image"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
+    if([input valueForKey:@"image"] == nil && [input valueForKey:@"image"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
     RGLRecognizeConfig *config = [RGLRecognizeConfig alloc];
 
     if([input valueForKey:@"image"] != nil)
         config = [config initWithImage:[RGLWJSONConstructor imageWithBase64:[input valueForKey:@"image"]]];
+    if([input valueForKey:@"data"] != nil)
+        config = [config initWithImageData:[RGLWJSONConstructor base64Decode:[input valueForKey:@"data"]]];
     if([input valueForKey:@"images"] != nil) {
         NSMutableArray<UIImage*>* images = [NSMutableArray new];
         for(NSString* base64 in [input valueForKey:@"images"])
@@ -212,6 +214,7 @@
     result[@"extPortrait"] = [self base64WithImage: input.extPortrait];
     result[@"oneShotIdentification"] = @(input.oneShotIdentification);
     result[@"image"] = [self base64WithImage: input.image];
+    result[@"data"] = [self base64Encode: input.imageData];
     if(input.images != nil) {
         NSMutableArray *array = [NSMutableArray new];
         for(UIImage* item in input.images)
@@ -251,6 +254,16 @@
     result[@"httpHeaders"] = input.httpHeaders;
     
     return result;
+}
+
++(RGLImageQA*)imageQAFromJson:(NSDictionary*)input {
+    RGLImageQA *result = [RGLImageQA new];
+    [RGLWConfig setImageQA:result input:input];
+    return result;
+}
+
++(NSDictionary*)generateImageQA:(RGLImageQA*)input {
+    return [RGLWConfig getImageQA:input];
 }
 
 +(RGLeDLDataGroup*)eDLDataGroupsFromJson:(NSDictionary*)input {
@@ -343,53 +356,6 @@
     result[@"processParams"] = [RGLWConfig getProcessParams:input.processParams];
     result[@"imageFormat"] = @(input.imageFormat);
     result[@"imageCompressionQuality"] = @(input.imageCompressionQuality);
-    
-    return result;
-}
-
-+(RGLImageQA*)imageQAFromJson:(NSDictionary*)input {
-    if(input == nil) return nil;
-    RGLImageQA *result = [RGLImageQA new];
-    
-    if([input valueForKey:@"dpiThreshold"] != nil)
-        result.dpiThreshold = [input valueForKey:@"dpiThreshold"];
-    if([input valueForKey:@"angleThreshold"] != nil)
-        result.angleThreshold = [input valueForKey:@"angleThreshold"];
-    if([input valueForKey:@"focusCheck"] != nil)
-        result.focusCheck = [input valueForKey:@"focusCheck"];
-    if([input valueForKey:@"glaresCheck"] != nil)
-        result.glaresCheck = [input valueForKey:@"glaresCheck"];
-    if([input valueForKey:@"colornessCheck"] != nil)
-        result.colornessCheck = [input valueForKey:@"colornessCheck"];
-    if([input valueForKey:@"moireCheck"] != nil)
-        result.moireCheck = [input valueForKey:@"moireCheck"];
-    if([input valueForKey:@"expectedPass"] != nil){
-        NSMutableArray<RGLImageQualityCheckType> *expectedPass = [NSMutableArray new];
-        for(NSString* str in [input valueForKey:@"expectedPass"])
-            [expectedPass addObject:str];
-        result.expectedPass = expectedPass;
-    }
-    if([input valueForKey:@"documentPositionIndent"] != nil)
-        result.documentPositionIndent = [input valueForKey:@"documentPositionIndent"];
-    if([input valueForKey:@"glaresCheckParams"] != nil)
-        result.glaresCheckParams = [self glaresCheckParamsFromJson:[input valueForKey:@"glaresCheckParams"]];
-    
-    return result;
-}
-
-+(NSDictionary*)generateImageQA:(RGLImageQA*)input {
-    if(input == nil) return nil;
-    NSMutableDictionary *result = [NSMutableDictionary new];
-    
-    result[@"dpiThreshold"] = input.dpiThreshold;
-    result[@"angleThreshold"] = input.angleThreshold;
-    result[@"focusCheck"] = input.focusCheck;
-    result[@"glaresCheck"] = input.glaresCheck;
-    result[@"colornessCheck"] = input.colornessCheck;
-    result[@"moireCheck"] = input.moireCheck;
-    result[@"expectedPass"] = input.expectedPass;
-    result[@"documentPositionIndent"] = input.documentPositionIndent;
-    result[@"glaresCheckParams"] = [self generateGlaresCheckParams:input.glaresCheckParams];
     
     return result;
 }
@@ -557,13 +523,11 @@
     if(input == nil) return nil;
     
     NSString* identifier = [input valueForKey:@"name"];
-    RGLDocReaderFrame frame = [RGLWConfig docReaderFrameWithString:[input valueForKey:@"frame"]];
     double frameKWHLandscape = [[input valueForKey:@"frameKWHLandscape"] doubleValue];
     double frameKWHPortrait = [[input valueForKey:@"frameKWHPortrait"] doubleValue];
     double frameKWHDoublePageSpreadPortrait = [[input valueForKey:@"frameKWHDoublePageSpreadPortrait"] doubleValue];
     double frameKWHDoublePageSpreadLandscape = [[input valueForKey:@"frameKWHDoublePageSpreadLandscape"] doubleValue];
     NSString* scenarioDescription = [input valueForKey:@"description"];
-    BOOL barcodeExt = [[input valueForKey:@"barcodeExt"] boolValue];
     BOOL faceExt = [[input valueForKey:@"faceExt"] boolValue];
     BOOL multiPageOff = [[input valueForKey:@"multiPageOff"] boolValue];
     BOOL seriesProcessMode = [[input valueForKey:@"seriesProcessMode"] boolValue];
@@ -572,7 +536,7 @@
     NSInteger frameOrientation = [[input valueForKey:@"frameOrientation"] integerValue];
     BOOL manualCrop = [[input valueForKey:@"manualCrop"] boolValue];
     
-    return [[RGLScenario new] initWithIdentifier:identifier frame:frame frameKWHLandscape:frameKWHLandscape frameKWHPortrait:frameKWHPortrait frameKWHDoublePageSpreadPortrait:frameKWHDoublePageSpreadPortrait frameKWHDoublePageSpreadLandscape:frameKWHDoublePageSpreadLandscape scenarioDescription:scenarioDescription barcodeExt:barcodeExt faceExt:faceExt multiPageOff:multiPageOff caption:caption uvTorch:uvTorch frameOrientation:frameOrientation seriesProcessMode:seriesProcessMode manualCrop:manualCrop];
+    return [[RGLScenario new] initWithIdentifier:identifier frame:0 frameKWHLandscape:frameKWHLandscape frameKWHPortrait:frameKWHPortrait frameKWHDoublePageSpreadPortrait:frameKWHDoublePageSpreadPortrait frameKWHDoublePageSpreadLandscape:frameKWHDoublePageSpreadLandscape scenarioDescription:scenarioDescription barcodeExt:nil faceExt:faceExt multiPageOff:multiPageOff caption:caption uvTorch:uvTorch frameOrientation:frameOrientation seriesProcessMode:seriesProcessMode manualCrop:manualCrop];
 }
 
 +(NSDictionary*)generateScenario:(RGLScenario*)input {
@@ -580,13 +544,11 @@
     NSMutableDictionary* result = [NSMutableDictionary new];
     
     result[@"name"] = input.identifier;
-    result[@"frame"] = [RGLWConfig generateDocReaderFrame: input.frame];
     result[@"frameKWHLandscape"] = @(input.frameKWHLandscape);
     result[@"frameKWHPortrait"] = @(input.frameKWHPortrait);
     result[@"frameKWHDoublePageSpreadPortrait"] = @(input.frameKWHDoublePageSpreadPortrait);
     result[@"frameKWHDoublePageSpreadLandscape"] = @(input.frameKWHDoublePageSpreadLandscape);
     result[@"description"] = input.scenarioDescription;
-    result[@"barcodeExt"] = @(input.barcodeExt);
     result[@"faceExt"] = @(input.faceExt);
     result[@"multiPageOff"] = @(input.multiPageOff);
     result[@"seriesProcessMode"] = @(input.seriesProcessMode);
@@ -608,6 +570,7 @@
 
 +(NSDictionary*)generateRect:(CGRect)input {
     NSMutableDictionary* result = [NSMutableDictionary new];
+    if(input.origin.x == 0 && input.origin.y == 0) return nil;
     
     result[@"top"] = @(input.origin.y);
     result[@"left"] = @(input.origin.x);
@@ -873,11 +836,8 @@
     NSMutableDictionary* json = [NSMutableDictionary new];
     
     json[@"featureType"] = [input valueForKey:@"featureType"];
-    json[@"type"] = [input valueForKey:@"type"];
+    json[@"type"] = [RGLWConfig imageQualityCheckTypeWithNumber:[input valueForKey:@"type"]];
     json[@"result"] = [input valueForKey:@"result"];
-    NSMutableDictionary* dict = [NSMutableDictionary new];
-    dict[@"List"] = [input valueForKey:@"boundRects"];
-    json[@"areas"] = dict;
     
     return json;
 }
@@ -893,10 +853,6 @@
     result[@"type"] = [RGLWConfig generateImageQualityCheckType:input.type];
     result[@"result"] = @(input.result);
     result[@"featureType"] = @(input.featureType);
-    NSMutableArray* boundRects = [NSMutableArray new];
-    for(NSValue* rect in input.boundRects)
-        [boundRects addObject:[self generateRect:[rect CGRectValue]]];
-    result[@"boundRects"] = boundRects;
     
     return result;
 }

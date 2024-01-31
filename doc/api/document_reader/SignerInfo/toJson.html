@@ -78,28 +78,20 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;dataToHash&quot;] = dataToHash;
-  result[&quot;digestAlgorithm&quot;] = digestAlgorithm;
-  result[&quot;version&quot;] = version;
-  result[&quot;paStatus&quot;] = paStatus;
-  result[&quot;signatureAlgorithm&quot;] = signatureAlgorithm;
-  result[&quot;issuer&quot;] = issuer?.toJson();
-  result[&quot;serialNumber&quot;] = serialNumber?.toJson();
-  result[&quot;signature&quot;] = signature?.toJson();
-  result[&quot;subjectKeyIdentifier&quot;] = subjectKeyIdentifier?.toJson();
-  List&lt;dynamic&gt; list = [];
-  for (var item in signedAttributes) list.add(item.toJson());
-  result[&quot;signedAttributes&quot;] = list;
-  list = [];
-  for (var item in certificateChain) list.add(item.toJson());
-  result[&quot;certificateChain&quot;] = list;
-  result[&quot;notifications&quot;] = notifications;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;dataToHash&quot;: dataToHash,
+      &quot;digestAlgorithm&quot;: digestAlgorithm,
+      &quot;version&quot;: version,
+      &quot;paStatus&quot;: paStatus,
+      &quot;signatureAlgorithm&quot;: signatureAlgorithm,
+      &quot;issuer&quot;: issuer?.toJson(),
+      &quot;serialNumber&quot;: serialNumber?.toJson(),
+      &quot;signature&quot;: signature?.toJson(),
+      &quot;subjectKeyIdentifier&quot;: subjectKeyIdentifier?.toJson(),
+      &quot;signedAttributes&quot;: signedAttributes.map((e) =&gt; e.toJson()).toList(),
+      &quot;certificateChain&quot;: certificateChain.map((e) =&gt; e.toJson()).toList(),
+      &quot;notifications&quot;: notifications,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -132,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -16,7 +16,7 @@ class BarcodeResult {
   /// Allows you to deserialize object.
   static BarcodeResult? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new BarcodeResult();
+    var result = BarcodeResult();
 
     for (var item in jsonObject["fields"])
       result._fields.addSafe(BarcodeField.fromJson(item));
@@ -25,13 +25,7 @@ class BarcodeResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    List<dynamic> list = [];
-    for (var item in fields) list.add(item.toJson());
-    result["fields"] = list;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "fields": fields.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }

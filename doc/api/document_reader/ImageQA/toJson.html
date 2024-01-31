@@ -78,23 +78,18 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  if (dpiThreshold != null) result[&quot;dpiThreshold&quot;] = dpiThreshold;
-  if (angleThreshold != null) result[&quot;angleThreshold&quot;] = angleThreshold;
-  if (documentPositionIndent != null)
-    result[&quot;documentPositionIndent&quot;] = documentPositionIndent;
-  if (focusCheck != null) result[&quot;focusCheck&quot;] = focusCheck;
-  if (glaresCheck != null) result[&quot;glaresCheck&quot;] = glaresCheck;
-  if (colornessCheck != null) result[&quot;colornessCheck&quot;] = colornessCheck;
-  if (moireCheck != null) result[&quot;moireCheck&quot;] = moireCheck;
-  if (expectedPass != null) result[&quot;expectedPass&quot;] = expectedPass;
-  if (glaresCheckParams != null)
-    result[&quot;glaresCheckParams&quot;] = glaresCheckParams!.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;dpiThreshold&quot;: dpiThreshold,
+      &quot;angleThreshold&quot;: angleThreshold,
+      &quot;documentPositionIndent&quot;: documentPositionIndent,
+      &quot;focusCheck&quot;: focusCheck,
+      &quot;glaresCheck&quot;: glaresCheck,
+      &quot;colornessCheck&quot;: colornessCheck,
+      &quot;screenCapture&quot;: screenCapture,
+      &quot;expectedPass&quot;: expectedPass,
+      &quot;glaresCheckParams&quot;: glaresCheckParams?.toJson(),
+      &quot;brightnessThreshold&quot;: brightnessThreshold,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -127,7 +122,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

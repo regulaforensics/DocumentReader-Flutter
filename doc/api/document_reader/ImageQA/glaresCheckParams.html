@@ -60,24 +60,55 @@
 <h1><span class="kind-property">glaresCheckParams</span> property 
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="../../document_reader/GlaresCheckParams-class.html">GlaresCheckParams</a>?
-          <span class="name ">glaresCheckParams</span>
-          <div class="features"><span class="feature">getter/setter pair</span></div>
 
-        </section>
         
+<section id="getter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype"><a href="../../document_reader/GlaresCheckParams-class.html">GlaresCheckParams</a>?</span>
+  <span class="name ">glaresCheckParams</span>
+  
+
+</section>
+
+
 <section class="desc markdown">
   <p>Parameters for glares image quality validation.</p>
 </section>
 
-        
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">GlaresCheckParams? glaresCheckParams;</code></pre>
+  <pre class="language-dart"><code class="language-dart">GlaresCheckParams? get glaresCheckParams =&gt; _glaresCheckParams;</code></pre>
 </section>
 
+</section>
+
+
+        
+<section id="setter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype">void</span>
+  <span class="name ">glaresCheckParams=</span><span class="signature">(<wbr><span class="parameter" id="glaresCheckParams=-param-val"><span class="type-annotation"><a href="../../document_reader/GlaresCheckParams-class.html">GlaresCheckParams</a>?</span> <span class="parameter-name">val</span></span>)</span>
+  
+
+</section>
+
+
+
+
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">set glaresCheckParams(GlaresCheckParams? val) {
+  _glaresCheckParams = val;
+  _set({&quot;glaresCheckParams&quot;: val?.toJson()});
+}</code></pre>
+</section>
+
+</section>
 
   </div> <!-- /.main-content -->
 
@@ -108,7 +139,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -80,13 +80,11 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static GlaresCheckParams? fromJson(jsonObject) {
-  var result = new GlaresCheckParams();
   if (jsonObject == null) return null;
-
-  result.imgMarginPart = _toDouble(jsonObject[&quot;imgMarginPart&quot;]);
-  result.maxGlaringPart = _toDouble(jsonObject[&quot;maxGlaringPart&quot;]);
-
-  return result;
+  return GlaresCheckParams(
+    imgMarginPart: _toDouble(jsonObject[&quot;imgMarginPart&quot;]),
+    maxGlaringPart: _toDouble(jsonObject[&quot;maxGlaringPart&quot;]),
+  );
 }</code></pre>
 </section>
 
@@ -120,7 +118,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

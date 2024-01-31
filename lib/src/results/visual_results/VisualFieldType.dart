@@ -1900,13 +1900,6 @@ enum VisualFieldType {
     }
   }
 
-  static List<int>? toIntList(List<VisualFieldType>? input) {
-    if (input == null) return null;
-    List<int> list = [];
-    for (var item in input) list.add(item.value);
-    return list;
-  }
-
   static List<VisualFieldType>? fromIntList(List<int>? input) {
     if (input == null) return null;
     List<VisualFieldType> list = [];

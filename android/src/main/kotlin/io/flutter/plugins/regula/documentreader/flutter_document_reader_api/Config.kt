@@ -13,14 +13,17 @@ import android.content.Context
 import android.graphics.Paint
 import android.text.SpannableString
 import android.widget.ImageView
-import com.regula.documentreader.api.DocumentReader
+import com.regula.documentreader.api.DocumentReader.Instance
 import com.regula.documentreader.api.params.Functionality
+import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
 import com.regula.documentreader.api.params.RfidScenario
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
+import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.drawableFromBase64
+import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.drawableToBase64
 import org.json.JSONObject
 
 fun setFunctionality(functionality: Functionality, opts: JSONObject) {
@@ -78,45 +81,45 @@ fun getFunctionality(functionality: Functionality): JSONObject {
     val result = JSONObject()
 
     // Boolean
-    result.put("pictureOnBoundsReady", functionality.isPictureOnBoundsReady)
-    result.put("showTorchButton", functionality.isShowTorchButton)
-    result.put("showCloseButton", functionality.isShowCloseButton)
-    result.put("videoCaptureMotionControl", functionality.isVideoCaptureMotionControl)
-    result.put("showCaptureButton", functionality.isShowCaptureButton)
-    result.put("showChangeFrameButton", functionality.isShowChangeFrameButton)
-    result.put("showSkipNextPageButton", functionality.isShowSkipNextPageButton)
-    result.put("useAuthenticator", functionality.isUseAuthenticator)
-    result.put("skipFocusingFrames", functionality.isSkipFocusingFrames)
-    result.put("showCameraSwitchButton", functionality.isShowCameraSwitchButton)
-    result.put("displayMetadata", functionality.isDisplayMetaData)
-    result.put("isZoomEnabled", functionality.isZoomEnabled)
-    result.put("isCameraTorchCheckDisabled", functionality.isCameraTorchCheckDisabled)
-    result.put("recordScanningProcess", functionality.doRecordProcessingVideo())
-    result.put("manualMultipageMode", functionality.isManualMultipageMode)
+    result.putOpt("pictureOnBoundsReady", functionality.isPictureOnBoundsReady)
+    result.putOpt("showTorchButton", functionality.isShowTorchButton)
+    result.putOpt("showCloseButton", functionality.isShowCloseButton)
+    result.putOpt("videoCaptureMotionControl", functionality.isVideoCaptureMotionControl)
+    result.putOpt("showCaptureButton", functionality.isShowCaptureButton)
+    result.putOpt("showChangeFrameButton", functionality.isShowChangeFrameButton)
+    result.putOpt("showSkipNextPageButton", functionality.isShowSkipNextPageButton)
+    result.putOpt("useAuthenticator", functionality.isUseAuthenticator)
+    result.putOpt("skipFocusingFrames", functionality.isSkipFocusingFrames)
+    result.putOpt("showCameraSwitchButton", functionality.isShowCameraSwitchButton)
+    result.putOpt("displayMetadata", functionality.isDisplayMetaData)
+    result.putOpt("isZoomEnabled", functionality.isZoomEnabled)
+    result.putOpt("isCameraTorchCheckDisabled", functionality.isCameraTorchCheckDisabled)
+    result.putOpt("recordScanningProcess", functionality.doRecordProcessingVideo())
+    result.putOpt("manualMultipageMode", functionality.isManualMultipageMode)
 
     // Int
-    result.put("showCaptureButtonDelayFromDetect", functionality.showCaptureButtonDelayFromDetect)
-    result.put("showCaptureButtonDelayFromStart", functionality.showCaptureButtonDelayFromStart)
-    result.put("orientation", functionality.orientation)
-    result.put("captureMode", functionality.captureMode)
-    result.put("cameraPosition", functionality.cameraMode)
-    result.put("rfidTimeout", functionality.rfidTimeout as Int?)
-    result.put("forcePagesCount", functionality.forcePagesCount)
+    result.putOpt("showCaptureButtonDelayFromDetect", functionality.showCaptureButtonDelayFromDetect)
+    result.putOpt("showCaptureButtonDelayFromStart", functionality.showCaptureButtonDelayFromStart)
+    result.putOpt("orientation", functionality.orientation)
+    result.putOpt("captureMode", functionality.captureMode)
+    result.putOpt("cameraPosition", functionality.cameraMode)
+    result.putOpt("rfidTimeout", functionality.rfidTimeout as Int?)
+    result.putOpt("forcePagesCount", functionality.forcePagesCount)
 
     // String
-    result.put("cameraFrame", functionality.cameraFrame)
-    result.put("btDeviceName", functionality.btDeviceName)
+    result.putOpt("cameraFrame", functionality.cameraFrame)
+    result.putOpt("btDeviceName", functionality.btDeviceName)
 
     // Float
-    result.put("zoomFactor", functionality.zoomFactor)
-    result.put("exposure", functionality.exposure)
+    result.putOpt("zoomFactor", functionality.zoomFactor)
+    result.putOpt("exposure", functionality.exposure)
 
     // JSONArray
-    result.put("excludedCamera2Models", generateList(functionality.excludedCamera2Models))
+    result.putOpt("excludedCamera2Models", generateList(functionality.excludedCamera2Models))
 
     // Custom
     // in ios - videoSessionPreset
-    result.put("cameraSize", object : JSONObject() {
+    result.putOpt("cameraSize", object : JSONObject() {
         init {
             put("width", functionality.cameraWidth)
             put("height", functionality.cameraHeight)
@@ -141,7 +144,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) {
     if (opts.has("manualCrop")) processParams.manualCrop = opts.getBoolean("manualCrop")
     if (opts.has("integralImage")) processParams.integralImage = opts.getBoolean("integralImage")
     if (opts.has("returnCroppedBarcode")) processParams.returnCroppedBarcode = opts.getBoolean("returnCroppedBarcode")
-    if (opts.has("checkHologram")) processParams.checkHologram = opts.getBoolean("checkHologram")
+    if (opts.has("checkLiveness")) processParams.checkLiveness = opts.getBoolean("checkLiveness")
     if (opts.has("checkRequiredTextFields")) processParams.checkRequiredTextFields = opts.getBoolean("checkRequiredTextFields")
     if (opts.has("depersonalizeLog")) processParams.depersonalizeLog = opts.getBoolean("depersonalizeLog")
     if (opts.has("generateDoublePageSpreadImage")) processParams.generateDoublePageSpreadImage = opts.getBoolean("generateDoublePageSpreadImage")
@@ -157,7 +160,6 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) {
     if (opts.has("disablePerforationOCR")) processParams.disablePerforationOCR = opts.getBoolean("disablePerforationOCR")
     if (opts.has("respectImageQuality")) processParams.respectImageQuality = opts.getBoolean("respectImageQuality")
     if (opts.has("splitNames")) processParams.splitNames = opts.getBoolean("splitNames")
-    if (opts.has("doFlipYAxis")) processParams.doFlipYAxis = opts.getBoolean("doFlipYAxis")
     if (opts.has("doDetectCan")) processParams.doDetectCan = opts.getBoolean("doDetectCan")
     if (opts.has("useFaceApi")) processParams.useFaceApi = opts.getBoolean("useFaceApi")
 
@@ -195,9 +197,11 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) {
     if (opts.has("resultTypeOutput")) processParams.resultTypeOutput = intArrayFromJSON(opts.getJSONArray("resultTypeOutput"))
     if (opts.has("mrzFormatsFilter")) processParams.mrzFormatsFilter = stringArrayFromJson(opts.getJSONArray("mrzFormatsFilter"))
     if (opts.has("documentGroupFilter")) processParams.documentGroupFilter = intArrayFromJSON(opts.getJSONArray("documentGroupFilter"))
+    if (opts.has("lcidIgnoreFilter")) processParams.lcidIgnoreFilter = intArrayFromJSON(opts.getJSONArray("lcidIgnoreFilter"))
+    if (opts.has("lcidFilter")) processParams.lcidFilter = intArrayFromJSON(opts.getJSONArray("lcidFilter"))
 
     // JSONObject
-    if (opts.has("imageQA")) processParams.imageQA = imageQAFromJSON(opts.getJSONObject("imageQA"))!!
+    if (opts.has("imageQA")) setImageQA(processParams.imageQA, opts.getJSONObject("imageQA"))
     if (opts.has("rfidParams")) processParams.rfidParams = rfidParamsFromJSON(opts.getJSONObject("rfidParams"))
     if (opts.has("faceApiParams")) processParams.faceApiParams = faceApiParamsFromJSON(opts.getJSONObject("faceApiParams"))
 
@@ -209,81 +213,82 @@ fun getProcessParams(processParams: ProcessParam): JSONObject {
     val result = JSONObject()
 
     // Boolean
-    result.put("multipageProcessing", processParams.multipageProcessing)
-    result.put("logs", processParams.isLogEnable)
-    result.put("debugSaveImages", processParams.debugSaveImages)
-    result.put("debugSaveLogs", processParams.debugSaveLogs)
-    result.put("returnUncroppedImage", processParams.returnUncroppedImage)
-    result.put("uvTorchEnabled", processParams.uvTorchEnabled)
-    result.put("debugSaveCroppedImages", processParams.debugSaveCroppedImages)
-    result.put("disableFocusingCheck", processParams.disableFocusingCheck)
-    result.put("debugSaveRFIDSession", processParams.debugSaveRFIDSession)
-    result.put("doublePageSpread", processParams.doublePageSpread)
-    result.put("manualCrop", processParams.manualCrop)
-    result.put("integralImage", processParams.integralImage)
-    result.put("returnCroppedBarcode", processParams.returnCroppedBarcode)
-    result.put("checkHologram", processParams.checkHologram)
-    result.put("checkRequiredTextFields", processParams.checkRequiredTextFields)
-    result.put("depersonalizeLog", processParams.depersonalizeLog)
-    result.put("generateDoublePageSpreadImage", processParams.generateDoublePageSpreadImage)
-    result.put("alreadyCropped", processParams.alreadyCropped)
-    result.put("matchTextFieldMask", processParams.matchTextFieldMask)
-    result.put("fastDocDetect", processParams.fastDocDetect)
-    result.put("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare)
-    result.put("noGraphics", processParams.noGraphics)
-    result.put("multiDocOnImage", processParams.multiDocOnImage)
-    result.put("forceReadMrzBeforeLocate", processParams.forceReadMrzBeforeLocate)
-    result.put("parseBarcodes", processParams.parseBarcodes)
-    result.put("shouldReturnPackageForReprocess", processParams.shouldReturnPackageForReprocess)
-    result.put("disablePerforationOCR", processParams.disablePerforationOCR)
-    result.put("respectImageQuality", processParams.respectImageQuality)
-    result.put("splitNames", processParams.splitNames)
-    result.put("doFlipYAxis", processParams.doFlipYAxis)
-    result.put("doDetectCan", processParams.doDetectCan)
-    result.put("useFaceApi", processParams.useFaceApi)
+    result.putOpt("multipageProcessing", processParams.multipageProcessing)
+    result.putOpt("logs", processParams.isLogEnable)
+    result.putOpt("debugSaveImages", processParams.debugSaveImages)
+    result.putOpt("debugSaveLogs", processParams.debugSaveLogs)
+    result.putOpt("returnUncroppedImage", processParams.returnUncroppedImage)
+    result.putOpt("uvTorchEnabled", processParams.uvTorchEnabled)
+    result.putOpt("debugSaveCroppedImages", processParams.debugSaveCroppedImages)
+    result.putOpt("disableFocusingCheck", processParams.disableFocusingCheck)
+    result.putOpt("debugSaveRFIDSession", processParams.debugSaveRFIDSession)
+    result.putOpt("doublePageSpread", processParams.doublePageSpread)
+    result.putOpt("manualCrop", processParams.manualCrop)
+    result.putOpt("integralImage", processParams.integralImage)
+    result.putOpt("returnCroppedBarcode", processParams.returnCroppedBarcode)
+    result.putOpt("checkLiveness", processParams.checkLiveness)
+    result.putOpt("checkRequiredTextFields", processParams.checkRequiredTextFields)
+    result.putOpt("depersonalizeLog", processParams.depersonalizeLog)
+    result.putOpt("generateDoublePageSpreadImage", processParams.generateDoublePageSpreadImage)
+    result.putOpt("alreadyCropped", processParams.alreadyCropped)
+    result.putOpt("matchTextFieldMask", processParams.matchTextFieldMask)
+    result.putOpt("fastDocDetect", processParams.fastDocDetect)
+    result.putOpt("updateOCRValidityByGlare", processParams.updateOCRValidityByGlare)
+    result.putOpt("noGraphics", processParams.noGraphics)
+    result.putOpt("multiDocOnImage", processParams.multiDocOnImage)
+    result.putOpt("forceReadMrzBeforeLocate", processParams.forceReadMrzBeforeLocate)
+    result.putOpt("parseBarcodes", processParams.parseBarcodes)
+    result.putOpt("shouldReturnPackageForReprocess", processParams.shouldReturnPackageForReprocess)
+    result.putOpt("disablePerforationOCR", processParams.disablePerforationOCR)
+    result.putOpt("respectImageQuality", processParams.respectImageQuality)
+    result.putOpt("splitNames", processParams.splitNames)
+    result.putOpt("doDetectCan", processParams.doDetectCan)
+    result.putOpt("useFaceApi", processParams.useFaceApi)
 
     // Int
-    result.put("measureSystem", processParams.measureSystem)
-    result.put("barcodeParserType", processParams.barcodeParserType)
-    result.put("perspectiveAngle", processParams.perspectiveAngle)
-    result.put("minDPI", processParams.minDPI)
-    result.put("imageDpiOutMax", processParams.imageDpiOutMax)
-    result.put("forceDocID", processParams.forceDocID)
-    result.put("forceDocFormat", processParams.forceDocFormat)
-    result.put("shiftExpiryDate", processParams.shiftExpiryDate)
-    result.put("minimalHolderAge", processParams.minimalHolderAge)
-    result.put("imageOutputMaxHeight", processParams.imageOutputMaxHeight)
-    result.put("imageOutputMaxWidth", processParams.imageOutputMaxWidth)
-    result.put("processAuth", processParams.processAuth)
-    result.put("convertCase", processParams.convertCase)
+    result.putOpt("measureSystem", processParams.measureSystem)
+    result.putOpt("barcodeParserType", processParams.barcodeParserType)
+    result.putOpt("perspectiveAngle", processParams.perspectiveAngle)
+    result.putOpt("minDPI", processParams.minDPI)
+    result.putOpt("imageDpiOutMax", processParams.imageDpiOutMax)
+    result.putOpt("forceDocID", processParams.forceDocID)
+    result.putOpt("forceDocFormat", processParams.forceDocFormat)
+    result.putOpt("shiftExpiryDate", processParams.shiftExpiryDate)
+    result.putOpt("minimalHolderAge", processParams.minimalHolderAge)
+    result.putOpt("imageOutputMaxHeight", processParams.imageOutputMaxHeight)
+    result.putOpt("imageOutputMaxWidth", processParams.imageOutputMaxWidth)
+    result.putOpt("processAuth", processParams.processAuth)
+    result.putOpt("convertCase", processParams.convertCase)
 
     // String
-    result.put("dateFormat", processParams.dateFormat)
-    result.put("scenario", processParams.scenario)
-    result.put("captureButtonScenario", processParams.captureButtonScenario)
-    result.put("sessionLogFolder", processParams.sessionLogFolder)
+    result.putOpt("dateFormat", processParams.dateFormat)
+    result.putOpt("scenario", processParams.scenario)
+    result.putOpt("captureButtonScenario", processParams.captureButtonScenario)
+    result.putOpt("sessionLogFolder", processParams.sessionLogFolder)
 
     // Double
-    result.put("timeout", processParams.timeout)
-    result.put("timeoutFromFirstDetect", processParams.timeoutFromFirstDetect)
-    result.put("timeoutFromFirstDocType", processParams.timeoutFromFirstDocType)
-    result.put("documentAreaMin", processParams.documentAreaMin)
+    result.putOpt("timeout", processParams.timeout)
+    result.putOpt("timeoutFromFirstDetect", processParams.timeoutFromFirstDetect)
+    result.putOpt("timeoutFromFirstDocType", processParams.timeoutFromFirstDocType)
+    result.putOpt("documentAreaMin", processParams.documentAreaMin)
 
     // JSONArray
-    result.put("documentIDList", generateIntArray(processParams.documentIDList))
-    result.put("barcodeTypes", generateBarcodeTypeArray(processParams.doBarcodes))
-    result.put("fieldTypesFilter", generateIntArray(processParams.fieldTypesFilter))
-    result.put("documentGroupFilter", generateIntArray(processParams.documentGroupFilter))
-    result.put("mrzFormatsFilter", generateArray(processParams.mrzFormatsFilter))
-    result.put("resultTypeOutput", generateIntArray(processParams.resultTypeOutput))
+    result.putOpt("documentIDList", generateIntArray(processParams.documentIDList))
+    result.putOpt("barcodeTypes", generateBarcodeTypeArray(processParams.doBarcodes))
+    result.putOpt("fieldTypesFilter", generateIntArray(processParams.fieldTypesFilter))
+    result.putOpt("documentGroupFilter", generateIntArray(processParams.documentGroupFilter))
+    result.putOpt("lcidIgnoreFilter", generateIntArray(processParams.lcidIgnoreFilter))
+    result.putOpt("lcidFilter", generateIntArray(processParams.lcidFilter))
+    result.putOpt("mrzFormatsFilter", generateArray(processParams.mrzFormatsFilter))
+    result.putOpt("resultTypeOutput", generateIntArray(processParams.resultTypeOutput))
 
     // JSONObject
-    result.put("imageQA", generateImageQA(processParams.imageQA))
-    result.put("rfidParams", generateRFIDParams(processParams.rfidParams))
-    result.put("faceApiParams", generateFaceApiParams(processParams.faceApiParams))
+    result.putOpt("imageQA", getImageQA(processParams.imageQA))
+    result.putOpt("rfidParams", generateRFIDParams(processParams.rfidParams))
+    result.putOpt("faceApiParams", generateFaceApiParams(processParams.faceApiParams))
 
     // Custom
-    result.put("customParams", processParams.customParams)
+    result.putOpt("customParams", processParams.customParams)
     return result
 }
 
@@ -333,18 +338,18 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
     if (opts.has("hologramAnimationPositionMultiplier")) editor.setHologramAnimationPositionMultiplier(opts.getDouble("hologramAnimationPositionMultiplier").toFloat())
 
     // Drawable
-    if (opts.has("multipageAnimationFrontImage")) editor.setMultipageAnimationFrontImage(Convert.drawableFromBase64(opts.getString("multipageAnimationFrontImage"), context))
-    if (opts.has("multipageAnimationBackImage")) editor.setMultipageAnimationBackImage(Convert.drawableFromBase64(opts.getString("multipageAnimationBackImage"), context))
-    if (opts.has("borderBackgroundImage")) editor.setBorderBackgroundImage(Convert.drawableFromBase64(opts.getString("borderBackgroundImage"), context))
-    if (opts.has("helpAnimationImage")) editor.setHelpAnimationImage(Convert.drawableFromBase64(opts.getString("helpAnimationImage"), context))
-    if (opts.has("closeButtonImage")) editor.setCloseButtonImage(Convert.drawableFromBase64(opts.getString("closeButtonImage"), context))
-    if (opts.has("captureButtonImage")) editor.setCaptureButtonImage(Convert.drawableFromBase64(opts.getString("captureButtonImage"), context))
-    if (opts.has("changeFrameButtonCollapseImage")) editor.setChangeFrameCollapseButtonImage(Convert.drawableFromBase64(opts.getString("changeFrameButtonCollapseImage"), context))
-    if (opts.has("changeFrameButtonExpandImage")) editor.setChangeFrameExpandButtonImage(Convert.drawableFromBase64(opts.getString("changeFrameButtonExpandImage"), context))
-    if (opts.has("cameraSwitchButtonImage")) editor.setCameraSwitchButtonImage(Convert.drawableFromBase64(opts.getString("cameraSwitchButtonImage"), context))
-    if (opts.has("torchButtonOnImage")) editor.setTorchImageOn(Convert.drawableFromBase64(opts.getString("torchButtonOnImage"), context))
-    if (opts.has("torchButtonOffImage")) editor.setTorchImageOff(Convert.drawableFromBase64(opts.getString("torchButtonOffImage"), context))
-    if (opts.has("hologramAnimationImage")) editor.setHologramAnimationImage(Convert.drawableFromBase64(opts.getString("hologramAnimationImage"), context))
+    if (opts.has("multipageAnimationFrontImage")) editor.setMultipageAnimationFrontImage(drawableFromBase64(opts.getString("multipageAnimationFrontImage"), context))
+    if (opts.has("multipageAnimationBackImage")) editor.setMultipageAnimationBackImage(drawableFromBase64(opts.getString("multipageAnimationBackImage"), context))
+    if (opts.has("borderBackgroundImage")) editor.setBorderBackgroundImage(drawableFromBase64(opts.getString("borderBackgroundImage"), context))
+    if (opts.has("helpAnimationImage")) editor.setHelpAnimationImage(drawableFromBase64(opts.getString("helpAnimationImage"), context))
+    if (opts.has("closeButtonImage")) editor.setCloseButtonImage(drawableFromBase64(opts.getString("closeButtonImage"), context))
+    if (opts.has("captureButtonImage")) editor.setCaptureButtonImage(drawableFromBase64(opts.getString("captureButtonImage"), context))
+    if (opts.has("changeFrameButtonCollapseImage")) editor.setChangeFrameCollapseButtonImage(drawableFromBase64(opts.getString("changeFrameButtonCollapseImage"), context))
+    if (opts.has("changeFrameButtonExpandImage")) editor.setChangeFrameExpandButtonImage(drawableFromBase64(opts.getString("changeFrameButtonExpandImage"), context))
+    if (opts.has("cameraSwitchButtonImage")) editor.setCameraSwitchButtonImage(drawableFromBase64(opts.getString("cameraSwitchButtonImage"), context))
+    if (opts.has("torchButtonOnImage")) editor.setTorchImageOn(drawableFromBase64(opts.getString("torchButtonOnImage"), context))
+    if (opts.has("torchButtonOffImage")) editor.setTorchImageOff(drawableFromBase64(opts.getString("torchButtonOffImage"), context))
+    if (opts.has("hologramAnimationImage")) editor.setHologramAnimationImage(drawableFromBase64(opts.getString("hologramAnimationImage"), context))
 
     // Font
     if (opts.has("statusTextFont")) {
@@ -376,81 +381,81 @@ fun getCustomization(customization: ParamsCustomization): JSONObject {
     val result = JSONObject()
 
     // Boolean
-    result.put("showStatusMessages", customization.isShowStatusMessages)
-    result.put("showResultStatusMessages", customization.isShowResultStatusMessages)
-    result.put("showHelpAnimation", customization.isShowHelpAnimation)
-    result.put("showNextPageAnimation", customization.isShowNextPageAnimation)
-    result.put("showBackgroundMask", customization.isShowBackgroundMask)
+    result.putOpt("showStatusMessages", customization.isShowStatusMessages)
+    result.putOpt("showResultStatusMessages", customization.isShowResultStatusMessages)
+    result.putOpt("showHelpAnimation", customization.isShowHelpAnimation)
+    result.putOpt("showNextPageAnimation", customization.isShowNextPageAnimation)
+    result.putOpt("showBackgroundMask", customization.isShowBackgroundMask)
 
     // Int
-    result.put("cameraFrameBorderWidth", customization.cameraFrameBorderWidth as Int?)
-    result.put("cameraFrameLineLength", customization.cameraFrameLineLength as Int?)
-    result.put("cameraFrameShapeType", customization.cameraFrameShapeType as Int?)
-    result.put("cameraFrameOffsetWidth", customization.cameraFrameOffsetWidth as Int?)
+    result.putOpt("cameraFrameBorderWidth", customization.cameraFrameBorderWidth as Int?)
+    result.putOpt("cameraFrameLineLength", customization.cameraFrameLineLength as Int?)
+    result.putOpt("cameraFrameShapeType", customization.cameraFrameShapeType as Int?)
+    result.putOpt("cameraFrameOffsetWidth", customization.cameraFrameOffsetWidth as Int?)
 
-    result.put("activityIndicatorSize", customization.activityIndicatorSize as Int?)
+    result.putOpt("activityIndicatorSize", customization.activityIndicatorSize as Int?)
 
     // String
-    result.put("status", customization.status)
-    result.put("resultStatus", customization.resultStatus)
+    result.putOpt("status", customization.status)
+    result.putOpt("resultStatus", customization.resultStatus)
 
     // Color
-    result.put("cameraFrameDefaultColor", longWithColor(customization.cameraFrameDefaultColor))
-    result.put("cameraFrameActiveColor", longWithColor(customization.cameraFrameActiveColor))
-    result.put("statusTextColor", longWithColor(customization.statusTextColor))
-    result.put("resultStatusTextColor", longWithColor(customization.resultStatusTextColor))
-    result.put("resultStatusBackgroundColor", longWithColor(customization.resultStatusBackgroundColor))
-    result.put("multipageButtonBackgroundColor", longWithColor(customization.multipageButtonBackgroundColor))
-    result.put("tintColor", longWithColor(customization.tintColor))
-    result.put("activityIndicatorColor", longWithColor(customization.activityIndicatorColor))
-    result.put("statusBackgroundColor", longWithColor(customization.statusBackgroundColor))
-    result.put("cameraPreviewBackgroundColor", longWithColor(customization.cameraPreviewBackgroundColor))
+    result.putOpt("cameraFrameDefaultColor", longWithColor(customization.cameraFrameDefaultColor))
+    result.putOpt("cameraFrameActiveColor", longWithColor(customization.cameraFrameActiveColor))
+    result.putOpt("statusTextColor", longWithColor(customization.statusTextColor))
+    result.putOpt("resultStatusTextColor", longWithColor(customization.resultStatusTextColor))
+    result.putOpt("resultStatusBackgroundColor", longWithColor(customization.resultStatusBackgroundColor))
+    result.putOpt("multipageButtonBackgroundColor", longWithColor(customization.multipageButtonBackgroundColor))
+    result.putOpt("tintColor", longWithColor(customization.tintColor))
+    result.putOpt("activityIndicatorColor", longWithColor(customization.activityIndicatorColor))
+    result.putOpt("statusBackgroundColor", longWithColor(customization.statusBackgroundColor))
+    result.putOpt("cameraPreviewBackgroundColor", longWithColor(customization.cameraPreviewBackgroundColor))
 
     // Float
-    result.put("statusPositionMultiplier", customization.statusPositionMultiplier)
-    result.put("resultStatusPositionMultiplier", customization.resultStatusPositionMultiplier)
-    result.put("backgroundMaskAlpha", customization.backgroundMaskAlpha)
-    result.put("toolbarSize", customization.toolbarSize)
-    result.put("customStatusPositionMultiplier", customization.customStatusPositionMultiplier)
-    result.put("cameraFrameVerticalPositionMultiplier", customization.cameraFrameVerticalPositionMultiplier)
-    result.put("cameraFrameLandscapeAspectRatio", customization.cameraFrameLandscapeAspectRatio)
-    result.put("cameraFramePortraitAspectRatio", customization.cameraFramePortraitAspectRatio)
-    result.put("cameraFrameCornerRadius", customization.cameraFrameCornerRadius)
-    result.put("hologramAnimationPositionMultiplier", customization.hologramAnimationPositionMultiplier)
+    result.putOpt("statusPositionMultiplier", customization.statusPositionMultiplier)
+    result.putOpt("resultStatusPositionMultiplier", customization.resultStatusPositionMultiplier)
+    result.putOpt("backgroundMaskAlpha", customization.backgroundMaskAlpha)
+    result.putOpt("toolbarSize", customization.toolbarSize)
+    result.putOpt("customStatusPositionMultiplier", customization.customStatusPositionMultiplier)
+    result.putOpt("cameraFrameVerticalPositionMultiplier", customization.cameraFrameVerticalPositionMultiplier)
+    result.putOpt("cameraFrameLandscapeAspectRatio", customization.cameraFrameLandscapeAspectRatio)
+    result.putOpt("cameraFramePortraitAspectRatio", customization.cameraFramePortraitAspectRatio)
+    result.putOpt("cameraFrameCornerRadius", customization.cameraFrameCornerRadius)
+    result.putOpt("hologramAnimationPositionMultiplier", customization.hologramAnimationPositionMultiplier)
 
     // Drawable
-    result.put("multipageAnimationFrontImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.multipageAnimationFrontImage)))
-    result.put("multipageAnimationBackImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.multipageAnimationBackImage)))
-    result.put("borderBackgroundImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.borderBackgroundImage)))
-    result.put("helpAnimationImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.helpAnimationImageDrawable)))
-    result.put("closeButtonImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.closeButtonDrawable)))
-    result.put("captureButtonImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.captureButtonDrawable)))
-    result.put("changeFrameButtonCollapseImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.changeFrameCollapseButtonDrawable)))
-    result.put("changeFrameButtonExpandImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.changeFrameExpandButtonDrawable)))
-    result.put("cameraSwitchButtonImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.cameraSwitchButtonDrawable)))
-    result.put("torchButtonOnImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.torchImageOnDrawable)))
-    result.put("torchButtonOffImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.torchImageOffDrawable)))
-    result.put("hologramAnimationImage", Convert.bitmapToBase64(Convert.bitmapFromDrawable(customization.hologramAnimationImage)))
+    result.putOpt("multipageAnimationFrontImage", drawableToBase64(customization.multipageAnimationFrontImage))
+    result.putOpt("multipageAnimationBackImage", drawableToBase64(customization.multipageAnimationBackImage))
+    result.putOpt("borderBackgroundImage", drawableToBase64(customization.borderBackgroundImage))
+    result.putOpt("helpAnimationImage", drawableToBase64(customization.helpAnimationImageDrawable))
+    result.putOpt("closeButtonImage", drawableToBase64(customization.closeButtonDrawable))
+    result.putOpt("captureButtonImage", drawableToBase64(customization.captureButtonDrawable))
+    result.putOpt("changeFrameButtonCollapseImage", drawableToBase64(customization.changeFrameCollapseButtonDrawable))
+    result.putOpt("changeFrameButtonExpandImage", drawableToBase64(customization.changeFrameExpandButtonDrawable))
+    result.putOpt("cameraSwitchButtonImage", drawableToBase64(customization.cameraSwitchButtonDrawable))
+    result.putOpt("torchButtonOnImage", drawableToBase64(customization.torchImageOnDrawable))
+    result.putOpt("torchButtonOffImage", drawableToBase64(customization.torchImageOffDrawable))
+    result.putOpt("hologramAnimationImage", drawableToBase64(customization.hologramAnimationImage))
 
     // Font
     // fonts have no getters
 
     // Custom
-    result.put("customLabelStatus", customization.customLabelStatus?.toString())
-    result.put("cameraFrameLineCap", paintCapToInt(customization.cameraFrameLineCap))
-    result.put("uiCustomizationLayer", customization.uiCustomizationLayer)
+    result.putOpt("customLabelStatus", customization.customLabelStatus?.toString())
+    result.putOpt("cameraFrameLineCap", paintCapToInt(customization.cameraFrameLineCap))
+    result.putOpt("uiCustomizationLayer", customization.uiCustomizationLayer)
 
     // Matrix
-    result.put("helpAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.helpAnimationImageMatrix)))
-    result.put("multipageAnimationFrontImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationFrontImageMatrix)))
-    result.put("multipageAnimationBackImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationBackImageMatrix)))
-    result.put("hologramAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.hologramAnimationImageMatrix)))
-    result.put("borderBackgroundImageMatrix", generateFloatArray(matrixToFloatArray(customization.borderBackgroundImageMatrix)))
+    result.putOpt("helpAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.helpAnimationImageMatrix)))
+    result.putOpt("multipageAnimationFrontImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationFrontImageMatrix)))
+    result.putOpt("multipageAnimationBackImageMatrix", generateFloatArray(matrixToFloatArray(customization.multipageAnimationBackImageMatrix)))
+    result.putOpt("hologramAnimationImageMatrix", generateFloatArray(matrixToFloatArray(customization.hologramAnimationImageMatrix)))
+    result.putOpt("borderBackgroundImageMatrix", generateFloatArray(matrixToFloatArray(customization.borderBackgroundImageMatrix)))
     return result
 }
 
 fun setupScaleType() {
-    DocumentReader.Instance().customization().edit()
+    Instance().customization().edit()
         .setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
         .setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
         .setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
@@ -526,66 +531,66 @@ fun getRfidScenario(rfidScenario: RfidScenario): JSONObject {
     val result = JSONObject()
 
     // Boolean
-    result.put("paceStaticBinding", rfidScenario.isPaceStaticBinding)
-    result.put("onlineTA", rfidScenario.isOnlineTA)
-    result.put("writeEid", rfidScenario.isWriteEid)
-    result.put("universalAccessRights", rfidScenario.isUniversalAccessRights)
-    result.put("authorizedRestrictedIdentification", rfidScenario.isAuthorizedRestrictedIdentification)
-    result.put("auxVerificationCommunityID", rfidScenario.isAuxVerificationCommunityID)
-    result.put("auxVerificationDateOfBirth", rfidScenario.isAuxVerificationDateOfBirth)
-    result.put("skipAA", rfidScenario.isSkipAA)
-    result.put("strictProcessing", rfidScenario.isStrictProcessing)
-    result.put("pkdDSCertPriority", rfidScenario.isPkdDSCertPriority)
-    result.put("pkdUseExternalCSCA", rfidScenario.isPkdUseExternalCSCA)
-    result.put("trustedPKD", rfidScenario.isTrustedPKD)
-    result.put("passiveAuth", rfidScenario.isPassiveAuth)
-    result.put("useSFI", rfidScenario.isUseSFI)
-    result.put("readEPassport", rfidScenario.isReadEPassport)
-    result.put("readEID", rfidScenario.isReadEID)
-    result.put("readEDL", rfidScenario.isReadEDL)
-    result.put("authorizedSTSignature", rfidScenario.isAuthorizedSTSignature)
-    result.put("authorizedSTQSignature", rfidScenario.isAuthorizedSTQSignature)
-    result.put("authorizedWriteDG17", rfidScenario.isAuthorizedWriteDG17)
-    result.put("authorizedWriteDG18", rfidScenario.isAuthorizedWriteDG18)
-    result.put("authorizedWriteDG19", rfidScenario.isAuthorizedWriteDG19)
-    result.put("authorizedWriteDG20", rfidScenario.isAuthorizedWriteDG20)
-    result.put("authorizedWriteDG21", rfidScenario.isAuthorizedWriteDG21)
-    result.put("authorizedVerifyAge", rfidScenario.isAuthorizedVerifyAge)
-    result.put("authorizedVerifyCommunityID", rfidScenario.isAuthorizedVerifyCommunityID)
-    result.put("authorizedPrivilegedTerminal", rfidScenario.isAuthorizedPrivilegedTerminal)
-    result.put("authorizedCANAllowed", rfidScenario.isAuthorizedCANAllowed)
-    result.put("authorizedPINManagement", rfidScenario.isAuthorizedPINManagment)
-    result.put("authorizedInstallCert", rfidScenario.isAuthorizedInstallCert)
-    result.put("authorizedInstallQCert", rfidScenario.isAuthorizedInstallQCert)
-    result.put("applyAmendments", rfidScenario.isApplyAmendments)
-    result.put("autoSettings", rfidScenario.isAutoSettings)
+    result.putOpt("paceStaticBinding", rfidScenario.isPaceStaticBinding)
+    result.putOpt("onlineTA", rfidScenario.isOnlineTA)
+    result.putOpt("writeEid", rfidScenario.isWriteEid)
+    result.putOpt("universalAccessRights", rfidScenario.isUniversalAccessRights)
+    result.putOpt("authorizedRestrictedIdentification", rfidScenario.isAuthorizedRestrictedIdentification)
+    result.putOpt("auxVerificationCommunityID", rfidScenario.isAuxVerificationCommunityID)
+    result.putOpt("auxVerificationDateOfBirth", rfidScenario.isAuxVerificationDateOfBirth)
+    result.putOpt("skipAA", rfidScenario.isSkipAA)
+    result.putOpt("strictProcessing", rfidScenario.isStrictProcessing)
+    result.putOpt("pkdDSCertPriority", rfidScenario.isPkdDSCertPriority)
+    result.putOpt("pkdUseExternalCSCA", rfidScenario.isPkdUseExternalCSCA)
+    result.putOpt("trustedPKD", rfidScenario.isTrustedPKD)
+    result.putOpt("passiveAuth", rfidScenario.isPassiveAuth)
+    result.putOpt("useSFI", rfidScenario.isUseSFI)
+    result.putOpt("readEPassport", rfidScenario.isReadEPassport)
+    result.putOpt("readEID", rfidScenario.isReadEID)
+    result.putOpt("readEDL", rfidScenario.isReadEDL)
+    result.putOpt("authorizedSTSignature", rfidScenario.isAuthorizedSTSignature)
+    result.putOpt("authorizedSTQSignature", rfidScenario.isAuthorizedSTQSignature)
+    result.putOpt("authorizedWriteDG17", rfidScenario.isAuthorizedWriteDG17)
+    result.putOpt("authorizedWriteDG18", rfidScenario.isAuthorizedWriteDG18)
+    result.putOpt("authorizedWriteDG19", rfidScenario.isAuthorizedWriteDG19)
+    result.putOpt("authorizedWriteDG20", rfidScenario.isAuthorizedWriteDG20)
+    result.putOpt("authorizedWriteDG21", rfidScenario.isAuthorizedWriteDG21)
+    result.putOpt("authorizedVerifyAge", rfidScenario.isAuthorizedVerifyAge)
+    result.putOpt("authorizedVerifyCommunityID", rfidScenario.isAuthorizedVerifyCommunityID)
+    result.putOpt("authorizedPrivilegedTerminal", rfidScenario.isAuthorizedPrivilegedTerminal)
+    result.putOpt("authorizedCANAllowed", rfidScenario.isAuthorizedCANAllowed)
+    result.putOpt("authorizedPINManagement", rfidScenario.isAuthorizedPINManagment)
+    result.putOpt("authorizedInstallCert", rfidScenario.isAuthorizedInstallCert)
+    result.putOpt("authorizedInstallQCert", rfidScenario.isAuthorizedInstallQCert)
+    result.putOpt("applyAmendments", rfidScenario.isApplyAmendments)
+    result.putOpt("autoSettings", rfidScenario.isAutoSettings)
 
     // Int
-    result.put("signManagementAction", rfidScenario.signManagementAction)
-    result.put("readingBuffer", rfidScenario.readingBuffer)
-    result.put("onlineTAToSignDataType", rfidScenario.onlineTAToSignDataType)
-    result.put("profilerType", rfidScenario.profilerType)
-    result.put("authProcType", rfidScenario.authProcType)
-    result.put("baseSMProcedure", rfidScenario.baseSMProcedure)
-    result.put("pacePasswordType", rfidScenario.pacePasswordType)
-    result.put("terminalType", rfidScenario.terminalType)
-    result.put("defaultReadingBufferSize", rfidScenario.defaultReadingBufferSize)
+    result.putOpt("signManagementAction", rfidScenario.signManagementAction)
+    result.putOpt("readingBuffer", rfidScenario.readingBuffer)
+    result.putOpt("onlineTAToSignDataType", rfidScenario.onlineTAToSignDataType)
+    result.putOpt("profilerType", rfidScenario.profilerType)
+    result.putOpt("authProcType", rfidScenario.authProcType)
+    result.putOpt("baseSMProcedure", rfidScenario.baseSMProcedure)
+    result.putOpt("pacePasswordType", rfidScenario.pacePasswordType)
+    result.putOpt("terminalType", rfidScenario.terminalType)
+    result.putOpt("defaultReadingBufferSize", rfidScenario.defaultReadingBufferSize)
 
     // String
-    result.put("password", rfidScenario.password)
-    result.put("pkdPA", rfidScenario.pkdPA)
-    result.put("pkdEAC", rfidScenario.pkdEAC)
-    result.put("mrz", rfidScenario.mrz)
-    result.put("eSignPINDefault", rfidScenario.geteSignPINDefault())
-    result.put("eSignPINNewValue", rfidScenario.geteSignPINNewValue())
+    result.putOpt("password", rfidScenario.password)
+    result.putOpt("pkdPA", rfidScenario.pkdPA)
+    result.putOpt("pkdEAC", rfidScenario.pkdEAC)
+    result.putOpt("mrz", rfidScenario.mrz)
+    result.putOpt("eSignPINDefault", rfidScenario.geteSignPINDefault())
+    result.putOpt("eSignPINNewValue", rfidScenario.geteSignPINNewValue())
 
     // JSONObject
-    result.put("reprocessParams", generateReprocParams(rfidScenario.reprocessParams))
+    result.putOpt("reprocessParams", generateReprocParams(rfidScenario.reprocessParams))
 
     // DataGroup
-    result.put("ePassportDataGroups", getDataGroups(rfidScenario.ePassportDataGroups()))
-    result.put("eIDDataGroups", getDataGroups(rfidScenario.eIDDataGroups()))
-    result.put("eDLDataGroups", getDataGroups(rfidScenario.eDLDataGroups()))
+    result.putOpt("ePassportDataGroups", getDataGroups(rfidScenario.ePassportDataGroups()))
+    result.putOpt("eIDDataGroups", getDataGroups(rfidScenario.eIDDataGroups()))
+    result.putOpt("eDLDataGroups", getDataGroups(rfidScenario.eDLDataGroups()))
     return result
 }
 
@@ -628,36 +633,66 @@ fun getDataGroups(dataGroup: DataGroups): JSONObject {
     val result = JSONObject()
 
     // EDLDataGroups/Common: 1-14
-    result.put("DG1", dataGroup.isDG1)
-    result.put("DG2", dataGroup.isDG2)
-    result.put("DG3", dataGroup.isDG3)
-    result.put("DG4", dataGroup.isDG4)
-    result.put("DG5", dataGroup.isDG5)
-    result.put("DG6", dataGroup.isDG6)
-    result.put("DG7", dataGroup.isDG7)
-    result.put("DG8", dataGroup.isDG8)
-    result.put("DG9", dataGroup.isDG9)
-    result.put("DG10", dataGroup.isDG10)
-    result.put("DG11", dataGroup.isDG11)
-    result.put("DG12", dataGroup.isDG12)
-    result.put("DG13", dataGroup.isDG13)
-    result.put("DG14", dataGroup.isDG14)
+    result.putOpt("DG1", dataGroup.isDG1)
+    result.putOpt("DG2", dataGroup.isDG2)
+    result.putOpt("DG3", dataGroup.isDG3)
+    result.putOpt("DG4", dataGroup.isDG4)
+    result.putOpt("DG5", dataGroup.isDG5)
+    result.putOpt("DG6", dataGroup.isDG6)
+    result.putOpt("DG7", dataGroup.isDG7)
+    result.putOpt("DG8", dataGroup.isDG8)
+    result.putOpt("DG9", dataGroup.isDG9)
+    result.putOpt("DG10", dataGroup.isDG10)
+    result.putOpt("DG11", dataGroup.isDG11)
+    result.putOpt("DG12", dataGroup.isDG12)
+    result.putOpt("DG13", dataGroup.isDG13)
+    result.putOpt("DG14", dataGroup.isDG14)
 
     // EPassportDataGroups: 1-16
     if (dataGroup is EPassportDataGroups) {
-        result.put("DG15", dataGroup.isDG15)
-        result.put("DG16", dataGroup.isDG16)
+        result.putOpt("DG15", dataGroup.isDG15)
+        result.putOpt("DG16", dataGroup.isDG16)
     }
 
     // EIDDataGroups: 1-21
     if (dataGroup is EIDDataGroups) {
-        result.put("DG15", dataGroup.isDG15)
-        result.put("DG16", dataGroup.isDG16)
-        result.put("DG17", dataGroup.isDG17)
-        result.put("DG18", dataGroup.isDG18)
-        result.put("DG19", dataGroup.isDG19)
-        result.put("DG20", dataGroup.isDG20)
-        result.put("DG21", dataGroup.isDG21)
+        result.putOpt("DG15", dataGroup.isDG15)
+        result.putOpt("DG16", dataGroup.isDG16)
+        result.putOpt("DG17", dataGroup.isDG17)
+        result.putOpt("DG18", dataGroup.isDG18)
+        result.putOpt("DG19", dataGroup.isDG19)
+        result.putOpt("DG20", dataGroup.isDG20)
+        result.putOpt("DG21", dataGroup.isDG21)
     }
+    return result
+}
+
+fun setImageQA(imageQA: ImageQA, opts: JSONObject) {
+    if (opts.has("dpiThreshold")) imageQA.dpiThreshold = opts.getInt("dpiThreshold")
+    if (opts.has("angleThreshold")) imageQA.angleThreshold = opts.getInt("angleThreshold")
+    if (opts.has("focusCheck")) imageQA.focusCheck = opts.getBoolean("focusCheck")
+    if (opts.has("glaresCheck")) imageQA.glaresCheck = opts.getBoolean("glaresCheck")
+    if (opts.has("colornessCheck")) imageQA.colornessCheck = opts.getBoolean("colornessCheck")
+    if (opts.has("screenCapture")) imageQA.screenCapture = opts.getBoolean("screenCapture")
+    if (opts.has("expectedPass")) imageQA.expectedPass = intArrayFromJSON(opts.getJSONArray("expectedPass"))
+    if (opts.has("documentPositionIndent")) imageQA.documentPositionIndent = opts.getInt("documentPositionIndent")
+    if (opts.has("glaresCheckParams")) imageQA.glaresCheckParams = glaresCheckParamsFromJSON(opts.getJSONObject("glaresCheckParams"))
+    if (opts.has("brightnessThreshold")) imageQA.brightnessThreshold = opts.getDouble("brightnessThreshold")
+}
+
+fun getImageQA(imageQA: ImageQA): JSONObject {
+    val result = JSONObject()
+
+    result.putOpt("dpiThreshold", imageQA.dpiThreshold)
+    result.putOpt("angleThreshold", imageQA.angleThreshold)
+    result.putOpt("focusCheck", imageQA.focusCheck)
+    result.putOpt("glaresCheck", imageQA.glaresCheck)
+    result.putOpt("colornessCheck", imageQA.colornessCheck)
+    result.putOpt("screenCapture", imageQA.screenCapture)
+    result.putOpt("documentPositionIndent", imageQA.documentPositionIndent as Int?)
+    result.putOpt("expectedPass", generateIntArray(imageQA.expectedPass))
+    result.putOpt("glaresCheckParams", generateGlaresCheckParams(imageQA.glaresCheckParams))
+    result.putOpt("brightnessThreshold", imageQA.brightnessThreshold as Double?)
+
     return result
 }

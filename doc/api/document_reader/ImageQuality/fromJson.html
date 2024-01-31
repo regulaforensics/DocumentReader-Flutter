@@ -81,16 +81,11 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static ImageQuality? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new ImageQuality();
+  var result = ImageQuality();
 
   result._featureType = jsonObject[&quot;featureType&quot;];
   result._result = CheckResult.getByValue(jsonObject[&quot;result&quot;])!;
   result._type = ImageQualityCheckType.getByValue(jsonObject[&quot;type&quot;])!;
-  if (jsonObject[&quot;boundRects&quot;] != null) {
-    result._boundRects = [];
-    for (var item in jsonObject[&quot;boundRects&quot;])
-      result._boundRects!.addSafe(Rect.fromJson(item));
-  }
 
   return result;
 }</code></pre>
@@ -126,7 +121,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -18,7 +18,7 @@ class RFIDException {
   @visibleForTesting
   static RFIDException? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDException();
+    var result = RFIDException();
 
     result._code = RFIDErrorCodes.getByValue(jsonObject["code"])!;
     result._message = jsonObject["message"] ?? "";
@@ -30,5 +30,5 @@ class RFIDException {
   Map<String, dynamic> toJson() => {
         "code": code.value,
         "message": message,
-      };
+      }.clearNulls();
 }

@@ -78,24 +78,20 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;fileData&quot;] = fileData?.toJson();
-  result[&quot;fileID&quot;] = fileID;
-  result[&quot;notifications&quot;] = notifications;
-  result[&quot;pAStatus&quot;] = pAStatus.value;
-  result[&quot;readingStatus&quot;] = readingStatus.value;
-  result[&quot;readingTime&quot;] = readingTime;
-  result[&quot;type&quot;] = type.value;
-  result[&quot;typeName&quot;] = typeName;
-  result[&quot;docFieldsText&quot;] = docFieldsText;
-  result[&quot;docFieldsGraphics&quot;] = docFieldsGraphics;
-  result[&quot;docFieldsOriginals&quot;] = docFieldsOriginals;
-  result[&quot;certificates&quot;] = certificates?.toJson();
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;fileData&quot;: fileData?.toJson(),
+      &quot;fileID&quot;: fileID,
+      &quot;notifications&quot;: notifications,
+      &quot;pAStatus&quot;: pAStatus.value,
+      &quot;readingStatus&quot;: readingStatus.value,
+      &quot;readingTime&quot;: readingTime,
+      &quot;type&quot;: type.value,
+      &quot;typeName&quot;: typeName,
+      &quot;docFieldsText&quot;: docFieldsText,
+      &quot;docFieldsGraphics&quot;: docFieldsGraphics,
+      &quot;docFieldsOriginals&quot;: docFieldsOriginals,
+      &quot;certificates&quot;: certificates?.toJson(),
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -128,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

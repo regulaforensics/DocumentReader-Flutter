@@ -60,26 +60,57 @@
 <h1><span class="kind-property">dpiThreshold</span> property 
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?
-          <span class="name ">dpiThreshold</span>
-          <div class="features"><span class="feature">getter/setter pair</span></div>
 
-        </section>
         
+<section id="getter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span>
+  <span class="name ">dpiThreshold</span>
+  
+
+</section>
+
+
 <section class="desc markdown">
   <p>This parameter sets threshold for Image QA check of the presented
 document physical dpi. If actual document dpi is below this threshold,
 check will fail.</p>
 </section>
 
-        
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int? dpiThreshold;</code></pre>
+  <pre class="language-dart"><code class="language-dart">int? get dpiThreshold =&gt; _dpiThreshold;</code></pre>
 </section>
 
+</section>
+
+
+        
+<section id="setter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype">void</span>
+  <span class="name ">dpiThreshold=</span><span class="signature">(<wbr><span class="parameter" id="dpiThreshold=-param-val"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">val</span></span>)</span>
+  
+
+</section>
+
+
+
+
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">set dpiThreshold(int? val) {
+  _dpiThreshold = val;
+  _set({&quot;dpiThreshold&quot;: val});
+}</code></pre>
+</section>
+
+</section>
 
   </div> <!-- /.main-content -->
 
@@ -110,7 +141,7 @@ check will fail.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

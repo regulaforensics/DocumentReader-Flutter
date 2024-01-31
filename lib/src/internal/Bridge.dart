@@ -11,11 +11,11 @@ part of document_reader;
 const _methodChannelID = 'flutter_document_reader_api/method';
 const MethodChannel _bridge = const MethodChannel(_methodChannelID);
 
-String _prefix = 'flutter_document_reader_api/event/';
+String _eventPrefix = 'flutter_document_reader_api/event/';
 List<String> _eventChannels = [];
 
 void _eventChannel(String id, listen(msg)) {
   if (_eventChannels.contains(id)) return;
   _eventChannels.add(id);
-  EventChannel(_prefix + id).receiveBroadcastStream().listen(listen);
+  EventChannel(_eventPrefix + id).receiveBroadcastStream().listen(listen);
 }

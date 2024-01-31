@@ -292,14 +292,6 @@ of the RFID-chip located in the scope of the reader.
   
 </dd>
 
-        <dt id="ElementPosition">
-  <span class="name "><a href="../document_reader/ElementPosition-class.html">ElementPosition</a></span> 
-
-</dt>
-<dd>
-  Structure is used for storing element bounds detection result._
-</dd>
-
         <dt id="EPassportDataGroups">
   <span class="name "><a href="../document_reader/EPassportDataGroups-class.html">EPassportDataGroups</a></span> 
 
@@ -486,6 +478,14 @@ Controls initialization time properties such as licenseUpdate and delayedNNLoad.
   Class contains information about PKD certificate.
 </dd>
 
+        <dt id="Position">
+  <span class="name "><a href="../document_reader/Position-class.html">Position</a></span> 
+
+</dt>
+<dd>
+  Structure is used for storing element bounds detection result._
+</dd>
+
         <dt id="ProcessParam">
   <span class="name "><a href="../document_reader/ProcessParam-class.html">ProcessParam</a></span> 
 
@@ -507,8 +507,8 @@ Controls initialization time properties such as licenseUpdate and delayedNNLoad.
 
 </dt>
 <dd>
-  Insures that <a href="../document_reader/RecognizeConfig-class.html">RecognizeConfig</a> has exactly one of three parameters set:
-<a href="../document_reader/RecognizeData/image.html">image</a>, <a href="../document_reader/RecognizeData/images.html">images</a>, <a href="../document_reader/RecognizeData/imageInputData.html">imageInputData</a>
+  Insures that <a href="../document_reader/RecognizeConfig-class.html">RecognizeConfig</a> has exactly one of four parameters set:
+<a href="../document_reader/RecognizeData/image.html">image</a>, <a href="../document_reader/RecognizeData/data.html">data</a>, <a href="../document_reader/RecognizeData/images.html">images</a>, <a href="../document_reader/RecognizeData/imageInputData.html">imageInputData</a>
 </dd>
 
         <dt id="Rect">
@@ -1255,20 +1255,21 @@ to the native part of DocumentReader.
   </dd>
 
           
-  <dt id="SuccessCompletion" class="callable">
-    <span class="name"><a href="../document_reader/SuccessCompletion.html">SuccessCompletion</a></span><span class="signature">
-      <span class="returntype parameter">= void Function<span class="signature">(<span class="parameter" id="param-success"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">success</span>, </span><span class="parameter" id="param-error"><span class="type-annotation"><a href="../document_reader/DocReaderException-class.html">DocReaderException</a>?</span> <span class="parameter-name">error</span></span>)</span></span>
-    </span>
-    
+  <dt id="SuccessOrError" class="">
+  <span class="name"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>
+    = (<span class="field"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>, </span><span class="field"><span class="type-annotation"><a href="../document_reader/DocReaderException-class.html">DocReaderException</a>?</span></span>)
+  </span>
+  
 
-  </dt>
-  <dd>
-    Callback for receiving answer from any function
+</dt>
+<dd>
+  A type specifically made for receiving answer from any function
 which does not return anything, but we need to know whether the function
 has succeeded or not.
-    
+  
 
-  </dd>
+</dd>
+
 
           
   <dt id="TaCertificateCompletion" class="callable">
@@ -1365,7 +1366,7 @@ Called by DocumentReader when recording process finished.
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static RFIDSessionData? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new RFIDSessionData();
+  var result = RFIDSessionData();
 
   result._totalBytesReceived = jsonObject[&quot;totalBytesReceived&quot;];
   result._totalBytesSent = jsonObject[&quot;totalBytesSent&quot;];
@@ -139,7 +139,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

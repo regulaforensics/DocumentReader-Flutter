@@ -26,8 +26,8 @@ class VDSNCData {
   String? _issuingCountry;
 
   /// The message field contains the actual data as a dictionary (JSON).
-  dynamic get message => _message;
-  dynamic _message;
+  Map<String, dynamic>? get message => _message;
+  Map<String, dynamic>? _message = {};
 
   /// The signature algorithm used to produce the signature. ECDSA scheme.
   String? get signatureAlgorithm => _signatureAlgorithm;
@@ -49,12 +49,12 @@ class VDSNCData {
   ///
   /// Each element belongs to the [LDSParsingErrorCodes] or the [LDSParsingNotificationCodes].
   List<int>? get notifications => _notifications;
-  List<int>? _notifications;
+  List<int>? _notifications = [];
 
   /// Allows you to deserialize object.
   static VDSNCData? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new VDSNCData();
+    var result = VDSNCData();
 
     result._type = jsonObject["type"];
     result._version = jsonObject["version"];
@@ -75,21 +75,15 @@ class VDSNCData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["type"] = type;
-    result["version"] = version;
-    result["issuingCountry"] = issuingCountry;
-    result["message"] = message;
-    result["signatureAlgorithm"] = signatureAlgorithm;
-    result["signature"] = signature?.toJson();
-    result["certificate"] = certificate?.toJson();
-    List<dynamic> list = [];
-    for (var item in certificateChain) list.add(item.toJson());
-    result["certificateChain"] = list;
-    result["notifications"] = notifications;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "version": version,
+        "issuingCountry": issuingCountry,
+        "message": message,
+        "signatureAlgorithm": signatureAlgorithm,
+        "signature": signature?.toJson(),
+        "certificate": certificate?.toJson(),
+        "certificateChain": certificateChain.map((e) => e.toJson()).toList(),
+        "notifications": notifications,
+      }.clearNulls();
 }

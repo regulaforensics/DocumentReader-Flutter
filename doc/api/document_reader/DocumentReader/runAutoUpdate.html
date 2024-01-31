@@ -63,10 +63,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
 <span class="name ">runAutoUpdate</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="runAutoUpdate-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span></li>
-<li><span class="parameter" id="runAutoUpdate-param-prepareCompletion"><span class="type-annotation"><a href="../../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span>, </span></li>
-<li><span class="parameter" id="runAutoUpdate-param-successCompletion"><span class="type-annotation"><a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>?</span> <span class="parameter-name">successCompletion</span></span></li>
+<li><span class="parameter" id="runAutoUpdate-param-prepareCompletion"><span class="type-annotation"><a href="../../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span></span></li>
 </ol>)
 
       
@@ -76,30 +75,22 @@
 <section class="desc markdown">
   <p>Allows you to download a database from the Regula server.
 Each new update of the database will be downloaded.</p>
-<p><code>databaseID</code> An identifier of the database.</p>
-<p><code>prepareCompletion</code> A callback that returns downloading progress.</p>
-<p><code>successCompletion</code> The block to execute after the download finishes.</p>
-<p>Note: for convinience function returns <code>Future&lt;bool&gt;</code>.
-This is the same <code>bool</code> that is returned by <a href="../../document_reader/SuccessCompletion.html">SuccessCompletion</a>, indicating
-whether the function has succeeded or not. If you don't need to handle
-an error, you can leave <code>successCompletion</code> as <code>null</code> and only use the
-return value of the function.</p>
+<p><code>databaseID</code> - identifier of the database.</p>
+<p><code>prepareCompletion</code> - callback that returns downloading progress.</p>
+<p>Check out <code>SuccessOrError</code> documentation for handling return type.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; runAutoUpdate(
+  <pre class="language-dart"><code class="language-dart">Future&lt;SuccessOrError&gt; runAutoUpdate(
   String databaseID,
   DocumentReaderPrepareCompletion prepareCompletion,
-  SuccessCompletion? successCompletion,
 ) async {
   _setDocumentReaderPrepareCompletion(prepareCompletion);
-  return _successCompletionFromJson(
-    await _bridge.invokeMethod(&quot;runAutoUpdate&quot;, [databaseID]),
-    successCompletion,
-  );
+  var response = await _bridge.invokeMethod(&quot;runAutoUpdate&quot;, [databaseID]);
+  return _successOrErrorFromJson(response);
 }</code></pre>
 </section>
 
@@ -133,7 +124,7 @@ return value of the function.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

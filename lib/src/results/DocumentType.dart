@@ -14,8 +14,8 @@ class DocumentType {
   String? _name;
 
   /// Document type numeric code.
-  int get documentID => _documentID;
-  late int _documentID;
+  int get id => _id;
+  late int _id;
 
   /// Document issuing country ICAO code.
   String? get iCAOCode => _iCAOCode;
@@ -26,32 +26,32 @@ class DocumentType {
   List<int>? _fDSID;
 
   /// Document type.
-  DocType get dType => _dType;
-  late DocType _dType;
+  DocType get type => _type;
+  late DocType _type;
 
   /// Document format.
-  DocFormat get dFormat => _dFormat;
-  late DocFormat _dFormat;
+  DocFormat get format => _format;
+  late DocFormat _format;
 
   /// Flag for MRZ presence on a document.
-  bool get dMRZ => _dMRZ;
-  late bool _dMRZ;
+  bool get mrz => _mrz;
+  late bool _mrz;
 
   /// Document deprecation.
   bool get isDeprecated => _isDeprecated;
   late bool _isDeprecated;
 
   /// Document description text.
-  String? get dDescription => _dDescription;
-  String? _dDescription;
+  String? get description => _description;
+  String? _description;
 
   /// Document issue year.
-  String? get dYear => _dYear;
-  String? _dYear;
+  String? get year => _year;
+  String? _year;
 
   /// Document issuing country name.
-  String? get dCountryName => _dCountryName;
-  String? _dCountryName;
+  String? get countryName => _countryName;
+  String? _countryName;
 
   /// An index of the document page whence results are received.
   int get pageIndex => _pageIndex;
@@ -60,19 +60,19 @@ class DocumentType {
   /// Allows you to deserialize object.
   static DocumentType? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DocumentType();
+    var result = DocumentType();
 
     result._pageIndex = jsonObject["pageIndex"];
-    result._documentID = jsonObject["documentID"];
-    result._dType = DocType.getByValue(jsonObject["dType"])!;
-    result._dFormat = DocFormat.getByValue(jsonObject["dFormat"])!;
-    result._dMRZ = jsonObject["dMRZ"];
+    result._id = jsonObject["documentID"];
+    result._type = DocType.getByValue(jsonObject["dType"])!;
+    result._format = DocFormat.getByValue(jsonObject["dFormat"])!;
+    result._mrz = jsonObject["dMRZ"];
     result._isDeprecated = jsonObject["isDeprecated"];
     result._name = jsonObject["name"];
     result._iCAOCode = jsonObject["ICAOCode"];
-    result._dDescription = jsonObject["dDescription"];
-    result._dYear = jsonObject["dYear"];
-    result._dCountryName = jsonObject["dCountryName"];
+    result._description = jsonObject["dDescription"];
+    result._year = jsonObject["dYear"];
+    result._countryName = jsonObject["dCountryName"];
     if (jsonObject["FDSID"] != null) {
       result._fDSID = [];
       for (var item in jsonObject["FDSID"]) result._fDSID!.add(item);
@@ -82,24 +82,20 @@ class DocumentType {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["name"] = name;
-    result["documentID"] = documentID;
-    result["ICAOCode"] = iCAOCode;
-    result["FDSID"] = fDSID;
-    result["dType"] = dType.value;
-    result["dFormat"] = dFormat.value;
-    result["dMRZ"] = dMRZ;
-    result["isDeprecated"] = isDeprecated;
-    result["dDescription"] = dDescription;
-    result["dYear"] = dYear;
-    result["dCountryName"] = dCountryName;
-    result["pageIndex"] = pageIndex;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "documentID": id,
+        "ICAOCode": iCAOCode,
+        "FDSID": fDSID,
+        "dType": type.value,
+        "dFormat": format.value,
+        "dMRZ": mrz,
+        "isDeprecated": isDeprecated,
+        "dDescription": description,
+        "dYear": year,
+        "dCountryName": countryName,
+        "pageIndex": pageIndex,
+      }.clearNulls();
 }
 
 /// Defining the geometric format of documents in accordance with ISO / IEC 7810.
@@ -863,13 +859,6 @@ enum DocType {
     } catch (_) {
       return DocType.NotDefined;
     }
-  }
-
-  static List<int>? toIntList(List<DocType>? input) {
-    if (input == null) return null;
-    List<int> list = [];
-    for (var item in input) list.add(item.value);
-    return list;
   }
 
   static List<DocType>? fromIntList(List<int>? input) {

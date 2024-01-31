@@ -79,14 +79,11 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static PKDCertificate? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new PKDCertificate._empty();
-
-  result._binaryData = base64Decode(jsonObject[&quot;binaryData&quot;]);
-  result._resourceType =
-      PKDResourceType.getByValue(jsonObject[&quot;resourceType&quot;])!;
-  result._privateKey = base64Decode(jsonObject[&quot;privateKey&quot;]);
-
-  return result;
+  return PKDCertificate(
+    _fromBase64(jsonObject[&quot;binaryData&quot;])!,
+    PKDResourceType.getByValue(jsonObject[&quot;resourceType&quot;])!,
+    privateKey: _fromBase64(jsonObject[&quot;privateKey&quot;]),
+  );
 }</code></pre>
 </section>
 
@@ -120,7 +117,7 @@ static PKDCertificate? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

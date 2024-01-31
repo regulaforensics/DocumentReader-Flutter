@@ -59,10 +59,10 @@
     // String
     if([options valueForKey:@"cameraFrame"] != nil)
         functionality.cameraFrame = [self docReaderFrameWithString:[options valueForKey:@"cameraFrame"]];
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if([options valueForKey:@"btDeviceName"] != nil)
         functionality.btDeviceName = [options valueForKey:@"btDeviceName"];
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
     
     // Float
     if([options valueForKey:@"zoomFactor"] != nil)
@@ -109,9 +109,9 @@
     
     // String
     result[@"cameraFrame"] = [self generateDocReaderFrame:functionality.cameraFrame];
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     result[@"btDeviceName"] = functionality.btDeviceName;
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
     
     // Float
     result[@"zoomFactor"] = [NSNumber numberWithFloat:functionality.zoomFactor];
@@ -154,8 +154,8 @@
         processParams.integralImage = [options valueForKey:@"integralImage"];
     if([options valueForKey:@"returnCroppedBarcode"] != nil)
         processParams.returnCroppedBarcode = [options valueForKey:@"returnCroppedBarcode"];
-    if([options valueForKey:@"checkHologram"] != nil)
-        processParams.checkHologram = [options valueForKey:@"checkHologram"];
+    if([options valueForKey:@"checkLiveness"] != nil)
+        processParams.checkLiveness = [options valueForKey:@"checkLiveness"];
     if([options valueForKey:@"checkRequiredTextFields"] != nil)
         processParams.checkRequiredTextFields = [options valueForKey:@"checkRequiredTextFields"];
     if([options valueForKey:@"depersonalizeLog"] != nil)
@@ -250,10 +250,14 @@
         processParams.mrzFormatsFilter = [options valueForKey:@"mrzFormatsFilter"];
     if([options valueForKey:@"documentGroupFilter"] != nil)
         processParams.documentGroupFilter = [options mutableArrayValueForKey:@"documentGroupFilter"];
+    if([options valueForKey:@"lcidIgnoreFilter"] != nil)
+        processParams.lcidIgnoreFilter = [options mutableArrayValueForKey:@"lcidIgnoreFilter"];
+    if([options valueForKey:@"lcidFilter"] != nil)
+        processParams.lcidFilter = [options mutableArrayValueForKey:@"lcidFilter"];
     
     // JSONObject
     if([options valueForKey:@"imageQA"] != nil)
-        processParams.imageQA = [RGLWJSONConstructor imageQAFromJson:[options valueForKey:@"imageQA"]];
+        [self setImageQA:processParams.imageQA input:[options valueForKey:@"imageQA"]];
     if([options valueForKey:@"rfidParams"] != nil)
         processParams.rfidParams = [RGLWJSONConstructor rfidParamsFromJson:[options valueForKey:@"rfidParams"]];
     if([options valueForKey:@"faceApiParams"] != nil)
@@ -280,7 +284,7 @@
     result[@"manualCrop"] = processParams.manualCrop;
     result[@"integralImage"] = processParams.integralImage;
     result[@"returnCroppedBarcode"] = processParams.returnCroppedBarcode;
-    result[@"checkHologram"] = processParams.checkHologram;
+    result[@"checkLiveness"] = processParams.checkLiveness;
     result[@"checkRequiredTextFields"] = processParams.checkRequiredTextFields;
     result[@"depersonalizeLog"] = processParams.depersonalizeLog;
     result[@"generateDoublePageSpreadImage"] = processParams.generateDoublePageSpreadImage;
@@ -331,11 +335,13 @@
     result[@"barcodeTypes"] = processParams.barcodeTypes;
     result[@"fieldTypesFilter"] = processParams.fieldTypesFilter;
     result[@"documentGroupFilter"] = processParams.documentGroupFilter;
+    result[@"lcidIgnoreFilter"] = processParams.lcidIgnoreFilter;
+    result[@"lcidFilter"] = processParams.lcidFilter;
     result[@"mrzFormatsFilter"] = processParams.mrzFormatsFilter;
     result[@"resultTypeOutput"] = processParams.resultTypeOutput;
     
     // JSONObject
-    result[@"imageQA"] = [RGLWJSONConstructor generateImageQA:processParams.imageQA];
+    result[@"imageQA"] = [self getImageQA:processParams.imageQA];
     result[@"rfidParams"] = [RGLWJSONConstructor generateRFIDParams:processParams.rfidParams];
     result[@"faceApiParams"] = [RGLWJSONConstructor generateFaceAPIParams:processParams.faceApiParams];
     
@@ -829,6 +835,50 @@
     return result;
 }
 
++(void)setImageQA:(RGLImageQA*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"dpiThreshold"] != nil)
+        result.dpiThreshold = [input valueForKey:@"dpiThreshold"];
+    if([input valueForKey:@"angleThreshold"] != nil)
+        result.angleThreshold = [input valueForKey:@"angleThreshold"];
+    if([input valueForKey:@"focusCheck"] != nil)
+        result.focusCheck = [input valueForKey:@"focusCheck"];
+    if([input valueForKey:@"glaresCheck"] != nil)
+        result.glaresCheck = [input valueForKey:@"glaresCheck"];
+    if([input valueForKey:@"colornessCheck"] != nil)
+        result.colornessCheck = [input valueForKey:@"colornessCheck"];
+    if([input valueForKey:@"screenCapture"] != nil)
+        result.screenCapture = [input valueForKey:@"screenCapture"];
+    if([input valueForKey:@"expectedPass"] != nil){
+        NSMutableArray<RGLImageQualityCheckType> *expectedPass = [NSMutableArray new];
+        for(NSString* str in [input valueForKey:@"expectedPass"])
+            [expectedPass addObject:str];
+        result.expectedPass = expectedPass;
+    }
+    if([input valueForKey:@"documentPositionIndent"] != nil)
+        result.documentPositionIndent = [input valueForKey:@"documentPositionIndent"];
+    if([input valueForKey:@"glaresCheckParams"] != nil)
+        result.glaresCheckParams = [RGLWJSONConstructor glaresCheckParamsFromJson:[input valueForKey:@"glaresCheckParams"]];
+    if([input valueForKey:@"brightnessThreshold"] != nil)
+        result.brightnessThreshold = [input valueForKey:@"brightnessThreshold"];
+}
+
++(NSDictionary*)getImageQA:(RGLImageQA*)input {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    
+    result[@"dpiThreshold"] = input.dpiThreshold;
+    result[@"angleThreshold"] = input.angleThreshold;
+    result[@"focusCheck"] = input.focusCheck;
+    result[@"glaresCheck"] = input.glaresCheck;
+    result[@"colornessCheck"] = input.colornessCheck;
+    result[@"screenCapture"] = input.screenCapture;
+    result[@"expectedPass"] = input.expectedPass;
+    result[@"documentPositionIndent"] = input.documentPositionIndent;
+    result[@"glaresCheckParams"] = [RGLWJSONConstructor generateGlaresCheckParams:input.glaresCheckParams];
+    result[@"brightnessThreshold"] = input.brightnessThreshold;
+    
+    return result;
+}
+
 +(UIColor*)colorWithInt:(NSNumber*)input {
     // Convert hex int to hex string
     NSInteger hexInt = [input integerValue];
@@ -897,10 +947,10 @@
     CGFloat a = components[3];
     
     NSString* hexString = [NSString stringWithFormat:@"#%02lX%02lX%02lX%02lX",
-                        lroundf(a * 255),
-                        lroundf(r * 255),
-                        lroundf(g * 255),
-                        lroundf(b * 255)];
+                           lroundf(a * 255),
+                           lroundf(r * 255),
+                           lroundf(g * 255),
+                           lroundf(b * 255)];
     
     unsigned int hexInt = 0;
     NSScanner *scanner = [NSScanner scannerWithString:hexString];
@@ -1094,10 +1144,12 @@
     if(value == RGLImageQualityCheckTypeScreenCapture) return @6;
     if(value == RGLImageQualityCheckTypePortrait) return @7;
     if(value == RGLImageQualityCheckTypeHandwritten) return @8;
+    if(value == RGLImageQualityCheckTypeBrightness) return @9;
     return 0;
 }
 
 +(RGLImageQualityCheckType)imageQualityCheckTypeWithNumber:(NSNumber*)input {
+    if(input == nil) return nil;
     int value = [input intValue];
     if(value == 0) return RGLImageQualityCheckTypeImageGlares;
     if(value == 1) return RGLImageQualityCheckTypeImageFocus;
@@ -1108,6 +1160,7 @@
     if(value == 6) return RGLImageQualityCheckTypeScreenCapture;
     if(value == 7) return RGLImageQualityCheckTypePortrait;
     if(value == 8) return RGLImageQualityCheckTypeHandwritten;
+    if(value == 9) return RGLImageQualityCheckTypeBrightness;
     return RGLImageQualityCheckTypeImageGlares;
 }
 

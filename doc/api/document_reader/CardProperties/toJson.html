@@ -78,26 +78,22 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;aTQA&quot;] = aTQA;
-  result[&quot;bitRateR&quot;] = bitRateR;
-  result[&quot;bitRateS&quot;] = bitRateS;
-  result[&quot;chipTypeA&quot;] = chipTypeA;
-  result[&quot;mifareMemory&quot;] = mifareMemory;
-  result[&quot;rfidType&quot;] = rfidType;
-  result[&quot;sAK&quot;] = sAK;
-  result[&quot;support4&quot;] = support4;
-  result[&quot;supportMifare&quot;] = supportMifare;
-  result[&quot;aTQB&quot;] = aTQB;
-  result[&quot;aTR&quot;] = aTR;
-  result[&quot;baudrate1&quot;] = baudrate1;
-  result[&quot;baudrate2&quot;] = baudrate2;
-  result[&quot;uID&quot;] = uID;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;aTQA&quot;: aTQA,
+      &quot;bitRateR&quot;: bitRateR,
+      &quot;bitRateS&quot;: bitRateS,
+      &quot;chipTypeA&quot;: chipTypeA,
+      &quot;mifareMemory&quot;: mifareMemory,
+      &quot;rfidType&quot;: rfidType,
+      &quot;sAK&quot;: sAK,
+      &quot;support4&quot;: support4,
+      &quot;supportMifare&quot;: supportMifare,
+      &quot;aTQB&quot;: aTQB,
+      &quot;aTR&quot;: aTR,
+      &quot;baudrate1&quot;: baudrate1,
+      &quot;baudrate2&quot;: baudrate2,
+      &quot;uID&quot;: uID,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -130,7 +126,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

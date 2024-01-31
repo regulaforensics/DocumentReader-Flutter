@@ -80,13 +80,13 @@
 static ScannerConfig? fromJson(jsonObject) {
   if (jsonObject == null) return null;
 
-  var result = new ScannerConfig._empty();
+  var result = ScannerConfig._empty();
 
-  result._scenario = Scenario.getByValue(jsonObject[&quot;scenario&quot;])!;
+  result._scenario = Scenario.getByValue(jsonObject[&quot;scenario&quot;]);
   result._onlineProcessingConfig =
       OnlineProcessingConfig.fromJson(jsonObject[&quot;onlineProcessingConfig&quot;]);
-  result.livePortrait = base64Decode(jsonObject[&quot;livePortrait&quot;]);
-  result.extPortrait = base64Decode(jsonObject[&quot;extPortrait&quot;]);
+  result.livePortrait = _imageFromBase64(jsonObject[&quot;livePortrait&quot;]);
+  result.extPortrait = _imageFromBase64(jsonObject[&quot;extPortrait&quot;]);
   result.cameraId = jsonObject[&quot;cameraId&quot;];
 
   return result;
@@ -123,7 +123,7 @@ static ScannerConfig? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

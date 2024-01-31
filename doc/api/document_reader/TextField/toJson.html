@@ -78,30 +78,20 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;fieldType&quot;] = fieldType.value;
-  result[&quot;fieldName&quot;] = fieldName;
-  result[&quot;lcid&quot;] = lcid.value;
-  result[&quot;lcidName&quot;] = lcidName;
-  result[&quot;value&quot;] = value;
-  result[&quot;getValue&quot;] = getValue?.toJson();
-  List&lt;dynamic&gt; list = [];
-  for (var item in values) list.add(item.toJson());
-  result[&quot;values&quot;] = list;
-  result[&quot;status&quot;] = status.value;
-  list = [];
-  for (var item in comparisonList) list.add(item.toJson());
-  result[&quot;comparisonList&quot;] = list;
-  list = [];
-  for (var item in validityList) list.add(item.toJson());
-  result[&quot;validityList&quot;] = list;
-  result[&quot;comparisonStatus&quot;] = comparisonStatus.value;
-  result[&quot;validityStatus&quot;] = validityStatus.value;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;fieldType&quot;: fieldType.value,
+      &quot;fieldName&quot;: fieldName,
+      &quot;lcid&quot;: lcid.value,
+      &quot;lcidName&quot;: lcidName,
+      &quot;value&quot;: value,
+      &quot;getValue&quot;: getValue()?.toJson(),
+      &quot;values&quot;: values.map((e) =&gt; e.toJson()).toList(),
+      &quot;status&quot;: status.value,
+      &quot;comparisonList&quot;: comparisonList.map((e) =&gt; e.toJson()).toList(),
+      &quot;validityList&quot;: validityList.map((e) =&gt; e.toJson()).toList(),
+      &quot;comparisonStatus&quot;: comparisonStatus.value,
+      &quot;validityStatus&quot;: validityStatus.value,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -134,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

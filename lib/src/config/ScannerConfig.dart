@@ -22,12 +22,12 @@ class ScannerConfig {
   /// Live portrait photo.
   ///
   /// Requires network connection.
-  Uint8List? livePortrait;
+  Image? livePortrait;
 
   /// Portrait photo from an external source.
   ///
   /// Requires network connection.
-  Uint8List? extPortrait;
+  Image? extPortrait;
 
   /// Camera id.
   ///
@@ -39,11 +39,11 @@ class ScannerConfig {
       : _scenario = scenario,
         _onlineProcessingConfig = onlineProcessingConfig;
 
-  ScannerConfig.fromScenario(Scenario scenario)
+  ScannerConfig.withScenario(Scenario scenario)
       : _scenario = scenario,
         _onlineProcessingConfig = null;
 
-  ScannerConfig.fromOnlineProcessingConfig(
+  ScannerConfig.withOnlineProcessingConfig(
       OnlineProcessingConfig onlineProcessingConfig)
       : _scenario = null,
         _onlineProcessingConfig = onlineProcessingConfig;
@@ -51,32 +51,27 @@ class ScannerConfig {
   ScannerConfig._empty();
 
   @visibleForTesting
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
+  static ScannerConfig? fromJson(jsonObject) {
+    if (jsonObject == null) return null;
 
-    if (scenario != null) result["scenario"] = scenario!.value;
-    if (onlineProcessingConfig != null)
-      result["onlineProcessingConfig"] = onlineProcessingConfig!.toJson();
-    if (livePortrait != null) result["livePortrait"] = _toBase64(livePortrait);
-    if (extPortrait != null) result["extPortrait"] = _toBase64(extPortrait);
-    if (cameraId != null) result["cameraId"] = cameraId;
+    var result = ScannerConfig._empty();
+
+    result._scenario = Scenario.getByValue(jsonObject["scenario"]);
+    result._onlineProcessingConfig =
+        OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result.livePortrait = _imageFromBase64(jsonObject["livePortrait"]);
+    result.extPortrait = _imageFromBase64(jsonObject["extPortrait"]);
+    result.cameraId = jsonObject["cameraId"];
 
     return result;
   }
 
   @visibleForTesting
-  static ScannerConfig? fromJson(jsonObject) {
-    if (jsonObject == null) return null;
-
-    var result = new ScannerConfig._empty();
-
-    result._scenario = Scenario.getByValue(jsonObject["scenario"])!;
-    result._onlineProcessingConfig =
-        OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
-    result.livePortrait = base64Decode(jsonObject["livePortrait"]);
-    result.extPortrait = base64Decode(jsonObject["extPortrait"]);
-    result.cameraId = jsonObject["cameraId"];
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "scenario": scenario?.value,
+        "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
+        "livePortrait": _imageToBase64(livePortrait),
+        "extPortrait": _imageToBase64(extPortrait),
+        "cameraId": cameraId
+      }.clearNulls();
 }

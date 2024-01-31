@@ -64,7 +64,7 @@ class SignerInfo {
   /// Allows you to deserialize object.
   static SignerInfo? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new SignerInfo();
+    var result = SignerInfo();
 
     result._version = jsonObject["version"];
     result._paStatus = jsonObject["paStatus"];
@@ -86,26 +86,18 @@ class SignerInfo {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["dataToHash"] = dataToHash;
-    result["digestAlgorithm"] = digestAlgorithm;
-    result["version"] = version;
-    result["paStatus"] = paStatus;
-    result["signatureAlgorithm"] = signatureAlgorithm;
-    result["issuer"] = issuer?.toJson();
-    result["serialNumber"] = serialNumber?.toJson();
-    result["signature"] = signature?.toJson();
-    result["subjectKeyIdentifier"] = subjectKeyIdentifier?.toJson();
-    List<dynamic> list = [];
-    for (var item in signedAttributes) list.add(item.toJson());
-    result["signedAttributes"] = list;
-    list = [];
-    for (var item in certificateChain) list.add(item.toJson());
-    result["certificateChain"] = list;
-    result["notifications"] = notifications;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "dataToHash": dataToHash,
+        "digestAlgorithm": digestAlgorithm,
+        "version": version,
+        "paStatus": paStatus,
+        "signatureAlgorithm": signatureAlgorithm,
+        "issuer": issuer?.toJson(),
+        "serialNumber": serialNumber?.toJson(),
+        "signature": signature?.toJson(),
+        "subjectKeyIdentifier": subjectKeyIdentifier?.toJson(),
+        "signedAttributes": signedAttributes.map((e) => e.toJson()).toList(),
+        "certificateChain": certificateChain.map((e) => e.toJson()).toList(),
+        "notifications": notifications,
+      }.clearNulls();
 }

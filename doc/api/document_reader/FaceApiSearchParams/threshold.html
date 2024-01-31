@@ -60,14 +60,19 @@
 <h1><span class="kind-property">threshold</span> property 
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a>
-          <span class="name ">threshold</span>
-          <div class="features"><span class="feature">getter/setter pair</span></div>
 
-        </section>
         
+<section id="getter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  <span class="name ">threshold</span>
+  
+
+</section>
+
+
 <section class="desc markdown">
   <p>The similarity distance threshold, should be between 0.0 and 2.0,
 where 0.0 is for returning results for only the most similar persons
@@ -75,10 +80,12 @@ and 2.0 is for all the persons, even the dissimilar ones.
 If not set, the default 1.0 value is used.</p>
 </section>
 
-        
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">double threshold = 1;</code></pre>
+  <pre class="language-dart"><code class="language-dart">double get threshold =&gt; _threshold;</code></pre>
+</section>
+
 </section>
 
 
@@ -111,7 +118,7 @@ If not set, the default 1.0 value is used.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

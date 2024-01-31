@@ -24,7 +24,7 @@ class PDF417Info {
   /// Allows you to deserialize object.
   static PDF417Info? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new PDF417Info();
+    var result = PDF417Info();
 
     result._errorLevel = jsonObject["errorLevel"];
     result._columns = jsonObject["columns"];
@@ -34,13 +34,9 @@ class PDF417Info {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["errorLevel"] = errorLevel;
-    result["columns"] = columns;
-    result["rows"] = rows;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "errorLevel": errorLevel,
+        "columns": columns,
+        "rows": rows,
+      }.clearNulls();
 }

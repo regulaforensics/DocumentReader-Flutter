@@ -78,57 +78,26 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  if (documentType != null) {
-    List&lt;dynamic&gt; list = [];
-    for (var item in documentType!) list.add(item.toJson());
-    result[&quot;documentType&quot;] = list;
-  } else
-    result[&quot;documentType&quot;] = null;
-  if (documentPosition != null) {
-    List&lt;dynamic&gt; list = [];
-    for (var item in documentPosition!) list.add(item.toJson());
-    result[&quot;documentPosition&quot;] = list;
-  } else
-    result[&quot;documentPosition&quot;] = null;
-  if (barcodePosition != null) {
-    List&lt;dynamic&gt; list = [];
-    for (var item in barcodePosition!) list.add(item.toJson());
-    result[&quot;barcodePosition&quot;] = list;
-  } else
-    result[&quot;barcodePosition&quot;] = null;
-  if (mrzPosition != null) {
-    List&lt;dynamic&gt; list = [];
-    for (var item in mrzPosition!) list.add(item.toJson());
-    result[&quot;mrzPosition&quot;] = list;
-  } else
-    result[&quot;mrzPosition&quot;] = null;
-  if (imageQuality != null) {
-    List&lt;dynamic&gt; list = [];
-    for (var item in imageQuality!) list.add(item.toJson());
-    result[&quot;imageQuality&quot;] = list;
-  } else
-    result[&quot;imageQuality&quot;] = null;
-
-  result[&quot;textResult&quot;] = textResult?.toJson();
-  result[&quot;graphicResult&quot;] = graphicResult?.toJson();
-  result[&quot;status&quot;] = status?.toJson();
-  result[&quot;authenticityResult&quot;] = authenticityResult?.toJson();
-  result[&quot;rfidSessionData&quot;] = rfidSessionData?.toJson();
-  result[&quot;barcodeResult&quot;] = barcodeResult?.toJson();
-  result[&quot;vdsncData&quot;] = vdsncData?.toJson();
-
-  result[&quot;chipPage&quot;] = chipPage;
-  result[&quot;processingFinishedStatus&quot;] = processingFinishedStatus.value;
-  result[&quot;morePagesAvailable&quot;] = morePagesAvailable;
-  result[&quot;elapsedTime&quot;] = elapsedTime;
-  result[&quot;elapsedTimeRFID&quot;] = elapsedTimeRFID;
-  result[&quot;rawResult&quot;] = rawResult;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;documentType&quot;: documentType?.map((e) =&gt; e.toJson()).toList(),
+      &quot;documentPosition&quot;: documentPosition?.map((e) =&gt; e.toJson()).toList(),
+      &quot;barcodePosition&quot;: barcodePosition?.map((e) =&gt; e.toJson()).toList(),
+      &quot;mrzPosition&quot;: mrzPosition?.map((e) =&gt; e.toJson()).toList(),
+      &quot;imageQuality&quot;: imageQuality?.map((e) =&gt; e.toJson()).toList(),
+      &quot;textResult&quot;: textResult?.toJson(),
+      &quot;graphicResult&quot;: graphicResult?.toJson(),
+      &quot;status&quot;: status.toJson(),
+      &quot;authenticityResult&quot;: authenticityResult?.toJson(),
+      &quot;rfidSessionData&quot;: rfidSessionData?.toJson(),
+      &quot;barcodeResult&quot;: barcodeResult?.toJson(),
+      &quot;vdsncData&quot;: vdsncData?.toJson(),
+      &quot;chipPage&quot;: chipPage,
+      &quot;processingFinishedStatus&quot;: processingFinishedStatus.value,
+      &quot;morePagesAvailable&quot;: morePagesAvailable,
+      &quot;elapsedTime&quot;: elapsedTime,
+      &quot;elapsedTimeRFID&quot;: elapsedTimeRFID,
+      &quot;rawResult&quot;: rawResult,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -161,7 +130,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

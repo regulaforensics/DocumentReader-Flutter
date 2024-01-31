@@ -56,12 +56,12 @@ class RFIDSessionData {
 
   /// List of data groups.
   List<RFIDDataFileType>? get dataGroups => _dataGroups;
-  List<RFIDDataFileType>? _dataGroups;
+  List<RFIDDataFileType>? _dataGroups = [];
 
   /// Allows you to deserialize object.
   static RFIDSessionData? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDSessionData();
+    var result = RFIDSessionData();
 
     result._totalBytesReceived = jsonObject["totalBytesReceived"];
     result._totalBytesSent = jsonObject["totalBytesSent"];
@@ -89,34 +89,17 @@ class RFIDSessionData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    List<dynamic> list = [];
-    for (var item in accessControls) list.add(item.toJson());
-    result["accessControls"] = list;
-    list = [];
-    for (var item in applications) list.add(item.toJson());
-    result["applications"] = list;
-    list = [];
-    for (var item in securityObjects) list.add(item.toJson());
-    result["securityObjects"] = list;
-    list = [];
-    for (var item in dataFields) list.add(item.toJson());
-    result["dataFields"] = list;
-    if (dataGroups != null) {
-      list = [];
-      for (var item in dataGroups!) list.add(item.value);
-      result["dataGroups"] = list;
-    } else
-      result["dataGroups"] = null;
-    result["cardProperties"] = cardProperties?.toJson();
-    result["totalBytesReceived"] = totalBytesReceived;
-    result["totalBytesSent"] = totalBytesSent;
-    result["status"] = status.value;
-    result["extLeSupport"] = extLeSupport.value;
-    result["processTime"] = processTime;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "cardProperties": cardProperties?.toJson(),
+        "totalBytesReceived": totalBytesReceived,
+        "totalBytesSent": totalBytesSent,
+        "status": status.value,
+        "extLeSupport": extLeSupport.value,
+        "processTime": processTime,
+        "accessControls": accessControls.map((e) => e.toJson()).toList(),
+        "applications": applications.map((e) => e.toJson()).toList(),
+        "securityObjects": securityObjects.map((e) => e.toJson()).toList(),
+        "dataFields": dataFields.map((e) => e.toJson()).toList(),
+        "dataGroups": dataGroups?.map((e) => e.value).toList(),
+      }.clearNulls();
 }

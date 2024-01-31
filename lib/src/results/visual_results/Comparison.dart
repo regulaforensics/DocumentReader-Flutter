@@ -25,7 +25,7 @@ class Comparison {
   /// Allows you to deserialize object.
   static Comparison? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Comparison();
+    var result = Comparison();
 
     result._sourceTypeLeft =
         ResultType.getByValue(jsonObject["sourceTypeLeft"])!;
@@ -37,13 +37,9 @@ class Comparison {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["sourceTypeLeft"] = sourceTypeLeft.value;
-    result["sourceTypeRight"] = sourceTypeRight.value;
-    result["status"] = status.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "sourceTypeLeft": sourceTypeLeft.value,
+        "sourceTypeRight": sourceTypeRight.value,
+        "status": status.value,
+      }.clearNulls();
 }

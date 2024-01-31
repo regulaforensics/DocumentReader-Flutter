@@ -79,10 +79,10 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static InitConfig? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new InitConfig(base64Decode(jsonObject[&quot;license&quot;]));
+  var result = InitConfig(_fromBase64(jsonObject[&quot;license&quot;])!);
 
   if (jsonObject[&quot;customDb&quot;] != null)
-    result.customDb = base64Decode(jsonObject[&quot;customDb&quot;]);
+    result.customDb = _fromBase64(jsonObject[&quot;customDb&quot;]);
   result.delayedNNLoad = jsonObject[&quot;delayedNNLoad&quot;];
   result.licenseUpdate = jsonObject[&quot;licenseUpdate&quot;];
   result.blackList = jsonObject[&quot;blackList&quot;];
@@ -122,7 +122,7 @@ static InitConfig? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -9,19 +9,19 @@
 part of document_reader;
 
 class PAAttribute {
-  String? get type => _type;
-  String? _type;
+  String get type => _type;
+  late String _type;
 
-  String? get value => _value;
-  String? _value;
+  String get value => _value;
+  late String _value;
 
   @visibleForTesting
   static PAAttribute? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new PAAttribute();
+    var result = PAAttribute();
 
-    result._type = jsonObject["type"];
-    result._value = jsonObject["value"];
+    result._type = jsonObject["type"] ?? "";
+    result._value = jsonObject["value"] ?? "";
 
     return result;
   }
@@ -30,5 +30,5 @@ class PAAttribute {
   Map<String, dynamic> toJson() => {
         "type": type,
         "value": value,
-      };
+      }.clearNulls();
 }

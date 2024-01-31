@@ -79,10 +79,10 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static PAAttribute? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new PAAttribute();
+  var result = PAAttribute();
 
-  result._type = jsonObject[&quot;type&quot;];
-  result._value = jsonObject[&quot;value&quot;];
+  result._type = jsonObject[&quot;type&quot;] ?? &quot;&quot;;
+  result._value = jsonObject[&quot;value&quot;] ?? &quot;&quot;;
 
   return result;
 }</code></pre>
@@ -118,7 +118,7 @@ static PAAttribute? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -91,7 +91,7 @@
       &quot;manualCrop&quot;: manualCrop,
       &quot;integralImage&quot;: integralImage,
       &quot;returnCroppedBarcode&quot;: returnCroppedBarcode,
-      &quot;checkHologram&quot;: checkHologram,
+      &quot;checkLiveness&quot;: checkLiveness,
       &quot;checkRequiredTextFields&quot;: checkRequiredTextFields,
       &quot;depersonalizeLog&quot;: depersonalizeLog,
       &quot;generateDoublePageSpreadImage&quot;: generateDoublePageSpreadImage,
@@ -131,16 +131,19 @@
       &quot;timeoutFromFirstDocType&quot;: timeoutFromFirstDocType,
       &quot;documentAreaMin&quot;: documentAreaMin,
       &quot;documentIDList&quot;: documentIDList,
-      &quot;barcodeTypes&quot;: BarcodeType.toIntList(barcodeTypes),
-      &quot;fieldTypesFilter&quot;: VisualFieldType.toIntList(fieldTypesFilter),
-      &quot;resultTypeOutput&quot;: ResultType.toIntList(resultTypeOutput),
-      &quot;mrzFormatsFilter&quot;: MRZFormat.toStringList(mrzFormatsFilter),
-      &quot;documentGroupFilter&quot;: DocType.toIntList(documentGroupFilter),
+      &quot;barcodeTypes&quot;: barcodeTypes?.map((e) =&gt; e.value).toList(),
+      &quot;fieldTypesFilter&quot;: fieldTypesFilter?.map((e) =&gt; e.value).toList(),
+      &quot;resultTypeOutput&quot;: resultTypeOutput?.map((e) =&gt; e.value).toList(),
+      &quot;mrzFormatsFilter&quot;: mrzFormatsFilter?.map((e) =&gt; e.value).toList(),
+      &quot;documentGroupFilter&quot;:
+          documentGroupFilter?.map((e) =&gt; e.value).toList(),
+      &quot;lcidIgnoreFilter&quot;: lcidIgnoreFilter?.map((e) =&gt; e.value).toList(),
+      &quot;lcidFilter&quot;: lcidFilter?.map((e) =&gt; e.value).toList(),
       &quot;imageQA&quot;: imageQA.toJson(),
       &quot;rfidParams&quot;: rfidParams?.toJson(),
       &quot;faceApiParams&quot;: faceApiParams?.toJson(),
       &quot;customParams&quot;: customParams,
-    };</code></pre>
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -173,7 +176,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

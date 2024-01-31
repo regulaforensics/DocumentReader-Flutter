@@ -18,7 +18,7 @@ class Extension {
   /// Allows you to deserialize object.
   static Extension? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Extension();
+    var result = Extension();
 
     result._data = jsonObject["data"];
     result._type = jsonObject["type"];
@@ -27,12 +27,8 @@ class Extension {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["data"] = data;
-    result["type"] = type;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data,
+        "type": type,
+      }.clearNulls();
 }

@@ -31,7 +31,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/RFIDScenario-class.html">RFIDScenario</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
   </ol>
   <div class="self-name">fromJson</div>
   <form class="search navbar-right" role="search">
@@ -57,14 +57,14 @@
       data-above-sidebar="document_reader&#47;RFIDScenario-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">fromJson</span> method 
+<h1><span class="kind-method">fromJson</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype">dynamic</span>
-<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">jsonObject</span></span></li>
+<span class="returntype"><a href="../../document_reader/RFIDScenario-class.html">RFIDScenario</a></span>
+<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span></li>
 </ol>)
 
       
@@ -79,70 +79,81 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">fromJson(Map&lt;String, dynamic&gt; jsonObject) {
-  _paceStaticBinding = jsonObject[&quot;paceStaticBinding&quot;];
-  _onlineTA = jsonObject[&quot;onlineTA&quot;];
-  _writeEid = jsonObject[&quot;writeEid&quot;];
-  _universalAccessRights = jsonObject[&quot;universalAccessRights&quot;];
-  _authorizedRestrictedIdentification =
+  <pre class="language-dart"><code class="language-dart">static RFIDScenario fromJson(jsonObject) {
+  var result = RFIDScenario();
+  result.testSetters = {};
+
+  result.paceStaticBinding = jsonObject[&quot;paceStaticBinding&quot;];
+  result.onlineTA = jsonObject[&quot;onlineTA&quot;];
+  result.writeEid = jsonObject[&quot;writeEid&quot;];
+  result.universalAccessRights = jsonObject[&quot;universalAccessRights&quot;];
+  result.authorizedRestrictedIdentification =
       jsonObject[&quot;authorizedRestrictedIdentification&quot;];
-  _auxVerificationCommunityID = jsonObject[&quot;auxVerificationCommunityID&quot;];
-  _auxVerificationDateOfBirth = jsonObject[&quot;auxVerificationDateOfBirth&quot;];
-  _skipAA = jsonObject[&quot;skipAA&quot;];
-  _strictProcessing = jsonObject[&quot;strictProcessing&quot;];
-  _pkdDSCertPriority = jsonObject[&quot;pkdDSCertPriority&quot;];
-  _pkdUseExternalCSCA = jsonObject[&quot;pkdUseExternalCSCA&quot;];
-  _trustedPKD = jsonObject[&quot;trustedPKD&quot;];
-  _passiveAuth = jsonObject[&quot;passiveAuth&quot;];
-  _useSFI = jsonObject[&quot;useSFI&quot;];
-  _readEPassport = jsonObject[&quot;readEPassport&quot;];
-  _readEID = jsonObject[&quot;readEID&quot;];
-  _readEDL = jsonObject[&quot;readEDL&quot;];
-  _authorizedSTSignature = jsonObject[&quot;authorizedSTSignature&quot;];
-  _authorizedSTQSignature = jsonObject[&quot;authorizedSTQSignature&quot;];
-  _authorizedWriteDG17 = jsonObject[&quot;authorizedWriteDG17&quot;];
-  _authorizedWriteDG18 = jsonObject[&quot;authorizedWriteDG18&quot;];
-  _authorizedWriteDG19 = jsonObject[&quot;authorizedWriteDG19&quot;];
-  _authorizedWriteDG20 = jsonObject[&quot;authorizedWriteDG20&quot;];
-  _authorizedWriteDG21 = jsonObject[&quot;authorizedWriteDG21&quot;];
-  _authorizedVerifyAge = jsonObject[&quot;authorizedVerifyAge&quot;];
-  _authorizedVerifyCommunityID = jsonObject[&quot;authorizedVerifyCommunityID&quot;];
-  _authorizedPrivilegedTerminal = jsonObject[&quot;authorizedPrivilegedTerminal&quot;];
-  _authorizedCANAllowed = jsonObject[&quot;authorizedCANAllowed&quot;];
-  _authorizedPINManagement = jsonObject[&quot;authorizedPINManagement&quot;];
-  _authorizedInstallCert = jsonObject[&quot;authorizedInstallCert&quot;];
-  _authorizedInstallQCert = jsonObject[&quot;authorizedInstallQCert&quot;];
-  _applyAmendments = jsonObject[&quot;applyAmendments&quot;];
-  _autoSettings = jsonObject[&quot;autoSettings&quot;];
+  result.auxVerificationCommunityID =
+      jsonObject[&quot;auxVerificationCommunityID&quot;];
+  result.auxVerificationDateOfBirth =
+      jsonObject[&quot;auxVerificationDateOfBirth&quot;];
+  result.skipAA = jsonObject[&quot;skipAA&quot;];
+  result.strictProcessing = jsonObject[&quot;strictProcessing&quot;];
+  result.pkdDSCertPriority = jsonObject[&quot;pkdDSCertPriority&quot;];
+  result.pkdUseExternalCSCA = jsonObject[&quot;pkdUseExternalCSCA&quot;];
+  result.trustedPKD = jsonObject[&quot;trustedPKD&quot;];
+  result.passiveAuth = jsonObject[&quot;passiveAuth&quot;];
+  result.useSFI = jsonObject[&quot;useSFI&quot;];
+  result.readEPassport = jsonObject[&quot;readEPassport&quot;];
+  result.readEID = jsonObject[&quot;readEID&quot;];
+  result.readEDL = jsonObject[&quot;readEDL&quot;];
+  result.authorizedSTSignature = jsonObject[&quot;authorizedSTSignature&quot;];
+  result.authorizedSTQSignature = jsonObject[&quot;authorizedSTQSignature&quot;];
+  result.authorizedWriteDG17 = jsonObject[&quot;authorizedWriteDG17&quot;];
+  result.authorizedWriteDG18 = jsonObject[&quot;authorizedWriteDG18&quot;];
+  result.authorizedWriteDG19 = jsonObject[&quot;authorizedWriteDG19&quot;];
+  result.authorizedWriteDG20 = jsonObject[&quot;authorizedWriteDG20&quot;];
+  result.authorizedWriteDG21 = jsonObject[&quot;authorizedWriteDG21&quot;];
+  result.authorizedVerifyAge = jsonObject[&quot;authorizedVerifyAge&quot;];
+  result.authorizedVerifyCommunityID =
+      jsonObject[&quot;authorizedVerifyCommunityID&quot;];
+  result.authorizedPrivilegedTerminal =
+      jsonObject[&quot;authorizedPrivilegedTerminal&quot;];
+  result.authorizedCANAllowed = jsonObject[&quot;authorizedCANAllowed&quot;];
+  result.authorizedPINManagement = jsonObject[&quot;authorizedPINManagement&quot;];
+  result.authorizedInstallCert = jsonObject[&quot;authorizedInstallCert&quot;];
+  result.authorizedInstallQCert = jsonObject[&quot;authorizedInstallQCert&quot;];
+  result.applyAmendments = jsonObject[&quot;applyAmendments&quot;];
+  result.autoSettings = jsonObject[&quot;autoSettings&quot;];
 
-  _readingBuffer = jsonObject[&quot;readingBuffer&quot;];
-  _onlineTAToSignDataType = jsonObject[&quot;onlineTAToSignDataType&quot;];
-  _defaultReadingBufferSize = jsonObject[&quot;defaultReadingBufferSize&quot;];
-  _signManagementAction =
+  result.readingBuffer = jsonObject[&quot;readingBuffer&quot;];
+  result.onlineTAToSignDataType = jsonObject[&quot;onlineTAToSignDataType&quot;];
+  result.defaultReadingBufferSize = jsonObject[&quot;defaultReadingBufferSize&quot;];
+  result.signManagementAction =
       SignManagementAction.getByValue(jsonObject[&quot;signManagementAction&quot;]);
-  _profilerType = RFIDSDKProfilerType.getByValue(jsonObject[&quot;profilerType&quot;]);
-  _authProcType =
+  result.profilerType =
+      RFIDSDKProfilerType.getByValue(jsonObject[&quot;profilerType&quot;]);
+  result.authProcType =
       RFIDAuthenticationProcedureType.getByValue(jsonObject[&quot;authProcType&quot;]);
-  _baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
+  result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
       jsonObject[&quot;baseSMProcedure&quot;]);
-  _pacePasswordType =
+  result.pacePasswordType =
       RFIDPasswordType.getByValue(jsonObject[&quot;pacePasswordType&quot;]);
-  _terminalType = RFIDTerminalType.getByValue(jsonObject[&quot;terminalType&quot;]);
+  result.terminalType =
+      RFIDTerminalType.getByValue(jsonObject[&quot;terminalType&quot;]);
 
-  _password = jsonObject[&quot;password&quot;];
-  _pkdPA = jsonObject[&quot;pkdPA&quot;];
-  _pkdEAC = jsonObject[&quot;pkdEAC&quot;];
-  _mrz = jsonObject[&quot;mrz&quot;];
-  _eSignPINDefault = jsonObject[&quot;eSignPINDefault&quot;];
-  _eSignPINNewValue = jsonObject[&quot;eSignPINNewValue&quot;];
+  result.password = jsonObject[&quot;password&quot;];
+  result.pkdPA = jsonObject[&quot;pkdPA&quot;];
+  result.pkdEAC = jsonObject[&quot;pkdEAC&quot;];
+  result.mrz = jsonObject[&quot;mrz&quot;];
+  result.eSignPINDefault = jsonObject[&quot;eSignPINDefault&quot;];
+  result.eSignPINNewValue = jsonObject[&quot;eSignPINNewValue&quot;];
 
-  _reprocessParams = ReprocParams.fromJson(jsonObject[&quot;reprocessParams&quot;]);
+  result.reprocessParams =
+      ReprocParams.fromJson(jsonObject[&quot;reprocessParams&quot;]);
 
-  _eDLDataGroups.fromJson(jsonObject[&quot;eDLDataGroups&quot;]);
-  _ePassportDataGroups.fromJson(jsonObject[&quot;ePassportDataGroups&quot;]);
-  _eIDDataGroups.fromJson(jsonObject[&quot;eIDDataGroups&quot;]);
+  result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject[&quot;eDLDataGroups&quot;]);
+  result.ePassportDataGroups =
+      EPassportDataGroups.fromJson(jsonObject[&quot;ePassportDataGroups&quot;]);
+  result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject[&quot;eIDDataGroups&quot;]);
 
-  return this;
+  return result;
 }</code></pre>
 </section>
 
@@ -161,7 +172,7 @@
     <li><a href="../../index.html">flutter_document_reader_api_beta</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
     <li><a href="../../document_reader/RFIDScenario-class.html">RFIDScenario</a></li>
-    <li class="self-crumb">fromJson method</li>
+    <li class="self-crumb">fromJson static method</li>
 </ol>
 
 
@@ -176,7 +187,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

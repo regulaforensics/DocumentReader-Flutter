@@ -25,7 +25,7 @@ class RFIDOrigin {
   /// Allows you to deserialize object.
   static RFIDOrigin? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RFIDOrigin();
+    var result = RFIDOrigin();
 
     result._dg = jsonObject["dg"];
     result._dgTag = jsonObject["dgTag"];
@@ -36,14 +36,10 @@ class RFIDOrigin {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["dg"] = dg;
-    result["dgTag"] = dgTag;
-    result["entryView"] = entryView;
-    result["tagEntry"] = tagEntry;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "dg": dg,
+        "dgTag": dgTag,
+        "entryView": entryView,
+        "tagEntry": tagEntry,
+      }.clearNulls();
 }

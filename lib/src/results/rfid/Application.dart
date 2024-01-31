@@ -43,7 +43,7 @@ class Application {
   /// Allows you to deserialize object.
   static Application? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Application();
+    var result = Application();
 
     result._type = jsonObject["type"];
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
@@ -58,19 +58,13 @@ class Application {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["applicationID"] = applicationID;
-    result["dataHashAlgorithm"] = dataHashAlgorithm;
-    List<dynamic> list = [];
-    for (var item in files) list.add(item.toJson());
-    result["files"] = list;
-    result["status"] = status.value;
-    result["type"] = type;
-    result["unicodeVersion"] = unicodeVersion;
-    result["version"] = version;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "applicationID": applicationID,
+        "dataHashAlgorithm": dataHashAlgorithm,
+        "files": files.map((e) => e.toJson()).toList(),
+        "status": status.value,
+        "type": type,
+        "unicodeVersion": unicodeVersion,
+        "version": version,
+      }.clearNulls();
 }

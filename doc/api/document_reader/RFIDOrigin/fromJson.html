@@ -81,7 +81,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static RFIDOrigin? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = new RFIDOrigin();
+  var result = RFIDOrigin();
 
   result._dg = jsonObject[&quot;dg&quot;];
   result._dgTag = jsonObject[&quot;dgTag&quot;];
@@ -122,7 +122,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

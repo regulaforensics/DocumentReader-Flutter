@@ -78,24 +78,20 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() {
-  Map&lt;String, dynamic&gt; result = {};
-
-  result[&quot;name&quot;] = name;
-  result[&quot;documentID&quot;] = documentID;
-  result[&quot;ICAOCode&quot;] = iCAOCode;
-  result[&quot;FDSID&quot;] = fDSID;
-  result[&quot;dType&quot;] = dType.value;
-  result[&quot;dFormat&quot;] = dFormat.value;
-  result[&quot;dMRZ&quot;] = dMRZ;
-  result[&quot;isDeprecated&quot;] = isDeprecated;
-  result[&quot;dDescription&quot;] = dDescription;
-  result[&quot;dYear&quot;] = dYear;
-  result[&quot;dCountryName&quot;] = dCountryName;
-  result[&quot;pageIndex&quot;] = pageIndex;
-
-  return result;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;String, dynamic&gt; toJson() =&gt; {
+      &quot;name&quot;: name,
+      &quot;documentID&quot;: id,
+      &quot;ICAOCode&quot;: iCAOCode,
+      &quot;FDSID&quot;: fDSID,
+      &quot;dType&quot;: type.value,
+      &quot;dFormat&quot;: format.value,
+      &quot;dMRZ&quot;: mrz,
+      &quot;isDeprecated&quot;: isDeprecated,
+      &quot;dDescription&quot;: description,
+      &quot;dYear&quot;: year,
+      &quot;dCountryName&quot;: countryName,
+      &quot;pageIndex&quot;: pageIndex,
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -128,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

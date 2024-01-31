@@ -23,12 +23,12 @@ class RecognizeConfig {
   /// Live portrait photo.
   ///
   /// Requires network connection.
-  Uint8List? livePortrait;
+  Image? livePortrait;
 
   /// Portrait photo from an external source.
   ///
   /// Requires network connection.
-  Uint8List? extPortrait;
+  Image? extPortrait;
 
   /// This parameter is for processing an image that contains a person and
   /// a document and compare the portrait photo from the document with
@@ -36,23 +36,42 @@ class RecognizeConfig {
   /// but not in the video frame processing. Requires network connection.
   bool oneShotIdentification = false;
 
-  Uint8List? get image => _image;
-  Uint8List? _image;
+  /// Image for processing
+  ///
+  /// Only one of [image], [data], [images], [imageInputData] can be set
+  /// at a time. All the others must be `null`.
+  Image? get image => _image;
+  Image? _image;
 
-  List<Uint8List>? get images => _images;
-  List<Uint8List>? _images;
+  /// Binary for processing
+  ///
+  /// Only one of [image], [data], [images], [imageInputData] can be set
+  /// at a time. All the others must be `null`.
+  ByteData? get data => _data;
+  ByteData? _data;
 
+  /// Images for processing
+  ///
+  /// Only one of [image], [data], [images], [imageInputData] can be set
+  /// at a time. All the others must be `null`.
+  List<Image>? get images => _images;
+  List<Image>? _images;
+
+  /// Images(with input data) for processing
+  ///
+  /// Only one of [image], [data], [images], [imageInputData] can be set
+  /// at a time. All the others must be `null`.
   List<ImageInputData>? get imageInputData => _imageInputData;
   List<ImageInputData>? _imageInputData;
 
-  RecognizeConfig.fromScenario(Scenario scenario, RecognizeData data)
+  RecognizeConfig.withScenario(Scenario scenario, RecognizeData data)
       : _scenario = scenario,
         _onlineProcessingConfig = null,
         _image = data.image,
         _images = data.images,
         _imageInputData = data.imageInputData;
 
-  RecognizeConfig.fromOnlineProcessingConfig(
+  RecognizeConfig.withOnlineProcessingConfig(
       OnlineProcessingConfig onlineProcessingConfig, RecognizeData data)
       : _scenario = null,
         _onlineProcessingConfig = onlineProcessingConfig,
@@ -63,50 +82,22 @@ class RecognizeConfig {
   RecognizeConfig._empty();
 
   @visibleForTesting
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    if (scenario != null) result["scenario"] = scenario!.value;
-    if (onlineProcessingConfig != null)
-      result["onlineProcessingConfig"] = onlineProcessingConfig!.toJson();
-    if (livePortrait != null) result["livePortrait"] = _toBase64(livePortrait);
-    if (extPortrait != null) result["extPortrait"] = _toBase64(extPortrait);
-    if (image != null) result["image"] = _toBase64(image);
-    if (images != null) {
-      List<String> list = [];
-      for (Uint8List item in images!) {
-        list.add(base64Encode(item));
-      }
-      result["images"] = list;
-    }
-    if (imageInputData != null) {
-      List<dynamic> list = [];
-      for (ImageInputData item in imageInputData!) {
-        list.add(item.toJson());
-      }
-      result["imageInputData"] = list;
-    }
-    result["oneShotIdentification"] = oneShotIdentification;
-
-    return result;
-  }
-
-  @visibleForTesting
   static RecognizeConfig? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new RecognizeConfig._empty();
+    var result = RecognizeConfig._empty();
 
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
     result._onlineProcessingConfig =
         OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
-    result.livePortrait = base64Decode(jsonObject["livePortrait"]);
-    result.extPortrait = base64Decode(jsonObject["extPortrait"]);
+    result.livePortrait = _imageFromBase64(jsonObject["livePortrait"]);
+    result.extPortrait = _imageFromBase64(jsonObject["extPortrait"]);
     result.oneShotIdentification = jsonObject["oneShotIdentification"];
-    result._image = base64Decode(jsonObject["image"]);
+    result._image = _imageFromBase64(jsonObject["image"]);
+    result._data = _fromBase64(jsonObject["data"]);
     if (jsonObject["images"] != null) {
       result._images = [];
       for (var item in jsonObject["images"])
-        result._images!.addSafe(base64Decode(item));
+        result._images!.addSafe(_imageFromBase64(item));
     }
     if (jsonObject["imageInputData"] != null) {
       result._imageInputData = [];
@@ -116,66 +107,83 @@ class RecognizeConfig {
 
     return result;
   }
+
+  @visibleForTesting
+  Map<String, dynamic> toJson() => {
+        "scenario": scenario?.value,
+        "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
+        "oneShotIdentification": oneShotIdentification,
+        "livePortrait": _imageToBase64(livePortrait),
+        "extPortrait": _imageToBase64(extPortrait),
+        "image": _imageToBase64(image),
+        "data": _toBase64(data),
+        "images": images?.map((e) => _imageToBase64(e)).toList(),
+        "imageInputData": imageInputData?.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }
 
-/// Insures that [RecognizeConfig] has exactly one of three parameters set:
-/// [image], [images], [imageInputData]
+/// Insures that [RecognizeConfig] has exactly one of four parameters set:
+/// [image], [data], [images], [imageInputData]
 class RecognizeData {
-  Uint8List? get image => _image;
-  Uint8List? _image;
+  Image? get image => _image;
+  Image? _image;
 
-  List<Uint8List>? get images => _images;
-  List<Uint8List>? _images;
+  ByteData? get data => _data;
+  ByteData? _data;
+
+  List<Image>? get images => _images;
+  List<Image>? _images;
 
   List<ImageInputData>? get imageInputData => _imageInputData;
   List<ImageInputData>? _imageInputData;
 
-  RecognizeData.fromImage(Uint8List image)
+  RecognizeData.withImage(Image image)
       : _image = image,
+        _data = null,
         _images = null,
         _imageInputData = null;
 
-  RecognizeData.fromImages(List<Uint8List> images)
+  RecognizeData.withData(ByteData data)
       : _image = null,
+        _data = data,
+        _images = null,
+        _imageInputData = null;
+
+  RecognizeData.withImages(List<Image> images)
+      : _image = null,
+        _data = null,
         _images = images,
         _imageInputData = null;
 
-  RecognizeData.fromImageInputData(List<ImageInputData> imageInputData)
+  RecognizeData.withImageInputData(List<ImageInputData> imageInputData)
       : _image = null,
+        _data = null,
         _images = null,
         _imageInputData = imageInputData;
 }
 
 class ImageInputData {
   /// An image.
-  Uint8List get image => _image;
-  late Uint8List _image;
+  Image get image => _image;
+  Image _image;
 
   /// Light type, one of RGLGraphicFieldLight values.
   Lights get light => _light;
-  Lights _light = Lights.WHITE_FULL;
+  Lights _light;
 
   /// An index of the document page whence the graphic field is extracted.
   int get pageIndex => _pageIndex;
-  int _pageIndex = 0;
+  int _pageIndex;
 
-  ImageInputData(Uint8List image) : _image = image;
-
-  ImageInputData.withLight(Uint8List image, Lights light)
+  ImageInputData(Image image,
+      {Lights light = Lights.WHITE_FULL, int pageIndex = 0})
       : _image = image,
-        _light = light;
-
-  ImageInputData.withLightPageIndex(
-    Uint8List image,
-    Lights light,
-    int pageIndex,
-  )   : _image = image,
         _light = light,
         _pageIndex = pageIndex;
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "image": _toBase64(image),
+        "image": _imageToBase64(image),
         "light": light.value,
         "pageIndex": pageIndex,
       };
@@ -183,7 +191,7 @@ class ImageInputData {
   @visibleForTesting
   static ImageInputData? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new ImageInputData(base64Decode(jsonObject["image"]));
+    var result = ImageInputData(_imageFromBase64(jsonObject["image"])!);
 
     result._pageIndex = jsonObject["pageIndex"];
     result._light = Lights.getByValue(jsonObject["light"])!;

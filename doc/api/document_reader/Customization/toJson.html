@@ -115,19 +115,22 @@
       &quot;cameraFrameCornerRadius&quot;: cameraFrameCornerRadius,
       &quot;hologramAnimationPositionMultiplier&quot;:
           hologramAnimationPositionMultiplier,
-      &quot;multipageAnimationFrontImage&quot;: _toBase64(multipageAnimationFrontImage),
-      &quot;multipageAnimationBackImage&quot;: _toBase64(multipageAnimationBackImage),
-      &quot;borderBackgroundImage&quot;: _toBase64(borderBackgroundImage),
-      &quot;helpAnimationImage&quot;: _toBase64(helpAnimationImage),
-      &quot;closeButtonImage&quot;: _toBase64(closeButtonImage),
-      &quot;captureButtonImage&quot;: _toBase64(captureButtonImage),
-      &quot;cameraSwitchButtonImage&quot;: _toBase64(cameraSwitchButtonImage),
-      &quot;torchButtonOnImage&quot;: _toBase64(torchButtonOnImage),
-      &quot;torchButtonOffImage&quot;: _toBase64(torchButtonOffImage),
-      &quot;changeFrameButtonExpandImage&quot;: _toBase64(changeFrameButtonExpandImage),
+      &quot;multipageAnimationFrontImage&quot;:
+          _imageToBase64(multipageAnimationFrontImage),
+      &quot;multipageAnimationBackImage&quot;:
+          _imageToBase64(multipageAnimationBackImage),
+      &quot;borderBackgroundImage&quot;: _imageToBase64(borderBackgroundImage),
+      &quot;helpAnimationImage&quot;: _imageToBase64(helpAnimationImage),
+      &quot;closeButtonImage&quot;: _imageToBase64(closeButtonImage),
+      &quot;captureButtonImage&quot;: _imageToBase64(captureButtonImage),
+      &quot;cameraSwitchButtonImage&quot;: _imageToBase64(cameraSwitchButtonImage),
+      &quot;torchButtonOnImage&quot;: _imageToBase64(torchButtonOnImage),
+      &quot;torchButtonOffImage&quot;: _imageToBase64(torchButtonOffImage),
+      &quot;changeFrameButtonExpandImage&quot;:
+          _imageToBase64(changeFrameButtonExpandImage),
       &quot;changeFrameButtonCollapseImage&quot;:
-          _toBase64(changeFrameButtonCollapseImage),
-      &quot;hologramAnimationImage&quot;: _toBase64(hologramAnimationImage),
+          _imageToBase64(changeFrameButtonCollapseImage),
+      &quot;hologramAnimationImage&quot;: _imageToBase64(hologramAnimationImage),
       &quot;customLabelStatus&quot;: customLabelStatus,
       &quot;cameraFrameLineCap&quot;: cameraFrameLineCap?.value,
       &quot;uiCustomizationLayer&quot;: uiCustomizationLayer,
@@ -149,7 +152,7 @@
           multipageAnimationBackImageTransformsAndroid,
       &quot;hologramAnimationImageMatrix&quot;: hologramAnimationImageTransformsAndroid,
       &quot;borderBackgroundImageMatrix&quot;: borderBackgroundImageTransformsAndroid,
-    };</code></pre>
+    }.clearNulls();</code></pre>
 </section>
 
 
@@ -182,7 +185,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

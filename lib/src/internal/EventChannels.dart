@@ -14,7 +14,7 @@ part of document_reader;
 // and _rfidCompletion always has to be null, to when setting one completion,
 // we have to set the other one to null.
 DocumentReaderCompletion? _documentReaderCompletion;
-_setDocumentReaderCompletion(DocumentReaderCompletion completion) {
+void _setDocumentReaderCompletion(DocumentReaderCompletion completion) {
   _documentReaderCompletion = completion;
   _rfidCompletion = null;
 
@@ -38,13 +38,13 @@ _setDocumentReaderCompletion(DocumentReaderCompletion completion) {
 }
 
 RFIDCompletion? _rfidCompletion;
-_setRFIDCompletion(RFIDCompletion rfidCompletion) {
+void _setRFIDCompletion(RFIDCompletion rfidCompletion) {
   _documentReaderCompletion = null;
   _rfidCompletion = rfidCompletion;
 }
 
 late DocumentReaderPrepareCompletion _documentReaderPrepareCompletion;
-_setDocumentReaderPrepareCompletion(
+void _setDocumentReaderPrepareCompletion(
     DocumentReaderPrepareCompletion completion) {
   _documentReaderPrepareCompletion = completion;
   _eventChannel('database_progress', (msg) {
@@ -53,7 +53,7 @@ _setDocumentReaderPrepareCompletion(
 }
 
 late BluetoothServiceCompletion _bluetoothServiceCompletion;
-_setBluetoothServiceCompletion(BluetoothServiceCompletion completion) {
+void _setBluetoothServiceCompletion(BluetoothServiceCompletion completion) {
   _bluetoothServiceCompletion = completion;
   _eventChannel('bleOnServiceConnectedEvent',
       (msg) => _bluetoothServiceCompletion.onServiceConnected(msg));
@@ -64,21 +64,21 @@ _setBluetoothServiceCompletion(BluetoothServiceCompletion completion) {
 }
 
 late CustomButtonTappedCompletion _customButtonTappedCompletion;
-_setCustomButtonTappedCompletion(CustomButtonTappedCompletion completion) {
+void _setCustomButtonTappedCompletion(CustomButtonTappedCompletion completion) {
   _customButtonTappedCompletion = completion;
   _eventChannel(
       'onCustomButtonTappedEvent', (msg) => _customButtonTappedCompletion(msg));
 }
 
 late VideoEncoderCompletion _videoEncoderCompletion;
-_setVideoEncoderCompletion(VideoEncoderCompletion completion) {
+void _setVideoEncoderCompletion(VideoEncoderCompletion completion) {
   _videoEncoderCompletion = completion;
   _eventChannel(
       'video_encoder_completion', (msg) => _videoEncoderCompletion(msg));
 }
 
 RFIDProgressCompletion? _rfidProgressCompletion;
-_setRFIDProgressCompletion(RFIDProgressCompletion? completion) {
+void _setRFIDProgressCompletion(RFIDProgressCompletion? completion) {
   _rfidProgressCompletion = completion;
   _eventChannel('rfidOnProgressCompletion', (msg) {
     var notify = RFIDNotification.fromJson(json.decode(msg))!;
@@ -87,14 +87,14 @@ _setRFIDProgressCompletion(RFIDProgressCompletion? completion) {
 }
 
 ChipDetectedCompletion? _chipDetectedCompletion;
-_setChipDetectedCompletion(ChipDetectedCompletion? completion) {
+void _setChipDetectedCompletion(ChipDetectedCompletion? completion) {
   _chipDetectedCompletion = completion;
   _eventChannel(
       'rfidOnChipDetectedEvent', (_) => _chipDetectedCompletion?.call());
 }
 
 RetryReadChipCompletion? _retryReadChipCompletion;
-_setRetryReadChipCompletion(RetryReadChipCompletion? completion) {
+void _setRetryReadChipCompletion(RetryReadChipCompletion? completion) {
   _retryReadChipCompletion = completion;
   _eventChannel('rfidOnRetryReadChipEvent', (msg) {
     var error = RFIDException.fromJson(json.decode(msg))!;
@@ -103,11 +103,11 @@ _setRetryReadChipCompletion(RetryReadChipCompletion? completion) {
 }
 
 PaCertificateCompletion? _paCertificateCompletion;
-_setPaCertificateCompletion(PaCertificateCompletion? completion) {
+void _setPaCertificateCompletion(PaCertificateCompletion? completion) {
   _paCertificateCompletion = completion;
   _eventChannel('pa_certificate_completion', (msg) {
     var jsonObject = json.decode(msg);
-    var serialNumber = base64Decode(jsonObject["serialNumber"]);
+    var serialNumber = _fromBase64(jsonObject["serialNumber"])!;
     var issuer = PAResourcesIssuer.fromJson(jsonObject["issuer"]);
 
     _paCertificateCompletion?.call(
@@ -116,7 +116,7 @@ _setPaCertificateCompletion(PaCertificateCompletion? completion) {
       (certificates) async {
         await _bridge.invokeMethod(
           "providePACertificates",
-          [PKDCertificate._listToJson(certificates)],
+          [certificates?.map((e) => e.toJson()).toList()],
         );
       },
     );
@@ -124,7 +124,7 @@ _setPaCertificateCompletion(PaCertificateCompletion? completion) {
 }
 
 TaCertificateCompletion? _taCertificateCompletion;
-_setTaCertificateCompletion(TaCertificateCompletion? completion) {
+void _setTaCertificateCompletion(TaCertificateCompletion? completion) {
   _taCertificateCompletion = completion;
   _eventChannel('ta_certificate_completion', (msg) {
     _taCertificateCompletion?.call(
@@ -132,7 +132,7 @@ _setTaCertificateCompletion(TaCertificateCompletion? completion) {
       (certificates) async {
         await _bridge.invokeMethod(
           "provideTACertificates",
-          [PKDCertificate._listToJson(certificates)],
+          [certificates?.map((e) => e.toJson()).toList()],
         );
       },
     );
@@ -140,7 +140,7 @@ _setTaCertificateCompletion(TaCertificateCompletion? completion) {
 }
 
 TaSignatureCompletion? _taSignatureCompletion;
-_setTaSignatureCompletion(TaSignatureCompletion? completion) {
+void _setTaSignatureCompletion(TaSignatureCompletion? completion) {
   _taSignatureCompletion = completion;
   _eventChannel('ta_signature_completion', (msg) {
     _taSignatureCompletion?.call(TAChallenge.fromJson(json.decode(msg)),

@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Uri-class.html">Uri</a>?</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a></span>
 <span class="name ">graphicFieldImageByTypeSourcePageIndex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="graphicFieldImageByTypeSourcePageIndex-param-fieldType"><span class="type-annotation"><a href="../../document_reader/GraphicFieldType.html">GraphicFieldType</a></span> <span class="parameter-name">fieldType</span>, </span></li>
 <li><span class="parameter" id="graphicFieldImageByTypeSourcePageIndex-param-source"><span class="type-annotation"><a href="../../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span>, </span></li>
 <li><span class="parameter" id="graphicFieldImageByTypeSourcePageIndex-param-pageIndex"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">pageIndex</span></span></li>
@@ -82,7 +82,7 @@ and page index.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Uri?&gt; graphicFieldImageByTypeSourcePageIndex(
+  <pre class="language-dart"><code class="language-dart">Future&lt;Image?&gt; graphicFieldImageByTypeSourcePageIndex(
   GraphicFieldType fieldType,
   ResultType source,
   int pageIndex,
@@ -97,7 +97,7 @@ and page index.</p>
     ],
   );
   if (result == null) return null;
-  return Uri.parse(&quot;data:image&#47;png;base64,&quot; + result);
+  return _imageFromBase64(result);
 }</code></pre>
 </section>
 
@@ -131,7 +131,7 @@ and page index.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

@@ -82,13 +82,6 @@ enum BarcodeType {
     }
   }
 
-  static List<int>? toIntList(List<BarcodeType>? input) {
-    if (input == null) return null;
-    List<int> list = [];
-    for (var item in input) list.add(item.value);
-    return list;
-  }
-
   static List<BarcodeType>? fromIntList(List<int>? input) {
     if (input == null) return null;
     List<BarcodeType> list = [];

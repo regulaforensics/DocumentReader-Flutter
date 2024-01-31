@@ -29,7 +29,7 @@ class AuthenticityCheck {
   /// Allows you to deserialize object.
   static AuthenticityCheck? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new AuthenticityCheck();
+    var result = AuthenticityCheck();
 
     result._type = Authenticity.getByValue(jsonObject["type"])!;
     result._status = CheckResult.getByValue(jsonObject["status"])!;
@@ -42,17 +42,11 @@ class AuthenticityCheck {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["type"] = type.value;
-    result["status"] = status.value;
-    result["pageIndex"] = pageIndex;
-    result["typeName"] = typeName;
-    List<dynamic> list = [];
-    for (var item in elements) list.add(item.toJson());
-    result["elements"] = list;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "type": type.value,
+        "status": status.value,
+        "pageIndex": pageIndex,
+        "typeName": typeName,
+        "elements": elements.map((e) => e.toJson()).toList()
+      }.clearNulls();
 }

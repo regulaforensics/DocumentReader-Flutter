@@ -18,7 +18,7 @@ class DataField {
   /// Allows you to deserialize object.
   static DataField? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new DataField();
+    var result = DataField();
 
     result._data = jsonObject["data"];
     var fieldType = RFIDDataFileType.getByValue(jsonObject["fieldType"]);
@@ -29,12 +29,8 @@ class DataField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["data"] = data;
-    result["fieldType"] = fieldType.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data,
+        "fieldType": fieldType.value,
+      }.clearNulls();
 }

@@ -16,6 +16,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.robolectric.shadow.api.Shadow
 import org.skyscreamer.jsonassert.JSONAssert
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Base64
@@ -35,16 +36,29 @@ fun compareJSONs(name: String, expected: JSONObject, actual: JSONObject) =
         throw e
     }
 
+fun <T> compareSingle(
+    name: String,
+    fromJson: (JSONObject) -> T,
+    toJson: (T) -> JSONObject?,
+    vararg omit: String
+) {
+    try {
+        var expected = readFile(name + "Nullable")
+        for (key in omit) expected = omitDeep(expected, key.split("."), 0)
+        val actual = toJson(fromJson(expected))!!
+        compareJSONs(name, expected, actual)
+    } catch (_: IOException) {
+    }
+}
+
 fun <T> compare(
     name: String,
     fromJson: (JSONObject) -> T,
     toJson: (T) -> JSONObject?,
     vararg omit: String
 ) {
-    var expected = readFile(name)
-    for (key in omit) expected = omitDeep(expected, key.split("."), 0)
-    val actual = toJson(fromJson(expected))!!
-    compareJSONs(name, expected, actual)
+    compareSingle(name, fromJson, toJson, *omit)
+    compareSingle(name + "Nullable", fromJson, toJson, *omit)
 }
 
 fun omitDeep(dict: JSONObject, path: List<String>, index: Int): JSONObject {
@@ -121,11 +135,8 @@ internal object Convert {
         bitmap
     }
 
-    fun bitmapFromDrawable(drawable: Drawable?) = drawable?.let {
-        val bitmap = Shadow.newInstanceOf(Bitmap::class.java)
-        val shadowBitmap = Shadow.extract<MyShadowBitmap>(bitmap)
-        val shadowDrawable = Shadow.extract<MyShadowDrawable>(drawable)
-        shadowBitmap.data = shadowDrawable.data
-        bitmap
+    fun drawableToBase64(drawable: Drawable?) = drawable?.let {
+        val shadow = Shadow.extract<MyShadowDrawable>(drawable)
+        generateByteArray(shadow.data)
     }
 }

@@ -60,26 +60,57 @@
 <h1><span class="kind-property">angleThreshold</span> property 
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?
-          <span class="name ">angleThreshold</span>
-          <div class="features"><span class="feature">getter/setter pair</span></div>
 
-        </section>
         
+<section id="getter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span>
+  <span class="name ">angleThreshold</span>
+  
+
+</section>
+
+
 <section class="desc markdown">
   <p>This parameter sets threshold for Image QA check of the presented
 document perspective angle in degrees. If actual document perspective
 angle is above this threshold, check will fail.</p>
 </section>
 
-        
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int? angleThreshold;</code></pre>
+  <pre class="language-dart"><code class="language-dart">int? get angleThreshold =&gt; _angleThreshold;</code></pre>
 </section>
 
+</section>
+
+
+        
+<section id="setter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype">void</span>
+  <span class="name ">angleThreshold=</span><span class="signature">(<wbr><span class="parameter" id="angleThreshold=-param-val"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">val</span></span>)</span>
+  
+
+</section>
+
+
+
+
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">set angleThreshold(int? val) {
+  _angleThreshold = val;
+  _set({&quot;angleThreshold&quot;: val});
+}</code></pre>
+</section>
+
+</section>
 
   </div> <!-- /.main-content -->
 
@@ -110,7 +141,7 @@ angle is above this threshold, check will fail.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.133
+      0.1.134
   </span>
 
   

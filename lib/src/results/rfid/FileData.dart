@@ -24,7 +24,7 @@ class FileData {
   /// Allows you to serialize object.
   static FileData? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new FileData();
+    var result = FileData();
 
     result._length = jsonObject["length"];
     result._type = jsonObject["type"];
@@ -35,14 +35,10 @@ class FileData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["data"] = data;
-    result["length"] = length;
-    result["type"] = type;
-    result["status"] = status;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data,
+        "length": length,
+        "type": type,
+        "status": status,
+      }.clearNulls();
 }

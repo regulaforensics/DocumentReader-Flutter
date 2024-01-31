@@ -21,7 +21,7 @@ class Validity {
   /// Allows you to deserialize object.
   static Validity? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = new Validity();
+    var result = Validity();
 
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
     result._status = CheckResult.getByValue(jsonObject["status"])!;
@@ -30,12 +30,8 @@ class Validity {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = {};
-
-    result["sourceType"] = sourceType.value;
-    result["status"] = status.value;
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        "sourceType": sourceType.value,
+        "status": status.value,
+      }.clearNulls();
 }
