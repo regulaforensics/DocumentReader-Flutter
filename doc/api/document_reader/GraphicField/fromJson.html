@@ -90,7 +90,7 @@
   result._originalPageIndex = jsonObject[&quot;originalPageIndex&quot;];
   result._fieldName = jsonObject[&quot;fieldName&quot;];
   result._lightName = jsonObject[&quot;lightName&quot;];
-  result._value = _imageFromBase64(jsonObject[&quot;value&quot;]);
+  result._value = _bytesFromBase64(jsonObject[&quot;value&quot;]);
   result._fieldRect = Rect.fromJson(jsonObject[&quot;fieldRect&quot;]);
 
   return result;
@@ -127,7 +127,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

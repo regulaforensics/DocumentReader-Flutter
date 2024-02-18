@@ -9,6 +9,8 @@ package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.test.core.app.ApplicationProvider
@@ -128,15 +130,15 @@ internal object Convert {
         generateByteArray(shadow.data)
     }
 
-    fun drawableFromBase64(base64: String?, context: Context?) = base64?.let {
+    fun Any?.toDrawable(context: Context) = (this as String?)?.let {
         val bitmap = Shadow.newInstanceOf(BitmapDrawable::class.java)
         val shadow = Shadow.extract<MyShadowBitmapDrawable>(bitmap)
-        shadow.data = byteArrayFromBase64(base64)
+        shadow.data = byteArrayFromBase64(it)
         bitmap
     }
 
-    fun drawableToBase64(drawable: Drawable?) = drawable?.let {
-        val shadow = Shadow.extract<MyShadowDrawable>(drawable)
+    fun Drawable?.toString() = this?.let {
+        val shadow = Shadow.extract<MyShadowDrawable>(this)
         generateByteArray(shadow.data)
     }
 }

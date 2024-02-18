@@ -81,7 +81,7 @@ static TAChallenge? fromJson(jsonObject) {
   if (jsonObject == null) return null;
   var result = TAChallenge();
 
-  result._data = _fromBase64(jsonObject[&quot;data&quot;])!;
+  result._data = _bytesFromBase64(jsonObject[&quot;data&quot;])!;
   result._auxPCD = jsonObject[&quot;auxPCD&quot;] ?? &quot;&quot;;
   result._challengePICC = jsonObject[&quot;challengePICC&quot;] ?? &quot;&quot;;
   result._hashPK = jsonObject[&quot;hashPK&quot;] ?? &quot;&quot;;
@@ -121,7 +121,7 @@ static TAChallenge? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

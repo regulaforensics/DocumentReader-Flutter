@@ -296,6 +296,17 @@ Requires Document Type recognition, otherwise 0 by default.
 
 </dd>
 
+        <dt id="transactionInfo" class="property">
+  <span class="name"><a href="../document_reader/Results/transactionInfo.html">transactionInfo</a></span>
+  <span class="signature">&#8594; <a href="../document_reader/TransactionInfo-class.html">TransactionInfo</a>?</span> 
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
         <dt id="vdsncData" class="property">
   <span class="name"><a href="../document_reader/Results/vdsncData.html">vdsncData</a></span>
   <span class="signature">&#8594; <a href="../document_reader/VDSNCData-class.html">VDSNCData</a>?</span> 
@@ -454,7 +465,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldByType" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldByType.html">textFieldByType</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldByType-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldByType.html">textFieldByType</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldByType-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/TextField-class.html">TextField</a>?</span>&gt;</span></span>
   </span>
   
@@ -467,7 +478,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldByTypeLcid" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldByTypeLcid.html">textFieldByTypeLcid</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldByTypeLcid-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldByTypeLcid-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldByTypeLcid.html">textFieldByTypeLcid</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldByTypeLcid-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldByTypeLcid-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/TextField-class.html">TextField</a>?</span>&gt;</span></span>
   </span>
   
@@ -480,7 +491,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldValueByType" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByType.html">textFieldValueByType</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByType-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByType.html">textFieldValueByType</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByType-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -493,7 +504,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldValueByTypeLcid" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcid.html">textFieldValueByTypeLcid</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcid-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcid-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcid.html">textFieldValueByTypeLcid</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcid-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcid-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -506,7 +517,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldValueByTypeLcidSource" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcidSource.html">textFieldValueByTypeLcidSource</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcidSource-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSource-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSource-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcidSource.html">textFieldValueByTypeLcidSource</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcidSource-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSource-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSource-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -519,7 +530,7 @@ page index and light type.
 </dd>
 
         <dt id="textFieldValueByTypeLcidSourceOriginal" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcidSourceOriginal.html">textFieldValueByTypeLcidSourceOriginal</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-original"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">original</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeLcidSourceOriginal.html">textFieldValueByTypeLcidSourceOriginal</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-lcid"><span class="type-annotation"><a href="../document_reader/LCID.html">LCID</a></span> <span class="parameter-name">lcid</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="textFieldValueByTypeLcidSourceOriginal-param-original"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">original</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -533,7 +544,7 @@ and its originality.
 </dd>
 
         <dt id="textFieldValueByTypeSource" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeSource.html">textFieldValueByTypeSource</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeSource-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeSource-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeSource.html">textFieldValueByTypeSource</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeSource-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeSource-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -546,7 +557,7 @@ and its originality.
 </dd>
 
         <dt id="textFieldValueByTypeSourceOriginal" class="callable">
-  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeSourceOriginal.html">textFieldValueByTypeSourceOriginal</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-fieldType"><span class="type-annotation"><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-original"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">original</span></span>)
+  <span class="name"><a href="../document_reader/Results/textFieldValueByTypeSourceOriginal.html">textFieldValueByTypeSourceOriginal</a></span><span class="signature">(<wbr><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-fieldType"><span class="type-annotation"><a href="../document_reader/FieldType.html">FieldType</a></span> <span class="parameter-name">fieldType</span>, </span><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-source"><span class="type-annotation"><a href="../document_reader/ResultType.html">ResultType</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="textFieldValueByTypeSourceOriginal-param-original"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">original</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
@@ -660,7 +671,7 @@ its originality.
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

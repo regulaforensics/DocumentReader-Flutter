@@ -8,177 +8,161 @@
 
 #import "FlutterDocumentReaderApiPlugin.h"
 
-FlutterEventSink RGLWDatabaseProgressEvent;
-FlutterEventSink RGLWCompletionEvent;
+NSMutableDictionary<NSString*, FlutterEventSink>* RGLWEventSinks;
 
-FlutterEventSink RGLWRfidOnProgressEvent;
-FlutterEventSink RGLWRfidOnChipDetectedEvent;
-FlutterEventSink RGLWRfidOnRetryReadChipEvent;
-
-FlutterEventSink RGLWPaCertificateCompletionEvent;
-FlutterEventSink RGLWTaCertificateCompletionEvent;
-FlutterEventSink RGLWTaSignatureCompletionEvent;
-
-FlutterEventSink RGLWBleOnServiceConnectedEvent;
-FlutterEventSink RGLWBleOnServiceDisconnectedEvent;
-FlutterEventSink RGLWBleOnDeviceReadyEvent;
-
-FlutterEventSink RGLWVideoEncoderCompletionEvent;
-FlutterEventSink RGLWOnCustomButtonTappedEvent;
-
-
-@implementation RGLWDatabaseProgressStreamHandler
+@implementation RGLWCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWDatabaseProgressEvent = eventSink;
+    RGLWEventSinks[RGLWCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWDatabaseProgressEvent = nil;
+    RGLWEventSinks[RGLWCompletionEvent] = nil;
     return nil;
 }
 @end
 
-@implementation RGLWCompletionStreamHandler
+@implementation RGLWDatabaseProgressStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWCompletionEvent = eventSink;
+    RGLWEventSinks[RGLWDatabaseProgressEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWCompletionEvent = nil;
+    RGLWEventSinks[RGLWDatabaseProgressEvent] = nil;
     return nil;
 }
+
 @end
 
 @implementation RGLWRfidOnProgressEventStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWRfidOnProgressEvent = eventSink;
+    RGLWEventSinks[RGLWRfidOnProgressEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWRfidOnProgressEvent = nil;
+    RGLWEventSinks[RGLWRfidOnProgressEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWRfidOnChipDetectedEventStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWRfidOnChipDetectedEvent = eventSink;
+    RGLWEventSinks[RGLWRfidOnChipDetectedEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWRfidOnChipDetectedEvent = nil;
+    RGLWEventSinks[RGLWRfidOnChipDetectedEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWRfidOnRetryReadChipEventStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWRfidOnRetryReadChipEvent = eventSink;
+    RGLWEventSinks[RGLWRfidOnRetryReadChipEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWRfidOnRetryReadChipEvent = nil;
+    RGLWEventSinks[RGLWRfidOnRetryReadChipEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWPACertificateCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWPaCertificateCompletionEvent = eventSink;
+    RGLWEventSinks[RGLWPaCertificateCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWPaCertificateCompletionEvent = nil;
+    RGLWEventSinks[RGLWPaCertificateCompletionEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWTACertificateCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWTaCertificateCompletionEvent = eventSink;
+    RGLWEventSinks[RGLWTaCertificateCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWTaCertificateCompletionEvent = nil;
+    RGLWEventSinks[RGLWTaCertificateCompletionEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWTASignatureCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWTaSignatureCompletionEvent = eventSink;
+    RGLWEventSinks[RGLWTaSignatureCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWTaSignatureCompletionEvent = nil;
+    RGLWEventSinks[RGLWTaSignatureCompletionEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWBleOnServiceConnectedStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWBleOnServiceConnectedEvent = eventSink;
+    RGLWEventSinks[RGLWBleOnServiceConnectedEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWBleOnServiceConnectedEvent = nil;
+    RGLWEventSinks[RGLWBleOnServiceConnectedEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWBleOnServiceDisconnectedStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWBleOnServiceDisconnectedEvent = eventSink;
+    RGLWEventSinks[RGLWBleOnServiceDisconnectedEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWBleOnServiceDisconnectedEvent = nil;
+    RGLWEventSinks[RGLWBleOnServiceDisconnectedEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWBleOnDeviceReadyStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWBleOnDeviceReadyEvent = eventSink;
+    RGLWEventSinks[RGLWBleOnDeviceReadyEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWBleOnDeviceReadyEvent = nil;
+    RGLWEventSinks[RGLWBleOnDeviceReadyEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWVideoEncoderCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWVideoEncoderCompletionEvent = eventSink;
+    RGLWEventSinks[RGLWVideoEncoderCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWVideoEncoderCompletionEvent = nil;
+    RGLWEventSinks[RGLWVideoEncoderCompletionEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWOnCustomButtonTappedStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWOnCustomButtonTappedEvent = eventSink;
+    RGLWEventSinks[RGLWOnCustomButtonTappedEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWOnCustomButtonTappedEvent = nil;
+    RGLWEventSinks[RGLWOnCustomButtonTappedEvent] = nil;
     return nil;
 }
 @end
@@ -190,35 +174,35 @@ static FlutterMethodChannel * _channel;
 + (FlutterMethodChannel *)channel { return _channel; }
 + (void)setChannel:(FlutterMethodChannel *)newChannel { _channel = newChannel; }
 
-RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable data) {
+RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(event != nil) event(data);
+        if(RGLWEventSinks[event] != nil) RGLWEventSinks[event](data);
     });
 };
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/database_progress" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWDatabaseProgressStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWCompletionStreamHandler new]];
-    
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/rfidOnProgressCompletion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWRfidOnProgressEventStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/rfidOnChipDetectedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWRfidOnChipDetectedEventStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/rfidOnRetryReadChipEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWRfidOnRetryReadChipEventStreamHandler new]];
-    
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/pa_certificate_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWPACertificateCompletionStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/ta_certificate_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWTACertificateCompletionStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/ta_signature_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWTASignatureCompletionStreamHandler new]];
-    
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnServiceConnectedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWBleOnServiceConnectedStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnServiceDisconnectedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWBleOnServiceDisconnectedStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/bleOnDeviceReadyEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWBleOnDeviceReadyStreamHandler new]];
-    
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/video_encoder_completion" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWVideoEncoderCompletionStreamHandler new]];
-    [[FlutterEventChannel eventChannelWithName:@"flutter_document_reader_api/event/onCustomButtonTappedEvent" binaryMessenger:[registrar messenger]] setStreamHandler:[RGLWOnCustomButtonTappedStreamHandler new]];
-    
+    RGLWEventSinks = [NSMutableDictionary new];
+    [self setupEventChannel:registrar :RGLWCompletionEvent :[RGLWCompletionStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWDatabaseProgressEvent :[RGLWDatabaseProgressStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWRfidOnProgressEvent :[RGLWRfidOnProgressEventStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWRfidOnChipDetectedEvent :[RGLWRfidOnChipDetectedEventStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWRfidOnRetryReadChipEvent :[RGLWRfidOnRetryReadChipEventStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWPaCertificateCompletionEvent :[RGLWPACertificateCompletionStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWTaCertificateCompletionEvent :[RGLWTACertificateCompletionStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWTaSignatureCompletionEvent :[RGLWTASignatureCompletionStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWBleOnServiceConnectedEvent :[RGLWBleOnServiceConnectedStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWBleOnServiceDisconnectedEvent :[RGLWBleOnServiceDisconnectedStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWBleOnDeviceReadyEvent :[RGLWBleOnDeviceReadyStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWVideoEncoderCompletionEvent :[RGLWVideoEncoderCompletionStreamHandler new]];
+    [self setupEventChannel:registrar :RGLWOnCustomButtonTappedEvent :[RGLWOnCustomButtonTappedStreamHandler new]];
     FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"flutter_document_reader_api/method" binaryMessenger:[registrar messenger]];
     [FlutterDocumentReaderApiPlugin setChannel:channel];
     FlutterDocumentReaderApiPlugin* instance = [FlutterDocumentReaderApiPlugin new];
     [registrar addMethodCallDelegate:instance channel:channel];
+}
+
++ (void)setupEventChannel:(NSObject<FlutterPluginRegistrar>*)registrar :(NSString*)eventId :(NSObject<FlutterStreamHandler>*)handler {
+    [[FlutterEventChannel eventChannelWithName:[NSString stringWithFormat:@"%@%@", @"flutter_document_reader_api/event/", eventId] binaryMessenger:[registrar messenger]] setStreamHandler:handler];
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -293,11 +277,11 @@ RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable dat
     else if([action isEqualToString:@"stopScanner"])
         [self stopScanner :successCallback :errorCallback];
     else if([action isEqualToString:@"startRFIDReader"])
-        [self startRFIDReader :[args objectAtIndex:0] :successCallback :errorCallback];
+        [self startRFIDReader :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
+    else if([action isEqualToString:@"readRFID"])
+        [self readRFID :[args objectAtIndex:0] :[args objectAtIndex:1] :[args objectAtIndex:2] :successCallback :errorCallback];
     else if([action isEqualToString:@"stopRFIDReader"])
         [self stopRFIDReader :successCallback :errorCallback];
-    else if([action isEqualToString:@"readRFID"])
-        [self readRFID :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"providePACertificates"])
         [self providePACertificates :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"provideTACertificates"])
@@ -362,6 +346,8 @@ RGLWEventSender sendEvent = ^(FlutterEventSink _Nullable event, id _Nullable dat
         [self encryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"getTranslation"])
         [self getTranslation :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
+    else if([action isEqualToString:@"finalizePackage"])
+        [self finalizePackage :successCallback :errorCallback];
     else
         errorCallback([NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action]);
 }
@@ -370,9 +356,23 @@ static NSNumber * _databasePercentageDownloaded;
 + (NSNumber*)databasePercentageDownloaded{ return _databasePercentageDownloaded; }
 + (void)setDatabasePercentageDownloaded:(NSNumber *)value { _databasePercentageDownloaded = value; }
 
-RGLRFIDCertificatesCallback paCertificateCompletion;
-RGLRFIDCertificatesCallback taCertificateCompletion;
-RGLWRFIDSignatureCallback taSignatureCompletion;
+NSString* RGLWCompletionEvent = @"completion";
+NSString* RGLWDatabaseProgressEvent = @"database_progress";
+
+NSString* RGLWRfidOnProgressEvent = @"rfidOnProgressCompletion";
+NSString* RGLWRfidOnChipDetectedEvent = @"rfidOnChipDetectedEvent";
+NSString* RGLWRfidOnRetryReadChipEvent = @"rfidOnRetryReadChipEvent";
+
+NSString* RGLWPaCertificateCompletionEvent = @"pa_certificate_completion";
+NSString* RGLWTaCertificateCompletionEvent = @"ta_certificate_completion";
+NSString* RGLWTaSignatureCompletionEvent = @"ta_signature_completion";
+
+NSString* RGLWBleOnServiceConnectedEvent = @"bleOnServiceConnectedEvent";
+NSString* RGLWBleOnServiceDisconnectedEvent = @"bleOnServiceDisconnectedEvent";
+NSString* RGLWBleOnDeviceReadyEvent = @"bleOnDeviceReadyEvent";
+
+NSString* RGLWVideoEncoderCompletionEvent = @"video_encoder_completion";
+NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 
 - (void) getDocumentReaderIsReady:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     successCallback([RGLDocReader.shared isDocumentReaderIsReady] ? @YES : @NO);
@@ -524,19 +524,21 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
     });
 }
 
-- (void) startRFIDReader:(NSNumber*)rfidReaderRequestType :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    RGLDocReader.shared.rfidDelegate = [self getRfidReaderRequestByType: rfidReaderRequestType.intValue];
+- (void) startRFIDReader:(NSNumber*)paCert :(NSNumber*)taCert :(NSNumber*)taSig :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
+    self.doRequestPACertificates = paCert;
+    self.doRequestTACertificates = taCert;
+    self.doRequestTASignature = taSig;
     dispatch_async(dispatch_get_main_queue(), ^{
         [RGLDocReader.shared startRFIDReaderFromPresenter:UIApplication.sharedApplication.keyWindow.rootViewController completion:[self getCompletion]];
     });
 }
 
-- (void) readRFID:(NSNumber*)rfidReaderRequestType :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    RGLDocReader.shared.rfidDelegate = [self getRfidReaderRequestByType: rfidReaderRequestType.intValue];
-    // We don't use errorCodes from RfidCompletion, so this is the same as getCompletion, but Callback type is different.
+- (void) readRFID:(NSNumber*)paCert :(NSNumber*)taCert :(NSNumber*)taSig :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
+    self.doRequestPACertificates = paCert;
+    self.doRequestTACertificates = taCert;
+    self.doRequestTASignature = taSig;
     [RGLDocReader.shared readRFID:^(RGLRFIDNotificationAction notificationAction, RGLRFIDNotify* _Nullable notification) {
-        if(notification != nil)
-            sendEvent(RGLWRfidOnProgressEvent, [RGLWJSONConstructor generateDocumentReaderNotification:notification]);
+        if(notification != nil) sendEvent(RGLWRfidOnProgressEvent, [RGLWJSONConstructor generateDocumentReaderNotification:notification]);
     } completion:^(RGLRFIDCompleteAction action, RGLDocumentReaderResults * _Nullable results, NSError * _Nullable error, RGLRFIDErrorCodes errorCode) {
         sendEvent(RGLWCompletionEvent, [RGLWJSONConstructor generateCompletion:[RGLWConfig generateRFIDCompleteAction: action] :results :error]);
     }];
@@ -742,6 +744,12 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
     successCallback([results getEncryptedContainers]);
 }
 
+- (void) finalizePackage:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    [RGLDocReader.shared finalizePackageWithCompletion:^(RGLDocReaderAction action, RGLTransactionInfo* info, NSError* error){
+        successCallback([RGLWJSONConstructor generateFinalizePackageCompletion:[RGLWConfig generateDocReaderAction: action] :info :error]);
+    }];
+}
+
 - (void) getTranslation:(NSString*)className :(NSNumber*)value :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     if([className isEqualToString:@"RFIDErrorCodes"])
         successCallback(RGLRFIDErrorCodesGetStringValue([value intValue]));
@@ -783,6 +791,7 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
 -(RGLDocumentReaderInitializationCompletion)getInitCompletion:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
     return ^(BOOL success, NSError * _Nullable error ) {
         if (success) {
+            RGLDocReader.shared.rfidDelegate = self;
             RGLDocReader.shared.functionality.recordScanningProcessDelegate = self;
             RGLDocReader.shared.customization.actionDelegate = self;
         }
@@ -804,18 +813,12 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
     // ignore error to match android
 }
 
-// RGLDocReaderRFIDDelegate
-RGLWRfidReaderRequest rfidDelegateType = RGLWRfidReaderRequestNull;
-
--(id <RGLDocReaderRFIDDelegate>)getRfidReaderRequestByType:(int)type {
-    self.rfidDelegateType = type;
-    if(self.rfidDelegateType == RGLWRfidReaderRequestNull)
-        return nil;
-    return self;
-}
+RGLRFIDCertificatesCallback paCertificateCompletion;
+RGLRFIDCertificatesCallback taCertificateCompletion;
+RGLWRFIDSignatureCallback taSignatureCompletion;
 
 - (void)onRequestPACertificatesWithSerial:(NSData *)serialNumber issuer:(RGLPAResourcesIssuer *)issuer callback:(RGLRFIDCertificatesCallback)callback {
-    if(self.rfidDelegateType == RGLWRfidReaderRequestFull) {
+    if([self.doRequestPACertificates boolValue]) {
         paCertificateCompletion = callback;
         sendEvent(RGLWPaCertificateCompletionEvent, [RGLWJSONConstructor generatePACertificateCompletion:serialNumber :issuer]);
     } else {
@@ -825,13 +828,23 @@ RGLWRfidReaderRequest rfidDelegateType = RGLWRfidReaderRequestNull;
 }
 
 - (void)onRequestTACertificatesWithKey:(NSString *)keyCAR callback:(RGLRFIDCertificatesCallback)callback {
-    taCertificateCompletion = callback;
-    sendEvent(RGLWTaCertificateCompletionEvent, keyCAR);
+    if([self.doRequestTACertificates boolValue]) {
+        taCertificateCompletion = callback;
+        sendEvent(RGLWTaCertificateCompletionEvent, keyCAR);
+    } else {
+        taCertificateCompletion = nil;
+        callback(nil);
+    }
 }
 
 - (void)onRequestTASignatureWithChallenge:(RGLTAChallenge *)challenge callback:(void(^)(NSData *signature))callback {
-    taSignatureCompletion = callback;
-    sendEvent(RGLWTaSignatureCompletionEvent, [RGLWJSONConstructor dictToString: [RGLWJSONConstructor generateTAChallenge:challenge]]);
+    if([self.doRequestTASignature boolValue]) {
+        taSignatureCompletion = callback;
+        sendEvent(RGLWTaSignatureCompletionEvent, [RGLWJSONConstructor dictToString: [RGLWJSONConstructor generateTAChallenge:challenge]]);
+    } else {
+        taSignatureCompletion = nil;
+        callback(nil);
+    }
 }
 
 - (void)didChipConnected {

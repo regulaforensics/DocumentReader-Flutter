@@ -93,20 +93,7 @@
   _setTaCertificateCompletion(config.onRequestTACertificates);
   _setTaSignatureCompletion(config.onRequestTASignature);
 
-  &#47;&#47; Currently(in 6.9) in iOS onChipDetected and onRetryReadChip
-  &#47;&#47; are parts of RGLDocReaderRFIDDelegate.
-  &#47;&#47; Waiting for iOS rfid rework in 6.10
-
-  &#47;&#47; if (Platform.isIOS &amp;&amp;
-  &#47;&#47;     requestType == 0 &amp;&amp;
-  &#47;&#47;     (config.onChipDetected != null || config.onRetryReadChip != null))
-  &#47;&#47;   requestType = 1;
-
-  &#47;&#47; TODO Waiting for iOS rfid rework. Android already implemented.
-
-  var nativeFunction = config._disableUI ? &quot;readRFID&quot; : &quot;startRFIDReader&quot;;
-
-  _bridge.invokeMethod(nativeFunction, [
+  _bridge.invokeMethod(config._disableUI ? &quot;readRFID&quot; : &quot;startRFIDReader&quot;, [
     config.onRequestPACertificates != null,
     config.onRequestTACertificates != null,
     config.onRequestTASignature != null,
@@ -144,7 +131,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

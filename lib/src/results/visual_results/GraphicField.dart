@@ -39,8 +39,8 @@ class GraphicField {
   late int _originalPageIndex;
 
   /// An image.
-  Image? get value => _value;
-  Image? _value;
+  Uint8List? get value => _value;
+  Uint8List? _value;
 
   /// Field area coordinates on the general image.
   Rect? get fieldRect => _fieldRect;
@@ -58,7 +58,7 @@ class GraphicField {
     result._originalPageIndex = jsonObject["originalPageIndex"];
     result._fieldName = jsonObject["fieldName"];
     result._lightName = jsonObject["lightName"];
-    result._value = _imageFromBase64(jsonObject["value"]);
+    result._value = _bytesFromBase64(jsonObject["value"]);
     result._fieldRect = Rect.fromJson(jsonObject["fieldRect"]);
 
     return result;
@@ -73,7 +73,7 @@ class GraphicField {
         "lightName": lightName,
         "pageIndex": pageIndex,
         "originalPageIndex": originalPageIndex,
-        "value": _imageToBase64(value),
+        "value": _bytesToBase64(value),
         "fieldRect": fieldRect?.toJson(),
       }.clearNulls();
 }

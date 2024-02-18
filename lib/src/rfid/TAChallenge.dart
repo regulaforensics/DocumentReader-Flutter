@@ -9,8 +9,8 @@
 part of document_reader;
 
 class TAChallenge {
-  ByteData get data => _data;
-  late ByteData _data;
+  Uint8List get data => _data;
+  late Uint8List _data;
 
   String get auxPCD => _auxPCD;
   late String _auxPCD;
@@ -29,7 +29,7 @@ class TAChallenge {
     if (jsonObject == null) return null;
     var result = TAChallenge();
 
-    result._data = _fromBase64(jsonObject["data"])!;
+    result._data = _bytesFromBase64(jsonObject["data"])!;
     result._auxPCD = jsonObject["auxPCD"] ?? "";
     result._challengePICC = jsonObject["challengePICC"] ?? "";
     result._hashPK = jsonObject["hashPK"] ?? "";
@@ -40,7 +40,7 @@ class TAChallenge {
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "data": _toBase64(data),
+        "data": _bytesToBase64(data),
         "auxPCD": auxPCD,
         "challengePICC": challengePICC,
         "hashPK": hashPK,

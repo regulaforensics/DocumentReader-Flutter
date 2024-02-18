@@ -134,7 +134,25 @@ enum SecurityFeatureType {
 
   LIVENESS_MLI(44),
 
-  LIVENESS_BARCODE_BACKGROUND(45);
+  LIVENESS_BARCODE_BACKGROUND(45),
+
+  /// Visual zone portrait image vs. image from barcode.
+  PORTRAIT_COMPARISON_VS_BARCODE(46),
+
+  /// Image from barcode vs. image from RFID.
+  PORTRAIT_COMPARISON_RFID_VS_BARCODE(47),
+
+  /// Image from barcode vs. external source image.
+  PORTRAIT_COMPARISON_EXT_VS_BARCODE(48),
+
+  /// Image from barcode vs. photo from camera.
+  PORTRAIT_COMPARISON_BARCODE_VS_CAMERA(49),
+
+  /// Digital signature сheck.
+  CHECK_DIGITAL_SIGNATURE(50),
+
+  /// Contact сhip check.
+  CONTACT_CHIP_CLASSIFICATION(51);
 
   const SecurityFeatureType(this.value);
   final int value;

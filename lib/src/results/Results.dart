@@ -85,9 +85,12 @@ class Results {
   String get rawResult => _rawResult;
   late String _rawResult;
 
+  TransactionInfo? get transactionInfo => _transactionInfo;
+  TransactionInfo? _transactionInfo;
+
   /// Allows you to get a value of a text field.
   Future<String?> textFieldValueByType(
-    VisualFieldType fieldType,
+    FieldType fieldType,
   ) async {
     return await _bridge.invokeMethod(
       "textFieldValueByType",
@@ -100,7 +103,7 @@ class Results {
 
   /// Allows you to get a value of a text field based on LCID.
   Future<String?> textFieldValueByTypeLcid(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     LCID lcid,
   ) async {
     return await _bridge.invokeMethod(
@@ -115,7 +118,7 @@ class Results {
 
   /// Allows you to get a value of a text field based on a source type.
   Future<String?> textFieldValueByTypeSource(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     ResultType source,
   ) async {
     return await _bridge.invokeMethod(
@@ -130,7 +133,7 @@ class Results {
 
   /// Allows you to get a value of a text field based on LCID and a source type.
   Future<String?> textFieldValueByTypeLcidSource(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     LCID lcid,
     ResultType source,
   ) async {
@@ -148,7 +151,7 @@ class Results {
   /// Allows you to get a value of a text field based on a source type and
   /// its originality.
   Future<String?> textFieldValueByTypeSourceOriginal(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     ResultType source,
     bool original,
   ) async {
@@ -166,7 +169,7 @@ class Results {
   /// Allows you to get a value of a text field based on LCID, a source type
   /// and its originality.
   Future<String?> textFieldValueByTypeLcidSourceOriginal(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     LCID lcid,
     ResultType source,
     bool original,
@@ -185,7 +188,7 @@ class Results {
 
   /// Allows you to get an instance of a text field.
   Future<TextField?> textFieldByType(
-    VisualFieldType fieldType,
+    FieldType fieldType,
   ) async {
     String? result = await _bridge.invokeMethod(
       "textFieldByType",
@@ -200,7 +203,7 @@ class Results {
 
   /// Allows you to get an instance of a text field based on LCID.
   Future<TextField?> textFieldByTypeLcid(
-    VisualFieldType fieldType,
+    FieldType fieldType,
     LCID lcid,
   ) async {
     String? result = await _bridge.invokeMethod(
@@ -276,7 +279,7 @@ class Results {
   }
 
   /// Allows you to get an image of a graphic field.
-  Future<Image?> graphicFieldImageByType(
+  Future<Uint8List?> graphicFieldImageByType(
     GraphicFieldType fieldType,
   ) async {
     String? result = await _bridge.invokeMethod(
@@ -288,11 +291,11 @@ class Results {
     );
     if (result == null) return null;
     // return Uri.parse("data:image/png;base64," + result);
-    return _imageFromBase64(result);
+    return _bytesFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type.
-  Future<Image?> graphicFieldImageByTypeSource(
+  Future<Uint8List?> graphicFieldImageByTypeSource(
     GraphicFieldType fieldType,
     ResultType source,
   ) async {
@@ -305,12 +308,12 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return _imageFromBase64(result);
+    return _bytesFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type
   /// and page index.
-  Future<Image?> graphicFieldImageByTypeSourcePageIndex(
+  Future<Uint8List?> graphicFieldImageByTypeSourcePageIndex(
     GraphicFieldType fieldType,
     ResultType source,
     int pageIndex,
@@ -325,12 +328,12 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return _imageFromBase64(result);
+    return _bytesFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type,
   /// page index and light type.
-  Future<Image?> graphicFieldImageByTypeSourcePageIndexLight(
+  Future<Uint8List?> graphicFieldImageByTypeSourcePageIndexLight(
     GraphicFieldType fieldType,
     ResultType source,
     int pageIndex,
@@ -347,7 +350,7 @@ class Results {
       ],
     );
     if (result == null) return null;
-    return _imageFromBase64(result);
+    return _bytesFromBase64(result);
   }
 
   /// Method returns containers by result type. If result type doesn't exist,
@@ -415,6 +418,8 @@ class Results {
     result._barcodeResult = BarcodeResult.fromJson(jsonObject["barcodeResult"]);
     result._status = ResultsStatus.fromJson(jsonObject["status"])!;
     result._vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
+    result._transactionInfo =
+        TransactionInfo.fromJson(jsonObject["transactionInfo"]);
 
     return result;
   }
@@ -439,6 +444,7 @@ class Results {
         "elapsedTime": elapsedTime,
         "elapsedTimeRFID": elapsedTimeRFID,
         "rawResult": rawResult,
+        "transactionInfo": transactionInfo?.toJson(),
       }.clearNulls();
 }
 

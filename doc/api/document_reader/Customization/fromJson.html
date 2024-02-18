@@ -133,32 +133,32 @@
       _toDouble(jsonObject[&quot;cameraFrameCornerRadius&quot;]);
   result.cameraFramePortraitAspectRatio =
       _toDouble(jsonObject[&quot;cameraFramePortraitAspectRatio&quot;]);
-  result.hologramAnimationPositionMultiplier =
-      _toDouble(jsonObject[&quot;hologramAnimationPositionMultiplier&quot;]);
+  result.livenessAnimationPositionMultiplier =
+      _toDouble(jsonObject[&quot;livenessAnimationPositionMultiplier&quot;]);
 
   result.multipageAnimationFrontImage =
-      _imageFromBase64(jsonObject[&quot;multipageAnimationFrontImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;multipageAnimationFrontImage&quot;]);
   result.multipageAnimationBackImage =
-      _imageFromBase64(jsonObject[&quot;multipageAnimationBackImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;multipageAnimationBackImage&quot;]);
   result.borderBackgroundImage =
-      _imageFromBase64(jsonObject[&quot;borderBackgroundImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;borderBackgroundImage&quot;]);
   result.helpAnimationImage =
-      _imageFromBase64(jsonObject[&quot;helpAnimationImage&quot;]);
-  result.closeButtonImage = _imageFromBase64(jsonObject[&quot;closeButtonImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;helpAnimationImage&quot;]);
+  result.closeButtonImage = _dataFromBase64(jsonObject[&quot;closeButtonImage&quot;]);
   result.captureButtonImage =
-      _imageFromBase64(jsonObject[&quot;captureButtonImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;captureButtonImage&quot;]);
   result.cameraSwitchButtonImage =
-      _imageFromBase64(jsonObject[&quot;cameraSwitchButtonImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;cameraSwitchButtonImage&quot;]);
   result.torchButtonOnImage =
-      _imageFromBase64(jsonObject[&quot;torchButtonOnImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;torchButtonOnImage&quot;]);
   result.torchButtonOffImage =
-      _imageFromBase64(jsonObject[&quot;torchButtonOffImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;torchButtonOffImage&quot;]);
   result.changeFrameButtonExpandImage =
-      _imageFromBase64(jsonObject[&quot;changeFrameButtonExpandImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;changeFrameButtonExpandImage&quot;]);
   result.changeFrameButtonCollapseImage =
-      _imageFromBase64(jsonObject[&quot;changeFrameButtonCollapseImage&quot;]);
-  result.hologramAnimationImage =
-      _imageFromBase64(jsonObject[&quot;hologramAnimationImage&quot;]);
+      _dataFromBase64(jsonObject[&quot;changeFrameButtonCollapseImage&quot;]);
+  result.livenessAnimationImage =
+      _dataFromBase64(jsonObject[&quot;livenessAnimationImage&quot;]);
 
   result.customLabelStatus = jsonObject[&quot;customLabelStatus&quot;];
   result.cameraFrameLineCap =
@@ -176,8 +176,8 @@
   result.multipageAnimationBackImageTransformsIOS =
       ViewContentMode.getByValue(
           jsonObject[&quot;multipageAnimationBackImageContentMode&quot;]);
-  result.hologramAnimationImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject[&quot;hologramAnimationImageContentMode&quot;]);
+  result.livenessAnimationImageTransformsIOS = ViewContentMode.getByValue(
+      jsonObject[&quot;livenessAnimationImageContentMode&quot;]);
   result.borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
       jsonObject[&quot;borderBackgroundImageContentMode&quot;]);
 
@@ -202,13 +202,13 @@
     result.multipageAnimationBackImageTransformsAndroid = array;
   } else
     result.multipageAnimationBackImageTransformsAndroid = null;
-  if (jsonObject[&quot;hologramAnimationImageMatrix&quot;] != null) {
+  if (jsonObject[&quot;livenessAnimationImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;hologramAnimationImageMatrix&quot;])
+    for (var value in jsonObject[&quot;livenessAnimationImageMatrix&quot;])
       array.add(value.toDouble());
-    result.hologramAnimationImageTransformsAndroid = array;
+    result.livenessAnimationImageTransformsAndroid = array;
   } else
-    result.hologramAnimationImageTransformsAndroid = null;
+    result.livenessAnimationImageTransformsAndroid = null;
   if (jsonObject[&quot;borderBackgroundImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
     for (var value in jsonObject[&quot;borderBackgroundImageMatrix&quot;])
@@ -216,6 +216,10 @@
     result.borderBackgroundImageTransformsAndroid = array;
   } else
     result.borderBackgroundImageTransformsAndroid = null;
+
+  result.colors = CustomizationColors.fromJson(jsonObject[&quot;colors&quot;]);
+  result.fonts = CustomizationFonts.fromJson(jsonObject[&quot;fonts&quot;]);
+  result.images = CustomizationImages.fromJson(jsonObject[&quot;images&quot;]);
 
   return result;
 }</code></pre>
@@ -251,7 +255,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

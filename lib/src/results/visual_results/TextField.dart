@@ -11,8 +11,8 @@ part of document_reader;
 /// Serves for storing information from one text data field.
 class TextField {
   /// Textual field logical type.
-  VisualFieldType get fieldType => _fieldType;
-  late VisualFieldType _fieldType;
+  FieldType get fieldType => _fieldType;
+  late FieldType _fieldType;
 
   /// Textual field symbolic name.
   String get fieldName => _fieldName;
@@ -64,7 +64,7 @@ class TextField {
     if (jsonObject == null) return null;
     var result = TextField();
 
-    result._fieldType = VisualFieldType.getByValue(jsonObject["fieldType"])!;
+    result._fieldType = FieldType.getByValue(jsonObject["fieldType"])!;
     result._lcid = LCID.getByValue(jsonObject["lcid"])!;
     result._status = CheckResult.getByValue(jsonObject["status"])!;
     result._comparisonStatus =

@@ -81,7 +81,7 @@ changing positions of the capture device.</p>
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Image? get cameraSwitchButtonImage =&gt; _cameraSwitchButtonImage;</code></pre>
+  <pre class="language-dart"><code class="language-dart">ByteData? get cameraSwitchButtonImage =&gt; _cameraSwitchButtonImage;</code></pre>
 </section>
 
 </section>
@@ -103,9 +103,9 @@ changing positions of the capture device.</p>
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">set cameraSwitchButtonImage(Image? val) {
+  <pre class="language-dart"><code class="language-dart">set cameraSwitchButtonImage(ByteData? val) {
   _cameraSwitchButtonImage = val;
-  _set({&quot;cameraSwitchButtonImage&quot;: _imageToBase64(val)});
+  _set({&quot;cameraSwitchButtonImage&quot;: _dataToBase64(val)});
 }</code></pre>
 </section>
 
@@ -140,7 +140,7 @@ changing positions of the capture device.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

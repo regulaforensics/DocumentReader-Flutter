@@ -79,7 +79,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Image?&gt; graphicFieldImageByType(
+  <pre class="language-dart"><code class="language-dart">Future&lt;Uint8List?&gt; graphicFieldImageByType(
   GraphicFieldType fieldType,
 ) async {
   String? result = await _bridge.invokeMethod(
@@ -91,7 +91,7 @@
   );
   if (result == null) return null;
   &#47;&#47; return Uri.parse(&quot;data:image&#47;png;base64,&quot; + result);
-  return _imageFromBase64(result);
+  return _bytesFromBase64(result);
 }</code></pre>
 </section>
 
@@ -125,7 +125,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

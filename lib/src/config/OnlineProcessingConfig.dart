@@ -13,14 +13,14 @@ class OnlineProcessingConfig {
 
   String url = "https://api.regulaforensics.com";
 
-  ProcessParam processParams = ProcessParam();
+  ProcessParams processParams = ProcessParams();
 
   ImageFormat imageFormat = ImageFormat.JPG;
 
   double imageCompressionQuality = 0.8;
 
   OnlineProcessingConfig(this.mode) {
-    processParams = ProcessParam();
+    processParams = ProcessParams();
     processParams.scenario = Scenario.FULL_PROCESS;
   }
 
@@ -34,7 +34,7 @@ class OnlineProcessingConfig {
     result.imageFormat = ImageFormat.getByValue(jsonObject["imageFormat"])!;
     result.imageCompressionQuality =
         jsonObject["imageCompressionQuality"].toDouble();
-    result.processParams = ProcessParam.fromJson(jsonObject["processParams"]);
+    result.processParams = ProcessParams.fromJson(jsonObject["processParams"]);
 
     return result;
   }

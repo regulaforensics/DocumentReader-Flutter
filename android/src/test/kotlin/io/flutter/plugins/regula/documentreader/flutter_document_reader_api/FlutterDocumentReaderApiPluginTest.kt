@@ -20,263 +20,270 @@ class FlutterDocumentReaderApiPluginTest {
     // config
 
     @Test
-    fun initConfig() = compare("InitConfig", ::docReaderConfigFromJSON, ::generateDocReaderConfig, "databasePath")
+    fun initConfig() = compare("initConfig", ::docReaderConfigFromJSON, ::generateDocReaderConfig, "databasePath")
 
     @Test
-    fun onlineProcessingConfig() = compare("OnlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig)
+    fun onlineProcessingConfig() = compare("onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig)
 
     @Test
-    fun imageInputData() = compare("ImageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
+    fun imageInputData() = compare("imageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
 
     @Test
-    fun recognizeConfig() = compare("RecognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
+    fun recognizeConfig() = compare("recognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
 
     @Test
-    fun recognizeConfig2() = compare("RecognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
+    fun recognizeConfig2() = compare("recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
 
     @Test
-    fun scannerConfig() = compare("ScannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig)
+    fun scannerConfig() = compare("scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig)
 
     @Test
-    fun scannerConfig2() = compare("ScannerConfig2", ::scannerConfigFromJSON, ::generateScannerConfig)
+    fun scannerConfig2() = compare("scannerConfig2", ::scannerConfigFromJSON, ::generateScannerConfig)
 
     // params.process_params
 
     @Test
-    fun faceApiSearchParams() = compare("FaceApiSearchParams", ::faceApiSearchParamsFromJSON, ::generateFaceApiSearchParams)
+    fun faceApiSearchParams() = compare("faceApiSearchParams", ::faceApiSearchParamsFromJSON, ::generateFaceApiSearchParams)
 
     @Test
-    fun faceApiParams() = compare("FaceApiParams", ::faceApiParamsFromJSON, ::generateFaceApiParams)
+    fun faceApiParams() = compare("faceApiParams", ::faceApiParamsFromJSON, ::generateFaceApiParams)
 
     @Test
-    fun glaresCheckParams() = compare("GlaresCheckParams", ::glaresCheckParamsFromJSON, ::generateGlaresCheckParams)
+    fun livenessParams() = compare("livenessParams", ::livenessParamsFromJSON, ::generateLivenessParams)
 
     @Test
-    fun imageQA() = compare("ImageQA", ::imageQAFromJSON, ::generateImageQA)
+    fun authenticityParams() = compare("authenticityParams", ::authenticityParamsFromJSON, ::generateAuthenticityParams)
 
     @Test
-    fun rfidParams() = compare("RFIDParams", ::rfidParamsFromJSON, ::generateRFIDParams)
+    fun glaresCheckParams() = compare("glaresCheckParams", ::glaresCheckParamsFromJSON, ::generateGlaresCheckParams)
 
     @Test
-    fun processParam() = compare("ProcessParam", ::processParamFromJSON, ::generateProcessParam)
+    fun imageQA() = compare("imageQA", ::imageQAFromJSON, ::generateImageQA)
+
+    @Test
+    fun rfidParams() = compare("rfidParams", ::rfidParamsFromJSON, ::generateRFIDParams)
+
+    @Test
+    fun backendProcessingConfig() = compare("backendProcessingConfig", ::backendProcessingConfigFromJSON, ::generateBackendProcessingConfig)
+
+    @Test
+    fun processParams() = compare("processParams", ::processParamFromJSON, ::generateProcessParam)
 
     //params.rfid_scenario
 
     @Test
-    fun reprocParams() = compare("ReprocParams", ::reprocParamsFromJSON, ::generateReprocParams)
+    fun eDLDataGroups() = compare("eDLDataGroups", ::eDLDataGroupsFromJSON, ::generateEDLDataGroups)
 
     @Test
-    fun eDLDataGroups() = compare("EDLDataGroups", ::eDLDataGroupsFromJSON, ::generateEDLDataGroups)
+    fun ePassportDataGroups() = compare("ePassportDataGroups", ::ePassportDataGroupsFromJSON, ::generateEPassportDataGroups)
 
     @Test
-    fun ePassportDataGroups() = compare("EPassportDataGroups", ::ePassportDataGroupsFromJSON, ::generateEPassportDataGroups)
+    fun eIDDataGroups() = compare("eIDDataGroups", ::eIDDataGroupsFromJSON, ::generateEIDDataGroups)
 
     @Test
-    fun eIDDataGroups() = compare("EIDDataGroups", ::eIDDataGroupsFromJSON, ::generateEIDDataGroups)
-
-    @Test
-    fun rfidScenario() = compare("RFIDScenario", ::rfidScenarioFromJSON, ::generateRfidScenario)
+    fun rfidScenario() = compare("rfidScenario", ::rfidScenarioFromJSON, ::generateRfidScenario)
 
     // params
 
     @Test
     fun customization() {
-        val expected = readFile("Customization")
+        val expected = readFile("customization")
         val omit = listOf(
             "helpAnimationImageContentMode",
             "multipageAnimationFrontImageContentMode",
             "multipageAnimationBackImageContentMode",
-            "hologramAnimationImageContentMode",
+            "livenessAnimationImageContentMode",
             "borderBackgroundImageContentMode",
             "statusTextFont",
-            "resultStatusTextFont"
+            "resultStatusTextFont",
+            "fonts"
         )
         for (key in omit) expected.remove(key)
         val actual = generateCustomization(customizationFromJSON(expected, ApplicationProvider.getApplicationContext()))
-        compareJSONs("Customization", expected, floatToDouble(actual))
+        compareJSONs("customization", expected, floatToDouble(actual))
     }
 
     @Test
     fun functionality() = compare(
-        "Functionality", ::functionalityFromJSON, ::generateFunctionality,
+        "functionality", ::functionalityFromJSON, ::generateFunctionality,
         "useAuthenticator", "singleResult", "videoSessionPreset"
     )
 
     // info
 
     @Test
-    fun documentsDatabase() = compare("DocumentsDatabase", ::docReaderDocumentsDatabaseFromJSON, ::generateDocReaderDocumentsDatabase)
+    fun documentsDatabase() = compare("documentsDatabase", ::docReaderDocumentsDatabaseFromJSON, ::generateDocReaderDocumentsDatabase)
 
     @Test
     fun docReaderScenario() = compare(
-        "DocReaderScenario", ::documentReaderScenarioFromJSON, ::generateDocumentReaderScenario,
+        "docReaderScenario", ::documentReaderScenarioFromJSON, ::generateDocumentReaderScenario,
         "barcodeExt", "frame"
     )
 
     @Test
-    fun docReaderException() = compare("DocReaderException", ::regulaExceptionFromJSON, ::generateRegulaException)
+    fun docReaderException() = compare("docReaderException", ::regulaExceptionFromJSON, ::generateRegulaException)
 
     // results.authenticity
 
     @Test
-    fun authenticityElement() = compare("AuthenticityElement", ::documentReaderAuthenticityElementFromJSON, ::generateDocumentReaderAuthenticityElement)
+    fun authenticityElement() = compare("authenticityElement", ::documentReaderAuthenticityElementFromJSON, ::generateDocumentReaderAuthenticityElement)
 
     @Test
-    fun authenticityCheck() = compare("AuthenticityCheck", ::documentReaderAuthenticityCheckFromJSON, ::generateDocumentReaderAuthenticityCheck)
+    fun authenticityCheck() = compare("authenticityCheck", ::documentReaderAuthenticityCheckFromJSON, ::generateDocumentReaderAuthenticityCheck)
 
     @Test
-    fun authenticityResult() = compare("AuthenticityResult", ::documentReaderAuthenticityResultFromJSON, ::generateDocumentReaderAuthenticityResult)
+    fun authenticityResult() = compare("authenticityResult", ::documentReaderAuthenticityResultFromJSON, ::generateDocumentReaderAuthenticityResult)
 
     // results.barcode
 
     @Test
-    fun pdf417Info() = compare("PDF417Info", ::pdf417InfoFromJSON, ::generatePDF417Info)
+    fun pdf417Info() = compare("pdf417Info", ::pdf417InfoFromJSON, ::generatePDF417Info)
 
     @Test
-    fun barcodeField() = compare("BarcodeField", ::documentReaderBarcodeFieldFromJSON, ::generateDocumentReaderBarcodeField)
+    fun barcodeField() = compare("barcodeField", ::documentReaderBarcodeFieldFromJSON, ::generateDocumentReaderBarcodeField)
 
     @Test
-    fun barcodeResult() = compare("BarcodeResult", ::documentReaderBarcodeResultFromJSON, ::generateDocumentReaderBarcodeResult)
+    fun barcodeResult() = compare("barcodeResult", ::documentReaderBarcodeResultFromJSON, ::generateDocumentReaderBarcodeResult)
 
     // results.image_quality
 
     @Test
-    fun imageQuality() = compare("ImageQuality", ::imageQualityFromJSON, ::generateImageQuality, "boundRects")
+    fun imageQuality() = compare("imageQuality", ::imageQualityFromJSON, ::generateImageQuality, "boundRects")
 
     @Test
-    fun imageQualityGroup() = compare("ImageQualityGroup", ::imageQualityGroupFromJSON, ::generateImageQualityGroup, "imageQualityList.boundRects")
+    fun imageQualityGroup() = compare("imageQualityGroup", ::imageQualityGroupFromJSON, ::generateImageQualityGroup, "imageQualityList.boundRects")
 
     // results.rfid
 
     @Test
-    fun accessControlProcedureType() = compare("AccessControlProcedureType", ::accessControlProcedureTypeFromJSON, ::generateAccessControlProcedureType)
+    fun accessControlProcedureType() = compare("accessControlProcedureType", ::accessControlProcedureTypeFromJSON, ::generateAccessControlProcedureType)
 
     @Test
-    fun fileData() = compare("FileData", ::fileDataFromJSON, ::generateFileData)
+    fun fileData() = compare("fileData", ::fileDataFromJSON, ::generateFileData)
 
     @Test
-    fun certificateData() = compare("CertificateData", ::certificateDataFromJSON, ::generateCertificateData)
+    fun certificateData() = compare("certificateData", ::certificateDataFromJSON, ::generateCertificateData)
 
     @Test
-    fun securityObjectCertificates() = compare("SecurityObjectCertificates", ::securityObjectCertificatesFromJSON, ::generateSecurityObjectCertificates)
+    fun securityObjectCertificates() = compare("securityObjectCertificates", ::securityObjectCertificatesFromJSON, ::generateSecurityObjectCertificates)
 
     @Test
-    fun file() = compare("File", ::fileFromJSON, ::generateFile)
+    fun file() = compare("file", ::fileFromJSON, ::generateFile)
 
     @Test
-    fun application() = compare("Application", ::applicationFromJSON, ::generateApplication)
+    fun application() = compare("application", ::applicationFromJSON, ::generateApplication)
 
     @Test
-    fun rfidValue() = compare("RFIDValue", ::valueFromJSON, ::generateValue)
+    fun rfidValue() = compare("rfidValue", ::valueFromJSON, ::generateValue)
 
     @Test
-    fun attribute() = compare("Attribute", ::attributeFromJSON, ::generateAttribute)
+    fun attribute() = compare("attribute", ::attributeFromJSON, ::generateAttribute)
 
     @Test
-    fun authority() = compare("Authority", ::authorityFromJSON, ::generateAuthority)
+    fun authority() = compare("authority", ::authorityFromJSON, ::generateAuthority)
 
     @Test
-    fun cardProperties() = compare("CardProperties", ::cardPropertiesFromJSON, ::generateCardProperties)
+    fun cardProperties() = compare("cardProperties", ::cardPropertiesFromJSON, ::generateCardProperties)
 
     @Test
-    fun extension() = compare("Extension", ::extensionFromJSON, ::generateExtension)
+    fun extension() = compare("extension", ::extensionFromJSON, ::generateExtension)
 
     @Test
-    fun rfidValidity() = compare("RFIDValidity", ::validityFromJSON, ::generateValidity)
+    fun rfidValidity() = compare("rfidValidity", ::validityFromJSON, ::generateValidity)
 
     @Test
-    fun certificateChain() = compare("CertificateChain", ::certificateChainFromJSON, ::generateCertificateChain)
+    fun certificateChain() = compare("certificateChain", ::certificateChainFromJSON, ::generateCertificateChain)
 
     @Test
-    fun dataField() = compare("DataField", ::dataFieldFromJSON, ::generateDataField)
+    fun dataField() = compare("dataField", ::dataFieldFromJSON, ::generateDataField)
 
     @Test
-    fun signerInfo() = compare("SignerInfo", ::signerInfoFromJSON, ::generateSignerInfo)
+    fun signerInfo() = compare("signerInfo", ::signerInfoFromJSON, ::generateSignerInfo)
 
     @Test
-    fun securityObject() = compare("SecurityObject", ::securityObjectFromJSON, ::generateSecurityObject)
+    fun securityObject() = compare("securityObject", ::securityObjectFromJSON, ::generateSecurityObject)
 
     @Test
-    fun rfidSessionData() = compare("RFIDSessionData", ::rfidSessionDataFromJSON, ::generateRFIDSessionData)
+    fun rfidSessionData() = compare("rfidSessionData", ::rfidSessionDataFromJSON, ::generateRFIDSessionData)
 
     @Test
-    fun bytesData() = compare("BytesData", ::bytesDataFromJSON, ::generateBytesData)
+    fun bytesData() = compare("bytesData", ::bytesDataFromJSON, ::generateBytesData)
 
     @Test
     fun vdsncData() = compare(
-        "VDSNCData", ::vdsncDataFromJSON, ::generateVDSNCData,
+        "vdsncData", ::vdsncDataFromJSON, ::generateVDSNCData,
         "certificateChain"
     )
 
     // results.visual_results
 
     @Test
-    fun comparison() = compare("Comparison", ::documentReaderComparisonFromJSON, ::generateDocumentReaderComparison)
+    fun comparison() = compare("comparison", ::documentReaderComparisonFromJSON, ::generateDocumentReaderComparison)
 
     @Test
-    fun rect() = compare("Rect", ::rectFromJSON, ::generateRect)
+    fun rect() = compare("rect", ::rectFromJSON, ::generateRect)
 
     @Test
-    fun graphicField() = compare("GraphicField", ::documentReaderGraphicFieldFromJSON, ::generateDocumentReaderGraphicField)
+    fun graphicField() = compare("graphicField", ::documentReaderGraphicFieldFromJSON, ::generateDocumentReaderGraphicField)
 
     @Test
-    fun graphicResult() = compare("GraphicResult", ::documentReaderGraphicResultFromJSON, ::generateDocumentReaderGraphicResult)
+    fun graphicResult() = compare("graphicResult", ::documentReaderGraphicResultFromJSON, ::generateDocumentReaderGraphicResult)
 
     @Test
-    fun rfidOrigin() = compare("RFIDOrigin", ::documentReaderRFIDOriginFromJSON, ::generateDocumentReaderRFIDOrigin)
+    fun rfidOrigin() = compare("rfidOrigin", ::documentReaderRFIDOriginFromJSON, ::generateDocumentReaderRFIDOrigin)
 
     @Test
-    fun symbol() = compare("Symbol", ::documentReaderSymbolFromJSON, ::generateDocumentReaderSymbol)
+    fun symbol() = compare("symbol", ::documentReaderSymbolFromJSON, ::generateDocumentReaderSymbol)
 
     @Test
-    fun validity() = compare("Validity", ::documentReaderValidityFromJSON, ::generateDocumentReaderValidity)
+    fun validity() = compare("validity", ::documentReaderValidityFromJSON, ::generateDocumentReaderValidity)
 
     @Test
-    fun value() = compare("Value", ::documentReaderValueFromJSON, ::generateDocumentReaderValue)
+    fun value() = compare("value", ::documentReaderValueFromJSON, ::generateDocumentReaderValue)
 
     @Test
-    fun textField() = compare("TextField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField)
+    fun textField() = compare("textField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField)
 
     @Test
-    fun textSource() = compare("TextSource", ::documentReaderTextSourceFromJSON, ::generateDocumentReaderTextSource)
+    fun textSource() = compare("textSource", ::documentReaderTextSourceFromJSON, ::generateDocumentReaderTextSource)
 
     @Test
-    fun textResult() = compare("TextResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult)
+    fun textResult() = compare("textResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult)
 
     // results
 
     @Test
-    fun resultsStatus() = compare("ResultsStatus", ::documentReaderResultsStatusFromJSON, ::generateDocumentReaderResultsStatus)
+    fun resultsStatus() = compare("resultsStatus", ::documentReaderResultsStatusFromJSON, ::generateDocumentReaderResultsStatus)
 
     @Test
-    fun documentType() = compare("DocumentType", ::documentReaderDocumentTypeFromJSON, ::generateDocumentReaderDocumentType)
+    fun documentType() = compare("documentType", ::documentReaderDocumentTypeFromJSON, ::generateDocumentReaderDocumentType)
 
     @Test
-    fun coordinate() = compare("Coordinate", ::coordinateFromJSON, ::generateCoordinate)
+    fun coordinate() = compare("coordinate", ::coordinateFromJSON, ::generateCoordinate)
 
     @Test
-    fun position() = compare("Position", ::elementPositionFromJSON, ::generateElementPosition)
+    fun position() = compare("position", ::elementPositionFromJSON, ::generateElementPosition)
+    
+    @Test
+    fun transactionInfo() = compare("transactionInfo", ::transactionInfoFromJSON, ::generateTransactionInfo)
 
     @Test
-    fun results() = compare(
-        "Results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
-        "imageQuality.imageQualityList.boundRects", "vdsncData.certificateChain"
-    )
+    fun results() = compare("results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults, "vdsncData.certificateChain")
 
     // rfid
 
     @Test
-    fun paAttribute() = compare("PAAttribute", ::paAttributeFromJSON, ::generatePAAttribute)
+    fun paAttribute() = compare("paAttribute", ::paAttributeFromJSON, ::generatePAAttribute)
 
     @Test
-    fun paResourcesIssuer() = compare("PAResourcesIssuer", ::paResourcesIssuerFromJSON, ::generatePAResourcesIssuer)
+    fun paResourcesIssuer() = compare("paResourcesIssuer", ::paResourcesIssuerFromJSON, ::generatePAResourcesIssuer)
 
     @Test
-    fun pkdCertificate() = compare("PKDCertificate", ::pkdCertificateFromJSON, ::generatePKDCertificate)
+    fun pkdCertificate() = compare("pkdCertificate", ::pkdCertificateFromJSON, ::generatePKDCertificate)
 
     @Test
-    fun taChallenge() = compare("TAChallenge", ::taChallengeFromJSON, ::generateTAChallenge)
+    fun taChallenge() = compare("taChallenge", ::taChallengeFromJSON, ::generateTAChallenge)
 
     @Test
-    fun tccParams() = compare("TccParams", ::tccParamsFromJSON, ::generateTccParams)
+    fun tccParams() = compare("tccParams", ::tccParamsFromJSON, ::generateTccParams)
 }

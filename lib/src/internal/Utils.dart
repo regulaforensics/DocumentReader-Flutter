@@ -12,17 +12,17 @@ double? _toDouble(value) => value?.toDouble();
 
 dynamic _decode(String? value) => value == null ? null : jsonDecode(value);
 
-ByteData? _fromBase64(String? value) =>
+ByteData? _dataFromBase64(String? value) =>
     value == null ? null : ByteData.view(base64Decode(value).buffer);
 
-String? _toBase64(ByteData? value) =>
+String? _dataToBase64(ByteData? value) =>
     value == null ? null : base64Encode(value.buffer.asUint8List());
 
-Image? _imageFromBase64(String? value) =>
-    value == null ? null : Image.memory(base64Decode(value));
+Uint8List? _bytesFromBase64(String? value) =>
+    value == null ? null : base64Decode(value);
 
-String? _imageToBase64(Image? value) =>
-    value == null ? null : base64Encode((value.image as MemoryImage).bytes);
+String? _bytesToBase64(Uint8List? value) =>
+    value == null ? null : base64Encode(value);
 
 Color? _intToColor(int? value) => value == null ? null : Color(value);
 

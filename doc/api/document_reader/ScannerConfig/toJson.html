@@ -79,8 +79,8 @@
 Map&lt;String, dynamic&gt; toJson() =&gt; {
       &quot;scenario&quot;: scenario?.value,
       &quot;onlineProcessingConfig&quot;: onlineProcessingConfig?.toJson(),
-      &quot;livePortrait&quot;: _imageToBase64(livePortrait),
-      &quot;extPortrait&quot;: _imageToBase64(extPortrait),
+      &quot;livePortrait&quot;: _bytesToBase64(livePortrait),
+      &quot;extPortrait&quot;: _bytesToBase64(extPortrait),
       &quot;cameraId&quot;: cameraId
     }.clearNulls();</code></pre>
 </section>
@@ -115,7 +115,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

@@ -38,7 +38,7 @@ class TccParams {
     result.serviceUrlPA = jsonObject["serviceUrlPA"];
     result.pfxCertUrl = jsonObject["pfxCertUrl"];
     result.pfxPassPhrase = jsonObject["pfxPassPhrase"];
-    result.pfxCert = _fromBase64(jsonObject["pfxCert"]);
+    result.pfxCert = _dataFromBase64(jsonObject["pfxCert"]);
 
     return result;
   }
@@ -49,6 +49,6 @@ class TccParams {
         "serviceUrlPA": serviceUrlPA,
         "pfxCertUrl": pfxCertUrl,
         "pfxPassPhrase": pfxPassPhrase,
-        "pfxCert": _toBase64(pfxCert)
+        "pfxCert": _dataToBase64(pfxCert)
       }.clearNulls();
 }

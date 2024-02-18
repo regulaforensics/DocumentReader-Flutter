@@ -86,7 +86,7 @@
       &quot;glaresCheck&quot;: glaresCheck,
       &quot;colornessCheck&quot;: colornessCheck,
       &quot;screenCapture&quot;: screenCapture,
-      &quot;expectedPass&quot;: expectedPass,
+      &quot;expectedPass&quot;: expectedPass?.map((e) =&gt; e.value).toList(),
       &quot;glaresCheckParams&quot;: glaresCheckParams?.toJson(),
       &quot;brightnessThreshold&quot;: brightnessThreshold,
     }.clearNulls();</code></pre>
@@ -122,7 +122,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

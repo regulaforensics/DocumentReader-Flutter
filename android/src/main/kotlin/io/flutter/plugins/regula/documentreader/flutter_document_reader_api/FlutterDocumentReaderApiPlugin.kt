@@ -53,6 +53,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
@@ -64,76 +65,49 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class FlutterDocumentReaderApiPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
-    override fun onDetachedFromActivityForConfigChanges() {}
-    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
-    override fun onDetachedFromActivity() {}
-    override fun onDetachedFromEngine(binding: FlutterPluginBinding) {}
-    override fun onAttachedToEngine(binding: FlutterPluginBinding) = attachedToEngine(binding, this)
     override fun onAttachedToActivity(binding: ActivityPluginBinding) = attachedToActivity(binding)
+    override fun onDetachedFromActivityForConfigChanges() = Unit
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = Unit
+    override fun onDetachedFromActivity() = Unit
+    override fun onAttachedToEngine(binding: FlutterPluginBinding) = attachedToEngine(binding, this)
+    override fun onDetachedFromEngine(binding: FlutterPluginBinding) = Unit
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = methodCall(call, result)
 }
 
-lateinit var args: ArrayList<Any?>
-
-@SuppressLint("StaticFieldLeak")
-lateinit var activity: Activity
-val context
-    get() = activity
-
-var eventDatabaseProgress: EventSink? = null
-var eventCompletion: EventSink? = null
-var rfidOnProgressEvent: EventSink? = null
-var rfidOnChipDetectedEvent: EventSink? = null
-var rfidOnRetryReadChipEvent: EventSink? = null
-var eventPACertificateCompletion: EventSink? = null
-var eventTACertificateCompletion: EventSink? = null
-var eventTASignatureCompletion: EventSink? = null
-var bleOnServiceConnectedEvent: EventSink? = null
-var bleOnServiceDisconnectedEvent: EventSink? = null
-var bleOnDeviceReadyEvent: EventSink? = null
-var eventVideoEncoderCompletion: EventSink? = null
-var onCustomButtonTappedEvent: EventSink? = null
-
 fun attachedToEngine(binding: FlutterPluginBinding, plugin: FlutterDocumentReaderApiPlugin) {
-    setupEventChannel(binding, "completion") { eventCompletion = it }
-    setupEventChannel(binding, "database_progress") { eventDatabaseProgress = it }
-    setupEventChannel(binding, "video_encoder_completion") { eventVideoEncoderCompletion = it }
-    setupEventChannel(binding, "rfidOnProgressCompletion") { rfidOnProgressEvent = it }
-    setupEventChannel(binding, "rfidOnChipDetectedEvent") { rfidOnChipDetectedEvent = it }
-    setupEventChannel(binding, "rfidOnRetryReadChipEvent") { rfidOnRetryReadChipEvent = it }
-    setupEventChannel(binding, "pa_certificate_completion") { eventPACertificateCompletion = it }
-    setupEventChannel(binding, "ta_certificate_completion") { eventTACertificateCompletion = it }
-    setupEventChannel(binding, "ta_signature_completion") { eventTASignatureCompletion = it }
-    setupEventChannel(binding, "bleOnServiceConnectedEvent") { bleOnServiceConnectedEvent = it }
-    setupEventChannel(binding, "bleOnServiceDisconnectedEvent") { bleOnServiceDisconnectedEvent = it }
-    setupEventChannel(binding, "bleOnDeviceReadyEvent") { bleOnDeviceReadyEvent = it }
-    setupEventChannel(binding, "onCustomButtonTappedEvent") { onCustomButtonTappedEvent = it }
-    MethodChannel(binding.binaryMessenger, "flutter_document_reader_api/method").setMethodCallHandler(plugin)
+    binaryMessenger = binding.binaryMessenger
+    setupEventChannel("completion")
+    setupEventChannel("database_progress")
+    setupEventChannel("rfidOnProgressCompletion")
+    setupEventChannel("rfidOnChipDetectedEvent")
+    setupEventChannel("rfidOnRetryReadChipEvent")
+    setupEventChannel("pa_certificate_completion")
+    setupEventChannel("ta_certificate_completion")
+    setupEventChannel("ta_signature_completion")
+    setupEventChannel("bleOnServiceConnectedEvent")
+    setupEventChannel("bleOnServiceDisconnectedEvent")
+    setupEventChannel("bleOnDeviceReadyEvent")
+    setupEventChannel("video_encoder_completion")
+    setupEventChannel("onCustomButtonTappedEvent")
+    MethodChannel(binaryMessenger, "flutter_document_reader_api/method").setMethodCallHandler(plugin)
 }
 
 fun attachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.activity
+    activityBinding = binding
     binding.addOnNewIntentListener {
-        @Suppress("DEPRECATION")
-        if ((it.action == NfcAdapter.ACTION_TECH_DISCOVERED) && backgroundRFIDEnabled)
-            Instance().readRFID(IsoDep.get(it.getParcelableExtra(NfcAdapter.EXTRA_TAG)), rfidReaderCompletion, requestType.getRfidReaderRequest())
+        newIntent(it)
         false
     }
-    (binding.lifecycle as HiddenLifecycleReference).lifecycle.addObserver(LifecycleEventObserver { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME && backgroundRFIDEnabled)
-            startForegroundDispatch(activity)
-    })
 }
 
-fun setupEventChannel(binding: FlutterPluginBinding, id: String, onListen: (EventSink?) -> Unit) {
-    EventChannel(binding.binaryMessenger, "flutter_document_reader_api/event/$id").setStreamHandler(object : EventChannel.StreamHandler {
-        override fun onListen(arguments: Any?, events: EventSink) = onListen(events)
-        override fun onCancel(arguments: Any?) {}
-    })
-}
+fun setupEventChannel(id: String) = EventChannel(binaryMessenger, "flutter_document_reader_api/event/$id").setStreamHandler(object : EventChannel.StreamHandler {
+    override fun onListen(arguments: Any?, events: EventSink) = events.let { eventSinks[id] = it }
+    override fun onCancel(arguments: Any?) = Unit
+})
 
-fun sendEvent(event: EventSink?, data: Any? = "") {
-    event?.let { Handler(Looper.getMainLooper()).post { it.success(data.toSendable()) } }
+fun sendEvent(id: String, data: Any? = "") {
+    eventSinks[id]?.let { Handler(Looper.getMainLooper()).post { it.success(data.toSendable()) } }
 }
 
 fun <T> argsNullable(index: Int) = when {
@@ -142,6 +116,13 @@ fun <T> argsNullable(index: Int) = when {
     args[index]!!.javaClass == ArrayList::class.java -> arrayListToJSONArray(args[index] as ArrayList<*>) as T
     else -> args[index] as T
 }
+
+lateinit var args: ArrayList<Any?>
+val eventSinks = mutableMapOf<String, EventSink?>()
+lateinit var binaryMessenger: BinaryMessenger
+lateinit var activityBinding: ActivityPluginBinding
+val lifecycle: Lifecycle
+    get() = (activityBinding.lifecycle as HiddenLifecycleReference).lifecycle
 
 fun methodCall(call: MethodCall, result: MethodChannel.Result) {
     val action = call.method
@@ -214,40 +195,42 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "containers" -> containers(callback, args(0), args(1))
         "encryptedContainers" -> encryptedContainers(callback, args(0))
         "getTranslation" -> getTranslation(callback, args(0), args(1))
+        "finalizePackage" -> finalizePackage(callback)
     }
 }
 
 fun <T> args(index: Int): T = argsNullable(index)!!
-
 interface Callback {
     fun success(data: Any? = "")
     fun error(message: String)
 }
 
+@SuppressLint("StaticFieldLeak")
+lateinit var activity: Activity
+lateinit var lifecycleObserver: LifecycleEventObserver
+val context
+    get() = activity
+
 var backgroundRFIDEnabled = false
 var databaseDownloadProgress = 0
 
-var paCertificateCompletion: IRfidPKDCertificateCompletion? = null
-var taCertificateCompletion: IRfidPKDCertificateCompletion? = null
-var taSignatureCompletion: IRfidTASignatureCompletion? = null
+const val eventCompletion = "completion"
+const val eventDatabaseProgress = "database_progress"
 
-fun startForegroundDispatch(activity: Activity) {
-    val filters: Array<IntentFilter?> = arrayOfNulls(1)
-    filters[0] = IntentFilter()
-    filters[0]!!.addAction(NfcAdapter.ACTION_TECH_DISCOVERED)
-    filters[0]!!.addCategory(Intent.CATEGORY_DEFAULT)
-    val techList = arrayOf(arrayOf("android.nfc.tech.IsoDep"))
-    val intent = Intent(context, context.javaClass)
-    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
-    val pendingIntent = PendingIntent.getActivity(context, 0, intent, flag)
-    NfcAdapter.getDefaultAdapter(context).enableForegroundDispatch(activity, pendingIntent, filters, techList)
-}
+const val rfidOnProgressEvent = "rfidOnProgressCompletion"
+const val rfidOnChipDetectedEvent = "rfidOnChipDetectedEvent"
+const val rfidOnRetryReadChipEvent = "rfidOnRetryReadChipEvent"
 
-fun stopBackgroundRFID() {
-    if (!backgroundRFIDEnabled) return
-    NfcAdapter.getDefaultAdapter(activity).disableForegroundDispatch(activity)
-    backgroundRFIDEnabled = false
-}
+const val eventPACertificateCompletion = "pa_certificate_completion"
+const val eventTACertificateCompletion = "ta_certificate_completion"
+const val eventTASignatureCompletion = "ta_signature_completion"
+
+const val bleOnServiceConnectedEvent = "bleOnServiceConnectedEvent"
+const val bleOnServiceDisconnectedEvent = "bleOnServiceDisconnectedEvent"
+const val bleOnDeviceReadyEvent = "bleOnDeviceReadyEvent"
+
+const val eventVideoEncoderCompletion = "video_encoder_completion"
+const val onCustomButtonTappedEvent = "onCustomButtonTappedEvent"
 
 fun getDocumentReaderIsReady(callback: Callback) = callback.success(Instance().isReady)
 
@@ -331,13 +314,12 @@ fun startRFIDReader(onRequestPACertificates: Boolean, onRequestTACertificates: B
 }
 
 fun readRFID(onRequestPACertificates: Boolean, onRequestTACertificates: Boolean, onRequestTASignature: Boolean) {
-    backgroundRFIDEnabled = true
     requestType = RfidReaderRequestType(
         onRequestPACertificates,
         onRequestTACertificates,
         onRequestTASignature
     )
-    startForegroundDispatch(activity)
+    startForegroundDispatch()
 }
 
 fun stopRFIDReader(callback: Callback) {
@@ -440,9 +422,11 @@ fun graphicFieldImageByTypeSourcePageIndex(callback: Callback, raw: String, fiel
 
 fun graphicFieldImageByTypeSourcePageIndexLight(callback: Callback, raw: String, fieldType: Int, source: Int, pageIndex: Int, light: Int) = callback.success(bitmapToBase64(fromRawResults(raw).getGraphicFieldImageByType(fieldType, source, pageIndex, light)))
 
-fun containers(callback: Callback, raw: String, resultType: JSONArray) = callback.success(fromRawResults(raw).getContainers(intArrayFromJSON(resultType)!!))
+fun containers(callback: Callback, raw: String, resultType: JSONArray) = callback.success(fromRawResults(raw).getContainers(resultType.toIntArray()!!))
 
 fun encryptedContainers(callback: Callback, raw: String) = callback.success(fromRawResults(raw).encryptedContainers)
+
+fun finalizePackage(callback: Callback) = Instance().finalizePackage { action, info, error -> callback.success(generateFinalizePackageCompletion(action, info, error)) }
 
 fun getTranslation(callback: Callback, className: String, value: Int) = when (className) {
     "RFIDErrorCodes" -> callback.success(eRFID_ErrorCodes.getTranslation(context, value))
@@ -490,6 +474,10 @@ fun getInitCompletion(callback: Callback) = IDocumentReaderInitCompletion { succ
     callback.success(generateSuccessCompletion(success, error))
 }
 
+var paCertificateCompletion: IRfidPKDCertificateCompletion? = null
+var taCertificateCompletion: IRfidPKDCertificateCompletion? = null
+var taSignatureCompletion: IRfidTASignatureCompletion? = null
+
 class RfidReaderRequestType(
     val doPACertificates: Boolean,
     val doTACertificates: Boolean,
@@ -525,6 +513,53 @@ var requestType = RfidReaderRequestType(
     doTACertificates = false,
     doTASignature = false
 )
+
+@Suppress("DEPRECATION")
+fun newIntent(intent: Intent) = if (intent.action == NfcAdapter.ACTION_TECH_DISCOVERED)
+    Instance().readRFID(
+        IsoDep.get(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)),
+        rfidReaderCompletion,
+        requestType.getRfidReaderRequest()
+    ) else Unit
+
+fun startForegroundDispatch() {
+    backgroundRFIDEnabled = true
+    val filters: Array<IntentFilter?> = arrayOfNulls(1)
+    filters[0] = IntentFilter()
+    filters[0]!!.addAction(NfcAdapter.ACTION_TECH_DISCOVERED)
+    filters[0]!!.addCategory(Intent.CATEGORY_DEFAULT)
+    val techList = arrayOf(arrayOf("android.nfc.tech.IsoDep"))
+    val intent = Intent(context, context.javaClass)
+    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
+    val pendingIntent = PendingIntent.getActivity(context, 0, intent, flag)
+
+    if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+        enableForegroundDispatch(pendingIntent, filters, techList)
+    lifecycleObserver = LifecycleEventObserver { _, event ->
+        if (backgroundRFIDEnabled) when (event) {
+            Lifecycle.Event.ON_RESUME -> enableForegroundDispatch(pendingIntent, filters, techList)
+            Lifecycle.Event.ON_PAUSE -> disableForegroundDispatch()
+            else -> Unit
+        }
+    }
+    lifecycle.addObserver(lifecycleObserver)
+}
+
+fun enableForegroundDispatch(
+    pendingIntent: PendingIntent,
+    filters: Array<IntentFilter?>,
+    techList: Array<Array<String>>
+) = NfcAdapter.getDefaultAdapter(context).enableForegroundDispatch(activity, pendingIntent, filters, techList)
+
+fun disableForegroundDispatch() = NfcAdapter.getDefaultAdapter(activity).disableForegroundDispatch(activity)
+
+fun stopBackgroundRFID() {
+    if (!backgroundRFIDEnabled) return
+    backgroundRFIDEnabled = false
+    if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+        disableForegroundDispatch()
+    lifecycle.removeObserver(lifecycleObserver)
+}
 
 // Weak references
 var localizationCallbacks: LocalizationCallbacks? = null

@@ -114,6 +114,14 @@ electronic document.
   
 </dd>
 
+        <dt id="AuthenticityParams">
+  <span class="name "><a href="../document_reader/AuthenticityParams-class.html">AuthenticityParams</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
         <dt id="AuthenticityResult">
   <span class="name "><a href="../document_reader/AuthenticityResult-class.html">AuthenticityResult</a></span> 
 
@@ -124,6 +132,14 @@ electronic document.
 
         <dt id="Authority">
   <span class="name "><a href="../document_reader/Authority-class.html">Authority</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+        <dt id="BackendProcessingConfig">
+  <span class="name "><a href="../document_reader/BackendProcessingConfig-class.html">BackendProcessingConfig</a></span> 
 
 </dt>
 <dd>
@@ -218,6 +234,30 @@ of the RFID-chip located in the scope of the reader.
 </dt>
 <dd>
   Params that relate to the camera view controller customization and etc.
+</dd>
+
+        <dt id="CustomizationColors">
+  <span class="name "><a href="../document_reader/CustomizationColors-class.html">CustomizationColors</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+        <dt id="CustomizationFonts">
+  <span class="name "><a href="../document_reader/CustomizationFonts-class.html">CustomizationFonts</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+        <dt id="CustomizationImages">
+  <span class="name "><a href="../document_reader/CustomizationImages-class.html">CustomizationImages</a></span> 
+
+</dt>
+<dd>
+  
 </dd>
 
         <dt id="DataField">
@@ -430,6 +470,14 @@ Controls initialization time properties such as licenseUpdate and delayedNNLoad.
   Class contains properties to get the information about the license.
 </dd>
 
+        <dt id="LivenessParams">
+  <span class="name "><a href="../document_reader/LivenessParams-class.html">LivenessParams</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
         <dt id="OnlineProcessingConfig">
   <span class="name "><a href="../document_reader/OnlineProcessingConfig-class.html">OnlineProcessingConfig</a></span> 
 
@@ -486,8 +534,8 @@ Controls initialization time properties such as licenseUpdate and delayedNNLoad.
   Structure is used for storing element bounds detection result._
 </dd>
 
-        <dt id="ProcessParam">
-  <span class="name "><a href="../document_reader/ProcessParam-class.html">ProcessParam</a></span> 
+        <dt id="ProcessParams">
+  <span class="name "><a href="../document_reader/ProcessParams-class.html">ProcessParams</a></span> 
 
 </dt>
 <dd>
@@ -517,14 +565,6 @@ Controls initialization time properties such as licenseUpdate and delayedNNLoad.
 </dt>
 <dd>
   
-</dd>
-
-        <dt id="ReprocParams">
-  <span class="name "><a href="../document_reader/ReprocParams-class.html">ReprocParams</a></span> 
-
-</dt>
-<dd>
-  Class defines reprocessing parameters.
 </dd>
 
         <dt id="Results">
@@ -707,6 +747,14 @@ signature of the number present in EF.SOD.
   Structure describing single value of the field.
 </dd>
 
+        <dt id="TransactionInfo">
+  <span class="name "><a href="../document_reader/TransactionInfo-class.html">TransactionInfo</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
         <dt id="Validity">
   <span class="name "><a href="../document_reader/Validity-class.html">Validity</a></span> 
 
@@ -872,6 +920,15 @@ text field comparison from different sources.
 </dt>
 <dd>
   Enum contains all possible error codes
+</dd>
+
+        <dt id="FieldType">
+  <span class="name "><a href="../document_reader/FieldType.html">FieldType</a></span> 
+
+</dt>
+<dd>
+  Enum contains identifiers that determine the logical type of text data
+obtained while reading MRZ, document filling fields, and barcodes.
 </dd>
 
         <dt id="FontStyle">
@@ -1107,15 +1164,6 @@ for the document authenticity check.
   Clone of iOS native enum <code>UIViewContentMode</code>
 </dd>
 
-        <dt id="VisualFieldType">
-  <span class="name "><a href="../document_reader/VisualFieldType.html">VisualFieldType</a></span> 
-
-</dt>
-<dd>
-  Enum contains identifiers that determine the logical type of text data
-obtained while reading MRZ, document filling fields, and barcodes.
-</dd>
-
       </dl>
     </section>
 
@@ -1181,6 +1229,21 @@ Documents Database preparation.
     
 
   </dd>
+
+          
+  <dt id="FinalizePackageCompletion" class="">
+  <span class="name"><a href="../document_reader/FinalizePackageCompletion.html">FinalizePackageCompletion</a></span>
+    = (<span class="field"><span class="type-annotation"><a href="../document_reader/DocReaderAction.html">DocReaderAction</a></span>, </span><span class="field"><span class="type-annotation"><a href="../document_reader/TransactionInfo-class.html">TransactionInfo</a>?</span>, </span><span class="field"><span class="type-annotation"><a href="../document_reader/DocReaderException-class.html">DocReaderException</a>?</span></span>)
+  </span>
+  
+
+</dt>
+<dd>
+  Type for receiving answer after backend processing has finished.
+  
+
+</dd>
+
 
           
   <dt id="PaCertificateCompletion" class="callable">
@@ -1366,7 +1429,7 @@ Called by DocumentReader when recording process finished.
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

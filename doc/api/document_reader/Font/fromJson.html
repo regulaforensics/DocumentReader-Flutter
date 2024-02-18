@@ -83,8 +83,8 @@
   if (jsonObject == null) return null;
 
   var result = Font(jsonObject[&quot;name&quot;]);
-  result.size = jsonObject[&quot;size&quot;];
-  result.style = FontStyle.getByValue(jsonObject[&quot;style&quot;]);
+  result._size = jsonObject[&quot;size&quot;];
+  result._style = FontStyle.getByValue(jsonObject[&quot;style&quot;]);
 
   return result;
 }</code></pre>
@@ -120,7 +120,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

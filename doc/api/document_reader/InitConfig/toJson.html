@@ -77,11 +77,11 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 Map&lt;String, dynamic&gt; toJson() =&gt; {
-      &quot;license&quot;: _toBase64(license),
+      &quot;license&quot;: _dataToBase64(license),
       &quot;delayedNNLoad&quot;: delayedNNLoad,
       &quot;licenseUpdate&quot;: licenseUpdate,
       &quot;blackList&quot;: blackList,
-      &quot;customDb&quot;: _toBase64(customDb),
+      &quot;customDb&quot;: _dataToBase64(customDb),
       &quot;databasePath&quot;: databasePath
     }.clearNulls();</code></pre>
 </section>
@@ -116,7 +116,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

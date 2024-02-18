@@ -80,11 +80,11 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
       &quot;scenario&quot;: scenario?.value,
       &quot;onlineProcessingConfig&quot;: onlineProcessingConfig?.toJson(),
       &quot;oneShotIdentification&quot;: oneShotIdentification,
-      &quot;livePortrait&quot;: _imageToBase64(livePortrait),
-      &quot;extPortrait&quot;: _imageToBase64(extPortrait),
-      &quot;image&quot;: _imageToBase64(image),
-      &quot;data&quot;: _toBase64(data),
-      &quot;images&quot;: images?.map((e) =&gt; _imageToBase64(e)).toList(),
+      &quot;livePortrait&quot;: _bytesToBase64(livePortrait),
+      &quot;extPortrait&quot;: _bytesToBase64(extPortrait),
+      &quot;image&quot;: _bytesToBase64(image),
+      &quot;data&quot;: _bytesToBase64(data),
+      &quot;images&quot;: images?.map((e) =&gt; _bytesToBase64(e)).toList(),
       &quot;imageInputData&quot;: imageInputData?.map((e) =&gt; e.toJson()).toList(),
     }.clearNulls();</code></pre>
 </section>
@@ -119,7 +119,7 @@ Map&lt;String, dynamic&gt; toJson() =&gt; {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

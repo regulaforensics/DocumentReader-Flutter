@@ -83,7 +83,7 @@ page index and light type.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Image?&gt; graphicFieldImageByTypeSourcePageIndexLight(
+  <pre class="language-dart"><code class="language-dart">Future&lt;Uint8List?&gt; graphicFieldImageByTypeSourcePageIndexLight(
   GraphicFieldType fieldType,
   ResultType source,
   int pageIndex,
@@ -100,7 +100,7 @@ page index and light type.</p>
     ],
   );
   if (result == null) return null;
-  return _imageFromBase64(result);
+  return _bytesFromBase64(result);
 }</code></pre>
 </section>
 
@@ -134,7 +134,7 @@ page index and light type.</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

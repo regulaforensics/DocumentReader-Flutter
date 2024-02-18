@@ -1,13 +1,9 @@
-## 0.1.134
-# 6.10.0
+## 0.1.135
+# 7.1
 
 #### Plugin:
 
-* BREAKING CHANGE: whole DocumentReader plugin rewritten from scratch with focus on user experience and convenience. Migration instructions can be found [here]().
-
-#### API:
-
-#### Core:
+* BREAKING CHANGE: whole DocumentReader plugin rewritten from scratch with focus on user experience and convenience. Migration instructions can be found [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/v6-to-v7/flutter/).
 
 # 5.8.0
 

@@ -32,17 +32,17 @@ class PKDCertificate {
   static PKDCertificate? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     return PKDCertificate(
-      _fromBase64(jsonObject["binaryData"])!,
+      _dataFromBase64(jsonObject["binaryData"])!,
       PKDResourceType.getByValue(jsonObject["resourceType"])!,
-      privateKey: _fromBase64(jsonObject["privateKey"]),
+      privateKey: _dataFromBase64(jsonObject["privateKey"]),
     );
   }
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "binaryData": _toBase64(binaryData),
+        "binaryData": _dataToBase64(binaryData),
         "resourceType": resourceType.value,
-        "privateKey": _toBase64(privateKey)
+        "privateKey": _dataToBase64(privateKey)
       }.clearNulls();
 }
 

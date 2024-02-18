@@ -15,9 +15,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Base64
+import com.regula.documentreader.api.enums.CustomizationFont
+import com.regula.documentreader.api.params.ParamsCustomization
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -105,18 +108,6 @@ fun <T> generateArray(array: Array<T>?, toJson: (T?) -> JSONObject?) = array?.le
     result
 }
 
-fun generateIntArray(array: IntArray?) = array?.let {
-    val result = JSONArray()
-    for (i in array.indices) result.put(i, array[i])
-    result
-}
-
-fun intArrayFromJSON(input: JSONArray?) = input?.let {
-    val result = IntArray(input.length())
-    for (i in 0 until input.length()) result[i] = input.getInt(i)
-    result
-}
-
 fun generateLongArray(array: LongArray?) = array?.let {
     val result = JSONArray()
     for (i in array.indices) result.put(i, array[i])
@@ -129,22 +120,10 @@ fun matrixFromFloatArray(floats: FloatArray?): Matrix {
     return matrix
 }
 
-fun matrixToFloatArray(matrix: Matrix?) = matrix?.let {
-    val floats = FloatArray(9)
-    matrix.getValues(floats)
-    floats
-}
-
 fun floatArrayFromJson(jsonArray: JSONArray): FloatArray {
     val result = FloatArray(jsonArray.length())
     for (i in 0 until jsonArray.length()) result[i] = jsonArray.getDouble(i).toFloat()
     return result
-}
-
-fun generateFloatArray(array: FloatArray?) = array?.let {
-    val result = JSONArray()
-    for (f in array) result.put(java.lang.Float.valueOf(f))
-    result
 }
 
 fun stringListFromJson(jsonArray: JSONArray): List<String> {
@@ -158,10 +137,6 @@ fun stringArrayFromJson(jsonArray: JSONArray): Array<String?> {
     for (i in 0 until jsonArray.length()) result[i] = jsonArray.optString(i)
     return result
 }
-
-fun longWithColor(color: String?) = color?.toLong(16)
-
-fun colorWithLong(color: Long) = color.toString(16)
 
 fun paintCapToInt(cap: Paint.Cap) = when (cap) {
     Paint.Cap.BUTT -> 0
@@ -177,6 +152,12 @@ fun JSONObject.forEach(action: (String, Any?) -> Unit) {
     }
 }
 
+fun Map<String, Any?>.toJsonObject(): JSONObject {
+    val result = JSONObject()
+    forEach { (key, value) -> result.put(key, value) }
+    return result
+}
+
 fun stringMapFromJson(input: JSONObject): Map<String, String> {
     val result: MutableMap<String, String> = HashMap()
     input.forEach { key, value -> result[key] = value as String }
@@ -187,6 +168,65 @@ fun generateStringMap(input: Map<String, String?>?) = input?.let {
     val result = JSONObject()
     for ((key, value) in input) result.put(key, value)
     result
+}
+
+fun Any?.toInt() = when (this) {
+    is Double -> toInt()
+    is Long -> toInt()
+    else -> this as Int
+}
+
+fun Any?.toLong() = when (this) {
+    is Double -> toLong()
+    is Int -> toLong()
+    else -> this as Long
+}
+
+fun Any?.toColor() = "#" + toLong().toString(16)
+
+fun Any?.toFloat() =
+    if (this is Double) toFloat()
+    else this as Float
+
+fun Any?.toMatrix() = this?.let {
+    val matrix = Matrix()
+    val result = FloatArray((this as JSONArray).length())
+    for (i in 0 until length()) result[i] = getDouble(i).toFloat()
+    matrix.setValues(result)
+    matrix
+}
+
+fun Any?.toIntArray() = (this as JSONArray?)?.let {
+    val result = IntArray(it.length())
+    for (i in 0 until it.length()) result[i] = it.getInt(i)
+    result
+}
+
+fun IntArray?.generate() = this?.let {
+    val result = JSONArray()
+    for (i in indices) result.put(i, this[i])
+    result
+}
+
+fun String?.toLong() = this?.let {
+    if (this[0] == '#') this.substring(1).toLong(16)
+    else this.toLong(16)
+}
+
+fun Matrix?.generate() = this?.let {
+    val floats = FloatArray(9)
+    getValues(floats)
+    val result = JSONArray()
+    for (f in floats) result.put(java.lang.Float.valueOf(f))
+    result
+}
+
+fun CustomizationFont.generate(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFont, Int>) = generateTypeface(fonts[this], sizes[this])
+
+fun CustomizationFont.setFont(editor: ParamsCustomization.CustomizationEditor, value: Any?) {
+    val font = typefaceFromJSON(value as JSONObject)
+    editor.setFont(this, font.first)
+    font.second?.let { editor.setFontSize(this, it) }
 }
 
 internal object Convert {
@@ -208,8 +248,8 @@ internal object Convert {
         generateByteArray(byteArray)
     }
 
-    fun drawableFromBase64(base64: String?, context: Context) = base64?.let {
-        val decodedByte = byteArrayFromBase64(base64)
+    fun Any?.toDrawable(context: Context) = (this as String?)?.let {
+        val decodedByte = byteArrayFromBase64(it)
         val bitmap = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte!!.size)
         val density = context.resources.displayMetrics.density
         val width = (bitmap.width * density).toInt()
@@ -217,12 +257,12 @@ internal object Convert {
         BitmapDrawable(context.resources, Bitmap.createScaledBitmap(bitmap, width, height, false))
     }
 
-    fun drawableToBase64(drawable: Drawable?) = drawable?.let {
-        if (drawable is BitmapDrawable) if (drawable.bitmap != null) return bitmapToBase64(drawable.bitmap)
-        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) else Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    fun Drawable?.toString() = this?.let {
+        if (this is BitmapDrawable) if (bitmap != null) return bitmapToBase64(bitmap)
+        val bitmap: Bitmap = if (intrinsicWidth <= 0 || intrinsicHeight <= 0) Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) else Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
         bitmapToBase64(bitmap)
     }
 }

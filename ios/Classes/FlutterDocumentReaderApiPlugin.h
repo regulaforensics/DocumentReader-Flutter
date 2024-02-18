@@ -12,14 +12,8 @@
 #import "RGLWConfig.h"
 
 typedef void (^RGLWCallback)(id _Nullable response);
-typedef void (^RGLWEventSender)(FlutterEventSink _Nullable event, id _Nullable data);
+typedef void (^RGLWEventSender)(NSString* _Nonnull event, id _Nullable data);
 typedef void (^RGLWRFIDSignatureCallback)(NSData * _Nonnull signature);
-
-typedef NS_ENUM(NSInteger, RGLWRfidReaderRequest) {
-    RGLWRfidReaderRequestNull = 0,
-    RGLWRfidReaderRequestNoPa = 1,
-    RGLWRfidReaderRequestFull = 2,
-};
 
 @interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin,
                                                         RGLRecordScanningProcessDelegate,
@@ -28,37 +22,49 @@ typedef NS_ENUM(NSInteger, RGLWRfidReaderRequest) {
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
 @property (class) NSNumber* _Nullable databasePercentageDownloaded;
-@property RGLWRfidReaderRequest rfidDelegateType;
+@property NSNumber* _Nonnull doRequestPACertificates;
+@property NSNumber* _Nonnull doRequestTACertificates;
+@property NSNumber* _Nonnull doRequestTASignature;
 
 @end
 
 
-@interface RGLWDatabaseProgressStreamHandler : NSObject <FlutterStreamHandler>
-@end
+NSString* _Nonnull RGLWCompletionEvent;
+NSString* _Nonnull RGLWDatabaseProgressEvent;
+NSString* _Nonnull RGLWRfidOnProgressEvent;
+NSString* _Nonnull RGLWRfidOnChipDetectedEvent;
+NSString* _Nonnull RGLWRfidOnRetryReadChipEvent;
+NSString* _Nonnull RGLWPaCertificateCompletionEvent;
+NSString* _Nonnull RGLWTaCertificateCompletionEvent;
+NSString* _Nonnull RGLWTaSignatureCompletionEvent;
+NSString* _Nonnull RGLWBleOnServiceConnectedEvent;
+NSString* _Nonnull RGLWBleOnServiceDisconnectedEvent;
+NSString* _Nonnull RGLWBleOnDeviceReadyEvent;
+NSString* _Nonnull RGLWVideoEncoderCompletionEvent;
+NSString* _Nonnull RGLWOnCustomButtonTappedEvent;
+
 @interface RGLWCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
-
+@interface RGLWDatabaseProgressStreamHandler : NSObject <FlutterStreamHandler>
+@end
 @interface RGLWRfidOnProgressEventStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWRfidOnChipDetectedEventStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWRfidOnRetryReadChipEventStreamHandler : NSObject <FlutterStreamHandler>
 @end
-
 @interface RGLWPACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWTACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWTASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
-
 @interface RGLWBleOnServiceConnectedStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWBleOnServiceDisconnectedStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWBleOnDeviceReadyStreamHandler : NSObject <FlutterStreamHandler>
 @end
-
 @interface RGLWVideoEncoderCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWOnCustomButtonTappedStreamHandler : NSObject <FlutterStreamHandler>

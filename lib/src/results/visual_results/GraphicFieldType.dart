@@ -47,6 +47,9 @@ enum GraphicFieldType {
   /// Portrait of child.
   PORTRAIT_OF_CHILD(212),
 
+  /// Contact chip.
+  CONTACT_CHIP(213),
+
   /// Other image type.
   OTHER(250),
 

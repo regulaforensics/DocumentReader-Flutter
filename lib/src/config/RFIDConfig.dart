@@ -95,7 +95,7 @@ typedef RetryReadChipCompletion = void Function(RFIDException error);
 
 /// Callback for receiving RFID request data
 typedef PaCertificateCompletion = void Function(
-  ByteData serialNumber,
+  Uint8List serialNumber,
   PAResourcesIssuer? issuer,
   PKDCertificateRequest request,
 );
@@ -106,16 +106,16 @@ typedef TaCertificateCompletion = void Function(
   PKDCertificateRequest request,
 );
 
-/// Callback for receiving RFID request data
-typedef TaSignatureCompletion = void Function(
-  TAChallenge? challenge,
-  TASignatureRequest request,
-);
-
 /// Provided to a user for passing PKDCertificates
 /// to the native part of DocumentReader.
 typedef PKDCertificateRequest = Future<void> Function(
   List<PKDCertificate>? certificates,
+);
+
+/// Callback for receiving RFID request data
+typedef TaSignatureCompletion = void Function(
+  TAChallenge? challenge,
+  TASignatureRequest request,
 );
 
 /// Provided to a user for passing TASignature

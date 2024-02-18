@@ -63,10 +63,10 @@ class InitConfig {
   @visibleForTesting
   static InitConfig? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = InitConfig(_fromBase64(jsonObject["license"])!);
+    var result = InitConfig(_dataFromBase64(jsonObject["license"])!);
 
     if (jsonObject["customDb"] != null)
-      result.customDb = _fromBase64(jsonObject["customDb"]);
+      result.customDb = _dataFromBase64(jsonObject["customDb"]);
     result.delayedNNLoad = jsonObject["delayedNNLoad"];
     result.licenseUpdate = jsonObject["licenseUpdate"];
     result.blackList = jsonObject["blackList"];
@@ -77,11 +77,11 @@ class InitConfig {
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "license": _toBase64(license),
+        "license": _dataToBase64(license),
         "delayedNNLoad": delayedNNLoad,
         "licenseUpdate": licenseUpdate,
         "blackList": blackList,
-        "customDb": _toBase64(customDb),
+        "customDb": _dataToBase64(customDb),
         "databasePath": databasePath
       }.clearNulls();
 }

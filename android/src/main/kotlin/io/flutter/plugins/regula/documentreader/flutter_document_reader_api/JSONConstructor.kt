@@ -24,6 +24,8 @@ import com.regula.documentreader.api.enums.PDF417Info
 import com.regula.documentreader.api.enums.eGraphicFieldType
 import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRPRM_Lights
+import com.regula.documentreader.api.params.AuthenticityParams
+import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
 import com.regula.documentreader.api.params.DocReaderConfig
 import com.regula.documentreader.api.params.FaceApiParams
@@ -31,13 +33,13 @@ import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageInputData
 import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.ImageQA.GlaresCheckParams
+import com.regula.documentreader.api.params.LivenessParams
 import com.regula.documentreader.api.params.OnlineProcessingConfig
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
 import com.regula.documentreader.api.params.RfidScenario
 import com.regula.documentreader.api.params.rfid.PKDCertificate
 import com.regula.documentreader.api.params.rfid.RFIDParams
-import com.regula.documentreader.api.params.rfid.ReprocParams
 import com.regula.documentreader.api.params.rfid.TccParams
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer
@@ -72,6 +74,7 @@ import com.regula.documentreader.api.results.DocumentReaderValue
 import com.regula.documentreader.api.results.ElementPosition
 import com.regula.documentreader.api.results.ImageQuality
 import com.regula.documentreader.api.results.ImageQualityGroup
+import com.regula.documentreader.api.results.TransactionInfo
 import com.regula.documentreader.api.results.VDSNCData
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityCheck
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityElement
@@ -126,6 +129,13 @@ fun generatePACertificateCompletion(serialNumber: ByteArray?, issuer: PAResource
 }
 }
 
+fun generateFinalizePackageCompletion(action: Int, info: TransactionInfo?, error: RegulaException?) = object : JSONObject() { init {
+    put("action", action)
+    put("info", generateTransactionInfo(info))
+    put("error", generateRegulaException(error))
+}
+}
+
 fun regulaExceptionFromJSON(temp: JSONObject?) = temp?.let {
     val input: JSONObject = temp
 
@@ -144,6 +154,28 @@ fun generateRegulaException(temp: RegulaException?): JSONObject? = temp?.let {
     }
 }
 
+fun transactionInfoFromJSON(temp: JSONObject?): TransactionInfo? {
+    temp ?: return null
+    val input: JSONObject = temp
+    val result = TransactionInfo()
+
+    if (input.has("transactionId")) result.transactionId = input.getString("transactionId")
+    if (input.has("tag")) result.tag = input.getString("tag")
+
+    return result
+}
+
+fun generateTransactionInfo(temp: TransactionInfo?): JSONObject? {
+    val result = JSONObject()
+    temp ?: return null
+    val input: TransactionInfo = temp
+
+    result.put("transactionId", input.transactionId)
+    result.put("tag", input.tag)
+
+    return result
+}
+
 fun tccParamsFromJSON(input: JSONObject): TccParams {
     val result = TccParams()
 
@@ -158,7 +190,7 @@ fun tccParamsFromJSON(input: JSONObject): TccParams {
 
 fun generateTccParams(temp: TccParams?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: TccParams = temp
 
     result.put("serviceUrlTA", input.serviceUrlTA)
@@ -184,7 +216,7 @@ fun docReaderConfigFromJSON(input: JSONObject): DocReaderConfig {
 
 fun generateDocReaderConfig(temp: DocReaderConfig?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocReaderConfig = temp
 
     result.put("license", generateByteArray(input.license))
@@ -210,7 +242,7 @@ fun scannerConfigFromJSON(input: JSONObject): ScannerConfig {
 
 fun generateScannerConfig(temp: ScannerConfig?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: ScannerConfig = temp
 
     result.put("scenario", input.scenario)
@@ -249,7 +281,7 @@ fun recognizeConfigFromJSON(input: JSONObject): RecognizeConfig {
 
 fun generateRecognizeConfig(temp: RecognizeConfig?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: RecognizeConfig = temp
 
     result.put("scenario", input.scenario)
@@ -271,25 +303,25 @@ fun generateRecognizeConfig(temp: RecognizeConfig?): JSONObject? {
     return result
 }
 
-fun reprocParamsFromJSON(temp: JSONObject?): ReprocParams? {
-    if (temp == null || !temp.has("serviceUrl")) return null
+fun backendProcessingConfigFromJSON(temp: JSONObject?): BackendProcessingConfig? {
+    if (temp == null || !temp.has("url")) return null
     val input: JSONObject = temp
-    val result = ReprocParams(input.getString("serviceUrl"))
 
-    if (input.has("failIfNoService")) result.failIfNoService = input.getBoolean("failIfNoService")
+    val result = BackendProcessingConfig(input.getString("url"))
     if (input.has("httpHeaders")) result.httpHeaders = stringMapFromJson(input.getJSONObject("httpHeaders"))
+    if (input.has("rfidServerSideChipVerification")) result.rfidServerSideChipVerification = input.getBoolean("rfidServerSideChipVerification")
 
     return result
 }
 
-fun generateReprocParams(temp: ReprocParams?): JSONObject? {
+fun generateBackendProcessingConfig(temp: BackendProcessingConfig?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
-    val input: ReprocParams = temp
+    temp ?: return null
+    val input: BackendProcessingConfig = temp
 
-    result.put("serviceUrl", input.serviceUrl)
-    result.put("failIfNoService", input.failIfNoService)
+    result.put("url", input.url)
     result.put("httpHeaders", generateStringMap(input.httpHeaders))
+    result.put("rfidServerSideChipVerification", input.rfidServerSideChipVerification)
 
     return result
 }
@@ -309,7 +341,7 @@ fun onlineProcessingConfigFromJSON(temp: JSONObject?): OnlineProcessingConfig? {
 
 fun generateOnlineProcessingConfig(temp: OnlineProcessingConfig?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: OnlineProcessingConfig = temp
 
     result.put("mode", input.mode)
@@ -323,7 +355,7 @@ fun generateOnlineProcessingConfig(temp: OnlineProcessingConfig?): JSONObject? {
 
 fun faceApiParamsFromJSON(temp: JSONObject?): FaceApiParams? {
     val result = FaceApiParams()
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
 
     if (input.has("url") && !input.isNull("url")) result.url = input.getString("url")
@@ -340,7 +372,7 @@ fun faceApiParamsFromJSON(temp: JSONObject?): FaceApiParams? {
 
 fun generateFaceApiParams(temp: FaceApiParams?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: FaceApiParams = temp
 
     result.put("url", input.url)
@@ -357,7 +389,7 @@ fun generateFaceApiParams(temp: FaceApiParams?): JSONObject? {
 
 fun faceApiSearchParamsFromJSON(temp: JSONObject?): FaceApiParams.Search? {
     val result = FaceApiParams.Search()
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
 
     if (input.has("limit") && !input.isNull("limit")) result.limit = input.getInt("limit")
@@ -375,32 +407,32 @@ fun faceApiSearchParamsFromJSON(temp: JSONObject?): FaceApiParams.Search? {
 
 fun generateFaceApiSearchParams(temp: FaceApiParams.Search?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: FaceApiParams.Search = temp
 
     result.put("limit", input.limit)
     result.put("threshold", input.threshold)
-    result.put("groupIds", generateIntArray(input.groupIds))
+    result.put("groupIds", input.groupIds.generate())
 
     return result
 }
 
 fun rfidParamsFromJSON(temp: JSONObject?): RFIDParams? {
     val result = RFIDParams()
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
 
-    if (input.has("paIgnoreNotificationCodes")) result.paIgnoreNotificationCodes = intArrayFromJSON(input.getJSONArray("paIgnoreNotificationCodes"))
+    if (input.has("paIgnoreNotificationCodes")) result.paIgnoreNotificationCodes = input.getJSONArray("paIgnoreNotificationCodes").toIntArray()
 
     return result
 }
 
 fun generateRFIDParams(temp: RFIDParams?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: RFIDParams = temp
 
-    result.put("paIgnoreNotificationCodes", generateIntArray(input.paIgnoreNotificationCodes))
+    result.put("paIgnoreNotificationCodes", input.paIgnoreNotificationCodes.generate())
 
     return result
 }
@@ -419,7 +451,23 @@ fun imageQAFromJSON(input: JSONObject): ImageQA {
     return result
 }
 
-fun generateImageQA(input: ImageQA): JSONObject = getImageQA(input)
+fun generateImageQA(input: ImageQA) = getImageQA(input)
+
+fun authenticityParamsFromJSON(input: JSONObject): AuthenticityParams {
+    val result = AuthenticityParams()
+    setAuthenticityParams(result, input)
+    return result
+}
+
+fun generateAuthenticityParams(input: AuthenticityParams?) = getAuthenticityParams(input)
+
+fun livenessParamsFromJSON(input: JSONObject): LivenessParams {
+    val result = LivenessParams()
+    setLivenessParams(result, input)
+    return result
+}
+
+fun generateLivenessParams(input: LivenessParams?) = getLivenessParams(input)
 
 fun eDLDataGroupsFromJSON(input: JSONObject): EDLDataGroups {
     val result = EDLDataGroups()
@@ -470,7 +518,7 @@ fun functionalityFromJSON(input: JSONObject): Functionality {
 fun generateFunctionality(input: Functionality): JSONObject = getFunctionality(input)
 
 fun glaresCheckParamsFromJSON(temp: JSONObject?): GlaresCheckParams? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = GlaresCheckParams()
 
@@ -482,7 +530,7 @@ fun glaresCheckParamsFromJSON(temp: JSONObject?): GlaresCheckParams? {
 
 fun generateGlaresCheckParams(temp: GlaresCheckParams?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: GlaresCheckParams = temp
 
     result.put("imgMarginPart", input.imgMarginPart)
@@ -491,16 +539,23 @@ fun generateGlaresCheckParams(temp: GlaresCheckParams?): JSONObject? {
     return result
 }
 
-fun typeFaceFromJSON(temp: JSONObject?): Pair<Typeface, Int?>? {
-    if (temp == null) return null
-    val input: JSONObject = temp
-
+fun typefaceFromJSON(input: JSONObject): Pair<Typeface, Int?> {
     val name = input.getString("name")
     val style = input.optInt("style", Typeface.NORMAL)
-    var size: Int? = null
-    if (input.has("size")) size = input.getInt("size")
-
+    val size = if (input.has("size")) input.getInt("size") else null
     return Pair(Typeface.create(name, style), size)
+}
+
+fun generateTypeface(temp: Typeface?, size: Int? = null): JSONObject? {
+    val result = JSONObject()
+    temp ?: return null
+    val input: Typeface = temp
+
+    result.put("name", "undefined")
+    result.put("style", input.style)
+    result.put("size", size)
+
+    return result
 }
 
 fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
@@ -530,7 +585,7 @@ fun imageInputDataFromJSON(temp: JSONObject?): ImageInputData? {
 
 fun generateImageInputData(temp: ImageInputData?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: ImageInputData = temp
 
     result.put("image", bitmapToBase64(input.bitmap))
@@ -541,7 +596,7 @@ fun generateImageInputData(temp: ImageInputData?): JSONObject? {
 }
 
 fun pkdCertificateFromJSON(temp: JSONObject?): PKDCertificate? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     var resourceType = 0
     var binaryData = ByteArray(0)
@@ -557,7 +612,7 @@ fun pkdCertificateFromJSON(temp: JSONObject?): PKDCertificate? {
 
 fun generatePKDCertificate(temp: PKDCertificate?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: PKDCertificate = temp
 
     result.put("resourceType", input.resourceType)
@@ -568,7 +623,7 @@ fun generatePKDCertificate(temp: PKDCertificate?): JSONObject? {
 }
 
 fun documentReaderScenarioFromJSON(temp: JSONObject?): DocumentReaderScenario? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
 
     val name = input.optString("name")
@@ -585,12 +640,12 @@ fun documentReaderScenarioFromJSON(temp: JSONObject?): DocumentReaderScenario? {
     val seriesProcessMode = input.optBoolean("seriesProcessMode")
     val manualCrop = input.optBoolean("manualCrop")
 
-    return DocumentReaderScenario(name, caption, description, if (multiPageOff) 1 else 0, frameKWHLandscape, frameKWHPortrait, frameKWHDoublePageSpreadPortrait, frameKWHDoublePageSpreadLandscape, frameOrientation, uvTorch, faceExt, seriesProcessMode, manualCrop)
+    return DocumentReaderScenario(name, caption, description, if (multiPageOff) 1 else 0, frameKWHLandscape, frameKWHPortrait, frameKWHDoublePageSpreadPortrait, frameKWHDoublePageSpreadLandscape, frameOrientation, uvTorch, faceExt, seriesProcessMode, manualCrop, null)
 }
 
 fun generateDocumentReaderScenario(temp: DocumentReaderScenario?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderScenario = temp
 
     result.put("name", input.name)
@@ -611,7 +666,7 @@ fun generateDocumentReaderScenario(temp: DocumentReaderScenario?): JSONObject? {
 }
 
 fun rectFromJSON(temp: JSONObject?): Rect? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Rect()
 
@@ -625,7 +680,7 @@ fun rectFromJSON(temp: JSONObject?): Rect? {
 
 fun generateRect(temp: Rect?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Rect = temp
 
     result.put("bottom", input.bottom)
@@ -637,7 +692,7 @@ fun generateRect(temp: Rect?): JSONObject? {
 }
 
 fun docReaderFieldRectFromJSON(temp: JSONObject?): DocReaderFieldRect? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocReaderFieldRect()
 
@@ -651,7 +706,7 @@ fun docReaderFieldRectFromJSON(temp: JSONObject?): DocReaderFieldRect? {
 
 fun generateDocReaderFieldRect(temp: DocReaderFieldRect?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocReaderFieldRect = temp
 
     result.put("bottom", input.bottom)
@@ -663,7 +718,7 @@ fun generateDocReaderFieldRect(temp: DocReaderFieldRect?): JSONObject? {
 }
 
 fun documentReaderGraphicFieldFromJSON(temp: JSONObject?): DocumentReaderGraphicField? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderGraphicField()
 
@@ -680,7 +735,7 @@ fun documentReaderGraphicFieldFromJSON(temp: JSONObject?): DocumentReaderGraphic
 
 fun generateDocumentReaderGraphicField(temp: DocumentReaderGraphicField?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderGraphicField = temp
 
     result.put("sourceType", input.sourceType)
@@ -697,7 +752,7 @@ fun generateDocumentReaderGraphicField(temp: DocumentReaderGraphicField?, contex
 }
 
 fun documentReaderGraphicResultFromJSON(temp: JSONObject?): DocumentReaderGraphicResult? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderGraphicResult()
 
@@ -708,7 +763,7 @@ fun documentReaderGraphicResultFromJSON(temp: JSONObject?): DocumentReaderGraphi
 
 fun generateDocumentReaderGraphicResult(temp: DocumentReaderGraphicResult?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderGraphicResult = temp
 
     result.put("fields", generateList(input.fields, ::generateDocumentReaderGraphicField, context))
@@ -717,7 +772,7 @@ fun generateDocumentReaderGraphicResult(temp: DocumentReaderGraphicResult?, cont
 }
 
 fun documentReaderValueFromJSON(temp: JSONObject?): DocumentReaderValue? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderValue()
 
@@ -735,7 +790,7 @@ fun documentReaderValueFromJSON(temp: JSONObject?): DocumentReaderValue? {
 
 fun generateDocumentReaderValue(temp: DocumentReaderValue?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderValue = temp
 
     result.put("pageIndex", input.pageIndex)
@@ -751,7 +806,7 @@ fun generateDocumentReaderValue(temp: DocumentReaderValue?): JSONObject? {
 }
 
 fun documentReaderTextFieldFromJSON(temp: JSONObject?): DocumentReaderTextField? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderTextField()
 
@@ -771,7 +826,7 @@ fun documentReaderTextFieldFromJSON(temp: JSONObject?): DocumentReaderTextField?
 
 fun generateDocumentReaderTextField(temp: DocumentReaderTextField?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderTextField = temp
 
     result.put("fieldType", input.fieldType)
@@ -791,7 +846,7 @@ fun generateDocumentReaderTextField(temp: DocumentReaderTextField?, context: Con
 }
 
 fun documentReaderTextResultFromJSON(temp: JSONObject?): DocumentReaderTextResult? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderTextResult()
 
@@ -806,7 +861,7 @@ fun documentReaderTextResultFromJSON(temp: JSONObject?): DocumentReaderTextResul
 
 fun generateDocumentReaderTextResult(temp: DocumentReaderTextResult?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderTextResult = temp
 
     result.put("status", input.status)
@@ -819,7 +874,7 @@ fun generateDocumentReaderTextResult(temp: DocumentReaderTextResult?, context: C
 }
 
 fun coordinateFromJSON(temp: JSONObject?): Coordinate? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Coordinate()
 
@@ -831,7 +886,7 @@ fun coordinateFromJSON(temp: JSONObject?): Coordinate? {
 
 fun generateCoordinate(temp: Coordinate?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Coordinate = temp
 
     result.put("x", input.x)
@@ -841,7 +896,7 @@ fun generateCoordinate(temp: Coordinate?): JSONObject? {
 }
 
 fun elementPositionFromJSON(temp: JSONObject?): ElementPosition? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = ElementPosition()
 
@@ -867,7 +922,7 @@ fun elementPositionFromJSON(temp: JSONObject?): ElementPosition? {
 
 fun generateElementPosition(temp: ElementPosition?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: ElementPosition = temp
 
     result.put("docFormat", input.docFormat)
@@ -891,31 +946,33 @@ fun generateElementPosition(temp: ElementPosition?): JSONObject? {
 }
 
 fun imageQualityFromJSON(temp: JSONObject?): ImageQuality? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = ImageQuality()
 
     result.featureType = input.optInt("featureType")
     result.result = input.optInt("result")
     result.type = input.optInt("type")
+    result.boundRects = listFromJSON(input.optJSONArray("boundRects"), ::docReaderFieldRectFromJSON)!!
 
     return result
 }
 
 fun generateImageQuality(temp: ImageQuality?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: ImageQuality = temp
 
     result.put("featureType", input.featureType)
     result.put("result", input.result)
     result.put("type", input.type)
+    result.put("boundRects", generateList(input.boundRects, ::generateDocReaderFieldRect))
 
     return result
 }
 
 fun imageQualityGroupFromJSON(temp: JSONObject?): ImageQualityGroup? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = ImageQualityGroup()
 
@@ -929,7 +986,7 @@ fun imageQualityGroupFromJSON(temp: JSONObject?): ImageQualityGroup? {
 
 fun generateImageQualityGroup(temp: ImageQualityGroup?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: ImageQualityGroup = temp
 
     result.put("count", input.count)
@@ -940,8 +997,24 @@ fun generateImageQualityGroup(temp: ImageQualityGroup?): JSONObject? {
     return result
 }
 
+fun cameraSizeFromJSON(input: JSONObject): Pair<Int, Int> {
+    val cameraSize = input.getJSONObject("cameraSize")
+    val width = cameraSize.getInt("width")
+    val height = cameraSize.getInt("height")
+    return Pair(width, height)
+}
+
+fun generateCameraSize(width: Int?, height: Int?): JSONObject? {
+    width ?: return null
+    height ?: return null
+    val result = JSONObject()
+    result.put("width", width)
+    result.put("height", height)
+    return result
+}
+
 fun documentReaderDocumentTypeFromJSON(temp: JSONObject?): DocumentReaderDocumentType? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderDocumentType()
 
@@ -956,14 +1029,14 @@ fun documentReaderDocumentTypeFromJSON(temp: JSONObject?): DocumentReaderDocumen
     result.dDescription = input.optString("dDescription")
     result.dCountryName = input.optString("dCountryName")
     result.dYear = input.optString("dYear")
-    result.FDSID = intArrayFromJSON(input.optJSONArray("FDSID"))
+    result.FDSID = input.optJSONArray("FDSID").toIntArray()
 
     return result
 }
 
 fun generateDocumentReaderDocumentType(temp: DocumentReaderDocumentType?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderDocumentType = temp
 
     result.put("pageIndex", input.pageIndex)
@@ -977,14 +1050,14 @@ fun generateDocumentReaderDocumentType(temp: DocumentReaderDocumentType?): JSONO
     result.put("dDescription", input.dDescription)
     result.put("dYear", input.dYear)
     result.put("dCountryName", input.dCountryName)
-    result.put("FDSID", generateIntArray(input.FDSID))
+    result.put("FDSID", input.FDSID.generate())
 
     return result
 }
 
 fun generateDocumentReaderNotification(temp: DocumentReaderNotification?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderNotification = temp
 
     result.put("notificationCode", input.notificationCode)
@@ -995,7 +1068,7 @@ fun generateDocumentReaderNotification(temp: DocumentReaderNotification?): JSONO
 }
 
 fun accessControlProcedureTypeFromJSON(temp: JSONObject?): AccessControlProcedureType? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = AccessControlProcedureType()
 
@@ -1009,7 +1082,7 @@ fun accessControlProcedureTypeFromJSON(temp: JSONObject?): AccessControlProcedur
 
 fun generateAccessControlProcedureType(temp: AccessControlProcedureType?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: AccessControlProcedureType = temp
 
     result.put("activeOptionIdx", input.activeOptionIdx)
@@ -1021,7 +1094,7 @@ fun generateAccessControlProcedureType(temp: AccessControlProcedureType?): JSONO
 }
 
 fun fileDataFromJSON(temp: JSONObject?): FileData? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = FileData()
 
@@ -1035,7 +1108,7 @@ fun fileDataFromJSON(temp: JSONObject?): FileData? {
 
 fun generateFileData(temp: FileData?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: FileData = temp
 
     result.put("length", input.length)
@@ -1047,7 +1120,7 @@ fun generateFileData(temp: FileData?): JSONObject? {
 }
 
 fun certificateDataFromJSON(temp: JSONObject?): CertificateData? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = CertificateData()
 
@@ -1059,7 +1132,7 @@ fun certificateDataFromJSON(temp: JSONObject?): CertificateData? {
 
 fun generateCertificateData(temp: CertificateData?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: CertificateData = temp
 
     result.put("length", input.length)
@@ -1069,7 +1142,7 @@ fun generateCertificateData(temp: CertificateData?): JSONObject? {
 }
 
 fun securityObjectCertificatesFromJSON(temp: JSONObject?): SecurityObjectCertificates? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = SecurityObjectCertificates()
 
@@ -1080,7 +1153,7 @@ fun securityObjectCertificatesFromJSON(temp: JSONObject?): SecurityObjectCertifi
 
 fun generateSecurityObjectCertificates(temp: SecurityObjectCertificates?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: SecurityObjectCertificates = temp
 
     result.put("securityObject", generateCertificateData(input.securityObject))
@@ -1089,7 +1162,7 @@ fun generateSecurityObjectCertificates(temp: SecurityObjectCertificates?): JSONO
 }
 
 fun fileFromJSON(temp: JSONObject?): File? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = File()
 
@@ -1110,7 +1183,7 @@ fun fileFromJSON(temp: JSONObject?): File? {
 
 fun generateFile(temp: File?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: File = temp
 
     result.put("readingTime", input.readingTime)
@@ -1130,7 +1203,7 @@ fun generateFile(temp: File?, context: Context?): JSONObject? {
 }
 
 fun applicationFromJSON(temp: JSONObject?): Application? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Application()
 
@@ -1147,7 +1220,7 @@ fun applicationFromJSON(temp: JSONObject?): Application? {
 
 fun generateApplication(temp: Application?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Application = temp
 
     result.put("type", input.type)
@@ -1162,7 +1235,7 @@ fun generateApplication(temp: Application?, context: Context?): JSONObject? {
 }
 
 fun valueFromJSON(temp: JSONObject?): Value? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Value()
 
@@ -1177,7 +1250,7 @@ fun valueFromJSON(temp: JSONObject?): Value? {
 
 fun generateValue(temp: Value?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Value = temp
 
     result.put("length", input.length)
@@ -1190,7 +1263,7 @@ fun generateValue(temp: Value?): JSONObject? {
 }
 
 fun attributeFromJSON(temp: JSONObject?): Attribute? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Attribute()
 
@@ -1202,7 +1275,7 @@ fun attributeFromJSON(temp: JSONObject?): Attribute? {
 
 fun generateAttribute(temp: Attribute?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Attribute = temp
 
     result.put("type", input.type)
@@ -1212,7 +1285,7 @@ fun generateAttribute(temp: Attribute?): JSONObject? {
 }
 
 fun authorityFromJSON(temp: JSONObject?): Authority? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Authority()
 
@@ -1225,7 +1298,7 @@ fun authorityFromJSON(temp: JSONObject?): Authority? {
 
 fun generateAuthority(temp: Authority?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Authority = temp
 
     result.put("data", input.data)
@@ -1236,7 +1309,7 @@ fun generateAuthority(temp: Authority?): JSONObject? {
 }
 
 fun extensionFromJSON(temp: JSONObject?): Extension? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Extension()
 
@@ -1248,7 +1321,7 @@ fun extensionFromJSON(temp: JSONObject?): Extension? {
 
 fun generateExtension(temp: Extension?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Extension = temp
 
     result.put("data", input.data)
@@ -1258,7 +1331,7 @@ fun generateExtension(temp: Extension?): JSONObject? {
 }
 
 fun validityFromJSON(temp: JSONObject?): Validity? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = Validity()
 
@@ -1270,7 +1343,7 @@ fun validityFromJSON(temp: JSONObject?): Validity? {
 
 fun generateValidity(temp: Validity?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: Validity = temp
 
     result.put("notAfter", generateValue(input.notAfter))
@@ -1280,7 +1353,7 @@ fun generateValidity(temp: Validity?): JSONObject? {
 }
 
 fun certificateChainFromJSON(temp: JSONObject?): CertificateChain? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = CertificateChain()
 
@@ -1303,7 +1376,7 @@ fun certificateChainFromJSON(temp: JSONObject?): CertificateChain? {
 
 fun generateCertificateChain(temp: CertificateChain?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: CertificateChain = temp
 
     result.put("origin", input.origin)
@@ -1324,7 +1397,7 @@ fun generateCertificateChain(temp: CertificateChain?): JSONObject? {
 }
 
 fun signerInfoFromJSON(temp: JSONObject?): SignerInfo? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = SignerInfo()
 
@@ -1346,7 +1419,7 @@ fun signerInfoFromJSON(temp: JSONObject?): SignerInfo? {
 
 fun generateSignerInfo(temp: SignerInfo?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: SignerInfo = temp
 
     result.put("version", input.version)
@@ -1366,7 +1439,7 @@ fun generateSignerInfo(temp: SignerInfo?): JSONObject? {
 }
 
 fun securityObjectFromJSON(temp: JSONObject?): SecurityObject? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = SecurityObject()
 
@@ -1381,7 +1454,7 @@ fun securityObjectFromJSON(temp: JSONObject?): SecurityObject? {
 
 fun generateSecurityObject(temp: SecurityObject?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: SecurityObject = temp
 
     result.put("fileReference", input.fileReference)
@@ -1394,7 +1467,7 @@ fun generateSecurityObject(temp: SecurityObject?): JSONObject? {
 }
 
 fun cardPropertiesFromJSON(temp: JSONObject?): CardProperties? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = CardProperties()
 
@@ -1418,7 +1491,7 @@ fun cardPropertiesFromJSON(temp: JSONObject?): CardProperties? {
 
 fun generateCardProperties(temp: CardProperties?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: CardProperties = temp
 
     result.put("aTQA", input.aTQA)
@@ -1440,7 +1513,7 @@ fun generateCardProperties(temp: CardProperties?): JSONObject? {
 }
 
 fun rfidSessionDataFromJSON(temp: JSONObject?): RFIDSessionData? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = RFIDSessionData()
 
@@ -1454,14 +1527,14 @@ fun rfidSessionDataFromJSON(temp: JSONObject?): RFIDSessionData? {
     result.applications = listFromJSON(input.optJSONArray("applications"), ::applicationFromJSON)!!
     result.securityObjects = listFromJSON(input.optJSONArray("securityObjects"), ::securityObjectFromJSON)!!
     result.dataFields = listFromJSON(input.optJSONArray("dataFields"), ::dataFieldFromJSON)!!
-    result.dataGroups = intArrayFromJSON(input.optJSONArray("dataGroups"))
+    result.dataGroups = input.optJSONArray("dataGroups").toIntArray()
 
     return result
 }
 
 fun generateRFIDSessionData(temp: RFIDSessionData?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: RFIDSessionData = temp
 
     result.put("totalBytesReceived", input.totalBytesReceived)
@@ -1473,14 +1546,14 @@ fun generateRFIDSessionData(temp: RFIDSessionData?, context: Context?): JSONObje
     result.put("accessControls", generateList(input.accessControls, ::generateAccessControlProcedureType))
     result.put("applications", generateList(input.applications, ::generateApplication, context))
     result.put("securityObjects", generateList(input.securityObjects, ::generateSecurityObject))
-    result.put("dataGroups", generateIntArray(input.dataGroups))
+    result.put("dataGroups", input.dataGroups.generate())
     result.put("dataFields", generateList(input.dataFields, ::generateDataField))
 
     return result
 }
 
 fun dataFieldFromJSON(temp: JSONObject?): DataField? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DataField()
 
@@ -1492,7 +1565,7 @@ fun dataFieldFromJSON(temp: JSONObject?): DataField? {
 
 fun generateDataField(temp: DataField?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DataField = temp
 
     result.put("data", input.data)
@@ -1502,7 +1575,7 @@ fun generateDataField(temp: DataField?): JSONObject? {
 }
 
 fun documentReaderAuthenticityCheckFromJSON(temp: JSONObject?): DocumentReaderAuthenticityCheck? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderAuthenticityCheck()
 
@@ -1515,7 +1588,7 @@ fun documentReaderAuthenticityCheckFromJSON(temp: JSONObject?): DocumentReaderAu
 
 fun generateDocumentReaderAuthenticityCheck(temp: DocumentReaderAuthenticityCheck?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderAuthenticityCheck = temp
 
     result.put("type", input.type)
@@ -1528,7 +1601,7 @@ fun generateDocumentReaderAuthenticityCheck(temp: DocumentReaderAuthenticityChec
 }
 
 fun pdf417InfoFromJSON(temp: JSONObject?): PDF417Info? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = PDF417Info()
 
@@ -1541,7 +1614,7 @@ fun pdf417InfoFromJSON(temp: JSONObject?): PDF417Info? {
 
 fun generatePDF417Info(temp: PDF417Info?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: PDF417Info = temp
 
     result.put("errorLevel", input.errorLevel)
@@ -1552,7 +1625,7 @@ fun generatePDF417Info(temp: PDF417Info?): JSONObject? {
 }
 
 fun documentReaderBarcodeResultFromJSON(temp: JSONObject?): DocumentReaderBarcodeResult? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderBarcodeResult()
 
@@ -1563,7 +1636,7 @@ fun documentReaderBarcodeResultFromJSON(temp: JSONObject?): DocumentReaderBarcod
 
 fun generateDocumentReaderBarcodeResult(temp: DocumentReaderBarcodeResult?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderBarcodeResult = temp
 
     result.put("fields", generateList(input.fields, ::generateDocumentReaderBarcodeField))
@@ -1572,7 +1645,7 @@ fun generateDocumentReaderBarcodeResult(temp: DocumentReaderBarcodeResult?): JSO
 }
 
 fun documentReaderBarcodeFieldFromJSON(temp: JSONObject?): DocumentReaderBarcodeField? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderBarcodeField()
 
@@ -1587,7 +1660,7 @@ fun documentReaderBarcodeFieldFromJSON(temp: JSONObject?): DocumentReaderBarcode
 
 fun generateDocumentReaderBarcodeField(temp: DocumentReaderBarcodeField?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderBarcodeField = temp
 
     result.put("barcodeType", input.barcodeType)
@@ -1600,7 +1673,7 @@ fun generateDocumentReaderBarcodeField(temp: DocumentReaderBarcodeField?): JSONO
 }
 
 fun documentReaderAuthenticityResultFromJSON(temp: JSONObject?): DocumentReaderAuthenticityResult? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderAuthenticityResult()
 
@@ -1611,7 +1684,7 @@ fun documentReaderAuthenticityResultFromJSON(temp: JSONObject?): DocumentReaderA
 
 fun generateDocumentReaderAuthenticityResult(temp: DocumentReaderAuthenticityResult?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderAuthenticityResult = temp
 
     result.put("status", input.status)
@@ -1621,7 +1694,7 @@ fun generateDocumentReaderAuthenticityResult(temp: DocumentReaderAuthenticityRes
 }
 
 fun documentReaderAuthenticityElementFromJSON(temp: JSONObject?): DocumentReaderAuthenticityElement? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderAuthenticityElement()
 
@@ -1634,7 +1707,7 @@ fun documentReaderAuthenticityElementFromJSON(temp: JSONObject?): DocumentReader
 
 fun generateDocumentReaderAuthenticityElement(temp: DocumentReaderAuthenticityElement?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderAuthenticityElement = temp
 
     result.put("status", input.status)
@@ -1647,7 +1720,7 @@ fun generateDocumentReaderAuthenticityElement(temp: DocumentReaderAuthenticityEl
 }
 
 fun paResourcesIssuerFromJSON(temp: JSONObject?): PAResourcesIssuer? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = PAResourcesIssuer()
 
@@ -1660,7 +1733,7 @@ fun paResourcesIssuerFromJSON(temp: JSONObject?): PAResourcesIssuer? {
 
 fun generatePAResourcesIssuer(temp: PAResourcesIssuer?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: PAResourcesIssuer = temp
 
     result.put("data", generateByteArray(input.data))
@@ -1671,7 +1744,7 @@ fun generatePAResourcesIssuer(temp: PAResourcesIssuer?): JSONObject? {
 }
 
 fun paAttributeFromJSON(temp: JSONObject?): PAAttribute? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = PAAttribute()
 
@@ -1683,7 +1756,7 @@ fun paAttributeFromJSON(temp: JSONObject?): PAAttribute? {
 
 fun generatePAAttribute(temp: PAAttribute?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: PAAttribute = temp
 
     result.put("type", input.type)
@@ -1693,7 +1766,7 @@ fun generatePAAttribute(temp: PAAttribute?): JSONObject? {
 }
 
 fun taChallengeFromJSON(temp: JSONObject?): TAChallenge? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = TAChallenge()
 
@@ -1708,7 +1781,7 @@ fun taChallengeFromJSON(temp: JSONObject?): TAChallenge? {
 
 fun generateTAChallenge(temp: TAChallenge?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: TAChallenge = temp
 
     result.put("data", generateByteArray(input.data))
@@ -1721,7 +1794,7 @@ fun generateTAChallenge(temp: TAChallenge?): JSONObject? {
 }
 
 fun documentReaderResultsStatusFromJSON(temp: JSONObject?): DocumentReaderResultsStatus? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
 
     input.remove("detailsRFID")
@@ -1731,7 +1804,7 @@ fun documentReaderResultsStatusFromJSON(temp: JSONObject?): DocumentReaderResult
 
 fun generateDocumentReaderResultsStatus(temp: DocumentReaderResultsStatus?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderResultsStatus = temp
 
     result.put("overallStatus", input.overallStatus)
@@ -1747,7 +1820,7 @@ fun generateDocumentReaderResultsStatus(temp: DocumentReaderResultsStatus?): JSO
 
 fun generateDetailsOptical(temp: DetailsOptical?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DetailsOptical = temp
 
     result.put("overallStatus", input.overallStatus)
@@ -1765,7 +1838,7 @@ fun generateDetailsOptical(temp: DetailsOptical?): JSONObject? {
 
 fun generateDetailsRFID(temp: DetailsRFID?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DetailsRFID = temp
 
     result.put("pa", input.pa)
@@ -1799,7 +1872,7 @@ fun vdsncDataFromJSON(input: JSONObject) = VDSNCData.fromJson(vdsncDataDictionar
 
 fun generateVDSNCData(temp: VDSNCData?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: VDSNCData = temp
 
     result.put("type", input.type)
@@ -1816,7 +1889,7 @@ fun generateVDSNCData(temp: VDSNCData?): JSONObject? {
 }
 
 fun bytesDataDictionaryFromJSON(input: JSONObject?): JSONObject? {
-    if (input == null) return null
+    input ?: return null
     val temp = JSONObject(input.toString())
 
     temp.put("Data", input.optString("data"))
@@ -1831,7 +1904,7 @@ fun bytesDataFromJSON(input: JSONObject?) = BytesData.fromJson(bytesDataDictiona
 
 fun generateBytesData(temp: BytesData?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: BytesData = temp
 
     result.put("data", input.data)
@@ -1844,7 +1917,7 @@ fun generateBytesData(temp: BytesData?): JSONObject? {
 
 fun generateLicense(temp: License?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: License = temp
 
     result.put("expiryDate", input.expiryDate?.toString())
@@ -1856,7 +1929,7 @@ fun generateLicense(temp: License?): JSONObject? {
 
 fun generateDocReaderVersion(temp: DocReaderVersion?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocReaderVersion = temp
 
     result.put("api", input.api)
@@ -1868,7 +1941,7 @@ fun generateDocReaderVersion(temp: DocReaderVersion?): JSONObject? {
 }
 
 fun docReaderDocumentsDatabaseFromJSON(input: JSONObject?): DocReaderDocumentsDatabase? {
-    if (input == null) return null
+    input ?: return null
     val temp = JSONObject(input.toString())
 
     temp.put("id", input.optString("databaseID"))
@@ -1880,7 +1953,7 @@ fun docReaderDocumentsDatabaseFromJSON(input: JSONObject?): DocReaderDocumentsDa
 
 fun generateDocReaderDocumentsDatabase(temp: DocReaderDocumentsDatabase?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocReaderDocumentsDatabase = temp
 
     result.put("databaseID", input.databaseID)
@@ -1895,7 +1968,7 @@ fun generateDocReaderDocumentsDatabase(temp: DocReaderDocumentsDatabase?): JSONO
 }
 
 fun documentReaderComparisonFromJSON(temp: JSONObject?): DocumentReaderComparison? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderComparison()
 
@@ -1908,7 +1981,7 @@ fun documentReaderComparisonFromJSON(temp: JSONObject?): DocumentReaderCompariso
 
 fun generateDocumentReaderComparison(temp: DocumentReaderComparison?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderComparison = temp
 
     result.put("sourceTypeLeft", input.sourceTypeLeft)
@@ -1919,7 +1992,7 @@ fun generateDocumentReaderComparison(temp: DocumentReaderComparison?): JSONObjec
 }
 
 fun documentReaderRFIDOriginFromJSON(temp: JSONObject?): DocumentReaderRfidOrigin? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderRfidOrigin()
 
@@ -1933,7 +2006,7 @@ fun documentReaderRFIDOriginFromJSON(temp: JSONObject?): DocumentReaderRfidOrigi
 
 fun generateDocumentReaderRFIDOrigin(temp: DocumentReaderRfidOrigin?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderRfidOrigin = temp
 
     result.put("dg", input.dg)
@@ -1945,7 +2018,7 @@ fun generateDocumentReaderRFIDOrigin(temp: DocumentReaderRfidOrigin?): JSONObjec
 }
 
 fun documentReaderTextSourceFromJSON(temp: JSONObject?): DocumentReaderTextSource? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderTextSource()
 
@@ -1958,7 +2031,7 @@ fun documentReaderTextSourceFromJSON(temp: JSONObject?): DocumentReaderTextSourc
 
 fun generateDocumentReaderTextSource(temp: DocumentReaderTextSource?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderTextSource = temp
 
     result.put("sourceType", input.sourceType)
@@ -1969,7 +2042,7 @@ fun generateDocumentReaderTextSource(temp: DocumentReaderTextSource?): JSONObjec
 }
 
 fun documentReaderSymbolFromJSON(temp: JSONObject?): DocumentReaderSymbol? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderSymbol()
 
@@ -1982,7 +2055,7 @@ fun documentReaderSymbolFromJSON(temp: JSONObject?): DocumentReaderSymbol? {
 
 fun generateDocumentReaderSymbol(temp: DocumentReaderSymbol?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderSymbol = temp
 
     result.put("code", input.code)
@@ -1993,7 +2066,7 @@ fun generateDocumentReaderSymbol(temp: DocumentReaderSymbol?): JSONObject? {
 }
 
 fun documentReaderValidityFromJSON(temp: JSONObject?): DocumentReaderValidity? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderValidity()
 
@@ -2005,7 +2078,7 @@ fun documentReaderValidityFromJSON(temp: JSONObject?): DocumentReaderValidity? {
 
 fun generateDocumentReaderValidity(temp: DocumentReaderValidity?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderValidity = temp
 
     result.put("sourceType", input.sourceType)
@@ -2015,7 +2088,7 @@ fun generateDocumentReaderValidity(temp: DocumentReaderValidity?): JSONObject? {
 }
 
 fun barcodeTypeArrayFromJson(temp: JSONArray?): Array<String?>? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONArray = temp
 
     val result = arrayOfNulls<String>(input.length())
@@ -2025,7 +2098,7 @@ fun barcodeTypeArrayFromJson(temp: JSONArray?): Array<String?>? {
 }
 
 fun generateBarcodeTypeArray(temp: Array<String?>?): JSONArray? {
-    if (temp == null) return null
+    temp ?: return null
     val input: Array<String?> = temp
     val result = JSONArray()
 
@@ -2058,7 +2131,7 @@ fun generateBarcodeType(input: String?) = when (input) {
 }
 
 fun documentReaderResultsFromJSON(temp: JSONObject?): DocumentReaderResults? {
-    if (temp == null) return null
+    temp ?: return null
     val input: JSONObject = temp
     val result = DocumentReaderResults()
 
@@ -2081,13 +2154,14 @@ fun documentReaderResultsFromJSON(temp: JSONObject?): DocumentReaderResults? {
     result.documentType = listFromJSON(input.optJSONArray("documentType"), ::documentReaderDocumentTypeFromJSON)!!
     result.status = documentReaderResultsStatusFromJSON(input.optJSONObject("status"))!!
     result.vdsncData = vdsncDataFromJSON(input.optJSONObject("vdsncData")!!)
+    result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))
 
     return result
 }
 
 fun generateDocumentReaderResults(temp: DocumentReaderResults?, context: Context?): JSONObject? {
     val result = JSONObject()
-    if (temp == null) return null
+    temp ?: return null
     val input: DocumentReaderResults = temp
 
     result.put("chipPage", input.chipPage)
@@ -2108,6 +2182,7 @@ fun generateDocumentReaderResults(temp: DocumentReaderResults?, context: Context
     result.put("documentType", generateList(input.documentType, ::generateDocumentReaderDocumentType))
     result.put("status", generateDocumentReaderResultsStatus(input.status))
     result.put("vdsncData", generateVDSNCData(input.vdsncData))
+    result.put("transactionInfo", generateTransactionInfo(input.transactionInfo))
 
     return result
 }

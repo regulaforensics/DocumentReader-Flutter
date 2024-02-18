@@ -22,6 +22,10 @@ class ImageQuality {
   ImageQualityCheckType get type => _type;
   late ImageQualityCheckType _type;
 
+  /// Coordinates of glares.
+  List<Rect> get boundRects => _boundRects;
+  List<Rect> _boundRects = [];
+
   /// Allows you to deserialize object.
   static ImageQuality? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -30,6 +34,8 @@ class ImageQuality {
     result._featureType = jsonObject["featureType"];
     result._result = CheckResult.getByValue(jsonObject["result"])!;
     result._type = ImageQualityCheckType.getByValue(jsonObject["type"])!;
+    for (var item in jsonObject["boundRects"])
+      result._boundRects.addSafe(Rect.fromJson(item));
 
     return result;
   }
@@ -39,5 +45,6 @@ class ImageQuality {
         "featureType": featureType,
         "result": result.value,
         "type": type.value,
+        "boundRects": boundRects.map((e) => e.toJson()).toList(),
       }.clearNulls();
 }

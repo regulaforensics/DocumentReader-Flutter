@@ -23,8 +23,8 @@ class BarcodeField {
   PDF417Info? _pdf417Info;
 
   /// Results of reading data from barcode modules.
-  ByteData? get data => _data;
-  ByteData? _data;
+  Uint8List? get data => _data;
+  Uint8List? _data;
 
   /// Indicates an index of the document page, whence the result is received.
   int get pageIndex => _pageIndex;
@@ -39,7 +39,7 @@ class BarcodeField {
     result._status = BarcodeStatus.getByValue(jsonObject["status"])!;
     result._pageIndex = jsonObject["pageIndex"];
     result._pdf417Info = PDF417Info.fromJson(jsonObject["pdf417Info"]);
-    result._data = _fromBase64(jsonObject["data"]);
+    result._data = _bytesFromBase64(jsonObject["data"]);
 
     return result;
   }
@@ -49,7 +49,7 @@ class BarcodeField {
         "barcodeType": barcodeType.value,
         "status": status.value,
         "pdf417Info": pdf417Info?.toJson(),
-        "data": _toBase64(data),
+        "data": _bytesToBase64(data),
         "pageIndex": pageIndex,
       }.clearNulls();
 }

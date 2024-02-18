@@ -107,7 +107,7 @@ void _setPaCertificateCompletion(PaCertificateCompletion? completion) {
   _paCertificateCompletion = completion;
   _eventChannel('pa_certificate_completion', (msg) {
     var jsonObject = json.decode(msg);
-    var serialNumber = _fromBase64(jsonObject["serialNumber"])!;
+    var serialNumber = _bytesFromBase64(jsonObject["serialNumber"])!;
     var issuer = PAResourcesIssuer.fromJson(jsonObject["issuer"]);
 
     _paCertificateCompletion?.call(
@@ -145,7 +145,8 @@ void _setTaSignatureCompletion(TaSignatureCompletion? completion) {
   _eventChannel('ta_signature_completion', (msg) {
     _taSignatureCompletion?.call(TAChallenge.fromJson(json.decode(msg)),
         (signature) async {
-      await _bridge.invokeMethod("provideTASignature", [_toBase64(signature)]);
+      await _bridge
+          .invokeMethod("provideTASignature", [_dataToBase64(signature)]);
     });
   });
 }

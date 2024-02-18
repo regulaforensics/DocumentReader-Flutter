@@ -13,18 +13,23 @@ Map<String, List<String>?> nullableMap = {
   "ScannerConfig2": ["onlineProcessingConfig"],
   "FaceApiSearchParams": ["groupIds"],
   "FaceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
+  "LivenessParams!": [],
+  "AuthenticityParams!": ["livenessParams"],
   "GlaresCheckParams!": [],
   "RFIDParams!": [],
   "ImageQA!": [],
-  "ProcessParam!": ["imageQA"],
-  "ReprocParams": ["failIfNoService", "httpHeaders"],
+  "BackendProcessingConfig": ["rfidServerSideChipVerification", "httpHeaders"],
+  "ProcessParams!": ["imageQA", "authenticityParams"],
   "RFIDScenario!": [
     "defaultReadingBufferSize",
     "eDLDataGroups",
     "ePassportDataGroups",
     "eIDDataGroups"
   ],
-  "Customization!": [],
+  "CustomizationColors": [],
+  "CustomizationFonts": [],
+  "CustomizationImages": [],
+  "Customization!": ["colors", "fonts", "images"],
   "Functionality!": [],
   "DocumentsDatabase!": ["countriesNumber", "documentsNumber"],
   "DocReaderVersion!": [],
@@ -42,8 +47,9 @@ Map<String, List<String>?> nullableMap = {
     "dYear",
     "dCountryName"
   ],
+  "TransactionInfo!": [],
   "Results": ["authenticityResult"],
   "PAResourcesIssuer": ["friendlyName"],
   "PKDCertificate": ["privateKey"],
-  "TccParams!": []
+  "TccParams!": [],
 };

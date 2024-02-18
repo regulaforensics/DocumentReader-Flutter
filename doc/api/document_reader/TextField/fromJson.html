@@ -83,7 +83,7 @@
   if (jsonObject == null) return null;
   var result = TextField();
 
-  result._fieldType = VisualFieldType.getByValue(jsonObject[&quot;fieldType&quot;])!;
+  result._fieldType = FieldType.getByValue(jsonObject[&quot;fieldType&quot;])!;
   result._lcid = LCID.getByValue(jsonObject[&quot;lcid&quot;])!;
   result._status = CheckResult.getByValue(jsonObject[&quot;status&quot;])!;
   result._comparisonStatus =
@@ -135,7 +135,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

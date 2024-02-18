@@ -349,13 +349,6 @@ class RFIDScenario {
     _set({"eSignPINNewValue": val});
   }
 
-  ReprocParams? get reprocessParams => _reprocessParams;
-  ReprocParams? _reprocessParams;
-  set reprocessParams(ReprocParams? val) {
-    _reprocessParams = val;
-    _set({"reprocessParams": val?.toJson()});
-  }
-
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
   EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
@@ -441,9 +434,6 @@ class RFIDScenario {
     result.eSignPINDefault = jsonObject["eSignPINDefault"];
     result.eSignPINNewValue = jsonObject["eSignPINNewValue"];
 
-    result.reprocessParams =
-        ReprocParams.fromJson(jsonObject["reprocessParams"]);
-
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
     result.ePassportDataGroups =
         EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
@@ -503,7 +493,6 @@ class RFIDScenario {
         "mrz": mrz,
         "eSignPINDefault": eSignPINDefault,
         "eSignPINNewValue": eSignPINNewValue,
-        "reprocessParams": reprocessParams?.toJson(),
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),

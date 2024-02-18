@@ -22,12 +22,12 @@ class ScannerConfig {
   /// Live portrait photo.
   ///
   /// Requires network connection.
-  Image? livePortrait;
+  Uint8List? livePortrait;
 
   /// Portrait photo from an external source.
   ///
   /// Requires network connection.
-  Image? extPortrait;
+  Uint8List? extPortrait;
 
   /// Camera id.
   ///
@@ -59,8 +59,8 @@ class ScannerConfig {
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
     result._onlineProcessingConfig =
         OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
-    result.livePortrait = _imageFromBase64(jsonObject["livePortrait"]);
-    result.extPortrait = _imageFromBase64(jsonObject["extPortrait"]);
+    result.livePortrait = _bytesFromBase64(jsonObject["livePortrait"]);
+    result.extPortrait = _bytesFromBase64(jsonObject["extPortrait"]);
     result.cameraId = jsonObject["cameraId"];
 
     return result;
@@ -70,8 +70,8 @@ class ScannerConfig {
   Map<String, dynamic> toJson() => {
         "scenario": scenario?.value,
         "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
-        "livePortrait": _imageToBase64(livePortrait),
-        "extPortrait": _imageToBase64(extPortrait),
+        "livePortrait": _bytesToBase64(livePortrait),
+        "extPortrait": _bytesToBase64(extPortrait),
         "cameraId": cameraId
       }.clearNulls();
 }

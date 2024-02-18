@@ -20,18 +20,24 @@ part 'src/internal/Utils.dart';
 part 'src/internal/Bridge.dart';
 part 'src/internal/EventChannels.dart';
 
-part 'src/params/process_params/ProcessParam.dart';
+part 'src/params/process_params/ProcessParams.dart';
 part 'src/params/process_params/ImageQA.dart';
 part 'src/params/process_params/GlaresCheckParams.dart';
 part 'src/params/process_params/FaceApiSearchParams.dart';
 part 'src/params/process_params/FaceApiParams.dart';
+part 'src/params/process_params/LivenessParams.dart';
+part 'src/params/process_params/AuthenticityParams.dart';
 part 'src/params/process_params/RFIDParams.dart';
 part 'src/params/rfid_scenario/RfidScenario.dart';
-part 'src/params/rfid_scenario/ReprocParams.dart';
+part 'src/params/process_params/BackendProcessingConfig.dart';
 part 'src/params/rfid_scenario/EDLDataGroups.dart';
 part 'src/params/rfid_scenario/EIDDataGroups.dart';
 part 'src/params/rfid_scenario/EPassportDataGroups.dart';
-part 'src/params/Customization.dart';
+part 'src/params/customization/Customization.dart';
+part 'src/params/customization/Font.dart';
+part 'src/params/customization/CustomizationColors.dart';
+part 'src/params/customization/CustomizationFonts.dart';
+part 'src/params/customization/CustomizationImages.dart';
 part 'src/params/Functionality.dart';
 
 part 'src/rfid/RFIDNotification.dart';
@@ -116,12 +122,13 @@ part 'src/results/visual_results/Value.dart';
 part 'src/results/visual_results/Rect.dart';
 part 'src/results/visual_results/Lights.dart';
 part 'src/results/visual_results/GraphicFieldType.dart';
-part 'src/results/visual_results/VisualFieldType.dart';
+part 'src/results/visual_results/FieldType.dart';
 part 'src/results/visual_results/LCID.dart';
 
 part 'src/results/Results.dart';
 part 'src/results/Position.dart';
 part 'src/results/DocumentType.dart';
+part 'src/results/TransactionInfo.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
 class DocumentReader {
@@ -202,9 +209,9 @@ class DocumentReader {
   }
 
   /// Params that influence the scanning process.
-  ProcessParam get processParams => _processParams;
-  ProcessParam _processParams = ProcessParam();
-  set processParams(ProcessParam val) {
+  ProcessParams get processParams => _processParams;
+  ProcessParams _processParams = ProcessParams();
+  set processParams(ProcessParams val) {
     _processParams = val;
     _processParams._apply();
   }
@@ -259,7 +266,7 @@ class DocumentReader {
   void resetConfiguration() {
     _bridge.invokeMethod("resetConfiguration", []);
     _functionality = Functionality();
-    _processParams = ProcessParam();
+    _processParams = ProcessParams();
     _customization = Customization();
     _rfidScenario = RFIDScenario();
   }
@@ -407,20 +414,7 @@ class DocumentReader {
     _setTaCertificateCompletion(config.onRequestTACertificates);
     _setTaSignatureCompletion(config.onRequestTASignature);
 
-    // Currently(in 6.9) in iOS onChipDetected and onRetryReadChip
-    // are parts of RGLDocReaderRFIDDelegate.
-    // Waiting for iOS rfid rework in 6.10
-
-    // if (Platform.isIOS &&
-    //     requestType == 0 &&
-    //     (config.onChipDetected != null || config.onRetryReadChip != null))
-    //   requestType = 1;
-
-    // TODO Waiting for iOS rfid rework. Android already implemented.
-
-    var nativeFunction = config._disableUI ? "readRFID" : "startRFIDReader";
-
-    _bridge.invokeMethod(nativeFunction, [
+    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [
       config.onRequestPACertificates != null,
       config.onRequestTACertificates != null,
       config.onRequestTASignature != null,
@@ -469,6 +463,17 @@ class DocumentReader {
     return _successOrErrorFromJson(response);
   }
 
+  Future<FinalizePackageCompletion> finalizePackage() async {
+    var response = await _bridge.invokeMethod("finalizePackage");
+
+    var jsonObject = json.decode(response);
+    var action = DocReaderAction.getByValue(jsonObject["action"])!;
+    var info = TransactionInfo.fromJson(jsonObject["info"]);
+    var error = DocReaderException.fromJson(jsonObject["error"]);
+
+    return (action, info, error);
+  }
+
   (bool, DocReaderException?) _successOrErrorFromJson(String jsonString) {
     var jsonObject = json.decode(jsonString);
     var success = jsonObject["success"];
@@ -489,9 +494,9 @@ class DocumentReader {
     _rfidScenario = await _getRfidScenario();
   }
 
-  Future<ProcessParam> _getProcessParams() async {
+  Future<ProcessParams> _getProcessParams() async {
     String response = await _bridge.invokeMethod("getProcessParams", []);
-    return ProcessParam.fromJson(_decode(response));
+    return ProcessParams.fromJson(_decode(response));
   }
 
   Future<Functionality> _getFunctionality() async {
@@ -649,6 +654,19 @@ typedef CustomButtonTappedCompletion = void Function(int tag);
 /// [filePath] The output file URL. Contains URL to recording output for every scanning session.
 typedef VideoEncoderCompletion = void Function(
   String filePath,
+);
+
+/// Type for receiving answer after backend processing has finished.
+///
+/// [DocReaderAction] defines processing status.
+///
+/// [TransactionInfo] contains transactionId and tag.
+///
+/// [DocReaderException] in case of anything is wrong - brief message for developer, `null` otherwise.
+typedef FinalizePackageCompletion = (
+  DocReaderAction action,
+  TransactionInfo? info,
+  DocReaderException? error,
 );
 
 /// Contains all possible DocumentReaderNotification callback codes

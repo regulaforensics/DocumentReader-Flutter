@@ -87,7 +87,7 @@
   result._status = BarcodeStatus.getByValue(jsonObject[&quot;status&quot;])!;
   result._pageIndex = jsonObject[&quot;pageIndex&quot;];
   result._pdf417Info = PDF417Info.fromJson(jsonObject[&quot;pdf417Info&quot;]);
-  result._data = _fromBase64(jsonObject[&quot;data&quot;]);
+  result._data = _bytesFromBase64(jsonObject[&quot;data&quot;]);
 
   return result;
 }</code></pre>
@@ -123,7 +123,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

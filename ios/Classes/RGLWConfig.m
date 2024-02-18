@@ -154,8 +154,6 @@
         processParams.integralImage = [options valueForKey:@"integralImage"];
     if([options valueForKey:@"returnCroppedBarcode"] != nil)
         processParams.returnCroppedBarcode = [options valueForKey:@"returnCroppedBarcode"];
-    if([options valueForKey:@"checkLiveness"] != nil)
-        processParams.checkLiveness = [options valueForKey:@"checkLiveness"];
     if([options valueForKey:@"checkRequiredTextFields"] != nil)
         processParams.checkRequiredTextFields = [options valueForKey:@"checkRequiredTextFields"];
     if([options valueForKey:@"depersonalizeLog"] != nil)
@@ -166,8 +164,6 @@
         processParams.alreadyCropped = [options valueForKey:@"alreadyCropped"];
     if([options valueForKey:@"matchTextFieldMask"] != nil)
         processParams.matchTextFieldMask = [options valueForKey:@"matchTextFieldMask"];
-    if([options valueForKey:@"fastDocDetect"] != nil)
-        processParams.fastDocDetect = [options valueForKey:@"fastDocDetect"];
     if([options valueForKey:@"updateOCRValidityByGlare"] != nil)
         processParams.updateOCRValidityByGlare = [options valueForKey:@"updateOCRValidityByGlare"];
     if([options valueForKey:@"noGraphics"] != nil)
@@ -190,6 +186,8 @@
         processParams.doDetectCan = [options valueForKey:@"doDetectCan"];
     if([options valueForKey:@"useFaceApi"] != nil)
         processParams.useFaceApi = [options valueForKey:@"useFaceApi"];
+    if([options valueForKey:@"useAuthenticityCheck"] != nil)
+        processParams.useAuthenticityCheck = [options valueForKey:@"useAuthenticityCheck"];
     
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -262,6 +260,12 @@
         processParams.rfidParams = [RGLWJSONConstructor rfidParamsFromJson:[options valueForKey:@"rfidParams"]];
     if([options valueForKey:@"faceApiParams"] != nil)
         processParams.faceApiParams = [RGLWJSONConstructor faceAPIParamsFromJson:[options valueForKey:@"faceApiParams"]];
+    if([options valueForKey:@"backendProcessingConfig"] != nil)
+        processParams.backendProcessingConfig = [RGLWJSONConstructor backendProcessingConfigFromJson:[options valueForKey:@"backendProcessingConfig"]];
+    if([options valueForKey:@"authenticityParams"] != nil) {
+        if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
+        [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
+    }
     
     // Custom
     if([options valueForKey:@"customParams"] != nil)
@@ -284,13 +288,11 @@
     result[@"manualCrop"] = processParams.manualCrop;
     result[@"integralImage"] = processParams.integralImage;
     result[@"returnCroppedBarcode"] = processParams.returnCroppedBarcode;
-    result[@"checkLiveness"] = processParams.checkLiveness;
     result[@"checkRequiredTextFields"] = processParams.checkRequiredTextFields;
     result[@"depersonalizeLog"] = processParams.depersonalizeLog;
     result[@"generateDoublePageSpreadImage"] = processParams.generateDoublePageSpreadImage;
     result[@"alreadyCropped"] = processParams.alreadyCropped;
     result[@"matchTextFieldMask"] = processParams.matchTextFieldMask;
-    result[@"fastDocDetect"] = processParams.fastDocDetect;
     result[@"updateOCRValidityByGlare"] = processParams.updateOCRValidityByGlare;
     result[@"noGraphics"] = processParams.noGraphics;
     result[@"multiDocOnImage"] = processParams.multiDocOnImage;
@@ -302,6 +304,7 @@
     result[@"splitNames"] = processParams.splitNames;
     result[@"doDetectCan"] = processParams.doDetectCan;
     result[@"useFaceApi"] = processParams.useFaceApi;
+    result[@"useAuthenticityCheck"] = processParams.useAuthenticityCheck;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -344,6 +347,8 @@
     result[@"imageQA"] = [self getImageQA:processParams.imageQA];
     result[@"rfidParams"] = [RGLWJSONConstructor generateRFIDParams:processParams.rfidParams];
     result[@"faceApiParams"] = [RGLWJSONConstructor generateFaceAPIParams:processParams.faceApiParams];
+    result[@"backendProcessingConfig"] = [RGLWJSONConstructor generateBackendProcessingConfig:processParams.backendProcessingConfig];
+    result[@"authenticityParams"] = [self getAuthenticityParams:processParams.authenticityParams];
     
     // Custom
     result[@"customParams"] = processParams.customParams;
@@ -421,8 +426,8 @@
         customization.cameraFramePortraitAspectRatio = [[options valueForKey:@"cameraFramePortraitAspectRatio"] floatValue];
     if([options valueForKey:@"cameraFrameCornerRadius"] != nil)
         customization.cameraFrameCornerRadius = [[options valueForKey:@"cameraFrameCornerRadius"] floatValue];
-    if([options valueForKey:@"hologramAnimationPositionMultiplier"] != nil)
-        customization.hologramAnimationPositionMultiplier = [[options valueForKey:@"hologramAnimationPositionMultiplier"] floatValue];
+    if([options valueForKey:@"livenessAnimationPositionMultiplier"] != nil)
+        customization.livenessAnimationPositionMultiplier = [[options valueForKey:@"livenessAnimationPositionMultiplier"] floatValue];
     
     // Drawable
     if([options valueForKey:@"multipageAnimationFrontImage"] != nil)
@@ -447,8 +452,8 @@
         customization.torchButtonOnImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"torchButtonOnImage"]];
     if([options valueForKey:@"torchButtonOffImage"] != nil)
         customization.torchButtonOffImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"torchButtonOffImage"]];
-    if([options valueForKey:@"hologramAnimationImage"] != nil)
-        customization.hologramAnimationImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"hologramAnimationImage"]];
+    if([options valueForKey:@"livenessAnimationImage"] != nil)
+        customization.livenessAnimationImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"livenessAnimationImage"]];
     
     // Font
     if([options valueForKey:@"statusTextFont"] != nil)
@@ -471,10 +476,17 @@
         customization.multipageAnimationFrontImageContentMode = [self viewContentModeWithNumber:[options valueForKey:@"multipageAnimationFrontImageContentMode"]];
     if([options valueForKey:@"multipageAnimationBackImageContentMode"] != nil)
         customization.multipageAnimationBackImageContentMode = [self viewContentModeWithNumber:[options valueForKey:@"multipageAnimationBackImageContentMode"]];
-    if([options valueForKey:@"hologramAnimationImageContentMode"] != nil)
-        customization.hologramAnimationImageContentMode = [self viewContentModeWithNumber:[options valueForKey:@"hologramAnimationImageContentMode"]];
+    if([options valueForKey:@"livenessAnimationImageContentMode"] != nil)
+        customization.livenessAnimationImageContentMode = [self viewContentModeWithNumber:[options valueForKey:@"livenessAnimationImageContentMode"]];
     if([options valueForKey:@"borderBackgroundImageContentMode"] != nil)
         customization.borderBackgroundImageContentMode = [self viewContentModeWithNumber:[options valueForKey:@"borderBackgroundImageContentMode"]];
+
+    if([options valueForKey:@"colors"] != nil)
+        [self setColors:[customization.uiConfiguration valueForKey:@"colors"] input:[options valueForKey:@"colors"]];
+    if([options valueForKey:@"fonts"] != nil)
+        [self setFonts:[customization.uiConfiguration valueForKey:@"fonts"] input:[options valueForKey:@"fonts"]];
+    if([options valueForKey:@"images"] != nil)
+        [self setImages:[customization.uiConfiguration valueForKey:@"images"] input:[options valueForKey:@"images"]];
 }
 
 +(NSDictionary*)getCustomization:(RGLCustomization*)customization {
@@ -519,7 +531,7 @@
     result[@"cameraFrameLandscapeAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFrameLandscapeAspectRatio];
     result[@"cameraFramePortraitAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFramePortraitAspectRatio];
     result[@"cameraFrameCornerRadius"] = [NSNumber numberWithFloat:customization.cameraFrameCornerRadius];
-    result[@"hologramAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.hologramAnimationPositionMultiplier];
+    result[@"livenessAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.livenessAnimationPositionMultiplier];
     
     // Drawable
     result[@"multipageAnimationFrontImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageAnimationFrontImage];
@@ -533,10 +545,11 @@
     result[@"cameraSwitchButtonImage"] = [RGLWJSONConstructor base64WithImage:customization.cameraSwitchButtonImage];
     result[@"torchButtonOnImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOnImage];
     result[@"torchButtonOffImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOffImage];
-    result[@"hologramAnimationImage"] = [RGLWJSONConstructor base64WithImage:customization.hologramAnimationImage];
+    result[@"livenessAnimationImage"] = [RGLWJSONConstructor base64WithImage:customization.livenessAnimationImage];
     
     // Font
-    // fonts have no getters
+    result[@"statusTextFont"] = [self generateUIFont:customization.statusTextFont];
+    result[@"resultStatusTextFont"] = [self generateUIFont:customization.resultStatusTextFont];
     
     // Custom
     if(customization.customLabelStatus != nil) result[@"customLabelStatus"] = customization.customLabelStatus.string;
@@ -547,8 +560,12 @@
     result[@"helpAnimationImageContentMode"] = [self generateViewContentMode:customization.helpAnimationImageContentMode];
     result[@"multipageAnimationFrontImageContentMode"] = [self generateViewContentMode:customization.multipageAnimationFrontImageContentMode];
     result[@"multipageAnimationBackImageContentMode"] = [self generateViewContentMode:customization.multipageAnimationBackImageContentMode];
-    result[@"hologramAnimationImageContentMode"] = [self generateViewContentMode:customization.hologramAnimationImageContentMode];
+    result[@"livenessAnimationImageContentMode"] = [self generateViewContentMode:customization.livenessAnimationImageContentMode];
     result[@"borderBackgroundImageContentMode"] = [self generateViewContentMode:customization.borderBackgroundImageContentMode];
+    
+    result[@"colors"] = [self getColors: [customization.uiConfiguration valueForKey:@"colors"]];
+    result[@"fonts"] = [self getFonts: [customization.uiConfiguration valueForKey:@"fonts"]];
+    result[@"images"] = [self getImages: [customization.uiConfiguration valueForKey:@"images"]];
     
     return result;
 }
@@ -656,10 +673,6 @@
     if([options valueForKey:@"eSignPINNewValue"] != nil)
         rfidScenario.eSignPINNewValue = [options valueForKey:@"eSignPINNewValue"];
     
-    // JSONObject
-    if([options valueForKey:@"reprocessParams"] != nil)
-        rfidScenario.reprocParams = [RGLWJSONConstructor reprocParamsFromJson: [options valueForKey:@"reprocessParams"]];
-    
     // DataGroup
     if([options valueForKey:@"ePassportDataGroups"] != nil)
         [self setDataGroups :rfidScenario.ePassportDataGroups dict:[options valueForKey:@"ePassportDataGroups"]];
@@ -725,9 +738,6 @@
     result[@"mrz"] = rfidScenario.mrz;
     result[@"eSignPINDefault"] = rfidScenario.eSignPINDefault;
     result[@"eSignPINNewValue"] = rfidScenario.eSignPINNewValue;
-    
-    // JSONObject
-    result[@"reprocessParams"] = [RGLWJSONConstructor generateReprocParams: rfidScenario.reprocParams];
     
     // DataGroup
     result[@"eDLDataGroups"] = [self getDataGroups:rfidScenario.eDLDataGroups];
@@ -879,6 +889,144 @@
     return result;
 }
 
++(void)setAuthenticityParams:(RGLAuthenticityParams*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"useLivenessCheck"] != nil)
+        result.useLivenessCheck = [input valueForKey:@"useLivenessCheck"];
+    if([input valueForKey:@"livenessParams"] != nil) {
+        if(result.livenessParams == nil) result.livenessParams = [RGLLivenessParams defaultParams];
+        [self setLivenessParams:result.livenessParams input:[input valueForKey:@"livenessParams"]];
+    }
+    if([input valueForKey:@"checkUVLuminiscence"] != nil)
+        result.checkUVLuminiscence = [input valueForKey:@"checkUVLuminiscence"];
+    if([input valueForKey:@"checkIRB900"] != nil)
+        result.checkIRB900 = [input valueForKey:@"checkIRB900"];
+    if([input valueForKey:@"checkImagePatterns"] != nil)
+        result.checkImagePatterns = [input valueForKey:@"checkImagePatterns"];
+    if([input valueForKey:@"checkFibers"] != nil)
+        result.checkFibers = [input valueForKey:@"checkFibers"];
+    if([input valueForKey:@"checkExtMRZ"] != nil)
+        result.checkExtMRZ = [input valueForKey:@"checkExtMRZ"];
+    if([input valueForKey:@"checkExtOCR"] != nil)
+        result.checkExtOCR = [input valueForKey:@"checkExtOCR"];
+    if([input valueForKey:@"checkAxial"] != nil)
+        result.checkAxial = [input valueForKey:@"checkAxial"];
+    if([input valueForKey:@"checkBarcodeFormat"] != nil)
+        result.checkBarcodeFormat = [input valueForKey:@"checkBarcodeFormat"];
+    if([input valueForKey:@"checkIRVisibility"] != nil)
+        result.checkIRVisibility = [input valueForKey:@"checkIRVisibility"];
+    if([input valueForKey:@"checkIPI"] != nil)
+        result.checkIPI = [input valueForKey:@"checkIPI"];
+    if([input valueForKey:@"checkPhotoEmbedding"] != nil)
+        result.checkPhotoEmbedding = [input valueForKey:@"checkPhotoEmbedding"];
+    if([input valueForKey:@"checkPhotoComparison"] != nil)
+        result.checkPhotoComparison = [input valueForKey:@"checkPhotoComparison"];
+    if([input valueForKey:@"checkLetterScreen"] != nil)
+        result.checkLetterScreen = [input valueForKey:@"checkLetterScreen"];
+}
+
++(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    
+    result[@"useLivenessCheck"] = input.useLivenessCheck;
+    result[@"livenessParams"] = [self getLivenessParams:input.livenessParams];
+    result[@"checkUVLuminiscence"] = input.checkUVLuminiscence;
+    result[@"checkIRB900"] = input.checkIRB900;
+    result[@"checkImagePatterns"] = input.checkImagePatterns;
+    result[@"checkFibers"] = input.checkFibers;
+    result[@"checkExtMRZ"] = input.checkExtMRZ;
+    result[@"checkExtOCR"] = input.checkExtOCR;
+    result[@"checkAxial"] = input.checkAxial;
+    result[@"checkBarcodeFormat"] = input.checkBarcodeFormat;
+    result[@"checkIRVisibility"] = input.checkIRVisibility;
+    result[@"checkIPI"] = input.checkIPI;
+    result[@"checkPhotoEmbedding"] = input.checkPhotoEmbedding;
+    result[@"checkPhotoComparison"] = input.checkPhotoComparison;
+    result[@"checkLetterScreen"] = input.checkLetterScreen;
+    
+    return result;
+}
+
++(void)setLivenessParams:(RGLLivenessParams*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"checkOVI"] != nil)
+        result.checkOVI = [input valueForKey:@"checkOVI"];
+    if([input valueForKey:@"checkMLI"] != nil)
+        result.checkMLI = [input valueForKey:@"checkMLI"];
+    if([input valueForKey:@"checkHolo"] != nil)
+        result.checkHolo = [input valueForKey:@"checkHolo"];
+    if([input valueForKey:@"checkED"] != nil)
+        result.checkED = [input valueForKey:@"checkED"];
+}
+
++(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    
+    result[@"checkOVI"] = input.checkOVI;
+    result[@"checkMLI"] = input.checkMLI;
+    result[@"checkHolo"] = input.checkHolo;
+    result[@"checkED"] = input.checkED;
+    
+    return result;
+}
+
++(void)setColors:(NSMutableDictionary*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"rfidProcessingScreenBackground"] != nil)
+        result[@(RFIDProcessingScreenBackground)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenBackground"]];
+    if([input valueForKey:@"rfidProcessingScreenHintLabelText"] != nil)
+        result[@(RFIDProcessingScreenHintLabelText)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenHintLabelText"]];
+    if([input valueForKey:@"rfidProcessingScreenHintLabelBackground"] != nil)
+        result[@(RFIDProcessingScreenHintLabelBackground)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenHintLabelBackground"]];
+    if([input valueForKey:@"rfidProcessingScreenProgressLabelText"] != nil)
+        result[@(RFIDProcessingScreenProgressLabelText)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenProgressLabelText"]];
+    if([input valueForKey:@"rfidProcessingScreenProgressBar"] != nil)
+        result[@(RFIDProcessingScreenProgressBar)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenProgressBar"]];
+    if([input valueForKey:@"rfidProcessingScreenProgressBarBackground"] != nil)
+        result[@(RFIDProcessingScreenProgressBarBackground)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenProgressBarBackground"]];
+    if([input valueForKey:@"rfidProcessingScreenResultLabelText"] != nil)
+        result[@(RFIDProcessingScreenResultLabelText)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenResultLabelText"]];
+}
+
++(NSDictionary*)getColors:(NSDictionary*)input {
+   return @{
+       @"rfidProcessingScreenBackground": [self intWithColor:input[@(RFIDProcessingScreenBackground)]],
+       @"rfidProcessingScreenHintLabelText": [self intWithColor:input[@(RFIDProcessingScreenHintLabelText)]],
+       @"rfidProcessingScreenHintLabelBackground": [self intWithColor:input[@(RFIDProcessingScreenHintLabelBackground)]],
+       @"rfidProcessingScreenProgressLabelText": [self intWithColor:input[@(RFIDProcessingScreenProgressLabelText)]],
+       @"rfidProcessingScreenProgressBar": [self intWithColor:input[@(RFIDProcessingScreenProgressBar)]],
+       @"rfidProcessingScreenProgressBarBackground": [self intWithColor:input[@(RFIDProcessingScreenProgressBarBackground)]],
+       @"rfidProcessingScreenResultLabelText": [self intWithColor:input[@(RFIDProcessingScreenResultLabelText)]],
+    };
+}
+
++(void)setFonts:(NSMutableDictionary*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"rfidProcessingScreenHintLabel"] != nil)
+        result[@(RFIDProcessingScreenHintLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenHintLabel"]];
+    if([input valueForKey:@"rfidProcessingScreenProgressLabel"] != nil)
+        result[@(RFIDProcessingScreenProgressLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenProgressLabel"]];
+    if([input valueForKey:@"rfidProcessingScreenResultLabel"] != nil)
+        result[@(RFIDProcessingScreenResultLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenResultLabel"]];
+}
+
++(NSDictionary*)getFonts:(NSDictionary*)input {
+   return @{
+       @"rfidProcessingScreenHintLabel": [self generateUIFont:input[@(RFIDProcessingScreenHintLabel)]],
+       @"rfidProcessingScreenProgressLabel": [self generateUIFont:input[@(RFIDProcessingScreenProgressLabel)]],
+       @"rfidProcessingScreenResultLabel": [self generateUIFont:input[@(RFIDProcessingScreenResultLabel)]],
+    };
+}
+
++(void)setImages:(NSMutableDictionary*)result input:(NSDictionary*)input {
+    if([input valueForKey:@"rfidProcessingScreenFailureImage"] != nil)
+        result[@(RFIDProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:[input valueForKey:@"rfidProcessingScreenFailureImage"]];
+}
+
++(NSDictionary*)getImages:(NSDictionary*)input {
+   return @{
+        @"rfidProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(RFIDProcessingScreenFailureImage)]],
+    };
+}
+
 +(UIColor*)colorWithInt:(NSNumber*)input {
     // Convert hex int to hex string
     NSInteger hexInt = [input integerValue];
@@ -962,6 +1110,13 @@
 
 +(UIFont*)UIFontFromJSON:(NSDictionary*)input {
     return [UIFont fontWithName:[input valueForKey:@"name"] size:[[input valueForKey:@"size"] integerValue]];
+}
+
++(NSDictionary*)generateUIFont:(UIFont*)input {
+    return @{
+        @"name": input.fontName,
+        @"size": @(input.pointSize)
+    };
 }
 
 +(AVCaptureSessionPreset)captureSessionPresetWithNumber:(NSNumber*)value {

@@ -88,6 +88,36 @@
     return [RGLWJSONConstructor dictToString: result];
 }
 
++(NSString*)generateFinalizePackageCompletion:(NSNumber*)action :(RGLTransactionInfo*)info :(NSError*)error {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    int actionInt = [action intValue];
+
+    result[@"action"] = action;
+    result[@"info"] = [self generateTransactionInfo:info];
+    result[@"error"] = [self generateError:error];
+
+    return [RGLWJSONConstructor dictToString: result];
+}
+
++(RGLTransactionInfo*)transactionInfoFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    
+    NSString* transactionId = [input valueForKey:@"transactionId"];
+    NSString* tag = [input valueForKey:@"tag"];
+    
+    return [[RGLTransactionInfo alloc] initWithTag:tag transactionId:transactionId];
+}
+
++(NSDictionary*)generateTransactionInfo:(RGLTransactionInfo*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"transactionId"] = input.transactionId;
+    result[@"tag"] = input.tag;
+    
+    return result;
+}
+
 +(RGLTCCParams*)tccParamsFromJson:(NSDictionary*)input {
     if(input == nil) return nil;
     
@@ -231,27 +261,27 @@
     return result;
 }
 
-+(RGLReprocParams*)reprocParamsFromJson:(NSDictionary*)input {
++(RGLBackendProcessingConfig*)backendProcessingConfigFromJson:(NSDictionary*)input {
     if(input == nil) return nil;
-    RGLReprocParams *result = [RGLReprocParams new];
+    RGLBackendProcessingConfig *result = [RGLBackendProcessingConfig new];
     
-    if([input valueForKey:@"serviceUrl"] != nil)
-        result.serviceURL = [input valueForKey:@"serviceUrl"];
-    if([input valueForKey:@"failIfNoService"] != nil)
-        result.failIfNoService = [input valueForKey:@"failIfNoService"];
+    if([input valueForKey:@"url"] != nil)
+        result.url = [input valueForKey:@"url"];
     if([input valueForKey:@"httpHeaders"] != nil)
         result.httpHeaders = [input valueForKey:@"httpHeaders"];
+    if([input valueForKey:@"rfidServerSideChipVerification"] != nil)
+        result.rfidServerSideChipVerification = [[input valueForKey:@"rfidServerSideChipVerification"] boolValue];
     
     return result;
 }
 
-+(NSDictionary*)generateReprocParams:(RGLReprocParams*)input {
++(NSDictionary*)generateBackendProcessingConfig:(RGLBackendProcessingConfig*)input {
     if(input == nil) return nil;
     NSMutableDictionary* result = [NSMutableDictionary new];
     
-    result[@"serviceUrl"] = input.serviceURL;
-    result[@"failIfNoService"] = input.failIfNoService;
+    result[@"url"] = input.url;
     result[@"httpHeaders"] = input.httpHeaders;
+    result[@"rfidServerSideChipVerification"] = @(input.rfidServerSideChipVerification);
     
     return result;
 }
@@ -264,6 +294,26 @@
 
 +(NSDictionary*)generateImageQA:(RGLImageQA*)input {
     return [RGLWConfig getImageQA:input];
+}
+
++(RGLAuthenticityParams*)authenticityParamsFromJson:(NSDictionary*)input {
+    RGLAuthenticityParams *result = [RGLAuthenticityParams defaultParams];
+    [RGLWConfig setAuthenticityParams:result input:input];
+    return result;
+}
+
++(NSDictionary*)generateAuthenticityParams:(RGLAuthenticityParams*)input {
+    return [RGLWConfig getAuthenticityParams:input];
+}
+
++(RGLLivenessParams*)livenessParamsFromJson:(NSDictionary*)input {
+    RGLLivenessParams *result = [RGLLivenessParams defaultParams];
+    [RGLWConfig setLivenessParams:result input:input];
+    return result;
+}
+
++(NSDictionary*)generateLivenessParams:(RGLLivenessParams*)input {
+    return [RGLWConfig getLivenessParams:input];
 }
 
 +(RGLeDLDataGroup*)eDLDataGroupsFromJson:(NSDictionary*)input {
@@ -457,7 +507,7 @@
 }
 
 +(RGLFaceAPIParams*)faceAPIParamsFromJson:(NSDictionary*)input {
-    RGLFaceAPIParams* result = [RGLFaceAPIParams new];
+    RGLFaceAPIParams* result = [RGLFaceAPIParams defaultParams];
 
     if([input valueForKey:@"url"] != nil)
         result.url = [input valueForKey:@"url"];
@@ -838,6 +888,8 @@
     json[@"featureType"] = [input valueForKey:@"featureType"];
     json[@"type"] = [RGLWConfig imageQualityCheckTypeWithNumber:[input valueForKey:@"type"]];
     json[@"result"] = [input valueForKey:@"result"];
+    NSDictionary* dict = @{@"List":[input valueForKey:@"boundRects"]};
+    json[@"areas"] = dict;
     
     return json;
 }
@@ -853,6 +905,12 @@
     result[@"type"] = [RGLWConfig generateImageQualityCheckType:input.type];
     result[@"result"] = @(input.result);
     result[@"featureType"] = @(input.featureType);
+    if(input.boundRects != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSValue* item in input.boundRects)
+            [array addObject:[self generateRect:[item CGRectValue]]];
+        result[@"boundRects"] = array;
+    }
     
     return result;
 }
@@ -2193,7 +2251,8 @@
             processingFinished:[[input valueForKey:@"processingFinishedStatus"] integerValue]
             morePagesAvailable:[[input valueForKey:@"morePagesAvailable"] integerValue]
             elapsedTime:[[input valueForKey:@"elapsedTime"] integerValue]
-            elapsedTimeRFID:[[input valueForKey:@"elapsedTimeRFID"] integerValue]];
+            elapsedTimeRFID:[[input valueForKey:@"elapsedTimeRFID"] integerValue]
+            transactionInfo:[self transactionInfoFromJson:[input valueForKey:@"transactionInfo"]]];
 }
 
 +(NSDictionary*)generateDocumentReaderResults:(RGLDocumentReaderResults*)input {
@@ -2243,6 +2302,7 @@
     result[@"rawResult"] = input.rawResult;
     result[@"status"] = [self generateDocumentReaderResultsStatus:input.status];
     result[@"vdsncData"] = [self generateVDSNCData:input.vdsncData];
+    result[@"transactionInfo"] = [self generateTransactionInfo:input.transactionInfo];
     
     return result;
 }

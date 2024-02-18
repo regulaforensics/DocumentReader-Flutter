@@ -80,9 +80,9 @@
 static PKDCertificate? fromJson(jsonObject) {
   if (jsonObject == null) return null;
   return PKDCertificate(
-    _fromBase64(jsonObject[&quot;binaryData&quot;])!,
+    _dataFromBase64(jsonObject[&quot;binaryData&quot;])!,
     PKDResourceType.getByValue(jsonObject[&quot;resourceType&quot;])!,
-    privateKey: _fromBase64(jsonObject[&quot;privateKey&quot;]),
+    privateKey: _dataFromBase64(jsonObject[&quot;privateKey&quot;]),
   );
 }</code></pre>
 </section>
@@ -117,7 +117,7 @@ static PKDCertificate? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   

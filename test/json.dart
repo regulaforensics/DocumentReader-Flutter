@@ -25,6 +25,29 @@ var faceApiParams = {
   "proxyType": 3,
   "searchParams": faceApiSearchParams
 };
+var livenessParams = {
+  "checkOVI": true,
+  "checkMLI": false,
+  "checkHolo": true,
+  "checkED": false,
+};
+var authenticityParams = {
+  "useLivenessCheck": true,
+  "checkUVLuminiscence": false,
+  "checkIRB900": true,
+  "checkImagePatterns": false,
+  "checkFibers": true,
+  "checkExtMRZ": false,
+  "checkExtOCR": true,
+  "checkAxial": false,
+  "checkBarcodeFormat": true,
+  "checkIRVisibility": false,
+  "checkIPI": true,
+  "checkPhotoEmbedding": false,
+  "checkPhotoComparison": true,
+  "checkLetterScreen": false,
+  "livenessParams": livenessParams
+};
 var glaresCheckParams = {
   "imgMarginPart": 0.5,
   "maxGlaringPart": 1.5,
@@ -44,6 +67,11 @@ var imageQA = {
 var rfidParams = {
   "paIgnoreNotificationCodes": [1, 2, 3]
 };
+var backendProcessingConfig = {
+  "url": "test",
+  "rfidServerSideChipVerification": true,
+  "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"}
+};
 var processParams = {
   "multipageProcessing": true,
   "debugSaveImages": false,
@@ -57,13 +85,11 @@ var processParams = {
   "manualCrop": false,
   "integralImage": true,
   "returnCroppedBarcode": false,
-  "checkLiveness": true,
   "checkRequiredTextFields": false,
   "depersonalizeLog": true,
   "generateDoublePageSpreadImage": false,
   "alreadyCropped": true,
   "matchTextFieldMask": false,
-  "fastDocDetect": true,
   "updateOCRValidityByGlare": false,
   "noGraphics": true,
   "multiDocOnImage": false,
@@ -73,15 +99,15 @@ var processParams = {
   "disablePerforationOCR": false,
   "respectImageQuality": true,
   "splitNames": false,
-  "doDetectCan": true,
   "useFaceApi": false,
+  "useAuthenticityCheck": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
   "minDPI": 5,
   "imageDpiOutMax": 6,
   "forceDocID": 6,
-  "forceDocFormat": 8,
+  "forceDocFormat": 3,
   "shiftExpiryDate": 9,
   "minimalHolderAge": 10,
   "imageOutputMaxHeight": 11,
@@ -90,7 +116,7 @@ var processParams = {
   "convertCase": 3,
   "dateFormat": "test1",
   "scenario": "Mrz",
-  "captureButtonScenario": "test2",
+  "captureButtonScenario": "Locate",
   "sessionLogFolder": "test3",
   "timeout": 15,
   "timeoutFromFirstDetect": 16,
@@ -107,7 +133,28 @@ var processParams = {
   "imageQA": imageQA,
   "rfidParams": rfidParams,
   "faceApiParams": faceApiParams,
+  "backendProcessingConfig": backendProcessingConfig,
+  "authenticityParams": authenticityParams,
   "customParams": {"test1": true, "test2": 1, "test3": "test"},
+};
+var font1 = {"name": "AppleSDGothicNeo-Thin", "size": 10, "style": 2};
+var font2 = {"name": "Copperplate-Light", "size": 20, "style": 1};
+var customizationColors = {
+  "rfidProcessingScreenBackground": 0xff000000,
+  "rfidProcessingScreenHintLabelText": 0xff000001,
+  "rfidProcessingScreenHintLabelBackground": 0xff000002,
+  "rfidProcessingScreenProgressLabelText": 0xff000003,
+  "rfidProcessingScreenProgressBar": 0xff000004,
+  "rfidProcessingScreenProgressBarBackground": 0xff000005,
+  "rfidProcessingScreenResultLabelText": 0xff000006
+};
+var customizationFonts = {
+  "rfidProcessingScreenHintLabel": font1,
+  "rfidProcessingScreenProgressLabel": font2,
+  "rfidProcessingScreenResultLabel": font1,
+};
+var customizationImages = {
+  "rfidProcessingScreenFailureImage": img1,
 };
 var customization = {
   "showStatusMessages": true,
@@ -140,7 +187,7 @@ var customization = {
   "cameraFrameLandscapeAspectRatio": 6.5,
   "cameraFramePortraitAspectRatio": 7.5,
   "cameraFrameCornerRadius": 8.5,
-  "hologramAnimationPositionMultiplier": 9.5,
+  "livenessAnimationPositionMultiplier": 9.5,
   "multipageAnimationFrontImage": img1,
   "multipageAnimationBackImage": img2,
   "borderBackgroundImage": img3,
@@ -152,16 +199,16 @@ var customization = {
   "torchButtonOffImage": img3,
   "changeFrameButtonExpandImage": img1,
   "changeFrameButtonCollapseImage": img2,
-  "hologramAnimationImage": img3,
+  "livenessAnimationImage": img3,
   "customLabelStatus": "test3",
   "cameraFrameLineCap": 2,
   "uiCustomizationLayer": {"test": "test"},
-  "statusTextFont": {"name": "test1", "size": 1, "style": 2},
-  "resultStatusTextFont": {"name": "test2", "size": 3, "style": 1},
+  "statusTextFont": font1,
+  "resultStatusTextFont": font2,
   "helpAnimationImageContentMode": 0,
   "multipageAnimationFrontImageContentMode": 1,
   "multipageAnimationBackImageContentMode": 2,
-  "hologramAnimationImageContentMode": 3,
+  "livenessAnimationImageContentMode": 3,
   "borderBackgroundImageContentMode": 4,
   "helpAnimationImageMatrix": [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9],
   "multipageAnimationFrontImageMatrix": [
@@ -186,9 +233,13 @@ var customization = {
     3.8,
     3.9
   ],
-  "hologramAnimationImageMatrix": [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9],
+  "livenessAnimationImageMatrix": [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9],
   "borderBackgroundImageMatrix": [5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9],
+  "colors": customizationColors,
+  "fonts": customizationFonts,
+  "images": customizationImages
 };
+var cameraSize = {"width": 0, "height": 1};
 var functionality = {
   "pictureOnBoundsReady": true,
   "showTorchButton": false,
@@ -218,13 +269,8 @@ var functionality = {
   "zoomFactor": 0.5,
   "exposure": 1.5,
   "excludedCamera2Models": ["test1", "test2", "test3"],
-  "cameraSize": {"width": 3, "height": 4},
+  "cameraSize": cameraSize,
   "videoSessionPreset": 6,
-};
-var reprocParams = {
-  "serviceUrl": "test",
-  "failIfNoService": true,
-  "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"}
 };
 var eDLDataGroups = {
   "DG1": true,
@@ -332,7 +378,6 @@ var rfidScenario = {
   "mrz": "test4",
   "eSignPINDefault": "test5",
   "eSignPINNewValue": "test6",
-  "reprocessParams": reprocParams,
   "eDLDataGroups": eDLDataGroups,
   "ePassportDataGroups": ePassportDataGroups,
   "eIDDataGroups": eIDDataGroups,
@@ -464,6 +509,7 @@ var imageQuality = {
   "featureType": 1,
   "result": 2,
   "type": 3,
+  "boundRects": [rect, rect, rect],
 };
 var imageQualityGroup = {
   "count": 1,
@@ -776,6 +822,10 @@ var position = {
   "rightTop": coordinate,
   "rightBottom": coordinate,
 };
+var transactionInfo = {
+  "transactionId": "test1",
+  "tag": "test2",
+};
 var results = {
   "chipPage": 0,
   "processingFinishedStatus": 2,
@@ -795,6 +845,7 @@ var results = {
   "barcodeResult": barcodeResult,
   "status": resultsStatus,
   "vdsncData": vdsncData,
+  "transactionInfo": transactionInfo
 };
 
 var rfidNotification = {

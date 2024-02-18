@@ -59,4 +59,11 @@ enum ImageQualityCheckType {
       return ImageQualityCheckType.UNKNOWN;
     }
   }
+
+  static List<ImageQualityCheckType>? fromIntList(List<int>? input) {
+    if (input == null) return null;
+    List<ImageQualityCheckType> list = [];
+    for (int item in input) list.addSafe(getByValue(item));
+    return list;
+  }
 }

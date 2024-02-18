@@ -26,6 +26,7 @@
 +(NSString* _Nonnull)generateSuccessCompletion:(BOOL)success :(NSError* _Nullable)error;
 +(NSString* _Nullable)generateCompletion:(NSNumber*_Nonnull)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error;
 +(NSString* _Nonnull)generatePACertificateCompletion:(NSData *_Nullable)serialNumber :(RGLPAResourcesIssuer *_Nullable)issuer;
++(NSString* _Nullable)generateFinalizePackageCompletion:(NSNumber*_Nonnull)action :(RGLTransactionInfo*_Nullable)info :(NSError*_Nullable)error;
 
 +(RGLConfig* _Nullable)configFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateConfig:(RGLConfig* _Nullable)input;
@@ -41,6 +42,10 @@
 +(NSDictionary* _Nullable)generateFaceAPISearchParams:(RGLFaceAPISearchParams* _Nullable)input;
 +(RGLFaceAPIParams* _Nullable)faceAPIParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateFaceAPIParams:(RGLFaceAPIParams* _Nullable)input;
++(RGLAuthenticityParams* _Nullable)authenticityParamsFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateAuthenticityParams:(RGLAuthenticityParams* _Nullable)input;
++(RGLLivenessParams* _Nullable)livenessParamsFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateLivenessParams:(RGLLivenessParams* _Nullable)input;
 +(RGLGlaresCheckParams* _Nullable)glaresCheckParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateGlaresCheckParams:(RGLGlaresCheckParams* _Nullable)input;
 +(RGLImageQA* _Nullable)imageQAFromJson:(NSDictionary* _Nullable)input;
@@ -49,8 +54,8 @@
 +(NSDictionary* _Nullable)generateRFIDParams:(RGLRFIDParams* _Nullable)input;
 +(RGLProcessParams* _Nullable)processParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateProcessParams:(RGLProcessParams* _Nullable)input;
-+(RGLReprocParams* _Nullable)reprocParamsFromJson:(NSDictionary* _Nullable)input;
-+(NSDictionary* _Nullable)generateReprocParams:(RGLReprocParams* _Nullable)input;
++(RGLBackendProcessingConfig* _Nullable)backendProcessingConfigFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateBackendProcessingConfig:(RGLBackendProcessingConfig* _Nullable)input;
 +(RGLeDLDataGroup* _Nullable)eDLDataGroupsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateEDLDataGroups:(RGLeDLDataGroup* _Nullable)input;
 +(RGLePassportDataGroup* _Nullable)ePassportDataGroupsFromJson:(NSDictionary* _Nullable)input;
@@ -172,6 +177,8 @@
 +(RGLTAChallenge* _Nullable)taChallengeFromJson:(NSDictionary* _Nullable)input;
 +(RGLTCCParams* _Nullable)tccParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateTCCParams:(RGLTCCParams* _Nullable)input;
++(RGLTransactionInfo* _Nullable)transactionInfoFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateTransactionInfo:(RGLTransactionInfo* _Nullable)input;
 
 @end
 #endif

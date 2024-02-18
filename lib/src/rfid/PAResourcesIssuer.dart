@@ -9,8 +9,8 @@
 part of document_reader;
 
 class PAResourcesIssuer {
-  ByteData get data => _data;
-  late ByteData _data;
+  Uint8List get data => _data;
+  late Uint8List _data;
 
   String? get friendlyName => _friendlyName;
   String? _friendlyName;
@@ -23,7 +23,7 @@ class PAResourcesIssuer {
     if (jsonObject == null) return null;
     var result = PAResourcesIssuer();
 
-    result._data = _fromBase64(jsonObject["data"])!;
+    result._data = _bytesFromBase64(jsonObject["data"])!;
     result._friendlyName = jsonObject["friendlyName"];
     for (var item in jsonObject["attributes"])
       result._attributes.addSafe(PAAttribute.fromJson(item));
@@ -33,7 +33,7 @@ class PAResourcesIssuer {
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-        "data": _toBase64(data),
+        "data": _bytesToBase64(data),
         "friendlyName": friendlyName,
         "attributes": attributes.map((e) => e.toJson()).toList(),
       }.clearNulls();

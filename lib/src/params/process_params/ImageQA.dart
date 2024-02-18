@@ -72,11 +72,11 @@ class ImageQA {
 
   /// This option controls the quality checks that the image should pass
   /// in order to be considered a valid input during the scanning process.
-  List<int>? get expectedPass => _expectedPass;
-  List<int>? _expectedPass;
-  set expectedPass(List<int>? val) {
+  List<ImageQualityCheckType>? get expectedPass => _expectedPass;
+  List<ImageQualityCheckType>? _expectedPass;
+  set expectedPass(List<ImageQualityCheckType>? val) {
     _expectedPass = val;
-    _set({"expectedPass": val});
+    _set({"expectedPass": val?.map((e) => e.value).toList()});
   }
 
   /// Specify the minimum indent from the corners of the document to the borders
@@ -110,7 +110,8 @@ class ImageQA {
     result.glaresCheck = jsonObject["glaresCheck"];
     result.colornessCheck = jsonObject["colornessCheck"];
     result.screenCapture = jsonObject["screenCapture"];
-    result.expectedPass = jsonObject["expectedPass"];
+    result.expectedPass =
+        ImageQualityCheckType.fromIntList(jsonObject["expectedPass"]);
     result.glaresCheckParams =
         GlaresCheckParams.fromJson(jsonObject["glaresCheckParams"]);
     result.documentPositionIndent = jsonObject["documentPositionIndent"];
@@ -128,21 +129,20 @@ class ImageQA {
         "glaresCheck": glaresCheck,
         "colornessCheck": colornessCheck,
         "screenCapture": screenCapture,
-        "expectedPass": expectedPass,
+        "expectedPass": expectedPass?.map((e) => e.value).toList(),
         "glaresCheckParams": glaresCheckParams?.toJson(),
         "brightnessThreshold": brightnessThreshold,
       }.clearNulls();
 
-  void _set(Map<String, dynamic> json, {ProcessParam? parent}) {
-    var processParamsJson = {"imageQA": json};
-    var processParams = DocumentReader.instance.processParams;
-    if (identical(this, processParams.imageQA))
-      processParams._set(processParamsJson);
-    parent?.testSetters.addAll(processParamsJson);
+  void _set(Map<String, dynamic> json, {ProcessParams? directParent}) {
+    var parentJson = {"imageQA": json};
+    var parent = DocumentReader.instance.processParams;
+    if (identical(this, parent.imageQA)) parent._set(parentJson);
+    directParent?.testSetters.addAll(parentJson);
     testSetters.addAll(json);
   }
 
-  void _apply(ProcessParam parent) => _set(toJson(), parent: parent);
+  void _apply(ProcessParams parent) => _set(toJson(), directParent: parent);
 
   @visibleForTesting
   Map<String, dynamic> testSetters = {};

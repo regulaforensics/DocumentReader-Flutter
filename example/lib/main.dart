@@ -54,8 +54,8 @@ class MyAppState extends State<MyApp> {
     clearResults();
     if (results == null) return;
 
-    var name = await results
-        .textFieldValueByType(VisualFieldType.SURNAME_AND_GIVEN_NAMES);
+    var name =
+        await results.textFieldValueByType(FieldType.SURNAME_AND_GIVEN_NAMES);
     var newDocImage =
         await results.graphicFieldImageByType(GraphicFieldType.DOCUMENT_IMAGE);
     var newPortrait =
@@ -63,8 +63,8 @@ class MyAppState extends State<MyApp> {
 
     setState(() {
       status = name ?? "Ready";
-      if (newDocImage != null) docImage = newDocImage;
-      if (newPortrait != null) portrait = newPortrait;
+      if (newDocImage != null) docImage = Image.memory(newDocImage);
+      if (newPortrait != null) portrait = Image.memory(newPortrait);
     });
   }
 
@@ -267,12 +267,12 @@ class MyAppState extends State<MyApp> {
   void printError(DocReaderException error) =>
       print("Error: \n  code: ${error.code}\n  message: ${error.message}");
 
-  Future<List<Image>> getImages() async {
+  Future<List<Uint8List>> getImages() async {
     setStatus("Processing image...");
     List<XFile> files = await ImagePicker().pickMultiImage();
-    List<Image> result = [];
+    List<Uint8List> result = [];
     for (XFile file in files) {
-      result.add(Image.memory(await file.readAsBytes()));
+      result.add(await file.readAsBytes());
     }
     return result;
   }

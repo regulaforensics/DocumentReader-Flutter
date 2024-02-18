@@ -80,7 +80,7 @@
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Image? get helpAnimationImage =&gt; _helpAnimationImage;</code></pre>
+  <pre class="language-dart"><code class="language-dart">ByteData? get helpAnimationImage =&gt; _helpAnimationImage;</code></pre>
 </section>
 
 </section>
@@ -102,9 +102,9 @@
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">set helpAnimationImage(Image? val) {
+  <pre class="language-dart"><code class="language-dart">set helpAnimationImage(ByteData? val) {
   _helpAnimationImage = val;
-  _set({&quot;helpAnimationImage&quot;: _imageToBase64(val)});
+  _set({&quot;helpAnimationImage&quot;: _dataToBase64(val)});
 }</code></pre>
 </section>
 
@@ -139,7 +139,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.134
+      0.1.135
   </span>
 
   
