@@ -9,17 +9,20 @@
 part of document_reader;
 
 class Font {
-  // Font family.
+  /// Font family.
+  ///
+  /// Beware that Android and iOS have diffrent font names,
+  /// so you will have to use if condition.
   String get name => _name;
   String _name;
 
-  // Font size.
+  /// Font size.
   int? get size => _size;
   int? _size;
 
-  // Font style.
-  //
-  // Android only.
+  /// Font style.
+  ///
+  /// Android only.
   FontStyle? get style => _style;
   FontStyle? _style;
 

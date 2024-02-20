@@ -167,7 +167,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "faceApiParams" -> processParams.faceApiParams = faceApiParamsFromJSON(v as JSONObject)
         "backendProcessingConfig" -> processParams.backendProcessingConfig = backendProcessingConfigFromJSON(v as JSONObject)
         "authenticityParams" -> {
-            if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams()
+            if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams.defaultParams()
             setAuthenticityParams(processParams.authenticityParams!!, v as JSONObject)
         }
     }
@@ -603,7 +603,7 @@ fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.fo
         "checkPhotoComparison" -> input.checkPhotoComparison = v as Boolean
         "checkLetterScreen" -> input.checkLetterScreen = v as Boolean
         "livenessParams" -> {
-            if (input.livenessParams == null) input.livenessParams = LivenessParams()
+            if (input.livenessParams == null) input.livenessParams = LivenessParams.defaultParams()
             setLivenessParams(input.livenessParams!!, v as JSONObject)
         }
     }

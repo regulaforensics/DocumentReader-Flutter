@@ -90,7 +90,6 @@
 
 +(NSString*)generateFinalizePackageCompletion:(NSNumber*)action :(RGLTransactionInfo*)info :(NSError*)error {
     NSMutableDictionary *result = [NSMutableDictionary new];
-    int actionInt = [action intValue];
 
     result[@"action"] = action;
     result[@"info"] = [self generateTransactionInfo:info];
@@ -270,7 +269,7 @@
     if([input valueForKey:@"httpHeaders"] != nil)
         result.httpHeaders = [input valueForKey:@"httpHeaders"];
     if([input valueForKey:@"rfidServerSideChipVerification"] != nil)
-        result.rfidServerSideChipVerification = [[input valueForKey:@"rfidServerSideChipVerification"] boolValue];
+        result.rfidServerSideChipVerification = [input valueForKey:@"rfidServerSideChipVerification"];
     
     return result;
 }
@@ -281,7 +280,7 @@
     
     result[@"url"] = input.url;
     result[@"httpHeaders"] = input.httpHeaders;
-    result[@"rfidServerSideChipVerification"] = @(input.rfidServerSideChipVerification);
+    result[@"rfidServerSideChipVerification"] = input.rfidServerSideChipVerification;
     
     return result;
 }
@@ -2211,7 +2210,7 @@
     return result;
 }
 
-+(RGLDocumentReaderResults*)documentReaderResultsFromJson:(NSDictionary*)input {    
++(RGLDocumentReaderResults*)documentReaderResultsFromJson:(NSDictionary*)input {
     NSMutableArray<RGLDocumentReaderDocumentType*>* documentType = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"documentType"]){
         [documentType addObject:[self documentReaderDocumentTypeFromJson:item]];

@@ -114,18 +114,6 @@ fun generateLongArray(array: LongArray?) = array?.let {
     result
 }
 
-fun matrixFromFloatArray(floats: FloatArray?): Matrix {
-    val matrix = Matrix()
-    matrix.setValues(floats)
-    return matrix
-}
-
-fun floatArrayFromJson(jsonArray: JSONArray): FloatArray {
-    val result = FloatArray(jsonArray.length())
-    for (i in 0 until jsonArray.length()) result[i] = jsonArray.getDouble(i).toFloat()
-    return result
-}
-
 fun stringListFromJson(jsonArray: JSONArray): List<String> {
     val result: MutableList<String> = ArrayList()
     for (i in 0 until jsonArray.length()) result.add(jsonArray.optString(i))
@@ -168,12 +156,6 @@ fun generateStringMap(input: Map<String, String?>?) = input?.let {
     val result = JSONObject()
     for ((key, value) in input) result.put(key, value)
     result
-}
-
-fun Any?.toInt() = when (this) {
-    is Double -> toInt()
-    is Long -> toInt()
-    else -> this as Int
 }
 
 fun Any?.toLong() = when (this) {

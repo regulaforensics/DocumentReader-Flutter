@@ -454,7 +454,7 @@ fun imageQAFromJSON(input: JSONObject): ImageQA {
 fun generateImageQA(input: ImageQA) = getImageQA(input)
 
 fun authenticityParamsFromJSON(input: JSONObject): AuthenticityParams {
-    val result = AuthenticityParams()
+    val result = AuthenticityParams.defaultParams()
     setAuthenticityParams(result, input)
     return result
 }
@@ -462,7 +462,7 @@ fun authenticityParamsFromJSON(input: JSONObject): AuthenticityParams {
 fun generateAuthenticityParams(input: AuthenticityParams?) = getAuthenticityParams(input)
 
 fun livenessParamsFromJSON(input: JSONObject): LivenessParams {
-    val result = LivenessParams()
+    val result = LivenessParams.defaultParams()
     setLivenessParams(result, input)
     return result
 }
@@ -1592,7 +1592,7 @@ fun generateDocumentReaderAuthenticityCheck(temp: DocumentReaderAuthenticityChec
     val input: DocumentReaderAuthenticityCheck = temp
 
     result.put("type", input.type)
-    result.put("status", input.getStatus())
+    result.put("status", input.status)
     result.put("typeName", input.getTypeName(context))
     result.put("pageIndex", input.pageIndex)
     result.put("elements", generateList(input.elements, ::generateDocumentReaderAuthenticityElement, context))
