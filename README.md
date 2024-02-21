@@ -1,43 +1,22 @@
-#  Regula Document Reader (Flutter)
+# Regula Document Reader plugin for Flutter
+<?code-excerpt path-base="example/lib"?>
+
+[![pub package](https://img.shields.io/pub/v/flutter_document_reader_api.svg)](https://pub.dev/packages/flutter_document_reader_api)
+
 Regula Document Reader SDK allows you to read various kinds of identification documents, passports, driving licenses, ID cards, etc. All processing is performed completely _**offline**_ on your device. No any data leaving your device.
 
 You can use native camera to scan the documents or image from gallery for extract all data from it.
 
 This repository contains the source code of the Document Reader API, and the sample application that demonstrates the _**API**_ calls you can use to interact with the Document Reader library.
 
-# Contents
-* [How to build demo application](#how-to-build-demo-application)
-    * [Troubleshooting license issues](#troubleshooting-license-issues)
-* [Documentation](#documentation)
-* [Additional information](#additional-information)
-
-## How to build demo application
-1. Visit [client.regulaforensics.com](https://client.regulaforensics.com) to get a trial license (`regula.license` file). The license creation wizard will guide you through the necessary steps.
-2. Download or clone this repository using the command `git clone https://github.com/regulaforensics/DocumentReader-Flutter.git`.
-3. Copy the `regula.license` file to the `example/assets` folder.
-4. Run the following commands in Terminal:
-```bash
-$ cd example
-# Install packages
-$ flutter pub get
-# Check that supported devices are running
-$ flutter devices
-# Run the app
-$ flutter run
-```
-
-### Troubleshooting license issues
-If you have issues with license verification when running the application, please verify that next is true:
-1. The OS, which you use, is specified in the license (e.g., Android and/or iOS).
-2. The license is valid (not expired).
-3. The date and time on the device, where you run the application, are valid.
-4. You use the latest release version of the Document Reader SDK.
-5. You placed the  `license` into the correct folder as described [here](#how-to-build-demo-application).
-
 ## Documentation
-You can find documentation on API [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/mobile/flutter).
 
-## Additional information
-If you have any technical questions, feel free to [contact](mailto:dev.support@regulaforensics.com) us or create issue [here](https://github.com/regulaforensics/DocumentReader-Flutter/issues).
+You can find documentation [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/mobile/flutter).
 
-To use our SDK in your own app you need to [purchase](https://pipedrivewebforms.com/form/394a3706041290a04fbd0d18e7d7810f1841159) a commercial license.
+## License
+
+To obtaining the production license or other purchasing information, please [submit an inquiry](https://regulaforensics.com/talk-to-an-expert) and our sales team will contact you shortly.
+
+## Support
+
+Please do not hesitate to [contact us](https://support.regulaforensics.com/hc/requests/new), if you need any assistance or want to report a bug / suggest an improvement.

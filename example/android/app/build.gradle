@@ -25,12 +25,12 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 34
-
+    compileSdk 34
+    
     defaultConfig {
         applicationId "com.regula.documentreader"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdk 21
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
