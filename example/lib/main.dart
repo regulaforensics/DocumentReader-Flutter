@@ -34,9 +34,7 @@ class MyAppState extends State<MyApp> {
 
   void init() async {
     super.initState();
-    if (!await prepareDatabase()) return;
     if (!await initializeReader()) return;
-
     setStatus("Ready");
     setState(() => scenarios = documentReader.availableScenarios);
   }
@@ -233,19 +231,6 @@ class MyAppState extends State<MyApp> {
         child: Text(text),
       ),
     );
-  }
-
-  Future<bool> prepareDatabase() async {
-    var (success, error) = await documentReader.prepareDatabase(
-      "Full",
-      (progress) => setStatus("Downloading database: $progress%"),
-    );
-
-    if (!success) {
-      setStatus(error!.message);
-      printError(error);
-    }
-    return success;
   }
 
   Future<bool> initializeReader() async {
