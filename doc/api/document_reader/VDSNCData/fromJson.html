@@ -92,11 +92,9 @@
   result._certificate = BytesData.fromJson(jsonObject[&quot;certificate&quot;]);
   for (var item in jsonObject[&quot;certificateChain&quot;])
     result._certificateChain.addSafe(CertificateChain.fromJson(item));
-  if (jsonObject[&quot;notifications&quot;] != null) {
-    result._notifications = [];
-    for (var item in jsonObject[&quot;notifications&quot;])
-      result._notifications!.add(item);
-  }
+  result._notifications = jsonObject[&quot;notifications&quot;] == null
+      ? null
+      : List&lt;int&gt;.from(jsonObject[&quot;notifications&quot;]);
 
   return result;
 }</code></pre>
@@ -132,7 +130,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.136
+      0.1.137
   </span>
 
   

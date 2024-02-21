@@ -188,6 +188,8 @@
         processParams.useFaceApi = [options valueForKey:@"useFaceApi"];
     if([options valueForKey:@"useAuthenticityCheck"] != nil)
         processParams.useAuthenticityCheck = [options valueForKey:@"useAuthenticityCheck"];
+    if([options valueForKey:@"checkHologram"] != nil)
+        processParams.checkHologram = [options valueForKey:@"checkHologram"];
     
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -305,6 +307,7 @@
     result[@"doDetectCan"] = processParams.doDetectCan;
     result[@"useFaceApi"] = processParams.useFaceApi;
     result[@"useAuthenticityCheck"] = processParams.useAuthenticityCheck;
+    result[@"checkHologram"] = processParams.checkHologram;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];

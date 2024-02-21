@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableString
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.regula.documentreader.api.DocumentReader.Instance
 import com.regula.documentreader.api.enums.CustomizationColor
 import com.regula.documentreader.api.enums.CustomizationFont
 import com.regula.documentreader.api.enums.CustomizationImage
@@ -100,6 +99,7 @@ fun getFunctionality(functionality: Functionality) = mapOf(
     "cameraSize" to generateCameraSize(functionality.cameraWidth, functionality.cameraHeight)
 ).toJsonObject()
 
+@Suppress("DEPRECATION")
 fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {
         "multipageProcessing" -> processParams.multipageProcessing = v as Boolean
@@ -132,6 +132,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "doDetectCan" -> processParams.doDetectCan = v as Boolean
         "useFaceApi" -> processParams.useFaceApi = v as Boolean
         "useAuthenticityCheck" -> processParams.useAuthenticityCheck = v as Boolean
+        "checkHologram" -> processParams.checkHologram = v as Boolean
         "measureSystem" -> processParams.measureSystem = v as Int
         "barcodeParserType" -> processParams.barcodeParserType = v as Int
         "perspectiveAngle" -> processParams.perspectiveAngle = v as Int
@@ -173,6 +174,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
     }
 }
 
+@Suppress("DEPRECATION")
 fun getProcessParams(processParams: ProcessParam) = mapOf(
     "multipageProcessing" to processParams.multipageProcessing,
     "logs" to processParams.isLogEnable,
@@ -204,6 +206,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "doDetectCan" to processParams.doDetectCan,
     "useFaceApi" to processParams.useFaceApi,
     "useAuthenticityCheck" to processParams.useAuthenticityCheck,
+    "checkHologram" to processParams.checkHologram,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -288,11 +291,11 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "torchButtonOnImage" -> editor.setTorchImageOn(v.toDrawable(context))
         "torchButtonOffImage" -> editor.setTorchImageOff(v.toDrawable(context))
         "livenessAnimationImage" -> editor.setLivenessAnimationImage(v.toDrawable(context))
-        "helpAnimationImageMatrix" -> editor.setHelpAnimationImageMatrix(v.toMatrix())
-        "multipageAnimationFrontImageMatrix" -> editor.setMultipageAnimationFrontImageMatrix(v.toMatrix())
-        "multipageAnimationBackImageMatrix" -> editor.setMultipageAnimationBackImageMatrix(v.toMatrix())
-        "livenessAnimationImageMatrix" -> editor.setLivenessAnimationImageMatrix(v.toMatrix())
-        "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix())
+        "helpAnimationImageMatrix" -> editor.setHelpAnimationImageMatrix(v.toMatrix()).setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
+        "multipageAnimationFrontImageMatrix" -> editor.setMultipageAnimationFrontImageMatrix(v.toMatrix()).setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
+        "multipageAnimationBackImageMatrix" -> editor.setMultipageAnimationBackImageMatrix(v.toMatrix()).setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
+        "livenessAnimationImageMatrix" -> editor.setLivenessAnimationImageMatrix(v.toMatrix()).setLivenessAnimationImageScaleType(ImageView.ScaleType.MATRIX)
+        "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix()).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
         "customLabelStatus" -> editor.setCustomLabelStatus(SpannableString(v as String))
         "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v as Int])
         "uiCustomizationLayer" -> editor.setUiCustomizationLayer(v as JSONObject)
@@ -373,14 +376,6 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "fonts" to getFonts(customization.typeFaces, customization.fontSizes),
     "images" to getImages(customization.images)
 ).toJsonObject()
-
-fun setupScaleType() = Instance().customization().edit()
-    .setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
-    .setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
-    .setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
-    .setLivenessAnimationImageScaleType(ImageView.ScaleType.MATRIX)
-    .setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
-    .apply()
 
 fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {

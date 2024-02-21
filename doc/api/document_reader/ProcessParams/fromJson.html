@@ -114,6 +114,8 @@
   result.splitNames = jsonObject[&quot;splitNames&quot;];
   result.useFaceApi = jsonObject[&quot;useFaceApi&quot;];
   result.useAuthenticityCheck = jsonObject[&quot;useAuthenticityCheck&quot;];
+  &#47;&#47; ignore: deprecated_member_use_from_same_package
+  result.checkHologram = jsonObject[&quot;checkHologram&quot;];
 
   result.measureSystem =
       MeasureSystem.getByValue(jsonObject[&quot;measureSystem&quot;]);
@@ -143,7 +145,9 @@
       _toDouble(jsonObject[&quot;timeoutFromFirstDocType&quot;]);
   result.documentAreaMin = _toDouble(jsonObject[&quot;documentAreaMin&quot;]);
 
-  result.documentIDList = jsonObject[&quot;documentIDList&quot;];
+  result.documentIDList = jsonObject[&quot;documentIDList&quot;] == null
+      ? null
+      : List&lt;int&gt;.from(jsonObject[&quot;documentIDList&quot;]);
   result.barcodeTypes = BarcodeType.fromIntList(jsonObject[&quot;barcodeTypes&quot;]);
 
   result.fieldTypesFilter =
@@ -201,7 +205,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.136
+      0.1.137
   </span>
 
   

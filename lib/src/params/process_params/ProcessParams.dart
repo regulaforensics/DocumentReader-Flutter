@@ -271,6 +271,15 @@ class ProcessParams {
     _set({"useAuthenticityCheck": val});
   }
 
+  @deprecated
+  bool? get checkHologram => _checkHologram;
+  bool? _checkHologram;
+  @deprecated
+  set checkHologram(bool? val) {
+    _checkHologram = val;
+    _set({"checkHologram": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -628,6 +637,8 @@ class ProcessParams {
     result.splitNames = jsonObject["splitNames"];
     result.useFaceApi = jsonObject["useFaceApi"];
     result.useAuthenticityCheck = jsonObject["useAuthenticityCheck"];
+    // ignore: deprecated_member_use_from_same_package
+    result.checkHologram = jsonObject["checkHologram"];
 
     result.measureSystem =
         MeasureSystem.getByValue(jsonObject["measureSystem"]);
@@ -657,7 +668,9 @@ class ProcessParams {
         _toDouble(jsonObject["timeoutFromFirstDocType"]);
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
 
-    result.documentIDList = jsonObject["documentIDList"];
+    result.documentIDList = jsonObject["documentIDList"] == null
+        ? null
+        : List<int>.from(jsonObject["documentIDList"]);
     result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
     result.fieldTypesFilter =
@@ -714,6 +727,8 @@ class ProcessParams {
         "splitNames": splitNames,
         "useFaceApi": useFaceApi,
         "useAuthenticityCheck": useAuthenticityCheck,
+        // ignore: deprecated_member_use_from_same_package
+        "checkHologram": checkHologram,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
@@ -813,7 +828,7 @@ enum MRZFormat {
     }
   }
 
-  static List<MRZFormat>? fromStringList(List<String>? input) {
+  static List<MRZFormat>? fromStringList(List<dynamic>? input) {
     if (input == null) return null;
     List<MRZFormat> list = [];
     for (String item in input) list.addSafe(getByValue(item));

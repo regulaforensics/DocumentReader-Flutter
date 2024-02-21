@@ -101,6 +101,7 @@ var processParams = {
   "splitNames": false,
   "useFaceApi": false,
   "useAuthenticityCheck": true,
+  "checkHologram": false,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,

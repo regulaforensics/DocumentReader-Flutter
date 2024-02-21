@@ -73,10 +73,9 @@ class DocumentType {
     result._description = jsonObject["dDescription"];
     result._year = jsonObject["dYear"];
     result._countryName = jsonObject["dCountryName"];
-    if (jsonObject["FDSID"] != null) {
-      result._fDSID = [];
-      for (var item in jsonObject["FDSID"]) result._fDSID!.add(item);
-    }
+    result._fDSID = jsonObject["FDSID"] == null
+        ? null
+        : List<int>.from(jsonObject["FDSID"]);
 
     return result;
   }
@@ -861,7 +860,7 @@ enum DocType {
     }
   }
 
-  static List<DocType>? fromIntList(List<int>? input) {
+  static List<DocType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<DocType> list = [];
     for (int item in input) list.addSafe(getByValue(item));

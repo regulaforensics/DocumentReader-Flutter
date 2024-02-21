@@ -196,7 +196,7 @@ enum LCID {
     }
   }
 
-  static List<LCID>? fromIntList(List<int>? input) {
+  static List<LCID>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<LCID> list = [];
     for (int item in input) list.addSafe(getByValue(item));

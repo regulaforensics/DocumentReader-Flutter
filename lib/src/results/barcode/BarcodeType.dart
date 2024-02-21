@@ -82,7 +82,7 @@ enum BarcodeType {
     }
   }
 
-  static List<BarcodeType>? fromIntList(List<int>? input) {
+  static List<BarcodeType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<BarcodeType> list = [];
     for (int item in input) list.addSafe(getByValue(item));

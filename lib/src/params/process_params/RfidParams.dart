@@ -21,7 +21,9 @@ class RFIDParams {
   static RFIDParams? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     return RFIDParams(
-      paIgnoreNotificationCodes: jsonObject["paIgnoreNotificationCodes"],
+      paIgnoreNotificationCodes: jsonObject["paIgnoreNotificationCodes"] == null
+          ? null
+          : List<int>.from(jsonObject["paIgnoreNotificationCodes"]),
     );
   }
 

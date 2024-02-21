@@ -464,7 +464,7 @@ class DocumentReader {
   }
 
   Future<FinalizePackageCompletion> finalizePackage() async {
-    var response = await _bridge.invokeMethod("finalizePackage");
+    var response = await _bridge.invokeMethod("finalizePackage", []);
 
     var jsonObject = json.decode(response);
     var action = DocReaderAction.getByValue(jsonObject["action"])!;

@@ -60,7 +60,7 @@ enum ImageQualityCheckType {
     }
   }
 
-  static List<ImageQualityCheckType>? fromIntList(List<int>? input) {
+  static List<ImageQualityCheckType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<ImageQualityCheckType> list = [];
     for (int item in input) list.addSafe(getByValue(item));

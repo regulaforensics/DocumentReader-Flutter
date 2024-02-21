@@ -1906,7 +1906,7 @@ enum FieldType {
     }
   }
 
-  static List<FieldType>? fromIntList(List<int>? input) {
+  static List<FieldType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<FieldType> list = [];
     for (int item in input) list.addSafe(getByValue(item));

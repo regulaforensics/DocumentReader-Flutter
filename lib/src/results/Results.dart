@@ -640,7 +640,7 @@ enum ResultType {
     }
   }
 
-  static List<ResultType>? fromIntList(List<int>? input) {
+  static List<ResultType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<ResultType> list = [];
     for (int item in input) list.addSafe(getByValue(item));

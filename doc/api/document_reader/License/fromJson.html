@@ -82,7 +82,9 @@ static License? fromJson(jsonObject) {
   var result = License();
 
   result._expiryDate = jsonObject[&quot;expiryDate&quot;];
-  result._countryFilter = jsonObject[&quot;countryFilter&quot;];
+  result._countryFilter = jsonObject[&quot;countryFilter&quot;] == null
+      ? null
+      : List&lt;String&gt;.from(jsonObject[&quot;countryFilter&quot;]);
   result._isRfidAvailable = jsonObject[&quot;isRfidAvailable&quot;];
 
   return result;
@@ -119,7 +121,7 @@ static License? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.136
+      0.1.137
   </span>
 
   
