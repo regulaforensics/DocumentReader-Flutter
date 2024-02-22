@@ -53,11 +53,11 @@ fun setFunctionality(functionality: Functionality, opts: JSONObject) = opts.forE
         "manualMultipageMode" -> editor.setManualMultipageMode(v as Boolean)
         "showCaptureButtonDelayFromDetect" -> editor.setShowCaptureButtonDelayFromDetect(v.toLong())
         "showCaptureButtonDelayFromStart" -> editor.setShowCaptureButtonDelayFromStart(v.toLong())
-        "orientation" -> editor.setOrientation(v as Int)
-        "captureMode" -> editor.setCaptureMode(v as Int)
-        "cameraPosition" -> editor.setCameraMode(v as Int)
-        "rfidTimeout" -> editor.setRfidTimeout(v as Int)
-        "forcePagesCount" -> editor.setForcePagesCount(v as Int)
+        "orientation" -> editor.setOrientation(v.toInt())
+        "captureMode" -> editor.setCaptureMode(v.toInt())
+        "cameraPosition" -> editor.setCameraMode(v.toInt())
+        "rfidTimeout" -> editor.setRfidTimeout(v.toInt())
+        "forcePagesCount" -> editor.setForcePagesCount(v.toInt())
         "cameraFrame" -> editor.setCameraFrame(v as String)
         "btDeviceName" -> editor.setBtDeviceName(v as String)
         "zoomFactor" -> editor.setZoomFactor(v.toFloat())
@@ -133,19 +133,19 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "useFaceApi" -> processParams.useFaceApi = v as Boolean
         "useAuthenticityCheck" -> processParams.useAuthenticityCheck = v as Boolean
         "checkHologram" -> processParams.checkHologram = v as Boolean
-        "measureSystem" -> processParams.measureSystem = v as Int
-        "barcodeParserType" -> processParams.barcodeParserType = v as Int
-        "perspectiveAngle" -> processParams.perspectiveAngle = v as Int
-        "minDPI" -> processParams.minDPI = v as Int
-        "imageDpiOutMax" -> processParams.imageDpiOutMax = v as Int
-        "forceDocID" -> processParams.forceDocID = v as Int
-        "forceDocFormat" -> processParams.forceDocFormat = v as Int
-        "shiftExpiryDate" -> processParams.shiftExpiryDate = v as Int
-        "minimalHolderAge" -> processParams.minimalHolderAge = v as Int
-        "imageOutputMaxHeight" -> processParams.imageOutputMaxHeight = v as Int
-        "imageOutputMaxWidth" -> processParams.imageOutputMaxWidth = v as Int
-        "processAuth" -> processParams.processAuth = v as Int
-        "convertCase" -> processParams.convertCase = v as Int
+        "measureSystem" -> processParams.measureSystem = v.toInt()
+        "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
+        "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
+        "minDPI" -> processParams.minDPI = v.toInt()
+        "imageDpiOutMax" -> processParams.imageDpiOutMax = v.toInt()
+        "forceDocID" -> processParams.forceDocID = v.toInt()
+        "forceDocFormat" -> processParams.forceDocFormat = v.toInt()
+        "shiftExpiryDate" -> processParams.shiftExpiryDate = v.toInt()
+        "minimalHolderAge" -> processParams.minimalHolderAge = v.toInt()
+        "imageOutputMaxHeight" -> processParams.imageOutputMaxHeight = v.toInt()
+        "imageOutputMaxWidth" -> processParams.imageOutputMaxWidth = v.toInt()
+        "processAuth" -> processParams.processAuth = v.toInt()
+        "convertCase" -> processParams.convertCase = v.toInt()
         "dateFormat" -> processParams.dateFormat = v as String
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
@@ -252,11 +252,11 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "showHelpAnimation" -> editor.setShowHelpAnimation(v as Boolean)
         "showNextPageAnimation" -> editor.setShowNextPageAnimation(v as Boolean)
         "showBackgroundMask" -> editor.setShowBackgroundMask(v as Boolean)
-        "cameraFrameBorderWidth" -> editor.setCameraFrameBorderWidth(v as Int)
-        "cameraFrameLineLength" -> editor.setCameraFrameLineLength(v as Int)
-        "cameraFrameShapeType" -> editor.setCameraFrameShapeType(v as Int)
-        "cameraFrameOffsetWidth" -> editor.setCameraFrameOffsetWidth(v as Int)
-        "activityIndicatorSize" -> editor.setActivityIndicatorSize(v as Int)
+        "cameraFrameBorderWidth" -> editor.setCameraFrameBorderWidth(v.toInt())
+        "cameraFrameLineLength" -> editor.setCameraFrameLineLength(v.toInt())
+        "cameraFrameShapeType" -> editor.setCameraFrameShapeType(v.toInt())
+        "cameraFrameOffsetWidth" -> editor.setCameraFrameOffsetWidth(v.toInt())
+        "activityIndicatorSize" -> editor.setActivityIndicatorSize(v.toInt())
         "status" -> editor.setStatus(v as String)
         "resultStatus" -> editor.setResultStatus(v as String)
         "cameraFrameDefaultColor" -> editor.setCameraFrameDefaultColor(v.toColor())
@@ -297,7 +297,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "livenessAnimationImageMatrix" -> editor.setLivenessAnimationImageMatrix(v.toMatrix()).setLivenessAnimationImageScaleType(ImageView.ScaleType.MATRIX)
         "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix()).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
         "customLabelStatus" -> editor.setCustomLabelStatus(SpannableString(v as String))
-        "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v as Int])
+        "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v.toInt()])
         "uiCustomizationLayer" -> editor.setUiCustomizationLayer(v as JSONObject)
         "colors" -> setColors(editor, v as JSONObject)
         "fonts" -> setFonts(editor, v as JSONObject)
@@ -412,15 +412,15 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "authorizedInstallQCert" -> rfidScenario.isAuthorizedInstallQCert = v as Boolean
         "applyAmendments" -> rfidScenario.isApplyAmendments = v as Boolean
         "autoSettings" -> rfidScenario.isAutoSettings = v as Boolean
-        "signManagementAction" -> rfidScenario.signManagementAction = v as Int
-        "readingBuffer" -> rfidScenario.readingBuffer = v as Int
-        "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v as Int
-        "profilerType" -> rfidScenario.profilerType = v as Int
-        "authProcType" -> rfidScenario.authProcType = v as Int
-        "baseSMProcedure" -> rfidScenario.baseSMProcedure = v as Int
-        "pacePasswordType" -> rfidScenario.pacePasswordType = v as Int
-        "terminalType" -> rfidScenario.terminalType = v as Int
-        "defaultReadingBufferSize" -> rfidScenario.defaultReadingBufferSize = v as Int
+        "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
+        "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
+        "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
+        "profilerType" -> rfidScenario.profilerType = v.toInt()
+        "authProcType" -> rfidScenario.authProcType = v.toInt()
+        "baseSMProcedure" -> rfidScenario.baseSMProcedure = v.toInt()
+        "pacePasswordType" -> rfidScenario.pacePasswordType = v.toInt()
+        "terminalType" -> rfidScenario.terminalType = v.toInt()
+        "defaultReadingBufferSize" -> rfidScenario.defaultReadingBufferSize = v.toInt()
         "password" -> rfidScenario.password = v as String
         "pkdPA" -> rfidScenario.pkdPA = v as String
         "pkdEAC" -> rfidScenario.pkdEAC = v as String
@@ -559,9 +559,9 @@ fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
         "glaresCheck" -> input.glaresCheck = v as Boolean
         "colornessCheck" -> input.colornessCheck = v as Boolean
         "screenCapture" -> input.screenCapture = v as Boolean
-        "dpiThreshold" -> input.dpiThreshold = v as Int
-        "angleThreshold" -> input.angleThreshold = v as Int
-        "documentPositionIndent" -> input.documentPositionIndent = v as Int
+        "dpiThreshold" -> input.dpiThreshold = v.toInt()
+        "angleThreshold" -> input.angleThreshold = v.toInt()
+        "documentPositionIndent" -> input.documentPositionIndent = v.toInt()
         "brightnessThreshold" -> input.brightnessThreshold = v as Double
         "expectedPass" -> input.expectedPass = v.toIntArray()
         "glaresCheckParams" -> input.glaresCheckParams = glaresCheckParamsFromJSON(v as JSONObject)

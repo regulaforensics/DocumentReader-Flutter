@@ -64,20 +64,23 @@ class RecognizeConfig {
   List<ImageInputData>? get imageInputData => _imageInputData;
   List<ImageInputData>? _imageInputData;
 
-  RecognizeConfig.withScenario(Scenario scenario, RecognizeData data)
+  RecognizeConfig.withScenario(Scenario scenario, RecognizeData recognizeData)
       : _scenario = scenario,
         _onlineProcessingConfig = null,
-        _image = data.image,
-        _images = data.images,
-        _imageInputData = data.imageInputData;
+        _image = recognizeData.image,
+        _data = recognizeData.data,
+        _images = recognizeData.images,
+        _imageInputData = recognizeData.imageInputData;
 
   RecognizeConfig.withOnlineProcessingConfig(
-      OnlineProcessingConfig onlineProcessingConfig, RecognizeData data)
+      OnlineProcessingConfig onlineProcessingConfig,
+      RecognizeData recognizeData)
       : _scenario = null,
         _onlineProcessingConfig = onlineProcessingConfig,
-        _image = data.image,
-        _images = data.images,
-        _imageInputData = data.imageInputData;
+        _image = recognizeData.image,
+        _data = recognizeData.data,
+        _images = recognizeData.images,
+        _imageInputData = recognizeData.imageInputData;
 
   RecognizeConfig._empty();
 
