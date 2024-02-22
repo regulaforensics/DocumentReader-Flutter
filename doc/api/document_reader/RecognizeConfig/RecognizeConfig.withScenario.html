@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
       <span class="name ">RecognizeConfig.withScenario</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="withScenario-param-scenario"><span class="type-annotation"><a href="../../document_reader/Scenario.html">Scenario</a></span> <span class="parameter-name">scenario</span>, </span></li>
-<li><span class="parameter" id="withScenario-param-data"><span class="type-annotation"><a href="../../document_reader/RecognizeData-class.html">RecognizeData</a></span> <span class="parameter-name">data</span></span></li>
+<li><span class="parameter" id="withScenario-param-recognizeData"><span class="type-annotation"><a href="../../document_reader/RecognizeData-class.html">RecognizeData</a></span> <span class="parameter-name">recognizeData</span></span></li>
 </ol>)
     </section>
 
@@ -73,12 +73,13 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">RecognizeConfig.withScenario(Scenario scenario, RecognizeData data)
+  <pre class="language-dart"><code class="language-dart">RecognizeConfig.withScenario(Scenario scenario, RecognizeData recognizeData)
     : _scenario = scenario,
       _onlineProcessingConfig = null,
-      _image = data.image,
-      _images = data.images,
-      _imageInputData = data.imageInputData;</code></pre>
+      _image = recognizeData.image,
+      _data = recognizeData.data,
+      _images = recognizeData.images,
+      _imageInputData = recognizeData.imageInputData;</code></pre>
 </section>
 
 
@@ -111,7 +112,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.1.0
+      7.1.1
   </span>
 
   

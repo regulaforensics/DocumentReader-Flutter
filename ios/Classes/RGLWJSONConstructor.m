@@ -199,7 +199,7 @@
 
 +(RGLRecognizeConfig*)recognizeConfigFromJson:(NSDictionary*)input {
     if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
-    if([input valueForKey:@"image"] == nil && [input valueForKey:@"image"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
+    if([input valueForKey:@"image"] == nil && [input valueForKey:@"data"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
     RGLRecognizeConfig *config = [RGLRecognizeConfig alloc];
 
     if([input valueForKey:@"image"] != nil)

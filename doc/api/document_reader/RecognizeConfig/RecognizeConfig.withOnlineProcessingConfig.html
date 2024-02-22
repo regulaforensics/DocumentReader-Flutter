@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
       <span class="name ">RecognizeConfig.withOnlineProcessingConfig</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="withOnlineProcessingConfig-param-onlineProcessingConfig"><span class="type-annotation"><a href="../../document_reader/OnlineProcessingConfig-class.html">OnlineProcessingConfig</a></span> <span class="parameter-name">onlineProcessingConfig</span>, </span></li>
-<li><span class="parameter" id="withOnlineProcessingConfig-param-data"><span class="type-annotation"><a href="../../document_reader/RecognizeData-class.html">RecognizeData</a></span> <span class="parameter-name">data</span></span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-recognizeData"><span class="type-annotation"><a href="../../document_reader/RecognizeData-class.html">RecognizeData</a></span> <span class="parameter-name">recognizeData</span></span></li>
 </ol>)
     </section>
 
@@ -74,12 +74,14 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">RecognizeConfig.withOnlineProcessingConfig(
-    OnlineProcessingConfig onlineProcessingConfig, RecognizeData data)
+    OnlineProcessingConfig onlineProcessingConfig,
+    RecognizeData recognizeData)
     : _scenario = null,
       _onlineProcessingConfig = onlineProcessingConfig,
-      _image = data.image,
-      _images = data.images,
-      _imageInputData = data.imageInputData;</code></pre>
+      _image = recognizeData.image,
+      _data = recognizeData.data,
+      _images = recognizeData.images,
+      _imageInputData = recognizeData.imageInputData;</code></pre>
 </section>
 
 
@@ -112,7 +114,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.1.0
+      7.1.1
   </span>
 
   
