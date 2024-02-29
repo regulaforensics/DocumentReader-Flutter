@@ -190,7 +190,7 @@
         processParams.useAuthenticityCheck = [options valueForKey:@"useAuthenticityCheck"];
     if([options valueForKey:@"checkHologram"] != nil)
         processParams.checkHologram = [options valueForKey:@"checkHologram"];
-    
+
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
         processParams.measureSystem = [[options valueForKey:@"measureSystem"] integerValue];
@@ -218,7 +218,7 @@
         processParams.processAuth = [options valueForKey:@"processAuth"];
     if([options valueForKey:@"convertCase"] != nil)
         processParams.convertCase = [self textProcessingWithNumber:[options valueForKey:@"convertCase"]];
-    
+
     // String
     if([options valueForKey:@"dateFormat"] != nil)
         processParams.dateFormat = [options valueForKey:@"dateFormat"];
@@ -226,7 +226,7 @@
         processParams.scenario = [options valueForKey:@"scenario"];
     if([options valueForKey:@"captureButtonScenario"] != nil)
         processParams.captureButtonScenario = [options valueForKey:@"captureButtonScenario"];
-    
+
     // Double
     if([options valueForKey:@"timeout"] != nil)
         processParams.timeout = [options valueForKey:@"timeout"];
@@ -236,7 +236,7 @@
         processParams.timeoutFromFirstDocType = [options valueForKey:@"timeoutFromFirstDocType"];
     if([options valueForKey:@"documentAreaMin"] != nil)
         processParams.documentAreaMin = [options valueForKey:@"documentAreaMin"];
-    
+
     // JSONArray
     if([options valueForKey:@"documentIDList"] != nil)
         processParams.documentIDList = [options valueForKey:@"documentIDList"];
@@ -254,7 +254,7 @@
         processParams.lcidIgnoreFilter = [options mutableArrayValueForKey:@"lcidIgnoreFilter"];
     if([options valueForKey:@"lcidFilter"] != nil)
         processParams.lcidFilter = [options mutableArrayValueForKey:@"lcidFilter"];
-    
+
     // JSONObject
     if([options valueForKey:@"imageQA"] != nil)
         [self setImageQA:processParams.imageQA input:[options valueForKey:@"imageQA"]];
@@ -268,7 +268,7 @@
         if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
         [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
     }
-    
+
     // Custom
     if([options valueForKey:@"customParams"] != nil)
         processParams.customParams = [options valueForKey:@"customParams"];
@@ -276,7 +276,7 @@
 
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams {
     NSMutableDictionary *result = [NSMutableDictionary new];
-    
+
     // Boolean
     result[@"multipageProcessing"] = processParams.multipageProcessing;
     result[@"logs"] = processParams.logs;

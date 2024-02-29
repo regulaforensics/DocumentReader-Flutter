@@ -290,7 +290,7 @@ fun scan(config: JSONObject) {
 
 fun recognize(config: JSONObject) {
     stopBackgroundRFID()
-    Instance().recognize(context, recognizeConfigFromJSON(config), completion)
+    Instance().recognize(recognizeConfigFromJSON(config), completion)
 }
 
 fun startNewPage(callback: Callback) {

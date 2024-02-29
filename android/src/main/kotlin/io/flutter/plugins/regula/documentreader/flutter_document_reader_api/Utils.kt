@@ -158,6 +158,12 @@ fun generateStringMap(input: Map<String, String?>?) = input?.let {
     result
 }
 
+fun Any?.toInt() = when (this) {
+    is Double -> toInt()
+    is Long -> toInt()
+    else -> this as Int
+}
+
 fun Any?.toLong() = when (this) {
     is Double -> toLong()
     is Int -> toLong()
