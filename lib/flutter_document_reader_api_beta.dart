@@ -60,6 +60,7 @@ part 'src/info/License.dart';
 part 'src/info/DocReaderScenario.dart';
 part 'src/info/DocReaderVersion.dart';
 part 'src/info/DocumentsDatabase.dart';
+part 'src/info/PrepareProgress.dart';
 
 part 'src/results/authenticity/AuthenticityCheck.dart';
 part 'src/results/authenticity/AuthenticityElement.dart';
@@ -144,8 +145,8 @@ class DocumentReader {
   List<DocReaderScenario> _availableScenarios = [];
 
   /// Information about the SDK.
-  DocReaderVersion? get version => _version;
-  late final DocReaderVersion? _version;
+  DocReaderVersion get version => _version;
+  late DocReaderVersion _version;
 
   /// Information about your license.
   License get license => _license;
@@ -515,7 +516,7 @@ class DocumentReader {
   }
 
   Future<License> _getLicense() async {
-    String? response = await _bridge.invokeMethod("getLicense", []);
+    String response = await _bridge.invokeMethod("getLicense", []);
     return License.fromJson(_decode(response))!;
   }
 
@@ -532,9 +533,9 @@ class DocumentReader {
     return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
   }
 
-  Future<DocReaderVersion?> _getDocReaderVersion() async {
-    String? response = await _bridge.invokeMethod("getDocReaderVersion", []);
-    return DocReaderVersion.fromJson(_decode(response));
+  Future<DocReaderVersion> _getDocReaderVersion() async {
+    String response = await _bridge.invokeMethod("getDocReaderVersion", []);
+    return DocReaderVersion.fromJson(_decode(response))!;
   }
 
   Future<String?> _getRfidSessionStatus() async {
@@ -616,12 +617,6 @@ typedef DocumentReaderCompletion = void Function(
   Results? results,
   DocReaderException? error,
 );
-
-/// Callback for receiving notifications on
-/// Documents Database preparation.
-///
-/// [progress] current % value of progress.
-typedef DocumentReaderPrepareCompletion = void Function(int progress);
 
 /// Keeps user notified about btDevice`s connection state.
 /// Used in [DocumentReader.startBluetoothService]

@@ -53,8 +53,8 @@
         functionality.orientation = [self interfaceOrientationMaskWithNumber:[options valueForKey:@"orientation"]];
     if([options valueForKey:@"captureMode"] != nil)
         functionality.captureMode = [[options valueForKey:@"captureMode"] integerValue];
-    if([options valueForKey:@"cameraPosition"] != nil)
-        functionality.cameraPosition = [self captureDevicePositionWithNumber:[options valueForKey:@"cameraPosition"]];
+    if(options[@"cameraPositionIOS"])
+        functionality.cameraPosition = [options[@"cameraPositionIOS"] integerValue];
     
     // String
     if([options valueForKey:@"cameraFrame"] != nil)
@@ -105,7 +105,7 @@
     result[@"forcePagesCount"] = functionality.forcePagesCount;
     result[@"orientation"] = [self generateInterfaceOrientationMask:functionality.orientation];
     result[@"captureMode"] = [NSNumber numberWithInteger:functionality.captureMode];
-    result[@"cameraPosition"] = [self generateCaptureDevicePosition:functionality.cameraPosition];
+    result[@"cameraPositionIOS"] = @(functionality.cameraPosition);
     
     // String
     result[@"cameraFrame"] = [self generateDocReaderFrame:functionality.cameraFrame];
@@ -641,6 +641,8 @@
         rfidScenario.applyAmendments = [[options valueForKey:@"applyAmendments"] boolValue];
     if([options valueForKey:@"autoSettings"] != nil)
         rfidScenario.autoSettings = [[options valueForKey:@"autoSettings"] boolValue];
+    if([options valueForKey:@"proceedReadingAlways"] != nil)
+        rfidScenario.proceedReadingAlways = [[options valueForKey:@"proceedReadingAlways"] boolValue];
     
     // Int
     if([options valueForKey:@"signManagementAction"] != nil)
@@ -722,6 +724,7 @@
     result[@"authorizedInstallQCert"] = [NSNumber numberWithBool:rfidScenario.authorizedInstallQCert];
     result[@"applyAmendments"] = [NSNumber numberWithBool:rfidScenario.applyAmendments];
     result[@"autoSettings"] = [NSNumber numberWithBool:rfidScenario.autoSettings];
+    result[@"proceedReadingAlways"] = [NSNumber numberWithBool:rfidScenario.proceedReadingAlways];
     
     // Int
     result[@"signManagementAction"] = [NSNumber numberWithInteger:rfidScenario.signManagementAction];
@@ -861,10 +864,9 @@
         result.colornessCheck = [input valueForKey:@"colornessCheck"];
     if([input valueForKey:@"screenCapture"] != nil)
         result.screenCapture = [input valueForKey:@"screenCapture"];
-    if([input valueForKey:@"expectedPass"] != nil){
-        NSMutableArray<RGLImageQualityCheckType> *expectedPass = [NSMutableArray new];
-        for(NSString* str in [input valueForKey:@"expectedPass"])
-            [expectedPass addObject:str];
+    if (input[@"expectedPass"]) {
+        NSMutableArray<RGLImageQualityCheckType>* expectedPass = @[].mutableCopy;
+        for(NSNumber* item in input[@"expectedPass"]) [expectedPass addObject:[self imageQualityCheckTypeWithNumber:item]];
         result.expectedPass = expectedPass;
     }
     if([input valueForKey:@"documentPositionIndent"] != nil)
@@ -884,7 +886,11 @@
     result[@"glaresCheck"] = input.glaresCheck;
     result[@"colornessCheck"] = input.colornessCheck;
     result[@"screenCapture"] = input.screenCapture;
-    result[@"expectedPass"] = input.expectedPass;
+    if (input.expectedPass) {
+        NSMutableArray<NSNumber*>* expectedPass = @[].mutableCopy;
+        for(RGLImageQualityCheckType item in input.expectedPass) [expectedPass addObject:[self generateImageQualityCheckType:item]];
+        result[@"expectedPass"] = expectedPass;
+    }
     result[@"documentPositionIndent"] = input.documentPositionIndent;
     result[@"glaresCheckParams"] = [RGLWJSONConstructor generateGlaresCheckParams:input.glaresCheckParams];
     result[@"brightnessThreshold"] = input.brightnessThreshold;
@@ -1172,39 +1178,20 @@
 
 +(UIInterfaceOrientationMask)interfaceOrientationMaskWithNumber:(NSNumber*)value {
     int input = [value intValue];
-    if(input == 0) return UIInterfaceOrientationMaskPortrait;
-    if(input == 1) return UIInterfaceOrientationMaskLandscapeLeft;
-    if(input == 2) return UIInterfaceOrientationMaskLandscapeRight;
-    if(input == 3) return UIInterfaceOrientationMaskPortraitUpsideDown;
-    if(input == 4) return UIInterfaceOrientationMaskLandscape;
-    if(input == 5) return UIInterfaceOrientationMaskAll;
-    if(input == 6) return UIInterfaceOrientationMaskAllButUpsideDown;
+    if(input == 0) return UIInterfaceOrientationMaskAll;
+    if(input == 1) return UIInterfaceOrientationMaskPortrait;
+    if(input == 2) return UIInterfaceOrientationMaskLandscape;
+    if(input == 3) return UIInterfaceOrientationMaskLandscapeLeft;
+    if(input == 4) return UIInterfaceOrientationMaskLandscapeRight;
     return UIInterfaceOrientationMaskPortrait;
 }
 
 +(NSNumber*)generateInterfaceOrientationMask:(UIInterfaceOrientationMask)value {
-    if(value == UIInterfaceOrientationMaskPortrait) return @0;
-    if(value == UIInterfaceOrientationMaskLandscapeLeft) return @1;
-    if(value == UIInterfaceOrientationMaskLandscapeRight) return @2;
-    if(value == UIInterfaceOrientationMaskPortraitUpsideDown) return @3;
-    if(value == UIInterfaceOrientationMaskLandscape) return @4;
-    if(value == UIInterfaceOrientationMaskAll) return @5;
-    if(value == UIInterfaceOrientationMaskAllButUpsideDown) return @6;
-    return @0;
-}
-
-+(AVCaptureDevicePosition)captureDevicePositionWithNumber:(NSNumber*)value {
-    int input = [value intValue];
-    if(input == 0) return AVCaptureDevicePositionUnspecified;
-    if(input == 1) return AVCaptureDevicePositionBack;
-    if(input == 2) return AVCaptureDevicePositionFront;
-    return AVCaptureDevicePositionUnspecified;
-}
-
-+(NSNumber*)generateCaptureDevicePosition:(AVCaptureDevicePosition)value {
-    if(value == AVCaptureDevicePositionUnspecified) return @0;
-    if(value == AVCaptureDevicePositionBack) return @1;
-    if(value == AVCaptureDevicePositionFront) return @2;
+    if(value == UIInterfaceOrientationMaskAll) return @0;
+    if(value == UIInterfaceOrientationMaskPortrait) return @1;
+    if(value == UIInterfaceOrientationMaskLandscape) return @2;
+    if(value == UIInterfaceOrientationMaskLandscapeLeft) return @3;
+    if(value == UIInterfaceOrientationMaskLandscapeRight) return @4;
     return @0;
 }
 

@@ -48,7 +48,8 @@ void _setDocumentReaderPrepareCompletion(
     DocumentReaderPrepareCompletion completion) {
   _documentReaderPrepareCompletion = completion;
   _eventChannel('database_progress', (msg) {
-    _documentReaderPrepareCompletion(msg);
+    var progress = PrepareProgress.fromJson(json.decode(msg))!;
+    _documentReaderPrepareCompletion(progress);
   });
 }
 

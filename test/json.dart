@@ -264,7 +264,8 @@ var functionality = {
   "forcePagesCount": 3,
   "orientation": 1,
   "captureMode": 2,
-  "cameraPosition": 1,
+  "cameraMode": 0,
+  "cameraPositionIOS": 1,
   "cameraFrame": "id1",
   "btDeviceName": "test",
   "zoomFactor": 0.5,
@@ -364,6 +365,7 @@ var rfidScenario = {
   "authorizedInstallQCert": true,
   "applyAmendments": false,
   "autoSettings": true,
+  "proceedReadingAlways": false,
   "readingBuffer": 1,
   "onlineTAToSignDataType": 3,
   "defaultReadingBufferSize": 2,
@@ -406,6 +408,15 @@ var imageInputData = {
 };
 var recognizeConfig = {
   "scenario": "Mrz",
+  "livePortrait": img1,
+  "extPortrait": img2,
+  "oneShotIdentification": true,
+  "image": img3,
+  "data": img1,
+  "images": [img1, img2, img3],
+  "imageInputData": [imageInputData, imageInputData, imageInputData]
+};
+var recognizeConfig2 = {
   "onlineProcessingConfig": onlineProcessingConfig,
   "livePortrait": img1,
   "extPortrait": img2,
@@ -465,6 +476,11 @@ var docReaderException = {
 var rfidException = {
   "code": 2,
   "message": "test2",
+};
+var prepareProgress = {
+  "downloadedBytes": 1,
+  "totalBytes": 2,
+  "progress": 50,
 };
 
 var authenticityElement = {

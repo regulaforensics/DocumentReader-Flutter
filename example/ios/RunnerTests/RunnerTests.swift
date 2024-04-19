@@ -48,13 +48,6 @@ class RunnerTests: XCTestCase {
                        "onlineProcessingConfig.processParams.uvTorchEnabled"])
     }
     
-    func test_scannerConfig2() {
-        compare(name: "scannerConfig2", fromJson: RGLWJSONConstructor.scannerConfig, generate: RGLWJSONConstructor.generate,
-                omit: ["cameraId",
-                       "onlineProcessingConfig.processParams.sessionLogFolder",
-                       "onlineProcessingConfig.processParams.uvTorchEnabled"])
-    }
-    
     // params.process_params
     
     func test_faceApiSearchParams() {
@@ -135,7 +128,8 @@ class RunnerTests: XCTestCase {
                        "rfidTimeout",
                        "exposure",
                        "excludedCamera2Models",
-                       "cameraSize"])
+                       "cameraSize",
+                       "cameraMode"])
     }
     
     // info

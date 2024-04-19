@@ -242,6 +242,13 @@ class RFIDScenario {
     _set({"autoSettings": val});
   }
 
+  bool? get proceedReadingAlways => _proceedReadingAlways;
+  bool? _proceedReadingAlways;
+  set proceedReadingAlways(bool? val) {
+    _proceedReadingAlways = val;
+    _set({"proceedReadingAlways": val});
+  }
+
   int? get readingBuffer => _readingBuffer;
   int? _readingBuffer;
   set readingBuffer(int? val) {
@@ -410,6 +417,7 @@ class RFIDScenario {
     result.authorizedInstallQCert = jsonObject["authorizedInstallQCert"];
     result.applyAmendments = jsonObject["applyAmendments"];
     result.autoSettings = jsonObject["autoSettings"];
+    result.proceedReadingAlways = jsonObject["proceedReadingAlways"];
 
     result.readingBuffer = jsonObject["readingBuffer"];
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
@@ -478,6 +486,7 @@ class RFIDScenario {
         "authorizedInstallQCert": authorizedInstallQCert,
         "applyAmendments": applyAmendments,
         "autoSettings": autoSettings,
+        "proceedReadingAlways": proceedReadingAlways,
         "readingBuffer": readingBuffer,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,

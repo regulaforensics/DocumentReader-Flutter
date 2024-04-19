@@ -118,6 +118,16 @@ enum ErrorCodes {
   /// The operation failed due to RFID reading has already started.
   RFID_IN_PROGRESS(25),
 
+  START_BACKEND_PROCESSING(26),
+
+  ADD_DATA_TO_PACKAGE(27),
+
+  FINALIZE_FAILED(28),
+
+  CAMERA_NO_PERMISSION(29),
+
+  CAMERA_NOT_AVAILABLE(30),
+
   BACKEND_ONLINE_PROCESSING(303),
 
   WRONG_INPUT(400),

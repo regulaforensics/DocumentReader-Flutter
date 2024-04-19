@@ -170,18 +170,17 @@
 }
 
 +(RGLScannerConfig*)scannerConfigFromJson:(NSDictionary*)input {
-    if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
-    RGLScannerConfig *config = [RGLScannerConfig new];
-
-    if([input valueForKey:@"scenario"] != nil)
-        config.scenario = [input valueForKey:@"scenario"];
-    if([input valueForKey:@"onlineProcessingConfig"] != nil)
-        config.onlineProcessingConfig = [self onlineProcessingConfigFromJson:[input valueForKey:@"onlineProcessingConfig"]];
-    if([input valueForKey:@"livePortrait"] != nil)
-        config.livePortrait = [self imageWithBase64:[input valueForKey:@"livePortrait"]];
-    if([input valueForKey:@"extPortrait"] != nil)
-        config.extPortrait = [self imageWithBase64:[input valueForKey:@"extPortrait"]];
-
+    RGLScannerConfig *config = [RGLScannerConfig alloc];
+    if (input[@"scenario"]) config = [config initWithScenario:input[@"scenario"]];
+    else config = [config initWithOnlineProcessingConfig:[self onlineProcessingConfigFromJson:input[@"onlineProcessingConfig"]]];
+    
+    if(input[@"onlineProcessingConfig"])
+        config.onlineProcessingConfig = [self onlineProcessingConfigFromJson:input[@"onlineProcessingConfig"]];
+    if(input[@"livePortrait"])
+        config.livePortrait = [self imageWithBase64:input[@"livePortrait"]];
+    if(input[@"extPortrait"])
+        config.extPortrait = [self imageWithBase64:input[@"extPortrait"]];
+    
     return config;
 }
 
@@ -198,37 +197,29 @@
 }
 
 +(RGLRecognizeConfig*)recognizeConfigFromJson:(NSDictionary*)input {
-    if([input valueForKey:@"scenario"] == nil && [input valueForKey:@"onlineProcessingConfig"] == nil) return nil;
-    if([input valueForKey:@"image"] == nil && [input valueForKey:@"data"] == nil && [input valueForKey:@"images"] == nil && [input valueForKey:@"imageInputs"] == nil) return nil;
     RGLRecognizeConfig *config = [RGLRecognizeConfig alloc];
+    if (input[@"scenario"]) config = [config initWithScenario:input[@"scenario"]];
+    else config = [config initWithOnlineProcessingConfig:[self onlineProcessingConfigFromJson:input[@"onlineProcessingConfig"]]];
 
-    if([input valueForKey:@"image"] != nil)
-        config = [config initWithImage:[RGLWJSONConstructor imageWithBase64:[input valueForKey:@"image"]]];
-    if([input valueForKey:@"data"] != nil)
-        config = [config initWithImageData:[RGLWJSONConstructor base64Decode:[input valueForKey:@"data"]]];
-    if([input valueForKey:@"images"] != nil) {
+    if (input[@"image"]) config.image = [RGLWJSONConstructor imageWithBase64:input[@"image"]];
+    if (input[@"data"]) config.imageData = [RGLWJSONConstructor base64Decode:input[@"data"]];
+    if (input[@"images"]) {
         NSMutableArray<UIImage*>* images = [NSMutableArray new];
-        for(NSString* base64 in [input valueForKey:@"images"])
+        for(NSString* base64 in input[@"images"])
             [images addObject:[RGLWJSONConstructor imageWithBase64:base64]];
-        config = [config initWithImages:images];
+        config.images = images;
     }
-    if([input valueForKey:@"imageInputData"] != nil) {
-        NSMutableArray<RGLImageInput*>* images = [NSMutableArray new];
-        for(NSDictionary* image in [input valueForKey:@"imageInputData"])
-            [images addObject:[RGLWJSONConstructor imageInputFromJson: image]];
-        config = [config initWithImageInputs:images];
+    if(input[@"imageInputData"]) {
+        NSMutableArray<RGLImageInput*>* imageInputs = [NSMutableArray new];
+        for(NSDictionary* imageInput in input[@"imageInputData"])
+            [imageInputs addObject:[RGLWJSONConstructor imageInputFromJson: imageInput]];
+        config.imageInputs = imageInputs;
     }
 
-    if([input valueForKey:@"scenario"] != nil)
-        config.scenario = [input valueForKey:@"scenario"];
-    if([input valueForKey:@"onlineProcessingConfig"] != nil)
-        config.onlineProcessingConfig = [self onlineProcessingConfigFromJson:[input valueForKey:@"onlineProcessingConfig"]];
-    if([input valueForKey:@"livePortrait"] != nil)
-        config.livePortrait = [self imageWithBase64:[input valueForKey:@"livePortrait"]];
-    if([input valueForKey:@"extPortrait"] != nil)
-        config.extPortrait = [self imageWithBase64:[input valueForKey:@"extPortrait"]];
-    if([input valueForKey:@"oneShotIdentification"] != nil)
-        config.oneShotIdentification = [input valueForKey:@"oneShotIdentification"];
+    if (input[@"scenario"]) config.scenario = input[@"scenario"];
+    if (input[@"livePortrait"]) config.livePortrait = [self imageWithBase64:input[@"livePortrait"]];
+    if (input[@"extPortrait"]) config.extPortrait = [self imageWithBase64:input[@"extPortrait"]];
+    if (input[@"oneShotIdentification"])  config.oneShotIdentification = input[@"oneShotIdentification"];
 
     return config;
 }

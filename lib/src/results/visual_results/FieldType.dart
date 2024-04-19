@@ -1887,7 +1887,10 @@ enum FieldType {
   DATE_OF_RETIREMENT(681),
 
   /// Document status.
-  DOCUMENT_STATUS(682);
+  DOCUMENT_STATUS(682),
+
+  /// Signature.
+  SIGNATURE(683);
 
   const FieldType(this.value);
   final int value;

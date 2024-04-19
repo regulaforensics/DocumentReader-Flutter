@@ -16,12 +16,12 @@ typedef void (^RGLWEventSender)(NSString* _Nonnull event, id _Nullable data);
 typedef void (^RGLWRFIDSignatureCallback)(NSData * _Nonnull signature);
 
 @interface FlutterDocumentReaderApiPlugin : NSObject<FlutterPlugin,
-                                                        RGLRecordScanningProcessDelegate,
-                                                        RGLDocReaderRFIDDelegate,
-                                                        RGLCustomizationActionDelegate>
+                                                     RGLRecordScanningProcessDelegate,
+                                                     RGLDocReaderRFIDDelegate,
+                                                     RGLCustomizationActionDelegate,
+                                                     RGLDocReaderDatabaseFetchDelegate>
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
-@property (class) NSNumber* _Nullable databasePercentageDownloaded;
 @property NSNumber* _Nonnull doRequestPACertificates;
 @property NSNumber* _Nonnull doRequestTACertificates;
 @property NSNumber* _Nonnull doRequestTASignature;

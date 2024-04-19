@@ -5,7 +5,6 @@
 //  Created by Pavel Masiuk on 21.09.2023.
 //  Copyright © 2023 Regula. All rights reserved.
 //
-@file:Suppress("UNCHECKED_CAST")
 
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
@@ -31,27 +30,26 @@ fun Any?.toSendable(): Any? = this?.let {
     else this
 }
 
-fun arrayListToJSONArray(list: ArrayList<*>): JSONArray {
+fun List<*>.toJson(): JSONArray {
     val result = JSONArray()
-    for (i in list.indices) {
-        when {
-            list[i] == null -> result.put(null)
-            list[i].javaClass == HashMap::class.java -> result.put(hashMapToJSONObject(list[i] as HashMap<String, *>))
-            list[i].javaClass == ArrayList::class.java -> result.put(arrayListToJSONArray(list[i] as ArrayList<*>))
-            else -> result.put(list[i])
+    for (i in indices)
+        when (val v = this[i]) {
+            null -> result.put(null)
+            is Map<*, *> -> result.put(v.toJson())
+            is List<*> -> result.put(v.toJson())
+            else -> result.put(v)
         }
-    }
     return result
 }
 
-fun hashMapToJSONObject(map: HashMap<String, *>): JSONObject {
+fun Map<*, *>.toJson(): JSONObject {
     val result = JSONObject()
-    for ((key, value) in map) {
-        when {
-            value == null -> result.put(key, null)
-            value.javaClass == HashMap::class.java -> result.put(key, hashMapToJSONObject(value as HashMap<String, *>))
-            value.javaClass == ArrayList::class.java -> result.put(key, arrayListToJSONArray(value as ArrayList<*>))
-            else -> result.put(key, value)
+    for ((k, v) in this) {
+        when (v) {
+            null -> result.put(k as String, null)
+            is Map<*, *> -> result.put(k as String, v.toJson())
+            is List<*> -> result.put(k as String, v.toJson())
+            else -> result.put(k as String, v)
         }
     }
     return result
@@ -78,6 +76,7 @@ fun <T> listFromJSON(input: JSONArray?, fromJson: (JSONObject?) -> T) = input?.l
     result
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T> listFromJSON(input: JSONArray): List<T> {
     val result: MutableList<T> = ArrayList()
     for (i in 0 until input.length()) result.add(input.opt(i) as T)
@@ -168,6 +167,12 @@ fun Any?.toLong() = when (this) {
     is Double -> toLong()
     is Int -> toLong()
     else -> this as Long
+}
+
+fun Any?.toDouble() = when (this) {
+    is Int -> toDouble()
+    is Long -> toDouble()
+    else -> this as Double
 }
 
 fun Any?.toColor() = "#" + toLong().toString(16)
