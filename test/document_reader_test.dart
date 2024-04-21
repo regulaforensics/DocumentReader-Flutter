@@ -19,9 +19,8 @@ void main() {
         OnlineProcessingConfig.fromJson);
     compare('imageInputData', imageInputData, ImageInputData.fromJson);
     compare('recognizeConfig', recognizeConfig, RecognizeConfig.fromJson);
-    compare('recognizeConfig2', recognizeConfig, RecognizeConfig.fromJson);
+    compare('recognizeConfig2', recognizeConfig2, RecognizeConfig.fromJson);
     compare('scannerConfig', scannerConfig, ScannerConfig.fromJson);
-    compare('scannerConfig2', scannerConfig, ScannerConfig.fromJson);
 
     compare('faceApiSearchParams', faceApiSearchParams,
         FaceApiSearchParams.fromJson);
@@ -58,6 +57,7 @@ void main() {
     compare(
         'docReaderException', docReaderException, DocReaderException.fromJson);
     compare('rfidException', rfidException, RFIDException.fromJson);
+    compare('prepareProgress', prepareProgress, PrepareProgress.fromJson);
 
     compare('authenticityElement', authenticityElement,
         AuthenticityElement.fromJson);

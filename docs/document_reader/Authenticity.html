@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the Authenticity enum from the document_reader library, for the Dart programming language.">
+  <title>Authenticity enum - document_reader library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">document_reader</a></li>
+    <li class="self-crumb">Authenticity enum</li>
+  </ol>
+  <div class="self-name">Authenticity</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="document_reader&#47;document_reader-library-sidebar.html"
+      data-below-sidebar="document_reader&#47;Authenticity-enum-sidebar.html">
+      <div>
+
+        <h1>
+          <span class="kind-enum">Authenticity</span>
+          enum 
+ 
+
+        </h1>
+      </div>
+
+    
+<section class="desc markdown">
+  <p>Enumeration contains identifiers that determine the possibility
+of performing different authenticity control procedures
+using images for definite lighting schemes.</p>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark eNum-relationships">
+      <li><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></li>
+        <li><a href="https://api.flutter.dev/flutter/dart-core/Enum-class.html">Enum</a></li>
+      <li>Authenticity</li>
+    </ul>
+  </dd>
+
+        
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="Authenticity" class="callable">
+          <span class="name"><a href="../document_reader/Authenticity/Authenticity.html">Authenticity</a></span><span class="signature">(<span class="parameter" id="-param-value"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">value</span></span>)</span>
+        </dt>
+        <dd>
+          
+            <div class="constructor-modifier features">const</div>
+        </dd>
+    </dl>
+  </section>
+
+    <section class="summary offset-anchor" id="values">
+      <h2>Values</h2>
+
+      <dl class="properties">
+          <dt id="UNKNOWN" class="constant">
+    <span class="name ">UNKNOWN</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Will be returned if <a href="../document_reader/Authenticity/getByValue.html">getByValue</a> if a non-existent was passed.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(-1)</code></span>
+    </div>
+</dd>
+
+          <dt id="NONE" class="constant">
+    <span class="name ">NONE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>No authenticity control procedure provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(0)</code></span>
+    </div>
+</dd>
+
+          <dt id="UV_LUMINESCENCE" class="constant">
+    <span class="name ">UV_LUMINESCENCE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Document material UV fluorescence control (check for presence of UV
+dull paper) is provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(1)</code></span>
+    </div>
+</dd>
+
+          <dt id="IR_B900" class="constant">
+    <span class="name ">IR_B900</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Control of MRZ contrast using the image for IR lighting scheme
+is provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(2)</code></span>
+    </div>
+</dd>
+
+          <dt id="IMAGE_PATTERN" class="constant">
+    <span class="name ">IMAGE_PATTERN</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Control of the presence of an image pattern with a specified color,
+shape and brightness on a document page under white, UV and IR light.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(4)</code></span>
+    </div>
+</dd>
+
+          <dt id="AXIAL_PROTECTION" class="constant">
+    <span class="name ">AXIAL_PROTECTION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>UV fluorescence of protection fibers control is provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(8)</code></span>
+    </div>
+</dd>
+
+          <dt id="UV_FIBERS" class="constant">
+    <span class="name ">UV_FIBERS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Blank elements visibility control using the images for IR lighting scheme
+is provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(16)</code></span>
+    </div>
+</dd>
+
+          <dt id="IR_VISIBILITY" class="constant">
+    <span class="name ">IR_VISIBILITY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Authenticity control using the images for white coaxial light scheme
+is provided for this document.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(32)</code></span>
+    </div>
+</dd>
+
+          <dt id="OCR_SECURITY_TEXT" class="constant">
+    <span class="name ">OCR_SECURITY_TEXT</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Make OCR for the text field in UV and compare it with other text sources.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(64)</code></span>
+    </div>
+</dd>
+
+          <dt id="IPI" class="constant">
+    <span class="name ">IPI</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Find invisible personal information images.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(128)</code></span>
+    </div>
+</dd>
+
+          <dt id="PHOTO_EMBED_TYPE" class="constant">
+    <span class="name ">PHOTO_EMBED_TYPE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Check photo is printed or sticked.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(512)</code></span>
+    </div>
+</dd>
+
+          <dt id="OVI" class="constant">
+    <span class="name ">OVI</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>OVI check.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(1024)</code></span>
+    </div>
+</dd>
+
+          <dt id="HOLOGRAMS" class="constant">
+    <span class="name ">HOLOGRAMS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Reserved for internal use.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(4096)</code></span>
+    </div>
+</dd>
+
+          <dt id="PHOTO_AREA" class="constant">
+    <span class="name ">PHOTO_AREA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Reserved for internal use.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(8192)</code></span>
+    </div>
+</dd>
+
+          <dt id="PORTRAIT_COMPARISON" class="constant">
+    <span class="name ">PORTRAIT_COMPARISON</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Portrait comparison.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(32768)</code></span>
+    </div>
+</dd>
+
+          <dt id="BARCODE_FORMAT_CHECK" class="constant">
+    <span class="name ">BARCODE_FORMAT_CHECK</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Barcode format check.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(65536)</code></span>
+    </div>
+</dd>
+
+          <dt id="KINEGRAM" class="constant">
+    <span class="name ">KINEGRAM</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Kinegram.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(131072)</code></span>
+    </div>
+</dd>
+
+          <dt id="HOLOGRAMS_DETECTION" class="constant">
+    <span class="name ">HOLOGRAMS_DETECTION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Reserved for internal use.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(524288)</code></span>
+    </div>
+</dd>
+
+          <dt id="LIVENESS" class="constant">
+    <span class="name ">LIVENESS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Liveness.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(2097152)</code></span>
+    </div>
+</dd>
+
+          <dt id="OCR" class="constant">
+    <span class="name ">OCR</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Extended OCR check.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(4194304)</code></span>
+    </div>
+</dd>
+
+          <dt id="MRZ" class="constant">
+    <span class="name ">MRZ</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Checks the correctness of the size of the MRZ lines, their relative position,
+absence of signs that the image was edited.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(8388608)</code></span>
+    </div>
+</dd>
+
+          <dt id="STATUS_ONLY" class="constant">
+    <span class="name ">STATUS_ONLY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/Authenticity.html">Authenticity</a></span>
+  
+
+</dt>
+<dd>
+  <p>Status only.</p>
+  
+
+    <div>
+      <span class="signature"><code>Authenticity(2147483648)</code></span>
+    </div>
+</dd>
+
+      </dl>
+    </section>
+
+    <section
+        class="
+          summary
+          offset-anchor"
+        id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="index" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Enum/index.html">index</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  A numeric identifier for the enumerated value.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="value" class="property">
+  <span class="name"><a href="../document_reader/Authenticity/value.html">value</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="getByValue" class="callable">
+  <span class="name"><a href="../document_reader/Authenticity/getByValue.html">getByValue</a></span><span class="signature">(<wbr><span class="parameter" id="getByValue-param-i"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">i</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../document_reader/Authenticity.html">Authenticity</a>?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+
+  <section class="summary offset-anchor" id="constants">
+    <h2>Constants</h2>
+
+    <dl class="properties">
+        <dt id="values" class="constant">
+    <span class="name "><a href="../document_reader/Authenticity/values-constant.html">values</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/Authenticity.html">Authenticity</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  A constant List of the values in this enum, in order of their declaration.
+  
+
+    <div>
+      <span class="signature"><code>[UNKNOWN, NONE, UV_LUMINESCENCE, IR_B900, IMAGE_PATTERN, AXIAL_PROTECTION, UV_FIBERS, IR_VISIBILITY, OCR_SECURITY_TEXT, IPI, PHOTO_EMBED_TYPE, OVI, HOLOGRAMS, PHOTO_AREA, PORTRAIT_COMPARISON, BARCODE_…</code></span>
+    </div>
+</dd>
+
+    </dl>
+  </section>
+  </div><!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">document_reader</a></li>
+    <li class="self-crumb">Authenticity enum</li>
+</ol>
+
+
+    <h5>document_reader library</h5>
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!-- /.sidebar-offcanvas -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_document_reader_api
+      7.2.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

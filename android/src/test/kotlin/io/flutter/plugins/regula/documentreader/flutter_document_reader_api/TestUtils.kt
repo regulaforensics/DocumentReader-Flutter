@@ -9,8 +9,6 @@ package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.test.core.app.ApplicationProvider
@@ -98,7 +96,7 @@ fun floatToDouble(input: JSONObject): JSONObject {
         val value = input.get(key)
         if (value is JSONObject) input.put(key, floatToDouble(value))
         if (value is JSONArray) input.put(key, floatToDouble(value))
-        if (value is Float) input.put(key, value.toString().toDouble())
+        if (value is Float) input.put(key, java.lang.Double.parseDouble(value.toString()))
     }
     return input
 }
@@ -108,7 +106,7 @@ fun floatToDouble(input: JSONArray): JSONArray {
         val value = input.get(i)
         if (value is JSONObject) input.put(i, floatToDouble(value))
         if (value is JSONArray) input.put(i, floatToDouble(value))
-        if (value is Float) input.put(i, value.toString().toDouble())
+        if (value is Float) input.put(i, java.lang.Double.parseDouble(value.toString()))
     }
     return input
 }

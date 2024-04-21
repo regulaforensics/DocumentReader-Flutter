@@ -258,14 +258,28 @@ class Functionality {
     _set({"captureMode": val?.value});
   }
 
+  /// Allows you to specify the camera API.
+  ///
+  /// Default: [CameraMode.AUTO].
+  ///
+  /// Android only.
+  CameraMode? get cameraMode => _cameraMode;
+  CameraMode? _cameraMode;
+  set cameraMode(CameraMode? val) {
+    _cameraMode = val;
+    _set({"cameraMode": val?.value});
+  }
+
   /// Allows you to specify a position of a capture device for the video session.
   ///
-  /// Default: [CameraPosition.AUTO].
-  CameraPosition? get cameraPosition => _cameraPosition;
-  CameraPosition? _cameraPosition;
-  set cameraPosition(CameraPosition? val) {
-    _cameraPosition = val;
-    _set({"cameraPosition": val?.value});
+  /// Default: [CameraPosition.UNSPECIFIED].
+  ///
+  /// IOS only.
+  CameraPosition? get cameraPositionIOS => _cameraPositionIOS;
+  CameraPosition? _cameraPositionIOS;
+  set cameraPositionIOS(CameraPosition? val) {
+    _cameraPositionIOS = val;
+    _set({"cameraPositionIOS": val?.value});
   }
 
   /// Set this setting to override the default cropping frame provided by scenarios.
@@ -369,8 +383,9 @@ class Functionality {
     result.orientation =
         DocReaderOrientation.getByValue(jsonObject["orientation"]);
     result.captureMode = CaptureMode.getByValue(jsonObject["captureMode"]);
-    result.cameraPosition =
-        CameraPosition.getByValue(jsonObject["cameraPosition"]);
+    result.cameraMode = CameraMode.getByValue(jsonObject["cameraMode"]);
+    result.cameraPositionIOS =
+        CameraPosition.getByValue(jsonObject["cameraPositionIOS"]);
 
     result.cameraFrame = DocReaderFrame.getByValue(jsonObject["cameraFrame"]);
     result.btDeviceName = jsonObject["btDeviceName"];
@@ -414,7 +429,8 @@ class Functionality {
         "forcePagesCount": forcePagesCount,
         "orientation": orientation?.value,
         "captureMode": captureMode?.value,
-        "cameraPosition": cameraPosition?.value,
+        "cameraMode": cameraMode?.value,
+        "cameraPositionIOS": cameraPositionIOS?.value,
         "cameraFrame": cameraFrame?.value,
         "btDeviceName": btDeviceName,
         "zoomFactor": zoomFactor,
@@ -440,7 +456,7 @@ enum CameraPosition {
   /// Will be returned if [getByValue] if a non-existent was passed.
   UNKNOWN(-1),
 
-  AUTO(0),
+  UNSPECIFIED(0),
 
   BACK(1),
 
@@ -481,6 +497,29 @@ enum CaptureMode {
       return CaptureMode.values.firstWhere((x) => x.value == i);
     } catch (_) {
       return CaptureMode.UNKNOWN;
+    }
+  }
+}
+
+enum CameraMode {
+  /// Will be returned if [getByValue] if a non-existent was passed.
+  UNKNOWN(-1),
+
+  AUTO(0),
+
+  CAMERA1(1),
+
+  CAMERA2(2);
+
+  const CameraMode(this.value);
+  final int value;
+
+  static CameraMode? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return CameraMode.values.firstWhere((x) => x.value == i);
+    } catch (_) {
+      return CameraMode.UNKNOWN;
     }
   }
 }

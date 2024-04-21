@@ -56,7 +56,7 @@ class RFIDSessionData {
 
   /// List of data groups.
   List<RFIDDataFileType>? get dataGroups => _dataGroups;
-  List<RFIDDataFileType>? _dataGroups = [];
+  List<RFIDDataFileType>? _dataGroups;
 
   /// Allows you to deserialize object.
   static RFIDSessionData? fromJson(jsonObject) {
