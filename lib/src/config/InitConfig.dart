@@ -65,8 +65,7 @@ class InitConfig {
     if (jsonObject == null) return null;
     var result = InitConfig(_dataFromBase64(jsonObject["license"])!);
 
-    if (jsonObject["customDb"] != null)
-      result.customDb = _dataFromBase64(jsonObject["customDb"]);
+    result.customDb = _dataFromBase64(jsonObject["customDb"]);
     result.delayedNNLoad = jsonObject["delayedNNLoad"];
     result.licenseUpdate = jsonObject["licenseUpdate"];
     result.blackList = jsonObject["blackList"];

@@ -252,8 +252,6 @@ RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self resetConfiguration :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReader"])
         [self initializeReader :[args objectAtIndex:0] :successCallback :errorCallback];
-    else if([action isEqualToString:@"initializeReaderAutomatically"])
-        [self initializeReaderAutomatically :successCallback :errorCallback];
     else if([action isEqualToString:@"initializeReaderWithBleDeviceConfig"])
         [self initializeReaderWithBleDeviceConfig :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"deinitializeReader"])
@@ -344,17 +342,13 @@ RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self containers :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"encryptedContainers"])
         [self encryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
-    else if([action isEqualToString:@"getTranslation"])
-        [self getTranslation :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else if([action isEqualToString:@"finalizePackage"])
         [self finalizePackage :successCallback :errorCallback];
+    else if([action isEqualToString:@"getTranslation"])
+        [self getTranslation :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else
         errorCallback([NSString stringWithFormat:@"%@/%@", @"method not implemented: ", action]);
 }
-
-static NSNumber * _databasePercentageDownloaded;
-+ (NSNumber*)databasePercentageDownloaded{ return _databasePercentageDownloaded; }
-+ (void)setDatabasePercentageDownloaded:(NSNumber *)value { _databasePercentageDownloaded = value; }
 
 NSString* RGLWCompletionEvent = @"completion";
 NSString* RGLWDatabaseProgressEvent = @"database_progress";
@@ -446,18 +440,10 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
     RGLDocReader.shared.processParams = [RGLProcessParams new];
     RGLDocReader.shared.customization = [RGLCustomization new];
     RGLDocReader.shared.rfidScenario = [RGLRFIDScenario new];
-    RGLDocReader.shared.functionality.recordScanningProcessDelegate = self;
-    RGLDocReader.shared.customization.actionDelegate = self;
 }
 
 - (void) initializeReader:(NSDictionary*)config :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor configFromJson:config] completion:[self getInitCompletion :successCallback :errorCallback]];
-}
-
-- (void) initializeReaderAutomatically:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"regula.license" ofType:nil];
-    NSData *licenseData = [NSData dataWithContentsOfFile:dataPath];
-    [RGLDocReader.shared initializeReaderWithConfig:[RGLConfig configWithLicenseData:licenseData] completion:[self getInitCompletion :successCallback :errorCallback]];
 }
 
 - (void) initializeReaderWithBleDeviceConfig:(NSDictionary*)config :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -470,7 +456,7 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 }
 
 - (void) prepareDatabase:(NSString*)databaseID :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    [RGLDocReader.shared prepareDatabase:databaseID progressHandler:[self getProgressHandler] completion:[self getPrepareCompletion :successCallback :errorCallback]];
+    [RGLDocReader.shared prepareDatabase:databaseID progressHandler:nil completion:[self getPrepareCompletion :successCallback :errorCallback]];
 }
 
 - (void) removeDatabase:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -480,7 +466,7 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 }
 
 -(void) runAutoUpdate:(NSString*)databaseID :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    [RGLDocReader.shared runAutoUpdate:databaseID progressHandler:[self getProgressHandler] completion:[self getPrepareCompletion :successCallback :errorCallback]];
+    [RGLDocReader.shared runAutoUpdate:databaseID progressHandler:nil completion:[self getPrepareCompletion :successCallback :errorCallback]];
 }
 
 - (void) cancelDBUpdate:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -774,17 +760,9 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 }
 
 -(RGLDocumentReaderPrepareCompletion _Nonnull)getPrepareCompletion:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
+    RGLDocReader.shared.databaseFetchDelegate = self;
     return ^(BOOL success, NSError * _Nullable error) {
         successCallback([RGLWJSONConstructor generateSuccessCompletion:success :error]);
-    };
-}
-
--(void (^_Nullable)(NSProgress * _Nonnull progress))getProgressHandler {
-    return ^(NSProgress * _Nonnull progress) {
-        if(FlutterDocumentReaderApiPlugin.databasePercentageDownloaded != [NSNumber numberWithDouble:progress.fractionCompleted * 100]){
-            sendEvent(RGLWDatabaseProgressEvent, [NSNumber numberWithInt:(int)(progress.fractionCompleted * 100)]);
-            [FlutterDocumentReaderApiPlugin setDatabasePercentageDownloaded:[NSNumber numberWithDouble:progress.fractionCompleted * 100]];
-        }
     };
 }
 
@@ -799,9 +777,24 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
     };
 }
 
+// RGLDocReaderDatabaseFetchDelegate
+- (void)onProgressChanged:(NSNumber *)downloadedBytes totalBytes:(NSNumber *)totalBytes {
+    int progress = 0;
+    if (downloadedBytes > 0 && totalBytes > 0) {
+        double percent = [downloadedBytes doubleValue] / [totalBytes doubleValue];
+        progress = (int) (percent * 100);
+    }
+    NSDictionary* result = @{
+        @"downloadedBytes":downloadedBytes,
+        @"totalBytes":totalBytes,
+        @"progress":@(progress)
+    };
+    sendEvent(RGLWDatabaseProgressEvent, [RGLWJSONConstructor dictToString: result]);
+}
+
 // RGLCustomizationActionDelegate
 - (void)onCustomButtonTappedWithTag:(NSInteger)tag {
-    sendEvent(RGLWOnCustomButtonTappedEvent, [NSNumber numberWithInteger:tag]);
+    sendEvent(RGLWOnCustomButtonTappedEvent, @(tag));
 }
 
 // RGLRecordScanningProcessDelegate

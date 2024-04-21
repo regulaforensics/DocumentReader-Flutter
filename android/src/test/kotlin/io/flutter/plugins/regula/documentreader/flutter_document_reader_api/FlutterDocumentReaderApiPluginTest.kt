@@ -37,9 +37,6 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun scannerConfig() = compare("scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig)
 
-    @Test
-    fun scannerConfig2() = compare("scannerConfig2", ::scannerConfigFromJSON, ::generateScannerConfig)
-
     // params.process_params
 
     @Test
@@ -110,6 +107,9 @@ class FlutterDocumentReaderApiPluginTest {
     )
 
     // info
+
+    @Test
+    fun prepareProgress() = compare("prepareProgress", ::prepareProgressFromJSON, ::generatePrepareProgress)
 
     @Test
     fun documentsDatabase() = compare("documentsDatabase", ::docReaderDocumentsDatabaseFromJSON, ::generateDocReaderDocumentsDatabase)

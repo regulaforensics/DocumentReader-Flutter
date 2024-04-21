@@ -5,7 +5,6 @@
 //  Created by Pavel Masiuk on 21.09.2023.
 //  Copyright © 2023 Regula. All rights reserved.
 //
-@file:Suppress("USELESS_CAST")
 
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
@@ -16,6 +15,7 @@ import android.graphics.Typeface
 import android.util.Pair
 import com.regula.common.exception.RegulaException
 import com.regula.documentreader.api.License
+import com.regula.documentreader.api.completions.model.PrepareProgress
 import com.regula.documentreader.api.config.RecognizeConfig
 import com.regula.documentreader.api.config.ScannerConfig
 import com.regula.documentreader.api.enums.BarcodeType
@@ -122,6 +122,17 @@ fun generateSuccessCompletion(success: Boolean, error: RegulaException?) = objec
     put("error", generateRegulaException(error))
 }
 }
+
+fun prepareProgressFromJSON(it: JSONObject) = PrepareProgress(
+    it.getInt("downloadedBytes"),
+    it.getInt("totalBytes")
+)
+
+fun generatePrepareProgress(it: PrepareProgress) = mapOf(
+    "downloadedBytes" to it.downloadedBytes,
+    "totalBytes" to it.totalBytes,
+    "progress" to it.progress
+).toJson()
 
 fun generatePACertificateCompletion(serialNumber: ByteArray?, issuer: PAResourcesIssuer?) = object : JSONObject() { init {
     put("serialNumber", generateByteArray(serialNumber))
@@ -998,9 +1009,8 @@ fun generateImageQualityGroup(temp: ImageQualityGroup?): JSONObject? {
 }
 
 fun cameraSizeFromJSON(input: JSONObject): Pair<Int, Int> {
-    val cameraSize = input.getJSONObject("cameraSize")
-    val width = cameraSize.getInt("width")
-    val height = cameraSize.getInt("height")
+    val width = input.getInt("width")
+    val height = input.getInt("height")
     return Pair(width, height)
 }
 
@@ -1962,7 +1972,7 @@ fun generateDocReaderDocumentsDatabase(temp: DocReaderDocumentsDatabase?): JSONO
     result.put("databaseDescription", input.databaseDescription)
     result.put("countriesNumber", input.countriesNumber)
     result.put("documentsNumber", input.documentsNumber)
-    result.put("size", input.size as Long?)
+    result.put("size", input.size)
 
     return result
 }

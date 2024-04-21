@@ -55,7 +55,7 @@ fun setFunctionality(functionality: Functionality, opts: JSONObject) = opts.forE
         "showCaptureButtonDelayFromStart" -> editor.setShowCaptureButtonDelayFromStart(v.toLong())
         "orientation" -> editor.setOrientation(v.toInt())
         "captureMode" -> editor.setCaptureMode(v.toInt())
-        "cameraPosition" -> editor.setCameraMode(v.toInt())
+        "cameraMode" -> editor.setCameraMode(v.toInt())
         "rfidTimeout" -> editor.setRfidTimeout(v.toInt())
         "forcePagesCount" -> editor.setForcePagesCount(v.toInt())
         "cameraFrame" -> editor.setCameraFrame(v as String)
@@ -88,7 +88,7 @@ fun getFunctionality(functionality: Functionality) = mapOf(
     "showCaptureButtonDelayFromStart" to functionality.showCaptureButtonDelayFromStart,
     "orientation" to functionality.orientation,
     "captureMode" to functionality.captureMode,
-    "cameraPosition" to functionality.cameraMode,
+    "cameraMode" to functionality.cameraMode,
     "rfidTimeout" to functionality.rfidTimeout,
     "forcePagesCount" to functionality.forcePagesCount,
     "cameraFrame" to functionality.cameraFrame,
@@ -150,10 +150,10 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
         "sessionLogFolder" -> processParams.sessionLogFolder = v as String
-        "timeout" -> processParams.timeout = v as Double
-        "timeoutFromFirstDetect" -> processParams.timeoutFromFirstDetect = v as Double
-        "timeoutFromFirstDocType" -> processParams.timeoutFromFirstDocType = v as Double
-        "documentAreaMin" -> processParams.documentAreaMin = v as Double
+        "timeout" -> processParams.timeout = v.toDouble()
+        "timeoutFromFirstDetect" -> processParams.timeoutFromFirstDetect = v.toDouble()
+        "timeoutFromFirstDocType" -> processParams.timeoutFromFirstDocType = v.toDouble()
+        "documentAreaMin" -> processParams.documentAreaMin = v.toDouble()
         "documentIDList" -> processParams.documentIDList = v.toIntArray()
         "fieldTypesFilter" -> processParams.fieldTypesFilter = v.toIntArray()
         "resultTypeOutput" -> processParams.resultTypeOutput = v.toIntArray()
@@ -412,6 +412,7 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "authorizedInstallQCert" -> rfidScenario.isAuthorizedInstallQCert = v as Boolean
         "applyAmendments" -> rfidScenario.isApplyAmendments = v as Boolean
         "autoSettings" -> rfidScenario.isAutoSettings = v as Boolean
+        "proceedReadingAlways" -> rfidScenario.proceedReadingAlways = v as Boolean
         "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
         "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
         "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
@@ -467,6 +468,7 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "authorizedInstallQCert" to rfidScenario.isAuthorizedInstallQCert,
     "applyAmendments" to rfidScenario.isApplyAmendments,
     "autoSettings" to rfidScenario.isAutoSettings,
+    "proceedReadingAlways" to rfidScenario.proceedReadingAlways,
     "signManagementAction" to rfidScenario.signManagementAction,
     "readingBuffer" to rfidScenario.readingBuffer,
     "onlineTAToSignDataType" to rfidScenario.onlineTAToSignDataType,
@@ -562,7 +564,7 @@ fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
         "dpiThreshold" -> input.dpiThreshold = v.toInt()
         "angleThreshold" -> input.angleThreshold = v.toInt()
         "documentPositionIndent" -> input.documentPositionIndent = v.toInt()
-        "brightnessThreshold" -> input.brightnessThreshold = v as Double
+        "brightnessThreshold" -> input.brightnessThreshold = v.toDouble()
         "expectedPass" -> input.expectedPass = v.toIntArray()
         "glaresCheckParams" -> input.glaresCheckParams = glaresCheckParamsFromJSON(v as JSONObject)
     }
