@@ -298,7 +298,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix()).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
         "customLabelStatus" -> editor.setCustomLabelStatus(SpannableString(v as String))
         "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v.toInt()])
-        "uiCustomizationLayer" -> editor.setUiCustomizationLayer(v as JSONObject)
+        "uiCustomizationLayer" -> editor.setUiCustomizationLayer(JSONObject(v.toString()))
         "colors" -> setColors(editor, v as JSONObject)
         "fonts" -> setFonts(editor, v as JSONObject)
         "images" -> setImages(editor, v as JSONObject, context)
