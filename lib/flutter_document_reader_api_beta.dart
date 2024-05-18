@@ -634,7 +634,8 @@ typedef DocumentReaderCompletion = void Function(
 /// [onServiceDisconnected] fires when android`s bluetooth service is destroyed.
 ///
 /// [onDeviceReady] fires when a bluetooth device is connected and ready to use.
-/// [DocumentReader.initializeReaderWithBleDeviceConfig] should be run here.
+/// [DocumentReader.initializeReader] should be run here.
+/// [InitConfig.withBleDevice] should be used to create configuration.
 ///
 /// Android only.
 abstract class BluetoothServiceCompletion {
