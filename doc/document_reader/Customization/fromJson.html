@@ -183,39 +183,49 @@
 
   if (jsonObject[&quot;helpAnimationImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;helpAnimationImageMatrix&quot;])
+    for (var value in jsonObject[&quot;helpAnimationImageMatrix&quot;]) {
       array.add(value.toDouble());
+    }
     result.helpAnimationImageTransformsAndroid = array;
-  } else
+  } else {
     result.helpAnimationImageTransformsAndroid = null;
+  }
   if (jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;])
+    for (var value in jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;]) {
       array.add(value.toDouble());
+    }
     result.multipageAnimationFrontImageTransformsAndroid = array;
-  } else
+  } else {
     result.multipageAnimationFrontImageTransformsAndroid = null;
+  }
   if (jsonObject[&quot;multipageAnimationBackImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;multipageAnimationBackImageMatrix&quot;])
+    for (var value in jsonObject[&quot;multipageAnimationBackImageMatrix&quot;]) {
       array.add(value.toDouble());
+    }
     result.multipageAnimationBackImageTransformsAndroid = array;
-  } else
+  } else {
     result.multipageAnimationBackImageTransformsAndroid = null;
+  }
   if (jsonObject[&quot;livenessAnimationImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;livenessAnimationImageMatrix&quot;])
+    for (var value in jsonObject[&quot;livenessAnimationImageMatrix&quot;]) {
       array.add(value.toDouble());
+    }
     result.livenessAnimationImageTransformsAndroid = array;
-  } else
+  } else {
     result.livenessAnimationImageTransformsAndroid = null;
+  }
   if (jsonObject[&quot;borderBackgroundImageMatrix&quot;] != null) {
     List&lt;double&gt; array = [];
-    for (var value in jsonObject[&quot;borderBackgroundImageMatrix&quot;])
+    for (var value in jsonObject[&quot;borderBackgroundImageMatrix&quot;]) {
       array.add(value.toDouble());
+    }
     result.borderBackgroundImageTransformsAndroid = array;
-  } else
+  } else {
     result.borderBackgroundImageTransformsAndroid = null;
+  }
 
   result.colors = CustomizationColors.fromJson(jsonObject[&quot;colors&quot;]);
   result.fonts = CustomizationFonts.fromJson(jsonObject[&quot;fonts&quot;]);
@@ -255,7 +265,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

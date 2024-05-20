@@ -89,8 +89,9 @@
   result._value = jsonObject[&quot;value&quot;];
   result._originalValue = jsonObject[&quot;originalValue&quot;];
   result._boundRect = Rect.fromJson(jsonObject[&quot;boundRect&quot;]);
-  for (var item in jsonObject[&quot;originalSymbols&quot;])
+  for (var item in jsonObject[&quot;originalSymbols&quot;]) {
     result._originalSymbols.addSafe(Symbol.fromJson(item));
+  }
   result._rfidOrigin = RFIDOrigin.fromJson(jsonObject[&quot;rfidOrigin&quot;]);
 
   return result;
@@ -127,7 +128,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

@@ -81,11 +81,12 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void startBluetoothService(BluetoothServiceCompletion completion) {
-  if (!Platform.isAndroid)
+  if (!Platform.isAndroid) {
     throw PlatformException(
       code: &quot;android-only&quot;,
       message: &quot;startBluetoothService is accessible only on Android&quot;,
     );
+  }
   _setBluetoothServiceCompletion(completion);
   _bridge.invokeMethod(&quot;startBluetoothService&quot;, []);
 }</code></pre>
@@ -121,7 +122,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

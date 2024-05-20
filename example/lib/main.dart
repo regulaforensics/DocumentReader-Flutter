@@ -11,7 +11,7 @@ import 'package:flutter_document_reader_api_example/extra/rfid_custom_ui.dart';
 import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_document_reader_api_beta/flutter_document_reader_api_beta.dart';
+import 'package:flutter_document_reader_api_beta/flutter_document_reader_api.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,9 +42,11 @@ class MyAppState extends State<MyApp> {
   void handleCompletion(
       DocReaderAction action, Results? results, DocReaderException? error) {
     if (error != null) print(error.message);
-    if (action.stopped() && !shouldRfid(results))
+    if (action.stopped() && !shouldRfid(results)) {
       displayResults(results);
-    else if (action.finished() && shouldRfid(results)) readRfid();
+    } else if (action.finished() && shouldRfid(results)) {
+      readRfid();
+    }
   }
 
   void displayResults(Results? results) async {
@@ -138,8 +140,9 @@ class MyAppState extends State<MyApp> {
 
   Widget rfidCheckbox() {
     var rfidCheckboxTitle = "Process rfid reading";
-    if (!documentReader.isRFIDAvailableForUse)
+    if (!documentReader.isRFIDAvailableForUse) {
       rfidCheckboxTitle += " (unavailable)";
+    }
 
     return CheckboxListTile(
       value: doRfid,

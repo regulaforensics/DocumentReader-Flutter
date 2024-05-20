@@ -87,8 +87,9 @@
   result._status = CheckResult.getByValue(jsonObject[&quot;status&quot;])!;
   result._typeName = jsonObject[&quot;typeName&quot;];
   result._pageIndex = jsonObject[&quot;pageIndex&quot;];
-  for (var item in jsonObject[&quot;elements&quot;])
+  for (var item in jsonObject[&quot;elements&quot;]) {
     result.elements.addSafe(AuthenticityElement.fromJson(item));
+  }
 
   return result;
 }</code></pre>
@@ -124,7 +125,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

@@ -82,11 +82,12 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">String? get rfidSessionStatus {
-  if (!Platform.isIOS)
+  if (!Platform.isIOS) {
     throw PlatformException(
       code: &quot;ios-only&quot;,
       message: &quot;rfidSessionStatus is accessible only on iOS&quot;,
     );
+  }
   return _rfidSessionStatus;
 }</code></pre>
 </section>
@@ -111,11 +112,12 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set rfidSessionStatus(String? val) {
-  if (!Platform.isIOS)
+  if (!Platform.isIOS) {
     throw PlatformException(
       code: &quot;ios-only&quot;,
       message: &quot;rfidSessionStatus is accessible only on iOS&quot;,
     );
+  }
   _rfidSessionStatus = val;
   _setRfidSessionStatus(val);
 }</code></pre>
@@ -152,7 +154,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

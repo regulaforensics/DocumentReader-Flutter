@@ -86,8 +86,9 @@
   result._count = jsonObject[&quot;count&quot;];
   result._result = CheckResult.getByValue(jsonObject[&quot;result&quot;])!;
   result._pageIndex = jsonObject[&quot;pageIndex&quot;];
-  for (var item in jsonObject[&quot;imageQualityList&quot;])
+  for (var item in jsonObject[&quot;imageQualityList&quot;]) {
     result._imageQualityList.addSafe(ImageQuality.fromJson(item));
+  }
 
   return result;
 }</code></pre>
@@ -123,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

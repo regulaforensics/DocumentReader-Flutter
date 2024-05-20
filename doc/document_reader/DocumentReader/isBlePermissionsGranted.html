@@ -82,11 +82,12 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; get isBlePermissionsGranted async {
-  if (!Platform.isAndroid)
+  if (!Platform.isAndroid) {
     throw PlatformException(
       code: &quot;android-only&quot;,
       message: &quot;isBlePermissionsGranted is accessible only on Android&quot;,
     );
+  }
   return await _bridge.invokeMethod(&quot;isBlePermissionsGranted&quot;, []);
 }</code></pre>
 </section>
@@ -123,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

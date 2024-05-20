@@ -94,13 +94,15 @@
   result._fieldName = jsonObject[&quot;fieldName&quot;];
   result._value = jsonObject[&quot;value&quot;];
   result._getValue = Value.fromJson(jsonObject[&quot;getValue&quot;]);
-  for (var item in jsonObject[&quot;values&quot;])
+  for (var item in jsonObject[&quot;values&quot;]) {
     result._values.addSafe(Value.fromJson(item));
-  for (var item in jsonObject[&quot;comparisonList&quot;])
+  }
+  for (var item in jsonObject[&quot;comparisonList&quot;]) {
     result._comparisonList.addSafe(Comparison.fromJson(item));
-  for (var item in jsonObject[&quot;validityList&quot;])
+  }
+  for (var item in jsonObject[&quot;validityList&quot;]) {
     result._validityList.addSafe(Validity.fromJson(item));
-
+  }
   return result;
 }</code></pre>
 </section>
@@ -135,7 +137,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

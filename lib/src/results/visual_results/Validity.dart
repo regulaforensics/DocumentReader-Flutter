@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 /// Structure describing single value of the field.
 class Validity {

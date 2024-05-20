@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 /// Structure is used to describe the contents of a single LDS applica-tion
 /// and their analysis within the context of the communication session with
@@ -51,8 +51,9 @@ class Application {
     result._dataHashAlgorithm = jsonObject["dataHashAlgorithm"];
     result._unicodeVersion = jsonObject["unicodeVersion"];
     result._version = jsonObject["version"];
-    for (var item in jsonObject["files"])
+    for (var item in jsonObject["files"]) {
       result._files.addSafe(File.fromJson(item));
+    }
 
     return result;
   }

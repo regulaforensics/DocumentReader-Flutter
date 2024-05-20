@@ -91,13 +91,15 @@ static RecognizeConfig? fromJson(jsonObject) {
   result._data = _bytesFromBase64(jsonObject[&quot;data&quot;]);
   if (jsonObject[&quot;images&quot;] != null) {
     result._images = [];
-    for (var item in jsonObject[&quot;images&quot;])
+    for (var item in jsonObject[&quot;images&quot;]) {
       result._images!.addSafe(_bytesFromBase64(item));
+    }
   }
   if (jsonObject[&quot;imageInputData&quot;] != null) {
     result._imageInputData = [];
-    for (var item in jsonObject[&quot;imageInputData&quot;])
+    for (var item in jsonObject[&quot;imageInputData&quot;]) {
       result._imageInputData!.addSafe(ImageInputData.fromJson(item));
+    }
   }
 
   return result;
@@ -134,7 +136,7 @@ static RecognizeConfig? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

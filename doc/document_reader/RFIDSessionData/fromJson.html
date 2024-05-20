@@ -91,18 +91,23 @@
   result._processTime = jsonObject[&quot;processTime&quot;];
   result._cardProperties =
       CardProperties.fromJson(jsonObject[&quot;cardProperties&quot;]);
-  for (var item in jsonObject[&quot;accessControls&quot;])
+  for (var item in jsonObject[&quot;accessControls&quot;]) {
     result._accessControls.addSafe(AccessControlProcedureType.fromJson(item));
-  for (var item in jsonObject[&quot;applications&quot;])
+  }
+  for (var item in jsonObject[&quot;applications&quot;]) {
     result._applications.addSafe(Application.fromJson(item));
-  for (var item in jsonObject[&quot;securityObjects&quot;])
+  }
+  for (var item in jsonObject[&quot;securityObjects&quot;]) {
     result._securityObjects.addSafe(SecurityObject.fromJson(item));
-  for (var item in jsonObject[&quot;dataFields&quot;])
+  }
+  for (var item in jsonObject[&quot;dataFields&quot;]) {
     result._dataFields.addSafe(DataField.fromJson(item));
+  }
   if (jsonObject[&quot;dataGroups&quot;] != null) {
     result._dataGroups = [];
-    for (var item in jsonObject[&quot;dataGroups&quot;])
+    for (var item in jsonObject[&quot;dataGroups&quot;]) {
       result._dataGroups!.addSafe(RFIDDataFileType.getByValue(item));
+    }
   }
 
   return result;
@@ -139,7 +144,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

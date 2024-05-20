@@ -50,6 +50,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "lints",
+      "rootUri": "file:///Users/administratorregula/.pub-cache/hosted/pub.dev/lints-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///Users/administratorregula/.pub-cache/hosted/pub.dev/matcher-0.12.16",
       "packageUri": "lib/",
@@ -134,7 +140,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-05-18T09:13:05.821281Z",
+  "generated": "2024-05-20T16:36:54.178740Z",
   "generator": "pub",
   "generatorVersion": "3.2.0"
 }

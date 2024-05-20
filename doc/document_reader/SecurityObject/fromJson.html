@@ -87,8 +87,9 @@
   result._version = jsonObject[&quot;version&quot;];
   result._objectType = jsonObject[&quot;objectType&quot;];
   result._notifications = jsonObject[&quot;notifications&quot;].cast&lt;int&gt;();
-  for (var item in jsonObject[&quot;signerInfos&quot;])
+  for (var item in jsonObject[&quot;signerInfos&quot;]) {
     result.signerInfos.addSafe(SignerInfo.fromJson(item));
+  }
 
   return result;
 }</code></pre>
@@ -124,7 +125,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   

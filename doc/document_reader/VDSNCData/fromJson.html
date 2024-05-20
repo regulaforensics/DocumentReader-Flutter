@@ -90,8 +90,9 @@
   result._signatureAlgorithm = jsonObject[&quot;signatureAlgorithm&quot;];
   result._signature = BytesData.fromJson(jsonObject[&quot;signature&quot;]);
   result._certificate = BytesData.fromJson(jsonObject[&quot;certificate&quot;]);
-  for (var item in jsonObject[&quot;certificateChain&quot;])
+  for (var item in jsonObject[&quot;certificateChain&quot;]) {
     result._certificateChain.addSafe(CertificateChain.fromJson(item));
+  }
   result._notifications = jsonObject[&quot;notifications&quot;] == null
       ? null
       : List&lt;int&gt;.from(jsonObject[&quot;notifications&quot;]);
@@ -130,7 +131,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api_beta
-      0.1.145
+      0.1.146
   </span>
 
   
