@@ -253,7 +253,7 @@ class DocumentReader {
 
   /// Checks if the app has all the required bluetooth permissions.
   ///
-  /// Android only.
+  /// Android only. Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
   Future<bool> get isBlePermissionsGranted async {
     if (!Platform.isAndroid)
       throw PlatformException(
@@ -321,6 +321,8 @@ class DocumentReader {
   /// [prepareCompletion] - callback that returns downloading progress.
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
+  ///
+  /// Requires `android.permission.INTERNET` android permission.
   Future<SuccessOrError> prepareDatabase(
     String databaseID,
     DocumentReaderPrepareCompletion prepareCompletion,
@@ -338,6 +340,8 @@ class DocumentReader {
   /// [prepareCompletion] - callback that returns downloading progress.
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
+  ///
+  /// Requires `android.permission.INTERNET` android permission.
   Future<SuccessOrError> runAutoUpdate(
     String databaseID,
     DocumentReaderPrepareCompletion prepareCompletion,
@@ -350,6 +354,8 @@ class DocumentReader {
   /// Allows you to to check database update.
   ///
   /// [databaseID] - identifier of the database.
+  ///
+  /// Requires `android.permission.INTERNET` android permission.
   Future<DocumentsDatabase?> checkDatabaseUpdate(String databaseID) async {
     String? response = await _bridge.invokeMethod(
       "checkDatabaseUpdate",
@@ -402,6 +408,8 @@ class DocumentReader {
   /// Used for the RFID chip processing.
   ///
   /// [config] - chip reading configuration.
+  ///
+  /// Requires `android.permission.NFC` android permission.
   void rfid(RFIDConfig config) {
     config._disableUI
         ? _setRFIDCompletion(config._rfidCompletion!)
