@@ -16,120 +16,120 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-part 'src/internal/Utils.dart';
-part 'src/internal/Bridge.dart';
-part 'src/internal/EventChannels.dart';
+part 'src/internal/utils.dart';
+part 'src/internal/bridge.dart';
+part 'src/internal/event_channels.dart';
 
-part 'src/params/process_params/ProcessParams.dart';
-part 'src/params/process_params/ImageQA.dart';
-part 'src/params/process_params/GlaresCheckParams.dart';
-part 'src/params/process_params/FaceApiSearchParams.dart';
-part 'src/params/process_params/FaceApiParams.dart';
-part 'src/params/process_params/LivenessParams.dart';
-part 'src/params/process_params/AuthenticityParams.dart';
-part 'src/params/process_params/RFIDParams.dart';
-part 'src/params/rfid_scenario/RfidScenario.dart';
-part 'src/params/process_params/BackendProcessingConfig.dart';
-part 'src/params/rfid_scenario/EDLDataGroups.dart';
-part 'src/params/rfid_scenario/EIDDataGroups.dart';
-part 'src/params/rfid_scenario/EPassportDataGroups.dart';
-part 'src/params/customization/Customization.dart';
-part 'src/params/customization/Font.dart';
-part 'src/params/customization/CustomizationColors.dart';
-part 'src/params/customization/CustomizationFonts.dart';
-part 'src/params/customization/CustomizationImages.dart';
-part 'src/params/Functionality.dart';
+part 'src/params/process_params/process_params.dart';
+part 'src/params/process_params/image_qa.dart';
+part 'src/params/process_params/glares_check_params.dart';
+part 'src/params/process_params/face_api_search_params.dart';
+part 'src/params/process_params/face_api_params.dart';
+part 'src/params/process_params/liveness_params.dart';
+part 'src/params/process_params/authenticity_params.dart';
+part 'src/params/process_params/rfid_params.dart';
+part 'src/params/rfid_scenario/rfid_scenario.dart';
+part 'src/params/process_params/backend_processing_config.dart';
+part 'src/params/rfid_scenario/edl_data_groups.dart';
+part 'src/params/rfid_scenario/eid_data_groups.dart';
+part 'src/params/rfid_scenario/e_passport_data_groups.dart';
+part 'src/params/customization/customization.dart';
+part 'src/params/customization/font.dart';
+part 'src/params/customization/customization_colors.dart';
+part 'src/params/customization/customization_fonts.dart';
+part 'src/params/customization/customization_images.dart';
+part 'src/params/functionality.dart';
 
-part 'src/rfid/RFIDNotification.dart';
-part 'src/rfid/PKDCertificate.dart';
-part 'src/rfid/TccParams.dart';
-part 'src/rfid/PAAttribute.dart';
-part 'src/rfid/PAResourcesIssuer.dart';
-part 'src/rfid/TAChallenge.dart';
-part 'src/rfid/RFIDErrorCodes.dart';
+part 'src/rfid/rfid_notification.dart';
+part 'src/rfid/pkd_certificate.dart';
+part 'src/rfid/tcc_params.dart';
+part 'src/rfid/pa_attribute.dart';
+part 'src/rfid/pa_resources_issuer.dart';
+part 'src/rfid/ta_challenge.dart';
+part 'src/rfid/rfid_error_codes.dart';
 
-part 'src/config/InitConfig.dart';
-part 'src/config/ScannerConfig.dart';
-part 'src/config/RecognizeConfig.dart';
-part 'src/config/OnlineProcessingConfig.dart';
-part 'src/config/RFIDConfig.dart';
+part 'src/config/init_config.dart';
+part 'src/config/scanner_config.dart';
+part 'src/config/recognize_config.dart';
+part 'src/config/online_processing_config.dart';
+part 'src/config/rfid_config.dart';
 
-part 'src/info/DocReaderException.dart';
-part 'src/info/RFIDException.dart';
-part 'src/info/License.dart';
-part 'src/info/DocReaderScenario.dart';
-part 'src/info/DocReaderVersion.dart';
-part 'src/info/DocumentsDatabase.dart';
-part 'src/info/PrepareProgress.dart';
+part 'src/info/doc_reader_exception.dart';
+part 'src/info/rfid_exception.dart';
+part 'src/info/license.dart';
+part 'src/info/doc_reader_scenario.dart';
+part 'src/info/doc_reader_version.dart';
+part 'src/info/documents_database.dart';
+part 'src/info/prepare_progress.dart';
 
-part 'src/results/authenticity/AuthenticityCheck.dart';
-part 'src/results/authenticity/AuthenticityElement.dart';
-part 'src/results/authenticity/AuthenticityResult.dart';
-part 'src/results/authenticity/Authenticity.dart';
-part 'src/results/authenticity/CheckDiagnose.dart';
-part 'src/results/authenticity/SecurityFeatureType.dart';
+part 'src/results/authenticity/authenticity_check.dart';
+part 'src/results/authenticity/authenticity_element.dart';
+part 'src/results/authenticity/authenticity_result.dart';
+part 'src/results/authenticity/authenticity.dart';
+part 'src/results/authenticity/check_diagnose.dart';
+part 'src/results/authenticity/security_feature_type.dart';
 
-part 'src/results/barcode/BarcodeField.dart';
-part 'src/results/barcode/BarcodeResult.dart';
-part 'src/results/barcode/PDF417Info.dart';
-part 'src/results/barcode/BarcodeStatus.dart';
-part 'src/results/barcode/BarcodeType.dart';
+part 'src/results/barcode/barcode_field.dart';
+part 'src/results/barcode/barcode_result.dart';
+part 'src/results/barcode/pdf417_info.dart';
+part 'src/results/barcode/barcode_status.dart';
+part 'src/results/barcode/barcode_type.dart';
 
-part 'src/results/image_quality/ImageQuality.dart';
-part 'src/results/image_quality/ImageQualityGroup.dart';
-part 'src/results/image_quality/ImageQualityCheckType.dart';
+part 'src/results/image_quality/image_quality.dart';
+part 'src/results/image_quality/image_quality_group.dart';
+part 'src/results/image_quality/image_quality_check_type.dart';
 
-part 'src/results/rfid/AccessControlProcedureType.dart';
-part 'src/results/rfid/Application.dart';
-part 'src/results/rfid/Attribute.dart';
-part 'src/results/rfid/Authority.dart';
-part 'src/results/rfid/CardProperties.dart';
-part 'src/results/rfid/CertificateChain.dart';
-part 'src/results/rfid/CertificateData.dart';
-part 'src/results/rfid/Extension.dart';
-part 'src/results/rfid/File.dart';
-part 'src/results/rfid/FileData.dart';
-part 'src/results/rfid/RFIDSessionData.dart';
-part 'src/results/rfid/SecurityObject.dart';
-part 'src/results/rfid/SecurityObjectCertificates.dart';
-part 'src/results/rfid/SignerInfo.dart';
-part 'src/results/rfid/RFIDValidity.dart';
-part 'src/results/rfid/RFIDValue.dart';
-part 'src/results/rfid/DataField.dart';
-part 'src/results/rfid/RFIDDataFileType.dart';
-part 'src/results/rfid/RFIDAccessControlProcedureType.dart';
-part 'src/results/rfid/RFIDCertificateType.dart';
+part 'src/results/rfid/access_control_procedure_type.dart';
+part 'src/results/rfid/application.dart';
+part 'src/results/rfid/attribute.dart';
+part 'src/results/rfid/authority.dart';
+part 'src/results/rfid/card_properties.dart';
+part 'src/results/rfid/certificate_chain.dart';
+part 'src/results/rfid/certificate_data.dart';
+part 'src/results/rfid/extension.dart';
+part 'src/results/rfid/file.dart';
+part 'src/results/rfid/file_data.dart';
+part 'src/results/rfid/rfid_session_data.dart';
+part 'src/results/rfid/security_object.dart';
+part 'src/results/rfid/security_object_certificates.dart';
+part 'src/results/rfid/signer_info.dart';
+part 'src/results/rfid/rfid_validity.dart';
+part 'src/results/rfid/rfid_value.dart';
+part 'src/results/rfid/data_field.dart';
+part 'src/results/rfid/rfid_data_file_type.dart';
+part 'src/results/rfid/rfid_access_control_procedure_type.dart';
+part 'src/results/rfid/rfid_certificate_type.dart';
 
-part 'src/results/status/OpticalStatus.dart';
-part 'src/results/status/RFIDStatus.dart';
-part 'src/results/status/ResultsStatus.dart';
-part 'src/results/status/CheckResult.dart';
+part 'src/results/status/optical_status.dart';
+part 'src/results/status/rfid_status.dart';
+part 'src/results/status/results_status.dart';
+part 'src/results/status/check_result.dart';
 
-part 'src/results/visible_digital_seals/VDSNCData.dart';
-part 'src/results/visible_digital_seals/BytesData.dart';
-part 'src/results/visible_digital_seals/LDSParsingErrorCodes.dart';
-part 'src/results/visible_digital_seals/LDSParsingNotificationCodes.dart';
+part 'src/results/visible_digital_seals/vdsnc_data.dart';
+part 'src/results/visible_digital_seals/bytes_data.dart';
+part 'src/results/visible_digital_seals/lds_parsing_error_codes.dart';
+part 'src/results/visible_digital_seals/lds_parsing_notification_codes.dart';
 
-part 'src/results/visual_results/Comparison.dart';
-part 'src/results/visual_results/GraphicField.dart';
-part 'src/results/visual_results/GraphicResult.dart';
-part 'src/results/visual_results/RFIDOrigin.dart';
-part 'src/results/visual_results/Symbol.dart';
-part 'src/results/visual_results/TextField.dart';
-part 'src/results/visual_results/TextResult.dart';
-part 'src/results/visual_results/TextSource.dart';
-part 'src/results/visual_results/Validity.dart';
-part 'src/results/visual_results/Value.dart';
-part 'src/results/visual_results/Rect.dart';
-part 'src/results/visual_results/Lights.dart';
-part 'src/results/visual_results/GraphicFieldType.dart';
-part 'src/results/visual_results/FieldType.dart';
-part 'src/results/visual_results/LCID.dart';
+part 'src/results/visual_results/comparison.dart';
+part 'src/results/visual_results/graphic_field.dart';
+part 'src/results/visual_results/graphic_result.dart';
+part 'src/results/visual_results/rfid_origin.dart';
+part 'src/results/visual_results/symbol.dart';
+part 'src/results/visual_results/text_field.dart';
+part 'src/results/visual_results/text_result.dart';
+part 'src/results/visual_results/text_source.dart';
+part 'src/results/visual_results/validity.dart';
+part 'src/results/visual_results/value.dart';
+part 'src/results/visual_results/rect.dart';
+part 'src/results/visual_results/lights.dart';
+part 'src/results/visual_results/graphic_field_type.dart';
+part 'src/results/visual_results/field_type.dart';
+part 'src/results/visual_results/lcid.dart';
 
-part 'src/results/Results.dart';
-part 'src/results/Position.dart';
-part 'src/results/DocumentType.dart';
-part 'src/results/TransactionInfo.dart';
+part 'src/results/results.dart';
+part 'src/results/position.dart';
+part 'src/results/document_type.dart';
+part 'src/results/transaction_info.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
 class DocumentReader {
@@ -161,21 +161,23 @@ class DocumentReader {
   ///
   /// IOS only.
   String? get rfidSessionStatus {
-    if (!Platform.isIOS)
+    if (!Platform.isIOS) {
       throw PlatformException(
         code: "ios-only",
         message: "rfidSessionStatus is accessible only on iOS",
       );
+    }
     return _rfidSessionStatus;
   }
 
   String? _rfidSessionStatus;
   set rfidSessionStatus(String? val) {
-    if (!Platform.isIOS)
+    if (!Platform.isIOS) {
       throw PlatformException(
         code: "ios-only",
         message: "rfidSessionStatus is accessible only on iOS",
       );
+    }
     _rfidSessionStatus = val;
     _setRfidSessionStatus(val);
   }
@@ -255,11 +257,12 @@ class DocumentReader {
   ///
   /// Android only. Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
   Future<bool> get isBlePermissionsGranted async {
-    if (!Platform.isAndroid)
+    if (!Platform.isAndroid) {
       throw PlatformException(
         code: "android-only",
         message: "isBlePermissionsGranted is accessible only on Android",
       );
+    }
     return await _bridge.invokeMethod("isBlePermissionsGranted", []);
   }
 
@@ -298,11 +301,12 @@ class DocumentReader {
   ///
   /// Android only.
   void startBluetoothService(BluetoothServiceCompletion completion) {
-    if (!Platform.isAndroid)
+    if (!Platform.isAndroid) {
       throw PlatformException(
         code: "android-only",
         message: "startBluetoothService is accessible only on Android",
       );
+    }
     _setBluetoothServiceCompletion(completion);
     _bridge.invokeMethod("startBluetoothService", []);
   }
@@ -634,7 +638,8 @@ typedef DocumentReaderCompletion = void Function(
 /// [onServiceDisconnected] fires when android`s bluetooth service is destroyed.
 ///
 /// [onDeviceReady] fires when a bluetooth device is connected and ready to use.
-/// [DocumentReader.initializeReaderWithBleDeviceConfig] should be run here.
+/// [DocumentReader.initializeReader] should be run here.
+/// [InitConfig.withBleDevice] should be used to create configuration.
 ///
 /// Android only.
 abstract class BluetoothServiceCompletion {

@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 /// Params that relate to the camera view controller customization and etc.
 class Customization {
@@ -752,39 +752,49 @@ class Customization {
 
     if (jsonObject["helpAnimationImageMatrix"] != null) {
       List<double> array = [];
-      for (var value in jsonObject["helpAnimationImageMatrix"])
+      for (var value in jsonObject["helpAnimationImageMatrix"]) {
         array.add(value.toDouble());
+      }
       result.helpAnimationImageTransformsAndroid = array;
-    } else
+    } else {
       result.helpAnimationImageTransformsAndroid = null;
+    }
     if (jsonObject["multipageAnimationFrontImageMatrix"] != null) {
       List<double> array = [];
-      for (var value in jsonObject["multipageAnimationFrontImageMatrix"])
+      for (var value in jsonObject["multipageAnimationFrontImageMatrix"]) {
         array.add(value.toDouble());
+      }
       result.multipageAnimationFrontImageTransformsAndroid = array;
-    } else
+    } else {
       result.multipageAnimationFrontImageTransformsAndroid = null;
+    }
     if (jsonObject["multipageAnimationBackImageMatrix"] != null) {
       List<double> array = [];
-      for (var value in jsonObject["multipageAnimationBackImageMatrix"])
+      for (var value in jsonObject["multipageAnimationBackImageMatrix"]) {
         array.add(value.toDouble());
+      }
       result.multipageAnimationBackImageTransformsAndroid = array;
-    } else
+    } else {
       result.multipageAnimationBackImageTransformsAndroid = null;
+    }
     if (jsonObject["livenessAnimationImageMatrix"] != null) {
       List<double> array = [];
-      for (var value in jsonObject["livenessAnimationImageMatrix"])
+      for (var value in jsonObject["livenessAnimationImageMatrix"]) {
         array.add(value.toDouble());
+      }
       result.livenessAnimationImageTransformsAndroid = array;
-    } else
+    } else {
       result.livenessAnimationImageTransformsAndroid = null;
+    }
     if (jsonObject["borderBackgroundImageMatrix"] != null) {
       List<double> array = [];
-      for (var value in jsonObject["borderBackgroundImageMatrix"])
+      for (var value in jsonObject["borderBackgroundImageMatrix"]) {
         array.add(value.toDouble());
+      }
       result.borderBackgroundImageTransformsAndroid = array;
-    } else
+    } else {
       result.borderBackgroundImageTransformsAndroid = null;
+    }
 
     result.colors = CustomizationColors.fromJson(jsonObject["colors"]);
     result.fonts = CustomizationFonts.fromJson(jsonObject["fonts"]);
@@ -874,8 +884,9 @@ class Customization {
       }.clearNulls();
 
   void _set(Map<String, dynamic> json) {
-    if (identical(this, DocumentReader.instance.customization))
+    if (identical(this, DocumentReader.instance.customization)) {
       _bridge.invokeMethod("setCustomization", [json]);
+    }
     testSetters.addAll(json);
   }
 

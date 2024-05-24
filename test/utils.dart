@@ -28,9 +28,14 @@ void compare<T>(
       Map<String, dynamic> copy = {};
       if (!invert) {
         copy = toJson(fromJson(json));
-        for (String item in nullable) (copy).remove(item);
-      } else
-        for (String item in nullable) copy[item] = json[item];
+        for (String item in nullable) {
+          copy.remove(item);
+        }
+      } else {
+        for (String item in nullable) {
+          copy[item] = json[item];
+        }
+      }
       var actual = toJson(fromJson(copy));
       expect(copy, actual);
       writeJson(name + "Nullable", copy);
@@ -48,11 +53,12 @@ void compareParams<T>(
     var object = fromJson(json);
     var actual = toJson(object);
     var testSetters = getTestSetters(object);
-    if (skip != null)
+    if (skip != null) {
       for (String item in skip) {
         (actual as Map<String, dynamic>).remove(item);
         (testSetters as Map<String, dynamic>).remove(item);
       }
+    }
     expect(json, actual);
     expect(json, testSetters);
     writeJson(name, json);

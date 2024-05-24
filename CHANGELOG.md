@@ -1,12 +1,156 @@
+# 7.2
+
+## Plugin
+
+*  Fixed the issue with incorrect selection of orientation in the `setOrientation` method.
+
+## Mobile API
+
+* Added new error codes for cases:
+    * `CAMERA_NO_PERMISSION` — when there is no permission for camera usage.
+    * `CAMERA_NOT_AVAILABLE` — when the selected camera is unavailable.
+* Added the `proceedReadingAlways` property to the RFID settings. If set to true, allows to continue processing until a scenario is complete even if some required data groups or authentications failed to be read or performed.
+* Added possibility to get the size of the database to download.
+* Added support for the `manualMultipage` mode with `backendProcessing` enabled.
+* Fixed issue with the "powered by Regula" watermark always displayed on the RFID chip processing screen regardless of the license settings.
+* Android
+    * Improved camera focusing.
+    * Fixed image mirroring in the multipage animation.
+* iOS
+    * Updated privacy manifests to comply with the latest Apple requirements. It's crucial to emphasize that dynamic frameworks were overridden. In cases where Cocoapods integration is used, it's required to remove CocoaPods from the project and clear the CocoaPods cache. This action ensures the retrieval of newly updated frameworks from the service during the package installation process.
+    * Removed deprecated `recognizeImage` method. Use `recognizeWithConfig` instead.
+    * Updated default margins for the custom UI. If left and right constraints are not added via JSON, by default adds reference to the boundaries of the superview (`leftMargin` and `rightMargin`).
+    * Fixed the resources releasing when calling the `deinitializeReader` method.
+    * Fixed image customization in multipage animation.
+    * Fixed content mode customization in multipage animation.
+    * Fixed crash in case of cancelling the database download.
+    * Fixed the issue with incorrect displaying of the multipage, liveness animations in the child mode.
+    * Fixed the issue with incorrect displaying of the camera frame in the multipage processing when changing the aspect ratio.
+
+## IMPORTANT changes
+
+* <a target="_blank" href="https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/ICAO TR - ICAO Datastructure for Barcode.pdf">ICAO Data structure for Barcode</a> support implemented.
+* <a target="_blank" href="https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/ICAO TR - Additional TD1-format.pdf">ICAO TD1 additional layout specification</a> support implemented.
+
+## Core SDK
+
+### Document Type Recognition
+
+* Fixed issue with distinguishing a specific document type between multiple dozens of very similar documents within the same country, format, and type.
+
+### MRZ
+
+* Updated parsers:
+    * Bulgaria Residence permit
+    * Sudan Passport
+
+### Barcode
+
+* Added new parsers:
+    * Iceland ID card
+    * India ID card 
+    * Iran Residence card
+    * Marshall Islands Passport 
+    * Mozambique DL
+    * Pakistan DL
+    * Peru Registration certificate
+    * Saudi Arabia eVisa
+    * US DoD ID card
+
+* Updated parsers:
+    * Albania DL
+    * Guatemala Passport
+    * Niger DL
+    * Philippines Police card
+    * Rwanda ID card
+
+* Implemented support for <a target="_blank" href="https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/ICAO TR - ICAO Datastructure for Barcode.pdf">ICAO Datastructure for Barcode</a>. All standard tags included. Added capability to support custom tags for specific countries based on templates.
+  Added capability to find the corresponding signing certificate in PKD, build a certificate chain and perform signature validation.
+* Improved reading of damaged QR codes.
+* Fixed issue with applying dormant image processing settings from template that lead to wrong results.
+* Fixed issue with the `processParam.doBarcodes` filter not applied correctly when processing barcodes from a document template. Now if the template does contain a barcode type which is not included in `processParam.doBarcodes`, it will not be read and processed.
+* Fixed issue with reading `PDF417` that lead to exception in rare specific cases.
+
+### Text Data Parsing and Validation
+
+* Added generation of `ft_Issuing_State_Code` in VIZ from the document template in case there is no such field printed on the document.
+* Added transliteration of `ft_Middle_Name` fields into Latin by default.
+* Added check for the DS certificate validity period considering the document issue date.
+* Removed validity check for the `ft_DS_Certificate_Issuer` field types for text results and moved it to RFID PA validation procedure.
+* Fixed issue in parsing dates from DG11/DG12, where in specific cases, custom separators should be omitted to obtain the correct date value.
+* Fixed issue in parsing “00/00/0000” dates, now such dates converted into the “01/01/2100” format.
+* Fixed the issue with incorrect validity check of the text fields, glared on the parsed image.
+* Fixed the issue with adjusting century for MRZ dates based on VIZ dates. Now the value is corrected only when dates fully match, otherwise the 21st century is defaulted.
+* Fixed the issue with comparison of `ft_Date_Of_Issue`, `ft_Age_At_Issue` between sources, where one of the sources provides only partial date and another the full date.
+* Fixed the issue with validation of zero numbers.
+* Updated parsing of DG11/DG12 field values into correct field types and LCID for documents from multiple countries.
+* Updated list of specimen documents.
+
+### Authenticity
+
+* Fixed the issue with defaults not set correctly in `processParam.authParams.livenessParams`.
+* Fixed the issue with validation of variable patterns with low luminescence in UV.
+* Fixed the issue with position coordinates of dynamic elements in results.
+* Fixed the issue with position coordinates of barcode elements in results when the barcode was not found or read correctly.
+* Fixed multiple issues with validation of dynamic elements.
+
+### Image QA
+
+* Fixed the issue with extra results container used for multipage processing on mobile platforms in some cases.
+
+### Enums
+
+* Added new `eVisualFieldType` enum members:
+    * `ft_Signature`
+
+* Added new `eCheckDiagnose` enum members:
+    * `chd_ICAO_IDB_Base32Error`
+    * `chd_ICAO_IDB_ZippedError`
+    * `chd_ICAO_IDB_MessageZoneEmpty`
+    * `chd_ICAO_IDB_SignatureMustBePresent`
+    * `chd_ICAO_IDB_SignatureMustNotBePresent`
+    * `chd_ICAO_IDB_CertificateMustNotBePresent`
+
+### Other
+
+* Added support for <a target="_blank" href="https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/ICAO TR - Additional TD1-format.pdf">Additional ICAO TD1 layout specification</a>.
+* Fixed the issue with verification of peer SSL certificate for all outbound connections, that lead to inability to work with other domains, except Regula’s. The issue is related to the server-side reprocessing functionality.
+* Fixed the issue with multipage capture and data delivery for server-side reprocessing.
+* Fixed the issue with incorrect session tag reporting in the data package for server-side reprocessing.
+* Fixed the issue with MRZ redetection algorithm applied to large images with document covering only its small area.
+* Fixed the issue with the `processParam.documentAreaMin` property not applied when capturing the document on mobile/web.
+* Fixed the issue with `Status.detailsOptical.docType` validity calculation when “Show next page request” is enabled in Document Reader application options.
+* Fixed the issue with processing perforated fields under the light conditions, different from the visible spectrum, when such light is not available.
+* Fixed the issue with `BarcodeAndLocate` scenario in multipage mode when page without a barcode could not be captured correctly.
+* Fixed the issue with MRZ recognized in `BarcodeAndLocate` scenario, but it should not.
+* Fixed miscellaneous issues in logging.
+
+## Core RFID SDK
+
+* Added the amendment feature to force the scenario performance until its completion, ignoring potential failures in reading or processing of the required data groups.
+* Moved matching of DS Certificate Issuer vs Subject from Text results into RFID PA status calculation.
+* Fixed the issue with PACE support in eDL.
+* Fixed validating Hungary ePassport SOD data with LDS version format compliance issue.
+* `ntfLDS_ICAO_SignedData_Certificates_Missed` and `ntfLDS_ICAO_SignedData_Certificates_Empty` notifications removed from PA sensitive list.
+* Enums:
+    * Added new `eLDS_ParsingNotificationCodes` members:
+        * `ntfLDS_ICAO_Certificate_Chain_Country_NonMatching`
+        * `ntfLDS_ICAO_Certificate_VisualMrz_Country_NonMatching`
+        * `ntfLDS_ICAO_Certificate_MRZ_Country_NonMatching`
+        * `ntfLDS_MRZ_CountryCode_VisualMrz_NonMatching`
+    * Added new `eRFID_Commands` enum members:
+        * `RFID_Command_Session_PA_CrossCheck`
+
+
 # 7.1
 
-#### Plugin:
+## Plugin
 
 * BREAKING CHANGE: whole DocumentReader plugin rewritten from scratch with focus on user experience and convenience. Migration instructions can be found [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/v6-to-v7/flutter/).
 
 # 5.8.0
 
-#### API:
+## API
 
 * Added capability to load and process a PDF file or an image in the form of binary data
 * Added the ability to change many new properties through processParams, and not through customParams only, as it was before
@@ -21,7 +165,7 @@
   * `FT_DLCLASSCODE_CD_TO`
   * `FT_DLCLASSCODE_CD_NOTES`
 
-#### Core:
+## Core
 
 * Document detection and crop
   * Multiple optimizations and improvements that reduce processing time and allow more precise cropping of the documents from an input image and better recognition
@@ -104,17 +248,17 @@
 * Fixed issue with log output format and depth setting
 * Code quality improved with lots of small issues fixed
 
-#### Core RFID SDK:
+## Core RFID SDK
 
 * Implemented capability to perform BAC after PACE was performed unsuccessfully
 * Fixed issue with using extended length commands when performing AA when using key/signature length of 229 bytes
 
-#### Licensing:
+## Licensing
 
 * Implemented capability to hide Regula logo with online transaction based mobile SDK license
 * Implemented capability to automatically update an expired license on mobile via a request to our licensing service when using an offline static license in the mobile app. This is very useful, as the application does not have to be recompiled for updating the license only on its expiration. In case renewed offline license was issued for this specific application ID / bundleID, this new license will be automatically downloaded and used on SDK initialization. This can be disabled by setting a specific property in mobile SDK before initialization
 
-#### Database:
+## Database
 
 * Fixed issues in multiple (over 100) document templates for better quality results
 * Changed dType to diPassportPage value in passport other page templates, except for main biographical data page
@@ -124,7 +268,7 @@
 
 # 5.7.0
 
-#### API:
+## API
 
 * Added restart of the process on the camera switch during the scanning process
 * Added restart of the process on the camera orientation change during the scanning process. The orientation cannot be changed after the processing of at least one page is completed.
@@ -139,7 +283,7 @@
   * All `@import` native libraries have been replaced with `#import`
 * Added new values to the [`eVisualFieldType`](https://docs.regulaforensics.com/flutter/enumerations/evisualfieldtype) parameter
 
-#### Core:
+## Core
 
 * OCR
   * Significantly improved recognition quality for Arabic, Western European, Chinese and Japanese
@@ -196,7 +340,7 @@
 
 * Fixed issue with the license for bank card reading functionality only
 
-#### Database:
+## Database
 
 * Fixed issues in multiple document templates for better quality results
 * 248 countries and territories / 9647 documents included

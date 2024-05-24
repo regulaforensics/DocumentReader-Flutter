@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 /// Enumeration contains identifiers that determine the possibility
 /// of performing different authenticity control procedures
