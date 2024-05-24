@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 /// Enumeration contains a set of identifiers used for identifying the
 /// document reader possibilities, specifying lighting schemes for scanning, etc.

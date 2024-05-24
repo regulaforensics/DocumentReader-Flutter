@@ -13,9 +13,9 @@ import 'package:flutter_document_reader_api/flutter_document_reader_api.dart';
 
 class RFIDCustomUI {
   var documentReader = DocumentReader.instance;
-  var setState;
-  var setStatus;
-  var displayResults;
+  Function setState = () => {};
+  Function setStatus = () => {};
+  Function displayResults = () => {};
 
   var isShowing = false;
   var rfidUIHeader = "Reading RFID";

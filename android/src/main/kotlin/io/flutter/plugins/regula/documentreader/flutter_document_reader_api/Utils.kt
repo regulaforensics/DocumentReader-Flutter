@@ -177,9 +177,11 @@ fun Any?.toDouble() = when (this) {
 
 fun Any?.toColor() = "#" + toLong().toString(16)
 
-fun Any?.toFloat() =
-    if (this is Double) toFloat()
-    else this as Float
+fun Any?.toFloat() = when (this) {
+    is Int -> toFloat()
+    is Double -> toFloat()
+    else -> this as Float
+}
 
 fun Any?.toMatrix() = this?.let {
     val matrix = Matrix()
