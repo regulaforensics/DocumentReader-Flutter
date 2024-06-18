@@ -145,8 +145,8 @@ class DocumentReader {
   List<DocReaderScenario> _availableScenarios = [];
 
   /// Information about the SDK.
-  DocReaderVersion get version => _version;
-  late DocReaderVersion _version;
+  DocReaderVersion? get version => _version;
+  DocReaderVersion? _version;
 
   /// Information about your license.
   License get license => _license;
@@ -545,9 +545,9 @@ class DocumentReader {
     return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
   }
 
-  Future<DocReaderVersion> _getDocReaderVersion() async {
-    String response = await _bridge.invokeMethod("getDocReaderVersion", []);
-    return DocReaderVersion.fromJson(_decode(response))!;
+  Future<DocReaderVersion?> _getDocReaderVersion() async {
+    String? response = await _bridge.invokeMethod("getDocReaderVersion", []);
+    return DocReaderVersion.fromJson(_decode(response));
   }
 
   Future<String?> _getRfidSessionStatus() async {
