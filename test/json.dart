@@ -115,6 +115,8 @@ var processParams = {
   "imageOutputMaxWidth": 12,
   "processAuth": 13,
   "convertCase": 3,
+  "logLevel": "FatalError",
+  "mrzDetectMode": 1,
   "dateFormat": "test1",
   "scenario": "Mrz",
   "captureButtonScenario": "Locate",
@@ -147,7 +149,8 @@ var customizationColors = {
   "rfidProcessingScreenProgressLabelText": 0xff000003,
   "rfidProcessingScreenProgressBar": 0xff000004,
   "rfidProcessingScreenProgressBarBackground": 0xff000005,
-  "rfidProcessingScreenResultLabelText": 0xff000006
+  "rfidProcessingScreenResultLabelText": 0xff000006,
+  "rfidProcessingScreenLoadingBar": 0xff000007,
 };
 var customizationFonts = {
   "rfidProcessingScreenHintLabel": font1,

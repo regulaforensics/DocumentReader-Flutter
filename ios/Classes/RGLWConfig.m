@@ -218,6 +218,8 @@
         processParams.processAuth = [options valueForKey:@"processAuth"];
     if([options valueForKey:@"convertCase"] != nil)
         processParams.convertCase = [self textProcessingWithNumber:[options valueForKey:@"convertCase"]];
+    if(options[@"logLevel"]) processParams.logLevel = options[@"logLevel"];
+    if(options[@"mrzDetectMode"]) processParams.mrzDetectMode = options[@"mrzDetectMode"];
 
     // String
     if([options valueForKey:@"dateFormat"] != nil)
@@ -308,6 +310,8 @@
     result[@"useFaceApi"] = processParams.useFaceApi;
     result[@"useAuthenticityCheck"] = processParams.useAuthenticityCheck;
     result[@"checkHologram"] = processParams.checkHologram;
+    result[@"logLevel"] = processParams.logLevel;
+    result[@"mrzDetectMode"] = processParams.mrzDetectMode;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -994,6 +998,8 @@
         result[@(RFIDProcessingScreenProgressBarBackground)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenProgressBarBackground"]];
     if([input valueForKey:@"rfidProcessingScreenResultLabelText"] != nil)
         result[@(RFIDProcessingScreenResultLabelText)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenResultLabelText"]];
+    if([input valueForKey:@"rfidProcessingScreenLoadingBar"] != nil)
+        result[@(RFIDProcessingScreenLoadingBar)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenLoadingBar"]];
 }
 
 +(NSDictionary*)getColors:(NSDictionary*)input {
@@ -1005,6 +1011,7 @@
        @"rfidProcessingScreenProgressBar": [self intWithColor:input[@(RFIDProcessingScreenProgressBar)]],
        @"rfidProcessingScreenProgressBarBackground": [self intWithColor:input[@(RFIDProcessingScreenProgressBarBackground)]],
        @"rfidProcessingScreenResultLabelText": [self intWithColor:input[@(RFIDProcessingScreenResultLabelText)]],
+       @"rfidProcessingScreenLoadingBar": [self intWithColor:input[@(RFIDProcessingScreenLoadingBar)]],
     };
 }
 

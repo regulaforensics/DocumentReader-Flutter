@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../../flutter_document_reader_api.dart";
 
 class Authority {
   List<Attribute> get attributes => _attributes;
@@ -25,8 +25,9 @@ class Authority {
 
     result._data = jsonObject["data"];
     result._friendlyName = RFIDValue.fromJson(jsonObject["friendlyName"]);
-    for (var item in jsonObject["attributes"])
+    for (var item in jsonObject["attributes"]) {
       result._attributes.addSafe(Attribute.fromJson(item));
+    }
 
     return result;
   }

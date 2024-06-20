@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the DocumentReader class from the document_reader library, for the Dart programming language.">
+  <title>DocumentReader class - document_reader library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">flutter_document_reader_api.dart</a></li>
+    <li class="self-crumb">DocumentReader class</li>
+  </ol>
+  <div class="self-name">DocumentReader</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="document_reader&#47;document_reader-library-sidebar.html"
+    data-below-sidebar="document_reader&#47;DocumentReader-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">DocumentReader</span> class 
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Entry point of the Regula DocumentReader SDK.</p>
+</section>
+
+
+
+    
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="availableScenarios" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/availableScenarios.html">availableScenarios</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/DocReaderScenario-class.html">DocReaderScenario</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  A list of scenarios that can be used for documents recognition based on
+your license and Core framework capabilities.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="customization" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/customization.html">customization</a></span>
+  <span class="signature">&#8596; <a href="../document_reader/Customization-class.html">Customization</a></span>
+  
+
+</dt>
+<dd>
+  Params that relate to the camera view controller customization and etc.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="env" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/env.html">env</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd>
+  Environment type.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="functionality" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/functionality.html">functionality</a></span>
+  <span class="signature">&#8596; <a href="../document_reader/Functionality-class.html">Functionality</a></span>
+  
+
+</dt>
+<dd>
+  Params that influence the scanning process, camera view controller
+customization and etc.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="isAuthenticatorAvailableForUse" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/isAuthenticatorAvailableForUse.html">isAuthenticatorAvailableForUse</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  Allows you to check if you can use external Regula Bluetooth devices based
+on your license and Core framework capabilities.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="isBlePermissionsGranted" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/isBlePermissionsGranted.html">isBlePermissionsGranted</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  Checks if the app has all the required bluetooth permissions.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="isReady" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/isReady.html">isReady</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  Allows you to check if Document Reader is ready for use.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="isRFIDAvailableForUse" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/isRFIDAvailableForUse.html">isRFIDAvailableForUse</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd>
+  Allows you to check if RFID chip reading can be performed based on your
+license and Core framework capabilities.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="license" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/license.html">license</a></span>
+  <span class="signature">&#8594; <a href="../document_reader/License-class.html">License</a></span>
+  
+
+</dt>
+<dd>
+  Information about your license.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="localizationDictionary" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/localizationDictionary.html">localizationDictionary</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span>
+  
+
+</dt>
+<dd>
+  A localization dictionary to override default localization logic.
+Allows to replace any string of DocumentReader SDK with an arbitrary string.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="onCustomButtonTapped" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/onCustomButtonTapped.html">onCustomButtonTapped</a></span>
+  <span class="signature">&#8592; <a href="../document_reader/CustomButtonTappedCompletion.html">CustomButtonTappedCompletion</a></span>
+  
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">no getter</span></div>
+
+</dd>
+
+        <dt id="processParams" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/processParams.html">processParams</a></span>
+  <span class="signature">&#8596; <a href="../document_reader/ProcessParams-class.html">ProcessParams</a></span>
+  
+
+</dt>
+<dd>
+  Params that influence the scanning process.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="rfidScenario" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/rfidScenario.html">rfidScenario</a></span>
+  <span class="signature">&#8596; <a href="../document_reader/RFIDScenario-class.html">RFIDScenario</a></span>
+  
+
+</dt>
+<dd>
+  Params that influence the RFID chip processing.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="rfidSessionStatus" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/rfidSessionStatus.html">rfidSessionStatus</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd>
+  Allows you to get a status of the RFID chip reading process.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="status" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/status.html">status</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  Allows you to get a status of Document Reader.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="tag" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/tag.html">tag</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd>
+  Current Session identifier.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="tenant" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/tenant.html">tenant</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd>
+  Customer name.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="version" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/version.html">version</a></span>
+  <span class="signature">&#8594; <a href="../document_reader/DocReaderVersion-class.html">DocReaderVersion</a>?</span>
+  
+
+</dt>
+<dd>
+  Information about the SDK.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="videoEncoderCompletion" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/videoEncoderCompletion.html">videoEncoderCompletion</a></span>
+  <span class="signature">&#8592; <a href="../document_reader/VideoEncoderCompletion.html">VideoEncoderCompletion</a></span>
+  
+
+</dt>
+<dd>
+  Allows user to receive a video file of current session
+  <div class="features"><span class="feature">no getter</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="addPKDCertificates" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/addPKDCertificates.html">addPKDCertificates</a></span><span class="signature">(<wbr><span class="parameter" id="addPKDCertificates-param-certificates"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/PKDCertificate-class.html">PKDCertificate</a></span>&gt;</span></span> <span class="parameter-name">certificates</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to pass certificates to Document Reader that will be used during the
+RFID chip processing.
+  
+
+</dd>
+
+        <dt id="cancelDBUpdate" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/cancelDBUpdate.html">cancelDBUpdate</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to cancel the database update.
+  
+
+</dd>
+
+        <dt id="checkDatabaseUpdate" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/checkDatabaseUpdate.html">checkDatabaseUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="checkDatabaseUpdate-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/DocumentsDatabase-class.html">DocumentsDatabase</a>?</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to to check database update.
+  
+
+</dd>
+
+        <dt id="clearPKDCertificates" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/clearPKDCertificates.html">clearPKDCertificates</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  It's used to remove certificates from your app that are used during the
+RFID chip processing.
+  
+
+</dd>
+
+        <dt id="deinitializeReader" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/deinitializeReader.html">deinitializeReader</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to deinitialize Document Reader and free up RAM as a
+consequence of this.
+  
+
+</dd>
+
+        <dt id="finalizePackage" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/finalizePackage.html">finalizePackage</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/FinalizePackageCompletion.html">FinalizePackageCompletion</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+        <dt id="initializeReader" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/initializeReader.html">initializeReader</a></span><span class="signature">(<wbr><span class="parameter" id="initializeReader-param-config"><span class="type-annotation"><a href="../document_reader/InitConfig-class.html">InitConfig</a></span> <span class="parameter-name">config</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to initialize Document Reader.
+  
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="prepareDatabase" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/prepareDatabase.html">prepareDatabase</a></span><span class="signature">(<wbr><span class="parameter" id="prepareDatabase-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="prepareDatabase-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to download a database from the Regula server. If it exists
+in your app and compatible with the SDK, it won't be downloaded.
+  
+
+</dd>
+
+        <dt id="recognize" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/recognize.html">recognize</a></span><span class="signature">(<wbr><span class="parameter" id="recognize-param-config"><span class="type-annotation"><a href="../document_reader/RecognizeConfig-class.html">RecognizeConfig</a></span> <span class="parameter-name">config</span>, </span><span class="parameter" id="recognize-param-completion"><span class="type-annotation"><a href="../document_reader/DocumentReaderCompletion.html">DocumentReaderCompletion</a></span> <span class="parameter-name">completion</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used for proccessing predefined images.
+  
+
+</dd>
+
+        <dt id="removeDatabase" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/removeDatabase.html">removeDatabase</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to remove the database from your app.
+  
+
+</dd>
+
+        <dt id="resetConfiguration" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/resetConfiguration.html">resetConfiguration</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Use this method to reset all parameters to their default values.
+  
+
+</dd>
+
+        <dt id="rfid" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/rfid.html">rfid</a></span><span class="signature">(<wbr><span class="parameter" id="rfid-param-config"><span class="type-annotation"><a href="../document_reader/RFIDConfig-class.html">RFIDConfig</a></span> <span class="parameter-name">config</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used for the RFID chip processing.
+  
+
+</dd>
+
+        <dt id="runAutoUpdate" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/runAutoUpdate.html">runAutoUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="runAutoUpdate-param-databaseID"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">databaseID</span>, </span><span class="parameter" id="runAutoUpdate-param-prepareCompletion"><span class="type-annotation"><a href="../document_reader/DocumentReaderPrepareCompletion.html">DocumentReaderPrepareCompletion</a></span> <span class="parameter-name">prepareCompletion</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Allows you to download a database from the Regula server.
+Each new update of the database will be downloaded.
+  
+
+</dd>
+
+        <dt id="scan" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/scan.html">scan</a></span><span class="signature">(<wbr><span class="parameter" id="scan-param-config"><span class="type-annotation"><a href="../document_reader/ScannerConfig-class.html">ScannerConfig</a></span> <span class="parameter-name">config</span>, </span><span class="parameter" id="scan-param-completion"><span class="type-annotation"><a href="../document_reader/DocumentReaderCompletion.html">DocumentReaderCompletion</a></span> <span class="parameter-name">completion</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used for multiple frames processing which are captured from the camera.
+  
+
+</dd>
+
+        <dt id="setTCCParams" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/setTCCParams.html">setTCCParams</a></span><span class="signature">(<wbr><span class="parameter" id="setTCCParams-param-params"><span class="type-annotation"><a href="../document_reader/TccParams-class.html">TccParams</a></span> <span class="parameter-name">params</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/SuccessOrError.html">SuccessOrError</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the given <code>TCCParams</code> to the RFID  session.
+The parameters are required to be set before starting RFID session.
+  
+
+</dd>
+
+        <dt id="startBluetoothService" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/startBluetoothService.html">startBluetoothService</a></span><span class="signature">(<wbr><span class="parameter" id="startBluetoothService-param-completion"><span class="type-annotation"><a href="../document_reader/BluetoothServiceCompletion-class.html">BluetoothServiceCompletion</a></span> <span class="parameter-name">completion</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to connect to the ble device.
+  
+
+</dd>
+
+        <dt id="startNewPage" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/startNewPage.html">startNewPage</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to start the processing of the next page of the document once the
+current one is processed.
+  
+
+</dd>
+
+        <dt id="startNewSession" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/startNewSession.html">startNewSession</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to start a scanning process.
+  
+
+</dd>
+
+        <dt id="stopRFIDReader" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/stopRFIDReader.html">stopRFIDReader</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to stop the scanning process.
+  
+
+</dd>
+
+        <dt id="stopScanner" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/stopScanner.html">stopScanner</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to stop the scanning process.
+  
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section class="summary offset-anchor" id="static-properties">
+    <h2>Static Properties</h2>
+
+    <dl class="properties">
+        <dt id="instance" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/instance.html">instance</a></span>
+  <span class="signature">&#8594; <a href="../document_reader/DocumentReader-class.html">DocumentReader</a></span>
+  
+
+</dt>
+<dd>
+  The only instanse of singleton class <a href="../document_reader/DocumentReader-class.html">DocumentReader</a>.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">document_reader</a></li>
+    <li class="self-crumb">DocumentReader class</li>
+</ol>
+
+
+    <h5>document_reader library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_document_reader_api
+      7.2.819-beta
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
