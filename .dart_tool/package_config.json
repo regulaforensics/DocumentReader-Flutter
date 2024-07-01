@@ -158,10 +158,10 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-06-24T09:41:15.242445Z",
+  "generated": "2024-07-01T15:30:22.774513Z",
   "generator": "pub",
-  "generatorVersion": "3.4.1",
+  "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/administratorregula/development/flutter",
-  "flutterVersion": "3.22.1",
+  "flutterVersion": "3.22.2",
   "pubCache": "file:///Users/administratorregula/.pub-cache"
 }

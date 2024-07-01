@@ -125,6 +125,7 @@ var processParams = {
   "timeoutFromFirstDetect": 16,
   "timeoutFromFirstDocType": 17,
   "documentAreaMin": 18,
+  "timeoutLiveness": 19,
   "documentIDList": [1, 2, 3],
   "barcodeTypes": [4, 5, 6],
   "fieldTypesFilter": [7, 8, 9],

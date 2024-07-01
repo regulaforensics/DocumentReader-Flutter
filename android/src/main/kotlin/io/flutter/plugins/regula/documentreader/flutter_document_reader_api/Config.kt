@@ -157,6 +157,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "timeoutFromFirstDetect" -> processParams.timeoutFromFirstDetect = v.toDouble()
         "timeoutFromFirstDocType" -> processParams.timeoutFromFirstDocType = v.toDouble()
         "documentAreaMin" -> processParams.documentAreaMin = v.toDouble()
+        "timeoutLiveness" -> processParams.timeoutLiveness = v.toDouble()
         "documentIDList" -> processParams.documentIDList = v.toIntArray()
         "fieldTypesFilter" -> processParams.fieldTypesFilter = v.toIntArray()
         "resultTypeOutput" -> processParams.resultTypeOutput = v.toIntArray()
@@ -233,6 +234,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "timeoutFromFirstDetect" to processParams.timeoutFromFirstDetect,
     "timeoutFromFirstDocType" to processParams.timeoutFromFirstDocType,
     "documentAreaMin" to processParams.documentAreaMin,
+    "timeoutLiveness" to processParams.timeoutLiveness,
     "documentIDList" to processParams.documentIDList.generate(),
     "fieldTypesFilter" to processParams.fieldTypesFilter.generate(),
     "documentGroupFilter" to processParams.documentGroupFilter.generate(),

@@ -499,6 +499,15 @@ class ProcessParams {
     _set({"documentAreaMin": val});
   }
 
+  /// Start the countdown from the moment the document liveness authenticity check is started (in seconds).
+  /// Setting value to `0` means infinity.
+  double? get timeoutLiveness => _timeoutLiveness;
+  double? _timeoutLiveness;
+  set timeoutLiveness(double? val) {
+    _timeoutLiveness = val;
+    _set({"timeoutLiveness": val});
+  }
+
   /// Takes the list of the document IDs to process.
   /// All documents will be processed if it's empty.
   List<int>? get documentIDList => _documentIDList;
@@ -687,6 +696,7 @@ class ProcessParams {
     result.timeoutFromFirstDocType =
         _toDouble(jsonObject["timeoutFromFirstDocType"]);
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
+    result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
     result.documentIDList = jsonObject["documentIDList"] == null
         ? null
@@ -772,6 +782,7 @@ class ProcessParams {
         "timeoutFromFirstDetect": timeoutFromFirstDetect,
         "timeoutFromFirstDocType": timeoutFromFirstDocType,
         "documentAreaMin": documentAreaMin,
+        "timeoutLiveness": timeoutLiveness,
         "documentIDList": documentIDList,
         "barcodeTypes": barcodeTypes?.map((e) => e.value).toList(),
         "fieldTypesFilter": fieldTypesFilter?.map((e) => e.value).toList(),

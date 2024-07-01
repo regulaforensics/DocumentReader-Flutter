@@ -346,8 +346,8 @@ enum CheckDiagnose {
 
   ICAO_IDB_CERTIFICATE_MUST_NOT_BE_PRESENT(248),
 
-  /// For internal use.
-  LAST_DIAGNOSE_VALUE(250);
+  /// Incorrect object color.
+  INCORRECT_OBJECT_COLOR(250);
 
   const CheckDiagnose(this.value);
   final int value;

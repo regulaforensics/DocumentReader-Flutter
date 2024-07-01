@@ -238,6 +238,8 @@
         processParams.timeoutFromFirstDocType = [options valueForKey:@"timeoutFromFirstDocType"];
     if([options valueForKey:@"documentAreaMin"] != nil)
         processParams.documentAreaMin = [options valueForKey:@"documentAreaMin"];
+    if([options valueForKey:@"timeoutLiveness"] != nil)
+        processParams.timeoutLiveness = [options valueForKey:@"timeoutLiveness"];
 
     // JSONArray
     if([options valueForKey:@"documentIDList"] != nil)
@@ -339,6 +341,7 @@
     result[@"timeoutFromFirstDetect"] = processParams.timeoutFromFirstDetect;
     result[@"timeoutFromFirstDocType"] = processParams.timeoutFromFirstDocType;
     result[@"documentAreaMin"] = processParams.documentAreaMin;
+    result[@"timeoutLiveness"] = processParams.timeoutLiveness;
     
     // JSONArray
     result[@"documentIDList"] = processParams.documentIDList;
