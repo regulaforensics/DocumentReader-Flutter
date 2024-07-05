@@ -383,6 +383,23 @@ class ProcessParams {
     _set({"convertCase": val});
   }
 
+  /// Sets the level of logs detalization when used together with [logs] parameter.
+  LogLevel? get logLevel => _logLevel;
+  LogLevel? _logLevel;
+  set logLevel(LogLevel? val) {
+    _logLevel = val;
+    _set({"logLevel": val?.value});
+  }
+
+  /// Make better MRZ detection on complex noisy backgrounds, like BW photocopy of some documents.
+  /// Works only in the single-frame processing.
+  MrzDetectionModes? get mrzDetectMode => _mrzDetectMode;
+  MrzDetectionModes? _mrzDetectMode;
+  set mrzDetectMode(MrzDetectionModes? val) {
+    _mrzDetectMode = val;
+    _set({"mrzDetectMode": val?.value});
+  }
+
   /// Measure system of fields' values that are presented in results.
   /// Default: If the country code is `US` or `LR` or `MM`, the
   /// [MeasureSystem.IMPERIAL] system of measurement, otherwise, the [MeasureSystem.METRIC].
@@ -480,6 +497,15 @@ class ProcessParams {
   set documentAreaMin(double? val) {
     _documentAreaMin = val;
     _set({"documentAreaMin": val});
+  }
+
+  /// Start the countdown from the moment the document liveness authenticity check is started (in seconds).
+  /// Setting value to `0` means infinity.
+  double? get timeoutLiveness => _timeoutLiveness;
+  double? _timeoutLiveness;
+  set timeoutLiveness(double? val) {
+    _timeoutLiveness = val;
+    _set({"timeoutLiveness": val});
   }
 
   /// Takes the list of the document IDs to process.
@@ -654,6 +680,9 @@ class ProcessParams {
     result.imageOutputMaxWidth = jsonObject["imageOutputMaxWidth"];
     result.processAuth = jsonObject["processAuth"];
     result.convertCase = jsonObject["convertCase"];
+    result.logLevel = LogLevel.getByValue(jsonObject["logLevel"]);
+    result.mrzDetectMode =
+        MrzDetectionModes.getByValue(jsonObject["mrzDetectMode"]);
 
     result.dateFormat = jsonObject["dateFormat"];
     result.scenario = Scenario.getByValue(jsonObject["scenario"]);
@@ -667,6 +696,7 @@ class ProcessParams {
     result.timeoutFromFirstDocType =
         _toDouble(jsonObject["timeoutFromFirstDocType"]);
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
+    result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
     result.documentIDList = jsonObject["documentIDList"] == null
         ? null
@@ -742,6 +772,8 @@ class ProcessParams {
         "imageOutputMaxWidth": imageOutputMaxWidth,
         "processAuth": processAuth,
         "convertCase": convertCase,
+        "logLevel": logLevel?.value,
+        "mrzDetectMode": mrzDetectMode?.value,
         "dateFormat": dateFormat,
         "scenario": scenario?.value,
         "captureButtonScenario": captureButtonScenario?.value,
@@ -750,6 +782,7 @@ class ProcessParams {
         "timeoutFromFirstDetect": timeoutFromFirstDetect,
         "timeoutFromFirstDocType": timeoutFromFirstDocType,
         "documentAreaMin": documentAreaMin,
+        "timeoutLiveness": timeoutLiveness,
         "documentIDList": documentIDList,
         "barcodeTypes": barcodeTypes?.map((e) => e.value).toList(),
         "fieldTypesFilter": fieldTypesFilter?.map((e) => e.value).toList(),
@@ -836,5 +869,49 @@ enum MRZFormat {
       list.addSafe(getByValue(item));
     }
     return list;
+  }
+}
+
+enum LogLevel {
+  /// Fatal error.
+  FatalError("FatalError"),
+
+  /// Error.
+  Error("Error"),
+
+  /// Warning.
+  Warning("Warning"),
+
+  /// Info.
+  Info("Info"),
+
+  /// Debug.
+  Debug("Debug");
+
+  const LogLevel(this.value);
+  final String value;
+
+  static LogLevel? getByValue(String? i) {
+    if (i == null) return null;
+    try {
+      return LogLevel.values.firstWhere((x) => x.value == i);
+    } catch (_) {
+      return null;
+    }
+  }
+}
+
+/// Enumeration contains the types of barcodes that can be processed.
+enum MrzDetectionModes {
+  DEFAULT(0),
+  RESIZE_BINARIZE_WINDOW(0),
+  BLUR_BEFORE_BINARIZATION(1);
+
+  const MrzDetectionModes(this.value);
+  final int value;
+
+  static MrzDetectionModes? getByValue(int? i) {
+    if (i == null) return null;
+    return MrzDetectionModes.values.firstWhere((x) => x.value == i);
   }
 }

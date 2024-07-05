@@ -142,6 +142,15 @@ enum CheckDiagnose {
   /// Photo replaced.
   FIELD_POS_CORRECTOR_PHOTO_REPLACED(82),
 
+  /// Facial landmarks (eyes) check error.
+  FIELD_POS_CORRECTOR_LANDMARKS_CHECK_ERROR(83),
+
+  /// No facial image found.
+  FIELD_POS_CORRECTOR_FACE_PRESENCE_CHECK_ERROR(84),
+
+  /// Facial image is found.
+  FIELD_POS_CORRECTOR_FACE_ABSENCE_CHECK_ERROR(85),
+
   /// OVI object is not visible in IR.
   OVI_IR_INVISIBLE(90),
 
@@ -337,8 +346,8 @@ enum CheckDiagnose {
 
   ICAO_IDB_CERTIFICATE_MUST_NOT_BE_PRESENT(248),
 
-  /// For internal use.
-  LAST_DIAGNOSE_VALUE(250);
+  /// Incorrect object color.
+  INCORRECT_OBJECT_COLOR(250);
 
   const CheckDiagnose(this.value);
   final int value;
