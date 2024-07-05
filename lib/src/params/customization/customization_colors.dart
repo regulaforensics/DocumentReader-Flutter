@@ -63,6 +63,13 @@ class CustomizationColors {
     _set({"rfidProcessingScreenResultLabelText": _intFromColor(val)});
   }
 
+  Color get rfidProcessingScreenLoadingBar => _rfidProcessingScreenLoadingBar;
+  late Color _rfidProcessingScreenLoadingBar;
+  set rfidProcessingScreenLoadingBar(Color val) {
+    _rfidProcessingScreenLoadingBar = val;
+    _set({"rfidProcessingScreenLoadingBar": _intFromColor(val)});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationColors fromJson(jsonObject) {
     var result = CustomizationColors();
@@ -82,6 +89,8 @@ class CustomizationColors {
         _intToColor(jsonObject["rfidProcessingScreenProgressBarBackground"])!;
     result.rfidProcessingScreenResultLabelText =
         _intToColor(jsonObject["rfidProcessingScreenResultLabelText"])!;
+    result.rfidProcessingScreenLoadingBar =
+        _intToColor(jsonObject["rfidProcessingScreenLoadingBar"])!;
 
     return result;
   }
@@ -102,6 +111,8 @@ class CustomizationColors {
             _intFromColor(rfidProcessingScreenProgressBarBackground),
         "rfidProcessingScreenResultLabelText":
             _intFromColor(rfidProcessingScreenResultLabelText),
+        "rfidProcessingScreenLoadingBar":
+            _intFromColor(rfidProcessingScreenLoadingBar),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

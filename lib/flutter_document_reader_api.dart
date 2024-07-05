@@ -190,6 +190,22 @@ class DocumentReader {
     _setTag(val);
   }
 
+  /// Customer name.
+  String? get tenant => _tenant;
+  String? _tenant;
+  set tenant(String? val) {
+    _tenant = val;
+    _setTenant(val);
+  }
+
+  /// Environment type.
+  String? get env => _env;
+  String? _env;
+  set env(String? val) {
+    _env = val;
+    _setEnv(val);
+  }
+
   /// A localization dictionary to override default localization logic.
   /// Allows to replace any string of DocumentReader SDK with an arbitrary string.
   ///
@@ -500,6 +516,8 @@ class DocumentReader {
     _license = await _getLicense();
     _isRFIDAvailableForUse = await _getIsRFIDAvailableForUse();
     _tag = await _getTag();
+    _tenant = await _getTenant();
+    _env = await _getEnv();
     if (Platform.isIOS) _rfidSessionStatus = await _getRfidSessionStatus();
     _functionality = await _getFunctionality();
     _processParams = await _getProcessParams();
@@ -564,6 +582,22 @@ class DocumentReader {
 
   void _setTag(String? tag) {
     _bridge.invokeMethod("setTag", [tag]);
+  }
+
+  Future<String?> _getTenant() async {
+    return await _bridge.invokeMethod("getTenant", []);
+  }
+
+  void _setTenant(String? tag) {
+    _bridge.invokeMethod("setTenant", [tag]);
+  }
+
+  Future<String?> _getEnv() async {
+    return await _bridge.invokeMethod("getEnv", []);
+  }
+
+  void _setEnv(String? tag) {
+    _bridge.invokeMethod("setEnv", [tag]);
   }
 
   void _setLocalizationDictionary(Map<String, String>? dictionary) {
