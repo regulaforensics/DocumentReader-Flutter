@@ -143,16 +143,13 @@
 }
 
 +(RGLConfig*)configFromJson:(NSDictionary*)input {
-    if(input == nil) return nil;
-    if([input valueForKey:@"license"] == nil) return nil;
-    RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:[self base64Decode: [input valueForKey:@"license"]]];
+    if (!input) return nil;
+    if (!input[@"license"]) return nil;
+    RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:[self base64Decode: input[@"license"]]];
 
-    if([input valueForKey:@"databasePath"] != nil)
-        config.databasePath = [input valueForKey:@"databasePath"];
-    if([input valueForKey:@"licenseUpdate"] != nil)
-        config.licenseUpdateCheck = [[input valueForKey:@"licenseUpdate"] boolValue];
-    if([input valueForKey:@"delayedNNLoad"] != nil)
-        config.delayedNNLoadEnabled = [[input valueForKey:@"delayedNNLoad"] boolValue];
+    if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
+    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
 
     return config;
 }

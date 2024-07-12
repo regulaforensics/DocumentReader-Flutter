@@ -1,5 +1,3 @@
-
-
 # 7.3.0
 
 * [Document Reader SDK 7.3 Release Notes](https://docs.regulaforensics.com/develop/doc-reader-sdk/release-notes/7-3/)
