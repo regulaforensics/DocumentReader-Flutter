@@ -5,9 +5,11 @@
 //  Created by Pavel Masiuk on 21.09.2023.
 //  Copyright © 2023 Regula. All rights reserved.
 //
+@file:SuppressLint("MissingPermission")
 
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
@@ -218,6 +220,7 @@ fun docReaderConfigFromJSON(input: JSONObject): DocReaderConfig {
     var result = DocReaderConfig(license!!)
 
     if (input.has("customDb")) result = DocReaderConfig(license, byteArrayFromBase64(input.getString("customDb"))!!)
+    if (input.has("databasePath")) result = DocReaderConfig(license, input.getString("databasePath"))
     if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
     if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
     if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
@@ -232,6 +235,7 @@ fun generateDocReaderConfig(temp: DocReaderConfig?): JSONObject? {
 
     result.put("license", generateByteArray(input.license))
     result.put("customDb", generateByteArray(input.customDb))
+    result.put("databasePath", input.customDbPath)
     result.put("licenseUpdate", input.isLicenseUpdate)
     result.put("delayedNNLoad", input.isDelayedNNLoad)
     result.put("blackList", input.blackList)

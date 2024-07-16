@@ -19,7 +19,8 @@ class RunnerTests: XCTestCase {
     
     func test_initConfig() {
         compare(name: "initConfig", fromJson: RGLWJSONConstructor.config, generate: RGLWJSONConstructor.generate,
-                omit: ["blackList",
+                omit: ["databasePath",
+                       "blackList",
                        "customDb"])
     }
     

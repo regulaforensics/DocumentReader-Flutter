@@ -904,8 +904,8 @@ enum LogLevel {
 /// Enumeration contains the types of barcodes that can be processed.
 enum MrzDetectionModes {
   DEFAULT(0),
-  RESIZE_BINARIZE_WINDOW(0),
-  BLUR_BEFORE_BINARIZATION(1);
+  RESIZE_BINARIZE_WINDOW(1),
+  BLUR_BEFORE_BINARIZATION(2);
 
   const MrzDetectionModes(this.value);
   final int value;
