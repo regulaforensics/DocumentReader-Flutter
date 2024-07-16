@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../flutter_document_reader_api.dart";
 
 /// Class describing results returned on completion of Document Reader work.
 class Results {
@@ -359,7 +359,9 @@ class Results {
   /// Returns original containers from rawResult including information about the transaction.
   Future<String?> containers(List<ResultType> resultType) async {
     List<int> converted = [];
-    for (ResultType item in resultType) converted.add(item.value);
+    for (ResultType item in resultType) {
+      converted.add(item.value);
+    }
     return await _bridge.invokeMethod("containers", [rawResult, converted]);
   }
 
@@ -387,28 +389,33 @@ class Results {
     result._textResult = TextResult.fromJson(jsonObject["textResult"]);
     if (jsonObject["documentPosition"] != null) {
       result._documentPosition = [];
-      for (var item in jsonObject["documentPosition"])
+      for (var item in jsonObject["documentPosition"]) {
         result._documentPosition!.addSafe(Position.fromJson(item));
+      }
     }
     if (jsonObject["barcodePosition"] != null) {
       result._barcodePosition = [];
-      for (var item in jsonObject["barcodePosition"])
+      for (var item in jsonObject["barcodePosition"]) {
         result._barcodePosition!.addSafe(Position.fromJson(item));
+      }
     }
     if (jsonObject["mrzPosition"] != null) {
       result._mrzPosition = [];
-      for (var item in jsonObject["mrzPosition"])
+      for (var item in jsonObject["mrzPosition"]) {
         result._mrzPosition!.addSafe(Position.fromJson(item));
+      }
     }
     if (jsonObject["imageQuality"] != null) {
       result._imageQuality = [];
-      for (var item in jsonObject["imageQuality"])
+      for (var item in jsonObject["imageQuality"]) {
         result._imageQuality!.addSafe(ImageQualityGroup.fromJson(item));
+      }
     }
     if (jsonObject["documentType"] != null) {
       result._documentType = [];
-      for (var item in jsonObject["documentType"])
+      for (var item in jsonObject["documentType"]) {
         result._documentType!.addSafe(DocumentType.fromJson(item));
+      }
     }
     result._rawResult = jsonObject["rawResult"];
     result._rfidSessionData =
@@ -643,7 +650,9 @@ enum ResultType {
   static List<ResultType>? fromIntList(List<dynamic>? input) {
     if (input == null) return null;
     List<ResultType> list = [];
-    for (int item in input) list.addSafe(getByValue(item));
+    for (int item in input) {
+      list.addSafe(getByValue(item));
+    }
     return list;
   }
 }

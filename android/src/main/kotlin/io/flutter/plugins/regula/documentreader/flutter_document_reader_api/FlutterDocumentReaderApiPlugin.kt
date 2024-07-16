@@ -5,6 +5,7 @@
 //  Created by Pavel Masiuk on 21.09.2023.
 //  Copyright © 2023 Regula. All rights reserved.
 //
+@file:SuppressLint("MissingPermission")
 
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
@@ -140,6 +141,10 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "setRfidSessionStatus" -> setRfidSessionStatus(callback)
         "getTag" -> getTag(callback)
         "setTag" -> setTag(argsNullable(0))
+        "getTenant" -> getTenant(callback)
+        "setTenant" -> setTenant(argsNullable(0))
+        "getEnv" -> getEnv(callback)
+        "setEnv" -> setEnv(argsNullable(0))
         "getFunctionality" -> getFunctionality(callback)
         "setFunctionality" -> setFunctionality(args(0))
         "getProcessParams" -> getProcessParams(callback)
@@ -247,6 +252,14 @@ fun setRfidSessionStatus(callback: Callback) = callback.error("setRfidSessionSta
 fun getTag(callback: Callback) = callback.success(Instance().tag)
 
 fun setTag(tag: String?) = tag.let { Instance().tag = it }
+
+fun getTenant(callback: Callback) = callback.success(Instance().tenant)
+
+fun setTenant(tag: String?) = tag.let { Instance().tenant = it }
+
+fun getEnv(callback: Callback) = callback.success(Instance().env)
+
+fun setEnv(tag: String?) = tag.let { Instance().env = it }
 
 fun getFunctionality(callback: Callback) = callback.success(getFunctionality(Instance().functionality()))
 
