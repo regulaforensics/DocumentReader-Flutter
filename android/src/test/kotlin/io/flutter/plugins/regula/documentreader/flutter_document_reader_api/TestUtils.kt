@@ -74,7 +74,7 @@ fun omitDeep(dict: JSONObject, path: List<String>, index: Int): JSONObject {
 }
 
 fun omitDeep(dict: JSONArray, path: List<String>, index: Int): JSONArray {
-    for (i in 0..<dict.length())
+    for (i in 0 until dict.length())
         dict.put(i, omitDeep(dict.getJSONObject(i), path, index))
     return dict
 }
@@ -102,7 +102,7 @@ fun floatToDouble(input: JSONObject): JSONObject {
 }
 
 fun floatToDouble(input: JSONArray): JSONArray {
-    for (i in 0..<input.length()) {
+    for (i in 0 until input.length()) {
         val value = input.get(i)
         if (value is JSONObject) input.put(i, floatToDouble(value))
         if (value is JSONArray) input.put(i, floatToDouble(value))

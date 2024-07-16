@@ -6,7 +6,7 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
-part of document_reader;
+part of "../../flutter_document_reader_api.dart";
 
 /// Params that influence the scanning process, camera view controller
 /// customization and etc.
@@ -441,8 +441,9 @@ class Functionality {
       }.clearNulls();
 
   void _set(Map<String, dynamic> json) {
-    if (identical(this, DocumentReader.instance.functionality))
+    if (identical(this, DocumentReader.instance.functionality)) {
       _bridge.invokeMethod("setFunctionality", [json]);
+    }
     testSetters.addAll(json);
   }
 
