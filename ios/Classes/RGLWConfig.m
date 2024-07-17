@@ -190,6 +190,7 @@
         processParams.useAuthenticityCheck = [options valueForKey:@"useAuthenticityCheck"];
     if([options valueForKey:@"checkHologram"] != nil)
         processParams.checkHologram = [options valueForKey:@"checkHologram"];
+    if (options[@"generateNumericCodes"]) processParams.generateNumericCodes = options[@"generateNumericCodes"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -312,8 +313,7 @@
     result[@"useFaceApi"] = processParams.useFaceApi;
     result[@"useAuthenticityCheck"] = processParams.useAuthenticityCheck;
     result[@"checkHologram"] = processParams.checkHologram;
-    result[@"logLevel"] = processParams.logLevel;
-    result[@"mrzDetectMode"] = processParams.mrzDetectMode;
+    result[@"generateNumericCodes"] = processParams.generateNumericCodes;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -329,6 +329,8 @@
     result[@"imageOutputMaxWidth"] = processParams.imageOutputMaxWidth;
     result[@"processAuth"] = processParams.processAuth;
     result[@"convertCase"] = [self generateWithTextProcessing:processParams.convertCase];
+    result[@"logLevel"] = processParams.logLevel;
+    result[@"mrzDetectMode"] = processParams.mrzDetectMode;
     
     // String
     result[@"dateFormat"] = processParams.dateFormat;
