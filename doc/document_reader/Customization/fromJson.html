@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the fromJson method from the Customization class, for the Dart programming language.">
+  <title>fromJson method - Customization class - document_reader library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../../document_reader/document_reader-library.html">flutter_document_reader_api.dart</a></li>
+    <li><a href="../../document_reader/Customization-class.html">Customization</a></li>
+    <li class="self-crumb">fromJson static method</li>
+  </ol>
+  <div class="self-name">fromJson</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="document_reader&#47;Customization-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">fromJson</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="../../document_reader/Customization-class.html">Customization</a></span>
+<span class="name ">fromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJson-param-jsonObject"><span class="type-annotation">dynamic</span> <span class="parameter-name">jsonObject</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Allows you to deserialize object.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static Customization fromJson(jsonObject) {
+  var result = Customization();
+  result.testSetters = {};
+
+  result.showStatusMessages = jsonObject[&quot;showStatusMessages&quot;];
+  result.showResultStatusMessages = jsonObject[&quot;showResultStatusMessages&quot;];
+  result.showHelpAnimation = jsonObject[&quot;showHelpAnimation&quot;];
+  result.showNextPageAnimation = jsonObject[&quot;showNextPageAnimation&quot;];
+  result.showBackgroundMask = jsonObject[&quot;showBackgroundMask&quot;];
+
+  result.cameraFrameBorderWidth = jsonObject[&quot;cameraFrameBorderWidth&quot;];
+  result.cameraFrameLineLength = jsonObject[&quot;cameraFrameLineLength&quot;];
+  result.cameraFrameShapeType =
+      FrameShapeType.getByValue(jsonObject[&quot;cameraFrameShapeType&quot;]);
+  result.cameraFrameOffsetWidth = jsonObject[&quot;cameraFrameOffsetWidth&quot;];
+
+  result.status = jsonObject[&quot;status&quot;];
+  result.resultStatus = jsonObject[&quot;resultStatus&quot;];
+
+  result.cameraFrameDefaultColor =
+      _intToColor(jsonObject[&quot;cameraFrameDefaultColor&quot;]);
+  result.cameraFrameActiveColor =
+      _intToColor(jsonObject[&quot;cameraFrameActiveColor&quot;]);
+  result.statusTextColor = _intToColor(jsonObject[&quot;statusTextColor&quot;]);
+  result.resultStatusTextColor =
+      _intToColor(jsonObject[&quot;resultStatusTextColor&quot;]);
+  result.resultStatusBackgroundColor =
+      _intToColor(jsonObject[&quot;resultStatusBackgroundColor&quot;]);
+  result.multipageButtonBackgroundColor =
+      _intToColor(jsonObject[&quot;multipageButtonBackgroundColor&quot;]);
+  result.tintColor = _intToColor(jsonObject[&quot;tintColor&quot;]);
+  result.activityIndicatorColor =
+      _intToColor(jsonObject[&quot;activityIndicatorColor&quot;]);
+  result.statusBackgroundColor =
+      _intToColor(jsonObject[&quot;statusBackgroundColor&quot;]);
+  result.cameraPreviewBackgroundColor =
+      _intToColor(jsonObject[&quot;cameraPreviewBackgroundColor&quot;]);
+
+  result.statusPositionMultiplier =
+      _toDouble(jsonObject[&quot;statusPositionMultiplier&quot;]);
+  result.resultStatusPositionMultiplier =
+      _toDouble(jsonObject[&quot;resultStatusPositionMultiplier&quot;]);
+  result.toolbarSize = _toDouble(jsonObject[&quot;toolbarSize&quot;]);
+  result.backgroundMaskAlpha = _toDouble(jsonObject[&quot;backgroundMaskAlpha&quot;]);
+  result.customStatusPositionMultiplier =
+      _toDouble(jsonObject[&quot;customStatusPositionMultiplier&quot;]);
+  result.cameraFrameVerticalPositionMultiplier =
+      _toDouble(jsonObject[&quot;cameraFrameVerticalPositionMultiplier&quot;]);
+  result.cameraFrameLandscapeAspectRatio =
+      _toDouble(jsonObject[&quot;cameraFrameLandscapeAspectRatio&quot;]);
+  result.cameraFrameCornerRadius =
+      _toDouble(jsonObject[&quot;cameraFrameCornerRadius&quot;]);
+  result.cameraFramePortraitAspectRatio =
+      _toDouble(jsonObject[&quot;cameraFramePortraitAspectRatio&quot;]);
+  result.livenessAnimationPositionMultiplier =
+      _toDouble(jsonObject[&quot;livenessAnimationPositionMultiplier&quot;]);
+
+  result.multipageAnimationFrontImage =
+      _dataFromBase64(jsonObject[&quot;multipageAnimationFrontImage&quot;]);
+  result.multipageAnimationBackImage =
+      _dataFromBase64(jsonObject[&quot;multipageAnimationBackImage&quot;]);
+  result.borderBackgroundImage =
+      _dataFromBase64(jsonObject[&quot;borderBackgroundImage&quot;]);
+  result.helpAnimationImage =
+      _dataFromBase64(jsonObject[&quot;helpAnimationImage&quot;]);
+  result.closeButtonImage = _dataFromBase64(jsonObject[&quot;closeButtonImage&quot;]);
+  result.captureButtonImage =
+      _dataFromBase64(jsonObject[&quot;captureButtonImage&quot;]);
+  result.cameraSwitchButtonImage =
+      _dataFromBase64(jsonObject[&quot;cameraSwitchButtonImage&quot;]);
+  result.torchButtonOnImage =
+      _dataFromBase64(jsonObject[&quot;torchButtonOnImage&quot;]);
+  result.torchButtonOffImage =
+      _dataFromBase64(jsonObject[&quot;torchButtonOffImage&quot;]);
+  result.changeFrameButtonExpandImage =
+      _dataFromBase64(jsonObject[&quot;changeFrameButtonExpandImage&quot;]);
+  result.changeFrameButtonCollapseImage =
+      _dataFromBase64(jsonObject[&quot;changeFrameButtonCollapseImage&quot;]);
+  result.livenessAnimationImage =
+      _dataFromBase64(jsonObject[&quot;livenessAnimationImage&quot;]);
+
+  result.customLabelStatus = jsonObject[&quot;customLabelStatus&quot;];
+  result.cameraFrameLineCap =
+      Cap.getByValue(jsonObject[&quot;cameraFrameLineCap&quot;]);
+  result.uiCustomizationLayer = jsonObject[&quot;uiCustomizationLayer&quot;];
+  result.statusTextFont = Font.fromJson(jsonObject[&quot;statusTextFont&quot;]);
+  result.resultStatusTextFont =
+      Font.fromJson(jsonObject[&quot;resultStatusTextFont&quot;]);
+
+  result.helpAnimationImageTransformsIOS =
+      ViewContentMode.getByValue(jsonObject[&quot;helpAnimationImageContentMode&quot;]);
+  result.multipageAnimationFrontImageTransformsIOS =
+      ViewContentMode.getByValue(
+          jsonObject[&quot;multipageAnimationFrontImageContentMode&quot;]);
+  result.multipageAnimationBackImageTransformsIOS =
+      ViewContentMode.getByValue(
+          jsonObject[&quot;multipageAnimationBackImageContentMode&quot;]);
+  result.livenessAnimationImageTransformsIOS = ViewContentMode.getByValue(
+      jsonObject[&quot;livenessAnimationImageContentMode&quot;]);
+  result.borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
+      jsonObject[&quot;borderBackgroundImageContentMode&quot;]);
+
+  if (jsonObject[&quot;helpAnimationImageMatrix&quot;] != null) {
+    List&lt;double&gt; array = [];
+    for (var value in jsonObject[&quot;helpAnimationImageMatrix&quot;]) {
+      array.add(value.toDouble());
+    }
+    result.helpAnimationImageTransformsAndroid = array;
+  } else {
+    result.helpAnimationImageTransformsAndroid = null;
+  }
+  if (jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;] != null) {
+    List&lt;double&gt; array = [];
+    for (var value in jsonObject[&quot;multipageAnimationFrontImageMatrix&quot;]) {
+      array.add(value.toDouble());
+    }
+    result.multipageAnimationFrontImageTransformsAndroid = array;
+  } else {
+    result.multipageAnimationFrontImageTransformsAndroid = null;
+  }
+  if (jsonObject[&quot;multipageAnimationBackImageMatrix&quot;] != null) {
+    List&lt;double&gt; array = [];
+    for (var value in jsonObject[&quot;multipageAnimationBackImageMatrix&quot;]) {
+      array.add(value.toDouble());
+    }
+    result.multipageAnimationBackImageTransformsAndroid = array;
+  } else {
+    result.multipageAnimationBackImageTransformsAndroid = null;
+  }
+  if (jsonObject[&quot;livenessAnimationImageMatrix&quot;] != null) {
+    List&lt;double&gt; array = [];
+    for (var value in jsonObject[&quot;livenessAnimationImageMatrix&quot;]) {
+      array.add(value.toDouble());
+    }
+    result.livenessAnimationImageTransformsAndroid = array;
+  } else {
+    result.livenessAnimationImageTransformsAndroid = null;
+  }
+  if (jsonObject[&quot;borderBackgroundImageMatrix&quot;] != null) {
+    List&lt;double&gt; array = [];
+    for (var value in jsonObject[&quot;borderBackgroundImageMatrix&quot;]) {
+      array.add(value.toDouble());
+    }
+    result.borderBackgroundImageTransformsAndroid = array;
+  } else {
+    result.borderBackgroundImageTransformsAndroid = null;
+  }
+
+  result.colors = CustomizationColors.fromJson(jsonObject[&quot;colors&quot;]);
+  result.fonts = CustomizationFonts.fromJson(jsonObject[&quot;fonts&quot;]);
+  result.images = CustomizationImages.fromJson(jsonObject[&quot;images&quot;]);
+
+  return result;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
+    <li><a href="../../document_reader/Customization-class.html">Customization</a></li>
+    <li class="self-crumb">fromJson static method</li>
+</ol>
+
+
+    <h5>Customization class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_document_reader_api
+      7.3.913
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

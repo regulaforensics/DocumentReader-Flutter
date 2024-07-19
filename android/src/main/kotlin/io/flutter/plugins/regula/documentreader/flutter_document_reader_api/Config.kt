@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.regula.documentreader.api.enums.CustomizationColor
 import com.regula.documentreader.api.enums.CustomizationFont
 import com.regula.documentreader.api.enums.CustomizationImage
+import com.regula.documentreader.api.enums.LogLevel
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageQA
@@ -133,6 +134,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "useFaceApi" -> processParams.useFaceApi = v as Boolean
         "useAuthenticityCheck" -> processParams.useAuthenticityCheck = v as Boolean
         "checkHologram" -> processParams.checkHologram = v as Boolean
+        "generateNumericCodes" -> processParams.generateNumericCodes = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -146,6 +148,8 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "imageOutputMaxWidth" -> processParams.imageOutputMaxWidth = v.toInt()
         "processAuth" -> processParams.processAuth = v.toInt()
         "convertCase" -> processParams.convertCase = v.toInt()
+        "logLevel" -> processParams.logLevel = LogLevel.valueOf(v.toString())
+        "mrzDetectMode" -> processParams.mrzDetectMode = v.toInt()
         "dateFormat" -> processParams.dateFormat = v as String
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
@@ -154,6 +158,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "timeoutFromFirstDetect" -> processParams.timeoutFromFirstDetect = v.toDouble()
         "timeoutFromFirstDocType" -> processParams.timeoutFromFirstDocType = v.toDouble()
         "documentAreaMin" -> processParams.documentAreaMin = v.toDouble()
+        "timeoutLiveness" -> processParams.timeoutLiveness = v.toDouble()
         "documentIDList" -> processParams.documentIDList = v.toIntArray()
         "fieldTypesFilter" -> processParams.fieldTypesFilter = v.toIntArray()
         "resultTypeOutput" -> processParams.resultTypeOutput = v.toIntArray()
@@ -207,6 +212,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "useFaceApi" to processParams.useFaceApi,
     "useAuthenticityCheck" to processParams.useAuthenticityCheck,
     "checkHologram" to processParams.checkHologram,
+    "generateNumericCodes" to processParams.generateNumericCodes,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -220,6 +226,8 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "imageOutputMaxWidth" to processParams.imageOutputMaxWidth,
     "processAuth" to processParams.processAuth,
     "convertCase" to processParams.convertCase,
+    "logLevel" to processParams.logLevel?.toString(),
+    "mrzDetectMode" to processParams.mrzDetectMode,
     "dateFormat" to processParams.dateFormat,
     "scenario" to processParams.scenario,
     "captureButtonScenario" to processParams.captureButtonScenario,
@@ -228,6 +236,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "timeoutFromFirstDetect" to processParams.timeoutFromFirstDetect,
     "timeoutFromFirstDocType" to processParams.timeoutFromFirstDocType,
     "documentAreaMin" to processParams.documentAreaMin,
+    "timeoutLiveness" to processParams.timeoutLiveness,
     "documentIDList" to processParams.documentIDList.generate(),
     "fieldTypesFilter" to processParams.fieldTypesFilter.generate(),
     "documentGroupFilter" to processParams.documentGroupFilter.generate(),
@@ -298,7 +307,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix()).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
         "customLabelStatus" -> editor.setCustomLabelStatus(SpannableString(v as String))
         "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v.toInt()])
-        "uiCustomizationLayer" -> editor.setUiCustomizationLayer(v as JSONObject)
+        "uiCustomizationLayer" -> editor.setUiCustomizationLayer(JSONObject(v.toString()))
         "colors" -> setColors(editor, v as JSONObject)
         "fonts" -> setFonts(editor, v as JSONObject)
         "images" -> setImages(editor, v as JSONObject, context)
@@ -654,6 +663,7 @@ fun setColors(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) 
         "rfidProcessingScreenProgressBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR, value)
         "rfidProcessingScreenProgressBarBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND, value)
         "rfidProcessingScreenResultLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT, value)
+        "rfidProcessingScreenLoadingBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR, value)
     }
 }
 
@@ -665,6 +675,7 @@ fun getColors(input: Map<CustomizationColor, Long>) = mapOf(
     "rfidProcessingScreenProgressBar" to input[CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR],
     "rfidProcessingScreenProgressBarBackground" to input[CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND],
     "rfidProcessingScreenResultLabelText" to input[CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT],
+    "rfidProcessingScreenLoadingBar" to input[CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR],
 ).toJsonObject()
 
 fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, value ->

@@ -42,9 +42,11 @@ class MyAppState extends State<MyApp> {
   void handleCompletion(
       DocReaderAction action, Results? results, DocReaderException? error) {
     if (error != null) print(error.message);
-    if (action.stopped() && !shouldRfid(results))
+    if (action.stopped() && !shouldRfid(results)) {
       displayResults(results);
-    else if (action.finished() && shouldRfid(results)) readRfid();
+    } else if (action.finished() && shouldRfid(results)) {
+      readRfid();
+    }
   }
 
   void displayResults(Results? results) async {
@@ -138,8 +140,9 @@ class MyAppState extends State<MyApp> {
 
   Widget rfidCheckbox() {
     var rfidCheckboxTitle = "Process rfid reading";
-    if (!documentReader.isRFIDAvailableForUse)
+    if (!documentReader.isRFIDAvailableForUse) {
       rfidCheckboxTitle += " (unavailable)";
+    }
 
     return CheckboxListTile(
       value: doRfid,
@@ -224,8 +227,8 @@ class MyAppState extends State<MyApp> {
       transform: Matrix4.translationValues(0, -7.5, 0),
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(colorPrimary),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.black12),
+          foregroundColor: WidgetStateProperty.all<Color>(colorPrimary),
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.black12),
         ),
         onPressed: onPress,
         child: Text(text),

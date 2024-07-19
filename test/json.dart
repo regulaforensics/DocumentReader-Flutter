@@ -102,6 +102,7 @@ var processParams = {
   "useFaceApi": false,
   "useAuthenticityCheck": true,
   "checkHologram": false,
+  "generateNumericCodes": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -115,6 +116,8 @@ var processParams = {
   "imageOutputMaxWidth": 12,
   "processAuth": 13,
   "convertCase": 3,
+  "logLevel": "FatalError",
+  "mrzDetectMode": 1,
   "dateFormat": "test1",
   "scenario": "Mrz",
   "captureButtonScenario": "Locate",
@@ -123,6 +126,7 @@ var processParams = {
   "timeoutFromFirstDetect": 16,
   "timeoutFromFirstDocType": 17,
   "documentAreaMin": 18,
+  "timeoutLiveness": 19,
   "documentIDList": [1, 2, 3],
   "barcodeTypes": [4, 5, 6],
   "fieldTypesFilter": [7, 8, 9],
@@ -147,7 +151,8 @@ var customizationColors = {
   "rfidProcessingScreenProgressLabelText": 0xff000003,
   "rfidProcessingScreenProgressBar": 0xff000004,
   "rfidProcessingScreenProgressBarBackground": 0xff000005,
-  "rfidProcessingScreenResultLabelText": 0xff000006
+  "rfidProcessingScreenResultLabelText": 0xff000006,
+  "rfidProcessingScreenLoadingBar": 0xff000007,
 };
 var customizationFonts = {
   "rfidProcessingScreenHintLabel": font1,

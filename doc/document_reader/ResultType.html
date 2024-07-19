@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the ResultType enum from the document_reader library, for the Dart programming language.">
+  <title>ResultType enum - document_reader library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">flutter_document_reader_api.dart</a></li>
+    <li class="self-crumb">ResultType enum</li>
+  </ol>
+  <div class="self-name">ResultType</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button" title="Toggle brightness">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        dark_mode
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        light_mode
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="document_reader&#47;document_reader-library-sidebar.html"
+    data-below-sidebar="document_reader&#47;ResultType-enum-sidebar.html">
+    <div>
+
+      <h1>
+        <span class="kind-enum">ResultType</span>
+        enum 
+ 
+
+      </h1>
+    </div>
+
+    
+<section class="desc markdown">
+  <p>Enumeration contains a pool of constants that determine the type of resulting
+data formed during the data scanning and processing cycle and passed
+to the user application.</p>
+</section>
+
+
+      <section>
+        <dl class="dl-horizontal">
+          
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark eNum-relationships">
+      <li><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></li>
+        <li><a href="https://api.flutter.dev/flutter/dart-core/Enum-class.html">Enum</a></li>
+      <li>ResultType</li>
+    </ul>
+  </dd>
+
+          
+          
+          
+
+
+        </dl>
+      </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="ResultType" class="callable">
+          <span class="name"><a href="../document_reader/ResultType/ResultType.html">ResultType</a></span><span class="signature">(<span class="parameter" id="-param-value"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">value</span></span>)</span>
+        </dt>
+        <dd>
+          
+            <div class="constructor-modifier features">const</div>
+        </dd>
+    </dl>
+  </section>
+
+      <section class="summary offset-anchor" id="values">
+        <h2>Values</h2>
+
+        <dl class="properties">
+            <dt id="NONE" class="constant">
+    <span class="name ">NONE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>No result.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(-1)</code></span>
+    </div>
+</dd>
+
+            <dt id="EMPTY" class="constant">
+    <span class="name ">EMPTY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Stores a graphic image.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(0)</code></span>
+    </div>
+</dd>
+
+            <dt id="RAW_IMAGE" class="constant">
+    <span class="name ">RAW_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Represented as binary array which contains image of the image graphic file.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(1)</code></span>
+    </div>
+</dd>
+
+            <dt id="FILE_IMAGE" class="constant">
+    <span class="name ">FILE_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing text results of MRZ, document filling and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(2)</code></span>
+    </div>
+</dd>
+
+            <dt id="MRZ_OCR_EXTENDED" class="constant">
+    <span class="name ">MRZ_OCR_EXTENDED</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing and passing to the user application of results of bar-codes
+areas search on the scanned document page and their.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(3)</code></span>
+    </div>
+</dd>
+
+            <dt id="BARCODES" class="constant">
+    <span class="name ">BARCODES</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing and passing to the user application of results of bar-codes
+areas search on the scanned document page and their reading in binary non-formatted code.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(5)</code></span>
+    </div>
+</dd>
+
+            <dt id="GRAPHICS" class="constant">
+    <span class="name ">GRAPHICS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing graphic results of document filling area and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(6)</code></span>
+    </div>
+</dd>
+
+            <dt id="MRZ_TEST_QUALITY" class="constant">
+    <span class="name ">MRZ_TEST_QUALITY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the information on document MRZ printing quality check results.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(7)</code></span>
+    </div>
+</dd>
+
+            <dt id="DOCUMENT_TYPES_CANDIDATES" class="constant">
+    <span class="name ">DOCUMENT_TYPES_CANDIDATES</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing information on candidate documents and passing it to the user
+application when performing the recognition of the document type.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(8)</code></span>
+    </div>
+</dd>
+
+            <dt id="CHOSEN_DOCUMENT_TYPE_CANDIDATE" class="constant">
+    <span class="name ">CHOSEN_DOCUMENT_TYPE_CANDIDATE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Contains information on one candidate document when determining the document type.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(9)</code></span>
+    </div>
+</dd>
+
+            <dt id="DOCUMENTS_INFO_LIST" class="constant">
+    <span class="name ">DOCUMENTS_INFO_LIST</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Not used. Serves for storing the full list of documents stored in the current
+document database and passing it to the user application.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(10)</code></span>
+    </div>
+</dd>
+
+            <dt id="OCR_LEXICAL_ANALYZE" class="constant">
+    <span class="name ">OCR_LEXICAL_ANALYZE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the results of comparing the MRZ text data, document filling
+area data, bar-codes data and data retrieved from RFID-chip memory and passing
+it to the user application.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(15)</code></span>
+    </div>
+</dd>
+
+            <dt id="RAW_UNCROPPED_IMAGE" class="constant">
+    <span class="name ">RAW_UNCROPPED_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Result stores a graphic image without compression.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(16)</code></span>
+    </div>
+</dd>
+
+            <dt id="VISUAL_OCR_EXTENDED" class="constant">
+    <span class="name ">VISUAL_OCR_EXTENDED</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Result serves for storing text results of MRZ, document filling and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(17)</code></span>
+    </div>
+</dd>
+
+            <dt id="BAR_CODES_TEXT_DATA" class="constant">
+    <span class="name ">BAR_CODES_TEXT_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Result serves for storing text results of MRZ, document filling and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(18)</code></span>
+    </div>
+</dd>
+
+            <dt id="BAR_CODES_IMAGE_DATA" class="constant">
+    <span class="name ">BAR_CODES_IMAGE_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing graphic results of document filling area and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(19)</code></span>
+    </div>
+</dd>
+
+            <dt id="AUTHENTICITY" class="constant">
+    <span class="name ">AUTHENTICITY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the result of document authenticity check using
+the images for different lighting schemes and passing it to the user
+application.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(20)</code></span>
+    </div>
+</dd>
+
+            <dt id="EXPERT_ANALYZE" class="constant">
+    <span class="name ">EXPERT_ANALYZE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Not used</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(21)</code></span>
+    </div>
+</dd>
+
+            <dt id="OCR_LEXICAL_ANALYZE_EX" class="constant">
+    <span class="name ">OCR_LEXICAL_ANALYZE_EX</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Not used</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(22)</code></span>
+    </div>
+</dd>
+
+            <dt id="EOS_IMAGE" class="constant">
+    <span class="name ">EOS_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Stores a graphic image in without compression and passing it to the user application.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(23)</code></span>
+    </div>
+</dd>
+
+            <dt id="BAYER_IMAGE" class="constant">
+    <span class="name ">BAYER_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Stores a graphic image in without compression and passing it to the user application.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(24)</code></span>
+    </div>
+</dd>
+
+            <dt id="MAGNETIC_STRIPE" class="constant">
+    <span class="name ">MAGNETIC_STRIPE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Represented as binary array which contains array if data erade from magnetic stripe.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(25)</code></span>
+    </div>
+</dd>
+
+            <dt id="MAGNETIC_STRIPE_TEXT_DATA" class="constant">
+    <span class="name ">MAGNETIC_STRIPE_TEXT_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing text results of MRZ, document filling and bar-codes reading.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(26)</code></span>
+    </div>
+</dd>
+
+            <dt id="FIELD_FILE_IMAGE" class="constant">
+    <span class="name ">FIELD_FILE_IMAGE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Represented as binary array which contains image of the graphic field image graphic file.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(27)</code></span>
+    </div>
+</dd>
+
+            <dt id="DATABASE_CHECK" class="constant">
+    <span class="name ">DATABASE_CHECK</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the result of documents database check.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(28)</code></span>
+    </div>
+</dd>
+
+            <dt id="FINGERPRINT_TEMPLATE_ISO" class="constant">
+    <span class="name ">FINGERPRINT_TEMPLATE_ISO</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Represented as binary array which contains ISO fingerprint template.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(29)</code></span>
+    </div>
+</dd>
+
+            <dt id="INPUT_IMAGE_QUALITY" class="constant">
+    <span class="name ">INPUT_IMAGE_QUALITY</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing input image quality check results list.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(30)</code></span>
+    </div>
+</dd>
+
+            <dt id="LIVE_PORTRAIT" class="constant">
+    <span class="name ">LIVE_PORTRAIT</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the result of document authenticity check using live
+portrait image.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(32)</code></span>
+    </div>
+</dd>
+
+            <dt id="STATUS" class="constant">
+    <span class="name ">STATUS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Stores information about operations status.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(33)</code></span>
+    </div>
+</dd>
+
+            <dt id="PORTRAIT_COMPARISON" class="constant">
+    <span class="name ">PORTRAIT_COMPARISON</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the result of document authenticity check using portrait images.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(34)</code></span>
+    </div>
+</dd>
+
+            <dt id="EXT_PORTRAIT" class="constant">
+    <span class="name ">EXT_PORTRAIT</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves for storing the result of document authenticity check using external portait.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(35)</code></span>
+    </div>
+</dd>
+
+            <dt id="TEXT" class="constant">
+    <span class="name ">TEXT</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing text results list.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(36)</code></span>
+    </div>
+</dd>
+
+            <dt id="IMAGES" class="constant">
+    <span class="name ">IMAGES</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing images results list.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(37)</code></span>
+    </div>
+</dd>
+
+            <dt id="INTERNAL_RFID_SESSION" class="constant">
+    <span class="name ">INTERNAL_RFID_SESSION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves to store RFID session as binary data.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(48)</code></span>
+    </div>
+</dd>
+
+            <dt id="INTERNAL_ENCRYPTED_RCL" class="constant">
+    <span class="name ">INTERNAL_ENCRYPTED_RCL</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves to store the encrypted data object.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(49)</code></span>
+    </div>
+</dd>
+
+            <dt id="INTERNAL_LICENSE" class="constant">
+    <span class="name ">INTERNAL_LICENSE</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Serves to store the encrypted license key.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(50)</code></span>
+    </div>
+</dd>
+
+            <dt id="MRZ_POSITION" class="constant">
+    <span class="name ">MRZ_POSITION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing MRZ position.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(61)</code></span>
+    </div>
+</dd>
+
+            <dt id="BARCODE_POSITION" class="constant">
+    <span class="name ">BARCODE_POSITION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing barcode position.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(62)</code></span>
+    </div>
+</dd>
+
+            <dt id="DOCUMENT_POSITION" class="constant">
+    <span class="name ">DOCUMENT_POSITION</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Used for storing document position.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(85)</code></span>
+    </div>
+</dd>
+
+            <dt id="CUSTOM" class="constant">
+    <span class="name ">CUSTOM</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Not used</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(100)</code></span>
+    </div>
+</dd>
+
+            <dt id="RFID_RAW_DATA" class="constant">
+    <span class="name ">RFID_RAW_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Servers for storing the data reading results from the RFID-chip in a form
+of a list of the logically separated data groups.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(101)</code></span>
+    </div>
+</dd>
+
+            <dt id="RFID_TEXT_DATA" class="constant">
+    <span class="name ">RFID_TEXT_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Servers for storing the results of data reading from the RFID-chip in a form
+of a list of logically separated text data (text fields).</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(102)</code></span>
+    </div>
+</dd>
+
+            <dt id="RFID_IMAGE_DATA" class="constant">
+    <span class="name ">RFID_IMAGE_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Servers for storing the results of data reading from the RFID- chip in a form
+of a list of logically separated graphic data (images, graphic fields).</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(103)</code></span>
+    </div>
+</dd>
+
+            <dt id="RFID_BINARY_DATA" class="constant">
+    <span class="name ">RFID_BINARY_DATA</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Servers for storing the data reading results from the RFID-chip in a form
+of a list of the logically separated data groups.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(104)</code></span>
+    </div>
+</dd>
+
+            <dt id="RFID_ORIGINAL_GRAPHICS" class="constant">
+    <span class="name ">RFID_ORIGINAL_GRAPHICS</span>
+  <span class="signature">&#8594; const <a href="../document_reader/ResultType.html">ResultType</a></span>
+  
+
+</dt>
+<dd>
+  <p>Servers for storing the results of data reading in a form of a list of objects
+of the original binary representation of the graphics in memory of the RFID-chip.</p>
+  
+
+    <div>
+      <span class="signature"><code>const ResultType(105)</code></span>
+    </div>
+</dd>
+
+        </dl>
+      </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="index" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Enum/index.html">index</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A numeric identifier for the enumerated value.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="value" class="property">
+  <span class="name"><a href="../document_reader/ResultType/value.html">value</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="fromIntList" class="callable">
+  <span class="name"><a href="../document_reader/ResultType/fromIntList.html">fromIntList</a></span><span class="signature">(<wbr><span class="parameter" id="fromIntList-param-input"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a>?</span> <span class="parameter-name">input</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/ResultType.html">ResultType</a></span>&gt;</span>?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+        <dt id="getByValue" class="callable">
+  <span class="name"><a href="../document_reader/ResultType/getByValue.html">getByValue</a></span><span class="signature">(<wbr><span class="parameter" id="getByValue-param-i"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">i</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../document_reader/ResultType.html">ResultType</a>?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+
+  <section class="summary offset-anchor" id="constants">
+    <h2>Constants</h2>
+
+    <dl class="properties">
+        <dt id="values" class="constant">
+    <span class="name "><a href="../document_reader/ResultType/values-constant.html">values</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../document_reader/ResultType.html">ResultType</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  A constant List of the values in this enum, in order of their declaration.
+  
+
+</dd>
+
+    </dl>
+  </section>
+</div><!-- /.main-content -->
+
+<div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+  <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">flutter_document_reader_api</a></li>
+    <li><a href="../document_reader/document_reader-library.html">document_reader</a></li>
+    <li class="self-crumb">ResultType enum</li>
+</ol>
+
+
+  <h5>document_reader library</h5>
+  <div id="dartdoc-sidebar-left-content"></div>
+</div>
+
+<div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!-- /.sidebar-offcanvas -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_document_reader_api
+      7.3.913
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
