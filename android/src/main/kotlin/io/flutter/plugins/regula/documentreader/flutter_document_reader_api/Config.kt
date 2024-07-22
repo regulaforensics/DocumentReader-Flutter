@@ -134,6 +134,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "useFaceApi" -> processParams.useFaceApi = v as Boolean
         "useAuthenticityCheck" -> processParams.useAuthenticityCheck = v as Boolean
         "checkHologram" -> processParams.checkHologram = v as Boolean
+        "generateNumericCodes" -> processParams.generateNumericCodes = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -211,6 +212,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "useFaceApi" to processParams.useFaceApi,
     "useAuthenticityCheck" to processParams.useAuthenticityCheck,
     "checkHologram" to processParams.checkHologram,
+    "generateNumericCodes" to processParams.generateNumericCodes,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
