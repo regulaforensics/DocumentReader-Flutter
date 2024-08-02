@@ -25,18 +25,19 @@ class MyAppState extends State<MyApp> {
   List<DocReaderScenario> scenarios = [];
   Object setStatus(String s) => {setState(() => status = s)};
 
+  var canRfid = false;
   var doRfid = false;
   var isReadingRfid = false;
   var rfidCustomUiExample = RFIDCustomUI.empty();
   var rfidOption = RfidOption.Basic;
 
-  var colorPrimary = Colors.blue;
-
   void init() async {
     super.initState();
     if (!await initializeReader()) return;
-    setStatus("Ready");
-    setState(() => scenarios = documentReader.availableScenarios);
+    status = "Ready";
+    scenarios = documentReader.availableScenarios;
+    canRfid = await documentReader.isRFIDAvailableForUse();
+    setState(() {});
   }
 
   void handleCompletion(
@@ -139,17 +140,10 @@ class MyAppState extends State<MyApp> {
   }
 
   Widget rfidCheckbox() {
-    var rfidCheckboxTitle = "Process rfid reading";
-    if (!documentReader.isRFIDAvailableForUse) {
-      rfidCheckboxTitle += " (unavailable)";
-    }
-
     return CheckboxListTile(
       value: doRfid,
-      title: Text(rfidCheckboxTitle),
-      onChanged: (bool? value) {
-        setState(() => doRfid = value! && documentReader.isRFIDAvailableForUse);
-      },
+      title: Text("Process rfid reading" + (canRfid ? "" : " (unavailable)")),
+      onChanged: (bool? value) => setState(() => doRfid = value! && canRfid),
     );
   }
 
@@ -227,7 +221,7 @@ class MyAppState extends State<MyApp> {
       transform: Matrix4.translationValues(0, -7.5, 0),
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: WidgetStateProperty.all<Color>(colorPrimary),
+          foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
           backgroundColor: WidgetStateProperty.all<Color>(Colors.black12),
         ),
         onPressed: onPress,
@@ -271,7 +265,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: theme.copyWith(
         colorScheme: theme.colorScheme
-            .copyWith(primary: colorPrimary, surfaceTint: colorPrimary),
+            .copyWith(primary: Colors.blue, surfaceTint: Colors.blue),
       ),
       home: Scaffold(
         appBar: AppBar(title: Center(child: Text(status))),
