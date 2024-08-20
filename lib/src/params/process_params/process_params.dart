@@ -280,6 +280,14 @@ class ProcessParams {
     _set({"checkHologram": val});
   }
 
+  /// This parameter is used to generate numeric representation for issuing state and nationality codes.
+  bool? get generateNumericCodes => _generateNumericCodes;
+  bool? _generateNumericCodes;
+  set generateNumericCodes(bool? val) {
+    _generateNumericCodes = val;
+    _set({"generateNumericCodes": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -665,6 +673,7 @@ class ProcessParams {
     result.useAuthenticityCheck = jsonObject["useAuthenticityCheck"];
     // ignore: deprecated_member_use_from_same_package
     result.checkHologram = jsonObject["checkHologram"];
+    result.generateNumericCodes = jsonObject["generateNumericCodes"];
 
     result.measureSystem =
         MeasureSystem.getByValue(jsonObject["measureSystem"]);
@@ -759,6 +768,7 @@ class ProcessParams {
         "useAuthenticityCheck": useAuthenticityCheck,
         // ignore: deprecated_member_use_from_same_package
         "checkHologram": checkHologram,
+        "generateNumericCodes": generateNumericCodes,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

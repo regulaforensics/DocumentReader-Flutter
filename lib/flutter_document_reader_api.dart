@@ -154,8 +154,9 @@ class DocumentReader {
 
   /// Allows you to check if RFID chip reading can be performed based on your
   /// license and Core framework capabilities.
-  bool get isRFIDAvailableForUse => _isRFIDAvailableForUse;
-  bool _isRFIDAvailableForUse = false;
+  Future<bool> isRFIDAvailableForUse() async {
+    return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
+  }
 
   /// Allows you to get a status of the RFID chip reading process.
   ///
@@ -514,7 +515,6 @@ class DocumentReader {
     _version = await _getDocReaderVersion();
     _availableScenarios = await _getAvailableScenarios();
     _license = await _getLicense();
-    _isRFIDAvailableForUse = await _getIsRFIDAvailableForUse();
     _tag = await _getTag();
     _tenant = await _getTenant();
     _env = await _getEnv();
@@ -557,10 +557,6 @@ class DocumentReader {
       scenarios.add(DocReaderScenario.fromJson(s)!);
     }
     return scenarios;
-  }
-
-  Future<bool> _getIsRFIDAvailableForUse() async {
-    return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
   }
 
   Future<DocReaderVersion?> _getDocReaderVersion() async {

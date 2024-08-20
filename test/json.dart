@@ -102,6 +102,7 @@ var processParams = {
   "useFaceApi": false,
   "useAuthenticityCheck": true,
   "checkHologram": false,
+  "generateNumericCodes": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
