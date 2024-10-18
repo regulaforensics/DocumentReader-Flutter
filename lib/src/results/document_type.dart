@@ -73,9 +73,7 @@ class DocumentType {
     result._description = jsonObject["dDescription"];
     result._year = jsonObject["dYear"];
     result._countryName = jsonObject["dCountryName"];
-    result._fDSID = jsonObject["FDSID"] == null
-        ? null
-        : List<int>.from(jsonObject["FDSID"]);
+    result._fDSID = _intListFrom(jsonObject["FDSID"]);
 
     return result;
   }
