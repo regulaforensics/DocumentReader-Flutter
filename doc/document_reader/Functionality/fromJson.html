@@ -120,9 +120,8 @@
   result.zoomFactor = _toDouble(jsonObject[&quot;zoomFactor&quot;]);
   result.exposure = _toDouble(jsonObject[&quot;exposure&quot;]);
 
-  result.excludedCamera2Models = jsonObject[&quot;excludedCamera2Models&quot;] == null
-      ? null
-      : List&lt;String&gt;.from(jsonObject[&quot;excludedCamera2Models&quot;]);
+  result.excludedCamera2Models =
+      _stringListFrom(jsonObject[&quot;excludedCamera2Models&quot;]);
 
   result.cameraResolutionAndroid =
       CameraSize.fromJson(jsonObject[&quot;cameraSize&quot;]);
@@ -164,7 +163,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

@@ -84,9 +84,7 @@
   return FaceApiSearchParams(
     limit: jsonObject[&quot;limit&quot;],
     threshold: _toDouble(jsonObject[&quot;threshold&quot;])!,
-    groupIds: jsonObject[&quot;groupIds&quot;] == null
-        ? null
-        : List&lt;int&gt;.from(jsonObject[&quot;groupIds&quot;]),
+    groupIds: _intListFrom(jsonObject[&quot;groupIds&quot;]),
   );
 }</code></pre>
 </section>
@@ -122,7 +120,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

@@ -94,9 +94,7 @@
   result._description = jsonObject[&quot;dDescription&quot;];
   result._year = jsonObject[&quot;dYear&quot;];
   result._countryName = jsonObject[&quot;dCountryName&quot;];
-  result._fDSID = jsonObject[&quot;FDSID&quot;] == null
-      ? null
-      : List&lt;int&gt;.from(jsonObject[&quot;FDSID&quot;]);
+  result._fDSID = _intListFrom(jsonObject[&quot;FDSID&quot;]);
 
   return result;
 }</code></pre>
@@ -133,7 +131,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

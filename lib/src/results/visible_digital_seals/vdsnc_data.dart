@@ -66,9 +66,7 @@ class VDSNCData {
     for (var item in jsonObject["certificateChain"]) {
       result._certificateChain.addSafe(CertificateChain.fromJson(item));
     }
-    result._notifications = jsonObject["notifications"] == null
-        ? null
-        : List<int>.from(jsonObject["notifications"]);
+    result._notifications = _intListFrom(jsonObject["notifications"]);
 
     return result;
   }

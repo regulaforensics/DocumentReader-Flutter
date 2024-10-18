@@ -86,7 +86,7 @@
   result._fileReference = jsonObject[&quot;fileReference&quot;];
   result._version = jsonObject[&quot;version&quot;];
   result._objectType = jsonObject[&quot;objectType&quot;];
-  result._notifications = jsonObject[&quot;notifications&quot;].cast&lt;int&gt;();
+  result._notifications = _intListFrom(jsonObject[&quot;notifications&quot;])!;
   for (var item in jsonObject[&quot;signerInfos&quot;]) {
     result.signerInfos.addSafe(SignerInfo.fromJson(item));
   }
@@ -126,7 +126,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

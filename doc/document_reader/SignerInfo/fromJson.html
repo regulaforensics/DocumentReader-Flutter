@@ -93,7 +93,7 @@
   result._subjectKeyIdentifier =
       RFIDValue.fromJson(jsonObject[&quot;subjectKeyIdentifier&quot;]);
   result._issuer = Authority.fromJson(jsonObject[&quot;issuer&quot;]);
-  result._notifications = jsonObject[&quot;notifications&quot;].cast&lt;int&gt;();
+  result._notifications = _intListFrom(jsonObject[&quot;notifications&quot;])!;
   for (var item in jsonObject[&quot;signedAttributes&quot;]) {
     result._signedAttributes.addSafe(Extension.fromJson(item));
   }
@@ -136,7 +136,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

@@ -93,9 +93,7 @@
   for (var item in jsonObject[&quot;certificateChain&quot;]) {
     result._certificateChain.addSafe(CertificateChain.fromJson(item));
   }
-  result._notifications = jsonObject[&quot;notifications&quot;] == null
-      ? null
-      : List&lt;int&gt;.from(jsonObject[&quot;notifications&quot;]);
+  result._notifications = _intListFrom(jsonObject[&quot;notifications&quot;]);
 
   return result;
 }</code></pre>
@@ -132,7 +130,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.990-nightly
+      7.5.995-nightly
   </span>
 
   

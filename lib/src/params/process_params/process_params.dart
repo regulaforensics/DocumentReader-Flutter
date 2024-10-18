@@ -707,9 +707,7 @@ class ProcessParams {
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
     result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
-    result.documentIDList = jsonObject["documentIDList"] == null
-        ? null
-        : List<int>.from(jsonObject["documentIDList"]);
+    result.documentIDList = _intListFrom(jsonObject["documentIDList"]);
     result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
     result.fieldTypesFilter =

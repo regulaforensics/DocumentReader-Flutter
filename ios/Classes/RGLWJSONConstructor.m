@@ -23,6 +23,7 @@
 
 +(NSData*)base64Decode:(NSString*)input {
     if(input == nil) return nil;
+    if ([input hasPrefix:@"data"]) input = [input substringFromIndex:[input rangeOfString:@","].location + 1];
     return [[NSData alloc] initWithBase64EncodedString:input options:0];
 }
 
