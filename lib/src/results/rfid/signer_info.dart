@@ -76,7 +76,7 @@ class SignerInfo {
     result._subjectKeyIdentifier =
         RFIDValue.fromJson(jsonObject["subjectKeyIdentifier"]);
     result._issuer = Authority.fromJson(jsonObject["issuer"]);
-    result._notifications = _intListFrom(jsonObject["notifications"])!;
+    result._notifications = jsonObject["notifications"].cast<int>();
     for (var item in jsonObject["signedAttributes"]) {
       result._signedAttributes.addSafe(Extension.fromJson(item));
     }

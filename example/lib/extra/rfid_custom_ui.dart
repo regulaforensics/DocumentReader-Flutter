@@ -6,16 +6,17 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_document_reader_api/flutter_document_reader_api.dart';
+import 'package:flutter_document_reader_api_example/main.dart';
 
 class RFIDCustomUI {
   var documentReader = DocumentReader.instance;
-  Function setState = () => {};
-  Function setStatus = () => {};
-  Function displayResults = () => {};
+  late MyAppState main;
 
   var isShowing = false;
   var rfidUIHeader = "Reading RFID";
@@ -23,8 +24,9 @@ class RFIDCustomUI {
   var rfidDescription = "Place your phone on top of the NFC tag";
   double rfidProgress = -1;
 
-  RFIDCustomUI.empty();
-  RFIDCustomUI(this.setState, this.setStatus, this.displayResults);
+  init(MyAppState main) {
+    this.main = main;
+  }
 
   void run() {
     showRfidUI();
@@ -39,10 +41,10 @@ class RFIDCustomUI {
       if (notification.notificationCode ==
           RFIDNotificationCodes.PCSC_READING_DATAGROUP) {
         var translation = await notification.dataFileType.getTranslation();
-        setState(() => rfidDescription = translation);
+        main.setState(() => rfidDescription = translation);
       }
 
-      setState(() {
+      main.setState(() {
         rfidUIHeader = "Reading RFID";
         rfidUIHeaderColor = Colors.black;
         rfidProgress = notification.progress / 100;
@@ -62,20 +64,20 @@ class RFIDCustomUI {
   }
 
   void showRfidUI() {
-    setStatus("");
-    setState(() => isShowing = true);
+    main.setStatus("");
+    main.setState(() => isShowing = true);
   }
 
   void finish(Results? results) {
     documentReader.stopRFIDReader();
-    setState(() {
+    main.setState(() {
       isShowing = false;
       rfidUIHeader = "Reading RFID";
       rfidUIHeaderColor = Colors.black;
       rfidDescription = "Place your phone on top of the NFC tag";
       rfidProgress = -1;
     });
-    displayResults(results);
+    main.displayResults(results);
   }
 
   Widget build() {
