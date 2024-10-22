@@ -393,8 +393,9 @@ class Functionality {
     result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
     result.exposure = _toDouble(jsonObject["exposure"]);
 
-    result.excludedCamera2Models =
-        _stringListFrom(jsonObject["excludedCamera2Models"]);
+    result.excludedCamera2Models = jsonObject["excludedCamera2Models"] == null
+        ? null
+        : List<String>.from(jsonObject["excludedCamera2Models"]);
 
     result.cameraResolutionAndroid =
         CameraSize.fromJson(jsonObject["cameraSize"]);

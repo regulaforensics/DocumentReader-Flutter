@@ -38,7 +38,9 @@ class FaceApiSearchParams {
     return FaceApiSearchParams(
       limit: jsonObject["limit"],
       threshold: _toDouble(jsonObject["threshold"])!,
-      groupIds: _intListFrom(jsonObject["groupIds"]),
+      groupIds: jsonObject["groupIds"] == null
+          ? null
+          : List<int>.from(jsonObject["groupIds"]),
     );
   }
 

@@ -11,7 +11,7 @@ This repository contains the source code of the Document Reader API, and the sam
 
 ## Documentation
 
-You can find documentation [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/mobile).
+You can find documentation [here](https://docs.regulaforensics.com/develop/doc-reader-sdk/mobile/flutter).
 
 ## License
 

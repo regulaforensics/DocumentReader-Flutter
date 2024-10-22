@@ -87,7 +87,7 @@
   result._type =
       RFIDAccessControlProcedureType.getByValue(jsonObject[&quot;type&quot;])!;
   result._status = RFIDErrorCodes.getByValue(jsonObject[&quot;status&quot;])!;
-  result._notifications = _intListFrom(jsonObject[&quot;notifications&quot;])!;
+  result._notifications = jsonObject[&quot;notifications&quot;].cast&lt;int&gt;();
 
   return result;
 }</code></pre>
@@ -124,7 +124,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.995-nightly
+      7.5.997-nightly
   </span>
 
   

@@ -43,7 +43,7 @@ class SecurityObject {
     result._fileReference = jsonObject["fileReference"];
     result._version = jsonObject["version"];
     result._objectType = jsonObject["objectType"];
-    result._notifications = _intListFrom(jsonObject["notifications"])!;
+    result._notifications = jsonObject["notifications"].cast<int>();
     for (var item in jsonObject["signerInfos"]) {
       result.signerInfos.addSafe(SignerInfo.fromJson(item));
     }

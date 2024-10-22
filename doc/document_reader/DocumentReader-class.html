@@ -149,18 +149,6 @@ on your license and Core framework capabilities.
 
 </dd>
 
-        <dt id="isBlePermissionsGranted" class="property">
-  <span class="name"><a href="../document_reader/DocumentReader/isBlePermissionsGranted.html">isBlePermissionsGranted</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-  
-
-</dt>
-<dd>
-  Checks if the app has all the required bluetooth permissions.
-  <div class="features"><span class="feature">no setter</span></div>
-
-</dd>
-
         <dt id="isReady" class="property">
   <span class="name"><a href="../document_reader/DocumentReader/isReady.html">isReady</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
@@ -169,6 +157,19 @@ on your license and Core framework capabilities.
 </dt>
 <dd>
   Allows you to check if Document Reader is ready for use.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="isRFIDAvailableForUse" class="property">
+  <span class="name"><a href="../document_reader/DocumentReader/isRFIDAvailableForUse.html">isRFIDAvailableForUse</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd>
+  Allows you to check if RFID chip reading can be performed based on your
+license and Core framework capabilities.
   <div class="features"><span class="feature">no setter</span></div>
 
 </dd>
@@ -380,6 +381,19 @@ RFID chip processing.
 
 </dd>
 
+        <dt id="connectBluetoothDevice" class="callable">
+  <span class="name"><a href="../document_reader/DocumentReader/connectBluetoothDevice.html">connectBluetoothDevice</a></span><span class="signature">(<wbr><span class="parameter" id="connectBluetoothDevice-param-deviceName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">deviceName</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Used to connect to the ble device.
+  
+
+</dd>
+
         <dt id="deinitializeReader" class="callable">
   <span class="name"><a href="../document_reader/DocumentReader/deinitializeReader.html">deinitializeReader</a></span><span class="signature">(<wbr>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
@@ -416,20 +430,6 @@ consequence of this.
 </dt>
 <dd>
   Allows you to initialize Document Reader.
-  
-
-</dd>
-
-        <dt id="isRFIDAvailableForUse" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/isRFIDAvailableForUse.html">isRFIDAvailableForUse</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Allows you to check if RFID chip reading can be performed based on your
-license and Core framework capabilities.
   
 
 </dd>
@@ -550,19 +550,6 @@ Each new update of the database will be downloaded.
 <dd>
   Sets the given <code>TCCParams</code> to the RFID  session.
 The parameters are required to be set before starting RFID session.
-  
-
-</dd>
-
-        <dt id="startBluetoothService" class="callable">
-  <span class="name"><a href="../document_reader/DocumentReader/startBluetoothService.html">startBluetoothService</a></span><span class="signature">(<wbr><span class="parameter" id="startBluetoothService-param-completion"><span class="type-annotation"><a href="../document_reader/BluetoothServiceCompletion-class.html">BluetoothServiceCompletion</a></span> <span class="parameter-name">completion</span></span>)
-    <span class="returntype parameter">&#8594; void</span>
-  </span>
-  
-
-</dt>
-<dd>
-  Used to connect to the ble device.
   
 
 </dd>
@@ -708,7 +695,7 @@ current one is processed.
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.995-nightly
+      7.5.997-nightly
   </span>
 
   

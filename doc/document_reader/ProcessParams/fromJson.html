@@ -150,7 +150,9 @@
   result.documentAreaMin = _toDouble(jsonObject[&quot;documentAreaMin&quot;]);
   result.timeoutLiveness = _toDouble(jsonObject[&quot;timeoutLiveness&quot;]);
 
-  result.documentIDList = _intListFrom(jsonObject[&quot;documentIDList&quot;]);
+  result.documentIDList = jsonObject[&quot;documentIDList&quot;] == null
+      ? null
+      : List&lt;int&gt;.from(jsonObject[&quot;documentIDList&quot;]);
   result.barcodeTypes = BarcodeType.fromIntList(jsonObject[&quot;barcodeTypes&quot;]);
 
   result.fieldTypesFilter =
@@ -209,7 +211,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.995-nightly
+      7.5.997-nightly
   </span>
 
   

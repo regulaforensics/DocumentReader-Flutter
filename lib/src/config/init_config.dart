@@ -50,14 +50,8 @@ class InitConfig {
   /// Constructor for initialization using a ble device.
   /// Doesn't need a license file, it will be fetched automatically from your ble device.
   ///
-  /// Android only. Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
+  /// Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
   InitConfig.withBleDevice() : _license = ByteData(0) {
-    if (!Platform.isAndroid) {
-      throw PlatformException(
-        code: "android-only",
-        message: "withBleDevice constructor is accessible only on Android",
-      );
-    }
     _useBleDevice = true;
   }
 

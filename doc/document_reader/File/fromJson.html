@@ -93,11 +93,10 @@
   result._fileData = FileData.fromJson(jsonObject[&quot;fileData&quot;]);
   result._certificates =
       SecurityObjectCertificates.fromJson(jsonObject[&quot;certificates&quot;]);
-  result._docFieldsText = _intListFrom(jsonObject[&quot;docFieldsText&quot;])!;
-  result._docFieldsGraphics = _intListFrom(jsonObject[&quot;docFieldsGraphics&quot;])!;
-  result._docFieldsOriginals =
-      _intListFrom(jsonObject[&quot;docFieldsOriginals&quot;])!;
-  result._notifications = _intListFrom(jsonObject[&quot;notifications&quot;])!;
+  result._docFieldsText = jsonObject[&quot;docFieldsText&quot;].cast&lt;int&gt;();
+  result._docFieldsGraphics = jsonObject[&quot;docFieldsGraphics&quot;].cast&lt;int&gt;();
+  result._docFieldsOriginals = jsonObject[&quot;docFieldsOriginals&quot;].cast&lt;int&gt;();
+  result._notifications = jsonObject[&quot;notifications&quot;].cast&lt;int&gt;();
 
   return result;
 }</code></pre>
@@ -134,7 +133,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.995-nightly
+      7.5.997-nightly
   </span>
 
   

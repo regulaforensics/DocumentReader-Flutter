@@ -21,8 +21,10 @@ class RFIDParams {
   static RFIDParams? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     return RFIDParams(
-        paIgnoreNotificationCodes:
-            _intListFrom(jsonObject["paIgnoreNotificationCodes"]));
+      paIgnoreNotificationCodes: jsonObject["paIgnoreNotificationCodes"] == null
+          ? null
+          : List<int>.from(jsonObject["paIgnoreNotificationCodes"]),
+    );
   }
 
   /// Allows you to serialize object.

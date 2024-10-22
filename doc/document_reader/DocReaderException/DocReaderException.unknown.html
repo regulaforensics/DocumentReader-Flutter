@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the startBluetoothService method from the DocumentReader class, for the Dart programming language.">
-  <title>startBluetoothService method - DocumentReader class - document_reader library - Dart API</title>
+  <meta name="description" content="API docs for the DocReaderException.unknown constructor from Class DocReaderException from the document_reader library, for the Dart programming language.">
+  <title>DocReaderException.unknown constructor - DocReaderException - document_reader library - Dart API</title>
 
 
   
@@ -30,10 +30,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">flutter_document_reader_api</a></li>
     <li><a href="../../document_reader/document_reader-library.html">flutter_document_reader_api.dart</a></li>
-    <li><a href="../../document_reader/DocumentReader-class.html">DocumentReader</a></li>
-    <li class="self-crumb">startBluetoothService method</li>
+    <li><a href="../../document_reader/DocReaderException-class.html">DocReaderException</a></li>
+    <li class="self-crumb">DocReaderException.unknown constructor</li>
   </ol>
-  <div class="self-name">startBluetoothService</div>
+  <div class="self-name">DocReaderException.unknown</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -51,44 +51,29 @@
 </header>
 <main>
 
-<div
-    id="dartdoc-main-content"
-    class="main-content"
-    data-above-sidebar="document_reader&#47;DocumentReader-class-sidebar.html"
-    data-below-sidebar="">
-    <div>
-<h1><span class="kind-method">startBluetoothService</span> method 
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="document_reader&#47;DocReaderException-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">DocReaderException.unknown</span> constructor 
 </h1></div>
 
     <section class="multi-line-signature">
       
-
-<span class="returntype">void</span>
-<span class="name ">startBluetoothService</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="startBluetoothService-param-completion"><span class="type-annotation"><a href="../../document_reader/BluetoothServiceCompletion-class.html">BluetoothServiceCompletion</a></span> <span class="parameter-name">completion</span></span></li>
-</ol>)
-
-      
-
+      <span class="name ">DocReaderException.unknown</span>(<wbr>)
     </section>
+
     
-<section class="desc markdown">
-  <p>Used to connect to the ble device.</p>
-<p>Android only.</p>
-</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void startBluetoothService(BluetoothServiceCompletion completion) {
-  if (!Platform.isAndroid) {
-    throw PlatformException(
-      code: &quot;android-only&quot;,
-      message: &quot;startBluetoothService is accessible only on Android&quot;,
-    );
-  }
-  _setBluetoothServiceCompletion(completion);
-  _bridge.invokeMethod(&quot;startBluetoothService&quot;, []);
+  <pre class="language-dart"><code class="language-dart">DocReaderException.unknown() {
+  _code = ErrorCodes.UNKNOWN;
+  _message = &quot;Unknown exception&quot;;
 }</code></pre>
 </section>
 
@@ -106,24 +91,24 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">flutter_document_reader_api</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
-    <li><a href="../../document_reader/DocumentReader-class.html">DocumentReader</a></li>
-    <li class="self-crumb">startBluetoothService method</li>
+    <li><a href="../../document_reader/DocReaderException-class.html">DocReaderException</a></li>
+    <li class="self-crumb">DocReaderException.unknown constructor</li>
 </ol>
 
 
-    <h5>DocumentReader class</h5>
+    <h5>DocReaderException class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
-  </div><!--/.sidebar-offcanvas-->
+  </div><!--/.sidebar-offcanvas-left-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
-</div><!--/.sidebar-offcanvas-->
+  </div><!--/.sidebar-offcanvas-->
 
 </main>
 
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.995-nightly
+      7.5.997-nightly
   </span>
 
   

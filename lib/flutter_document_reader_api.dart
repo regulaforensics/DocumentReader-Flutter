@@ -154,9 +154,8 @@ class DocumentReader {
 
   /// Allows you to check if RFID chip reading can be performed based on your
   /// license and Core framework capabilities.
-  Future<bool> isRFIDAvailableForUse() async {
-    return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
-  }
+  bool get isRFIDAvailableForUse => _isRFIDAvailableForUse;
+  bool _isRFIDAvailableForUse = false;
 
   /// Allows you to get a status of the RFID chip reading process.
   ///
@@ -270,19 +269,6 @@ class DocumentReader {
     return await _bridge.invokeMethod("isAuthenticatorAvailableForUse", []);
   }
 
-  /// Checks if the app has all the required bluetooth permissions.
-  ///
-  /// Android only. Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
-  Future<bool> get isBlePermissionsGranted async {
-    if (!Platform.isAndroid) {
-      throw PlatformException(
-        code: "android-only",
-        message: "isBlePermissionsGranted is accessible only on Android",
-      );
-    }
-    return await _bridge.invokeMethod("isBlePermissionsGranted", []);
-  }
-
   /// Use this method to reset all parameters to their default values.
   void resetConfiguration() {
     _bridge.invokeMethod("resetConfiguration", []);
@@ -316,16 +302,11 @@ class DocumentReader {
 
   /// Used to connect to the ble device.
   ///
-  /// Android only.
-  void startBluetoothService(BluetoothServiceCompletion completion) {
-    if (!Platform.isAndroid) {
-      throw PlatformException(
-        code: "android-only",
-        message: "startBluetoothService is accessible only on Android",
-      );
-    }
-    _setBluetoothServiceCompletion(completion);
-    _bridge.invokeMethod("startBluetoothService", []);
+  /// Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
+  Future<bool> connectBluetoothDevice(String deviceName) async {
+    // In Android we have to pass deviceName to functionality, in iOS - to a native function.
+    instance.functionality.btDeviceName = deviceName;
+    return await _bridge.invokeMethod("connectBluetoothDevice", [deviceName]);
   }
 
   /// Used to deinitialize Document Reader and free up RAM as a
@@ -515,6 +496,7 @@ class DocumentReader {
     _version = await _getDocReaderVersion();
     _availableScenarios = await _getAvailableScenarios();
     _license = await _getLicense();
+    _isRFIDAvailableForUse = await _getIsRFIDAvailableForUse();
     _tag = await _getTag();
     _tenant = await _getTenant();
     _env = await _getEnv();
@@ -546,8 +528,8 @@ class DocumentReader {
   }
 
   Future<License> _getLicense() async {
-    String response = await _bridge.invokeMethod("getLicense", []);
-    return License.fromJson(_decode(response))!;
+    String? response = await _bridge.invokeMethod("getLicense", []);
+    return License.fromJson(_decode(response) ?? {})!;
   }
 
   Future<List<DocReaderScenario>> _getAvailableScenarios() async {
@@ -557,6 +539,10 @@ class DocumentReader {
       scenarios.add(DocReaderScenario.fromJson(s)!);
     }
     return scenarios;
+  }
+
+  Future<bool> _getIsRFIDAvailableForUse() async {
+    return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
   }
 
   Future<DocReaderVersion?> _getDocReaderVersion() async {
