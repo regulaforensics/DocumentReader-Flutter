@@ -54,6 +54,17 @@ void _setDocumentReaderPrepareCompletion(
   });
 }
 
+late BluetoothServiceCompletion _bluetoothServiceCompletion;
+void _setBluetoothServiceCompletion(BluetoothServiceCompletion completion) {
+  _bluetoothServiceCompletion = completion;
+  _eventChannel('bleOnServiceConnectedEvent',
+      (msg) => _bluetoothServiceCompletion.onServiceConnected(msg));
+  _eventChannel('bleOnServiceDisconnectedEvent',
+      (_) => _bluetoothServiceCompletion.onServiceDisconnected());
+  _eventChannel('bleOnDeviceReadyEvent',
+      (_) => _bluetoothServiceCompletion.onDeviceReady());
+}
+
 late CustomButtonTappedCompletion _customButtonTappedCompletion;
 void _setCustomButtonTappedCompletion(CustomButtonTappedCompletion completion) {
   _customButtonTappedCompletion = completion;

@@ -7,7 +7,6 @@
 //
 
 import 'package:flutter/material.dart';
-import 'package:flutter_document_reader_api_example/extra/bt_device.dart';
 import 'package:flutter_document_reader_api_example/extra/rfid_custom_ui.dart';
 import 'dart:async';
 import 'package:image_picker/image_picker.dart';
@@ -18,27 +17,27 @@ void main() => runApp(MyApp());
 
 class MyAppState extends State<MyApp> {
   var documentReader = DocumentReader.instance;
-  static final rfidOption = RfidOption.Basic;
-  static final useBleDevice = false;
 
-  var status = "";
+  var status = "Loading...";
   var portrait = Image.asset('assets/images/portrait.png');
   var docImage = Image.asset('assets/images/id.png');
   var selectedScenario = Scenario.MRZ;
   List<DocReaderScenario> scenarios = [];
   Object setStatus(String s) => {setState(() => status = s)};
 
+  var canRfid = false;
   var doRfid = false;
   var isReadingRfid = false;
-  var rfidCustomUiExample = RFIDCustomUI();
-  var btDeviceExample = BtDevice();
+  var rfidCustomUiExample = RFIDCustomUI.empty();
+  var rfidOption = RfidOption.Basic;
 
-  static var colorPrimary = Colors.blue;
-
-  Future<void> init() async {
+  void init() async {
+    super.initState();
     if (!await initializeReader()) return;
-    setStatus("Ready");
-    setState(() => scenarios = documentReader.availableScenarios);
+    status = "Ready";
+    scenarios = documentReader.availableScenarios;
+    canRfid = await documentReader.isRFIDAvailableForUse();
+    setState(() {});
   }
 
   void handleCompletion(
@@ -62,6 +61,11 @@ class MyAppState extends State<MyApp> {
         await results.graphicFieldImageByType(GraphicFieldType.DOCUMENT_IMAGE);
     var newPortrait =
         await results.graphicFieldImageByType(GraphicFieldType.PORTRAIT);
+    var rfidPortrait = await results.graphicFieldImageByTypeSource(
+      GraphicFieldType.PORTRAIT,
+      ResultType.RFID_IMAGE_DATA,
+    );
+    newPortrait = rfidPortrait ?? newPortrait;
 
     setState(() {
       status = name ?? "Ready";
@@ -141,17 +145,10 @@ class MyAppState extends State<MyApp> {
   }
 
   Widget rfidCheckbox() {
-    var rfidCheckboxTitle = "Process rfid reading";
-    if (!documentReader.isRFIDAvailableForUse) {
-      rfidCheckboxTitle += " (unavailable)";
-    }
-
     return CheckboxListTile(
       value: doRfid,
-      title: Text(rfidCheckboxTitle),
-      onChanged: (bool? value) {
-        setState(() => doRfid = value! && documentReader.isRFIDAvailableForUse);
-      },
+      title: Text("Process rfid reading" + (canRfid ? "" : " (unavailable)")),
+      onChanged: (bool? value) => setState(() => doRfid = value! && canRfid),
     );
   }
 
@@ -161,8 +158,7 @@ class MyAppState extends State<MyApp> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          button("Scan document", () async {
-            if (!await documentReader.isReady) return;
+          button("Scan document", () {
             clearResults();
             documentReader.scan(
               ScannerConfig.withScenario(selectedScenario),
@@ -170,7 +166,6 @@ class MyAppState extends State<MyApp> {
             );
           }),
           button("Scan image", () async {
-            if (!await documentReader.isReady) return;
             clearResults();
             documentReader.recognize(
               RecognizeConfig.withScenario(
@@ -223,7 +218,7 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  static Widget button(String text, VoidCallback onPress) {
+  Widget button(String text, VoidCallback onPress) {
     return Container(
       width: 160,
       height: 40,
@@ -231,7 +226,7 @@ class MyAppState extends State<MyApp> {
       transform: Matrix4.translationValues(0, -7.5, 0),
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: WidgetStateProperty.all<Color>(colorPrimary),
+          foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
           backgroundColor: WidgetStateProperty.all<Color>(Colors.black12),
         ),
         onPressed: onPress,
@@ -243,25 +238,20 @@ class MyAppState extends State<MyApp> {
   Future<bool> initializeReader() async {
     setStatus("Initializing...");
 
-    InitConfig initConfig;
-    if (!useBleDevice) {
-      ByteData license = await rootBundle.load("assets/regula.license");
-      initConfig = InitConfig(license);
-    } else {
-      initConfig = InitConfig.withBleDevice();
-    }
+    ByteData license = await rootBundle.load("assets/regula.license");
+    var initConfig = InitConfig(license);
     initConfig.delayedNNLoad = true;
     var (success, error) = await documentReader.initializeReader(initConfig);
 
     if (!success) {
-      if (error == null) error = DocReaderException.unknown();
-      setStatus(error.message);
+      setStatus(error!.message);
       printError(error);
     }
+    rfidCustomUiExample = RFIDCustomUI(setState, setStatus, displayResults);
     return success;
   }
 
-  static void printError(DocReaderException error) =>
+  void printError(DocReaderException error) =>
       print("Error: \n  code: ${error.code}\n  message: ${error.message}");
 
   Future<List<Uint8List>> getImages() async {
@@ -280,21 +270,20 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: theme.copyWith(
         colorScheme: theme.colorScheme
-            .copyWith(primary: colorPrimary, surfaceTint: colorPrimary),
+            .copyWith(primary: Colors.blue, surfaceTint: Colors.blue),
       ),
       home: Scaffold(
         appBar: AppBar(title: Center(child: Text(status))),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            rfidCustomUiExample.build(),
             Visibility(
               visible: !rfidCustomUiExample.isShowing,
               child: Expanded(
                 child: ui(),
               ),
-            ),
-            btDeviceExample.build(),
-            rfidCustomUiExample.build(),
+            )
           ],
         ),
       ),
@@ -304,9 +293,8 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    rfidCustomUiExample.init(this);
-    btDeviceExample.init(this);
-    if (!useBleDevice) init();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    init();
   }
 }
 

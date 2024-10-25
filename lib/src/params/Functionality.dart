@@ -324,9 +324,12 @@ class Functionality {
   /// A list of devices that must not use the camera2 API.
   ///
   /// Android only.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<String>? get excludedCamera2Models => _excludedCamera2Models;
   List<String>? _excludedCamera2Models;
   set excludedCamera2Models(List<String>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _excludedCamera2Models = val;
     _set({"excludedCamera2Models": val});
   }
@@ -393,9 +396,8 @@ class Functionality {
     result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
     result.exposure = _toDouble(jsonObject["exposure"]);
 
-    result.excludedCamera2Models = jsonObject["excludedCamera2Models"] == null
-        ? null
-        : List<String>.from(jsonObject["excludedCamera2Models"]);
+    result.excludedCamera2Models =
+        _stringListFrom(jsonObject["excludedCamera2Models"]);
 
     result.cameraResolutionAndroid =
         CameraSize.fromJson(jsonObject["cameraSize"]);

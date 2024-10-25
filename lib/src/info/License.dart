@@ -30,9 +30,7 @@ class License {
     var result = License();
 
     result._expiryDate = jsonObject["expiryDate"];
-    result._countryFilter = jsonObject["countryFilter"] == null
-        ? null
-        : List<String>.from(jsonObject["countryFilter"]);
+    result._countryFilter = _stringListFrom(jsonObject["countryFilter"]);
     result._isRfidAvailable = jsonObject["isRfidAvailable"] ?? false;
 
     return result;
