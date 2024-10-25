@@ -23,6 +23,7 @@
 
 +(NSData*)base64Decode:(NSString*)input {
     if(input == nil) return nil;
+    if ([input hasPrefix:@"data"]) input = [input substringFromIndex:[input rangeOfString:@","].location + 1];
     return [[NSData alloc] initWithBase64EncodedString:input options:0];
 }
 
@@ -164,17 +165,6 @@
     result[@"delayedNNLoad"] = @(input.delayedNNLoadEnabled);
 
     return result;
-}
-
-+(RGLBleConfig*)bleDeviceConfigFromJson:(NSDictionary*)input :(RGLBluetooth*)bluetooth {
-    if (!input) return nil;
-    RGLBleConfig *config = [[RGLBleConfig alloc] initWithBluetooth:bluetooth];
-
-    if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
-    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
-    if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
-
-    return config;
 }
 
 +(RGLScannerConfig*)scannerConfigFromJson:(NSDictionary*)input {

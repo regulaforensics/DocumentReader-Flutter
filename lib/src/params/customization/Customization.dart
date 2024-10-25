@@ -481,10 +481,13 @@ class Customization {
   }
 
   /// JSON structure defining labels and graphic elements
-  /// to be added to the Camera UI
+  /// to be added to the Camera UI.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   Map<String, dynamic>? get uiCustomizationLayer => _uiCustomizationLayer;
   Map<String, dynamic>? _uiCustomizationLayer;
   set uiCustomizationLayer(Map<String, dynamic>? val) {
+    if (val != null) val = Map.unmodifiable(val);
     _uiCustomizationLayer = val;
     _set({"uiCustomizationLayer": val});
   }
@@ -565,10 +568,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [helpAnimationImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get helpAnimationImageTransformsAndroid =>
       _helpAnimationImageTransformsAndroid;
   List<double>? _helpAnimationImageTransformsAndroid;
   set helpAnimationImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _helpAnimationImageTransformsAndroid = val;
     _set({"helpAnimationImageMatrix": val});
   }
@@ -579,10 +585,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [multipageAnimationFrontImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get multipageAnimationFrontImageTransformsAndroid =>
       _multipageAnimationFrontImageTransformsAndroid;
   List<double>? _multipageAnimationFrontImageTransformsAndroid;
   set multipageAnimationFrontImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _multipageAnimationFrontImageTransformsAndroid = val;
     _set({"multipageAnimationFrontImageMatrix": val});
   }
@@ -593,10 +602,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [multipageAnimationBackImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get multipageAnimationBackImageTransformsAndroid =>
       _multipageAnimationBackImageTransformsAndroid;
   List<double>? _multipageAnimationBackImageTransformsAndroid;
   set multipageAnimationBackImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _multipageAnimationBackImageTransformsAndroid = val;
     _set({"multipageAnimationBackImageMatrix": val});
   }
@@ -607,10 +619,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [livenessAnimationImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get livenessAnimationImageTransformsAndroid =>
       _livenessAnimationImageTransformsAndroid;
   List<double>? _livenessAnimationImageTransformsAndroid;
   set livenessAnimationImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _livenessAnimationImageTransformsAndroid = val;
     _set({"livenessAnimationImageMatrix": val});
   }
@@ -621,10 +636,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [borderBackgroundImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get borderBackgroundImageTransformsAndroid =>
       _borderBackgroundImageTransformsAndroid;
   List<double>? _borderBackgroundImageTransformsAndroid;
   set borderBackgroundImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _borderBackgroundImageTransformsAndroid = val;
     _set({"borderBackgroundImageMatrix": val});
   }

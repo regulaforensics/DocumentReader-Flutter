@@ -518,18 +518,24 @@ class ProcessParams {
 
   /// Takes the list of the document IDs to process.
   /// All documents will be processed if it's empty.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<int>? get documentIDList => _documentIDList;
   List<int>? _documentIDList;
   set documentIDList(List<int>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _documentIDList = val;
     _set({"documentIDList": val});
   }
 
   /// Set types of barcodes that you wish to recognize.
   /// All barcodes will be recognized if it's empty.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<BarcodeType>? get barcodeTypes => _barcodeTypes;
   List<BarcodeType>? _barcodeTypes;
   set barcodeTypes(List<BarcodeType>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _barcodeTypes = val;
     _set({"barcodeTypes": val?.map((e) => e.value).toList()});
   }
@@ -538,35 +544,47 @@ class ProcessParams {
   /// If you recognize the Visual zone of documents, you can set the list
   /// of field types that you wish to extract, other fields will be skipped
   /// during processing. All fields will be extracted if it is empty.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<FieldType>? get fieldTypesFilter => _fieldTypesFilter;
   List<FieldType>? _fieldTypesFilter;
   set fieldTypesFilter(List<FieldType>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _fieldTypesFilter = val;
     _set({"fieldTypesFilter": val?.map((e) => e.value).toList()});
   }
 
   /// Types of results to return in response.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<ResultType>? get resultTypeOutput => _resultTypeOutput;
   List<ResultType>? _resultTypeOutput;
   set resultTypeOutput(List<ResultType>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _resultTypeOutput = val;
     _set({"resultTypeOutput": val?.map((e) => e.value).toList()});
   }
 
   /// This option allows limiting MRZ formats to be recognized by specifying
   /// them in array.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<MRZFormat>? get mrzFormatsFilter => _mrzFormatsFilter;
   List<MRZFormat>? _mrzFormatsFilter;
   set mrzFormatsFilter(List<MRZFormat>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _mrzFormatsFilter = val;
     _set({"mrzFormatsFilter": val?.map((e) => e.value).toList()});
   }
 
   /// Array of specific eligible document types to recognize from. You may,
   /// for example, specify only passports to be recognized by setting this property.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<DocType>? get documentGroupFilter => _documentGroupFilter;
   List<DocType>? _documentGroupFilter;
   set documentGroupFilter(List<DocType>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _documentGroupFilter = val;
     _set({"documentGroupFilter": val?.map((e) => e.value).toList()});
   }
@@ -574,17 +592,23 @@ class ProcessParams {
   /// The list of LCID types to ignore during the recognition.
   /// If empty, values with all LCID types will be extracted.
   /// Narrowing down the list can reduce processing time.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<LCID>? get lcidIgnoreFilter => _lcidIgnoreFilter;
   List<LCID>? _lcidIgnoreFilter;
   set lcidIgnoreFilter(List<LCID>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _lcidIgnoreFilter = val;
     _set({"lcidIgnoreFilter": val?.map((e) => e.value).toList()});
   }
 
   /// The whitelist of LCID types to use during the recognition.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<LCID>? get lcidFilter => _lcidFilter;
   List<LCID>? _lcidFilter;
   set lcidFilter(List<LCID>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _lcidFilter = val;
     _set({"lcidFilter": val?.map((e) => e.value).toList()});
   }
@@ -628,9 +652,12 @@ class ProcessParams {
   }
 
   /// Takes JSON with parameters that are not presented in the DocumentReader.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   Map<String, dynamic>? get customParams => _customParams;
   Map<String, dynamic>? _customParams;
   set customParams(Map<String, dynamic>? val) {
+    if (val != null) val = Map.unmodifiable(val);
     _customParams = val;
     _set({"customParams": val});
   }
@@ -707,9 +734,7 @@ class ProcessParams {
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
     result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
-    result.documentIDList = jsonObject["documentIDList"] == null
-        ? null
-        : List<int>.from(jsonObject["documentIDList"]);
+    result.documentIDList = _intListFrom(jsonObject["documentIDList"]);
     result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
     result.fieldTypesFilter =

@@ -76,6 +76,7 @@
 <section class="desc markdown">
   <p>A list of devices that must not use the camera2 API.</p>
 <p>Android only.</p>
+<p>Unmodifiable property. Use setter instead of <code>.remove()</code>, <code>.addAll()</code>, etc.</p>
 </section>
 
     
@@ -104,6 +105,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set excludedCamera2Models(List&lt;String&gt;? val) {
+  if (val != null) val = List.unmodifiable(val);
   _excludedCamera2Models = val;
   _set({&quot;excludedCamera2Models&quot;: val});
 }</code></pre>
@@ -141,7 +143,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

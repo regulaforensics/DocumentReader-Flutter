@@ -78,6 +78,7 @@
 <p>Android class <code>android.graphics.Matrix</code>.
 Passed as <code>Matrix.setValues()</code></p>
 <p>Android only. For iOS use <a href="../../document_reader/Customization/livenessAnimationImageTransformsIOS.html">livenessAnimationImageTransformsIOS</a>.</p>
+<p>Unmodifiable property. Use setter instead of <code>.remove()</code>, <code>.addAll()</code>, etc.</p>
 </section>
 
     
@@ -107,6 +108,7 @@ Passed as <code>Matrix.setValues()</code></p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set livenessAnimationImageTransformsAndroid(List&lt;double&gt;? val) {
+  if (val != null) val = List.unmodifiable(val);
   _livenessAnimationImageTransformsAndroid = val;
   _set({&quot;livenessAnimationImageMatrix&quot;: val});
 }</code></pre>
@@ -144,7 +146,7 @@ Passed as <code>Matrix.setValues()</code></p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

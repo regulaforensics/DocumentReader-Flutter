@@ -75,7 +75,8 @@
     
 <section class="desc markdown">
   <p>JSON structure defining labels and graphic elements
-to be added to the Camera UI</p>
+to be added to the Camera UI.</p>
+<p>Unmodifiable property. Use setter instead of <code>.remove()</code>, <code>.addAll()</code>, etc.</p>
 </section>
 
     
@@ -104,6 +105,7 @@ to be added to the Camera UI</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set uiCustomizationLayer(Map&lt;String, dynamic&gt;? val) {
+  if (val != null) val = Map.unmodifiable(val);
   _uiCustomizationLayer = val;
   _set({&quot;uiCustomizationLayer&quot;: val});
 }</code></pre>
@@ -141,7 +143,7 @@ to be added to the Camera UI</p>
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

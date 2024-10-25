@@ -75,6 +75,7 @@
     
 <section class="desc markdown">
   <p>The whitelist of LCID types to use during the recognition.</p>
+<p>Unmodifiable property. Use setter instead of <code>.remove()</code>, <code>.addAll()</code>, etc.</p>
 </section>
 
     
@@ -103,6 +104,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">set lcidFilter(List&lt;LCID&gt;? val) {
+  if (val != null) val = List.unmodifiable(val);
   _lcidFilter = val;
   _set({&quot;lcidFilter&quot;: val?.map((e) =&gt; e.value).toList()});
 }</code></pre>
@@ -140,7 +142,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

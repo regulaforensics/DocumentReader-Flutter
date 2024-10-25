@@ -85,6 +85,9 @@ fun attachedToEngine(binding: FlutterPluginBinding, plugin: FlutterDocumentReade
     setupEventChannel("pa_certificate_completion")
     setupEventChannel("ta_certificate_completion")
     setupEventChannel("ta_signature_completion")
+    setupEventChannel("bleOnServiceConnectedEvent")
+    setupEventChannel("bleOnServiceDisconnectedEvent")
+    setupEventChannel("bleOnDeviceReadyEvent")
     setupEventChannel("video_encoder_completion")
     setupEventChannel("onCustomButtonTappedEvent")
     MethodChannel(binaryMessenger, "flutter_document_reader_api/method").setMethodCallHandler(plugin)
@@ -93,9 +96,10 @@ fun attachedToEngine(binding: FlutterPluginBinding, plugin: FlutterDocumentReade
 fun attachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.activity
     activityBinding = binding
-    binding.addOnNewIntentListener(::newIntent)
-    binding.addActivityResultListener(::onActivityResult)
-    binding.addRequestPermissionsResultListener(::onRequestPermissionsResult)
+    binding.addOnNewIntentListener {
+        newIntent(it)
+        false
+    }
 }
 
 fun setupEventChannel(id: String) = EventChannel(binaryMessenger, "flutter_document_reader_api/event/$id").setStreamHandler(object : EventChannel.StreamHandler {
@@ -132,6 +136,7 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
         "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
         "isAuthenticatorAvailableForUse" -> isAuthenticatorAvailableForUse(callback)
+        "isBlePermissionsGranted" -> isBlePermissionsGranted(callback)
         "getRfidSessionStatus" -> getRfidSessionStatus(callback)
         "setRfidSessionStatus" -> setRfidSessionStatus(callback)
         "getTag" -> getTag(callback)
@@ -171,7 +176,7 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "addPKDCertificates" -> addPKDCertificates(callback, args(0))
         "clearPKDCertificates" -> clearPKDCertificates(callback)
         "startNewSession" -> startNewSession(callback)
-        "connectBluetoothDevice" -> connectBluetoothDevice(callback)
+        "startBluetoothService" -> startBluetoothService()
         "setLocalizationDictionary" -> setLocalizationDictionary(args(0))
         "getLicense" -> getLicense(callback)
         "getAvailableScenarios" -> getAvailableScenarios(callback)
@@ -225,6 +230,10 @@ const val eventPACertificateCompletion = "pa_certificate_completion"
 const val eventTACertificateCompletion = "ta_certificate_completion"
 const val eventTASignatureCompletion = "ta_signature_completion"
 
+const val bleOnServiceConnectedEvent = "bleOnServiceConnectedEvent"
+const val bleOnServiceDisconnectedEvent = "bleOnServiceDisconnectedEvent"
+const val bleOnDeviceReadyEvent = "bleOnDeviceReadyEvent"
+
 const val eventVideoEncoderCompletion = "video_encoder_completion"
 const val onCustomButtonTappedEvent = "onCustomButtonTappedEvent"
 
@@ -233,6 +242,8 @@ fun getDocumentReaderIsReady(callback: Callback) = callback.success(Instance().i
 fun getDocumentReaderStatus(callback: Callback) = callback.success(Instance().status)
 
 fun isAuthenticatorAvailableForUse(callback: Callback) = callback.success(Instance().isAuthenticatorAvailableForUse)
+
+fun isBlePermissionsGranted(callback: Callback) = callback.success(isBlePermissionsGranted((activity)))
 
 fun getRfidSessionStatus(callback: Callback) = callback.error("getRfidSessionStatus() is an ios-only method")
 
@@ -367,6 +378,13 @@ fun startNewSession(callback: Callback) {
     Instance().startNewSession()
     callback.success()
 }
+
+fun startBluetoothService() = startBluetoothService(
+    activity,
+    { sendEvent(bleOnServiceConnectedEvent, it) },
+    { sendEvent(bleOnServiceDisconnectedEvent) },
+    { sendEvent(bleOnDeviceReadyEvent) }
+)
 
 fun setLocalizationDictionary(dictionary: JSONObject) {
     localizationCallbacks = LocalizationCallbacks { if (dictionary.has(it)) dictionary.getString(it) else null }
@@ -504,15 +522,12 @@ var requestType = RfidReaderRequestType(
 )
 
 @Suppress("DEPRECATION")
-fun newIntent(intent: Intent): Boolean {
-    if (intent.action != NfcAdapter.ACTION_TECH_DISCOVERED) return false
+fun newIntent(intent: Intent) = if (intent.action == NfcAdapter.ACTION_TECH_DISCOVERED)
     Instance().readRFID(
         IsoDep.get(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)),
         rfidReaderCompletion,
         requestType.getRfidReaderRequest()
-    )
-    return true
-}
+    ) else Unit
 
 fun startForegroundDispatch() {
     backgroundRFIDEnabled = true

@@ -243,17 +243,6 @@ fun generateDocReaderConfig(temp: DocReaderConfig?): JSONObject? {
     return result
 }
 
-fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
-    var result = BleDeviceConfig(bluetooth)
-
-    if (input.has("customDb")) result = BleDeviceConfig(bluetooth, byteArrayFromBase64(input.getString("customDb")))
-    if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
-    if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
-    if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
-
-    return result
-}
-
 fun scannerConfigFromJSON(input: JSONObject): ScannerConfig {
     val builder = if (input.has("scenario")) ScannerConfig.Builder(input.getString("scenario"))
     else ScannerConfig.Builder(onlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig"))!!)
@@ -580,6 +569,18 @@ fun generateTypeface(temp: Typeface?, size: Int? = null): JSONObject? {
     result.put("name", "undefined")
     result.put("style", input.style)
     result.put("size", size)
+
+    return result
+}
+
+fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
+    val bleWrapper = bleManager
+    var result = BleDeviceConfig(bleWrapper)
+
+    if (input.has("customDb")) result = BleDeviceConfig(bleWrapper!!, byteArrayFromBase64(input.getString("customDb")))
+    if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
+    if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
+    if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
 
     return result
 }

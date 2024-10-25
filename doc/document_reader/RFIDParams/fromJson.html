@@ -82,10 +82,8 @@
   <pre class="language-dart"><code class="language-dart">static RFIDParams? fromJson(jsonObject) {
   if (jsonObject == null) return null;
   return RFIDParams(
-    paIgnoreNotificationCodes: jsonObject[&quot;paIgnoreNotificationCodes&quot;] == null
-        ? null
-        : List&lt;int&gt;.from(jsonObject[&quot;paIgnoreNotificationCodes&quot;]),
-  );
+      paIgnoreNotificationCodes:
+          _intListFrom(jsonObject[&quot;paIgnoreNotificationCodes&quot;]));
 }</code></pre>
 </section>
 
@@ -120,7 +118,7 @@
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

@@ -79,7 +79,7 @@
   <pre class="language-dart"><code class="language-dart">@visibleForTesting
 static DocReaderException? fromJson(jsonObject) {
   if (jsonObject == null) return null;
-  var result = DocReaderException.unknown();
+  var result = DocReaderException();
 
   result._code = ErrorCodes.getByValue(jsonObject[&quot;code&quot;])!;
   result._message = jsonObject[&quot;message&quot;] ?? &quot;&quot;;
@@ -119,7 +119,7 @@ static DocReaderException? fromJson(jsonObject) {
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.5.997-nightly
+      7.5.1000-nightly
   </span>
 
   

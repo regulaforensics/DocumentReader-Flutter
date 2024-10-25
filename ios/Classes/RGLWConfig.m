@@ -68,10 +68,6 @@
     if([options valueForKey:@"zoomFactor"] != nil)
         functionality.zoomFactor = [[options valueForKey:@"zoomFactor"] floatValue];
     
-    // JSONObject
-    if([options valueForKey:@"onlineProcessingConfiguration"] != nil)
-        functionality.onlineProcessingConfig = [RGLWJSONConstructor onlineProcessingConfigFromJson:[options valueForKey:@"onlineProcessingConfiguration"]];
-    
     // Custom
     // in android - cameraSize
     if([options valueForKey:@"videoSessionPreset"] != nil)
@@ -115,9 +111,6 @@
     
     // Float
     result[@"zoomFactor"] = [NSNumber numberWithFloat:functionality.zoomFactor];
-    
-    // JSONObject
-    result[@"onlineProcessingConfiguration"] = [RGLWJSONConstructor generateOnlineProcessingConfig:functionality.onlineProcessingConfig];
     
     // Custom
     // in android - cameraSize

@@ -225,7 +225,12 @@ fun CustomizationFont.setFont(editor: ParamsCustomization.CustomizationEditor, v
 }
 
 internal object Convert {
-    fun byteArrayFromBase64(base64: String?) = base64?.let { Base64.decode(it, Base64.NO_WRAP) }
+    fun byteArrayFromBase64(base64: String?): ByteArray? {
+        var str = base64 ?: return null
+        if (str.startsWith("data")) str = str.substring(str.indexOf(",") + 1)
+        return Base64.decode(str, Base64.NO_WRAP)
+    }
+
     fun generateByteArray(array: ByteArray?) = array?.let { Base64.encodeToString(it, Base64.NO_WRAP) }
 
     fun bitmapFromBase64(base64: String?) = base64?.let {
