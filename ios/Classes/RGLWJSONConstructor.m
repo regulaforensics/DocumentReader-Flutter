@@ -167,6 +167,17 @@
     return result;
 }
 
++(RGLBleConfig*)bleDeviceConfigFromJson:(NSDictionary*)input :(RGLBluetooth*)bluetooth {
+    if (!input) return nil;
+    RGLBleConfig *config = [[RGLBleConfig alloc] initWithBluetooth:bluetooth];
+
+    if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
+    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
+
+    return config;
+}
+
 +(RGLScannerConfig*)scannerConfigFromJson:(NSDictionary*)input {
     RGLScannerConfig *config = [RGLScannerConfig alloc];
     if (input[@"scenario"]) config = [config initWithScenario:input[@"scenario"]];

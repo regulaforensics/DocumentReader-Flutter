@@ -15,10 +15,15 @@ class DocReaderException {
   String get message => _message;
   late String _message;
 
+  DocReaderException.unknown() {
+    _code = ErrorCodes.UNKNOWN;
+    _message = "Unknown exception";
+  }
+
   @visibleForTesting
   static DocReaderException? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = DocReaderException();
+    var result = DocReaderException.unknown();
 
     result._code = ErrorCodes.getByValue(jsonObject["code"])!;
     result._message = jsonObject["message"] ?? "";

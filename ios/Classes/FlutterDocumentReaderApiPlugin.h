@@ -7,6 +7,7 @@
 //
 
 #import <Flutter/Flutter.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 #import <DocumentReader/DocumentReader.h>
 #import "RGLWJSONConstructor.h"
 #import "RGLWConfig.h"
@@ -19,7 +20,9 @@ typedef void (^RGLWRFIDSignatureCallback)(NSData * _Nonnull signature);
                                                      RGLRecordScanningProcessDelegate,
                                                      RGLDocReaderRFIDDelegate,
                                                      RGLCustomizationActionDelegate,
-                                                     RGLDocReaderDatabaseFetchDelegate>
+                                                     RGLDocReaderDatabaseFetchDelegate,
+                                                     RGLBluetoothDelegate,
+                                                     CBCentralManagerDelegate>
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
 @property NSNumber* _Nonnull doRequestPACertificates;
@@ -37,9 +40,6 @@ NSString* _Nonnull RGLWRfidOnRetryReadChipEvent;
 NSString* _Nonnull RGLWPaCertificateCompletionEvent;
 NSString* _Nonnull RGLWTaCertificateCompletionEvent;
 NSString* _Nonnull RGLWTaSignatureCompletionEvent;
-NSString* _Nonnull RGLWBleOnServiceConnectedEvent;
-NSString* _Nonnull RGLWBleOnServiceDisconnectedEvent;
-NSString* _Nonnull RGLWBleOnDeviceReadyEvent;
 NSString* _Nonnull RGLWVideoEncoderCompletionEvent;
 NSString* _Nonnull RGLWOnCustomButtonTappedEvent;
 
@@ -58,12 +58,6 @@ NSString* _Nonnull RGLWOnCustomButtonTappedEvent;
 @interface RGLWTACertificateCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWTASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
-@end
-@interface RGLWBleOnServiceConnectedStreamHandler : NSObject <FlutterStreamHandler>
-@end
-@interface RGLWBleOnServiceDisconnectedStreamHandler : NSObject <FlutterStreamHandler>
-@end
-@interface RGLWBleOnDeviceReadyStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWVideoEncoderCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end

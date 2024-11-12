@@ -30,6 +30,7 @@
 
 +(RGLConfig* _Nullable)configFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateConfig:(RGLConfig* _Nullable)input;
++(RGLBleConfig* _Nullable)bleDeviceConfigFromJson:(NSDictionary* _Nullable)input :(RGLBluetooth* _Nonnull)bluetooth;
 +(RGLOnlineProcessingConfig* _Nullable)onlineProcessingConfigFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateOnlineProcessingConfig:(RGLOnlineProcessingConfig* _Nullable)input;
 +(RGLImageInput* _Nullable)imageInputFromJson:(NSDictionary* _Nullable)input;
