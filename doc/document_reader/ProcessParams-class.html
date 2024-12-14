@@ -16,15 +16,11 @@
   <link rel="stylesheet" href="../static-assets/github.css?v1">
   <link rel="stylesheet" href="../static-assets/styles.css?v1">
   <link rel="icon" href="../static-assets/favicon.png?v1">
-
   
 </head>
 
-
 <body data-base-href="../" data-using-base-href="false" class="light-theme">
-
 <div id="overlay-under-drawer"></div>
-
 <header id="title">
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
@@ -49,7 +45,6 @@
   </div>
 </header>
 <main>
-
 <div
     id="dartdoc-main-content"
     class="main-content"
@@ -70,7 +65,6 @@
     
   <section class="summary offset-anchor" id="constructors">
     <h2>Constructors</h2>
-
     <dl class="constructor-summary-list">
         <dt id="ProcessParams" class="callable">
           <span class="name"><a href="../document_reader/ProcessParams/ProcessParams.html">ProcessParams</a></span><span class="signature">()</span>
@@ -446,6 +440,18 @@ and aligned together, as if the document was captured on a flatbed scanner.
 
 </dd>
 
+        <dt id="generateDTCVC" class="property">
+  <span class="name"><a href="../document_reader/ProcessParams/generateDTCVC.html">generateDTCVC</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
+  
+
+</dt>
+<dd>
+  This parameter is used to generate DTCVC data.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
         <dt id="generateNumericCodes" class="property">
   <span class="name"><a href="../document_reader/ProcessParams/generateNumericCodes.html">generateNumericCodes</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
@@ -755,7 +761,7 @@ of the document from the value of <code>90</code> degrees.
 </dd>
 
         <dt id="respectImageQuality" class="property">
-  <span class="name"><a href="../document_reader/ProcessParams/respectImageQuality.html">respectImageQuality</a></span>
+  <span class="name"><a class="deprecated" href="../document_reader/ProcessParams/respectImageQuality.html">respectImageQuality</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
   
 
@@ -840,6 +846,20 @@ and overall status.
 
 </dd>
 
+        <dt id="selectLongestNames" class="property">
+  <span class="name"><a href="../document_reader/ProcessParams/selectLongestNames.html">selectLongestNames</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
+  
+
+</dt>
+<dd>
+  Select the longest value from the different value sources and write it to the value field
+if comparison is done successfully. The parameter applies this logic to the personal names,
+such as given name, surname, surname and given name, middle name and etc.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
         <dt id="sessionLogFolder" class="property">
   <span class="name"><a href="../document_reader/ProcessParams/sessionLogFolder.html">sessionLogFolder</a></span>
   <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>
@@ -894,6 +914,31 @@ that may be used for later reprocessing.
   When enabled, the Surname and GivenNames field (<a href="../document_reader/TextField-class.html">TextField</a>)
 will be divided into fields with fieldTypes <a href="../document_reader/FieldType.html">FieldType.FIRST_NAME</a>,
 <a href="../document_reader/FieldType.html">FieldType.SECOND_NAME</a>, <a href="../document_reader/FieldType.html">FieldType.THIRD_NAME</a>, <a href="../document_reader/FieldType.html">FieldType.LAST_NAME</a>.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="strictBarcodeDigitalSignatureCheck" class="property">
+  <span class="name"><a href="../document_reader/ProcessParams/strictBarcodeDigitalSignatureCheck.html">strictBarcodeDigitalSignatureCheck</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
+  
+
+</dt>
+<dd>
+  If the certificates required for performing the Digital signature check are missing,
+this parameter if enabled will make the Barcode format check failed.
+  <div class="features"><span class="feature">getter/setter pair</span></div>
+
+</dd>
+
+        <dt id="strictImageQuality" class="property">
+  <span class="name"><a href="../document_reader/ProcessParams/strictImageQuality.html">strictImageQuality</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>?</span>
+  
+
+</dt>
+<dd>
+  When enabled, the image quality check status affects the document optical and overall status.
   <div class="features"><span class="feature">getter/setter pair</span></div>
 
 </dd>
@@ -1019,6 +1064,7 @@ Setting value to <code>0</code> means infinity.
 
     </dl>
   </section>
+
     
   <section
       class="summary offset-anchor"
@@ -1109,9 +1155,7 @@ Setting value to <code>0</code> means infinity.
   </section>
     
 
-
   </div> <!-- /.main-content -->
-
   <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
     <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
 <header id="header-search-sidebar" class="hidden-l">
@@ -1119,40 +1163,30 @@ Setting value to <code>0</code> means infinity.
     <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
 </header>
-
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">flutter_document_reader_api</a></li>
     <li><a href="../document_reader/document_reader-library.html">document_reader</a></li>
     <li class="self-crumb">ProcessParams class</li>
 </ol>
 
-
     <h5>document_reader library</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div>
-
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->
-
 </main>
-
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.3.947-beta
+      7.3.1066-beta
   </span>
-
   
 </footer>
-
 
 
 <script src="../static-assets/highlight.pack.js?v1"></script>
 <script src="../static-assets/docs.dart.js"></script>
 
-
-
 </body>
-
 </html>
 

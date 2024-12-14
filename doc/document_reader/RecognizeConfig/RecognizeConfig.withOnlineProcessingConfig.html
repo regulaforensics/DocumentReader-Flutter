@@ -16,15 +16,11 @@
   <link rel="stylesheet" href="../../static-assets/github.css?v1">
   <link rel="stylesheet" href="../../static-assets/styles.css?v1">
   <link rel="icon" href="../../static-assets/favicon.png?v1">
-
   
 </head>
 
-
 <body data-base-href="../../" data-using-base-href="false" class="light-theme">
-
 <div id="overlay-under-drawer"></div>
-
 <header id="title">
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
@@ -50,7 +46,6 @@
   </div>
 </header>
 <main>
-
   <div
       id="dartdoc-main-content"
       class="main-content"
@@ -62,11 +57,17 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">RecognizeConfig.withOnlineProcessingConfig</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="withOnlineProcessingConfig-param-onlineProcessingConfig"><span class="type-annotation"><a href="../../document_reader/OnlineProcessingConfig-class.html">OnlineProcessingConfig</a></span> <span class="parameter-name">onlineProcessingConfig</span>, </span></li>
-<li><span class="parameter" id="withOnlineProcessingConfig-param-recognizeData"><span class="type-annotation"><a href="../../document_reader/RecognizeData-class.html">RecognizeData</a></span> <span class="parameter-name">recognizeData</span></span></li>
-</ol>)
+      <span class="name ">RecognizeConfig.withOnlineProcessingConfig</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="withOnlineProcessingConfig-param-onlineProcessingConfig"><span class="type-annotation"><a href="../../document_reader/OnlineProcessingConfig-class.html">OnlineProcessingConfig</a></span> <span class="parameter-name">onlineProcessingConfig</span>, {</span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-image"><span class="type-annotation">dynamic</span> <span class="parameter-name">image</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-images"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a>?</span> <span class="parameter-name">images</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-data"><span class="type-annotation">dynamic</span> <span class="parameter-name">data</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-imageInputData"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../document_reader/ImageInputData-class.html">ImageInputData</a></span>&gt;</span>?</span> <span class="parameter-name">imageInputData</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-dtc"><span class="type-annotation">dynamic</span> <span class="parameter-name">dtc</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-livePortrait"><span class="type-annotation">dynamic</span> <span class="parameter-name">livePortrait</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-extPortrait"><span class="type-annotation">dynamic</span> <span class="parameter-name">extPortrait</span>, </span></li>
+<li><span class="parameter" id="withOnlineProcessingConfig-param-oneShotIdentification"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">oneShotIdentification</span> = <span class="default-value">false</span>, </span></li>
+</ol>})
     </section>
-
     
 
 
@@ -74,19 +75,29 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">RecognizeConfig.withOnlineProcessingConfig(
-    OnlineProcessingConfig onlineProcessingConfig,
-    RecognizeData recognizeData)
-    : _scenario = null,
+  OnlineProcessingConfig onlineProcessingConfig, {
+  Uint8List? image,
+  List&lt;Uint8List&gt;? images,
+  Uint8List? data,
+  List&lt;ImageInputData&gt;? imageInputData,
+  Uint8List? dtc,
+  Uint8List? livePortrait,
+  Uint8List? extPortrait,
+  bool oneShotIdentification = false,
+})  : _scenario = null,
       _onlineProcessingConfig = onlineProcessingConfig,
-      _image = recognizeData.image,
-      _data = recognizeData.data,
-      _images = recognizeData.images,
-      _imageInputData = recognizeData.imageInputData;</code></pre>
+      livePortrait = livePortrait,
+      extPortrait = extPortrait,
+      oneShotIdentification = oneShotIdentification,
+      image = image,
+      images = images,
+      data = data,
+      imageInputData = imageInputData,
+      dtc = dtc;</code></pre>
 </section>
 
 
   </div> <!-- /.main-content -->
-
   <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
     <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
 <header id="header-search-sidebar" class="hidden-l">
@@ -94,7 +105,6 @@
     <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
 </header>
-
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">flutter_document_reader_api</a></li>
     <li><a href="../../document_reader/document_reader-library.html">document_reader</a></li>
@@ -102,33 +112,24 @@
     <li class="self-crumb">RecognizeConfig.withOnlineProcessingConfig constructor</li>
 </ol>
 
-
     <h5>RecognizeConfig class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div><!--/.sidebar-offcanvas-left-->
-
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->
-
 </main>
-
 <footer>
   <span class="no-break">
     flutter_document_reader_api
-      7.3.947-beta
+      7.3.1066-beta
   </span>
-
   
 </footer>
-
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
 <script src="../../static-assets/docs.dart.js"></script>
 
-
-
 </body>
-
 </html>
 

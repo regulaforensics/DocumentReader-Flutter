@@ -1,5 +1,5 @@
 //
-//  JSONConstructor.java
+//  JSONConstructor.kt
 //  DocumentReader
 //
 //  Created by Pavel Masiuk on 21.09.2023.
@@ -46,6 +46,7 @@ import com.regula.documentreader.api.params.rfid.TccParams
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute
 import com.regula.documentreader.api.params.rfid.authorization.PAResourcesIssuer
 import com.regula.documentreader.api.params.rfid.authorization.TAChallenge
+import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.EDLDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
@@ -243,6 +244,17 @@ fun generateDocReaderConfig(temp: DocReaderConfig?): JSONObject? {
     return result
 }
 
+fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
+    var result = BleDeviceConfig(bluetooth)
+
+    if (input.has("customDb")) result = BleDeviceConfig(bluetooth, byteArrayFromBase64(input.getString("customDb")))
+    if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
+    if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
+    if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
+
+    return result
+}
+
 fun scannerConfigFromJSON(input: JSONObject): ScannerConfig {
     val builder = if (input.has("scenario")) ScannerConfig.Builder(input.getString("scenario"))
     else ScannerConfig.Builder(onlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig"))!!)
@@ -274,6 +286,7 @@ fun recognizeConfigFromJSON(input: JSONObject): RecognizeConfig {
     else RecognizeConfig.Builder(onlineProcessingConfigFromJSON(input.getJSONObject("onlineProcessingConfig"))!!)
 
     if (input.has("oneShotIdentification")) builder.setOneShotIdentification(input.getBoolean("oneShotIdentification"))
+    if (input.has("dtc")) builder.setDTC(byteArrayFromBase64(input.getString("dtc"))!!)
     if (input.has("livePortrait")) builder.setLivePortrait(bitmapFromBase64(input.getString("livePortrait"))!!)
     if (input.has("extPortrait")) builder.setExtPortrait(bitmapFromBase64(input.getString("extPortrait"))!!)
     if (input.has("image")) builder.setBitmap(bitmapFromBase64(input.getString("image"))!!)
@@ -302,6 +315,7 @@ fun generateRecognizeConfig(temp: RecognizeConfig?): JSONObject? {
     result.put("scenario", input.scenario)
     result.put("onlineProcessingConfig", generateOnlineProcessingConfig(input.onlineProcessingConfig))
     result.put("oneShotIdentification", input.oneShotIdentification)
+    result.put("dtc", generateByteArray(input.dtc))
     result.put("livePortrait", bitmapToBase64(input.livePortrait))
     result.put("extPortrait", bitmapToBase64(input.extPortrait))
     result.put("image", bitmapToBase64(input.bitmap))
@@ -325,6 +339,7 @@ fun backendProcessingConfigFromJSON(temp: JSONObject?): BackendProcessingConfig?
     val result = BackendProcessingConfig(input.getString("url"))
     if (input.has("httpHeaders")) result.httpHeaders = stringMapFromJson(input.getJSONObject("httpHeaders"))
     if (input.has("rfidServerSideChipVerification")) result.rfidServerSideChipVerification = input.getBoolean("rfidServerSideChipVerification")
+    if (input.has("timeoutConnection")) result.timeoutConnection = input.getDouble("timeoutConnection")
 
     return result
 }
@@ -337,6 +352,7 @@ fun generateBackendProcessingConfig(temp: BackendProcessingConfig?): JSONObject?
     result.put("url", input.url)
     result.put("httpHeaders", generateStringMap(input.httpHeaders))
     result.put("rfidServerSideChipVerification", input.rfidServerSideChipVerification)
+    result.put("timeoutConnection", input.timeoutConnection)
 
     return result
 }
@@ -508,6 +524,14 @@ fun eIDDataGroupsFromJSON(input: JSONObject): EIDDataGroups {
 
 fun generateEIDDataGroups(input: EIDDataGroups): JSONObject = getDataGroups(input)
 
+fun dtcDataGroupsFromJSON(input: JSONObject): DTCDataGroup {
+    val result = DTCDataGroup()
+    setDataGroups(result, input)
+    return result
+}
+
+fun generateDTCDataGroups(input: DTCDataGroup): JSONObject = getDataGroups(input)
+
 fun rfidScenarioFromJSON(input: JSONObject): RfidScenario {
     val result = RfidScenario()
     setRfidScenario(result, input)
@@ -569,18 +593,6 @@ fun generateTypeface(temp: Typeface?, size: Int? = null): JSONObject? {
     result.put("name", "undefined")
     result.put("style", input.style)
     result.put("size", size)
-
-    return result
-}
-
-fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
-    val bleWrapper = bleManager
-    var result = BleDeviceConfig(bleWrapper)
-
-    if (input.has("customDb")) result = BleDeviceConfig(bleWrapper!!, byteArrayFromBase64(input.getString("customDb")))
-    if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
-    if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
-    if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
 
     return result
 }
@@ -2168,6 +2180,7 @@ fun documentReaderResultsFromJSON(temp: JSONObject?): DocumentReaderResults? {
     result.documentType = listFromJSON(input.optJSONArray("documentType"), ::documentReaderDocumentTypeFromJSON)!!
     result.status = documentReaderResultsStatusFromJSON(input.optJSONObject("status"))!!
     result.vdsncData = vdsncDataFromJSON(input.optJSONObject("vdsncData")!!)
+    result.dtcData = input.getString("dtcData")
     result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))
 
     return result
@@ -2196,6 +2209,7 @@ fun generateDocumentReaderResults(temp: DocumentReaderResults?, context: Context
     result.put("documentType", generateList(input.documentType, ::generateDocumentReaderDocumentType))
     result.put("status", generateDocumentReaderResultsStatus(input.status))
     result.put("vdsncData", generateVDSNCData(input.vdsncData))
+    result.put("dtcData", input.dtcData)
     result.put("transactionInfo", generateTransactionInfo(input.transactionInfo))
 
     return result

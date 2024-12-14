@@ -103,6 +103,10 @@ class RunnerTests: XCTestCase {
         compare(name: "eIDDataGroups", fromJson: RGLWJSONConstructor.eIDDataGroups, generate: RGLWJSONConstructor.generateEIDDataGroups)
     }
     
+    func test_dtcDataGroups() {
+        compare(name: "dtcDataGroups", fromJson: RGLWJSONConstructor.dtcDataGroups, generate: RGLWJSONConstructor.generateRGLDTCDataGroups)
+    }
+    
     func test_rfidScenario() {
         compare(name: "rfidScenario", fromJson: RGLWJSONConstructor.rfidScenario, generate: RGLWJSONConstructor.generate)
     }
@@ -432,4 +436,4 @@ class RunnerTests: XCTestCase {
     }
 }
 
-extension String: Error {}
+extension String: @retroactive Swift.Error {}

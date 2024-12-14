@@ -66,7 +66,7 @@ class CertificateChain {
     result._validity = RFIDValidity.fromJson(jsonObject["validity"]);
     result._issuer = Authority.fromJson(jsonObject["issuer"]);
     result._subject = Authority.fromJson(jsonObject["subject"]);
-    result._notifications = jsonObject["notifications"].cast<int>();
+    result._notifications = _intListFrom(jsonObject["notifications"])!;
     for (var item in jsonObject["extensions"]) {
       result._extensions.addSafe(Extension.fromJson(item));
     }
