@@ -747,7 +747,7 @@
     result[@"autoSettings"] = [NSNumber numberWithBool:rfidScenario.autoSettings];
     result[@"proceedReadingAlways"] = [NSNumber numberWithBool:rfidScenario.proceedReadingAlways];
     result[@"readDTC"] = [NSNumber numberWithBool:rfidScenario.readDTC];
-    result[@"mrzStrictCheck"] = [NSNumber numberWithBool:rfidScenario.mrzStrictCheck];
+    result[@"mrzStrictCheck"] = rfidScenario.mrzStrictCheck;
     
     // Int
     result[@"signManagementAction"] = [NSNumber numberWithInteger:rfidScenario.signManagementAction];

@@ -436,4 +436,4 @@ class RunnerTests: XCTestCase {
     }
 }
 
-extension String: @retroactive Swift.Error {}
+extension String: Error {}
