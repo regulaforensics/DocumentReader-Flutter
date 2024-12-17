@@ -665,26 +665,6 @@ typedef DocumentReaderCompletion = void Function(
   DocReaderException? error,
 );
 
-/// Keeps user notified about btDevice`s connection state.
-/// Used in [DocumentReader.startBluetoothService]
-///
-/// [onServiceConnected] fires when android`s bluetooth service is initialized.
-///
-/// [onServiceDisconnected] fires when android`s bluetooth service is destroyed.
-///
-/// [onDeviceReady] fires when a bluetooth device is connected and ready to use.
-/// [DocumentReader.initializeReader] should be run here.
-/// [InitConfig.withBleDevice] should be used to create configuration.
-///
-/// Android only.
-abstract class BluetoothServiceCompletion {
-  void onServiceConnected(bool isBleManagerConnected);
-
-  void onServiceDisconnected();
-
-  void onDeviceReady();
-}
-
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.
 ///
