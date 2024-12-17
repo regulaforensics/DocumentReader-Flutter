@@ -1,3 +1,12 @@
+# 7.5.0
+
+* Changes in `RecognizeConfig` class, see [migration guide](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/7-4-to-7-5/#mobile)
+* [Document Reader SDK 7.5 Release Notes](https://docs.regulaforensics.com/develop/doc-reader-sdk/release-notes/7-5/)
+
+# 7.4.0
+
+* [Document Reader SDK 7.4 Release Notes](https://docs.regulaforensics.com/develop/doc-reader-sdk/release-notes/7-4/)
+
 # 7.3.0
 
 * [Document Reader SDK 7.3 Release Notes](https://docs.regulaforensics.com/develop/doc-reader-sdk/release-notes/7-3/)

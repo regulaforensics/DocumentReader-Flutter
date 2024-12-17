@@ -60,10 +60,11 @@ class File {
     result._fileData = FileData.fromJson(jsonObject["fileData"]);
     result._certificates =
         SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
-    result._docFieldsText = jsonObject["docFieldsText"].cast<int>();
-    result._docFieldsGraphics = jsonObject["docFieldsGraphics"].cast<int>();
-    result._docFieldsOriginals = jsonObject["docFieldsOriginals"].cast<int>();
-    result._notifications = jsonObject["notifications"].cast<int>();
+    result._docFieldsText = _intListFrom(jsonObject["docFieldsText"])!;
+    result._docFieldsGraphics = _intListFrom(jsonObject["docFieldsGraphics"])!;
+    result._docFieldsOriginals =
+        _intListFrom(jsonObject["docFieldsOriginals"])!;
+    result._notifications = _intListFrom(jsonObject["notifications"])!;
 
     return result;
   }
