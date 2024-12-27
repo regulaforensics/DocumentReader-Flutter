@@ -1,5 +1,5 @@
 //
-//  Utils.java
+//  Utils.kt
 //  DocumentReader
 //
 //  Created by Pavel Masiuk on 21.09.2023.

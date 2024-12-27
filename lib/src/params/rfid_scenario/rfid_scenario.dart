@@ -242,11 +242,28 @@ class RFIDScenario {
     _set({"autoSettings": val});
   }
 
+  // If set to `true`, continue RFID chip processing, despite ICAO critical errors.
   bool? get proceedReadingAlways => _proceedReadingAlways;
   bool? _proceedReadingAlways;
   set proceedReadingAlways(bool? val) {
     _proceedReadingAlways = val;
     _set({"proceedReadingAlways": val});
+  }
+
+  bool? get readDTC => _readDTC;
+  bool? _readDTC;
+  set readDTC(bool? val) {
+    _readDTC = val;
+    _set({"readDTC": val});
+  }
+
+  /// Perform check MRZ according to standard described in
+  /// BSI TR - 03105: ePassport Conformity Testing(v 1.0 04.04.2008).
+  bool? get mrzStrictCheck => _mrzStrictCheck;
+  bool? _mrzStrictCheck;
+  set mrzStrictCheck(bool? val) {
+    _mrzStrictCheck = val;
+    _set({"mrzStrictCheck": val});
   }
 
   int? get readingBuffer => _readingBuffer;
@@ -356,6 +373,13 @@ class RFIDScenario {
     _set({"eSignPINNewValue": val});
   }
 
+  String? get cardAccess => _cardAccess;
+  String? _cardAccess;
+  set cardAccess(String? val) {
+    _cardAccess = val;
+    _set({"cardAccess": val});
+  }
+
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
   EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
@@ -372,6 +396,12 @@ class RFIDScenario {
   EIDDataGroups _eIDDataGroups = EIDDataGroups();
   set eIDDataGroups(EIDDataGroups val) {
     (_eIDDataGroups = val)._apply(this);
+  }
+
+  DTCDataGroups get dtcDataGroups => _dtcDataGroups;
+  DTCDataGroups _dtcDataGroups = DTCDataGroups();
+  set dtcDataGroups(DTCDataGroups val) {
+    (_dtcDataGroups = val)._apply(this);
   }
 
   /// Allows you to deserialize object.
@@ -418,6 +448,8 @@ class RFIDScenario {
     result.applyAmendments = jsonObject["applyAmendments"];
     result.autoSettings = jsonObject["autoSettings"];
     result.proceedReadingAlways = jsonObject["proceedReadingAlways"];
+    result.readDTC = jsonObject["readDTC"];
+    result.mrzStrictCheck = jsonObject["mrzStrictCheck"];
 
     result.readingBuffer = jsonObject["readingBuffer"];
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
@@ -441,11 +473,13 @@ class RFIDScenario {
     result.mrz = jsonObject["mrz"];
     result.eSignPINDefault = jsonObject["eSignPINDefault"];
     result.eSignPINNewValue = jsonObject["eSignPINNewValue"];
+    result.cardAccess = jsonObject["cardAccess"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
     result.ePassportDataGroups =
         EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
     result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
+    result.dtcDataGroups = DTCDataGroups.fromJson(jsonObject["dtcDataGroups"]);
 
     return result;
   }
@@ -487,6 +521,8 @@ class RFIDScenario {
         "applyAmendments": applyAmendments,
         "autoSettings": autoSettings,
         "proceedReadingAlways": proceedReadingAlways,
+        "readDTC": readDTC,
+        "mrzStrictCheck": mrzStrictCheck,
         "readingBuffer": readingBuffer,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,
@@ -502,9 +538,11 @@ class RFIDScenario {
         "mrz": mrz,
         "eSignPINDefault": eSignPINDefault,
         "eSignPINNewValue": eSignPINNewValue,
+        "cardAccess": cardAccess,
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),
+        "dtcDataGroups": dtcDataGroups.toJson(),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json) {

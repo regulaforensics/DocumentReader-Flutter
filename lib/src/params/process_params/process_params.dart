@@ -238,11 +238,21 @@ class ProcessParams {
 
   /// When enabled, image quality checks status affects document optical
   /// and overall status.
+  @Deprecated("Use `strictImageQuality` instead.")
   bool? get respectImageQuality => _respectImageQuality;
   bool? _respectImageQuality;
+  @Deprecated("Use `strictImageQuality` instead.")
   set respectImageQuality(bool? val) {
     _respectImageQuality = val;
     _set({"respectImageQuality": val});
+  }
+
+  /// When enabled, the image quality check status affects the document optical and overall status.
+  bool? get strictImageQuality => _strictImageQuality;
+  bool? _strictImageQuality;
+  set strictImageQuality(bool? val) {
+    _strictImageQuality = val;
+    _set({"strictImageQuality": val});
   }
 
   /// When enabled, the Surname and GivenNames field ([TextField])
@@ -286,6 +296,34 @@ class ProcessParams {
   set generateNumericCodes(bool? val) {
     _generateNumericCodes = val;
     _set({"generateNumericCodes": val});
+  }
+
+  /// If the certificates required for performing the Digital signature check are missing,
+  /// this parameter if enabled will make the Barcode format check failed.
+  bool? get strictBarcodeDigitalSignatureCheck =>
+      _strictBarcodeDigitalSignatureCheck;
+  bool? _strictBarcodeDigitalSignatureCheck;
+  set strictBarcodeDigitalSignatureCheck(bool? val) {
+    _strictBarcodeDigitalSignatureCheck = val;
+    _set({"strictBarcodeDigitalSignatureCheck": val});
+  }
+
+  /// Select the longest value from the different value sources and write it to the value field
+  /// if comparison is done successfully. The parameter applies this logic to the personal names,
+  /// such as given name, surname, surname and given name, middle name and etc.
+  bool? get selectLongestNames => _selectLongestNames;
+  bool? _selectLongestNames;
+  set selectLongestNames(bool? val) {
+    _selectLongestNames = val;
+    _set({"selectLongestNames": val});
+  }
+
+  /// This parameter is used to generate DTCVC data.
+  bool? get generateDTCVC => _generateDTCVC;
+  bool? _generateDTCVC;
+  set generateDTCVC(bool? val) {
+    _generateDTCVC = val;
+    _set({"generateDTCVC": val});
   }
 
   /// There are documents that contain barcodes which data can be parsed only
@@ -695,12 +733,16 @@ class ProcessParams {
         jsonObject["shouldReturnPackageForReprocess"];
     result.disablePerforationOCR = jsonObject["disablePerforationOCR"];
     result.respectImageQuality = jsonObject["respectImageQuality"];
+    result.strictImageQuality = jsonObject["strictImageQuality"];
     result.splitNames = jsonObject["splitNames"];
     result.useFaceApi = jsonObject["useFaceApi"];
     result.useAuthenticityCheck = jsonObject["useAuthenticityCheck"];
-    // ignore: deprecated_member_use_from_same_package
     result.checkHologram = jsonObject["checkHologram"];
     result.generateNumericCodes = jsonObject["generateNumericCodes"];
+    result.strictBarcodeDigitalSignatureCheck =
+        jsonObject["strictBarcodeDigitalSignatureCheck"];
+    result.selectLongestNames = jsonObject["selectLongestNames"];
+    result.generateDTCVC = jsonObject["generateDTCVC"];
 
     result.measureSystem =
         MeasureSystem.getByValue(jsonObject["measureSystem"]);
@@ -788,12 +830,16 @@ class ProcessParams {
         "shouldReturnPackageForReprocess": shouldReturnPackageForReprocess,
         "disablePerforationOCR": disablePerforationOCR,
         "respectImageQuality": respectImageQuality,
+        "strictImageQuality": strictImageQuality,
         "splitNames": splitNames,
         "useFaceApi": useFaceApi,
         "useAuthenticityCheck": useAuthenticityCheck,
-        // ignore: deprecated_member_use_from_same_package
         "checkHologram": checkHologram,
         "generateNumericCodes": generateNumericCodes,
+        "strictBarcodeDigitalSignatureCheck":
+            strictBarcodeDigitalSignatureCheck,
+        "selectLongestNames": selectLongestNames,
+        "generateDTCVC": generateDTCVC,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

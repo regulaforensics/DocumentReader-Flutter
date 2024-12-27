@@ -181,8 +181,6 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self getDocumentReaderIsReady :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocumentReaderStatus"])
         [self getDocumentReaderStatus :successCallback :errorCallback];
-    else if([action isEqualToString:@"isAuthenticatorAvailableForUse"])
-        [self isAuthenticatorAvailableForUse :successCallback :errorCallback];
     else if([action isEqualToString:@"getRfidSessionStatus"])
         [self getRfidSessionStatus :successCallback :errorCallback];
     else if([action isEqualToString:@"setRfidSessionStatus"])
@@ -271,6 +269,10 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self getAvailableScenarios :successCallback :errorCallback];
     else if([action isEqualToString:@"getIsRFIDAvailableForUse"])
         [self getIsRFIDAvailableForUse :successCallback :errorCallback];
+    else if([action isEqualToString:@"isAuthenticatorRFIDAvailableForUse"])
+        [self isAuthenticatorRFIDAvailableForUse :successCallback :errorCallback];
+    else if([action isEqualToString:@"isAuthenticatorAvailableForUse"])
+        [self isAuthenticatorAvailableForUse :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocReaderVersion"])
         [self getDocReaderVersion :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocReaderDocumentsDatabase"])
@@ -311,6 +313,8 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self encryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"finalizePackage"])
         [self finalizePackage :successCallback :errorCallback];
+    else if([action isEqualToString:@"endBackendTransaction"])
+        [self endBackendTransaction :successCallback :errorCallback];
     else if([action isEqualToString:@"getTranslation"])
         [self getTranslation :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else
@@ -337,10 +341,6 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 
 - (void) getDocumentReaderStatus:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     successCallback(RGLDocReader.shared.documentReaderStatus);
-}
-
-- (void) isAuthenticatorAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    successCallback(RGLDocReader.shared.isAuthenticatorAvailableForUse ? @YES : @NO);
 }
 
 - (void) getRfidSessionStatus:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -645,6 +645,14 @@ RGLWCallback savedCallbackForBluetoothResult;
     successCallback([RGLWJSONConstructor generateDocReaderVersion:RGLDocReader.shared.version]);
 }
 
+- (void) isAuthenticatorRFIDAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    successCallback(RGLDocReader.shared.isAuthenticatorRFIDAvailableForUse ? @YES : @NO);
+}
+
+- (void) isAuthenticatorAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    successCallback(RGLDocReader.shared.isAuthenticatorAvailableForUse ? @YES : @NO);
+}
+
 - (void) getDocReaderDocumentsDatabase:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
     if(RGLDocReader.shared.version != nil)
         successCallback([RGLWJSONConstructor dictToString:[RGLWJSONConstructor generateDocReaderDocumentsDatabase:RGLDocReader.shared.version.database]]);
@@ -756,6 +764,11 @@ RGLWCallback savedCallbackForBluetoothResult;
     [RGLDocReader.shared finalizePackageWithCompletion:^(RGLDocReaderAction action, RGLTransactionInfo* info, NSError* error){
         successCallback([RGLWJSONConstructor generateFinalizePackageCompletion:[RGLWConfig generateDocReaderAction: action] :info :error]);
     }];
+}
+
+- (void) endBackendTransaction:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    [RGLDocReader.shared endBackendTransaction];
+    successCallback(@"");
 }
 
 - (void) getTranslation:(NSString*)className :(NSNumber*)value :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{

@@ -50,20 +50,28 @@ enum PKDResourceType {
   /// Will be returned if [getByValue] if a non-existent was passed.
   UNKNOWN(-1),
 
+  /// Certificate file contents (.pem, .cer, .crt, .der).
   CERTIFICATE_PA(0),
 
+  /// Certificate file contents (.cvcert) and private key file contents (.pkcs8).
   CERTIFICATE_TA(1),
 
+  /// LDIF file contents (.ldif).
   LDIF(2),
 
+  /// CRL file contents (.crl).
   CRL(3),
 
+  /// Master List (.ml, .mls).
   ML(4),
 
+  /// Defect List (.dl, .dls, .dfl).
   DEFL(5),
 
+  /// Deviance List (.dl, .dls, .dvl).
   DEVL(6),
 
+  /// Black List (.bl, .bls).
   BL(7);
 
   const PKDResourceType(this.value);

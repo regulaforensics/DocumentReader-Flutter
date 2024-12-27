@@ -63,6 +63,10 @@ class Results {
   VDSNCData? get vdsncData => _vdsncData;
   VDSNCData? _vdsncData;
 
+  /// DTCVC data.
+  Uint8List? get dtcData => _dtcData;
+  Uint8List? _dtcData;
+
   /// Document processing finish status, one of RGLProcessingFinishedStatus values.
   ProcessingFinishedStatus get processingFinishedStatus =>
       _processingFinishedStatus;
@@ -425,6 +429,7 @@ class Results {
     result._barcodeResult = BarcodeResult.fromJson(jsonObject["barcodeResult"]);
     result._status = ResultsStatus.fromJson(jsonObject["status"])!;
     result._vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
+    result._dtcData = _bytesFromBase64(jsonObject["dtcData"]);
     result._transactionInfo =
         TransactionInfo.fromJson(jsonObject["transactionInfo"]);
 
@@ -445,6 +450,7 @@ class Results {
         "rfidSessionData": rfidSessionData?.toJson(),
         "barcodeResult": barcodeResult?.toJson(),
         "vdsncData": vdsncData?.toJson(),
+        "dtcData": _bytesToBase64(dtcData),
         "chipPage": chipPage,
         "processingFinishedStatus": processingFinishedStatus.value,
         "morePagesAvailable": morePagesAvailable,
@@ -633,7 +639,10 @@ enum ResultType {
 
   /// Servers for storing the results of data reading in a form of a list of objects
   /// of the original binary representation of the graphics in memory of the RFID-chip.
-  RFID_ORIGINAL_GRAPHICS(105);
+  RFID_ORIGINAL_GRAPHICS(105),
+
+  /// Digital Travel Credential data.
+  RFID_DTC_VC(109);
 
   const ResultType(this.value);
   final int value;

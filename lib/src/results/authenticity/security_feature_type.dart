@@ -152,7 +152,11 @@ enum SecurityFeatureType {
   CHECK_DIGITAL_SIGNATURE(50),
 
   /// Contact сhip check.
-  CONTACT_CHIP_CLASSIFICATION(51);
+  CONTACT_CHIP_CLASSIFICATION(51),
+
+  HEAD_POSITION_CHECK(52),
+
+  LIVENESS_BLACK_AND_WHITE_COPY_CHECK(53);
 
   const SecurityFeatureType(this.value);
   final int value;
