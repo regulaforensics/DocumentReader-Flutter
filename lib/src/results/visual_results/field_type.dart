@@ -883,6 +883,12 @@ enum FieldType {
   /// ISO issuer ID number.
   ISO_ISSUER_ID_NUMBER(336),
 
+  DTC_VERSION(337),
+
+  DTC_ID(338),
+
+  DTC_DATE_OF_EXPIRY(339),
+
   /// Registration number issued by GardaNational Immigration Bureau.
   GNIB_NUMBER(340),
 
@@ -1914,7 +1920,9 @@ enum FieldType {
   DIGITAL_TRAVEL_AUTHORIZATION_NUMBER(690),
 
   /// Date of first positive test result.
-  DATE_OF_FIRST_POSITIVE_TEST_RESULT(691);
+  DATE_OF_FIRST_POSITIVE_TEST_RESULT(691),
+
+  EF_CARD_ACCESS(692);
 
   const FieldType(this.value);
   final int value;

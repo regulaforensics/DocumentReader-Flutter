@@ -35,7 +35,6 @@ class MyAppState extends State<MyApp> {
   var btDeviceExample = BtDevice();
 
   Future<void> init() async {
-    super.initState();
     if (!await initializeReader()) return;
     status = "Ready";
     scenarios = documentReader.availableScenarios;
@@ -175,7 +174,7 @@ class MyAppState extends State<MyApp> {
             documentReader.recognize(
               RecognizeConfig.withScenario(
                 selectedScenario,
-                RecognizeData.withImages(await getImages()),
+                images: await getImages(),
               ),
               handleCompletion,
             );

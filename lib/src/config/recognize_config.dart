@@ -20,6 +20,21 @@ class RecognizeConfig {
   OnlineProcessingConfig? get onlineProcessingConfig => _onlineProcessingConfig;
   OnlineProcessingConfig? _onlineProcessingConfig;
 
+  /// Image for processing.
+  Uint8List? image;
+
+  /// Images for processing.
+  List<Uint8List>? images;
+
+  /// Binary for processing.
+  Uint8List? data;
+
+  /// Images(with input data) for processing.
+  List<ImageInputData>? imageInputData;
+
+  /// DTC file for processing.
+  Uint8List? dtc;
+
   /// Live portrait photo.
   ///
   /// Requires network connection.
@@ -36,51 +51,47 @@ class RecognizeConfig {
   /// but not in the video frame processing. Requires network connection.
   bool oneShotIdentification = false;
 
-  /// Image for processing
-  ///
-  /// Only one of [image], [data], [images], [imageInputData] can be set
-  /// at a time. All the others must be `null`.
-  Uint8List? get image => _image;
-  Uint8List? _image;
-
-  /// Binary for processing
-  ///
-  /// Only one of [image], [data], [images], [imageInputData] can be set
-  /// at a time. All the others must be `null`.
-  Uint8List? get data => _data;
-  Uint8List? _data;
-
-  /// Images for processing
-  ///
-  /// Only one of [image], [data], [images], [imageInputData] can be set
-  /// at a time. All the others must be `null`.
-  List<Uint8List>? get images => _images;
-  List<Uint8List>? _images;
-
-  /// Images(with input data) for processing
-  ///
-  /// Only one of [image], [data], [images], [imageInputData] can be set
-  /// at a time. All the others must be `null`.
-  List<ImageInputData>? get imageInputData => _imageInputData;
-  List<ImageInputData>? _imageInputData;
-
-  RecognizeConfig.withScenario(Scenario scenario, RecognizeData recognizeData)
-      : _scenario = scenario,
+  RecognizeConfig.withScenario(
+    Scenario scenario, {
+    Uint8List? image,
+    List<Uint8List>? images,
+    Uint8List? data,
+    List<ImageInputData>? imageInputData,
+    Uint8List? dtc,
+    Uint8List? livePortrait,
+    Uint8List? extPortrait,
+    bool oneShotIdentification = false,
+  })  : _scenario = scenario,
         _onlineProcessingConfig = null,
-        _image = recognizeData.image,
-        _data = recognizeData.data,
-        _images = recognizeData.images,
-        _imageInputData = recognizeData.imageInputData;
+        livePortrait = livePortrait,
+        extPortrait = extPortrait,
+        oneShotIdentification = oneShotIdentification,
+        image = image,
+        images = images,
+        data = data,
+        imageInputData = imageInputData,
+        dtc = dtc;
 
   RecognizeConfig.withOnlineProcessingConfig(
-      OnlineProcessingConfig onlineProcessingConfig,
-      RecognizeData recognizeData)
-      : _scenario = null,
+    OnlineProcessingConfig onlineProcessingConfig, {
+    Uint8List? image,
+    List<Uint8List>? images,
+    Uint8List? data,
+    List<ImageInputData>? imageInputData,
+    Uint8List? dtc,
+    Uint8List? livePortrait,
+    Uint8List? extPortrait,
+    bool oneShotIdentification = false,
+  })  : _scenario = null,
         _onlineProcessingConfig = onlineProcessingConfig,
-        _image = recognizeData.image,
-        _data = recognizeData.data,
-        _images = recognizeData.images,
-        _imageInputData = recognizeData.imageInputData;
+        livePortrait = livePortrait,
+        extPortrait = extPortrait,
+        oneShotIdentification = oneShotIdentification,
+        image = image,
+        images = images,
+        data = data,
+        imageInputData = imageInputData,
+        dtc = dtc;
 
   RecognizeConfig._empty();
 
@@ -92,23 +103,24 @@ class RecognizeConfig {
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
     result._onlineProcessingConfig =
         OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result.image = _bytesFromBase64(jsonObject["image"]);
+    if (jsonObject["images"] != null) {
+      result.images = [];
+      for (var item in jsonObject["images"]) {
+        result.images!.addSafe(_bytesFromBase64(item));
+      }
+    }
+    result.data = _bytesFromBase64(jsonObject["data"]);
+    if (jsonObject["imageInputData"] != null) {
+      result.imageInputData = [];
+      for (var item in jsonObject["imageInputData"]) {
+        result.imageInputData!.addSafe(ImageInputData.fromJson(item));
+      }
+    }
+    result.dtc = _bytesFromBase64(jsonObject["dtc"]);
     result.livePortrait = _bytesFromBase64(jsonObject["livePortrait"]);
     result.extPortrait = _bytesFromBase64(jsonObject["extPortrait"]);
     result.oneShotIdentification = jsonObject["oneShotIdentification"];
-    result._image = _bytesFromBase64(jsonObject["image"]);
-    result._data = _bytesFromBase64(jsonObject["data"]);
-    if (jsonObject["images"] != null) {
-      result._images = [];
-      for (var item in jsonObject["images"]) {
-        result._images!.addSafe(_bytesFromBase64(item));
-      }
-    }
-    if (jsonObject["imageInputData"] != null) {
-      result._imageInputData = [];
-      for (var item in jsonObject["imageInputData"]) {
-        result._imageInputData!.addSafe(ImageInputData.fromJson(item));
-      }
-    }
 
     return result;
   }
@@ -117,54 +129,15 @@ class RecognizeConfig {
   Map<String, dynamic> toJson() => {
         "scenario": scenario?.value,
         "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
+        "image": _bytesToBase64(image),
+        "images": images?.map((e) => _bytesToBase64(e)).toList(),
+        "data": _bytesToBase64(data),
+        "imageInputData": imageInputData?.map((e) => e.toJson()).toList(),
+        "dtc": _bytesToBase64(dtc),
         "oneShotIdentification": oneShotIdentification,
         "livePortrait": _bytesToBase64(livePortrait),
         "extPortrait": _bytesToBase64(extPortrait),
-        "image": _bytesToBase64(image),
-        "data": _bytesToBase64(data),
-        "images": images?.map((e) => _bytesToBase64(e)).toList(),
-        "imageInputData": imageInputData?.map((e) => e.toJson()).toList(),
       }.clearNulls();
-}
-
-/// Insures that [RecognizeConfig] has exactly one of four parameters set:
-/// [image], [data], [images], [imageInputData]
-class RecognizeData {
-  Uint8List? get image => _image;
-  Uint8List? _image;
-
-  Uint8List? get data => _data;
-  Uint8List? _data;
-
-  List<Uint8List>? get images => _images;
-  List<Uint8List>? _images;
-
-  List<ImageInputData>? get imageInputData => _imageInputData;
-  List<ImageInputData>? _imageInputData;
-
-  RecognizeData.withImage(Uint8List image)
-      : _image = image,
-        _data = null,
-        _images = null,
-        _imageInputData = null;
-
-  RecognizeData.withData(Uint8List data)
-      : _image = null,
-        _data = data,
-        _images = null,
-        _imageInputData = null;
-
-  RecognizeData.withImages(List<Uint8List> images)
-      : _image = null,
-        _data = null,
-        _images = images,
-        _imageInputData = null;
-
-  RecognizeData.withImageInputData(List<ImageInputData> imageInputData)
-      : _image = null,
-        _data = null,
-        _images = null,
-        _imageInputData = imageInputData;
 }
 
 class ImageInputData {

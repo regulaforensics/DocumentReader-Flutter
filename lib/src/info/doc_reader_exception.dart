@@ -133,6 +133,9 @@ enum ErrorCodes {
 
   CAMERA_NOT_AVAILABLE(30),
 
+  /// The camera not supported in this scenario.
+  CANNOT_USE_CAMERA_IN_SCENARIO(40),
+
   BACKEND_ONLINE_PROCESSING(303),
 
   WRONG_INPUT(400),

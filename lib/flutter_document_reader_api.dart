@@ -33,6 +33,7 @@ part 'src/params/process_params/backend_processing_config.dart';
 part 'src/params/rfid_scenario/edl_data_groups.dart';
 part 'src/params/rfid_scenario/eid_data_groups.dart';
 part 'src/params/rfid_scenario/e_passport_data_groups.dart';
+part 'src/params/rfid_scenario/dtc_data_groups.dart';
 part 'src/params/customization/customization.dart';
 part 'src/params/customization/font.dart';
 part 'src/params/customization/customization_colors.dart';
@@ -152,10 +153,28 @@ class DocumentReader {
   License get license => _license;
   License _license = License();
 
-  /// Allows you to check if RFID chip reading can be performed based on your
-  /// license and Core framework capabilities.
+  /// Allows you to check if native RFID chip reading can be performed
+  /// based on your license and Core framework capabilities.
+  ///
+  /// Returns `true` if native RFID chip reading is supported.
   Future<bool> isRFIDAvailableForUse() async {
     return await _bridge.invokeMethod("getIsRFIDAvailableForUse", []);
+  }
+
+  /// Allows you to check if you can use external Regula Bluetooth devices
+  /// based on your license and Core framework capabilities.
+  ///
+  /// Returns `true` if external Regula Bluetooth is supported.
+  Future<bool> get isAuthenticatorRFIDAvailableForUse async {
+    return await _bridge.invokeMethod("isAuthenticatorRFIDAvailableForUse", []);
+  }
+
+  /// Allows you to check if you can use external Regula Bluetooth devices
+  /// based on your license, available scenarios and Core framework capabilities.
+  ///
+  /// Returns `true` if available.
+  Future<bool> get isAuthenticatorAvailableForUse async {
+    return await _bridge.invokeMethod("isAuthenticatorAvailableForUse", []);
   }
 
   /// Allows you to get a status of the RFID chip reading process.
@@ -263,14 +282,6 @@ class DocumentReader {
   /// Allows you to get a status of Document Reader.
   Future<String> get status async {
     return await _bridge.invokeMethod("getDocumentReaderStatus", []);
-  }
-
-  /// Allows you to check if you can use external Regula Bluetooth devices based
-  /// on your license and Core framework capabilities.
-  ///
-  /// Android only.
-  Future<bool> get isAuthenticatorAvailableForUse async {
-    return await _bridge.invokeMethod("isAuthenticatorAvailableForUse", []);
   }
 
   /// Use this method to reset all parameters to their default values.
@@ -481,6 +492,7 @@ class DocumentReader {
     return _successOrErrorFromJson(response);
   }
 
+  /// It's used to finalize package during backend processing.
   Future<FinalizePackageCompletion> finalizePackage() async {
     var response = await _bridge.invokeMethod("finalizePackage", []);
 
@@ -490,6 +502,11 @@ class DocumentReader {
     var error = DocReaderException.fromJson(jsonObject["error"]);
 
     return (action, info, error);
+  }
+
+  /// It's used to end transaction during backend processing.
+  Future<void> endBackendTransaction() async {
+    await _bridge.invokeMethod("endBackendTransaction", []);
   }
 
   (bool, DocReaderException?) _successOrErrorFromJson(String jsonString) {
@@ -647,26 +664,6 @@ typedef DocumentReaderCompletion = void Function(
   Results? results,
   DocReaderException? error,
 );
-
-/// Keeps user notified about btDevice`s connection state.
-/// Used in [DocumentReader.startBluetoothService]
-///
-/// [onServiceConnected] fires when android`s bluetooth service is initialized.
-///
-/// [onServiceDisconnected] fires when android`s bluetooth service is destroyed.
-///
-/// [onDeviceReady] fires when a bluetooth device is connected and ready to use.
-/// [DocumentReader.initializeReader] should be run here.
-/// [InitConfig.withBleDevice] should be used to create configuration.
-///
-/// Android only.
-abstract class BluetoothServiceCompletion {
-  void onServiceConnected(bool isBleManagerConnected);
-
-  void onServiceDisconnected();
-
-  void onDeviceReady();
-}
 
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.

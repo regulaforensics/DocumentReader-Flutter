@@ -1,5 +1,5 @@
 //
-//  Config.java
+//  Config.kt
 //  DocumentReader
 //
 //  Created by Pavel Masiuk on 21.09.2023.
@@ -26,6 +26,7 @@ import com.regula.documentreader.api.params.LivenessParams
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
 import com.regula.documentreader.api.params.RfidScenario
+import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
@@ -129,12 +130,16 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "shouldReturnPackageForReprocess" -> processParams.shouldReturnPackageForReprocess = v as Boolean
         "disablePerforationOCR" -> processParams.disablePerforationOCR = v as Boolean
         "respectImageQuality" -> processParams.respectImageQuality = v as Boolean
+        "strictImageQuality" -> processParams.strictImageQuality = v as Boolean
         "splitNames" -> processParams.splitNames = v as Boolean
         "doDetectCan" -> processParams.doDetectCan = v as Boolean
         "useFaceApi" -> processParams.useFaceApi = v as Boolean
         "useAuthenticityCheck" -> processParams.useAuthenticityCheck = v as Boolean
         "checkHologram" -> processParams.checkHologram = v as Boolean
         "generateNumericCodes" -> processParams.generateNumericCodes = v as Boolean
+        "strictBarcodeDigitalSignatureCheck" -> processParams.strictBarcodeDigitalSignatureCheck = v as Boolean
+        "selectLongestNames" -> processParams.selectLongestNames = v as Boolean
+        "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -207,12 +212,16 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "shouldReturnPackageForReprocess" to processParams.shouldReturnPackageForReprocess,
     "disablePerforationOCR" to processParams.disablePerforationOCR,
     "respectImageQuality" to processParams.respectImageQuality,
+    "strictImageQuality" to processParams.strictImageQuality,
     "splitNames" to processParams.splitNames,
     "doDetectCan" to processParams.doDetectCan,
     "useFaceApi" to processParams.useFaceApi,
     "useAuthenticityCheck" to processParams.useAuthenticityCheck,
     "checkHologram" to processParams.checkHologram,
     "generateNumericCodes" to processParams.generateNumericCodes,
+    "strictBarcodeDigitalSignatureCheck" to processParams.strictBarcodeDigitalSignatureCheck,
+    "selectLongestNames" to processParams.selectLongestNames,
+    "generateDTCVC" to processParams.generateDTCVC,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -278,6 +287,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "activityIndicatorColor" -> editor.setActivityIndicatorColor(v.toColor())
         "statusBackgroundColor" -> editor.setStatusBackgroundColor(v.toColor())
         "cameraPreviewBackgroundColor" -> editor.setCameraPreviewBackgroundColor(v.toColor())
+        "backgroundMaskColor" -> editor.setBackgroundMaskColor(v.toColor())
         "statusPositionMultiplier" -> editor.setStatusPositionMultiplier(v.toFloat())
         "resultStatusPositionMultiplier" -> editor.setResultStatusPositionMultiplier(v.toFloat())
         "toolbarSize" -> editor.setToolbarSize(v.toFloat())
@@ -288,6 +298,8 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "cameraFramePortraitAspectRatio" -> editor.setCameraFramePortraitAspectRatio(v.toFloat())
         "cameraFrameCornerRadius" -> editor.setCameraFrameCornerRadius(v.toFloat())
         "livenessAnimationPositionMultiplier" -> editor.setLivenessAnimationPositionMultiplier(v.toFloat())
+        "nextPageAnimationStartDelay" -> editor.setNextPageAnimationStartDelay(v.toFloat())
+        "nextPageAnimationEndDelay" -> editor.setNextPageAnimationEndDelay(v.toFloat())
         "multipageAnimationFrontImage" -> editor.setMultipageAnimationFrontImage(v.toDrawable(context))
         "multipageAnimationBackImage" -> editor.setMultipageAnimationBackImage(v.toDrawable(context))
         "borderBackgroundImage" -> editor.setBorderBackgroundImage(v.toDrawable(context))
@@ -349,6 +361,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "activityIndicatorColor" to customization.activityIndicatorColor.toLong(),
     "statusBackgroundColor" to customization.statusBackgroundColor.toLong(),
     "cameraPreviewBackgroundColor" to customization.cameraPreviewBackgroundColor.toLong(),
+    "backgroundMaskColor" to customization.backgroundMaskColor.toLong(),
     "statusPositionMultiplier" to customization.statusPositionMultiplier,
     "resultStatusPositionMultiplier" to customization.resultStatusPositionMultiplier,
     "backgroundMaskAlpha" to customization.backgroundMaskAlpha,
@@ -359,6 +372,8 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "cameraFramePortraitAspectRatio" to customization.cameraFramePortraitAspectRatio,
     "cameraFrameCornerRadius" to customization.cameraFrameCornerRadius,
     "livenessAnimationPositionMultiplier" to customization.livenessAnimationPositionMultiplier,
+    "nextPageAnimationStartDelay" to customization.nextPageAnimationStartDelay,
+    "nextPageAnimationEndDelay" to customization.nextPageAnimationEndDelay,
     "multipageAnimationFrontImage" to customization.multipageAnimationFrontImage.toString(),
     "multipageAnimationBackImage" to customization.multipageAnimationBackImage.toString(),
     "borderBackgroundImage" to customization.borderBackgroundImage.toString(),
@@ -422,6 +437,8 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "applyAmendments" -> rfidScenario.isApplyAmendments = v as Boolean
         "autoSettings" -> rfidScenario.isAutoSettings = v as Boolean
         "proceedReadingAlways" -> rfidScenario.proceedReadingAlways = v as Boolean
+        "readDTC" -> rfidScenario.isReadDTC = v as Boolean
+        "mrzStrictCheck" -> rfidScenario.isMrzStrictCheck = v as Boolean
         "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
         "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
         "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
@@ -437,9 +454,11 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "mrz" -> rfidScenario.mrz = v as String
         "eSignPINDefault" -> rfidScenario.seteSignPINDefault(v as String)
         "eSignPINNewValue" -> rfidScenario.seteSignPINNewValue(v as String)
+        "cardAccess" -> rfidScenario.cardAccess = v as String
         "ePassportDataGroups" -> setDataGroups(rfidScenario.ePassportDataGroups(), v as JSONObject)
         "eIDDataGroups" -> setDataGroups(rfidScenario.eIDDataGroups(), v as JSONObject)
         "eDLDataGroups" -> setDataGroups(rfidScenario.eDLDataGroups(), v as JSONObject)
+        "dtcDataGroups" -> setDataGroups(rfidScenario.DTCDataGroup(), v as JSONObject)
     }
 }
 
@@ -478,6 +497,8 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "applyAmendments" to rfidScenario.isApplyAmendments,
     "autoSettings" to rfidScenario.isAutoSettings,
     "proceedReadingAlways" to rfidScenario.proceedReadingAlways,
+    "readDTC" to rfidScenario.isReadDTC,
+    "mrzStrictCheck" to rfidScenario.isMrzStrictCheck,
     "signManagementAction" to rfidScenario.signManagementAction,
     "readingBuffer" to rfidScenario.readingBuffer,
     "onlineTAToSignDataType" to rfidScenario.onlineTAToSignDataType,
@@ -493,9 +514,11 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "mrz" to rfidScenario.mrz,
     "eSignPINDefault" to rfidScenario.geteSignPINDefault(),
     "eSignPINNewValue" to rfidScenario.geteSignPINNewValue(),
+    "cardAccess" to rfidScenario.cardAccess,
     "ePassportDataGroups" to getDataGroups(rfidScenario.ePassportDataGroups()),
     "eIDDataGroups" to getDataGroups(rfidScenario.eIDDataGroups()),
-    "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups())
+    "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups()),
+    "dtcDataGroups" to getDataGroups(rfidScenario.DTCDataGroup())
 ).toJsonObject()
 
 fun setDataGroups(dataGroup: DataGroups, opts: JSONObject) = opts.forEach { k, v ->
@@ -529,6 +552,15 @@ fun setDataGroups(dataGroup: DataGroups, opts: JSONObject) = opts.forEach { k, v
         "DG20" -> dataGroup.isDG20 = value
         "DG21" -> dataGroup.isDG21 = value
     }
+    if (dataGroup is DTCDataGroup) when (k) {
+        "DG15" -> dataGroup.isDG15 = value
+        "DG16" -> dataGroup.isDG16 = value
+        "DG17" -> dataGroup.isDG17 = value
+        "DG18" -> dataGroup.isDG18 = value
+        "DG22" -> dataGroup.isDG22 = value
+        "DG23" -> dataGroup.isDG23 = value
+        "DG24" -> dataGroup.isDG24 = value
+    }
 }
 
 fun getDataGroups(dataGroup: DataGroups): JSONObject {
@@ -560,6 +592,15 @@ fun getDataGroups(dataGroup: DataGroups): JSONObject {
         result["DG19"] = dataGroup.isDG19
         result["DG20"] = dataGroup.isDG20
         result["DG21"] = dataGroup.isDG21
+    }
+    if (dataGroup is DTCDataGroup) {
+        result["DG15"] = dataGroup.isDG15
+        result["DG16"] = dataGroup.isDG16
+        result["DG17"] = dataGroup.isDG17
+        result["DG18"] = dataGroup.isDG18
+        result["DG22"] = dataGroup.isDG22
+        result["DG23"] = dataGroup.isDG23
+        result["DG24"] = dataGroup.isDG24
     }
     return result.toJsonObject()
 }

@@ -1,5 +1,5 @@
 //
-//  FlutterDocumentReaderApiPlugin.java
+//  FlutterDocumentReaderApiPlugin.kt
 //  DocumentReader
 //
 //  Created by Pavel Masiuk on 21.09.2023.
@@ -131,7 +131,6 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
     when (action) {
         "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
         "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
-        "isAuthenticatorAvailableForUse" -> isAuthenticatorAvailableForUse(callback)
         "getRfidSessionStatus" -> getRfidSessionStatus(callback)
         "setRfidSessionStatus" -> setRfidSessionStatus(callback)
         "getTag" -> getTag(callback)
@@ -176,6 +175,8 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "getLicense" -> getLicense(callback)
         "getAvailableScenarios" -> getAvailableScenarios(callback)
         "getIsRFIDAvailableForUse" -> getIsRFIDAvailableForUse(callback)
+        "isAuthenticatorAvailableForUse" -> isAuthenticatorAvailableForUse(callback)
+        "isAuthenticatorRFIDAvailableForUse" -> isAuthenticatorRFIDAvailableForUse(callback)
         "getDocReaderVersion" -> getDocReaderVersion(callback)
         "getDocReaderDocumentsDatabase" -> getDocReaderDocumentsDatabase(callback)
         "textFieldValueByType" -> textFieldValueByType(callback, args(0), args(1))
@@ -196,6 +197,7 @@ fun methodCall(call: MethodCall, result: MethodChannel.Result) {
         "containers" -> containers(callback, args(0), args(1))
         "encryptedContainers" -> encryptedContainers(callback, args(0))
         "finalizePackage" -> finalizePackage(callback)
+        "endBackendTransaction" -> endBackendTransaction(callback)
         "getTranslation" -> getTranslation(callback, args(0), args(1))
     }
 }
@@ -231,8 +233,6 @@ const val onCustomButtonTappedEvent = "onCustomButtonTappedEvent"
 fun getDocumentReaderIsReady(callback: Callback) = callback.success(Instance().isReady)
 
 fun getDocumentReaderStatus(callback: Callback) = callback.success(Instance().status)
-
-fun isAuthenticatorAvailableForUse(callback: Callback) = callback.success(Instance().isAuthenticatorAvailableForUse)
 
 fun getRfidSessionStatus(callback: Callback) = callback.error("getRfidSessionStatus() is an ios-only method")
 
@@ -384,6 +384,10 @@ fun getAvailableScenarios(callback: Callback) {
 
 fun getIsRFIDAvailableForUse(callback: Callback) = callback.success(Instance().isRFIDAvailableForUse)
 
+fun isAuthenticatorAvailableForUse(callback: Callback) = callback.success(Instance().isAuthenticatorAvailableForUse)
+
+fun isAuthenticatorRFIDAvailableForUse(callback: Callback) = callback.success(Instance().isAuthenticatorRFIDAvailableForUse)
+
 fun getDocReaderVersion(callback: Callback) = callback.success(generateDocReaderVersion(Instance().version))
 
 fun getDocReaderDocumentsDatabase(callback: Callback) = callback.success(Instance().version?.let { generateDocReaderDocumentsDatabase(it.database) })
@@ -423,6 +427,11 @@ fun containers(callback: Callback, raw: String, resultType: JSONArray) = callbac
 fun encryptedContainers(callback: Callback, raw: String) = callback.success(fromRawResults(raw).encryptedContainers)
 
 fun finalizePackage(callback: Callback) = Instance().finalizePackage { action, info, error -> callback.success(generateFinalizePackageCompletion(action, info, error)) }
+
+fun endBackendTransaction(callback: Callback) {
+    Instance().endBackendTransaction()
+    callback.success()
+}
 
 fun getTranslation(callback: Callback, className: String, value: Int) = when (className) {
     "RFIDErrorCodes" -> callback.success(eRFID_ErrorCodes.getTranslation(context, value))

@@ -40,6 +40,7 @@ void main() {
     compareParams('ePassportDataGroups', ePassportDataGroups,
         EPassportDataGroups.fromJson);
     compareParams('eIDDataGroups', eIDDataGroups, EIDDataGroups.fromJson);
+    compareParams('dtcDataGroups', dtcDataGroups, DTCDataGroups.fromJson);
     compareParams('rfidScenario', rfidScenario, RFIDScenario.fromJson);
     compareParams('customizationColors', customizationColors,
         CustomizationColors.fromJson);

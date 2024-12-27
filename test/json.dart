@@ -70,7 +70,8 @@ var rfidParams = {
 var backendProcessingConfig = {
   "url": "test",
   "rfidServerSideChipVerification": true,
-  "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"}
+  "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
+  "timeoutConnection": 0.5
 };
 var processParams = {
   "multipageProcessing": true,
@@ -98,11 +99,15 @@ var processParams = {
   "shouldReturnPackageForReprocess": true,
   "disablePerforationOCR": false,
   "respectImageQuality": true,
+  "strictImageQuality": true,
   "splitNames": false,
   "useFaceApi": false,
   "useAuthenticityCheck": true,
   "checkHologram": false,
   "generateNumericCodes": true,
+  "strictBarcodeDigitalSignatureCheck": false,
+  "selectLongestNames": true,
+  "generateDTCVC": false,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -184,6 +189,7 @@ var customization = {
   "activityIndicatorColor": 0xff000007,
   "statusBackgroundColor": 0xff000008,
   "cameraPreviewBackgroundColor": 0xff000009,
+  "backgroundMaskColor": 0xff000010,
   "statusPositionMultiplier": 0.5,
   "resultStatusPositionMultiplier": 1.5,
   "toolbarSize": 2.5,
@@ -194,6 +200,8 @@ var customization = {
   "cameraFramePortraitAspectRatio": 7.5,
   "cameraFrameCornerRadius": 8.5,
   "livenessAnimationPositionMultiplier": 9.5,
+  "nextPageAnimationStartDelay": 10.5,
+  "nextPageAnimationEndDelay": 11.5,
   "multipageAnimationFrontImage": img1,
   "multipageAnimationBackImage": img2,
   "borderBackgroundImage": img3,
@@ -336,6 +344,29 @@ var eIDDataGroups = {
   "DG20": false,
   "DG21": true,
 };
+var dtcDataGroups = {
+  "DG1": true,
+  "DG2": false,
+  "DG3": true,
+  "DG4": false,
+  "DG5": true,
+  "DG6": false,
+  "DG7": true,
+  "DG8": false,
+  "DG9": true,
+  "DG10": false,
+  "DG11": true,
+  "DG12": false,
+  "DG13": true,
+  "DG14": false,
+  "DG15": true,
+  "DG16": false,
+  "DG17": true,
+  "DG18": false,
+  "DG22": false,
+  "DG23": true,
+  "DG24": false,
+};
 var rfidScenario = {
   "paceStaticBinding": true,
   "onlineTA": false,
@@ -371,6 +402,8 @@ var rfidScenario = {
   "applyAmendments": false,
   "autoSettings": true,
   "proceedReadingAlways": false,
+  "readDTC": true,
+  "mrzStrictCheck": false,
   "readingBuffer": 1,
   "onlineTAToSignDataType": 3,
   "defaultReadingBufferSize": 2,
@@ -386,9 +419,11 @@ var rfidScenario = {
   "mrz": "test4",
   "eSignPINDefault": "test5",
   "eSignPINNewValue": "test6",
+  "cardAccess": "test7",
   "eDLDataGroups": eDLDataGroups,
   "ePassportDataGroups": ePassportDataGroups,
   "eIDDataGroups": eIDDataGroups,
+  "dtcDataGroups": dtcDataGroups,
 };
 
 var initConfig = {
@@ -416,6 +451,7 @@ var recognizeConfig = {
   "livePortrait": img1,
   "extPortrait": img2,
   "oneShotIdentification": true,
+  "dtc": img1,
   "image": img3,
   "data": img1,
   "images": [img1, img2, img3],
@@ -867,6 +903,7 @@ var results = {
   "barcodeResult": barcodeResult,
   "status": resultsStatus,
   "vdsncData": vdsncData,
+  "dtcData": img1,
   "transactionInfo": transactionInfo
 };
 

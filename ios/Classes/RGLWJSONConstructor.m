@@ -228,7 +228,8 @@
     if (input[@"scenario"]) config.scenario = input[@"scenario"];
     if (input[@"livePortrait"]) config.livePortrait = [self imageWithBase64:input[@"livePortrait"]];
     if (input[@"extPortrait"]) config.extPortrait = [self imageWithBase64:input[@"extPortrait"]];
-    if (input[@"oneShotIdentification"])  config.oneShotIdentification = input[@"oneShotIdentification"];
+    if (input[@"oneShotIdentification"]) config.oneShotIdentification = input[@"oneShotIdentification"];
+    if (input[@"dtc"]) config.dtc = [RGLWJSONConstructor base64Decode:input[@"dtc"]];
 
     return config;
 }
@@ -242,6 +243,7 @@
     result[@"livePortrait"] = [self base64WithImage: input.livePortrait];
     result[@"extPortrait"] = [self base64WithImage: input.extPortrait];
     result[@"oneShotIdentification"] = @(input.oneShotIdentification);
+    result[@"dtc"] = [self base64Encode: input.dtc];
     result[@"image"] = [self base64WithImage: input.image];
     result[@"data"] = [self base64Encode: input.imageData];
     if(input.images != nil) {
@@ -270,6 +272,7 @@
         result.httpHeaders = [input valueForKey:@"httpHeaders"];
     if([input valueForKey:@"rfidServerSideChipVerification"] != nil)
         result.rfidServerSideChipVerification = [input valueForKey:@"rfidServerSideChipVerification"];
+    if (input[@"timeoutConnection"]) result.timeoutConnection = input[@"timeoutConnection"];
     
     return result;
 }
@@ -281,6 +284,7 @@
     result[@"url"] = input.url;
     result[@"httpHeaders"] = input.httpHeaders;
     result[@"rfidServerSideChipVerification"] = input.rfidServerSideChipVerification;
+    result[@"timeoutConnection"] = input.timeoutConnection;
     
     return result;
 }
@@ -342,6 +346,16 @@
 }
 
 +(NSDictionary*)generateEIDDataGroups:(RGLeIDDataGroup*)input {
+    return [RGLWConfig getDataGroups:input];
+}
+
++(RGLDTCDataGroup*)dtcDataGroupsFromJson:(NSDictionary*)input {
+    RGLDTCDataGroup *result = [RGLDTCDataGroup new];
+    [RGLWConfig setDataGroups :result dict:input];
+    return result;
+}
+
++(NSDictionary*)generateRGLDTCDataGroups:(RGLDTCDataGroup*)input {
     return [RGLWConfig getDataGroups:input];
 }
 
@@ -2232,7 +2246,7 @@
         [imageQuality addObject:[self imageQualityGroupFromJson:item]];
     }
     
-    return [[RGLDocumentReaderResults alloc]
+    RGLDocumentReaderResults* result = [[RGLDocumentReaderResults alloc]
             initWithDocumentTypes:documentType
             textResult:[self documentReaderTextResultFromJson: [input valueForKey:@"textResult"]]
             graphicResult:[self documentReaderGraphicResultFromJson: [input valueForKey:@"graphicResult"]]
@@ -2252,6 +2266,10 @@
             elapsedTime:[[input valueForKey:@"elapsedTime"] integerValue]
             elapsedTimeRFID:[[input valueForKey:@"elapsedTimeRFID"] integerValue]
             transactionInfo:[self transactionInfoFromJson:[input valueForKey:@"transactionInfo"]]];
+    
+    [result setValue:[RGLWJSONConstructor base64Decode:input[@"dtcData"]] forKey:@"dtcData"];
+    
+    return result;
 }
 
 +(NSDictionary*)generateDocumentReaderResults:(RGLDocumentReaderResults*)input {
@@ -2301,6 +2319,7 @@
     result[@"rawResult"] = input.rawResult;
     result[@"status"] = [self generateDocumentReaderResultsStatus:input.status];
     result[@"vdsncData"] = [self generateVDSNCData:input.vdsncData];
+    result[@"dtcData"] = [self base64Encode: input.dtcData];
     result[@"transactionInfo"] = [self generateTransactionInfo:input.transactionInfo];
     
     return result;
