@@ -8,20 +8,20 @@ environment:
   flutter: '>=3.10.0'
 
 dependencies:
-  path_provider: ^2.1.2
-  image_picker: ^1.0.7
+  path_provider: ^2.1.5
+  image_picker: ^1.1.2
   flutter:
     sdk: flutter
   flutter_document_reader_api:
     path: ../
-  flutter_document_reader_core_fullauthrfid: 7.6.903-nightly
-  flutter_document_reader_btdevice: 7.6.4-beta
-  cupertino_icons: ^1.0.6
+  flutter_document_reader_core_fullauthrfid: 7.6.11-beta
+  flutter_document_reader_btdevice: 7.6.8-beta
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lints: ^4.0.0
+  lints: ^5.0.0
 
 flutter:
   assets:
