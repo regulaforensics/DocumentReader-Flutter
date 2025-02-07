@@ -218,6 +218,14 @@ class Customization {
     _set({"cameraPreviewBackgroundColor": _intFromColor(val)});
   }
 
+  /// Allows you to set color for background mask area.
+  Color? get backgroundMaskColor => _backgroundMaskColor;
+  Color? _backgroundMaskColor;
+  set backgroundMaskColor(Color? val) {
+    _backgroundMaskColor = val;
+    _set({"backgroundMaskColor": _intFromColor(val)});
+  }
+
   /// Allows you to change the location of the status.
   ///
   /// For example, if you set the multiplier to 0.5 and the number of pixels
@@ -285,23 +293,6 @@ class Customization {
     _set({"customStatusPositionMultiplier": val});
   }
 
-  /// Allows you to change the location of the liveness animation.
-  ///
-  /// For example, if you set the multiplier to 0.5 and the number of pixels
-  /// by vertical is equal to 800, the animation will be centralized and located
-  /// at 200 px from the top, i.e. (800 / 2) * 0.5 = 200 px. If the multiplier
-  /// is set to 1, the animation will be centered. If the multiplier is
-  /// set to 0, the default value will be used.
-  ///
-  /// Defaults to 1.
-  double? get livenessAnimationPositionMultiplier =>
-      _livenessAnimationPositionMultiplier;
-  double? _livenessAnimationPositionMultiplier;
-  set livenessAnimationPositionMultiplier(double? val) {
-    _livenessAnimationPositionMultiplier = val;
-    _set({"livenessAnimationPositionMultiplier": val});
-  }
-
   /// Allows you to change the location of the camera frame vertically.
   double? get cameraFrameVerticalPositionMultiplier =>
       _cameraFrameVerticalPositionMultiplier;
@@ -339,6 +330,43 @@ class Customization {
   set cameraFrameCornerRadius(double? val) {
     _cameraFrameCornerRadius = val;
     _set({"cameraFrameCornerRadius": val});
+  }
+
+  /// Allows you to change the location of the liveness animation.
+  ///
+  /// For example, if you set the multiplier to 0.5 and the number of pixels
+  /// by vertical is equal to 800, the animation will be centralized and located
+  /// at 200 px from the top, i.e. (800 / 2) * 0.5 = 200 px. If the multiplier
+  /// is set to 1, the animation will be centered. If the multiplier is
+  /// set to 0, the default value will be used.
+  ///
+  /// Defaults to 1.
+  double? get livenessAnimationPositionMultiplier =>
+      _livenessAnimationPositionMultiplier;
+  double? _livenessAnimationPositionMultiplier;
+  set livenessAnimationPositionMultiplier(double? val) {
+    _livenessAnimationPositionMultiplier = val;
+    _set({"livenessAnimationPositionMultiplier": val});
+  }
+
+  /// Animation delay before flip.
+  ///
+  /// Default: 0.
+  double? get nextPageAnimationStartDelay => _nextPageAnimationStartDelay;
+  double? _nextPageAnimationStartDelay;
+  set nextPageAnimationStartDelay(double? val) {
+    _nextPageAnimationStartDelay = val;
+    _set({"nextPageAnimationStartDelay": val});
+  }
+
+  /// Animation delay after flip.
+  ///
+  /// Default: 0.
+  double? get nextPageAnimationEndDelay => _nextPageAnimationEndDelay;
+  double? _nextPageAnimationEndDelay;
+  set nextPageAnimationEndDelay(double? val) {
+    _nextPageAnimationEndDelay = val;
+    _set({"nextPageAnimationEndDelay": val});
   }
 
   /// Allows you to set any image for the multipage animation (front side).
@@ -481,10 +509,13 @@ class Customization {
   }
 
   /// JSON structure defining labels and graphic elements
-  /// to be added to the Camera UI
+  /// to be added to the Camera UI.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   Map<String, dynamic>? get uiCustomizationLayer => _uiCustomizationLayer;
   Map<String, dynamic>? _uiCustomizationLayer;
   set uiCustomizationLayer(Map<String, dynamic>? val) {
+    if (val != null) val = Map.unmodifiable(val);
     _uiCustomizationLayer = val;
     _set({"uiCustomizationLayer": val});
   }
@@ -565,10 +596,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [helpAnimationImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get helpAnimationImageTransformsAndroid =>
       _helpAnimationImageTransformsAndroid;
   List<double>? _helpAnimationImageTransformsAndroid;
   set helpAnimationImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _helpAnimationImageTransformsAndroid = val;
     _set({"helpAnimationImageMatrix": val});
   }
@@ -579,10 +613,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [multipageAnimationFrontImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get multipageAnimationFrontImageTransformsAndroid =>
       _multipageAnimationFrontImageTransformsAndroid;
   List<double>? _multipageAnimationFrontImageTransformsAndroid;
   set multipageAnimationFrontImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _multipageAnimationFrontImageTransformsAndroid = val;
     _set({"multipageAnimationFrontImageMatrix": val});
   }
@@ -593,10 +630,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [multipageAnimationBackImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get multipageAnimationBackImageTransformsAndroid =>
       _multipageAnimationBackImageTransformsAndroid;
   List<double>? _multipageAnimationBackImageTransformsAndroid;
   set multipageAnimationBackImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _multipageAnimationBackImageTransformsAndroid = val;
     _set({"multipageAnimationBackImageMatrix": val});
   }
@@ -607,10 +647,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [livenessAnimationImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get livenessAnimationImageTransformsAndroid =>
       _livenessAnimationImageTransformsAndroid;
   List<double>? _livenessAnimationImageTransformsAndroid;
   set livenessAnimationImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _livenessAnimationImageTransformsAndroid = val;
     _set({"livenessAnimationImageMatrix": val});
   }
@@ -621,10 +664,13 @@ class Customization {
   /// Passed as `Matrix.setValues()`
   ///
   /// Android only. For iOS use [borderBackgroundImageTransformsIOS].
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<double>? get borderBackgroundImageTransformsAndroid =>
       _borderBackgroundImageTransformsAndroid;
   List<double>? _borderBackgroundImageTransformsAndroid;
   set borderBackgroundImageTransformsAndroid(List<double>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _borderBackgroundImageTransformsAndroid = val;
     _set({"borderBackgroundImageMatrix": val});
   }
@@ -685,6 +731,7 @@ class Customization {
         _intToColor(jsonObject["statusBackgroundColor"]);
     result.cameraPreviewBackgroundColor =
         _intToColor(jsonObject["cameraPreviewBackgroundColor"]);
+    result.backgroundMaskColor = _intToColor(jsonObject["backgroundMaskColor"]);
 
     result.statusPositionMultiplier =
         _toDouble(jsonObject["statusPositionMultiplier"]);
@@ -704,6 +751,10 @@ class Customization {
         _toDouble(jsonObject["cameraFramePortraitAspectRatio"]);
     result.livenessAnimationPositionMultiplier =
         _toDouble(jsonObject["livenessAnimationPositionMultiplier"]);
+    result.nextPageAnimationStartDelay =
+        _toDouble(jsonObject["nextPageAnimationStartDelay"]);
+    result.nextPageAnimationEndDelay =
+        _toDouble(jsonObject["nextPageAnimationEndDelay"]);
 
     result.multipageAnimationFrontImage =
         _dataFromBase64(jsonObject["multipageAnimationFrontImage"]);
@@ -829,6 +880,7 @@ class Customization {
         "statusBackgroundColor": _intFromColor(statusBackgroundColor),
         "cameraPreviewBackgroundColor":
             _intFromColor(cameraPreviewBackgroundColor),
+        "backgroundMaskColor": _intFromColor(backgroundMaskColor),
         "statusPositionMultiplier": statusPositionMultiplier,
         "resultStatusPositionMultiplier": resultStatusPositionMultiplier,
         "toolbarSize": toolbarSize,
@@ -841,6 +893,8 @@ class Customization {
         "cameraFrameCornerRadius": cameraFrameCornerRadius,
         "livenessAnimationPositionMultiplier":
             livenessAnimationPositionMultiplier,
+        "nextPageAnimationStartDelay": nextPageAnimationStartDelay,
+        "nextPageAnimationEndDelay": nextPageAnimationEndDelay,
         "multipageAnimationFrontImage":
             _dataToBase64(multipageAnimationFrontImage),
         "multipageAnimationBackImage":

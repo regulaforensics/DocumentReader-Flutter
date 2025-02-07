@@ -78,6 +78,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun eIDDataGroups() = compare("eIDDataGroups", ::eIDDataGroupsFromJSON, ::generateEIDDataGroups)
 
     @Test
+    fun dtcDataGroups() = compare("dtcDataGroups", ::dtcDataGroupsFromJSON, ::generateDTCDataGroups)
+
+    @Test
     fun rfidScenario() = compare("rfidScenario", ::rfidScenarioFromJSON, ::generateRfidScenario)
 
     // params

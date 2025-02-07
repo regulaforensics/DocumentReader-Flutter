@@ -24,7 +24,8 @@ Map<String, List<String>?> nullableMap = {
     "defaultReadingBufferSize",
     "eDLDataGroups",
     "ePassportDataGroups",
-    "eIDDataGroups"
+    "eIDDataGroups",
+    "dtcDataGroups"
   ],
   "customization!": ["colors", "fonts", "images"],
   "functionality!": [],

@@ -156,7 +156,10 @@ enum Scenario {
   CREDIT_CARD("CreditCard"),
 
   /// Scenario for obtaining an original image without any processing.
-  CAPTURE("Capture");
+  CAPTURE("Capture"),
+
+  /// Scenario for Digital Travel Credentials (DTC) processing.
+  DTC("DTC");
 
   const Scenario(this.value);
   final String value;

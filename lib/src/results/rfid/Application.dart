@@ -29,8 +29,8 @@ class Application {
   late RFIDErrorCodes _status;
 
   /// Type of application of electronic document.
-  int get type => _type;
-  late int _type;
+  RFIDApplicationType get type => _type;
+  late RFIDApplicationType _type;
 
   /// Unicode version for application.
   String? get unicodeVersion => _unicodeVersion;
@@ -45,7 +45,7 @@ class Application {
     if (jsonObject == null) return null;
     var result = Application();
 
-    result._type = jsonObject["type"];
+    result._type = RFIDApplicationType.getByValue(jsonObject["type"])!;
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
     result._applicationID = jsonObject["applicationID"];
     result._dataHashAlgorithm = jsonObject["dataHashAlgorithm"];
@@ -64,8 +64,40 @@ class Application {
         "dataHashAlgorithm": dataHashAlgorithm,
         "files": files.map((e) => e.toJson()).toList(),
         "status": status.value,
-        "type": type,
+        "type": type.value,
         "unicodeVersion": unicodeVersion,
         "version": version,
       }.clearNulls();
+}
+
+/// Type of application of electronic document.
+enum RFIDApplicationType {
+  /// ePassport.
+  E_PASSPORT(1),
+
+  E_ID(2),
+
+  E_SIGN(3),
+
+  E_DL(4),
+
+  /// Travel Records.
+  LDS2_TRAVEL_RECORDS(5),
+
+  /// Visa Records.
+  LDS2_VISA_RECORDS(6),
+
+  /// Add Biometrics.
+  LDS2_ADD_BIOMETRICS(7),
+
+  /// eDTC PC.
+  E_DTC_PC(8);
+
+  const RFIDApplicationType(this.value);
+  final int value;
+
+  static RFIDApplicationType? getByValue(int? i) {
+    if (i == null) return null;
+    return RFIDApplicationType.values.firstWhere((x) => x.value == i);
+  }
 }

@@ -30,6 +30,7 @@
 
 +(RGLConfig* _Nullable)configFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateConfig:(RGLConfig* _Nullable)input;
++(RGLBleConfig* _Nullable)bleDeviceConfigFromJson:(NSDictionary* _Nullable)input :(RGLBluetooth* _Nonnull)bluetooth;
 +(RGLOnlineProcessingConfig* _Nullable)onlineProcessingConfigFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateOnlineProcessingConfig:(RGLOnlineProcessingConfig* _Nullable)input;
 +(RGLImageInput* _Nullable)imageInputFromJson:(NSDictionary* _Nullable)input;
@@ -62,6 +63,8 @@
 +(NSDictionary* _Nullable)generateEPassportDataGroups:(RGLePassportDataGroup* _Nullable)input;
 +(RGLeIDDataGroup* _Nullable)eIDDataGroupsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateEIDDataGroups:(RGLeIDDataGroup* _Nullable)input;
++(RGLeIDDataGroup* _Nullable)dtcDataGroupsFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateRGLDTCDataGroups:(RGLeIDDataGroup* _Nullable)input;
 +(RGLRFIDScenario* _Nullable)rfidScenarioFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateRFIDScenario:(RGLRFIDScenario* _Nullable)input;
 +(RGLCustomization* _Nullable)customizationFromJson:(NSDictionary* _Nullable)input;

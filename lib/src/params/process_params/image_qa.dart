@@ -72,9 +72,12 @@ class ImageQA {
 
   /// This option controls the quality checks that the image should pass
   /// in order to be considered a valid input during the scanning process.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<ImageQualityCheckType>? get expectedPass => _expectedPass;
   List<ImageQualityCheckType>? _expectedPass;
   set expectedPass(List<ImageQualityCheckType>? val) {
+    if (val != null) val = List.unmodifiable(val);
     _expectedPass = val;
     _set({"expectedPass": val?.map((e) => e.value).toList()});
   }
