@@ -1,5 +1,5 @@
 //
-//  RunnerTests.swift
+//  Tests.swift
 //  DocumentReader
 //
 //  Created by Pavel Masiuk on 21.09.2023.
@@ -10,7 +10,7 @@ import XCTest
 import DocumentReader
 import flutter_document_reader_api
 
-class RunnerTests: XCTestCase {
+class Tests: XCTestCase {
     // config
     
     func test_imageInputData() {
@@ -101,6 +101,10 @@ class RunnerTests: XCTestCase {
     
     func test_eIDDataGroups() {
         compare(name: "eIDDataGroups", fromJson: RGLWJSONConstructor.eIDDataGroups, generate: RGLWJSONConstructor.generateEIDDataGroups)
+    }
+    
+    func test_dtcDataGroups() {
+        compare(name: "dtcDataGroups", fromJson: RGLWJSONConstructor.dtcDataGroups, generate: RGLWJSONConstructor.generateRGLDTCDataGroups)
     }
     
     func test_rfidScenario() {
@@ -281,9 +285,9 @@ class RunnerTests: XCTestCase {
     
     func test_rect() {
         do{
-            var rect = try readJSONFile(forName: "rect")!
+            var rect = try readJSONFile(forName: "rect")
             XCTAssertEqual(rect as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.rect(fromJson: rect))! as NSDictionary?)
-            rect = try readJSONFile(forName: "rectNullable")!
+            rect = try readJSONFile(forName: "rectNullable")
             XCTAssertEqual(rect as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.rect(fromJson: rect))! as NSDictionary?)
         }catch{}
     }
@@ -336,9 +340,9 @@ class RunnerTests: XCTestCase {
     
     func test_coordinate() {
         do{
-            var coordinate = try readJSONFile(forName: "coordinate")!
+            var coordinate = try readJSONFile(forName: "coordinate")
             XCTAssertEqual(coordinate as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.point(fromJson: coordinate))! as NSDictionary?)
-            coordinate = try readJSONFile(forName: "coordinateNullable")!
+            coordinate = try readJSONFile(forName: "coordinateNullable")
             XCTAssertEqual(coordinate as NSDictionary?, RGLWJSONConstructor.generate(RGLWJSONConstructor.point(fromJson: coordinate))! as NSDictionary?)
         } catch {}
     }
@@ -376,60 +380,4 @@ class RunnerTests: XCTestCase {
     func test_TccParams() {
         compare(name: "tccParams", fromJson: RGLWJSONConstructor.tccParams, generate: RGLWJSONConstructor.generate)
     }
-    
-    func compareSingle<T>(name: String,
-                    fromJson: ([AnyHashable : Any]?) -> T?,
-                    generate: (T?) -> [AnyHashable: Any]?,
-                    omit: [String] = []
-    ) {
-        do {
-            var expected = try readJSONFile(forName: name)!
-            for s in omit {
-                expected = omitDeep(dict: expected, path: s.components(separatedBy: "."), index: 0)
-            }
-            var actual = generate(fromJson(expected))!
-            for s in omit {
-                actual = omitDeep(dict: actual as! [String: Any], path: s.components(separatedBy: "."), index: 0)
-            }
-            XCTAssertEqual(expected as NSDictionary?, actual as NSDictionary?)
-        } catch { }
-    }
-    
-    func compare<T>(name: String,
-                    fromJson: ([AnyHashable : Any]?) -> T?,
-                    generate: (T?) -> [AnyHashable: Any]?,
-                    omit: [String] = []
-    ) {
-        compareSingle(name: name, fromJson: fromJson, generate: generate, omit: omit)
-        compareSingle(name: name + "Nullable", fromJson: fromJson, generate: generate, omit: omit)
-    }
-    
-    func omitDeep(dict: [String: Any], path: [String], index: Int) -> [String: Any] {
-        var mutableDict = dict
-        if(dict[path[index]] == nil) {
-            // not found
-            return mutableDict
-        }
-        if (index < path.count - 1) {
-            mutableDict[path[index]] = omitDeep(dict: dict[path[index]] as! [String : Any], path: path, index: index + 1)
-        } else {
-            mutableDict.removeValue(forKey: path[index])
-        }
-        return mutableDict
-    }
-    
-    func readJSONFile(forName name: String) throws -> [String: Any]? {
-        do {
-            let path = Bundle(for: RunnerTests.self).path(forResource: "json/" + name, ofType: "json")
-            if(path == nil){
-                throw "file not found"
-            }
-            let data = try String(contentsOfFile: path!).data(using: .utf8)!
-            return try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? [String: Any]
-        } catch {
-            throw(error)
-        }
-    }
 }
-
-extension String: Error {}

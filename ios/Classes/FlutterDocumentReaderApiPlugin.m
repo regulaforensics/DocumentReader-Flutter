@@ -107,42 +107,6 @@ NSMutableDictionary<NSString*, FlutterEventSink>* RGLWEventSinks;
 }
 @end
 
-@implementation RGLWBleOnServiceConnectedStreamHandler
-- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWEventSinks[RGLWBleOnServiceConnectedEvent] = eventSink;
-    return nil;
-}
-
-- (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWEventSinks[RGLWBleOnServiceConnectedEvent] = nil;
-    return nil;
-}
-@end
-
-@implementation RGLWBleOnServiceDisconnectedStreamHandler
-- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWEventSinks[RGLWBleOnServiceDisconnectedEvent] = eventSink;
-    return nil;
-}
-
-- (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWEventSinks[RGLWBleOnServiceDisconnectedEvent] = nil;
-    return nil;
-}
-@end
-
-@implementation RGLWBleOnDeviceReadyStreamHandler
-- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    RGLWEventSinks[RGLWBleOnDeviceReadyEvent] = eventSink;
-    return nil;
-}
-
-- (FlutterError*)onCancelWithArguments:(id)arguments {
-    RGLWEventSinks[RGLWBleOnDeviceReadyEvent] = nil;
-    return nil;
-}
-@end
-
 @implementation RGLWVideoEncoderCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
     RGLWEventSinks[RGLWVideoEncoderCompletionEvent] = eventSink;
@@ -190,9 +154,6 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
     [self setupEventChannel:registrar :RGLWPaCertificateCompletionEvent :[RGLWPACertificateCompletionStreamHandler new]];
     [self setupEventChannel:registrar :RGLWTaCertificateCompletionEvent :[RGLWTACertificateCompletionStreamHandler new]];
     [self setupEventChannel:registrar :RGLWTaSignatureCompletionEvent :[RGLWTASignatureCompletionStreamHandler new]];
-    [self setupEventChannel:registrar :RGLWBleOnServiceConnectedEvent :[RGLWBleOnServiceConnectedStreamHandler new]];
-    [self setupEventChannel:registrar :RGLWBleOnServiceDisconnectedEvent :[RGLWBleOnServiceDisconnectedStreamHandler new]];
-    [self setupEventChannel:registrar :RGLWBleOnDeviceReadyEvent :[RGLWBleOnDeviceReadyStreamHandler new]];
     [self setupEventChannel:registrar :RGLWVideoEncoderCompletionEvent :[RGLWVideoEncoderCompletionStreamHandler new]];
     [self setupEventChannel:registrar :RGLWOnCustomButtonTappedEvent :[RGLWOnCustomButtonTappedStreamHandler new]];
     FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"flutter_document_reader_api/method" binaryMessenger:[registrar messenger]];
@@ -220,10 +181,6 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self getDocumentReaderIsReady :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocumentReaderStatus"])
         [self getDocumentReaderStatus :successCallback :errorCallback];
-    else if([action isEqualToString:@"isAuthenticatorAvailableForUse"])
-        [self isAuthenticatorAvailableForUse :successCallback :errorCallback];
-    else if([action isEqualToString:@"isBlePermissionsGranted"])
-        [self isBlePermissionsGranted :successCallback :errorCallback];
     else if([action isEqualToString:@"getRfidSessionStatus"])
         [self getRfidSessionStatus :successCallback :errorCallback];
     else if([action isEqualToString:@"setRfidSessionStatus"])
@@ -302,8 +259,8 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self clearPKDCertificates :successCallback :errorCallback];
     else if([action isEqualToString:@"startNewSession"])
         [self startNewSession :successCallback :errorCallback];
-    else if([action isEqualToString:@"startBluetoothService"])
-        [self startBluetoothService :successCallback :errorCallback];
+    else if([action isEqualToString:@"connectBluetoothDevice"])
+        [self connectBluetoothDevice :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"setLocalizationDictionary"])
         [self setLocalizationDictionary :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"getLicense"])
@@ -312,6 +269,10 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self getAvailableScenarios :successCallback :errorCallback];
     else if([action isEqualToString:@"getIsRFIDAvailableForUse"])
         [self getIsRFIDAvailableForUse :successCallback :errorCallback];
+    else if([action isEqualToString:@"isAuthenticatorRFIDAvailableForUse"])
+        [self isAuthenticatorRFIDAvailableForUse :successCallback :errorCallback];
+    else if([action isEqualToString:@"isAuthenticatorAvailableForUse"])
+        [self isAuthenticatorAvailableForUse :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocReaderVersion"])
         [self getDocReaderVersion :successCallback :errorCallback];
     else if([action isEqualToString:@"getDocReaderDocumentsDatabase"])
@@ -352,6 +313,8 @@ static RGLWEventSender sendEvent = ^(NSString* event, id _Nullable data) {
         [self encryptedContainers :[args objectAtIndex:0] :successCallback :errorCallback];
     else if([action isEqualToString:@"finalizePackage"])
         [self finalizePackage :successCallback :errorCallback];
+    else if([action isEqualToString:@"endBackendTransaction"])
+        [self endBackendTransaction :successCallback :errorCallback];
     else if([action isEqualToString:@"getTranslation"])
         [self getTranslation :[args objectAtIndex:0] :[args objectAtIndex:1] :successCallback :errorCallback];
     else
@@ -369,10 +332,6 @@ NSString* RGLWPaCertificateCompletionEvent = @"pa_certificate_completion";
 NSString* RGLWTaCertificateCompletionEvent = @"ta_certificate_completion";
 NSString* RGLWTaSignatureCompletionEvent = @"ta_signature_completion";
 
-NSString* RGLWBleOnServiceConnectedEvent = @"bleOnServiceConnectedEvent";
-NSString* RGLWBleOnServiceDisconnectedEvent = @"bleOnServiceDisconnectedEvent";
-NSString* RGLWBleOnDeviceReadyEvent = @"bleOnDeviceReadyEvent";
-
 NSString* RGLWVideoEncoderCompletionEvent = @"video_encoder_completion";
 NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 
@@ -382,14 +341,6 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 
 - (void) getDocumentReaderStatus:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
     successCallback(RGLDocReader.shared.documentReaderStatus);
-}
-
-- (void) isAuthenticatorAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    successCallback(RGLDocReader.shared.isAuthenticatorAvailableForUse ? @YES : @NO);
-}
-
-- (void) isBlePermissionsGranted:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    errorCallback(@"isBlePermissionsGranted() is an android-only method");
 }
 
 - (void) getRfidSessionStatus:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -471,7 +422,7 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 }
 
 - (void) initializeReaderWithBleDeviceConfig:(NSDictionary*)config :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
-    errorCallback(@"initializeReaderWithBleDeviceConfig() is an android-only method");
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor bleDeviceConfigFromJson:config :bluetooth] completion:[self getInitCompletion :successCallback :errorCallback]];
 }
 
 - (void) deinitializeReader:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -615,8 +566,55 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
     successCallback(@"");
 }
 
-- (void) startBluetoothService:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    errorCallback(@"startBluetoothService() is an android-only method");
+RGLBluetooth* bluetooth;
+CBCentralManager* centralManager;
+RGLWCallback savedCallbackForBluetoothResult;
+
+- (void) connectBluetoothDevice:(NSString*)deviceName :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
+    // register callback for user's answer to bluetooth permission
+    centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    
+    // return if already connected
+    if (bluetooth && bluetooth.state == RGLBluetoothConnectionStateConnected) return;
+    
+    // start searching devices
+    if (!bluetooth) {
+        bluetooth = [RGLBluetooth new];
+        bluetooth.delegate = self;
+    }
+    savedCallbackForBluetoothResult = successCallback;
+    [bluetooth connectWithDeviceName:deviceName];
+}
+
+// CBCentralManagerDelegate
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    if (central.state != CBManagerStatePoweredOn && savedCallbackForBluetoothResult)
+        [self bluetoothDeviceConnectionFailed];
+}
+
+// RGLBluetoothDelegate
+- (void)didChangeConnectionState:(RGLBluetooth *)bluetooth state:(RGLBluetoothConnectionState)state {
+    if (state == RGLBluetoothConnectionStateNone && savedCallbackForBluetoothResult)
+        [self bluetoothDeviceConnectionFailed];
+    
+    // set searching timeout
+    if (state == RGLBluetoothConnectionStateSearching)
+        [self performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
+    
+    if (state == RGLBluetoothConnectionStateConnected) {
+        savedCallbackForBluetoothResult(@YES);
+        savedCallbackForBluetoothResult = nil;
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
+    }
+}
+
+- (void) bluetoothDeviceConnectionFailed {
+    if (savedCallbackForBluetoothResult) {
+        savedCallbackForBluetoothResult(@NO);
+        savedCallbackForBluetoothResult = nil;
+    }
+    [bluetooth stopSearchDevices];
+    [bluetooth disconnect];
 }
 
 - (void) setLocalizationDictionary:(NSDictionary*)dictionary :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
@@ -645,6 +643,14 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 
 - (void) getDocReaderVersion:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
     successCallback([RGLWJSONConstructor generateDocReaderVersion:RGLDocReader.shared.version]);
+}
+
+- (void) isAuthenticatorRFIDAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    successCallback(RGLDocReader.shared.isAuthenticatorRFIDAvailableForUse ? @YES : @NO);
+}
+
+- (void) isAuthenticatorAvailableForUse:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    successCallback(RGLDocReader.shared.isAuthenticatorAvailableForUse ? @YES : @NO);
 }
 
 - (void) getDocReaderDocumentsDatabase:(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
@@ -758,6 +764,11 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
     [RGLDocReader.shared finalizePackageWithCompletion:^(RGLDocReaderAction action, RGLTransactionInfo* info, NSError* error){
         successCallback([RGLWJSONConstructor generateFinalizePackageCompletion:[RGLWConfig generateDocReaderAction: action] :info :error]);
     }];
+}
+
+- (void) endBackendTransaction:(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
+    [RGLDocReader.shared endBackendTransaction];
+    successCallback(@"");
 }
 
 - (void) getTranslation:(NSString*)className :(NSNumber*)value :(RGLWCallback)successCallback :(RGLWCallback)errorCallback{
