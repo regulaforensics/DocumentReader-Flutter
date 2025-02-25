@@ -26,7 +26,8 @@ class Tests: XCTestCase {
     
     func test_onlineProcessingConfig() {
         compare(name: "onlineProcessingConfig", fromJson: RGLWJSONConstructor.onlineProcessingConfig, generate: RGLWJSONConstructor.generate,
-                omit: ["processParams.sessionLogFolder",
+                omit: ["requestHeaders",
+                       "processParams.sessionLogFolder",
                        "processParams.uvTorchEnabled"])
     }
     
@@ -39,14 +40,16 @@ class Tests: XCTestCase {
     func test_recognizeConfig2() {
         compare(name: "recognizeConfig2", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
-                       "onlineProcessingConfig.processParams.uvTorchEnabled"])
+                       "onlineProcessingConfig.processParams.uvTorchEnabled",
+                       "onlineProcessingConfig.requestHeaders"])
     }
     
     func test_scannerConfig() {
         compare(name: "scannerConfig", fromJson: RGLWJSONConstructor.scannerConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["cameraId",
                        "onlineProcessingConfig.processParams.sessionLogFolder",
-                       "onlineProcessingConfig.processParams.uvTorchEnabled"])
+                       "onlineProcessingConfig.processParams.uvTorchEnabled",
+                       "onlineProcessingConfig.requestHeaders"])
     }
     
     // params.process_params

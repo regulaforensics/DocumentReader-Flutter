@@ -22,7 +22,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import com.regula.documentreader.api.ble.BLEWrapper
 import com.regula.documentreader.api.ble.BleWrapperCallback
@@ -67,9 +66,9 @@ fun connectBluetoothDevice(callback: Callback) {
     Timer().schedule(timer, SEARCHING_TIMEOUT)
 
     // start searching devices
-    val bleIntent = Intent(activity, RegulaBleService::class.java)
-    activity.startService(bleIntent)
-    activity.bindService(bleIntent, object : ServiceConnection {
+    val bleIntent = Intent(context, RegulaBleService::class.java)
+    context.startService(bleIntent)
+    context.bindService(bleIntent, object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             bluetooth = (service as RegulaBleService.LocalBinder).service.bleManager
             bluetooth.addCallback(object : BleWrapperCallback() {
@@ -88,7 +87,7 @@ fun connectBluetoothDevice(callback: Callback) {
 
 fun onRequestPermissionsResult(
     requestCode: Int,
-    permissions: Array<out String>,
+    permissions: Array<String>,
     grantResults: IntArray
 ): Boolean {
     if (requestCode != BLE_ACCESS_PERMISSION || permissions.isEmpty()) return false
@@ -117,7 +116,7 @@ fun onActivityResult(requestCode: Int, rc: Int, @Suppress("UNUSED_PARAMETER") da
 }
 
 fun isBluetoothSettingsReady(activity: Activity): Boolean {
-    deniedBluetoothPermissions(activity)?.let {
+    deniedBluetoothPermissions()?.let {
         requestPermissions(activity, it, BLE_ACCESS_PERMISSION)
         return false
     }
@@ -132,31 +131,28 @@ fun isBluetoothSettingsReady(activity: Activity): Boolean {
     return true
 }
 
-fun deniedBluetoothPermissions(activity: Activity): Array<String>? {
+fun deniedBluetoothPermissions(): Array<String>? {
     val result = mutableListOf<String>()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        result.addAll(deniedBluetoothPermission(activity, BLUETOOTH_SCAN))
-        result.addAll(deniedBluetoothPermission(activity, BLUETOOTH_CONNECT))
+        result.addAll(deniedBluetoothPermission(BLUETOOTH_SCAN))
+        result.addAll(deniedBluetoothPermission(BLUETOOTH_CONNECT))
     } else
-        result.addAll(deniedBluetoothPermission(activity, ACCESS_FINE_LOCATION))
+        result.addAll(deniedBluetoothPermission(ACCESS_FINE_LOCATION))
     return result.let { if (it.size > 0) it.toTypedArray() else null }
 }
 
-fun deniedBluetoothPermission(
-    activity: Activity,
-    permission: String
-): Array<String> {
-    if (checkSelfPermission(activity, permission) != PERMISSION_GRANTED)
+fun deniedBluetoothPermission(permission: String): Array<String> {
+    if (checkSelfPermission(context, permission) != PERMISSION_GRANTED)
         return arrayOf(permission)
     return arrayOf()
 }
 
 fun requestEnableBluetooth(activity: Activity) {
     val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-    activity.startActivityForResult(enableIntent, INTENT_REQUEST_ENABLE_BLUETOOTH)
+    startActivityForResult(activity, enableIntent, INTENT_REQUEST_ENABLE_BLUETOOTH)
 }
 
 fun requestEnableLocationService(activity: Activity) {
     val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-    activity.startActivityForResult(myIntent, INTENT_REQUEST_ENABLE_LOCATION)
+    startActivityForResult(activity, myIntent, INTENT_REQUEST_ENABLE_LOCATION)
 }

@@ -26,6 +26,7 @@ import com.regula.documentreader.api.enums.PDF417Info
 import com.regula.documentreader.api.enums.eGraphicFieldType
 import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRPRM_Lights
+import com.regula.documentreader.api.listener.NetworkInterceptorListener
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
@@ -105,6 +106,8 @@ import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Conv
 import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.generateByteArray
 import org.json.JSONArray
 import org.json.JSONObject
+
+val weakReferencesHolder = mutableListOf<Any>()
 
 fun generateCompletion(action: Int, results: DocumentReaderResults?, error: RegulaException?, context: Context?) = object : JSONObject() { init {
     put("action", action)
@@ -366,6 +369,11 @@ fun onlineProcessingConfigFromJSON(temp: JSONObject?): OnlineProcessingConfig? {
     if (input.has("url")) builder.setUrl(input.getString("url"))
     if (input.has("imageCompressionQuality")) builder.setImageCompressionQuality(input.getDouble("imageCompressionQuality").toFloat())
     if (input.has("processParams")) builder.setProcessParams(processParamFromJSON(input.getJSONObject("processParams")))
+    if (input.has("requestHeaders")) {
+        val listener = NetworkInterceptorListener { input.getJSONObject("requestHeaders").forEach { k, v -> it.setRequestProperty(k, v as String) } }
+        weakReferencesHolder.add(listener)
+        builder.setNetworkInterceptorListener(listener)
+    }
 
     return builder.build()
 }

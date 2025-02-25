@@ -6,6 +6,8 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
+@file:Suppress("EnumValuesSoftDeprecate")
+
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.content.Context

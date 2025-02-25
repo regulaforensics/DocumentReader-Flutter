@@ -11,6 +11,13 @@
 
 @implementation RGLWJSONConstructor
 
+static NSMutableArray* weakReferencesHolder;
++(void) holdWeakReference:(id)reference {
+    if(!weakReferencesHolder)
+        weakReferencesHolder = [NSMutableArray new];
+    [weakReferencesHolder addObject:reference];
+}
+
 +(NSString*)dictToString:(NSDictionary*)input {
     if(input == nil) return nil;
     return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
@@ -405,6 +412,11 @@
         RGLProcessParams *params = [RGLProcessParams new];
         [RGLWConfig setProcessParams:[input valueForKey:@"processParams"] :params];
         result.processParams = params;
+    }
+    if([input valueForKey:@"requestHeaders"] != nil) {
+        RGLWRequestInterceptorProxy* proxy = [[RGLWRequestInterceptorProxy alloc] initWithHeaders:[input valueForKey:@"requestHeaders"]];
+        [self holdWeakReference: proxy];
+        result.requestInterceptingDelegate = proxy;
     }
     
     return result;
@@ -2333,6 +2345,25 @@
         result[[key stringValue]] = input[key];
     
     return result;
+}
+
+@end
+
+@implementation RGLWRequestInterceptorProxy {
+    NSDictionary* _headers;
+}
+
+- (instancetype)initWithHeaders:(NSDictionary*)headers {
+    self = [super init];
+    _headers = [headers copy];
+    return self;
+}
+
+-(NSURLRequest*)interceptorPrepareRequest:(NSURLRequest*)request {
+    NSMutableURLRequest *interceptedRequest = [request mutableCopy];
+    for (NSString* key in _headers.allKeys)
+        [interceptedRequest addValue:[_headers valueForKey:key] forHTTPHeaderField:key];
+    return interceptedRequest;
 }
 
 @end

@@ -11,6 +11,7 @@ Map<String, List<String>?> nullableMap = {
   "recognizeConfig2": ["scenario", "image"],
   "scannerConfig": ["scenario", "livePortrait", "extPortrait", "cameraId"],
   "scannerConfig2": ["onlineProcessingConfig"],
+  "onlineProcessingConfig": ["requestHeaders"],
   "faceApiSearchParams": ["groupIds"],
   "faceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
   "livenessParams!": [],

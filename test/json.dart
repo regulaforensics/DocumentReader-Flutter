@@ -440,6 +440,7 @@ var onlineProcessingConfig = {
   "imageFormat": 1,
   "imageCompressionQuality": 1.5,
   "processParams": processParams,
+  "requestHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"}
 };
 var imageInputData = {
   "image": img1,

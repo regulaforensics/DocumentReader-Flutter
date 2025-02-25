@@ -184,4 +184,9 @@
 +(NSDictionary* _Nullable)generateTransactionInfo:(RGLTransactionInfo* _Nullable)input;
 
 @end
+
+@interface RGLWRequestInterceptorProxy : NSObject <RGLURLRequestInterceptingDelegate>
+- (instancetype _Nonnull)initWithHeaders:(NSDictionary*_Nonnull)headers;
+@end
+
 #endif

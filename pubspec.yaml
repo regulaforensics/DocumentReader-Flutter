@@ -4,7 +4,7 @@ description:
   It allows you to easily scan documents, for example passport, using your phone's camera. Supports Android and iOS.
 repository: https://github.com/regulaforensics/DocumentReader-Flutter
 issue_tracker: https://github.com/regulaforensics/DocumentReader-Flutter/issues
-version: 7.6.41-beta
+version: 7.6.73-beta
 
 environment:
   sdk: '>=3.1.5 <4.0.0'
