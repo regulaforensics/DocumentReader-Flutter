@@ -178,6 +178,7 @@ fun transactionInfoFromJSON(temp: JSONObject?): TransactionInfo? {
 
     if (input.has("transactionId")) result.transactionId = input.getString("transactionId")
     if (input.has("tag")) result.tag = input.getString("tag")
+    if (input.has("sessionLogFolder")) result.sessionLogFolder = input.getString("sessionLogFolder")
 
     return result
 }
@@ -189,6 +190,7 @@ fun generateTransactionInfo(temp: TransactionInfo?): JSONObject? {
 
     result.put("transactionId", input.transactionId)
     result.put("tag", input.tag)
+    result.put("sessionLogFolder", input.sessionLogFolder)
 
     return result
 }
@@ -532,13 +534,13 @@ fun eIDDataGroupsFromJSON(input: JSONObject): EIDDataGroups {
 
 fun generateEIDDataGroups(input: EIDDataGroups): JSONObject = getDataGroups(input)
 
-fun dtcDataGroupsFromJSON(input: JSONObject): DTCDataGroup {
+fun dtcDataGroupFromJSON(input: JSONObject): DTCDataGroup {
     val result = DTCDataGroup()
-    setDataGroups(result, input)
+    setDTCDataGroup(result, input)
     return result
 }
 
-fun generateDTCDataGroups(input: DTCDataGroup): JSONObject = getDataGroups(input)
+fun generateDTCDataGroup(input: DTCDataGroup): JSONObject = getDTCDataGroup(input)
 
 fun rfidScenarioFromJSON(input: JSONObject): RfidScenario {
     val result = RfidScenario()
@@ -1721,6 +1723,7 @@ fun generateDocumentReaderAuthenticityResult(temp: DocumentReaderAuthenticityRes
     temp ?: return null
     val input: DocumentReaderAuthenticityResult = temp
 
+    @Suppress("DEPRECATION")
     result.put("status", input.status)
     result.put("checks", generateList(input.checks, ::generateDocumentReaderAuthenticityCheck, context))
 
@@ -2189,7 +2192,7 @@ fun documentReaderResultsFromJSON(temp: JSONObject?): DocumentReaderResults? {
     result.status = documentReaderResultsStatusFromJSON(input.optJSONObject("status"))!!
     result.vdsncData = vdsncDataFromJSON(input.optJSONObject("vdsncData")!!)
     result.dtcData = input.getString("dtcData")
-    result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))
+    result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))!!
 
     return result
 }

@@ -36,7 +36,8 @@ class RFIDOrigin {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "dg": dg,
         "dgTag": dgTag,
         "entryView": entryView,

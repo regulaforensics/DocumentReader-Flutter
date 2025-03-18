@@ -19,7 +19,7 @@ android {
     }
 
     dependencies {
-        implementation('com.regula.documentreader:api:7.5.10412') {
+        implementation('com.regula.documentreader:api:7.6.10624') {
             transitive = true
         }
 
@@ -49,7 +49,7 @@ rootProject.allprojects {
         google()
         mavenCentral()
         maven {
-            url "https://maven.regulaforensics.com/RegulaDocumentReader"
+            url "https://maven.regulaforensics.com/RegulaDocumentReader/Beta"
         }
     }
 }

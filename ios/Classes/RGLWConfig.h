@@ -23,6 +23,7 @@
 +(void)setCustomization:(NSDictionary*)options :(RGLCustomization*)customization;
 +(void)setRfidScenario:(NSDictionary*)options :(RGLRFIDScenario*)rfidScenario;
 +(void)setDataGroups:(RGLDataGroup*)dataGroup dict:(NSDictionary*)dict;
++(void)setDTCDataGroup:(RGLDTCDataGroup*)dataGroup dict:(NSDictionary*)dict;
 +(void)setImageQA:(RGLImageQA*)result input:(NSDictionary*)input;
 +(void)setAuthenticityParams:(RGLAuthenticityParams*)result input:(NSDictionary*)input;
 +(void)setLivenessParams:(RGLLivenessParams*)result input:(NSDictionary*)input;
@@ -32,6 +33,7 @@
 +(NSDictionary*)getCustomization:(RGLCustomization*)customization;
 +(NSDictionary*)getRfidScenario:(RGLRFIDScenario*)rfidScenario;
 +(NSDictionary*)getDataGroups:(RGLDataGroup*)dataGroup;
++(NSDictionary*)getDTCDataGroup:(RGLDTCDataGroup*)dataGroup;
 +(NSDictionary*)getImageQA:(RGLImageQA*)input;
 +(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input;
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input;

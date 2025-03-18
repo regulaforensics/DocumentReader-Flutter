@@ -41,6 +41,7 @@
         functionality.manualMultipageMode = [[options valueForKey:@"manualMultipageMode"] boolValue];
     if([options valueForKey:@"singleResult"] != nil)
         functionality.singleResult = [[options valueForKey:@"singleResult"] boolValue];
+    if(options[@"torchTurnedOn"]) functionality.torchTurnedOn = [options[@"torchTurnedOn"] boolValue];
     
     // Int
     if([options valueForKey:@"showCaptureButtonDelayFromDetect"] != nil)
@@ -94,6 +95,7 @@
     result[@"recordScanningProcess"] = [NSNumber numberWithBool:functionality.recordScanningProcess];
     result[@"manualMultipageMode"] = [NSNumber numberWithBool:functionality.manualMultipageMode];
     result[@"singleResult"] = [NSNumber numberWithBool:functionality.singleResult];
+    result[@"torchTurnedOn"] = @(functionality.torchTurnedOn);
     
     // Int
     result[@"showCaptureButtonDelayFromDetect"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromDetect];
@@ -337,7 +339,6 @@
     result[@"dateFormat"] = processParams.dateFormat;
     result[@"scenario"] = processParams.scenario;
     result[@"captureButtonScenario"] = processParams.captureButtonScenario;
-    result[@"sessionLogFolder"] = processParams.sessionLogFolder;
     
     // Double
     result[@"timeout"] = processParams.timeout;
@@ -662,6 +663,7 @@
         rfidScenario.proceedReadingAlways = [[options valueForKey:@"proceedReadingAlways"] boolValue];
     if(options[@"readDTC"]) rfidScenario.readDTC = [options[@"readDTC"] boolValue];
     if(options[@"mrzStrictCheck"]) rfidScenario.mrzStrictCheck = options[@"mrzStrictCheck"];
+    if(options[@"loadCRLFromRemote"]) rfidScenario.loadCRLFromRemote = options[@"loadCRLFromRemote"];
     
     // Int
     if([options valueForKey:@"signManagementAction"] != nil)
@@ -705,7 +707,7 @@
         [self setDataGroups :rfidScenario.eIDDataGroups dict:[options valueForKey:@"eIDDataGroups"]];
     if([options valueForKey:@"eDLDataGroups"] != nil)
         [self setDataGroups :rfidScenario.eDLDataGroups dict:[options valueForKey:@"eDLDataGroups"]];
-    if(options[@"dtcDataGroups"]) [self setDataGroups :rfidScenario.DTCDataGroups dict:options[@"dtcDataGroups"]];
+    if(options[@"dtcDataGroups"]) [self setDTCDataGroup :rfidScenario.DTCDataGroups dict:options[@"dtcDataGroups"]];
 }
 
 +(NSDictionary*)getRfidScenario:(RGLRFIDScenario*)rfidScenario {
@@ -748,6 +750,7 @@
     result[@"proceedReadingAlways"] = [NSNumber numberWithBool:rfidScenario.proceedReadingAlways];
     result[@"readDTC"] = [NSNumber numberWithBool:rfidScenario.readDTC];
     result[@"mrzStrictCheck"] = rfidScenario.mrzStrictCheck;
+    result[@"loadCRLFromRemote"] = @(rfidScenario.loadCRLFromRemote);
     
     // Int
     result[@"signManagementAction"] = [NSNumber numberWithInteger:rfidScenario.signManagementAction];
@@ -773,7 +776,7 @@
     result[@"eDLDataGroups"] = [self getDataGroups:rfidScenario.eDLDataGroups];
     result[@"ePassportDataGroups"] = [self getDataGroups:rfidScenario.ePassportDataGroups];
     result[@"eIDDataGroups"] = [self getDataGroups:rfidScenario.eIDDataGroups];
-    result[@"dtcDataGroups"] = [self getDataGroups:rfidScenario.DTCDataGroups];
+    result[@"dtcDataGroups"] = [self getDTCDataGroup:rfidScenario.DTCDataGroups];
     
     return result;
 }
@@ -835,17 +838,6 @@
         if([dict valueForKey:@"DG21"] != nil)
             ((RGLeIDDataGroup*)dataGroup).dG21 = [[dict valueForKey:@"DG21"] boolValue];
     }
-    
-    // DTCDataGroups: 1-18 & 22-24
-    if ([dataGroup class] == [RGLDTCDataGroup class]) {
-        if(dict[@"DG15"]) ((RGLDTCDataGroup*)dataGroup).dG15 = [dict[@"DG15"] boolValue];
-        if(dict[@"DG16"]) ((RGLDTCDataGroup*)dataGroup).dG16 = [dict[@"DG16"] boolValue];
-        if(dict[@"DG17"]) ((RGLDTCDataGroup*)dataGroup).dG17 = [dict[@"DG17"] boolValue];
-        if(dict[@"DG18"]) ((RGLDTCDataGroup*)dataGroup).dG18 = [dict[@"DG18"] boolValue];
-        if(dict[@"DG22"]) ((RGLDTCDataGroup*)dataGroup).dG22 = [dict[@"DG22"] boolValue];
-        if(dict[@"DG23"]) ((RGLDTCDataGroup*)dataGroup).dG23 = [dict[@"DG23"] boolValue];
-        if(dict[@"DG24"]) ((RGLDTCDataGroup*)dataGroup).dG24 = [dict[@"DG24"] boolValue];
-    }
 }
 
 +(NSDictionary *)getDataGroups:(RGLDataGroup*)dataGroup {
@@ -884,16 +876,25 @@
         result[@"DG21"] = [NSNumber numberWithBool:((RGLeIDDataGroup*)dataGroup).dG21];
     }
     
-    // DTCDataGroups: 1-18 & 22-24
-    if ([dataGroup class] == [RGLDTCDataGroup class]) {
-        result[@"DG15"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG15];
-        result[@"DG16"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG16];
-        result[@"DG17"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG17];
-        result[@"DG18"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG18];
-        result[@"DG22"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG22];
-        result[@"DG23"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG23];
-        result[@"DG24"] = [NSNumber numberWithBool:((RGLDTCDataGroup*)dataGroup).dG24];
-    }
+    return result;
+}
+
++(void)setDTCDataGroup:(RGLDTCDataGroup*)dataGroup dict:(NSDictionary*)dict {
+    if(dict[@"DG17"]) dataGroup.dG17 = [dict[@"DG17"] boolValue];
+    if(dict[@"DG18"]) dataGroup.dG18 = [dict[@"DG18"] boolValue];
+    if(dict[@"DG22"]) dataGroup.dG22 = [dict[@"DG22"] boolValue];
+    if(dict[@"DG23"]) dataGroup.dG23 = [dict[@"DG23"] boolValue];
+    if(dict[@"DG24"]) dataGroup.dG24 = [dict[@"DG24"] boolValue];
+}
+
++(NSDictionary *)getDTCDataGroup:(RGLDTCDataGroup*)dataGroup {
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    
+    result[@"DG17"] = @(dataGroup.dG17);
+    result[@"DG18"] = @(dataGroup.dG18);
+    result[@"DG22"] = @(dataGroup.dG22);
+    result[@"DG23"] = @(dataGroup.dG23);
+    result[@"DG24"] = @(dataGroup.dG24);
     
     return result;
 }
@@ -978,6 +979,7 @@
         result.checkPhotoComparison = [input valueForKey:@"checkPhotoComparison"];
     if([input valueForKey:@"checkLetterScreen"] != nil)
         result.checkLetterScreen = [input valueForKey:@"checkLetterScreen"];
+    if(input[@"checkSecurityText"]) result.checkSecurityText = input[@"checkSecurityText"];
 }
 
 +(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input {
@@ -999,6 +1001,7 @@
     result[@"checkPhotoEmbedding"] = input.checkPhotoEmbedding;
     result[@"checkPhotoComparison"] = input.checkPhotoComparison;
     result[@"checkLetterScreen"] = input.checkLetterScreen;
+    result[@"checkSecurityText"] = input.checkSecurityText;
     
     return result;
 }
@@ -1012,6 +1015,8 @@
         result.checkHolo = [input valueForKey:@"checkHolo"];
     if([input valueForKey:@"checkED"] != nil)
         result.checkED = [input valueForKey:@"checkED"];
+    if(input[@"checkBlackAndWhiteCopy"]) result.checkBlackAndWhiteCopy = input[@"checkBlackAndWhiteCopy"];
+    if(input[@"checkDynaprint"]) result.checkDynaprint = input[@"checkDynaprint"];
 }
 
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {
@@ -1022,6 +1027,8 @@
     result[@"checkMLI"] = input.checkMLI;
     result[@"checkHolo"] = input.checkHolo;
     result[@"checkED"] = input.checkED;
+    result[@"checkBlackAndWhiteCopy"] = input.checkBlackAndWhiteCopy;
+    result[@"checkDynaprint"] = input.checkDynaprint;
     
     return result;
 }

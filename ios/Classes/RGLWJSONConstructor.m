@@ -111,8 +111,9 @@ static NSMutableArray* weakReferencesHolder;
     
     NSString* transactionId = [input valueForKey:@"transactionId"];
     NSString* tag = [input valueForKey:@"tag"];
+    NSString* sessionLogFolder = input[@"sessionLogFolder"];
     
-    return [[RGLTransactionInfo alloc] initWithTag:tag transactionId:transactionId];
+    return [[RGLTransactionInfo alloc] initWithTag:tag transactionId:transactionId sessionLogFolder:sessionLogFolder];
 }
 
 +(NSDictionary*)generateTransactionInfo:(RGLTransactionInfo*)input {
@@ -121,6 +122,7 @@ static NSMutableArray* weakReferencesHolder;
     
     result[@"transactionId"] = input.transactionId;
     result[@"tag"] = input.tag;
+    result[@"sessionLogFolder"] = input.sessionLogFolder;
     
     return result;
 }
@@ -356,14 +358,14 @@ static NSMutableArray* weakReferencesHolder;
     return [RGLWConfig getDataGroups:input];
 }
 
-+(RGLDTCDataGroup*)dtcDataGroupsFromJson:(NSDictionary*)input {
++(RGLDTCDataGroup*)dtcDataGroupFromJson:(NSDictionary*)input {
     RGLDTCDataGroup *result = [RGLDTCDataGroup new];
-    [RGLWConfig setDataGroups :result dict:input];
+    [RGLWConfig setDTCDataGroup:result dict:input];
     return result;
 }
 
-+(NSDictionary*)generateRGLDTCDataGroups:(RGLDTCDataGroup*)input {
-    return [RGLWConfig getDataGroups:input];
++(NSDictionary*)generateRGLDTCDataGroup:(RGLDTCDataGroup*)input {
+    return [RGLWConfig getDTCDataGroup:input];
 }
 
 +(RGLRFIDScenario*)rfidScenarioFromJson:(NSDictionary*)input {
@@ -1696,10 +1698,12 @@ static NSMutableArray* weakReferencesHolder;
     NSMutableArray<RGLAuthenticityElement*> *array = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"elements"])
         [array addObject:[self authenticityElementFromJson:item]];
-    return [[RGLAuthenticityCheck alloc]
-            initWithAuthenticity:[[input valueForKey:@"type"] integerValue]
-            elements:array
-            pageIndex:[[input valueForKey:@"pageIndex"] integerValue]];
+    RGLAuthenticityCheck* result = [[RGLAuthenticityCheck alloc]
+                                    initWithAuthenticity:[[input valueForKey:@"type"] integerValue]
+                                    elements:array
+                                    pageIndex:[[input valueForKey:@"pageIndex"] integerValue]];
+    if (input[@"status"]) [result setValue:input[@"status"] forKey:@"status"];
+    return result;;
 }
 
 +(NSDictionary*)generateAuthenticityCheck:(RGLAuthenticityCheck*)input {
@@ -1802,8 +1806,10 @@ static NSMutableArray* weakReferencesHolder;
     NSMutableArray<RGLAuthenticityCheck*> *array = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"checks"])
         [array addObject:[self authenticityCheckFromJson:item]];
-    return [[RGLDocumentReaderAuthenticityResult alloc]
-            initWithAuthenticityChecks:array];
+    RGLDocumentReaderAuthenticityResult* result = [[RGLDocumentReaderAuthenticityResult alloc]
+     initWithAuthenticityChecks:array];
+    if (input[@"status"]) [result setValue:input[@"status"] forKey:@"_security"];
+    return result;
 }
 
 +(NSDictionary*)generateDocumentReaderAuthenticityResult:(RGLDocumentReaderAuthenticityResult*)input {

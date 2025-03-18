@@ -142,8 +142,10 @@ enum LDSParsingErrorCodes {
   final int value;
 
   Future<String> getTranslation() async {
-    return await _bridge
-        .invokeMethod("getTranslation", [runtimeType.toString(), value]);
+    return await _bridge.invokeMethod("getTranslation", [
+      runtimeType.toString(),
+      value,
+    ]);
   }
 
   static LDSParsingErrorCodes? getByValue(int? i) {

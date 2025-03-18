@@ -23,9 +23,9 @@ import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
 import androidx.core.content.ContextCompat.checkSelfPermission
-import com.regula.documentreader.api.ble.BLEWrapper
-import com.regula.documentreader.api.ble.BleWrapperCallback
-import com.regula.documentreader.api.ble.RegulaBleService
+import com.regula.common.ble.BLEWrapper
+import com.regula.common.ble.BleWrapperCallback
+import com.regula.common.ble.RegulaBleService
 import com.regula.documentreader.api.internal.permission.BluetoothPermissionHelper.BLE_ACCESS_PERMISSION
 import com.regula.documentreader.api.internal.permission.BluetoothSettingsHelper.isBluetoothEnabled
 import com.regula.documentreader.api.internal.permission.BluetoothSettingsHelper.isLocationServiceEnabled

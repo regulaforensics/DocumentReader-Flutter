@@ -43,7 +43,8 @@ class OnlineProcessingConfig {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "mode": mode.value,
         "url": url,
         "imageFormat": imageFormat.value,

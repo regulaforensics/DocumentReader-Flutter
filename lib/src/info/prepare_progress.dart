@@ -19,13 +19,10 @@ class PrepareProgress {
   int get progress => _progress;
   int _progress;
 
-  PrepareProgress(
-    int downloadedBytes,
-    int totalBytes,
-    int progress,
-  )   : _downloadedBytes = downloadedBytes,
-        _totalBytes = totalBytes,
-        _progress = progress;
+  PrepareProgress(int downloadedBytes, int totalBytes, int progress)
+    : _downloadedBytes = downloadedBytes,
+      _totalBytes = totalBytes,
+      _progress = progress;
 
   @visibleForTesting
   static PrepareProgress? fromJson(jsonObject) {
@@ -38,7 +35,8 @@ class PrepareProgress {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "downloadedBytes": downloadedBytes,
         "totalBytes": totalBytes,
         "progress": progress,
@@ -46,6 +44,5 @@ class PrepareProgress {
 }
 
 /// Callback for receiving notifications on Documents Database preparation.
-typedef DocumentReaderPrepareCompletion = void Function(
-  PrepareProgress progress,
-);
+typedef DocumentReaderPrepareCompletion =
+    void Function(PrepareProgress progress);

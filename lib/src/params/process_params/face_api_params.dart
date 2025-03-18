@@ -43,40 +43,42 @@ class FaceApiParams {
   int? get proxyType => _proxyType;
   int? _proxyType;
 
-  FaceApiParams(
-      {String url = "https://faceapi.regulaforensics.com",
-      String mode = "match",
-      int threshold = 75,
-      FaceApiSearchParams? searchParams,
-      int serviceTimeout = 3000,
-      String? proxy,
-      String? proxyPassword,
-      int? proxyType})
-      : _url = url,
-        _mode = mode,
-        _threshold = threshold,
-        _searchParams = searchParams,
-        _serviceTimeout = serviceTimeout,
-        _proxy = proxy,
-        _proxyPassword = proxyPassword,
-        _proxyType = proxyType;
+  FaceApiParams({
+    String url = "https://faceapi.regulaforensics.com",
+    String mode = "match",
+    int threshold = 75,
+    FaceApiSearchParams? searchParams,
+    int serviceTimeout = 3000,
+    String? proxy,
+    String? proxyPassword,
+    int? proxyType,
+  }) : _url = url,
+       _mode = mode,
+       _threshold = threshold,
+       _searchParams = searchParams,
+       _serviceTimeout = serviceTimeout,
+       _proxy = proxy,
+       _proxyPassword = proxyPassword,
+       _proxyType = proxyType;
 
   /// Allows you to deserialize object.
   static FaceApiParams? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     return FaceApiParams(
-        url: jsonObject["url"],
-        mode: jsonObject["mode"],
-        searchParams: FaceApiSearchParams.fromJson(jsonObject["searchParams"]),
-        threshold: jsonObject["threshold"],
-        serviceTimeout: jsonObject["serviceTimeout"],
-        proxy: jsonObject["proxy"],
-        proxyPassword: jsonObject["proxyPassword"],
-        proxyType: jsonObject["proxyType"]);
+      url: jsonObject["url"],
+      mode: jsonObject["mode"],
+      searchParams: FaceApiSearchParams.fromJson(jsonObject["searchParams"]),
+      threshold: jsonObject["threshold"],
+      serviceTimeout: jsonObject["serviceTimeout"],
+      proxy: jsonObject["proxy"],
+      proxyPassword: jsonObject["proxyPassword"],
+      proxyType: jsonObject["proxyType"],
+    );
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "url": url,
         "mode": mode,
         "threshold": threshold,

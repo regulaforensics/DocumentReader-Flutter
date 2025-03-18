@@ -113,10 +113,12 @@ class ImageQA {
     result.glaresCheck = jsonObject["glaresCheck"];
     result.colornessCheck = jsonObject["colornessCheck"];
     result.screenCapture = jsonObject["screenCapture"];
-    result.expectedPass =
-        ImageQualityCheckType.fromIntList(jsonObject["expectedPass"]);
-    result.glaresCheckParams =
-        GlaresCheckParams.fromJson(jsonObject["glaresCheckParams"]);
+    result.expectedPass = ImageQualityCheckType.fromIntList(
+      jsonObject["expectedPass"],
+    );
+    result.glaresCheckParams = GlaresCheckParams.fromJson(
+      jsonObject["glaresCheckParams"],
+    );
     result.documentPositionIndent = jsonObject["documentPositionIndent"];
     result.brightnessThreshold = _toDouble(jsonObject["brightnessThreshold"]);
 
@@ -124,7 +126,8 @@ class ImageQA {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "dpiThreshold": dpiThreshold,
         "angleThreshold": angleThreshold,
         "documentPositionIndent": documentPositionIndent,

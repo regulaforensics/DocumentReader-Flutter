@@ -106,8 +106,8 @@ class Tests: XCTestCase {
         compare(name: "eIDDataGroups", fromJson: RGLWJSONConstructor.eIDDataGroups, generate: RGLWJSONConstructor.generateEIDDataGroups)
     }
     
-    func test_dtcDataGroups() {
-        compare(name: "dtcDataGroups", fromJson: RGLWJSONConstructor.dtcDataGroups, generate: RGLWJSONConstructor.generateRGLDTCDataGroups)
+    func test_dtcDataGroup() {
+        compare(name: "dtcDataGroup", fromJson: RGLWJSONConstructor.dtcDataGroup, generate: RGLWJSONConstructor.generateRGLDTCDataGroup)
     }
     
     func test_rfidScenario() {
