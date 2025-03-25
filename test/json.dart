@@ -66,6 +66,7 @@ var imageQA = {
   "expectedPass": [1, 2, 3],
   "glaresCheckParams": glaresCheckParams,
   "brightnessThreshold": 0.5,
+  "occlusionCheck": true,
 };
 var rfidParams = {
   "paIgnoreNotificationCodes": [1, 2, 3],

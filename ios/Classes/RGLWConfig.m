@@ -663,7 +663,7 @@
         rfidScenario.proceedReadingAlways = [[options valueForKey:@"proceedReadingAlways"] boolValue];
     if(options[@"readDTC"]) rfidScenario.readDTC = [options[@"readDTC"] boolValue];
     if(options[@"mrzStrictCheck"]) rfidScenario.mrzStrictCheck = options[@"mrzStrictCheck"];
-    if(options[@"loadCRLFromRemote"]) rfidScenario.loadCRLFromRemote = options[@"loadCRLFromRemote"];
+    if(options[@"loadCRLFromRemote"]) rfidScenario.loadCRLFromRemote = [options[@"loadCRLFromRemote"] boolValue];
     
     // Int
     if([options valueForKey:@"signManagementAction"] != nil)
@@ -923,6 +923,7 @@
         result.glaresCheckParams = [RGLWJSONConstructor glaresCheckParamsFromJson:[input valueForKey:@"glaresCheckParams"]];
     if([input valueForKey:@"brightnessThreshold"] != nil)
         result.brightnessThreshold = [input valueForKey:@"brightnessThreshold"];
+    if(input[@"occlusionCheck"]) result.occlusionCheck = input[@"occlusionCheck"];
 }
 
 +(NSDictionary*)getImageQA:(RGLImageQA*)input {
@@ -942,6 +943,7 @@
     result[@"documentPositionIndent"] = input.documentPositionIndent;
     result[@"glaresCheckParams"] = [RGLWJSONConstructor generateGlaresCheckParams:input.glaresCheckParams];
     result[@"brightnessThreshold"] = input.brightnessThreshold;
+    result[@"occlusionCheck"] = input.occlusionCheck;
     
     return result;
 }

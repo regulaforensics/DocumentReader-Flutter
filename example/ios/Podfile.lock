@@ -1,11 +1,11 @@
 PODS:
   - BTDevice (6.8.318)
-  - DocumentReader (7.5.4221):
-    - RegulaCommon (= 7.5.935)
+  - DocumentReaderBeta (7.6.4419):
+    - RegulaCommonBeta (= 7.6.1056)
   - DocumentReaderFullAuthRFID (7.5.11020)
   - Flutter (1.0.0)
-  - flutter_document_reader_api (7.5.1093):
-    - DocumentReader (= 7.5.4221)
+  - flutter_document_reader_api (7.6.98):
+    - DocumentReaderBeta (= 7.6.4419)
     - Flutter
   - flutter_document_reader_btdevice (7.5.41):
     - BTDevice (= 6.8.318)
@@ -18,7 +18,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - RegulaCommon (7.5.935)
+  - RegulaCommonBeta (7.6.1056)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -29,11 +29,11 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - BTDevice
-    - DocumentReader
+    - DocumentReaderBeta
     - DocumentReaderFullAuthRFID
-    - RegulaCommon
+    - RegulaCommonBeta
 
 EXTERNAL SOURCES:
   Flutter:
@@ -51,16 +51,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BTDevice: c27e5547dc55e28cb45c761ba07971a390118092
-  DocumentReader: 972979da2ff7c8122c7a1c926127e84877c5b24d
+  DocumentReaderBeta: f69fec81e53ca0ce52e8298f44299059f3c2391c
   DocumentReaderFullAuthRFID: 638b2a1716d9f9c349d4be47e1ef2126241e25af
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_document_reader_api: 206078b51d2546ef90f4c815283bd92eaa1b63bf
+  flutter_document_reader_api: 9ccda59f43c837bdd71423f765d2e4e091f81348
   flutter_document_reader_btdevice: a41da909b33c908eba5e9af9bda240c8bd57fb34
   flutter_document_reader_core_fullauthrfid: 48e8196ef3ddaf7158c6068d16bb3b4a39194d2b
   image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  RegulaCommon: 2a6406d2d3ebbd720b66a9cfa5b9631701d343eb
+  RegulaCommonBeta: 8f212fc65e045ced82f28be371da9b0598d16690
 
-PODFILE CHECKSUM: ade96bceabe3919b69c16573938e4268fe3a6c9d
+PODFILE CHECKSUM: 54d85b47c8d60ae7253b9a38905f64c617325429
 
 COCOAPODS: 1.16.2

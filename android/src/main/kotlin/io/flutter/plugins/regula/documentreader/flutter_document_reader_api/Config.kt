@@ -622,6 +622,7 @@ fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
         "brightnessThreshold" -> input.brightnessThreshold = v.toDouble()
         "expectedPass" -> input.expectedPass = v.toIntArray()
         "glaresCheckParams" -> input.glaresCheckParams = glaresCheckParamsFromJSON(v as JSONObject)
+        "occlusionCheck" -> input.occlusionCheck = v as Boolean
     }
 }
 
@@ -636,6 +637,7 @@ fun getImageQA(input: ImageQA) = mapOf(
     "brightnessThreshold" to input.brightnessThreshold,
     "expectedPass" to input.expectedPass.generate(),
     "glaresCheckParams" to generateGlaresCheckParams(input.glaresCheckParams),
+    "occlusionCheck" to input.occlusionCheck,
 ).toJsonObject()
 
 fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.forEach { k, v ->
