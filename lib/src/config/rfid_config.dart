@@ -56,8 +56,8 @@ class RFIDConfig {
   ///
   /// [completion] - block to execute after the chip reading process finishes.
   RFIDConfig.withoutUI(RFIDCompletion completion)
-      : _rfidCompletion = completion,
-        _disableUI = true;
+    : _rfidCompletion = completion,
+      _disableUI = true;
 }
 
 /// Callback for receiving answer from processing engine.
@@ -67,11 +67,12 @@ class RFIDConfig {
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef RFIDCompletion = void Function(
-  DocReaderAction action,
-  Results? results,
-  RFIDException? error,
-);
+typedef RFIDCompletion =
+    void Function(
+      DocReaderAction action,
+      Results? results,
+      RFIDException? error,
+    );
 
 /// Completion for reveiving notification about RFID reading process.
 typedef RFIDProgressCompletion = void Function(RFIDNotification notification);
@@ -94,32 +95,26 @@ typedef ChipDetectedCompletion = void Function();
 typedef RetryReadChipCompletion = void Function(RFIDException error);
 
 /// Callback for receiving RFID request data
-typedef PaCertificateCompletion = void Function(
-  Uint8List serialNumber,
-  PAResourcesIssuer? issuer,
-  PKDCertificateRequest request,
-);
+typedef PaCertificateCompletion =
+    void Function(
+      Uint8List serialNumber,
+      PAResourcesIssuer? issuer,
+      PKDCertificateRequest request,
+    );
 
 /// Callback for receiving RFID request data
-typedef TaCertificateCompletion = void Function(
-  String? keyCAR,
-  PKDCertificateRequest request,
-);
+typedef TaCertificateCompletion =
+    void Function(String? keyCAR, PKDCertificateRequest request);
 
 /// Provided to a user for passing PKDCertificates
 /// to the native part of DocumentReader.
-typedef PKDCertificateRequest = Future<void> Function(
-  List<PKDCertificate>? certificates,
-);
+typedef PKDCertificateRequest =
+    Future<void> Function(List<PKDCertificate>? certificates);
 
 /// Callback for receiving RFID request data
-typedef TaSignatureCompletion = void Function(
-  TAChallenge? challenge,
-  TASignatureRequest request,
-);
+typedef TaSignatureCompletion =
+    void Function(TAChallenge? challenge, TASignatureRequest request);
 
 /// Provided to a user for passing TASignature
 /// to the native part of DocumentReader.
-typedef TASignatureRequest = Future<void> Function(
-  ByteData? signature,
-);
+typedef TASignatureRequest = Future<void> Function(ByteData? signature);

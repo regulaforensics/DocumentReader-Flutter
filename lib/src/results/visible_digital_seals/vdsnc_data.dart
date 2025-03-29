@@ -72,7 +72,8 @@ class VDSNCData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "type": type,
         "version": version,
         "issuingCountry": issuingCountry,

@@ -63,8 +63,8 @@
 +(NSDictionary* _Nullable)generateEPassportDataGroups:(RGLePassportDataGroup* _Nullable)input;
 +(RGLeIDDataGroup* _Nullable)eIDDataGroupsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateEIDDataGroups:(RGLeIDDataGroup* _Nullable)input;
-+(RGLeIDDataGroup* _Nullable)dtcDataGroupsFromJson:(NSDictionary* _Nullable)input;
-+(NSDictionary* _Nullable)generateRGLDTCDataGroups:(RGLeIDDataGroup* _Nullable)input;
++(RGLeIDDataGroup* _Nullable)dtcDataGroupFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateRGLDTCDataGroup:(RGLeIDDataGroup* _Nullable)input;
 +(RGLRFIDScenario* _Nullable)rfidScenarioFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateRFIDScenario:(RGLRFIDScenario* _Nullable)input;
 +(RGLCustomization* _Nullable)customizationFromJson:(NSDictionary* _Nullable)input;
@@ -184,4 +184,9 @@
 +(NSDictionary* _Nullable)generateTransactionInfo:(RGLTransactionInfo* _Nullable)input;
 
 @end
+
+@interface RGLWRequestInterceptorProxy : NSObject <RGLURLRequestInterceptingDelegate>
+- (instancetype _Nonnull)initWithHeaders:(NSDictionary*_Nonnull)headers;
+@end
+
 #endif

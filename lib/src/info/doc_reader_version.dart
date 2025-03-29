@@ -40,10 +40,11 @@ class DocReaderVersion {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "api": api,
         "core": core,
         "coreMode": coreMode,
-        "database": database?.toJson()
+        "database": database?.toJson(),
       }.clearNulls();
 }

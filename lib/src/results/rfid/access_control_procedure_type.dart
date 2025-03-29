@@ -43,7 +43,8 @@ class AccessControlProcedureType {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "activeOptionIdx": activeOptionIdx,
         "notifications": notifications,
         "status": status.value,

@@ -6,11 +6,12 @@ Map<String, List<String>?> nullableMap = {
     "extPortrait",
     "data",
     "images",
-    "imageInputData"
+    "imageInputData",
   ],
   "recognizeConfig2": ["scenario", "image"],
   "scannerConfig": ["scenario", "livePortrait", "extPortrait", "cameraId"],
   "scannerConfig2": ["onlineProcessingConfig"],
+  "onlineProcessingConfig": ["requestHeaders"],
   "faceApiSearchParams": ["groupIds"],
   "faceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
   "livenessParams!": [],
@@ -25,7 +26,7 @@ Map<String, List<String>?> nullableMap = {
     "eDLDataGroups",
     "ePassportDataGroups",
     "eIDDataGroups",
-    "dtcDataGroups"
+    "dtcDataGroups",
   ],
   "customization!": ["colors", "fonts", "images"],
   "functionality!": [],
@@ -43,7 +44,7 @@ Map<String, List<String>?> nullableMap = {
     "fDSID",
     "dDescription",
     "dYear",
-    "dCountryName"
+    "dCountryName",
   ],
   "transactionInfo!": [],
   "results": ["authenticityResult"],

@@ -20,8 +20,8 @@ class GlaresCheckParams {
   double? _maxGlaringPart;
 
   GlaresCheckParams({double? imgMarginPart, double? maxGlaringPart})
-      : _imgMarginPart = imgMarginPart,
-        _maxGlaringPart = maxGlaringPart;
+    : _imgMarginPart = imgMarginPart,
+      _maxGlaringPart = maxGlaringPart;
 
   /// Allows you to deserialize object.
   static GlaresCheckParams? fromJson(jsonObject) {
@@ -33,7 +33,8 @@ class GlaresCheckParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "imgMarginPart": imgMarginPart,
         "maxGlaringPart": maxGlaringPart,
       }.clearNulls();

@@ -26,13 +26,10 @@ class Font {
   FontStyle? get style => _style;
   FontStyle? _style;
 
-  Font(
-    String name, {
-    int? size,
-    FontStyle? style,
-  })  : _name = name,
-        _size = size,
-        _style = style;
+  Font(String name, {int? size, FontStyle? style})
+    : _name = name,
+      _size = size,
+      _style = style;
 
   /// Allows you to deserialize object.
   static Font? fromJson(jsonObject) {
@@ -46,11 +43,8 @@ class Font {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "size": size,
-        "style": style?.value,
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"name": name, "size": size, "style": style?.value}.clearNulls();
 }
 
 enum FontStyle {

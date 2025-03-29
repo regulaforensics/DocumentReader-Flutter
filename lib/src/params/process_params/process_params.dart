@@ -326,6 +326,15 @@ class ProcessParams {
     _set({"generateDTCVC": val});
   }
 
+  /// Set to force DL categories expiry date status to either valid or not. By default,
+  /// if the DL category expiry date is correct, its status will be wasNotDone, otherwise error.
+  bool? get strictDLCategoryExpiry => _strictDLCategoryExpiry;
+  bool? _strictDLCategoryExpiry;
+  set strictDLCategoryExpiry(bool? val) {
+    _strictDLCategoryExpiry = val;
+    _set({"strictDLCategoryExpiry": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -339,6 +348,7 @@ class ProcessParams {
 
   /// Allows you to set the maximum value of the deviation of the corners
   /// of the document from the value of `90` degrees.
+  @Deprecated("since 7.6")
   int? get perspectiveAngle => _perspectiveAngle;
   int? _perspectiveAngle;
   set perspectiveAngle(int? val) {
@@ -491,15 +501,6 @@ class ProcessParams {
   set captureButtonScenario(Scenario? val) {
     _captureButtonScenario = val;
     _set({"captureButtonScenario": val?.value});
-  }
-
-  /// The path to the folder of the current session. Before using this, save logs.
-  /// Each new session provides a different path.
-  String? get sessionLogFolder => _sessionLogFolder;
-  String? _sessionLogFolder;
-  set sessionLogFolder(String? val) {
-    _sessionLogFolder = val;
-    _set({"sessionLogFolder": val});
   }
 
   /// Allows you to set the time limit for document recognition (in seconds),
@@ -743,9 +744,11 @@ class ProcessParams {
         jsonObject["strictBarcodeDigitalSignatureCheck"];
     result.selectLongestNames = jsonObject["selectLongestNames"];
     result.generateDTCVC = jsonObject["generateDTCVC"];
+    result.strictDLCategoryExpiry = jsonObject["strictDLCategoryExpiry"];
 
-    result.measureSystem =
-        MeasureSystem.getByValue(jsonObject["measureSystem"]);
+    result.measureSystem = MeasureSystem.getByValue(
+      jsonObject["measureSystem"],
+    );
     result.barcodeParserType = jsonObject["barcodeParserType"];
     result.perspectiveAngle = jsonObject["perspectiveAngle"];
     result.minDPI = jsonObject["minDPI"];
@@ -759,44 +762,53 @@ class ProcessParams {
     result.processAuth = jsonObject["processAuth"];
     result.convertCase = jsonObject["convertCase"];
     result.logLevel = LogLevel.getByValue(jsonObject["logLevel"]);
-    result.mrzDetectMode =
-        MrzDetectionModes.getByValue(jsonObject["mrzDetectMode"]);
+    result.mrzDetectMode = MrzDetectionModes.getByValue(
+      jsonObject["mrzDetectMode"],
+    );
 
     result.dateFormat = jsonObject["dateFormat"];
     result.scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result.captureButtonScenario =
-        Scenario.getByValue(jsonObject["captureButtonScenario"]);
-    result.sessionLogFolder = jsonObject["sessionLogFolder"];
+    result.captureButtonScenario = Scenario.getByValue(
+      jsonObject["captureButtonScenario"],
+    );
 
     result.timeout = _toDouble(jsonObject["timeout"]);
-    result.timeoutFromFirstDetect =
-        _toDouble(jsonObject["timeoutFromFirstDetect"]);
-    result.timeoutFromFirstDocType =
-        _toDouble(jsonObject["timeoutFromFirstDocType"]);
+    result.timeoutFromFirstDetect = _toDouble(
+      jsonObject["timeoutFromFirstDetect"],
+    );
+    result.timeoutFromFirstDocType = _toDouble(
+      jsonObject["timeoutFromFirstDocType"],
+    );
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
     result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
     result.documentIDList = _intListFrom(jsonObject["documentIDList"]);
     result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
-    result.fieldTypesFilter =
-        FieldType.fromIntList(jsonObject["fieldTypesFilter"]);
-    result.resultTypeOutput =
-        ResultType.fromIntList(jsonObject["resultTypeOutput"]);
-    result.mrzFormatsFilter =
-        MRZFormat.fromStringList(jsonObject["mrzFormatsFilter"]);
-    result.documentGroupFilter =
-        DocType.fromIntList(jsonObject["documentGroupFilter"]);
+    result.fieldTypesFilter = FieldType.fromIntList(
+      jsonObject["fieldTypesFilter"],
+    );
+    result.resultTypeOutput = ResultType.fromIntList(
+      jsonObject["resultTypeOutput"],
+    );
+    result.mrzFormatsFilter = MRZFormat.fromStringList(
+      jsonObject["mrzFormatsFilter"],
+    );
+    result.documentGroupFilter = DocType.fromIntList(
+      jsonObject["documentGroupFilter"],
+    );
     result.lcidIgnoreFilter = LCID.fromIntList(jsonObject["lcidIgnoreFilter"]);
     result.lcidFilter = LCID.fromIntList(jsonObject["lcidFilter"]);
 
     result.imageQA = ImageQA.fromJson(jsonObject["imageQA"]);
     result.rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
     result.faceApiParams = FaceApiParams.fromJson(jsonObject["faceApiParams"]);
-    result.backendProcessingConfig =
-        BackendProcessingConfig.fromJson(jsonObject["backendProcessingConfig"]);
-    result.authenticityParams =
-        AuthenticityParams.fromJson(jsonObject["authenticityParams"]);
+    result.backendProcessingConfig = BackendProcessingConfig.fromJson(
+      jsonObject["backendProcessingConfig"],
+    );
+    result.authenticityParams = AuthenticityParams.fromJson(
+      jsonObject["authenticityParams"],
+    );
 
     result.customParams = jsonObject["customParams"];
 
@@ -804,7 +816,8 @@ class ProcessParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "multipageProcessing": multipageProcessing,
         "debugSaveImages": debugSaveImages,
         "debugSaveLogs": debugSaveLogs,
@@ -840,6 +853,7 @@ class ProcessParams {
             strictBarcodeDigitalSignatureCheck,
         "selectLongestNames": selectLongestNames,
         "generateDTCVC": generateDTCVC,
+        "strictDLCategoryExpiry": strictDLCategoryExpiry,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
@@ -858,7 +872,6 @@ class ProcessParams {
         "dateFormat": dateFormat,
         "scenario": scenario?.value,
         "captureButtonScenario": captureButtonScenario?.value,
-        "sessionLogFolder": sessionLogFolder,
         "timeout": timeout,
         "timeoutFromFirstDetect": timeoutFromFirstDetect,
         "timeoutFromFirstDocType": timeoutFromFirstDocType,

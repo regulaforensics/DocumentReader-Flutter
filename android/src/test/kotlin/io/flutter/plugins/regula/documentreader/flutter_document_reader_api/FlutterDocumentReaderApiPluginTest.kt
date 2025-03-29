@@ -23,7 +23,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun initConfig() = compare("initConfig", ::docReaderConfigFromJSON, ::generateDocReaderConfig, "databasePath")
 
     @Test
-    fun onlineProcessingConfig() = compare("onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig)
+    fun onlineProcessingConfig() = compare("onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig, "requestHeaders")
 
     @Test
     fun imageInputData() = compare("imageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
@@ -32,10 +32,10 @@ class FlutterDocumentReaderApiPluginTest {
     fun recognizeConfig() = compare("recognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
 
     @Test
-    fun recognizeConfig2() = compare("recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
+    fun recognizeConfig2() = compare("recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig, "onlineProcessingConfig.requestHeaders")
 
     @Test
-    fun scannerConfig() = compare("scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig)
+    fun scannerConfig() = compare("scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig, "onlineProcessingConfig.requestHeaders")
 
     // params.process_params
 
@@ -78,7 +78,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun eIDDataGroups() = compare("eIDDataGroups", ::eIDDataGroupsFromJSON, ::generateEIDDataGroups)
 
     @Test
-    fun dtcDataGroups() = compare("dtcDataGroups", ::dtcDataGroupsFromJSON, ::generateDTCDataGroups)
+    fun dtcDataGroup() = compare("dtcDataGroup", ::dtcDataGroupFromJSON, ::generateDTCDataGroup)
 
     @Test
     fun rfidScenario() = compare("rfidScenario", ::rfidScenarioFromJSON, ::generateRfidScenario)
@@ -106,7 +106,7 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun functionality() = compare(
         "functionality", ::functionalityFromJSON, ::generateFunctionality,
-        "useAuthenticator", "singleResult", "videoSessionPreset"
+        "useAuthenticator", "singleResult", "videoSessionPreset", "cameraPositionIOS"
     )
 
     // info
@@ -151,10 +151,10 @@ class FlutterDocumentReaderApiPluginTest {
     // results.image_quality
 
     @Test
-    fun imageQuality() = compare("imageQuality", ::imageQualityFromJSON, ::generateImageQuality, "boundRects")
+    fun imageQuality() = compare("imageQuality", ::imageQualityFromJSON, ::generateImageQuality)
 
     @Test
-    fun imageQualityGroup() = compare("imageQualityGroup", ::imageQualityGroupFromJSON, ::generateImageQualityGroup, "imageQualityList.boundRects")
+    fun imageQualityGroup() = compare("imageQualityGroup", ::imageQualityGroupFromJSON, ::generateImageQualityGroup)
 
     // results.rfid
 
@@ -266,7 +266,7 @@ class FlutterDocumentReaderApiPluginTest {
 
     @Test
     fun position() = compare("position", ::elementPositionFromJSON, ::generateElementPosition)
-    
+
     @Test
     fun transactionInfo() = compare("transactionInfo", ::transactionInfoFromJSON, ::generateTransactionInfo)
 

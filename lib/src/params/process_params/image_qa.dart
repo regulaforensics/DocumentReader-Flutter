@@ -102,6 +102,14 @@ class ImageQA {
     _set({"brightnessThreshold": val});
   }
 
+  /// This option checks document image occlusion.
+  bool? get occlusionCheck => _occlusionCheck;
+  bool? _occlusionCheck;
+  set occlusionCheck(bool? val) {
+    _occlusionCheck = val;
+    _set({"occlusionCheck": val});
+  }
+
   /// Allows you to deserialize object.
   static ImageQA fromJson(jsonObject) {
     var result = ImageQA();
@@ -113,18 +121,22 @@ class ImageQA {
     result.glaresCheck = jsonObject["glaresCheck"];
     result.colornessCheck = jsonObject["colornessCheck"];
     result.screenCapture = jsonObject["screenCapture"];
-    result.expectedPass =
-        ImageQualityCheckType.fromIntList(jsonObject["expectedPass"]);
-    result.glaresCheckParams =
-        GlaresCheckParams.fromJson(jsonObject["glaresCheckParams"]);
+    result.expectedPass = ImageQualityCheckType.fromIntList(
+      jsonObject["expectedPass"],
+    );
+    result.glaresCheckParams = GlaresCheckParams.fromJson(
+      jsonObject["glaresCheckParams"],
+    );
     result.documentPositionIndent = jsonObject["documentPositionIndent"];
     result.brightnessThreshold = _toDouble(jsonObject["brightnessThreshold"]);
+    result.occlusionCheck = jsonObject["occlusionCheck"];
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "dpiThreshold": dpiThreshold,
         "angleThreshold": angleThreshold,
         "documentPositionIndent": documentPositionIndent,
@@ -135,6 +147,7 @@ class ImageQA {
         "expectedPass": expectedPass?.map((e) => e.value).toList(),
         "glaresCheckParams": glaresCheckParams?.toJson(),
         "brightnessThreshold": brightnessThreshold,
+        "occlusionCheck": occlusionCheck,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {ProcessParams? directParent}) {

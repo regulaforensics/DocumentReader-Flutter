@@ -58,8 +58,9 @@ class File {
         RFIDErrorCodes.getByValue(jsonObject["readingStatus"])!;
     result._fileID = jsonObject["fileID"];
     result._fileData = FileData.fromJson(jsonObject["fileData"]);
-    result._certificates =
-        SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
+    result._certificates = SecurityObjectCertificates.fromJson(
+      jsonObject["certificates"],
+    );
     result._docFieldsText = _intListFrom(jsonObject["docFieldsText"])!;
     result._docFieldsGraphics = _intListFrom(jsonObject["docFieldsGraphics"])!;
     result._docFieldsOriginals =
@@ -70,7 +71,8 @@ class File {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "fileData": fileData?.toJson(),
         "fileID": fileID,
         "notifications": notifications,

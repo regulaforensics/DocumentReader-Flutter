@@ -15,6 +15,9 @@ enum BarcodeStatus {
   /// No error.
   NO_ERR(0),
 
+  /// Invalid result.
+  INVALID_RESULT(140),
+
   /// Null pointer of input arg/param error.
   NULL_PTR_ERR(-6001),
 

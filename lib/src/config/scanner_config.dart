@@ -35,18 +35,19 @@ class ScannerConfig {
   int? cameraId;
 
   ScannerConfig(
-      Scenario scenario, OnlineProcessingConfig onlineProcessingConfig)
-      : _scenario = scenario,
-        _onlineProcessingConfig = onlineProcessingConfig;
+    Scenario scenario,
+    OnlineProcessingConfig onlineProcessingConfig,
+  ) : _scenario = scenario,
+      _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig.withScenario(Scenario scenario)
-      : _scenario = scenario,
-        _onlineProcessingConfig = null;
+    : _scenario = scenario,
+      _onlineProcessingConfig = null;
 
   ScannerConfig.withOnlineProcessingConfig(
-      OnlineProcessingConfig onlineProcessingConfig)
-      : _scenario = null,
-        _onlineProcessingConfig = onlineProcessingConfig;
+    OnlineProcessingConfig onlineProcessingConfig,
+  ) : _scenario = null,
+      _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig._empty();
 
@@ -57,8 +58,9 @@ class ScannerConfig {
     var result = ScannerConfig._empty();
 
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result._onlineProcessingConfig =
-        OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(
+      jsonObject["onlineProcessingConfig"],
+    );
     result.livePortrait = _bytesFromBase64(jsonObject["livePortrait"]);
     result.extPortrait = _bytesFromBase64(jsonObject["extPortrait"]);
     result.cameraId = jsonObject["cameraId"];
@@ -67,11 +69,12 @@ class ScannerConfig {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "scenario": scenario?.value,
         "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
         "livePortrait": _bytesToBase64(livePortrait),
         "extPortrait": _bytesToBase64(extPortrait),
-        "cameraId": cameraId
+        "cameraId": cameraId,
       }.clearNulls();
 }
