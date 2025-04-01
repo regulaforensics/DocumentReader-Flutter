@@ -1,24 +1,16 @@
 PODS:
-  - BTDevice (6.8.318)
-  - DocumentReaderBeta (7.6.4419):
-    - RegulaCommonBeta (= 7.6.1056)
-  - DocumentReaderFullAuthRFID (7.5.11020)
   - Flutter (1.0.0)
   - flutter_document_reader_api (7.6.98):
-    - DocumentReaderBeta (= 7.6.4419)
     - Flutter
   - flutter_document_reader_btdevice (7.5.41):
-    - BTDevice (= 6.8.318)
     - Flutter
   - flutter_document_reader_core_fullauthrfid (7.5.887):
-    - DocumentReaderFullAuthRFID (= 7.5.11020)
     - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - RegulaCommonBeta (7.6.1056)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -31,9 +23,9 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - BTDevice
-    - DocumentReaderBeta
+    - DocumentReader
     - DocumentReaderFullAuthRFID
-    - RegulaCommonBeta
+    - RegulaCommon
 
 EXTERNAL SOURCES:
   Flutter:
@@ -51,7 +43,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BTDevice: c27e5547dc55e28cb45c761ba07971a390118092
-  DocumentReaderBeta: f69fec81e53ca0ce52e8298f44299059f3c2391c
+  DocumentReader: f69fec81e53ca0ce52e8298f44299059f3c2391c
   DocumentReaderFullAuthRFID: 638b2a1716d9f9c349d4be47e1ef2126241e25af
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_document_reader_api: 9ccda59f43c837bdd71423f765d2e4e091f81348
@@ -59,7 +51,7 @@ SPEC CHECKSUMS:
   flutter_document_reader_core_fullauthrfid: 48e8196ef3ddaf7158c6068d16bb3b4a39194d2b
   image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  RegulaCommonBeta: 8f212fc65e045ced82f28be371da9b0598d16690
+  RegulaCommon: 8f212fc65e045ced82f28be371da9b0598d16690
 
 PODFILE CHECKSUM: 54d85b47c8d60ae7253b9a38905f64c617325429
 
