@@ -36,7 +36,8 @@ class TextSource {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "sourceType": sourceType.value,
         "source": source,
         "validityStatus": validityStatus.value,

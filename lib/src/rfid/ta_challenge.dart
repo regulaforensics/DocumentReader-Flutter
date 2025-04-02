@@ -39,7 +39,8 @@ class TAChallenge {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "data": _bytesToBase64(data),
         "auxPCD": auxPCD,
         "challengePICC": challengePICC,

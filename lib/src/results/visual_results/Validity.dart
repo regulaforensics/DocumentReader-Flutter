@@ -30,8 +30,6 @@ class Validity {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "sourceType": sourceType.value,
-        "status": status.value,
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"sourceType": sourceType.value, "status": status.value}.clearNulls();
 }

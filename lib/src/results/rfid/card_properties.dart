@@ -96,7 +96,8 @@ class CardProperties {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "aTQA": aTQA,
         "bitRateR": bitRateR,
         "bitRateS": bitRateS,

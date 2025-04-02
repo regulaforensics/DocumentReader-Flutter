@@ -96,23 +96,32 @@ class CustomizationColors {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "rfidProcessingScreenBackground":
-            _intFromColor(rfidProcessingScreenBackground),
-        "rfidProcessingScreenHintLabelText":
-            _intFromColor(rfidProcessingScreenHintLabelText),
-        "rfidProcessingScreenHintLabelBackground":
-            _intFromColor(rfidProcessingScreenHintLabelBackground),
-        "rfidProcessingScreenProgressLabelText":
-            _intFromColor(rfidProcessingScreenProgressLabelText),
-        "rfidProcessingScreenProgressBar":
-            _intFromColor(rfidProcessingScreenProgressBar),
-        "rfidProcessingScreenProgressBarBackground":
-            _intFromColor(rfidProcessingScreenProgressBarBackground),
-        "rfidProcessingScreenResultLabelText":
-            _intFromColor(rfidProcessingScreenResultLabelText),
-        "rfidProcessingScreenLoadingBar":
-            _intFromColor(rfidProcessingScreenLoadingBar),
+  Map<String, dynamic> toJson() =>
+      {
+        "rfidProcessingScreenBackground": _intFromColor(
+          rfidProcessingScreenBackground,
+        ),
+        "rfidProcessingScreenHintLabelText": _intFromColor(
+          rfidProcessingScreenHintLabelText,
+        ),
+        "rfidProcessingScreenHintLabelBackground": _intFromColor(
+          rfidProcessingScreenHintLabelBackground,
+        ),
+        "rfidProcessingScreenProgressLabelText": _intFromColor(
+          rfidProcessingScreenProgressLabelText,
+        ),
+        "rfidProcessingScreenProgressBar": _intFromColor(
+          rfidProcessingScreenProgressBar,
+        ),
+        "rfidProcessingScreenProgressBarBackground": _intFromColor(
+          rfidProcessingScreenProgressBarBackground,
+        ),
+        "rfidProcessingScreenResultLabelText": _intFromColor(
+          rfidProcessingScreenResultLabelText,
+        ),
+        "rfidProcessingScreenLoadingBar": _intFromColor(
+          rfidProcessingScreenLoadingBar,
+        ),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

@@ -307,9 +307,10 @@ class DocumentReader {
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
   Future<SuccessOrError> initializeReader(InitConfig config) async {
-    var funcName = config._useBleDevice
-        ? "initializeReaderWithBleDeviceConfig"
-        : "initializeReader";
+    var funcName =
+        config._useBleDevice
+            ? "initializeReaderWithBleDeviceConfig"
+            : "initializeReader";
 
     var response = await _bridge.invokeMethod(funcName, [config.toJson()]);
     var (success, error) = _successOrErrorFromJson(response);
@@ -377,10 +378,9 @@ class DocumentReader {
   ///
   /// Requires `android.permission.INTERNET` android permission.
   Future<DocumentsDatabase?> checkDatabaseUpdate(String databaseID) async {
-    String? response = await _bridge.invokeMethod(
-      "checkDatabaseUpdate",
-      [databaseID],
-    );
+    String? response = await _bridge.invokeMethod("checkDatabaseUpdate", [
+      databaseID,
+    ]);
     return DocumentsDatabase.fromJson(_decode(response));
   }
 
@@ -485,10 +485,9 @@ class DocumentReader {
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
   Future<SuccessOrError> setTCCParams(TccParams params) async {
-    var response = await _bridge.invokeMethod(
-      "setTCCParams",
-      [params.toJson()],
-    );
+    var response = await _bridge.invokeMethod("setTCCParams", [
+      params.toJson(),
+    ]);
     return _successOrErrorFromJson(response);
   }
 
@@ -659,11 +658,12 @@ typedef SuccessOrError = (bool, DocReaderException?);
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef DocumentReaderCompletion = void Function(
-  DocReaderAction action,
-  Results? results,
-  DocReaderException? error,
-);
+typedef DocumentReaderCompletion =
+    void Function(
+      DocReaderAction action,
+      Results? results,
+      DocReaderException? error,
+    );
 
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.
@@ -675,9 +675,7 @@ typedef CustomButtonTappedCompletion = void Function(int tag);
 /// Called by DocumentReader when recording process finished.
 ///
 /// [filePath] The output file URL. Contains URL to recording output for every scanning session.
-typedef VideoEncoderCompletion = void Function(
-  String filePath,
-);
+typedef VideoEncoderCompletion = void Function(String filePath);
 
 /// Type for receiving answer after backend processing has finished.
 ///
@@ -686,11 +684,8 @@ typedef VideoEncoderCompletion = void Function(
 /// [TransactionInfo] contains transactionId and tag.
 ///
 /// [DocReaderException] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef FinalizePackageCompletion = (
-  DocReaderAction action,
-  TransactionInfo? info,
-  DocReaderException? error,
-);
+typedef FinalizePackageCompletion =
+    (DocReaderAction action, TransactionInfo? info, DocReaderException? error);
 
 /// Contains all possible DocumentReaderNotification callback codes
 enum DocReaderAction {

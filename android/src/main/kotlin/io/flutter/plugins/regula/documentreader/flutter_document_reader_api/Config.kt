@@ -6,6 +6,8 @@
 //  Copyright © 2023 Regula. All rights reserved.
 //
 
+@file:Suppress("EnumValuesSoftDeprecate")
+
 package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 
 import android.content.Context
@@ -53,6 +55,7 @@ fun setFunctionality(functionality: Functionality, opts: JSONObject) = opts.forE
         "isCameraTorchCheckDisabled" -> editor.setIsCameraTorchCheckDisabled(v as Boolean)
         "recordScanningProcess" -> editor.setDoRecordProcessingVideo(v as Boolean)
         "manualMultipageMode" -> editor.setManualMultipageMode(v as Boolean)
+        "torchTurnedOn" -> editor.setTorchTurnedOn(v as Boolean)
         "showCaptureButtonDelayFromDetect" -> editor.setShowCaptureButtonDelayFromDetect(v.toLong())
         "showCaptureButtonDelayFromStart" -> editor.setShowCaptureButtonDelayFromStart(v.toLong())
         "orientation" -> editor.setOrientation(v.toInt())
@@ -86,6 +89,7 @@ fun getFunctionality(functionality: Functionality) = mapOf(
     "isCameraTorchCheckDisabled" to functionality.isCameraTorchCheckDisabled,
     "recordScanningProcess" to functionality.doRecordProcessingVideo(),
     "manualMultipageMode" to functionality.isManualMultipageMode,
+    "torchTurnedOn" to functionality.isTorchTurnedOn,
     "showCaptureButtonDelayFromDetect" to functionality.showCaptureButtonDelayFromDetect,
     "showCaptureButtonDelayFromStart" to functionality.showCaptureButtonDelayFromStart,
     "orientation" to functionality.orientation,
@@ -140,6 +144,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictBarcodeDigitalSignatureCheck" -> processParams.strictBarcodeDigitalSignatureCheck = v as Boolean
         "selectLongestNames" -> processParams.selectLongestNames = v as Boolean
         "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
+        "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -158,7 +163,6 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "dateFormat" -> processParams.dateFormat = v as String
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
-        "sessionLogFolder" -> processParams.sessionLogFolder = v as String
         "timeout" -> processParams.timeout = v.toDouble()
         "timeoutFromFirstDetect" -> processParams.timeoutFromFirstDetect = v.toDouble()
         "timeoutFromFirstDocType" -> processParams.timeoutFromFirstDocType = v.toDouble()
@@ -222,6 +226,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictBarcodeDigitalSignatureCheck" to processParams.strictBarcodeDigitalSignatureCheck,
     "selectLongestNames" to processParams.selectLongestNames,
     "generateDTCVC" to processParams.generateDTCVC,
+    "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -240,7 +245,6 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "dateFormat" to processParams.dateFormat,
     "scenario" to processParams.scenario,
     "captureButtonScenario" to processParams.captureButtonScenario,
-    "sessionLogFolder" to processParams.sessionLogFolder,
     "timeout" to processParams.timeout,
     "timeoutFromFirstDetect" to processParams.timeoutFromFirstDetect,
     "timeoutFromFirstDocType" to processParams.timeoutFromFirstDocType,
@@ -439,6 +443,8 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "proceedReadingAlways" -> rfidScenario.proceedReadingAlways = v as Boolean
         "readDTC" -> rfidScenario.isReadDTC = v as Boolean
         "mrzStrictCheck" -> rfidScenario.isMrzStrictCheck = v as Boolean
+        "loadCRLFromRemote" -> rfidScenario.isLoadCRLFromRemote = v as Boolean
+        "independentSODStatus" -> rfidScenario.isIndependentSODStatus = v as Boolean
         "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
         "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
         "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
@@ -458,7 +464,7 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "ePassportDataGroups" -> setDataGroups(rfidScenario.ePassportDataGroups(), v as JSONObject)
         "eIDDataGroups" -> setDataGroups(rfidScenario.eIDDataGroups(), v as JSONObject)
         "eDLDataGroups" -> setDataGroups(rfidScenario.eDLDataGroups(), v as JSONObject)
-        "dtcDataGroups" -> setDataGroups(rfidScenario.DTCDataGroup(), v as JSONObject)
+        "dtcDataGroups" -> setDTCDataGroup(rfidScenario.DTCDataGroup(), v as JSONObject)
     }
 }
 
@@ -499,6 +505,8 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "proceedReadingAlways" to rfidScenario.proceedReadingAlways,
     "readDTC" to rfidScenario.isReadDTC,
     "mrzStrictCheck" to rfidScenario.isMrzStrictCheck,
+    "loadCRLFromRemote" to rfidScenario.isLoadCRLFromRemote,
+    "independentSODStatus" to rfidScenario.isIndependentSODStatus,
     "signManagementAction" to rfidScenario.signManagementAction,
     "readingBuffer" to rfidScenario.readingBuffer,
     "onlineTAToSignDataType" to rfidScenario.onlineTAToSignDataType,
@@ -518,7 +526,7 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "ePassportDataGroups" to getDataGroups(rfidScenario.ePassportDataGroups()),
     "eIDDataGroups" to getDataGroups(rfidScenario.eIDDataGroups()),
     "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups()),
-    "dtcDataGroups" to getDataGroups(rfidScenario.DTCDataGroup())
+    "dtcDataGroups" to getDTCDataGroup(rfidScenario.DTCDataGroup())
 ).toJsonObject()
 
 fun setDataGroups(dataGroup: DataGroups, opts: JSONObject) = opts.forEach { k, v ->
@@ -552,15 +560,6 @@ fun setDataGroups(dataGroup: DataGroups, opts: JSONObject) = opts.forEach { k, v
         "DG20" -> dataGroup.isDG20 = value
         "DG21" -> dataGroup.isDG21 = value
     }
-    if (dataGroup is DTCDataGroup) when (k) {
-        "DG15" -> dataGroup.isDG15 = value
-        "DG16" -> dataGroup.isDG16 = value
-        "DG17" -> dataGroup.isDG17 = value
-        "DG18" -> dataGroup.isDG18 = value
-        "DG22" -> dataGroup.isDG22 = value
-        "DG23" -> dataGroup.isDG23 = value
-        "DG24" -> dataGroup.isDG24 = value
-    }
 }
 
 fun getDataGroups(dataGroup: DataGroups): JSONObject {
@@ -593,17 +592,27 @@ fun getDataGroups(dataGroup: DataGroups): JSONObject {
         result["DG20"] = dataGroup.isDG20
         result["DG21"] = dataGroup.isDG21
     }
-    if (dataGroup is DTCDataGroup) {
-        result["DG15"] = dataGroup.isDG15
-        result["DG16"] = dataGroup.isDG16
-        result["DG17"] = dataGroup.isDG17
-        result["DG18"] = dataGroup.isDG18
-        result["DG22"] = dataGroup.isDG22
-        result["DG23"] = dataGroup.isDG23
-        result["DG24"] = dataGroup.isDG24
-    }
     return result.toJsonObject()
 }
+
+fun setDTCDataGroup(dataGroup: DTCDataGroup, opts: JSONObject) = opts.forEach { k, v ->
+    val value = v as Boolean
+    when (k) {
+        "DG17" -> dataGroup.isDG17 = value
+        "DG18" -> dataGroup.isDG18 = value
+        "DG22" -> dataGroup.isDG22 = value
+        "DG23" -> dataGroup.isDG23 = value
+        "DG24" -> dataGroup.isDG24 = value
+    }
+}
+
+fun getDTCDataGroup(dataGroup: DTCDataGroup) = mapOf(
+    "DG17" to dataGroup.isDG17,
+    "DG18" to dataGroup.isDG18,
+    "DG22" to dataGroup.isDG22,
+    "DG23" to dataGroup.isDG23,
+    "DG24" to dataGroup.isDG24,
+).toJsonObject()
 
 fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {
@@ -617,6 +626,7 @@ fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
         "brightnessThreshold" -> input.brightnessThreshold = v.toDouble()
         "expectedPass" -> input.expectedPass = v.toIntArray()
         "glaresCheckParams" -> input.glaresCheckParams = glaresCheckParamsFromJSON(v as JSONObject)
+        "occlusionCheck" -> input.occlusionCheck = v as Boolean
     }
 }
 
@@ -631,6 +641,7 @@ fun getImageQA(input: ImageQA) = mapOf(
     "brightnessThreshold" to input.brightnessThreshold,
     "expectedPass" to input.expectedPass.generate(),
     "glaresCheckParams" to generateGlaresCheckParams(input.glaresCheckParams),
+    "occlusionCheck" to input.occlusionCheck,
 ).toJsonObject()
 
 fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.forEach { k, v ->
@@ -649,6 +660,7 @@ fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.fo
         "checkPhotoEmbedding" -> input.checkPhotoEmbedding = v as Boolean
         "checkPhotoComparison" -> input.checkPhotoComparison = v as Boolean
         "checkLetterScreen" -> input.checkLetterScreen = v as Boolean
+        "checkSecurityText" -> input.checkSecurityText = v as Boolean
         "livenessParams" -> {
             if (input.livenessParams == null) input.livenessParams = LivenessParams.defaultParams()
             setLivenessParams(input.livenessParams!!, v as JSONObject)
@@ -672,6 +684,7 @@ fun getAuthenticityParams(input: AuthenticityParams?) = input?.let {
         "checkPhotoEmbedding" to it.checkPhotoEmbedding,
         "checkPhotoComparison" to it.checkPhotoComparison,
         "checkLetterScreen" to it.checkLetterScreen,
+        "checkSecurityText" to it.checkSecurityText,
         "livenessParams" to getLivenessParams(it.livenessParams)
     ).toJsonObject()
 }
@@ -682,6 +695,8 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkMLI" -> input.checkMLI = v as Boolean
         "checkHolo" -> input.checkHolo = v as Boolean
         "checkED" -> input.checkED = v as Boolean
+        "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
+        "checkDynaprint" -> input.checkDynaprint = v as Boolean
     }
 }
 
@@ -690,7 +705,9 @@ fun getLivenessParams(input: LivenessParams?) = input?.let {
         "checkOVI" to input.checkOVI,
         "checkMLI" to input.checkMLI,
         "checkHolo" to input.checkHolo,
-        "checkED" to input.checkED
+        "checkED" to input.checkED,
+        "checkBlackAndWhiteCopy" to input.checkBlackAndWhiteCopy,
+        "checkDynaprint" to input.checkDynaprint,
     ).toJsonObject()
 }
 

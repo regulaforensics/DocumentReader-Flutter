@@ -65,7 +65,8 @@ class GraphicField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "sourceType": sourceType.value,
         "fieldType": fieldType.value,
         "fieldName": fieldName,

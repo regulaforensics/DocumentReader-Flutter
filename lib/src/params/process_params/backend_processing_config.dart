@@ -27,10 +27,10 @@ class BackendProcessingConfig {
     bool? rfidServerSideChipVerification,
     Map<String, String>? httpHeaders,
     double? timeoutConnection,
-  })  : _url = url,
-        _rfidServerSideChipVerification = rfidServerSideChipVerification,
-        _httpHeaders = httpHeaders,
-        _timeoutConnection = timeoutConnection;
+  }) : _url = url,
+       _rfidServerSideChipVerification = rfidServerSideChipVerification,
+       _httpHeaders = httpHeaders,
+       _timeoutConnection = timeoutConnection;
 
   /// Allows you to deserialize object.
   static BackendProcessingConfig? fromJson(jsonObject) {
@@ -48,10 +48,11 @@ class BackendProcessingConfig {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "url": url,
         "rfidServerSideChipVerification": rfidServerSideChipVerification,
         "httpHeaders": httpHeaders,
-        "timeoutConnection": timeoutConnection
+        "timeoutConnection": timeoutConnection,
       }.clearNulls();
 }

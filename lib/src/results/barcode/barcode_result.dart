@@ -26,7 +26,6 @@ class BarcodeResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "fields": fields.map((e) => e.toJson()).toList(),
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"fields": fields.map((e) => e.toJson()).toList()}.clearNulls();
 }

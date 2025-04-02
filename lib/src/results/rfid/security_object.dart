@@ -52,7 +52,8 @@ class SecurityObject {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "fileReference": fileReference,
         "objectType": objectType,
         "version": version,

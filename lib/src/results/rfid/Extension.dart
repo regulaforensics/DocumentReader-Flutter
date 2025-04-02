@@ -27,8 +27,5 @@ class Extension {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "data": data,
-        "type": type,
-      }.clearNulls();
+  Map<String, dynamic> toJson() => {"data": data, "type": type}.clearNulls();
 }
