@@ -45,7 +45,8 @@ class BarcodeField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "barcodeType": barcodeType.value,
         "status": status.value,
         "pdf417Info": pdf417Info?.toJson(),

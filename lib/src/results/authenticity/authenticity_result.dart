@@ -9,6 +9,7 @@
 part of "../../../flutter_document_reader_api.dart";
 
 class AuthenticityResult {
+  @Deprecated("since 7.6, use `ResultsStatus.optical` instead")
   CheckResult get status => _status;
   late CheckResult _status;
 
@@ -29,7 +30,8 @@ class AuthenticityResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "status": status.value,
         "checks": checks.map((e) => e.toJson()).toList(),
       }.clearNulls();

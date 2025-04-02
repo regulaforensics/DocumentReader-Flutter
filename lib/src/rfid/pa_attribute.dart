@@ -27,8 +27,5 @@ class PAAttribute {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "value": value,
-      }.clearNulls();
+  Map<String, dynamic> toJson() => {"type": type, "value": value}.clearNulls();
 }

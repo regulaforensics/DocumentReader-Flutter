@@ -39,8 +39,9 @@ enum RFIDAccessControlProcedureType {
   static RFIDAccessControlProcedureType? getByValue(int? i) {
     if (i == null) return null;
     try {
-      return RFIDAccessControlProcedureType.values
-          .firstWhere((x) => x.value == i);
+      return RFIDAccessControlProcedureType.values.firstWhere(
+        (x) => x.value == i,
+      );
     } catch (_) {
       return RFIDAccessControlProcedureType.UNDEFINED;
     }

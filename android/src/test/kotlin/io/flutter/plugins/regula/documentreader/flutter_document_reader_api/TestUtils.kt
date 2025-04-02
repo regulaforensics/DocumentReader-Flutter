@@ -43,7 +43,7 @@ fun <T> compareSingle(
     vararg omit: String
 ) {
     try {
-        var expected = readFile(name + "Nullable")
+        var expected = readFile(name)
         for (key in omit) expected = omitDeep(expected, key.split("."), 0)
         val actual = toJson(fromJson(expected))!!
         compareJSONs(name, expected, actual)

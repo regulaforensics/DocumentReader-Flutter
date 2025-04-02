@@ -22,11 +22,13 @@ class PKDCertificate {
   ByteData? get privateKey => _privateKey;
   ByteData? _privateKey;
 
-  PKDCertificate(ByteData binaryData, PKDResourceType resourceType,
-      {ByteData? privateKey})
-      : _binaryData = binaryData,
-        _resourceType = resourceType,
-        _privateKey = privateKey;
+  PKDCertificate(
+    ByteData binaryData,
+    PKDResourceType resourceType, {
+    ByteData? privateKey,
+  }) : _binaryData = binaryData,
+       _resourceType = resourceType,
+       _privateKey = privateKey;
 
   @visibleForTesting
   static PKDCertificate? fromJson(jsonObject) {
@@ -39,10 +41,11 @@ class PKDCertificate {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "binaryData": _dataToBase64(binaryData),
         "resourceType": resourceType.value,
-        "privateKey": _dataToBase64(privateKey)
+        "privateKey": _dataToBase64(privateKey),
       }.clearNulls();
 }
 

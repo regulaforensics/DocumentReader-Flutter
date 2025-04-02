@@ -26,6 +26,7 @@ import com.regula.documentreader.api.enums.PDF417Info
 import com.regula.documentreader.api.enums.eGraphicFieldType
 import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRPRM_Lights
+import com.regula.documentreader.api.listener.NetworkInterceptorListener
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
@@ -106,6 +107,8 @@ import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Conv
 import org.json.JSONArray
 import org.json.JSONObject
 
+val weakReferencesHolder = mutableListOf<Any>()
+
 fun generateCompletion(action: Int, results: DocumentReaderResults?, error: RegulaException?, context: Context?) = object : JSONObject() { init {
     put("action", action)
     if (listOf(
@@ -175,6 +178,7 @@ fun transactionInfoFromJSON(temp: JSONObject?): TransactionInfo? {
 
     if (input.has("transactionId")) result.transactionId = input.getString("transactionId")
     if (input.has("tag")) result.tag = input.getString("tag")
+    if (input.has("sessionLogFolder")) result.sessionLogFolder = input.getString("sessionLogFolder")
 
     return result
 }
@@ -186,6 +190,7 @@ fun generateTransactionInfo(temp: TransactionInfo?): JSONObject? {
 
     result.put("transactionId", input.transactionId)
     result.put("tag", input.tag)
+    result.put("sessionLogFolder", input.sessionLogFolder)
 
     return result
 }
@@ -366,6 +371,11 @@ fun onlineProcessingConfigFromJSON(temp: JSONObject?): OnlineProcessingConfig? {
     if (input.has("url")) builder.setUrl(input.getString("url"))
     if (input.has("imageCompressionQuality")) builder.setImageCompressionQuality(input.getDouble("imageCompressionQuality").toFloat())
     if (input.has("processParams")) builder.setProcessParams(processParamFromJSON(input.getJSONObject("processParams")))
+    if (input.has("requestHeaders")) {
+        val listener = NetworkInterceptorListener { input.getJSONObject("requestHeaders").forEach { k, v -> it.setRequestProperty(k, v as String) } }
+        weakReferencesHolder.add(listener)
+        builder.setNetworkInterceptorListener(listener)
+    }
 
     return builder.build()
 }
@@ -524,13 +534,13 @@ fun eIDDataGroupsFromJSON(input: JSONObject): EIDDataGroups {
 
 fun generateEIDDataGroups(input: EIDDataGroups): JSONObject = getDataGroups(input)
 
-fun dtcDataGroupsFromJSON(input: JSONObject): DTCDataGroup {
+fun dtcDataGroupFromJSON(input: JSONObject): DTCDataGroup {
     val result = DTCDataGroup()
-    setDataGroups(result, input)
+    setDTCDataGroup(result, input)
     return result
 }
 
-fun generateDTCDataGroups(input: DTCDataGroup): JSONObject = getDataGroups(input)
+fun generateDTCDataGroup(input: DTCDataGroup): JSONObject = getDTCDataGroup(input)
 
 fun rfidScenarioFromJSON(input: JSONObject): RfidScenario {
     val result = RfidScenario()
@@ -1713,6 +1723,7 @@ fun generateDocumentReaderAuthenticityResult(temp: DocumentReaderAuthenticityRes
     temp ?: return null
     val input: DocumentReaderAuthenticityResult = temp
 
+    @Suppress("DEPRECATION")
     result.put("status", input.status)
     result.put("checks", generateList(input.checks, ::generateDocumentReaderAuthenticityCheck, context))
 
@@ -2181,7 +2192,7 @@ fun documentReaderResultsFromJSON(temp: JSONObject?): DocumentReaderResults? {
     result.status = documentReaderResultsStatusFromJSON(input.optJSONObject("status"))!!
     result.vdsncData = vdsncDataFromJSON(input.optJSONObject("vdsncData")!!)
     result.dtcData = input.getString("dtcData")
-    result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))
+    result.transactionInfo = transactionInfoFromJSON(input.optJSONObject("transactionInfo"))!!
 
     return result
 }

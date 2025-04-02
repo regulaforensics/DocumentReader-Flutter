@@ -1,0 +1,58 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_document_reader_api (7.6.98):
+    - Flutter
+  - flutter_document_reader_btdevice (7.5.41):
+    - Flutter
+  - flutter_document_reader_core_fullauthrfid (7.5.887):
+    - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_document_reader_api (from `.symlinks/plugins/flutter_document_reader_api/ios`)
+  - flutter_document_reader_btdevice (from `.symlinks/plugins/flutter_document_reader_btdevice/ios`)
+  - flutter_document_reader_core_fullauthrfid (from `.symlinks/plugins/flutter_document_reader_core_fullauthrfid/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - BTDevice
+    - DocumentReader
+    - DocumentReaderFullAuthRFID
+    - RegulaCommon
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_document_reader_api:
+    :path: ".symlinks/plugins/flutter_document_reader_api/ios"
+  flutter_document_reader_btdevice:
+    :path: ".symlinks/plugins/flutter_document_reader_btdevice/ios"
+  flutter_document_reader_core_fullauthrfid:
+    :path: ".symlinks/plugins/flutter_document_reader_core_fullauthrfid/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+
+SPEC CHECKSUMS:
+  BTDevice: c27e5547dc55e28cb45c761ba07971a390118092
+  DocumentReader: f69fec81e53ca0ce52e8298f44299059f3c2391c
+  DocumentReaderFullAuthRFID: 638b2a1716d9f9c349d4be47e1ef2126241e25af
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_document_reader_api: 9ccda59f43c837bdd71423f765d2e4e091f81348
+  flutter_document_reader_btdevice: a41da909b33c908eba5e9af9bda240c8bd57fb34
+  flutter_document_reader_core_fullauthrfid: 48e8196ef3ddaf7158c6068d16bb3b4a39194d2b
+  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  RegulaCommon: 8f212fc65e045ced82f28be371da9b0598d16690
+
+PODFILE CHECKSUM: 54d85b47c8d60ae7253b9a38905f64c617325429
+
+COCOAPODS: 1.16.2

@@ -1,19 +1,22 @@
 var useOldXcode = true;
 
-var img1 = useOldXcode
-    ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAADElEQVQIHWP4//8/AAX+Av6fyi0TAAAAAElFTkSuQmCC"
-    : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxJREFUCB1j+P//PwAF/gL+n8otEwAAAABJRU5ErkJggg==";
-var img2 = useOldXcode
-    ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="
-    : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAtJREFUCB1jYAACAAAFAAGNu5vzAAAAAElFTkSuQmCC";
-var img3 = useOldXcode
-    ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAADUlEQVQIHWP4z8BQDwAEgAF/OENMJgAAAABJRU5ErkJggg=="
-    : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA1JREFUCB1j+M/AUA8ABIABfzhDTCYAAAAASUVORK5CYII=";
+var img1 =
+    useOldXcode
+        ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAADElEQVQIHWP4//8/AAX+Av6fyi0TAAAAAElFTkSuQmCC"
+        : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxJREFUCB1j+P//PwAF/gL+n8otEwAAAABJRU5ErkJggg==";
+var img2 =
+    useOldXcode
+        ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="
+        : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAtJREFUCB1jYAACAAAFAAGNu5vzAAAAAElFTkSuQmCC";
+var img3 =
+    useOldXcode
+        ? "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAAD5Ip3+AAAADUlEQVQIHWP4z8BQDwAEgAF/OENMJgAAAABJRU5ErkJggg=="
+        : "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAGgAwAEAAAAAQAAAAEAAAAAChjw/QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA1JREFUCB1j+M/AUA8ABIABfzhDTCYAAAAASUVORK5CYII=";
 
 var faceApiSearchParams = {
   "limit": 1,
   "threshold": 2,
-  "groupIds": [3, 4, 5]
+  "groupIds": [3, 4, 5],
 };
 var faceApiParams = {
   "url": "test1",
@@ -23,13 +26,15 @@ var faceApiParams = {
   "proxy": "test3",
   "proxyPassword": "test4",
   "proxyType": 3,
-  "searchParams": faceApiSearchParams
+  "searchParams": faceApiSearchParams,
 };
 var livenessParams = {
   "checkOVI": true,
   "checkMLI": false,
   "checkHolo": true,
   "checkED": false,
+  "checkBlackAndWhiteCopy": true,
+  "checkDynaprint": false,
 };
 var authenticityParams = {
   "useLivenessCheck": true,
@@ -46,12 +51,10 @@ var authenticityParams = {
   "checkPhotoEmbedding": false,
   "checkPhotoComparison": true,
   "checkLetterScreen": false,
-  "livenessParams": livenessParams
+  "checkSecurityText": true,
+  "livenessParams": livenessParams,
 };
-var glaresCheckParams = {
-  "imgMarginPart": 0.5,
-  "maxGlaringPart": 1.5,
-};
+var glaresCheckParams = {"imgMarginPart": 0.5, "maxGlaringPart": 1.5};
 var imageQA = {
   "dpiThreshold": 1,
   "angleThreshold": 2,
@@ -62,16 +65,17 @@ var imageQA = {
   "screenCapture": false,
   "expectedPass": [1, 2, 3],
   "glaresCheckParams": glaresCheckParams,
-  "brightnessThreshold": 0.5
+  "brightnessThreshold": 0.5,
+  "occlusionCheck": true,
 };
 var rfidParams = {
-  "paIgnoreNotificationCodes": [1, 2, 3]
+  "paIgnoreNotificationCodes": [1, 2, 3],
 };
 var backendProcessingConfig = {
   "url": "test",
   "rfidServerSideChipVerification": true,
   "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
-  "timeoutConnection": 0.5
+  "timeoutConnection": 0.5,
 };
 var processParams = {
   "multipageProcessing": true,
@@ -108,6 +112,7 @@ var processParams = {
   "strictBarcodeDigitalSignatureCheck": false,
   "selectLongestNames": true,
   "generateDTCVC": false,
+  "strictDLCategoryExpiry": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -126,7 +131,6 @@ var processParams = {
   "dateFormat": "test1",
   "scenario": "Mrz",
   "captureButtonScenario": "Locate",
-  "sessionLogFolder": "test3",
   "timeout": 15,
   "timeoutFromFirstDetect": 16,
   "timeoutFromFirstDocType": 17,
@@ -164,9 +168,7 @@ var customizationFonts = {
   "rfidProcessingScreenProgressLabel": font2,
   "rfidProcessingScreenResultLabel": font1,
 };
-var customizationImages = {
-  "rfidProcessingScreenFailureImage": img1,
-};
+var customizationImages = {"rfidProcessingScreenFailureImage": img1};
 var customization = {
   "showStatusMessages": true,
   "showResultStatusMessages": false,
@@ -234,7 +236,7 @@ var customization = {
     2.6,
     2.7,
     2.8,
-    2.9
+    2.9,
   ],
   "multipageAnimationBackImageMatrix": [
     3.1,
@@ -245,13 +247,13 @@ var customization = {
     3.6,
     3.7,
     3.8,
-    3.9
+    3.9,
   ],
   "livenessAnimationImageMatrix": [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9],
   "borderBackgroundImageMatrix": [5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9],
   "colors": customizationColors,
   "fonts": customizationFonts,
-  "images": customizationImages
+  "images": customizationImages,
 };
 var cameraSize = {"width": 0, "height": 1};
 var functionality = {
@@ -271,6 +273,7 @@ var functionality = {
   "recordScanningProcess": false,
   "manualMultipageMode": true,
   "singleResult": false,
+  "torchTurnedOn": false,
   "showCaptureButtonDelayFromDetect": 0,
   "showCaptureButtonDelayFromStart": 1,
   "rfidTimeout": 2,
@@ -344,23 +347,7 @@ var eIDDataGroups = {
   "DG20": false,
   "DG21": true,
 };
-var dtcDataGroups = {
-  "DG1": true,
-  "DG2": false,
-  "DG3": true,
-  "DG4": false,
-  "DG5": true,
-  "DG6": false,
-  "DG7": true,
-  "DG8": false,
-  "DG9": true,
-  "DG10": false,
-  "DG11": true,
-  "DG12": false,
-  "DG13": true,
-  "DG14": false,
-  "DG15": true,
-  "DG16": false,
+var dtcDataGroup = {
   "DG17": true,
   "DG18": false,
   "DG22": false,
@@ -404,6 +391,8 @@ var rfidScenario = {
   "proceedReadingAlways": false,
   "readDTC": true,
   "mrzStrictCheck": false,
+  "loadCRLFromRemote": true,
+  "independentSODStatus": false,
   "readingBuffer": 1,
   "onlineTAToSignDataType": 3,
   "defaultReadingBufferSize": 2,
@@ -423,7 +412,7 @@ var rfidScenario = {
   "eDLDataGroups": eDLDataGroups,
   "ePassportDataGroups": ePassportDataGroups,
   "eIDDataGroups": eIDDataGroups,
-  "dtcDataGroups": dtcDataGroups,
+  "dtcDataGroups": dtcDataGroup,
 };
 
 var initConfig = {
@@ -432,7 +421,7 @@ var initConfig = {
   "customDb": img1,
   "blackList": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "databasePath": "test",
-  "license": img2
+  "license": img2,
 };
 var onlineProcessingConfig = {
   "mode": 1,
@@ -440,12 +429,9 @@ var onlineProcessingConfig = {
   "imageFormat": 1,
   "imageCompressionQuality": 1.5,
   "processParams": processParams,
+  "requestHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
 };
-var imageInputData = {
-  "image": img1,
-  "light": 128,
-  "pageIndex": 2,
-};
+var imageInputData = {"image": img1, "light": 128, "pageIndex": 2};
 var recognizeConfig = {
   "scenario": "Mrz",
   "livePortrait": img1,
@@ -455,7 +441,7 @@ var recognizeConfig = {
   "image": img3,
   "data": img1,
   "images": [img1, img2, img3],
-  "imageInputData": [imageInputData, imageInputData, imageInputData]
+  "imageInputData": [imageInputData, imageInputData, imageInputData],
 };
 var recognizeConfig2 = {
   "onlineProcessingConfig": onlineProcessingConfig,
@@ -465,14 +451,14 @@ var recognizeConfig2 = {
   "image": img3,
   "data": img1,
   "images": [img1, img2, img3],
-  "imageInputData": [imageInputData, imageInputData, imageInputData]
+  "imageInputData": [imageInputData, imageInputData, imageInputData],
 };
 var scannerConfig = {
   "scenario": "Mrz",
   "onlineProcessingConfig": onlineProcessingConfig,
   "livePortrait": img1,
   "extPortrait": img2,
-  "cameraId": 1
+  "cameraId": 1,
 };
 
 var documentsDatabase = {
@@ -482,13 +468,13 @@ var documentsDatabase = {
   "databaseDescription": "test4",
   "countriesNumber": 1,
   "documentsNumber": 2,
-  "size": 3
+  "size": 3,
 };
 var docReaderVersion = {
   "api": "test1",
   "core": "test2",
   "coreMode": "test3",
-  "database": documentsDatabase
+  "database": documentsDatabase,
 };
 var docReaderScenario = {
   "uvTorch": true,
@@ -503,66 +489,47 @@ var docReaderScenario = {
   "name": "test1",
   "caption": "test2",
   "description": "test3",
-  "manualCrop": false
+  "manualCrop": false,
 };
 var license = {
   "expiryDate": "test1",
   "countryFilter": ["test2", "test3", "test4"],
-  "isRfidAvailable": true
+  "isRfidAvailable": true,
 };
-var docReaderException = {
-  "code": 1,
-  "message": "test1",
-};
-var rfidException = {
-  "code": 2,
-  "message": "test2",
-};
-var prepareProgress = {
-  "downloadedBytes": 1,
-  "totalBytes": 2,
-  "progress": 50,
-};
+var docReaderException = {"code": 1, "message": "test1"};
+var rfidException = {"code": 2, "message": "test2"};
+var prepareProgress = {"downloadedBytes": 1, "totalBytes": 2, "progress": 50};
 
 var authenticityElement = {
   "status": 1,
   "elementType": 2,
   "elementDiagnose": 3,
   "elementTypeName": "Photo element",
-  "elementDiagnoseName": "Error of internal data processing"
+  "elementDiagnoseName": "Error of internal data processing",
 };
 var authenticityCheck = {
-  "type": 2,
-  "status": 1,
-  "typeName": "IR B900 ink",
+  "type": 1,
+  "status": 2,
+  "typeName": "UV dull paper check",
   "pageIndex": 3,
-  "elements": [authenticityElement, authenticityElement, authenticityElement]
+  "elements": [authenticityElement, authenticityElement, authenticityElement],
 };
 var authenticityResult = {
-  "status": 1,
-  "checks": [authenticityCheck, authenticityCheck, authenticityCheck]
+  "status": 2,
+  "checks": [authenticityCheck, authenticityCheck, authenticityCheck],
 };
-var pdf417Info = {
-  "errorLevel": 2,
-  "columns": 3,
-  "rows": 4,
-};
+var pdf417Info = {"errorLevel": 2, "columns": 3, "rows": 4};
 var barcodeField = {
   "barcodeType": 5,
   "status": -6001,
   "pageIndex": 2,
   "pdf417Info": pdf417Info,
-  "data": img1
+  "data": img1,
 };
 var barcodeResult = {
-  "fields": [barcodeField, barcodeField, barcodeField]
+  "fields": [barcodeField, barcodeField, barcodeField],
 };
-var rect = {
-  "bottom": 0,
-  "top": 1,
-  "left": 2,
-  "right": 3,
-};
+var rect = {"bottom": 0, "top": 1, "left": 2, "right": 3};
 var imageQuality = {
   "featureType": 1,
   "result": 2,
@@ -573,27 +540,17 @@ var imageQualityGroup = {
   "count": 1,
   "result": 2,
   "pageIndex": 3,
-  "imageQualityList": [imageQuality, imageQuality, imageQuality]
+  "imageQualityList": [imageQuality, imageQuality, imageQuality],
 };
 var accessControlProcedureType = {
   "activeOptionIdx": 1,
   "type": 2,
   "status": 1,
-  "notifications": [1, 2, 3]
+  "notifications": [1, 2, 3],
 };
-var fileData = {
-  "data": "test",
-  "length": 2,
-  "type": 3,
-  "status": 4,
-};
-var certificateData = {
-  "data": "test",
-  "length": 1,
-};
-var securityObjectCertificates = {
-  "securityObject": certificateData,
-};
+var fileData = {"data": "test", "length": 2, "type": 3, "status": 4};
+var certificateData = {"data": "test", "length": 1};
+var securityObjectCertificates = {"securityObject": certificateData};
 var file = {
   "fileData": fileData,
   "fileID": "test1",
@@ -606,7 +563,7 @@ var file = {
   "docFieldsText": [4, 5, 6],
   "docFieldsGraphics": [7, 8, 9],
   "docFieldsOriginals": [10, 11, 12],
-  "certificates": securityObjectCertificates
+  "certificates": securityObjectCertificates,
 };
 var application = {
   "applicationID": "test1",
@@ -615,7 +572,7 @@ var application = {
   "status": 1,
   "type": 2,
   "unicodeVersion": "test3",
-  "version": "test4"
+  "version": "test4",
 };
 var rfidValue = {
   "data": "test1",
@@ -624,10 +581,7 @@ var rfidValue = {
   "type": 3,
   "format": "test2",
 };
-var attribute = {
-  "type": "test",
-  "value": rfidValue,
-};
+var attribute = {"type": "test", "value": rfidValue};
 var authority = {
   "attributes": [attribute, attribute, attribute],
   "data": "test",
@@ -647,16 +601,10 @@ var cardProperties = {
   "aTR": "test2",
   "baudrate1": "test3",
   "baudrate2": "test4",
-  "uID": "test5"
+  "uID": "test5",
 };
-var extension = {
-  "data": "test1",
-  "type": "test2",
-};
-var rfidValidity = {
-  "notAfter": rfidValue,
-  "notBefore": rfidValue,
-};
+var extension = {"data": "test1", "type": "test2"};
+var rfidValidity = {"notAfter": rfidValue, "notBefore": rfidValue};
 var certificateChain = {
   "type": 1,
   "extensions": [extension, extension, extension],
@@ -670,12 +618,9 @@ var certificateChain = {
   "subject": authority,
   "subjectPKAlgorithm": "test3",
   "validity": rfidValidity,
-  "version": 4
+  "version": 4,
 };
-var dataField = {
-  "data": "test",
-  "fieldType": 1,
-};
+var dataField = {"data": "test", "fieldType": 1};
 var signerInfo = {
   "dataToHash": "test1",
   "digestAlgorithm": "test2",
@@ -688,20 +633,20 @@ var signerInfo = {
   "subjectKeyIdentifier": rfidValue,
   "signedAttributes": [extension, extension, extension],
   "certificateChain": [certificateChain, certificateChain, certificateChain],
-  "notifications": [1, 2, 3]
+  "notifications": [1, 2, 3],
 };
 var securityObject = {
   "fileReference": 1,
   "objectType": "test",
   "version": 2,
   "signerInfos": [signerInfo, signerInfo, signerInfo],
-  "notifications": [1, 2, 3]
+  "notifications": [1, 2, 3],
 };
 var rfidSessionData = {
   "accessControls": [
     accessControlProcedureType,
     accessControlProcedureType,
-    accessControlProcedureType
+    accessControlProcedureType,
   ],
   "applications": [application, application, application],
   "securityObjects": [securityObject, securityObject, securityObject],
@@ -712,14 +657,9 @@ var rfidSessionData = {
   "totalBytesSent": 2,
   "status": 1,
   "extLeSupport": 1,
-  "processTime": 4
+  "processTime": 4,
 };
-var bytesData = {
-  "data": "test",
-  "length": 1,
-  "status": 2,
-  "type": 3,
-};
+var bytesData = {"data": "test", "length": 1, "status": 2, "type": 3};
 var vdsncData = {
   "type": "test1",
   "version": 1,
@@ -760,11 +700,7 @@ var resultsStatus = {
   "detailsOptical": opticalStatus,
   "detailsRFID": rfidStatus,
 };
-var comparison = {
-  "sourceTypeLeft": 0,
-  "sourceTypeRight": 1,
-  "status": 2,
-};
+var comparison = {"sourceTypeLeft": 0, "sourceTypeRight": 1, "status": 2};
 var graphicField = {
   "sourceType": 0,
   "fieldType": 201,
@@ -779,21 +715,9 @@ var graphicField = {
 var graphicResult = {
   "fields": [graphicField, graphicField, graphicField],
 };
-var rfidOrigin = {
-  "dg": 1,
-  "dgTag": 2,
-  "entryView": 3,
-  "tagEntry": 4,
-};
-var symbol = {
-  "rect": rect,
-  "code": 1,
-  "probability": 2,
-};
-var validity = {
-  "sourceType": 1,
-  "status": 2,
-};
+var rfidOrigin = {"dg": 1, "dgTag": 2, "entryView": 3, "tagEntry": 4};
+var symbol = {"rect": rect, "code": 1, "probability": 2};
+var validity = {"sourceType": 1, "status": 2};
 var value = {
   "sourceType": 3,
   "value": "test1",
@@ -840,7 +764,7 @@ var textResult = {
   "availableSourceList": [
     textSource,
     documentReaderTextSource2,
-    documentReaderTextSource3
+    documentReaderTextSource3,
   ],
   "fields": [textField, textField, textField],
 };
@@ -858,10 +782,7 @@ var documentType = {
   "dCountryName": "test5",
   "pageIndex": 3,
 };
-var coordinate = {
-  "x": 1,
-  "y": 2,
-};
+var coordinate = {"x": 1, "y": 2};
 var position = {
   "docFormat": 0,
   "resultStatus": 1,
@@ -883,6 +804,7 @@ var position = {
 var transactionInfo = {
   "transactionId": "test1",
   "tag": "test2",
+  "sessionLogFolder": "test3",
 };
 var results = {
   "chipPage": 0,
@@ -904,18 +826,15 @@ var results = {
   "status": resultsStatus,
   "vdsncData": vdsncData,
   "dtcData": img1,
-  "transactionInfo": transactionInfo
+  "transactionInfo": transactionInfo,
 };
 
 var rfidNotification = {
   "notificationCode": 65536,
   "dataFileType": 1,
-  "progress": 2
+  "progress": 2,
 };
-var paAttribute = {
-  "type": "test1",
-  "value": "test2",
-};
+var paAttribute = {"type": "test1", "value": "test2"};
 var paResourcesIssuer = {
   "data": img1,
   "friendlyName": "test",
@@ -938,5 +857,5 @@ var tccParams = {
   "serviceUrlPA": "test2",
   "pfxCertUrl": "test3",
   "pfxPassPhrase": "test4",
-  "pfxCert": img1
+  "pfxCert": img1,
 };
