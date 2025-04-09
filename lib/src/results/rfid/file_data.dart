@@ -35,7 +35,8 @@ class FileData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "data": data,
         "length": length,
         "type": type,

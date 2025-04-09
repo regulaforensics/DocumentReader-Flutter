@@ -69,8 +69,9 @@ class RFIDSessionData {
     result._extLeSupport =
         RFIDErrorCodes.getByValue(jsonObject["extLeSupport"])!;
     result._processTime = jsonObject["processTime"];
-    result._cardProperties =
-        CardProperties.fromJson(jsonObject["cardProperties"]);
+    result._cardProperties = CardProperties.fromJson(
+      jsonObject["cardProperties"],
+    );
     for (var item in jsonObject["accessControls"]) {
       result._accessControls.addSafe(AccessControlProcedureType.fromJson(item));
     }
@@ -94,7 +95,8 @@ class RFIDSessionData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "cardProperties": cardProperties?.toJson(),
         "totalBytesReceived": totalBytesReceived,
         "totalBytesSent": totalBytesSent,

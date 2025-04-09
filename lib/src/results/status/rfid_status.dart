@@ -56,7 +56,8 @@ class RFIDStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "overallStatus": overallStatus.value,
         "pa": pa.value,
         "ca": ca.value,

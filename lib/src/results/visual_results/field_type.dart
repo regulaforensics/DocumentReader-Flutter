@@ -1922,14 +1922,20 @@ enum FieldType {
   /// Date of first positive test result.
   DATE_OF_FIRST_POSITIVE_TEST_RESULT(691),
 
-  EF_CARD_ACCESS(692);
+  EF_CARD_ACCESS(692),
+
+  SHORT_FLIGHT_NUMBER(693),
+
+  AIRLINE_CODE(694);
 
   const FieldType(this.value);
   final int value;
 
   Future<String> getTranslation() async {
-    return await _bridge
-        .invokeMethod("getTranslation", [runtimeType.toString(), value]);
+    return await _bridge.invokeMethod("getTranslation", [
+      runtimeType.toString(),
+      value,
+    ]);
   }
 
   static FieldType? getByValue(int? i) {

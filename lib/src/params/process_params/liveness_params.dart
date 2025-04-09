@@ -37,6 +37,21 @@ class LivenessParams {
     _set({"checkED": val});
   }
 
+  bool? get checkBlackAndWhiteCopy => _checkBlackAndWhiteCopy;
+  bool? _checkBlackAndWhiteCopy;
+  set checkBlackAndWhiteCopy(bool? val) {
+    _checkBlackAndWhiteCopy = val;
+    _set({"checkBlackAndWhiteCopy": val});
+  }
+
+  /// This parameter is used to enable Dynaprint detection.
+  bool? get checkDynaprint => _checkDynaprint;
+  bool? _checkDynaprint;
+  set checkDynaprint(bool? val) {
+    _checkDynaprint = val;
+    _set({"checkDynaprint": val});
+  }
+
   /// Allows you to deserialize object.
   static LivenessParams fromJson(jsonObject) {
     if (jsonObject == null) return LivenessParams();
@@ -47,16 +62,21 @@ class LivenessParams {
     result.checkMLI = jsonObject["checkMLI"];
     result.checkHolo = jsonObject["checkHolo"];
     result.checkED = jsonObject["checkED"];
+    result.checkBlackAndWhiteCopy = jsonObject["checkBlackAndWhiteCopy"];
+    result.checkDynaprint = jsonObject["checkDynaprint"];
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "checkOVI": checkOVI,
         "checkMLI": checkMLI,
         "checkHolo": checkHolo,
         "checkED": checkED,
+        "checkBlackAndWhiteCopy": checkBlackAndWhiteCopy,
+        "checkDynaprint": checkDynaprint,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {AuthenticityParams? directParent}) {

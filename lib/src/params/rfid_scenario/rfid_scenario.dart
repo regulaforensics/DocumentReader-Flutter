@@ -266,6 +266,21 @@ class RFIDScenario {
     _set({"mrzStrictCheck": val});
   }
 
+  /// If enabled, Certificate Revoke List(s) (CRL) will be loaded from remote and verified.
+  bool? get loadCRLFromRemote => _loadCRLFromRemote;
+  bool? _loadCRLFromRemote;
+  set loadCRLFromRemote(bool? val) {
+    _loadCRLFromRemote = val;
+    _set({"loadCRLFromRemote": val});
+  }
+
+  bool? get independentSODStatus => _independentSODStatus;
+  bool? _independentSODStatus;
+  set independentSODStatus(bool? val) {
+    _independentSODStatus = val;
+    _set({"independentSODStatus": val});
+  }
+
   int? get readingBuffer => _readingBuffer;
   int? _readingBuffer;
   set readingBuffer(int? val) {
@@ -398,9 +413,9 @@ class RFIDScenario {
     (_eIDDataGroups = val)._apply(this);
   }
 
-  DTCDataGroups get dtcDataGroups => _dtcDataGroups;
-  DTCDataGroups _dtcDataGroups = DTCDataGroups();
-  set dtcDataGroups(DTCDataGroups val) {
+  DTCDataGroup get dtcDataGroups => _dtcDataGroups;
+  DTCDataGroup _dtcDataGroups = DTCDataGroup();
+  set dtcDataGroups(DTCDataGroup val) {
     (_dtcDataGroups = val)._apply(this);
   }
 
@@ -450,22 +465,30 @@ class RFIDScenario {
     result.proceedReadingAlways = jsonObject["proceedReadingAlways"];
     result.readDTC = jsonObject["readDTC"];
     result.mrzStrictCheck = jsonObject["mrzStrictCheck"];
+    result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
+    result.independentSODStatus = jsonObject["independentSODStatus"];
 
     result.readingBuffer = jsonObject["readingBuffer"];
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
     result.defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
-    result.signManagementAction =
-        SignManagementAction.getByValue(jsonObject["signManagementAction"]);
-    result.profilerType =
-        RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
-    result.authProcType =
-        RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
+    result.signManagementAction = SignManagementAction.getByValue(
+      jsonObject["signManagementAction"],
+    );
+    result.profilerType = RFIDSDKProfilerType.getByValue(
+      jsonObject["profilerType"],
+    );
+    result.authProcType = RFIDAuthenticationProcedureType.getByValue(
+      jsonObject["authProcType"],
+    );
     result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
-        jsonObject["baseSMProcedure"]);
-    result.pacePasswordType =
-        RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
-    result.terminalType =
-        RFIDTerminalType.getByValue(jsonObject["terminalType"]);
+      jsonObject["baseSMProcedure"],
+    );
+    result.pacePasswordType = RFIDPasswordType.getByValue(
+      jsonObject["pacePasswordType"],
+    );
+    result.terminalType = RFIDTerminalType.getByValue(
+      jsonObject["terminalType"],
+    );
 
     result.password = jsonObject["password"];
     result.pkdPA = jsonObject["pkdPA"];
@@ -476,16 +499,18 @@ class RFIDScenario {
     result.cardAccess = jsonObject["cardAccess"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
-    result.ePassportDataGroups =
-        EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
+    result.ePassportDataGroups = EPassportDataGroups.fromJson(
+      jsonObject["ePassportDataGroups"],
+    );
     result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
-    result.dtcDataGroups = DTCDataGroups.fromJson(jsonObject["dtcDataGroups"]);
+    result.dtcDataGroups = DTCDataGroup.fromJson(jsonObject["dtcDataGroups"]);
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "paceStaticBinding": paceStaticBinding,
         "onlineTA": onlineTA,
         "writeEid": writeEid,
@@ -523,6 +548,8 @@ class RFIDScenario {
         "proceedReadingAlways": proceedReadingAlways,
         "readDTC": readDTC,
         "mrzStrictCheck": mrzStrictCheck,
+        "loadCRLFromRemote": loadCRLFromRemote,
+        "independentSODStatus": independentSODStatus,
         "readingBuffer": readingBuffer,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,
@@ -577,8 +604,9 @@ enum RFIDAuthenticationProcedureType {
   static RFIDAuthenticationProcedureType? getByValue(int? i) {
     if (i == null) return null;
     try {
-      return RFIDAuthenticationProcedureType.values
-          .firstWhere((x) => x.value == i);
+      return RFIDAuthenticationProcedureType.values.firstWhere(
+        (x) => x.value == i,
+      );
     } catch (_) {
       return RFIDAuthenticationProcedureType.UNDEFINED;
     }

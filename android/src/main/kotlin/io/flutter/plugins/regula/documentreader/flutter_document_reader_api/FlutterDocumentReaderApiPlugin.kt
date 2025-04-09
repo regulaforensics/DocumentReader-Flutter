@@ -12,6 +12,7 @@ package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NfcAdapter
@@ -19,6 +20,7 @@ import android.nfc.tech.IsoDep
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.regula.common.LocalizationCallbacks
@@ -54,9 +56,9 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
-import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
+import io.flutter.plugin.common.EventChannel.StreamHandler
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -65,43 +67,18 @@ import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Conv
 import org.json.JSONArray
 import org.json.JSONObject
 
-class FlutterDocumentReaderApiPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
-    override fun onAttachedToActivity(binding: ActivityPluginBinding) = attachedToActivity(binding)
-    override fun onDetachedFromActivityForConfigChanges() = Unit
-    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = Unit
-    override fun onDetachedFromActivity() = Unit
-    override fun onAttachedToEngine(binding: FlutterPluginBinding) = attachedToEngine(binding, this)
-    override fun onDetachedFromEngine(binding: FlutterPluginBinding) = Unit
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = methodCall(call, result)
-}
+const val channelID = "flutter_document_reader_api"
+val eventSinks = mutableMapOf<String, EventSink?>()
 
-fun attachedToEngine(binding: FlutterPluginBinding, plugin: FlutterDocumentReaderApiPlugin) {
-    binaryMessenger = binding.binaryMessenger
-    setupEventChannel("completion")
-    setupEventChannel("database_progress")
-    setupEventChannel("rfidOnProgressCompletion")
-    setupEventChannel("rfidOnChipDetectedEvent")
-    setupEventChannel("rfidOnRetryReadChipEvent")
-    setupEventChannel("pa_certificate_completion")
-    setupEventChannel("ta_certificate_completion")
-    setupEventChannel("ta_signature_completion")
-    setupEventChannel("video_encoder_completion")
-    setupEventChannel("onCustomButtonTappedEvent")
-    MethodChannel(binaryMessenger, "flutter_document_reader_api/method").setMethodCallHandler(plugin)
-}
-
-fun attachedToActivity(binding: ActivityPluginBinding) {
-    activity = binding.activity
-    activityBinding = binding
-    binding.addOnNewIntentListener(::newIntent)
-    binding.addActivityResultListener(::onActivityResult)
-    binding.addRequestPermissionsResultListener(::onRequestPermissionsResult)
-}
-
-fun setupEventChannel(id: String) = EventChannel(binaryMessenger, "flutter_document_reader_api/event/$id").setStreamHandler(object : EventChannel.StreamHandler {
-    override fun onListen(arguments: Any?, events: EventSink) = events.let { eventSinks[id] = it }
-    override fun onCancel(arguments: Any?) = Unit
-})
+lateinit var args: List<Any?>
+lateinit var binding: FlutterPluginBinding
+lateinit var activityBinding: ActivityPluginBinding
+val context: Context
+    get() = binding.applicationContext
+val activity: Activity
+    get() = activityBinding.activity
+val lifecycle: Lifecycle
+    get() = (activityBinding.lifecycle as HiddenLifecycleReference).lifecycle
 
 fun sendEvent(id: String, data: Any? = "") {
     eventSinks[id]?.let { Handler(Looper.getMainLooper()).post { it.success(data.toSendable()) } }
@@ -114,12 +91,45 @@ inline fun <reified T> argsNullable(index: Int) = when (val v = args[index]) {
     else -> v as T
 }
 
-lateinit var args: List<Any?>
-val eventSinks = mutableMapOf<String, EventSink?>()
-lateinit var binaryMessenger: BinaryMessenger
-lateinit var activityBinding: ActivityPluginBinding
-val lifecycle: Lifecycle
-    get() = (activityBinding.lifecycle as HiddenLifecycleReference).lifecycle
+fun setupEventChannel(id: String) = EventChannel(binding.binaryMessenger, "$channelID/event/$id").setStreamHandler(object : StreamHandler {
+    override fun onListen(arguments: Any?, events: EventSink) = events.let { eventSinks[id] = it }
+    override fun onCancel(arguments: Any?) = Unit
+})
+
+class FlutterDocumentReaderApiPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+    override fun onDetachedFromActivityForConfigChanges() = Unit
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = Unit
+    override fun onDetachedFromActivity() = Unit
+    override fun onDetachedFromEngine(binding: FlutterPluginBinding) = Unit
+    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = methodCall(call, result)
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activityBinding = binding
+        binding.addOnNewIntentListener(::newIntent)
+        binding.addActivityResultListener(::onActivityResult)
+        binding.addRequestPermissionsResultListener(::onRequestPermissionsResult)
+    }
+
+    override fun onAttachedToEngine(flutterBinding: FlutterPluginBinding) {
+        binding = flutterBinding
+        for (event in arrayOf(
+            eventCompletion,
+            eventDatabaseProgress,
+            rfidOnProgressEvent,
+            rfidOnChipDetectedEvent,
+            rfidOnRetryReadChipEvent,
+            eventPACertificateCompletion,
+            eventTACertificateCompletion,
+            eventTASignatureCompletion,
+            eventVideoEncoderCompletion,
+            onCustomButtonTappedEvent
+        )) setupEventChannel(event)
+        MethodChannel(binding.binaryMessenger, "$channelID/method").setMethodCallHandler(this)
+    }
+}
+
+fun requestPermissions(activity: Activity, permissions: Array<String>, requestCode: Int) = ActivityCompat.requestPermissions(activity, permissions, requestCode)
+fun startActivityForResult(activity: Activity, intent: Intent, requestCode: Int) = activity.startActivityForResult(intent, requestCode)
 
 fun methodCall(call: MethodCall, result: MethodChannel.Result) {
     val action = call.method
@@ -207,14 +217,6 @@ interface Callback {
     fun success(data: Any? = "")
     fun error(message: String)
 }
-
-@SuppressLint("StaticFieldLeak")
-lateinit var activity: Activity
-lateinit var lifecycleObserver: LifecycleEventObserver
-val context
-    get() = activity
-
-var backgroundRFIDEnabled = false
 
 const val eventCompletion = "completion"
 const val eventDatabaseProgress = "database_progress"
@@ -523,6 +525,9 @@ fun newIntent(intent: Intent): Boolean {
     return true
 }
 
+var backgroundRFIDEnabled = false
+lateinit var lifecycleObserver: LifecycleEventObserver
+
 fun startForegroundDispatch() {
     backgroundRFIDEnabled = true
     val filters: Array<IntentFilter?> = arrayOfNulls(1)
@@ -530,9 +535,9 @@ fun startForegroundDispatch() {
     filters[0]!!.addAction(NfcAdapter.ACTION_TECH_DISCOVERED)
     filters[0]!!.addCategory(Intent.CATEGORY_DEFAULT)
     val techList = arrayOf(arrayOf("android.nfc.tech.IsoDep"))
-    val intent = Intent(context, context.javaClass)
+    val intent = Intent(activity, activity.javaClass)
     val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
-    val pendingIntent = PendingIntent.getActivity(context, 0, intent, flag)
+    val pendingIntent = PendingIntent.getActivity(activity, 0, intent, flag)
 
     if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
         enableForegroundDispatch(pendingIntent, filters, techList)
@@ -543,7 +548,7 @@ fun startForegroundDispatch() {
             else -> Unit
         }
     }
-    context.runOnUiThread { lifecycle.addObserver(lifecycleObserver) }
+    activity.runOnUiThread { lifecycle.addObserver(lifecycleObserver) }
 }
 
 fun enableForegroundDispatch(
@@ -559,7 +564,7 @@ fun stopBackgroundRFID() {
     backgroundRFIDEnabled = false
     if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
         disableForegroundDispatch()
-    context.runOnUiThread { lifecycle.removeObserver(lifecycleObserver) }
+    activity.runOnUiThread { lifecycle.removeObserver(lifecycleObserver) }
 }
 
 // Weak references

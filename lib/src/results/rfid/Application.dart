@@ -59,7 +59,8 @@ class Application {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "applicationID": applicationID,
         "dataHashAlgorithm": dataHashAlgorithm,
         "files": files.map((e) => e.toJson()).toList(),

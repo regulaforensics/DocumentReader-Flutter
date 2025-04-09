@@ -114,6 +114,13 @@ class AuthenticityParams {
     _set({"checkLetterScreen": val});
   }
 
+  bool? get checkSecurityText => _checkSecurityText;
+  bool? _checkSecurityText;
+  set checkSecurityText(bool? val) {
+    _checkSecurityText = val;
+    _set({"checkSecurityText": val});
+  }
+
   /// Allows you to deserialize object.
   static AuthenticityParams fromJson(jsonObject) {
     if (jsonObject == null) return AuthenticityParams();
@@ -121,8 +128,9 @@ class AuthenticityParams {
     result.testSetters = {};
 
     result.useLivenessCheck = jsonObject["useLivenessCheck"];
-    result.livenessParams =
-        LivenessParams.fromJson(jsonObject["livenessParams"]);
+    result.livenessParams = LivenessParams.fromJson(
+      jsonObject["livenessParams"],
+    );
     result.checkUVLuminiscence = jsonObject["checkUVLuminiscence"];
     result.checkIRB900 = jsonObject["checkIRB900"];
     result.checkImagePatterns = jsonObject["checkImagePatterns"];
@@ -136,12 +144,14 @@ class AuthenticityParams {
     result.checkPhotoEmbedding = jsonObject["checkPhotoEmbedding"];
     result.checkPhotoComparison = jsonObject["checkPhotoComparison"];
     result.checkLetterScreen = jsonObject["checkLetterScreen"];
+    result.checkSecurityText = jsonObject["checkSecurityText"];
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "useLivenessCheck": useLivenessCheck,
         "livenessParams": livenessParams.toJson(),
         "checkUVLuminiscence": checkUVLuminiscence,
@@ -157,6 +167,7 @@ class AuthenticityParams {
         "checkPhotoEmbedding": checkPhotoEmbedding,
         "checkPhotoComparison": checkPhotoComparison,
         "checkLetterScreen": checkLetterScreen,
+        "checkSecurityText": checkSecurityText,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {ProcessParams? directParent}) {

@@ -73,8 +73,9 @@ class SignerInfo {
     result._signatureAlgorithm = jsonObject["signatureAlgorithm"];
     result._serialNumber = RFIDValue.fromJson(jsonObject["serialNumber"]);
     result._signature = RFIDValue.fromJson(jsonObject["signature"]);
-    result._subjectKeyIdentifier =
-        RFIDValue.fromJson(jsonObject["subjectKeyIdentifier"]);
+    result._subjectKeyIdentifier = RFIDValue.fromJson(
+      jsonObject["subjectKeyIdentifier"],
+    );
     result._issuer = Authority.fromJson(jsonObject["issuer"]);
     result._notifications = _intListFrom(jsonObject["notifications"])!;
     for (var item in jsonObject["signedAttributes"]) {
@@ -88,7 +89,8 @@ class SignerInfo {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "dataToHash": dataToHash,
         "digestAlgorithm": digestAlgorithm,
         "version": version,

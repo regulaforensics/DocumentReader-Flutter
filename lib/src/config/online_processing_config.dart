@@ -19,6 +19,8 @@ class OnlineProcessingConfig {
 
   double imageCompressionQuality = 0.8;
 
+  Map<String, String>? requestHeaders;
+
   OnlineProcessingConfig(this.mode) {
     processParams = ProcessParams();
     processParams.scenario = Scenario.FULL_PROCESS;
@@ -35,17 +37,20 @@ class OnlineProcessingConfig {
     result.imageCompressionQuality =
         jsonObject["imageCompressionQuality"].toDouble();
     result.processParams = ProcessParams.fromJson(jsonObject["processParams"]);
+    result.requestHeaders = jsonObject["requestHeaders"];
 
     return result;
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "mode": mode.value,
         "url": url,
         "imageFormat": imageFormat.value,
         "imageCompressionQuality": imageCompressionQuality,
         "processParams": processParams.toJson(),
+        "requestHeaders": requestHeaders,
       }.clearNulls();
 }
 

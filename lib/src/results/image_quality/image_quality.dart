@@ -42,7 +42,8 @@ class ImageQuality {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "featureType": featureType,
         "result": result.value,
         "type": type.value,

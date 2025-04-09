@@ -35,10 +35,6 @@ class Rect {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "bottom": bottom,
-        "top": top,
-        "left": left,
-        "right": right,
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"bottom": bottom, "top": top, "left": left, "right": right}.clearNulls();
 }

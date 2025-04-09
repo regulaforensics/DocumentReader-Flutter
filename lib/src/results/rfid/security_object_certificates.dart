@@ -17,14 +17,14 @@ class SecurityObjectCertificates {
     if (jsonObject == null) return null;
     var result = SecurityObjectCertificates();
 
-    result._securityObject =
-        CertificateData.fromJson(jsonObject["securityObject"]);
+    result._securityObject = CertificateData.fromJson(
+      jsonObject["securityObject"],
+    );
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "securityObject": securityObject?.toJson(),
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"securityObject": securityObject?.toJson()}.clearNulls();
 }

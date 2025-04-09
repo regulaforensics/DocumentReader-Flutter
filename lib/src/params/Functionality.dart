@@ -192,6 +192,16 @@ class Functionality {
     _set({"singleResult": val});
   }
 
+  /// If set, torch (if available) will turn on immediately on camera preview start.
+  ///
+  /// Default: `false`.
+  bool? get torchTurnedOn => _torchTurnedOn;
+  bool? _torchTurnedOn;
+  set torchTurnedOn(bool? val) {
+    _torchTurnedOn = val;
+    _set({"torchTurnedOn": val});
+  }
+
   /// Allows you to specify a time interval when the Capture button
   /// has to be displayed after the document is detected.
   /// Don't forget to set the [showCaptureButton] to `true`,
@@ -376,6 +386,7 @@ class Functionality {
     result.recordScanningProcess = jsonObject["recordScanningProcess"];
     result.manualMultipageMode = jsonObject["manualMultipageMode"];
     result.singleResult = jsonObject["singleResult"];
+    result.torchTurnedOn = jsonObject["torchTurnedOn"];
 
     result.showCaptureButtonDelayFromDetect =
         jsonObject["showCaptureButtonDelayFromDetect"];
@@ -383,12 +394,14 @@ class Functionality {
         jsonObject["showCaptureButtonDelayFromStart"];
     result.rfidTimeout = jsonObject["rfidTimeout"];
     result.forcePagesCount = jsonObject["forcePagesCount"];
-    result.orientation =
-        DocReaderOrientation.getByValue(jsonObject["orientation"]);
+    result.orientation = DocReaderOrientation.getByValue(
+      jsonObject["orientation"],
+    );
     result.captureMode = CaptureMode.getByValue(jsonObject["captureMode"]);
     result.cameraMode = CameraMode.getByValue(jsonObject["cameraMode"]);
-    result.cameraPositionIOS =
-        CameraPosition.getByValue(jsonObject["cameraPositionIOS"]);
+    result.cameraPositionIOS = CameraPosition.getByValue(
+      jsonObject["cameraPositionIOS"],
+    );
 
     result.cameraFrame = DocReaderFrame.getByValue(jsonObject["cameraFrame"]);
     result.btDeviceName = jsonObject["btDeviceName"];
@@ -396,19 +409,23 @@ class Functionality {
     result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
     result.exposure = _toDouble(jsonObject["exposure"]);
 
-    result.excludedCamera2Models =
-        _stringListFrom(jsonObject["excludedCamera2Models"]);
+    result.excludedCamera2Models = _stringListFrom(
+      jsonObject["excludedCamera2Models"],
+    );
 
-    result.cameraResolutionAndroid =
-        CameraSize.fromJson(jsonObject["cameraSize"]);
-    result.cameraResolutionIOS =
-        CaptureSessionPreset.getByValue(jsonObject["videoSessionPreset"]);
+    result.cameraResolutionAndroid = CameraSize.fromJson(
+      jsonObject["cameraSize"],
+    );
+    result.cameraResolutionIOS = CaptureSessionPreset.getByValue(
+      jsonObject["videoSessionPreset"],
+    );
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "pictureOnBoundsReady": pictureOnBoundsReady,
         "showTorchButton": showTorchButton,
         "showCloseButton": showCloseButton,
@@ -425,6 +442,7 @@ class Functionality {
         "recordScanningProcess": recordScanningProcess,
         "manualMultipageMode": manualMultipageMode,
         "singleResult": singleResult,
+        "torchTurnedOn": torchTurnedOn,
         "showCaptureButtonDelayFromDetect": showCaptureButtonDelayFromDetect,
         "showCaptureButtonDelayFromStart": showCaptureButtonDelayFromStart,
         "rfidTimeout": rfidTimeout,
@@ -617,24 +635,16 @@ class CameraSize {
   int get height => _height;
   int _height;
 
-  CameraSize(int width, int height)
-      : _width = width,
-        _height = height;
+  CameraSize(int width, int height) : _width = width, _height = height;
 
   /// Allows you to deserialize object.
   static CameraSize? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    return CameraSize(
-      jsonObject["width"],
-      jsonObject["height"],
-    );
+    return CameraSize(jsonObject["width"], jsonObject["height"]);
   }
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() {
-    return {
-      "width": width,
-      "height": height,
-    }.clearNulls();
+    return {"width": width, "height": height}.clearNulls();
   }
 }

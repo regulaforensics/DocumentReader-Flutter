@@ -57,7 +57,8 @@ class ResultsStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "overallStatus": overallStatus.value,
         "optical": optical.value,
         "rfid": rfid.value,
