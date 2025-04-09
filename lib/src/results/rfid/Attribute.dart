@@ -27,8 +27,6 @@ class Attribute {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "value": value?.toJson(),
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"type": type, "value": value?.toJson()}.clearNulls();
 }

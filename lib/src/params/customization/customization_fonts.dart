@@ -36,18 +36,22 @@ class CustomizationFonts {
     var result = CustomizationFonts();
     result.testSetters = {};
 
-    result.rfidProcessingScreenHintLabel =
-        Font.fromJson(jsonObject["rfidProcessingScreenHintLabel"]);
-    result.rfidProcessingScreenProgressLabel =
-        Font.fromJson(jsonObject["rfidProcessingScreenProgressLabel"]);
-    result.rfidProcessingScreenResultLabel =
-        Font.fromJson(jsonObject["rfidProcessingScreenResultLabel"]);
+    result.rfidProcessingScreenHintLabel = Font.fromJson(
+      jsonObject["rfidProcessingScreenHintLabel"],
+    );
+    result.rfidProcessingScreenProgressLabel = Font.fromJson(
+      jsonObject["rfidProcessingScreenProgressLabel"],
+    );
+    result.rfidProcessingScreenResultLabel = Font.fromJson(
+      jsonObject["rfidProcessingScreenResultLabel"],
+    );
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "rfidProcessingScreenHintLabel":
             rfidProcessingScreenHintLabel?.toJson(),
         "rfidProcessingScreenProgressLabel":

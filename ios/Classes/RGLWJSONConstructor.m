@@ -11,6 +11,13 @@
 
 @implementation RGLWJSONConstructor
 
+static NSMutableArray* weakReferencesHolder;
++(void) holdWeakReference:(id)reference {
+    if(!weakReferencesHolder)
+        weakReferencesHolder = [NSMutableArray new];
+    [weakReferencesHolder addObject:reference];
+}
+
 +(NSString*)dictToString:(NSDictionary*)input {
     if(input == nil) return nil;
     return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
@@ -104,8 +111,9 @@
     
     NSString* transactionId = [input valueForKey:@"transactionId"];
     NSString* tag = [input valueForKey:@"tag"];
+    NSString* sessionLogFolder = input[@"sessionLogFolder"];
     
-    return [[RGLTransactionInfo alloc] initWithTag:tag transactionId:transactionId];
+    return [[RGLTransactionInfo alloc] initWithTag:tag transactionId:transactionId sessionLogFolder:sessionLogFolder];
 }
 
 +(NSDictionary*)generateTransactionInfo:(RGLTransactionInfo*)input {
@@ -114,6 +122,7 @@
     
     result[@"transactionId"] = input.transactionId;
     result[@"tag"] = input.tag;
+    result[@"sessionLogFolder"] = input.sessionLogFolder;
     
     return result;
 }
@@ -349,14 +358,14 @@
     return [RGLWConfig getDataGroups:input];
 }
 
-+(RGLDTCDataGroup*)dtcDataGroupsFromJson:(NSDictionary*)input {
++(RGLDTCDataGroup*)dtcDataGroupFromJson:(NSDictionary*)input {
     RGLDTCDataGroup *result = [RGLDTCDataGroup new];
-    [RGLWConfig setDataGroups :result dict:input];
+    [RGLWConfig setDTCDataGroup:result dict:input];
     return result;
 }
 
-+(NSDictionary*)generateRGLDTCDataGroups:(RGLDTCDataGroup*)input {
-    return [RGLWConfig getDataGroups:input];
++(NSDictionary*)generateRGLDTCDataGroup:(RGLDTCDataGroup*)input {
+    return [RGLWConfig getDTCDataGroup:input];
 }
 
 +(RGLRFIDScenario*)rfidScenarioFromJson:(NSDictionary*)input {
@@ -405,6 +414,11 @@
         RGLProcessParams *params = [RGLProcessParams new];
         [RGLWConfig setProcessParams:[input valueForKey:@"processParams"] :params];
         result.processParams = params;
+    }
+    if([input valueForKey:@"requestHeaders"] != nil) {
+        RGLWRequestInterceptorProxy* proxy = [[RGLWRequestInterceptorProxy alloc] initWithHeaders:[input valueForKey:@"requestHeaders"]];
+        [self holdWeakReference: proxy];
+        result.requestInterceptingDelegate = proxy;
     }
     
     return result;
@@ -1684,10 +1698,12 @@
     NSMutableArray<RGLAuthenticityElement*> *array = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"elements"])
         [array addObject:[self authenticityElementFromJson:item]];
-    return [[RGLAuthenticityCheck alloc]
-            initWithAuthenticity:[[input valueForKey:@"type"] integerValue]
-            elements:array
-            pageIndex:[[input valueForKey:@"pageIndex"] integerValue]];
+    RGLAuthenticityCheck* result = [[RGLAuthenticityCheck alloc]
+                                    initWithAuthenticity:[[input valueForKey:@"type"] integerValue]
+                                    elements:array
+                                    pageIndex:[[input valueForKey:@"pageIndex"] integerValue]];
+    if (input[@"status"]) [result setValue:input[@"status"] forKey:@"status"];
+    return result;;
 }
 
 +(NSDictionary*)generateAuthenticityCheck:(RGLAuthenticityCheck*)input {
@@ -1790,8 +1806,10 @@
     NSMutableArray<RGLAuthenticityCheck*> *array = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"checks"])
         [array addObject:[self authenticityCheckFromJson:item]];
-    return [[RGLDocumentReaderAuthenticityResult alloc]
-            initWithAuthenticityChecks:array];
+    RGLDocumentReaderAuthenticityResult* result = [[RGLDocumentReaderAuthenticityResult alloc]
+     initWithAuthenticityChecks:array];
+    if (input[@"status"]) [result setValue:input[@"status"] forKey:@"_security"];
+    return result;
 }
 
 +(NSDictionary*)generateDocumentReaderAuthenticityResult:(RGLDocumentReaderAuthenticityResult*)input {
@@ -2333,6 +2351,25 @@
         result[[key stringValue]] = input[key];
     
     return result;
+}
+
+@end
+
+@implementation RGLWRequestInterceptorProxy {
+    NSDictionary* _headers;
+}
+
+- (instancetype)initWithHeaders:(NSDictionary*)headers {
+    self = [super init];
+    _headers = [headers copy];
+    return self;
+}
+
+-(NSURLRequest*)interceptorPrepareRequest:(NSURLRequest*)request {
+    NSMutableURLRequest *interceptedRequest = [request mutableCopy];
+    for (NSString* key in _headers.allKeys)
+        [interceptedRequest addValue:[_headers valueForKey:key] forHTTPHeaderField:key];
+    return interceptedRequest;
 }
 
 @end

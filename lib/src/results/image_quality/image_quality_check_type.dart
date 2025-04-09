@@ -41,14 +41,19 @@ enum ImageQualityCheckType {
   HANDWRITTEN(8),
 
   /// Signals whether the document image is bright enough.
-  BRIGHTNESS(9);
+  BRIGHTNESS(9),
+
+  /// Document occlusion check.
+  OCCLUSION(10);
 
   const ImageQualityCheckType(this.value);
   final int value;
 
   Future<String> getTranslation() async {
-    return await _bridge
-        .invokeMethod("getTranslation", [runtimeType.toString(), value]);
+    return await _bridge.invokeMethod("getTranslation", [
+      runtimeType.toString(),
+      value,
+    ]);
   }
 
   static ImageQualityCheckType? getByValue(int? i) {

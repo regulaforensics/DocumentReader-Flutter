@@ -332,6 +332,8 @@ enum CheckDiagnose {
 
   LAS_INK_INVALID_LINES_FREQUENCY(230),
 
+  DOC_LIVENESS_DOCUMENT_NOT_LIVE(238),
+
   CHD_DOC_LIVENESS_BLACK_AND_WHITE_COPY_DETECTED(239),
 
   /// Traces of an electronic device were found in the image.

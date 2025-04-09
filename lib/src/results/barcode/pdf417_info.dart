@@ -34,9 +34,6 @@ class PDF417Info {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "errorLevel": errorLevel,
-        "columns": columns,
-        "rows": rows,
-      }.clearNulls();
+  Map<String, dynamic> toJson() =>
+      {"errorLevel": errorLevel, "columns": columns, "rows": rows}.clearNulls();
 }

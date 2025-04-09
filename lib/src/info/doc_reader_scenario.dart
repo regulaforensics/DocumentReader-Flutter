@@ -80,7 +80,8 @@ class DocReaderScenario {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "uvTorch": uvTorch,
         "frameOrientation": frameOrientation.value,
         "faceExt": faceExt,
@@ -93,7 +94,7 @@ class DocReaderScenario {
         "name": name,
         "caption": caption,
         "description": description,
-        "manualCrop": manualCrop
+        "manualCrop": manualCrop,
       }.clearNulls();
 }
 

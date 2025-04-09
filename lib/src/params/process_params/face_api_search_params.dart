@@ -28,9 +28,9 @@ class FaceApiSearchParams {
     int limit = 100,
     double threshold = 1,
     List<int>? groupIds,
-  })  : _limit = limit,
-        _threshold = threshold,
-        _groupIds = groupIds;
+  }) : _limit = limit,
+       _threshold = threshold,
+       _groupIds = groupIds;
 
   /// Allows you to deserialize object.
   static FaceApiSearchParams? fromJson(jsonObject) {
@@ -43,7 +43,8 @@ class FaceApiSearchParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "limit": limit,
         "threshold": threshold,
         "groupIds": groupIds,
