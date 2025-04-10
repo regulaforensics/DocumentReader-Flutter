@@ -1907,7 +1907,7 @@ static NSMutableArray* weakReferencesHolder;
 +(RGLTAChallenge*)taChallengeFromJson:(NSDictionary*)input {
     NSMutableDictionary* json = input.mutableCopy;
     
-    json[@"#text"] = [self base64Decode:[input valueForKey:@"data"]];
+    json[@"#text"] = [input valueForKey:@"data"];
     json[@"@auxPCD"] = [input valueForKey:@"auxPCD"];
     json[@"@challengePICC"] = [input valueForKey: @"challengePICC"];
     json[@"@hashPK"] = [input valueForKey:@"hashPK"];
