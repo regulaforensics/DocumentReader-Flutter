@@ -75,8 +75,7 @@ class CertificateChain {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "type": type.value,
         "extensions": extensions.map((e) => e.toJson()).toList(),
         "fileName": fileName?.toJson(),

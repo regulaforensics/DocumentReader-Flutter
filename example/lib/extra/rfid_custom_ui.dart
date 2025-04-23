@@ -91,7 +91,7 @@ class RFIDCustomUI {
             description(),
             progressBar(),
             cancelButton(),
-            spacer(),
+            spacer()
           ],
         ),
       ),
@@ -111,9 +111,8 @@ class RFIDCustomUI {
 
   Widget description() {
     return Container(
-      child: Text(rfidDescription, textScaler: TextScaler.linear(1.4)),
-      padding: const EdgeInsets.only(bottom: 40),
-    );
+        child: Text(rfidDescription, textScaler: TextScaler.linear(1.4)),
+        padding: const EdgeInsets.only(bottom: 40));
   }
 
   Widget progressBar() {
@@ -122,7 +121,9 @@ class RFIDCustomUI {
       child: LinearProgressIndicator(
         value: rfidProgress,
         minHeight: 10,
-        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4285F4)),
+        valueColor: const AlwaysStoppedAnimation<Color>(
+          Color(0xFF4285F4),
+        ),
       ),
     );
   }
@@ -131,7 +132,9 @@ class RFIDCustomUI {
     return TextButton(
       onPressed: () => finish(null),
       child: const Text("X"),
-      style: TextButton.styleFrom(padding: const EdgeInsets.only(top: 50)),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.only(top: 50),
+      ),
     );
   }
 
@@ -144,7 +147,7 @@ class RFIDCustomUI {
         Text(""),
         Text(""),
         Text(""),
-        Text(""),
+        Text("")
       ],
     );
   }

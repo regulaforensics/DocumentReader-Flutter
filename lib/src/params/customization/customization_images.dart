@@ -30,8 +30,7 @@ class CustomizationImages {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "rfidProcessingScreenFailureImage": _dataToBase64(
           rfidProcessingScreenFailureImage,
         ),

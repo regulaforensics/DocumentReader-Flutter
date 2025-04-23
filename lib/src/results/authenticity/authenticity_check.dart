@@ -43,8 +43,7 @@ class AuthenticityCheck {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "type": type.value,
         "status": status.value,
         "pageIndex": pageIndex,

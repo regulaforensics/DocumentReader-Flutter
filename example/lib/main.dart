@@ -43,10 +43,7 @@ class MyAppState extends State<MyApp> {
   }
 
   void handleCompletion(
-    DocReaderAction action,
-    Results? results,
-    DocReaderException? error,
-  ) {
+      DocReaderAction action, Results? results, DocReaderException? error) {
     if (error != null) print(error.message);
     if (action.stopped() && !shouldRfid(results)) {
       displayResults(results);
@@ -60,15 +57,12 @@ class MyAppState extends State<MyApp> {
     clearResults();
     if (results == null) return;
 
-    var name = await results.textFieldValueByType(
-      FieldType.SURNAME_AND_GIVEN_NAMES,
-    );
-    var newDocImage = await results.graphicFieldImageByType(
-      GraphicFieldType.DOCUMENT_IMAGE,
-    );
-    var newPortrait = await results.graphicFieldImageByType(
-      GraphicFieldType.PORTRAIT,
-    );
+    var name =
+        await results.textFieldValueByType(FieldType.SURNAME_AND_GIVEN_NAMES);
+    var newDocImage =
+        await results.graphicFieldImageByType(GraphicFieldType.DOCUMENT_IMAGE);
+    var newPortrait =
+        await results.graphicFieldImageByType(GraphicFieldType.PORTRAIT);
     var rfidPortrait = await results.graphicFieldImageByTypeSource(
       GraphicFieldType.PORTRAIT,
       ResultType.RFID_IMAGE_DATA,
@@ -122,7 +116,7 @@ class MyAppState extends State<MyApp> {
         documentImages(),
         scenarioSelector(),
         rfidCheckbox(),
-        scanButtons(),
+        scanButtons()
       ],
     );
   }
@@ -184,17 +178,26 @@ class MyAppState extends State<MyApp> {
               ),
               handleCompletion,
             );
-          }),
+          })
         ],
       ),
     );
   }
 
-  Widget image(String title, double height, double width, ImageProvider image) {
+  Widget image(
+    String title,
+    double height,
+    double width,
+    ImageProvider image,
+  ) {
     return Column(
       children: <Widget>[
         Text(title),
-        Image(height: height, width: width, image: image),
+        Image(
+          height: height,
+          width: width,
+          image: image,
+        )
       ],
     );
   }
@@ -203,10 +206,9 @@ class MyAppState extends State<MyApp> {
     Radio radio = Radio(
       value: scenarios[index].name,
       groupValue: selectedScenario.value,
-      onChanged:
-          (value) => setState(() {
-            selectedScenario = Scenario.getByValue(value)!;
-          }),
+      onChanged: (value) => setState(() {
+        selectedScenario = Scenario.getByValue(value)!;
+      }),
     );
     return Container(
       padding: const EdgeInsets.only(left: 40),
@@ -276,10 +278,8 @@ class MyAppState extends State<MyApp> {
     final ThemeData theme = ThemeData();
     return MaterialApp(
       theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-          primary: Colors.blue,
-          surfaceTint: Colors.blue,
-        ),
+        colorScheme: theme.colorScheme
+            .copyWith(primary: Colors.blue, surfaceTint: Colors.blue),
       ),
       home: Scaffold(
         appBar: AppBar(title: Center(child: Text(status))),
@@ -288,7 +288,9 @@ class MyAppState extends State<MyApp> {
           children: <Widget>[
             Visibility(
               visible: !rfidCustomUiExample.isShowing,
-              child: Expanded(child: ui()),
+              child: Expanded(
+                child: ui(),
+              ),
             ),
             btDeviceExample.build(),
             rfidCustomUiExample.build(),

@@ -38,8 +38,7 @@ class RFIDNotification {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "notificationCode": notificationCode.value,
         "dataFileType": dataFileType.value,
         "progress": progress,

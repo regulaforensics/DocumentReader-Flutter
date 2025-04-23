@@ -823,12 +823,12 @@ class Customization {
     result.helpAnimationImageTransformsIOS = ViewContentMode.getByValue(
       jsonObject["helpAnimationImageContentMode"],
     );
-    result
-        .multipageAnimationFrontImageTransformsIOS = ViewContentMode.getByValue(
+    result.multipageAnimationFrontImageTransformsIOS =
+        ViewContentMode.getByValue(
       jsonObject["multipageAnimationFrontImageContentMode"],
     );
-    result
-        .multipageAnimationBackImageTransformsIOS = ViewContentMode.getByValue(
+    result.multipageAnimationBackImageTransformsIOS =
+        ViewContentMode.getByValue(
       jsonObject["multipageAnimationBackImageContentMode"],
     );
     result.livenessAnimationImageTransformsIOS = ViewContentMode.getByValue(
@@ -892,8 +892,7 @@ class Customization {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "showStatusMessages": showStatusMessages,
         "showResultStatusMessages": showResultStatusMessages,
         "showHelpAnimation": showHelpAnimation,

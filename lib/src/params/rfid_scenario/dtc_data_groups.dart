@@ -51,8 +51,7 @@ class DTCDataGroup {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "DG17": dg17,
         "DG18": dg18,
         "DG22": dg22,

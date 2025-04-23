@@ -32,8 +32,7 @@ class TransactionInfo {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "transactionId": transactionId,
         "tag": tag,
         "sessionLogFolder": sessionLogFolder,

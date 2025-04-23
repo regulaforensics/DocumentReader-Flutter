@@ -424,8 +424,7 @@ class Functionality {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "pictureOnBoundsReady": pictureOnBoundsReady,
         "showTorchButton": showTorchButton,
         "showCloseButton": showCloseButton,
@@ -635,7 +634,9 @@ class CameraSize {
   int get height => _height;
   int _height;
 
-  CameraSize(int width, int height) : _width = width, _height = height;
+  CameraSize(int width, int height)
+      : _width = width,
+        _height = height;
 
   /// Allows you to deserialize object.
   static CameraSize? fromJson(jsonObject) {

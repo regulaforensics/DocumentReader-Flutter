@@ -44,8 +44,7 @@ class AuthenticityElement {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "status": status.value,
         "elementType": elementType.value,
         "elementDiagnose": elementDiagnose.value,

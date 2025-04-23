@@ -69,8 +69,7 @@ class LivenessParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "checkOVI": checkOVI,
         "checkMLI": checkMLI,
         "checkHolo": checkHolo,

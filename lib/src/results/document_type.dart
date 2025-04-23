@@ -79,8 +79,7 @@ class DocumentType {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "name": name,
         "documentID": id,
         "ICAOCode": iCAOCode,

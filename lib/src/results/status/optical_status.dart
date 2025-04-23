@@ -67,8 +67,7 @@ class OpticalStatus {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "overallStatus": overallStatus.value,
         "mrz": mrz.value,
         "text": text.value,
