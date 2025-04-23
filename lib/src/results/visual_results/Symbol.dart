@@ -35,8 +35,7 @@ class Symbol {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "rect": rect?.toJson(),
         "code": code,
         "probability": probability,

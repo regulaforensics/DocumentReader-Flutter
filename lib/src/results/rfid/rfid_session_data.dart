@@ -95,8 +95,7 @@ class RFIDSessionData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "cardProperties": cardProperties?.toJson(),
         "totalBytesReceived": totalBytesReceived,
         "totalBytesSent": totalBytesSent,

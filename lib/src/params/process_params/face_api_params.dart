@@ -52,14 +52,14 @@ class FaceApiParams {
     String? proxy,
     String? proxyPassword,
     int? proxyType,
-  }) : _url = url,
-       _mode = mode,
-       _threshold = threshold,
-       _searchParams = searchParams,
-       _serviceTimeout = serviceTimeout,
-       _proxy = proxy,
-       _proxyPassword = proxyPassword,
-       _proxyType = proxyType;
+  })  : _url = url,
+        _mode = mode,
+        _threshold = threshold,
+        _searchParams = searchParams,
+        _serviceTimeout = serviceTimeout,
+        _proxy = proxy,
+        _proxyPassword = proxyPassword,
+        _proxyType = proxyType;
 
   /// Allows you to deserialize object.
   static FaceApiParams? fromJson(jsonObject) {
@@ -77,8 +77,7 @@ class FaceApiParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "url": url,
         "mode": mode,
         "threshold": threshold,

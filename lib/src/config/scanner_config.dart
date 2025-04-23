@@ -37,17 +37,17 @@ class ScannerConfig {
   ScannerConfig(
     Scenario scenario,
     OnlineProcessingConfig onlineProcessingConfig,
-  ) : _scenario = scenario,
-      _onlineProcessingConfig = onlineProcessingConfig;
+  )   : _scenario = scenario,
+        _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig.withScenario(Scenario scenario)
-    : _scenario = scenario,
-      _onlineProcessingConfig = null;
+      : _scenario = scenario,
+        _onlineProcessingConfig = null;
 
   ScannerConfig.withOnlineProcessingConfig(
     OnlineProcessingConfig onlineProcessingConfig,
-  ) : _scenario = null,
-      _onlineProcessingConfig = onlineProcessingConfig;
+  )   : _scenario = null,
+        _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig._empty();
 
@@ -69,8 +69,7 @@ class ScannerConfig {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "scenario": scenario?.value,
         "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
         "livePortrait": _bytesToBase64(livePortrait),
