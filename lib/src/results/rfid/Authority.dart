@@ -33,8 +33,7 @@ class Authority {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "attributes": attributes.map((e) => e.toJson()).toList(),
         "data": data,
         "friendlyName": friendlyName?.toJson(),

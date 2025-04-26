@@ -816,8 +816,7 @@ class ProcessParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "multipageProcessing": multipageProcessing,
         "debugSaveImages": debugSaveImages,
         "debugSaveLogs": debugSaveLogs,

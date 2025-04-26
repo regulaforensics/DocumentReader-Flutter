@@ -56,8 +56,7 @@ class DocumentsDatabase {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "databaseID": databaseID,
         "version": version,
         "date": date,

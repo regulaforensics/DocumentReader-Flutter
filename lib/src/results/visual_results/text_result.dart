@@ -51,8 +51,7 @@ class TextResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "status": status.value,
         "comparisonStatus": comparisonStatus.value,
         "validityStatus": validityStatus.value,

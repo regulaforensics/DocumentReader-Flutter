@@ -135,8 +135,7 @@ class ImageQA {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "dpiThreshold": dpiThreshold,
         "angleThreshold": angleThreshold,
         "documentPositionIndent": documentPositionIndent,

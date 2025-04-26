@@ -88,8 +88,7 @@ class TextField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "fieldType": fieldType.value,
         "fieldName": fieldName,
         "lcid": lcid.value,

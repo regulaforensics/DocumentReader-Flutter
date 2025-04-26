@@ -100,8 +100,7 @@ class Position {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "docFormat": docFormat.value,
         "resultStatus": resultStatus.value,
         "width": width,

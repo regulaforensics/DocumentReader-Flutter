@@ -96,8 +96,7 @@ class CustomizationColors {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "rfidProcessingScreenBackground": _intFromColor(
           rfidProcessingScreenBackground,
         ),

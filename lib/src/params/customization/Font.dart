@@ -27,9 +27,9 @@ class Font {
   FontStyle? _style;
 
   Font(String name, {int? size, FontStyle? style})
-    : _name = name,
-      _size = size,
-      _style = style;
+      : _name = name,
+        _size = size,
+        _style = style;
 
   /// Allows you to deserialize object.
   static Font? fromJson(jsonObject) {

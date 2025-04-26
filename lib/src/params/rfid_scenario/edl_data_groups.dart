@@ -131,8 +131,7 @@ class EDLDataGroups {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "DG1": dg1,
         "DG2": dg2,
         "DG3": dg3,

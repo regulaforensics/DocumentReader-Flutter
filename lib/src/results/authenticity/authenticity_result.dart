@@ -30,8 +30,7 @@ class AuthenticityResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "status": status.value,
         "checks": checks.map((e) => e.toJson()).toList(),
       }.clearNulls();

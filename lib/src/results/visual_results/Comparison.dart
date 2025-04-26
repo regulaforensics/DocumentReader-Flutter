@@ -37,8 +37,7 @@ class Comparison {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "sourceTypeLeft": sourceTypeLeft.value,
         "sourceTypeRight": sourceTypeRight.value,
         "status": status.value,

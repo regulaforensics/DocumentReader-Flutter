@@ -62,8 +62,7 @@ class Value {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "sourceType": sourceType.value,
         "value": value,
         "originalValue": originalValue,

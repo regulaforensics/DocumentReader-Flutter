@@ -37,8 +37,7 @@ class License {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "expiryDate": expiryDate,
         "countryFilter": countryFilter,
         "isRfidAvailable": isRfidAvailable,
