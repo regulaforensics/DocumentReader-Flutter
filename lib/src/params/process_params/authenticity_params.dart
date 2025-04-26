@@ -150,8 +150,7 @@ class AuthenticityParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "useLivenessCheck": useLivenessCheck,
         "livenessParams": livenessParams.toJson(),
         "checkUVLuminiscence": checkUVLuminiscence,

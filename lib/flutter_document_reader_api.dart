@@ -307,10 +307,9 @@ class DocumentReader {
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
   Future<SuccessOrError> initializeReader(InitConfig config) async {
-    var funcName =
-        config._useBleDevice
-            ? "initializeReaderWithBleDeviceConfig"
-            : "initializeReader";
+    var funcName = config._useBleDevice
+        ? "initializeReaderWithBleDeviceConfig"
+        : "initializeReader";
 
     var response = await _bridge.invokeMethod(funcName, [config.toJson()]);
     var (success, error) = _successOrErrorFromJson(response);
@@ -658,12 +657,11 @@ typedef SuccessOrError = (bool, DocReaderException?);
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef DocumentReaderCompletion =
-    void Function(
-      DocReaderAction action,
-      Results? results,
-      DocReaderException? error,
-    );
+typedef DocumentReaderCompletion = void Function(
+  DocReaderAction action,
+  Results? results,
+  DocReaderException? error,
+);
 
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.
@@ -684,8 +682,11 @@ typedef VideoEncoderCompletion = void Function(String filePath);
 /// [TransactionInfo] contains transactionId and tag.
 ///
 /// [DocReaderException] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef FinalizePackageCompletion =
-    (DocReaderAction action, TransactionInfo? info, DocReaderException? error);
+typedef FinalizePackageCompletion = (
+  DocReaderAction action,
+  TransactionInfo? info,
+  DocReaderException? error
+);
 
 /// Contains all possible DocumentReaderNotification callback codes
 enum DocReaderAction {

@@ -15,7 +15,7 @@ class RFIDParams {
   List<int>? _paIgnoreNotificationCodes;
 
   RFIDParams({List<int>? paIgnoreNotificationCodes})
-    : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
+      : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
 
   /// Allows you to deserialize object.
   static RFIDParams? fromJson(jsonObject) {

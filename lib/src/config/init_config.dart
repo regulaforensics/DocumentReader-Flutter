@@ -70,8 +70,7 @@ class InitConfig {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "license": _dataToBase64(license),
         "delayedNNLoad": delayedNNLoad,
         "licenseUpdate": licenseUpdate,

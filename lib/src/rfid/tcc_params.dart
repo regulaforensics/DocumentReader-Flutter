@@ -44,8 +44,7 @@ class TccParams {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "serviceUrlTA": serviceUrlTA,
         "serviceUrlPA": serviceUrlPA,
         "pfxCertUrl": pfxCertUrl,

@@ -32,8 +32,7 @@ class PAResourcesIssuer {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "data": _bytesToBase64(data),
         "friendlyName": friendlyName,
         "attributes": attributes.map((e) => e.toJson()).toList(),
