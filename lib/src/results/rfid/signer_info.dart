@@ -89,8 +89,7 @@ class SignerInfo {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "dataToHash": dataToHash,
         "digestAlgorithm": digestAlgorithm,
         "version": version,

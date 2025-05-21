@@ -7,7 +7,6 @@
 //
 
 #import <Flutter/Flutter.h>
-#import <CoreBluetooth/CoreBluetooth.h>
 #import <DocumentReader/DocumentReader.h>
 #import "RGLWJSONConstructor.h"
 #import "RGLWConfig.h"
@@ -21,8 +20,7 @@ typedef void (^RGLWRFIDSignatureCallback)(NSData * _Nonnull signature);
                                                      RGLDocReaderRFIDDelegate,
                                                      RGLCustomizationActionDelegate,
                                                      RGLDocReaderDatabaseFetchDelegate,
-                                                     RGLBluetoothDelegate,
-                                                     CBCentralManagerDelegate>
+                                                     RGLBluetoothDelegate>
 
 @property (strong, nonatomic, class) FlutterMethodChannel* _Nullable channel;
 @property NSNumber* _Nonnull doRequestPACertificates;

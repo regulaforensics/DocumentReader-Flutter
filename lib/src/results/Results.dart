@@ -316,10 +316,9 @@ class Results {
     var result = Results();
 
     result._chipPage = jsonObject["chipPage"];
-    result._processingFinishedStatus =
-        ProcessingFinishedStatus.getByValue(
-          jsonObject["processingFinishedStatus"],
-        )!;
+    result._processingFinishedStatus = ProcessingFinishedStatus.getByValue(
+      jsonObject["processingFinishedStatus"],
+    )!;
     result._elapsedTime = jsonObject["elapsedTime"];
     result._elapsedTimeRFID = jsonObject["elapsedTimeRFID"];
     result._morePagesAvailable = jsonObject["morePagesAvailable"];
@@ -374,8 +373,7 @@ class Results {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "documentType": documentType?.map((e) => e.toJson()).toList(),
         "documentPosition": documentPosition?.map((e) => e.toJson()).toList(),
         "barcodePosition": barcodePosition?.map((e) => e.toJson()).toList(),

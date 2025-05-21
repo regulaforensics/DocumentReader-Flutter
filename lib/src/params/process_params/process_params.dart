@@ -326,6 +326,15 @@ class ProcessParams {
     _set({"generateDTCVC": val});
   }
 
+  /// Set to force DL categories expiry date status to either valid or not. By default,
+  /// if the DL category expiry date is correct, its status will be wasNotDone, otherwise error.
+  bool? get strictDLCategoryExpiry => _strictDLCategoryExpiry;
+  bool? _strictDLCategoryExpiry;
+  set strictDLCategoryExpiry(bool? val) {
+    _strictDLCategoryExpiry = val;
+    _set({"strictDLCategoryExpiry": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -735,6 +744,7 @@ class ProcessParams {
         jsonObject["strictBarcodeDigitalSignatureCheck"];
     result.selectLongestNames = jsonObject["selectLongestNames"];
     result.generateDTCVC = jsonObject["generateDTCVC"];
+    result.strictDLCategoryExpiry = jsonObject["strictDLCategoryExpiry"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -806,8 +816,7 @@ class ProcessParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "multipageProcessing": multipageProcessing,
         "debugSaveImages": debugSaveImages,
         "debugSaveLogs": debugSaveLogs,
@@ -843,6 +852,7 @@ class ProcessParams {
             strictBarcodeDigitalSignatureCheck,
         "selectLongestNames": selectLongestNames,
         "generateDTCVC": generateDTCVC,
+        "strictDLCategoryExpiry": strictDLCategoryExpiry,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

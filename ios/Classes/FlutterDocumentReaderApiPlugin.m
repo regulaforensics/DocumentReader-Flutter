@@ -567,13 +567,9 @@ NSString* RGLWOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";
 }
 
 RGLBluetooth* bluetooth;
-CBCentralManager* centralManager;
 RGLWCallback savedCallbackForBluetoothResult;
 
 - (void) connectBluetoothDevice:(NSString*)deviceName :(RGLWCallback)successCallback :(RGLWCallback)errorCallback {
-    // register callback for user's answer to bluetooth permission
-    centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    
     // return if already connected
     if (bluetooth && bluetooth.state == RGLBluetoothConnectionStateConnected) return;
     
@@ -584,12 +580,6 @@ RGLWCallback savedCallbackForBluetoothResult;
     }
     savedCallbackForBluetoothResult = successCallback;
     [bluetooth connectWithDeviceName:deviceName];
-}
-
-// CBCentralManagerDelegate
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    if (central.state != CBManagerStatePoweredOn && savedCallbackForBluetoothResult)
-        [self bluetoothDeviceConnectionFailed];
 }
 
 // RGLBluetoothDelegate

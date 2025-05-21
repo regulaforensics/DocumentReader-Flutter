@@ -42,8 +42,7 @@ class ImageQualityGroup {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "count": count,
         "result": result.value,
         "pageIndex": pageIndex,

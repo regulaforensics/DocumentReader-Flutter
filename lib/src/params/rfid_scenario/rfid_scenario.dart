@@ -274,6 +274,13 @@ class RFIDScenario {
     _set({"loadCRLFromRemote": val});
   }
 
+  bool? get independentSODStatus => _independentSODStatus;
+  bool? _independentSODStatus;
+  set independentSODStatus(bool? val) {
+    _independentSODStatus = val;
+    _set({"independentSODStatus": val});
+  }
+
   int? get readingBuffer => _readingBuffer;
   int? _readingBuffer;
   set readingBuffer(int? val) {
@@ -459,6 +466,7 @@ class RFIDScenario {
     result.readDTC = jsonObject["readDTC"];
     result.mrzStrictCheck = jsonObject["mrzStrictCheck"];
     result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
+    result.independentSODStatus = jsonObject["independentSODStatus"];
 
     result.readingBuffer = jsonObject["readingBuffer"];
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
@@ -501,8 +509,7 @@ class RFIDScenario {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "paceStaticBinding": paceStaticBinding,
         "onlineTA": onlineTA,
         "writeEid": writeEid,
@@ -541,6 +548,7 @@ class RFIDScenario {
         "readDTC": readDTC,
         "mrzStrictCheck": mrzStrictCheck,
         "loadCRLFromRemote": loadCRLFromRemote,
+        "independentSODStatus": independentSODStatus,
         "readingBuffer": readingBuffer,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,

@@ -190,6 +190,7 @@
     if (options[@"strictBarcodeDigitalSignatureCheck"]) processParams.strictBarcodeDigitalSignatureCheck = options[@"strictBarcodeDigitalSignatureCheck"];
     if (options[@"selectLongestNames"]) processParams.selectLongestNames = options[@"selectLongestNames"];
     if (options[@"generateDTCVC"]) processParams.generateDTCVC = options[@"generateDTCVC"];
+    if (options[@"strictDLCategoryExpiry"]) processParams.strictDLCategoryExpiry = options[@"strictDLCategoryExpiry"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -317,6 +318,7 @@
     result[@"strictBarcodeDigitalSignatureCheck"] = processParams.strictBarcodeDigitalSignatureCheck;
     result[@"selectLongestNames"] = processParams.selectLongestNames;
     result[@"generateDTCVC"] = processParams.generateDTCVC;
+    result[@"strictDLCategoryExpiry"] = processParams.strictDLCategoryExpiry;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -664,6 +666,7 @@
     if(options[@"readDTC"]) rfidScenario.readDTC = [options[@"readDTC"] boolValue];
     if(options[@"mrzStrictCheck"]) rfidScenario.mrzStrictCheck = options[@"mrzStrictCheck"];
     if(options[@"loadCRLFromRemote"]) rfidScenario.loadCRLFromRemote = [options[@"loadCRLFromRemote"] boolValue];
+    if(options[@"independentSODStatus"]) rfidScenario.independentSODStatus = options[@"independentSODStatus"];
     
     // Int
     if([options valueForKey:@"signManagementAction"] != nil)
@@ -751,6 +754,7 @@
     result[@"readDTC"] = [NSNumber numberWithBool:rfidScenario.readDTC];
     result[@"mrzStrictCheck"] = rfidScenario.mrzStrictCheck;
     result[@"loadCRLFromRemote"] = @(rfidScenario.loadCRLFromRemote);
+    result[@"independentSODStatus"] = rfidScenario.independentSODStatus;
     
     // Int
     result[@"signManagementAction"] = [NSNumber numberWithInteger:rfidScenario.signManagementAction];
@@ -1349,6 +1353,7 @@
     if(value == RGLImageQualityCheckTypePortrait) return @7;
     if(value == RGLImageQualityCheckTypeHandwritten) return @8;
     if(value == RGLImageQualityCheckTypeBrightness) return @9;
+    if(value == RGLImageQualityCheckTypeOcclusion) return @10;
     return 0;
 }
 
@@ -1365,6 +1370,7 @@
     if(value == 7) return RGLImageQualityCheckTypePortrait;
     if(value == 8) return RGLImageQualityCheckTypeHandwritten;
     if(value == 9) return RGLImageQualityCheckTypeBrightness;
+    if(value == 10) return RGLImageQualityCheckTypeOcclusion;
     return RGLImageQualityCheckTypeImageGlares;
 }
 

@@ -144,6 +144,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictBarcodeDigitalSignatureCheck" -> processParams.strictBarcodeDigitalSignatureCheck = v as Boolean
         "selectLongestNames" -> processParams.selectLongestNames = v as Boolean
         "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
+        "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -225,6 +226,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictBarcodeDigitalSignatureCheck" to processParams.strictBarcodeDigitalSignatureCheck,
     "selectLongestNames" to processParams.selectLongestNames,
     "generateDTCVC" to processParams.generateDTCVC,
+    "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -442,6 +444,7 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "readDTC" -> rfidScenario.isReadDTC = v as Boolean
         "mrzStrictCheck" -> rfidScenario.isMrzStrictCheck = v as Boolean
         "loadCRLFromRemote" -> rfidScenario.isLoadCRLFromRemote = v as Boolean
+        "independentSODStatus" -> rfidScenario.isIndependentSODStatus = v as Boolean
         "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
         "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
         "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
@@ -503,6 +506,7 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "readDTC" to rfidScenario.isReadDTC,
     "mrzStrictCheck" to rfidScenario.isMrzStrictCheck,
     "loadCRLFromRemote" to rfidScenario.isLoadCRLFromRemote,
+    "independentSODStatus" to rfidScenario.isIndependentSODStatus,
     "signManagementAction" to rfidScenario.signManagementAction,
     "readingBuffer" to rfidScenario.readingBuffer,
     "onlineTAToSignDataType" to rfidScenario.onlineTAToSignDataType,

@@ -61,16 +61,16 @@ class RecognizeConfig {
     Uint8List? livePortrait,
     Uint8List? extPortrait,
     bool oneShotIdentification = false,
-  }) : _scenario = scenario,
-       _onlineProcessingConfig = null,
-       livePortrait = livePortrait,
-       extPortrait = extPortrait,
-       oneShotIdentification = oneShotIdentification,
-       image = image,
-       images = images,
-       data = data,
-       imageInputData = imageInputData,
-       dtc = dtc;
+  })  : _scenario = scenario,
+        _onlineProcessingConfig = null,
+        livePortrait = livePortrait,
+        extPortrait = extPortrait,
+        oneShotIdentification = oneShotIdentification,
+        image = image,
+        images = images,
+        data = data,
+        imageInputData = imageInputData,
+        dtc = dtc;
 
   RecognizeConfig.withOnlineProcessingConfig(
     OnlineProcessingConfig onlineProcessingConfig, {
@@ -82,16 +82,16 @@ class RecognizeConfig {
     Uint8List? livePortrait,
     Uint8List? extPortrait,
     bool oneShotIdentification = false,
-  }) : _scenario = null,
-       _onlineProcessingConfig = onlineProcessingConfig,
-       livePortrait = livePortrait,
-       extPortrait = extPortrait,
-       oneShotIdentification = oneShotIdentification,
-       image = image,
-       images = images,
-       data = data,
-       imageInputData = imageInputData,
-       dtc = dtc;
+  })  : _scenario = null,
+        _onlineProcessingConfig = onlineProcessingConfig,
+        livePortrait = livePortrait,
+        extPortrait = extPortrait,
+        oneShotIdentification = oneShotIdentification,
+        image = image,
+        images = images,
+        data = data,
+        imageInputData = imageInputData,
+        dtc = dtc;
 
   RecognizeConfig._empty();
 
@@ -127,8 +127,7 @@ class RecognizeConfig {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "scenario": scenario?.value,
         "onlineProcessingConfig": onlineProcessingConfig?.toJson(),
         "image": _bytesToBase64(image),
@@ -159,16 +158,16 @@ class ImageInputData {
     Uint8List image, {
     Lights light = Lights.WHITE_FULL,
     int pageIndex = 0,
-  }) : _image = image,
-       _light = light,
-       _pageIndex = pageIndex;
+  })  : _image = image,
+        _light = light,
+        _pageIndex = pageIndex;
 
   @visibleForTesting
   Map<String, dynamic> toJson() => {
-    "image": _bytesToBase64(image),
-    "light": light.value,
-    "pageIndex": pageIndex,
-  };
+        "image": _bytesToBase64(image),
+        "light": light.value,
+        "pageIndex": pageIndex,
+      };
 
   @visibleForTesting
   static ImageInputData? fromJson(jsonObject) {
