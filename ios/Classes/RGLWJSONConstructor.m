@@ -934,8 +934,10 @@ static NSMutableArray* weakReferencesHolder;
     result[@"featureType"] = @(input.featureType);
     if(input.boundRects != nil){
         NSMutableArray *array = [NSMutableArray new];
-        for(NSValue* item in input.boundRects)
-            [array addObject:[self generateRect:[item CGRectValue]]];
+        for(NSValue* item in input.boundRects) {
+            id rect = [self generateRect:[item CGRectValue]];
+            if(rect) [array addObject:rect];
+        }
         result[@"boundRects"] = array;
     }
     

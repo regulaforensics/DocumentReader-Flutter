@@ -22,6 +22,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
+import android.util.Log
 import androidx.core.content.ContextCompat.checkSelfPermission
 import com.regula.common.ble.BLEWrapper
 import com.regula.common.ble.BleWrapperCallback
@@ -38,44 +39,40 @@ const val INTENT_REQUEST_ENABLE_LOCATION = 196
 const val INTENT_REQUEST_ENABLE_BLUETOOTH = 197
 
 @SuppressLint("StaticFieldLeak")
-lateinit var bluetooth: BLEWrapper
+var bluetooth: BLEWrapper? = null
 lateinit var savedCallbackForPermissionResult: Callback
-var deviceConnected = false
 
 fun connectBluetoothDevice(callback: Callback) {
-    // return if already connected
-    if (deviceConnected) return
+    if (bluetooth?.isConnected == true) {
+        Log.e("REGULA", "Bluetooth device already connected, returning false")
+        callback.success(false)
+        return
+    }
 
-    // If some of the bluetooth permissions/settings don't match the requirements,
-    // save callback for later and request the permissions/settings.
-    // Callback will then be used in onRequestPermissionsResult for permission requests
-    // and in onActivityResult for settings change requests.
     if (!isBluetoothSettingsReady(activity)) {
         savedCallbackForPermissionResult = callback
         return
     }
 
-    // set searching timeout
-    val timer = object : TimerTask() {
+    val timeout = object : TimerTask() {
         override fun run() {
             callback.success(false)
-            bluetooth.stopDeviceScan()
-            bluetooth.disconnect()
+            bluetooth?.stopDeviceScan()
+            bluetooth?.disconnect()
         }
     }
-    Timer().schedule(timer, SEARCHING_TIMEOUT)
+    Timer().schedule(timeout, SEARCHING_TIMEOUT)
 
-    // start searching devices
     val bleIntent = Intent(context, RegulaBleService::class.java)
     context.startService(bleIntent)
     context.bindService(bleIntent, object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             bluetooth = (service as RegulaBleService.LocalBinder).service.bleManager
-            bluetooth.addCallback(object : BleWrapperCallback() {
+            if (bluetooth!!.isConnected) callback.success(true)
+            else bluetooth!!.addCallback(object : BleWrapperCallback() {
                 override fun onDeviceReady() {
-                    timer.cancel()
-                    bluetooth.removeCallback(this)
-                    deviceConnected = true
+                    timeout.cancel()
+                    bluetooth!!.removeCallback(this)
                     callback.success(true)
                 }
             })

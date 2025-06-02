@@ -250,9 +250,9 @@ fun generateDocReaderConfig(temp: DocReaderConfig?): JSONObject? {
 }
 
 fun bleDeviceConfigFromJSON(input: JSONObject): BleDeviceConfig {
-    var result = BleDeviceConfig(bluetooth)
+    var result = BleDeviceConfig(bluetooth!!)
 
-    if (input.has("customDb")) result = BleDeviceConfig(bluetooth, byteArrayFromBase64(input.getString("customDb")))
+    if (input.has("customDb")) result = BleDeviceConfig(bluetooth!!, byteArrayFromBase64(input.getString("customDb")))
     if (input.has("licenseUpdate")) result.setLicenseUpdate(input.getBoolean("licenseUpdate"))
     if (input.has("delayedNNLoad")) result.isDelayedNNLoad = input.getBoolean("delayedNNLoad")
     if (input.has("blackList")) result.blackList = input.getJSONObject("blackList")
