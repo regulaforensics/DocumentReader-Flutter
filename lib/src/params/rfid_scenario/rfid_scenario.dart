@@ -509,8 +509,7 @@ class RFIDScenario {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "paceStaticBinding": paceStaticBinding,
         "onlineTA": onlineTA,
         "writeEid": writeEid,
