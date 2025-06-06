@@ -8,7 +8,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Flutter Document Reader"
+        android:label="DocumentReader"
         android:usesCleartextTraffic="true"
         tools:targetApi="23">
         <activity

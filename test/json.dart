@@ -419,6 +419,7 @@ var initConfig = {
   "blackList": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "databasePath": "test",
   "license": img2,
+  "useBleDevice": true,
 };
 var onlineProcessingConfig = {
   "mode": 1,

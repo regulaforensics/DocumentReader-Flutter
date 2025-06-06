@@ -1,13 +1,4 @@
-//
-//  BluetoothUtil.kt
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-@file:SuppressLint("MissingPermission")
-
-package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
+package com.regula.plugin.documentreader
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.BLUETOOTH_CONNECT
@@ -45,7 +36,7 @@ lateinit var savedCallbackForPermissionResult: Callback
 fun connectBluetoothDevice(callback: Callback) {
     if (bluetooth?.isConnected == true) {
         Log.e("REGULA", "Bluetooth device already connected, returning false")
-        callback.success(false)
+        callback(false)
         return
     }
 
@@ -56,7 +47,7 @@ fun connectBluetoothDevice(callback: Callback) {
 
     val timeout = object : TimerTask() {
         override fun run() {
-            callback.success(false)
+            callback(false)
             bluetooth?.stopDeviceScan()
             bluetooth?.disconnect()
         }
@@ -68,12 +59,12 @@ fun connectBluetoothDevice(callback: Callback) {
     context.bindService(bleIntent, object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             bluetooth = (service as RegulaBleService.LocalBinder).service.bleManager
-            if (bluetooth!!.isConnected) callback.success(true)
+            if (bluetooth!!.isConnected) callback(true)
             else bluetooth!!.addCallback(object : BleWrapperCallback() {
                 override fun onDeviceReady() {
                     timeout.cancel()
                     bluetooth!!.removeCallback(this)
-                    callback.success(true)
+                    callback(true)
                 }
             })
         }
@@ -89,7 +80,7 @@ fun onRequestPermissionsResult(
 ): Boolean {
     if (requestCode != BLE_ACCESS_PERMISSION || permissions.isEmpty()) return false
     if (grantResults.isEmpty() || grantResults[0] != PERMISSION_GRANTED) {
-        savedCallbackForPermissionResult.success(false)
+        savedCallbackForPermissionResult(false)
         return true
     }
     connectBluetoothDevice(savedCallbackForPermissionResult)
@@ -106,7 +97,7 @@ fun onActivityResult(requestCode: Int, rc: Int, @Suppress("UNUSED_PARAMETER") da
         if (resultCode == Activity.RESULT_OK)
             connectBluetoothDevice(savedCallbackForPermissionResult)
         else
-            savedCallbackForPermissionResult.success(false)
+            savedCallbackForPermissionResult(false)
         return true
     }
     return false
