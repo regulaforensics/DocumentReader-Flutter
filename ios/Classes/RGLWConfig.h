@@ -1,11 +1,3 @@
-//
-//  RGLWConfig.h
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 #ifndef RGLWConfig_h
 #define RGLWConfig_h
 

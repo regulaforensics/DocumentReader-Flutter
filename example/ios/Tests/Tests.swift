@@ -1,11 +1,3 @@
-//
-//  Tests.swift
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 import XCTest
 import DocumentReader
 import flutter_document_reader_api
@@ -21,7 +13,8 @@ class Tests: XCTestCase {
         compare(name: "initConfig", fromJson: RGLWJSONConstructor.config, generate: RGLWJSONConstructor.generate,
                 omit: ["databasePath",
                        "blackList",
-                       "customDb"])
+                       "customDb",
+                       "useBleDevice"])
     }
     
     func test_onlineProcessingConfig() {
