@@ -35,7 +35,7 @@ class MyAppState extends State<MyApp> {
   var btDeviceExample = BtDevice();
 
   Future<void> init() async {
-    if (!await initializeReader()) return;
+    if (!await initialize()) return;
     status = "Ready";
     scenarios = documentReader.availableScenarios;
     canRfid = await documentReader.isRFIDAvailableForUse();
@@ -239,7 +239,7 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  Future<bool> initializeReader() async {
+  Future<bool> initialize() async {
     setStatus("Initializing...");
 
     InitConfig initConfig;
@@ -250,7 +250,7 @@ class MyAppState extends State<MyApp> {
       initConfig = InitConfig.withBleDevice();
     }
     initConfig.delayedNNLoad = true;
-    var (success, error) = await documentReader.initializeReader(initConfig);
+    var (success, error) = await documentReader.initialize(initConfig);
 
     if (!success) {
       if (error == null) error = DocReaderException.unknown();

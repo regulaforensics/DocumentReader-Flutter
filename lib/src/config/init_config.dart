@@ -65,6 +65,7 @@ class InitConfig {
     result.licenseUpdate = jsonObject["licenseUpdate"];
     result.blackList = jsonObject["blackList"];
     result.databasePath = jsonObject["databasePath"];
+    result._useBleDevice = jsonObject["useBleDevice"];
 
     return result;
   }
@@ -77,5 +78,6 @@ class InitConfig {
         "blackList": blackList,
         "customDb": _dataToBase64(customDb),
         "databasePath": databasePath,
+        "useBleDevice": _useBleDevice,
       }.clearNulls();
 }

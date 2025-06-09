@@ -1,18 +1,14 @@
-//
-//  FlutterDocumentReaderApiPluginTest.kt
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
+package com.regula.plugin.documentreader
 
-package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
-
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+
+val context: Context
+    get() = ApplicationProvider.getApplicationContext()
 
 @RunWith(RobolectricTestRunner::class)
 @Config(shadows = [MyShadowBitmap::class, MyShadowDrawable::class, MyShadowBitmapDrawable::class])
@@ -20,7 +16,7 @@ class FlutterDocumentReaderApiPluginTest {
     // config
 
     @Test
-    fun initConfig() = compare("initConfig", ::docReaderConfigFromJSON, ::generateDocReaderConfig, "databasePath")
+    fun initConfig() = compare("initConfig", ::initConfigFromJSON, ::generateInitConfig, "databasePath", "useBleDevice")
 
     @Test
     fun onlineProcessingConfig() = compare("onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig, "requestHeaders")
@@ -99,7 +95,7 @@ class FlutterDocumentReaderApiPluginTest {
             "fonts"
         )
         for (key in omit) expected.remove(key)
-        val actual = generateCustomization(customizationFromJSON(expected, ApplicationProvider.getApplicationContext()))
+        val actual = generateCustomization(customizationFromJSON(expected))
         compareJSONs("customization", expected, floatToDouble(actual))
     }
 

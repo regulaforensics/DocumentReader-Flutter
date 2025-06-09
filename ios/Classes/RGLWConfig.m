@@ -1,11 +1,3 @@
-//
-//  RGLWConfig.m
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "RGLWConfig.h"
 

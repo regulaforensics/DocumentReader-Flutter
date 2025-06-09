@@ -1,17 +1,8 @@
-//
-//  TestUtils.kt
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
+package com.regula.plugin.documentreader
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import androidx.test.core.app.ApplicationProvider
 import org.json.JSONArray
 import org.json.JSONObject
 import org.robolectric.shadow.api.Shadow
@@ -79,18 +70,6 @@ fun omitDeep(dict: JSONArray, path: List<String>, index: Int): JSONArray {
     return dict
 }
 
-fun <T> compare(
-    name: String,
-    fromJson: (JSONObject) -> T,
-    toJson: (T, Context) -> JSONObject?,
-    vararg omit: String
-) {
-    var expected = readFile(name)
-    for (key in omit) expected = omitDeep(expected, key.split("."), 0)
-    val actual = toJson(fromJson(expected), ApplicationProvider.getApplicationContext())!!
-    compareJSONs(name, expected, actual)
-}
-
 fun floatToDouble(input: JSONObject): JSONObject {
     for (key in input.keys()) {
         val value = input.get(key)
@@ -111,32 +90,32 @@ fun floatToDouble(input: JSONArray): JSONArray {
     return input
 }
 
-@Suppress("unused", "MemberVisibilityCanBePrivate", "UNUSED_PARAMETER")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 internal object Convert {
-    fun byteArrayFromBase64(base64: String?) = base64?.let { Base64.getDecoder().decode(it) }
-    fun generateByteArray(array: ByteArray?) = array?.let { Base64.getEncoder().encodeToString(it) }
+    fun String?.toByteArray() = this?.let { Base64.getDecoder().decode(it) }
+    fun ByteArray?.toBase64() = this?.let { Base64.getEncoder().encodeToString(it) }
 
-    fun bitmapFromBase64(base64: String?) = base64?.let {
+    fun String?.toBitmap() = this?.let {
         val bitmap = Shadow.newInstanceOf(Bitmap::class.java)
         val shadow = Shadow.extract<MyShadowBitmap>(bitmap)
-        shadow.data = byteArrayFromBase64(base64)
+        shadow.data = it.toByteArray()
         bitmap
     }
 
-    fun bitmapToBase64(bitmap: Bitmap?) = bitmap?.let {
-        val shadow = Shadow.extract<MyShadowBitmap>(bitmap)
-        generateByteArray(shadow.data)
+    fun Bitmap?.toBase64() = this?.let {
+        val shadow = Shadow.extract<MyShadowBitmap>(it)
+        shadow.data.toBase64()
     }
 
-    fun Any?.toDrawable(context: Context) = (this as String?)?.let {
+    fun Any?.toDrawable() = (this as String?)?.let {
         val bitmap = Shadow.newInstanceOf(BitmapDrawable::class.java)
         val shadow = Shadow.extract<MyShadowBitmapDrawable>(bitmap)
-        shadow.data = byteArrayFromBase64(it)
+        shadow.data = it.toByteArray()
         bitmap
     }
 
-    fun Drawable?.toString() = this?.let {
+    fun Drawable?.toBase64() = this?.let {
         val shadow = Shadow.extract<MyShadowDrawable>(this)
-        generateByteArray(shadow.data)
+        shadow.data.toBase64()
     }
 }
