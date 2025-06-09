@@ -92,6 +92,7 @@ class FlutterDocumentReaderApiPluginTest {
             "borderBackgroundImageContentMode",
             "statusTextFont",
             "resultStatusTextFont",
+            "multipageButtonTextFont",
             "fonts"
         )
         for (key in omit) expected.remove(key)

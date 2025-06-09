@@ -118,7 +118,10 @@ class Tests: XCTestCase {
                        "borderBackgroundImageMatrix",
                        "statusTextFont",
                        "resultStatusTextFont",
-                       "fonts"])
+                       "fonts",
+                       "multipageButtonText",
+                       "multipageButtonTextColor",
+                       "multipageButtonTextFont"])
     }
     
     func test_functionality() {

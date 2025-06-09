@@ -395,6 +395,34 @@ class RFIDScenario {
     _set({"cardAccess": val});
   }
 
+  String? get mrzHash => _mrzHash;
+  String? _mrzHash;
+  set mrzHash(String? val) {
+    _mrzHash = val;
+    _set({"mrzHash": val});
+  }
+
+  String? get documentNumber => _documentNumber;
+  String? _documentNumber;
+  set documentNumber(String? val) {
+    _documentNumber = val;
+    _set({"documentNumber": val});
+  }
+
+  String? get dateOfBirth => _dateOfBirth;
+  String? _dateOfBirth;
+  set dateOfBirth(String? val) {
+    _dateOfBirth = val;
+    _set({"dateOfBirth": val});
+  }
+
+  String? get dateOfExpiry => _dateOfExpiry;
+  String? _dateOfExpiry;
+  set dateOfExpiry(String? val) {
+    _dateOfExpiry = val;
+    _set({"dateOfExpiry": val});
+  }
+
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
   EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
@@ -497,6 +525,10 @@ class RFIDScenario {
     result.eSignPINDefault = jsonObject["eSignPINDefault"];
     result.eSignPINNewValue = jsonObject["eSignPINNewValue"];
     result.cardAccess = jsonObject["cardAccess"];
+    result.mrzHash = jsonObject["mrzHash"];
+    result.documentNumber = jsonObject["documentNumber"];
+    result.dateOfBirth = jsonObject["dateOfBirth"];
+    result.dateOfExpiry = jsonObject["dateOfExpiry"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
     result.ePassportDataGroups = EPassportDataGroups.fromJson(
@@ -565,6 +597,10 @@ class RFIDScenario {
         "eSignPINDefault": eSignPINDefault,
         "eSignPINNewValue": eSignPINNewValue,
         "cardAccess": cardAccess,
+        "mrzHash": mrzHash,
+        "documentNumber": documentNumber,
+        "dateOfBirth": dateOfBirth,
+        "dateOfExpiry": dateOfExpiry,
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),
@@ -632,7 +668,10 @@ enum RFIDPasswordType {
   PIN_ESIGN(5),
 
   /// Scanning Area Identifier (for eDL application).
-  SAI(6);
+  SAI(6),
+
+  /// MRZHash.
+  MRZ_HASH(7);
 
   const RFIDPasswordType(this.value);
   final int value;

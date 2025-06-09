@@ -159,7 +159,10 @@ enum Scenario {
   CAPTURE("Capture"),
 
   /// Scenario for Digital Travel Credentials (DTC) processing.
-  DTC("DTC");
+  DTC("DTC"),
+
+  /// Processing scenario for RFID reading.
+  RFID("RFID");
 
   const Scenario(this.value);
   final String value;

@@ -183,6 +183,7 @@
     if (options[@"selectLongestNames"]) processParams.selectLongestNames = options[@"selectLongestNames"];
     if (options[@"generateDTCVC"]) processParams.generateDTCVC = options[@"generateDTCVC"];
     if (options[@"strictDLCategoryExpiry"]) processParams.strictDLCategoryExpiry = options[@"strictDLCategoryExpiry"];
+    if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -213,6 +214,7 @@
         processParams.convertCase = [self textProcessingWithNumber:[options valueForKey:@"convertCase"]];
     if(options[@"logLevel"]) processParams.logLevel = options[@"logLevel"];
     if(options[@"mrzDetectMode"]) processParams.mrzDetectMode = options[@"mrzDetectMode"];
+    if(options[@"pdfPagesLimit"]) processParams.pdfPagesLimit = options[@"pdfPagesLimit"];
 
     // String
     if([options valueForKey:@"dateFormat"] != nil)
@@ -311,6 +313,7 @@
     result[@"selectLongestNames"] = processParams.selectLongestNames;
     result[@"generateDTCVC"] = processParams.generateDTCVC;
     result[@"strictDLCategoryExpiry"] = processParams.strictDLCategoryExpiry;
+    result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -328,6 +331,7 @@
     result[@"convertCase"] = [self generateWithTextProcessing:processParams.convertCase];
     result[@"logLevel"] = processParams.logLevel;
     result[@"mrzDetectMode"] = processParams.mrzDetectMode;
+    result[@"pdfPagesLimit"] = processParams.pdfPagesLimit;
     
     // String
     result[@"dateFormat"] = processParams.dateFormat;
@@ -440,6 +444,9 @@
         customization.cameraFrameCornerRadius = [[options valueForKey:@"cameraFrameCornerRadius"] floatValue];
     if([options valueForKey:@"livenessAnimationPositionMultiplier"] != nil)
         customization.livenessAnimationPositionMultiplier = [[options valueForKey:@"livenessAnimationPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorPortraitPositionMultiplier"]) customization.activityIndicatorPortraitPositionMultiplier = [[options valueForKey:@"activityIndicatorPortraitPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorLandscapePositionMultiplier"]) customization.activityIndicatorLandscapePositionMultiplier = [[options valueForKey:@"activityIndicatorLandscapePositionMultiplier"] floatValue];
+    if(options[@"cameraPreviewVerticalPositionMultiplier"]) customization.previewLayerPositionMultiplier = [[options valueForKey:@"cameraPreviewVerticalPositionMultiplier"] floatValue];
     
     // Drawable
     if([options valueForKey:@"multipageAnimationFrontImage"] != nil)
@@ -547,6 +554,9 @@
     result[@"cameraFramePortraitAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFramePortraitAspectRatio];
     result[@"cameraFrameCornerRadius"] = [NSNumber numberWithFloat:customization.cameraFrameCornerRadius];
     result[@"livenessAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.livenessAnimationPositionMultiplier];
+    result[@"activityIndicatorPortraitPositionMultiplier"] = [NSNumber numberWithFloat:customization.activityIndicatorPortraitPositionMultiplier];
+    result[@"activityIndicatorLandscapePositionMultiplier"] = [NSNumber numberWithFloat:customization.activityIndicatorLandscapePositionMultiplier];
+    result[@"cameraPreviewVerticalPositionMultiplier"] = [NSNumber numberWithFloat:customization.previewLayerPositionMultiplier];
     
     // Drawable
     result[@"multipageAnimationFrontImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageAnimationFrontImage];
@@ -694,6 +704,10 @@
     if([options valueForKey:@"eSignPINNewValue"] != nil)
         rfidScenario.eSignPINNewValue = [options valueForKey:@"eSignPINNewValue"];
     if(options[@"cardAccess"]) rfidScenario.cardAccess = options[@"cardAccess"];
+    if(options[@"mrzHash"]) rfidScenario.mrzHash = options[@"mrzHash"];
+    if(options[@"documentNumber"]) rfidScenario.documentNumber = options[@"documentNumber"];
+    if(options[@"dateOfBirth"]) rfidScenario.dateOfBirth = options[@"dateOfBirth"];
+    if(options[@"dateOfExpiry"]) rfidScenario.dateOfExpiry = options[@"dateOfExpiry"];
     
     // DataGroup
     if([options valueForKey:@"ePassportDataGroups"] != nil)
@@ -767,6 +781,10 @@
     result[@"eSignPINDefault"] = rfidScenario.eSignPINDefault;
     result[@"eSignPINNewValue"] = rfidScenario.eSignPINNewValue;
     result[@"cardAccess"] = rfidScenario.cardAccess;
+    result[@"mrzHash"] = rfidScenario.mrzHash;
+    result[@"documentNumber"] = rfidScenario.documentNumber;
+    result[@"dateOfBirth"] = rfidScenario.dateOfBirth;
+    result[@"dateOfExpiry"] = rfidScenario.dateOfExpiry;
     
     // DataGroup
     result[@"eDLDataGroups"] = [self getDataGroups:rfidScenario.eDLDataGroups];
@@ -1015,6 +1033,7 @@
         result.checkED = [input valueForKey:@"checkED"];
     if(input[@"checkBlackAndWhiteCopy"]) result.checkBlackAndWhiteCopy = input[@"checkBlackAndWhiteCopy"];
     if(input[@"checkDynaprint"]) result.checkDynaprint = input[@"checkDynaprint"];
+    if(input[@"checkGeometry"]) result.checkGeometry = input[@"checkGeometry"];
 }
 
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {
@@ -1027,6 +1046,7 @@
     result[@"checkED"] = input.checkED;
     result[@"checkBlackAndWhiteCopy"] = input.checkBlackAndWhiteCopy;
     result[@"checkDynaprint"] = input.checkDynaprint;
+    result[@"checkGeometry"] = input.checkGeometry;
     
     return result;
 }

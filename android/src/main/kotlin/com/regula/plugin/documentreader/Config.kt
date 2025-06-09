@@ -1,4 +1,4 @@
-@file:Suppress("EnumValuesSoftDeprecate")
+@file:Suppress("EnumValuesSoftDeprecate", "DEPRECATION")
 
 package com.regula.plugin.documentreader
 
@@ -136,6 +136,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "selectLongestNames" -> processParams.selectLongestNames = v as Boolean
         "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
         "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
+        "generateAlpha2Codes" -> processParams.generateAlpha2Codes = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -151,6 +152,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "convertCase" -> processParams.convertCase = v.toInt()
         "logLevel" -> processParams.logLevel = LogLevel.valueOf(v.toString())
         "mrzDetectMode" -> processParams.mrzDetectMode = v.toInt()
+        "pdfPagesLimit" -> processParams.pdfPagesLimit = v.toInt()
         "dateFormat" -> processParams.dateFormat = v as String
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
@@ -218,6 +220,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "selectLongestNames" to processParams.selectLongestNames,
     "generateDTCVC" to processParams.generateDTCVC,
     "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
+    "generateAlpha2Codes" to processParams.generateAlpha2Codes,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -233,6 +236,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "convertCase" to processParams.convertCase,
     "logLevel" to processParams.logLevel?.toString(),
     "mrzDetectMode" to processParams.mrzDetectMode,
+    "pdfPagesLimit" to processParams.pdfPagesLimit,
     "dateFormat" to processParams.dateFormat,
     "scenario" to processParams.scenario,
     "captureButtonScenario" to processParams.captureButtonScenario,
@@ -272,6 +276,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
         "activityIndicatorSize" -> editor.setActivityIndicatorSize(v.toInt())
         "status" -> editor.setStatus(v as String)
         "resultStatus" -> editor.setResultStatus(v as String)
+        "multipageButtonText" -> editor.setMultipageButtonText(v as String)
         "cameraFrameDefaultColor" -> editor.setCameraFrameDefaultColor(v.toColor())
         "cameraFrameActiveColor" -> editor.setCameraFrameActiveColor(v.toColor())
         "statusTextColor" -> editor.setStatusTextColor(v.toColor())
@@ -283,6 +288,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
         "statusBackgroundColor" -> editor.setStatusBackgroundColor(v.toColor())
         "cameraPreviewBackgroundColor" -> editor.setCameraPreviewBackgroundColor(v.toColor())
         "backgroundMaskColor" -> editor.setBackgroundMaskColor(v.toColor())
+        "multipageButtonTextColor" -> editor.setMultipageButtonTextColor(v.toColor())
         "statusPositionMultiplier" -> editor.setStatusPositionMultiplier(v.toFloat())
         "resultStatusPositionMultiplier" -> editor.setResultStatusPositionMultiplier(v.toFloat())
         "toolbarSize" -> editor.setToolbarSize(v.toFloat())
@@ -295,6 +301,9 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
         "livenessAnimationPositionMultiplier" -> editor.setLivenessAnimationPositionMultiplier(v.toFloat())
         "nextPageAnimationStartDelay" -> editor.setNextPageAnimationStartDelay(v.toFloat())
         "nextPageAnimationEndDelay" -> editor.setNextPageAnimationEndDelay(v.toFloat())
+        "activityIndicatorPortraitPositionMultiplier" -> editor.setActivityIndicatorPortraitPositionMultiplier(v.toFloat())
+        "activityIndicatorLandscapePositionMultiplier" -> editor.setActivityIndicatorLandscapePositionMultiplier(v.toFloat())
+        "cameraPreviewVerticalPositionMultiplier" -> editor.setCameraPreviewVerticalPositionMultiplier(v.toFloat())
         "multipageAnimationFrontImage" -> editor.setMultipageAnimationFrontImage(v.toDrawable())
         "multipageAnimationBackImage" -> editor.setMultipageAnimationBackImage(v.toDrawable())
         "borderBackgroundImage" -> editor.setBorderBackgroundImage(v.toDrawable())
@@ -329,6 +338,12 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
             editor.setResultStatusTextFont(font.first)
             font.second?.let { editor.setResultStatusTextSize(it) }
         }
+
+        "multipageButtonTextFont" -> {
+            val font = typefaceFromJSON(v as JSONObject)
+            editor.setMultipageButtonTextFont(font.first)
+            font.second?.let { editor.setMultipageButtonTextSize(it) }
+        }
     }
     editor.applyImmediately(context)
 }
@@ -346,6 +361,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "activityIndicatorSize" to customization.activityIndicatorSize,
     "status" to customization.status,
     "resultStatus" to customization.resultStatus,
+    "multipageButtonText" to customization.multipageButtonText,
     "cameraFrameDefaultColor" to customization.cameraFrameDefaultColor.colorToLong(),
     "cameraFrameActiveColor" to customization.cameraFrameActiveColor.colorToLong(),
     "statusTextColor" to customization.statusTextColor.colorToLong(),
@@ -357,6 +373,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "statusBackgroundColor" to customization.statusBackgroundColor.colorToLong(),
     "cameraPreviewBackgroundColor" to customization.cameraPreviewBackgroundColor.colorToLong(),
     "backgroundMaskColor" to customization.backgroundMaskColor.colorToLong(),
+    "multipageButtonTextColor" to customization.multipageButtonTextColor.colorToLong(),
     "statusPositionMultiplier" to customization.statusPositionMultiplier,
     "resultStatusPositionMultiplier" to customization.resultStatusPositionMultiplier,
     "backgroundMaskAlpha" to customization.backgroundMaskAlpha,
@@ -369,6 +386,9 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "livenessAnimationPositionMultiplier" to customization.livenessAnimationPositionMultiplier,
     "nextPageAnimationStartDelay" to customization.nextPageAnimationStartDelay,
     "nextPageAnimationEndDelay" to customization.nextPageAnimationEndDelay,
+    "activityIndicatorPortraitPositionMultiplier" to customization.activityIndicatorPortraitPositionMultiplier,
+    "activityIndicatorLandscapePositionMultiplier" to customization.activityIndicatorLandscapePositionMultiplier,
+    "cameraPreviewVerticalPositionMultiplier" to customization.cameraPreviewVerticalPositionMultiplier,
     "multipageAnimationFrontImage" to customization.multipageAnimationFrontImage.toBase64(),
     "multipageAnimationBackImage" to customization.multipageAnimationBackImage.toBase64(),
     "borderBackgroundImage" to customization.borderBackgroundImage.toBase64(),
@@ -388,6 +408,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "borderBackgroundImageMatrix" to generateMatrix(customization.borderBackgroundImageMatrix),
     "statusTextFont" to generateTypeface(customization.statusTextFont, customization.statusTextSize),
     "resultStatusTextFont" to generateTypeface(customization.resultStatusTextFont, customization.resultStatusTextSize),
+    "multipageButtonTextFont" to generateTypeface(customization.multipageButtonTextFont, customization.multipageButtonTextSize),
     "customLabelStatus" to customization.customLabelStatus?.toString(),
     "cameraFrameLineCap" to customization.cameraFrameLineCap.ordinal,
     "uiCustomizationLayer" to customization.uiCustomizationLayer,
@@ -452,6 +473,10 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "eSignPINDefault" -> rfidScenario.seteSignPINDefault(v as String)
         "eSignPINNewValue" -> rfidScenario.seteSignPINNewValue(v as String)
         "cardAccess" -> rfidScenario.cardAccess = v as String
+        "mrzHash" -> rfidScenario.mrzHash = v as String
+        "documentNumber" -> rfidScenario.documentNumber = v as String
+        "dateOfBirth" -> rfidScenario.dateOfBirth = v as String
+        "dateOfExpiry" -> rfidScenario.dateOfExpiry = v as String
         "ePassportDataGroups" -> setDataGroups(rfidScenario.ePassportDataGroups(), v as JSONObject)
         "eIDDataGroups" -> setDataGroups(rfidScenario.eIDDataGroups(), v as JSONObject)
         "eDLDataGroups" -> setDataGroups(rfidScenario.eDLDataGroups(), v as JSONObject)
@@ -514,6 +539,10 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "eSignPINDefault" to rfidScenario.geteSignPINDefault(),
     "eSignPINNewValue" to rfidScenario.geteSignPINNewValue(),
     "cardAccess" to rfidScenario.cardAccess,
+    "mrzHash" to rfidScenario.mrzHash,
+    "documentNumber" to rfidScenario.documentNumber,
+    "dateOfBirth" to rfidScenario.dateOfBirth,
+    "dateOfExpiry" to rfidScenario.dateOfExpiry,
     "ePassportDataGroups" to getDataGroups(rfidScenario.ePassportDataGroups()),
     "eIDDataGroups" to getDataGroups(rfidScenario.eIDDataGroups()),
     "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups()),
@@ -688,6 +717,7 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkED" -> input.checkED = v as Boolean
         "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
         "checkDynaprint" -> input.checkDynaprint = v as Boolean
+        "checkGeometry" -> input.checkGeometry = v as Boolean
     }
 }
 
@@ -699,6 +729,7 @@ fun getLivenessParams(input: LivenessParams?) = input?.let {
         "checkED" to input.checkED,
         "checkBlackAndWhiteCopy" to input.checkBlackAndWhiteCopy,
         "checkDynaprint" to input.checkDynaprint,
+        "checkGeometry" to input.checkGeometry,
     ).toJson()
 }
 
