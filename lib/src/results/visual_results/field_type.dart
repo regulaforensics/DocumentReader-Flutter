@@ -1926,7 +1926,13 @@ enum FieldType {
 
   SHORT_FLIGHT_NUMBER(693),
 
-  AIRLINE_CODE(694);
+  AIRLINE_CODE(694),
+
+  MVC_AGENCY(695),
+
+  ISSUING_STATE_CODE_ALPHA_2(696),
+
+  NATIONALITY_CODE_ALPHA_2(697);
 
   const FieldType(this.value);
   final int value;

@@ -52,6 +52,13 @@ class LivenessParams {
     _set({"checkDynaprint": val});
   }
 
+  bool? get checkGeometry => _checkGeometry;
+  bool? _checkGeometry;
+  set checkGeometry(bool? val) {
+    _checkGeometry = val;
+    _set({"checkGeometry": val});
+  }
+
   /// Allows you to deserialize object.
   static LivenessParams fromJson(jsonObject) {
     if (jsonObject == null) return LivenessParams();
@@ -64,6 +71,7 @@ class LivenessParams {
     result.checkED = jsonObject["checkED"];
     result.checkBlackAndWhiteCopy = jsonObject["checkBlackAndWhiteCopy"];
     result.checkDynaprint = jsonObject["checkDynaprint"];
+    result.checkGeometry = jsonObject["checkGeometry"];
 
     return result;
   }
@@ -76,6 +84,7 @@ class LivenessParams {
         "checkED": checkED,
         "checkBlackAndWhiteCopy": checkBlackAndWhiteCopy,
         "checkDynaprint": checkDynaprint,
+        "checkGeometry": checkGeometry,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {AuthenticityParams? directParent}) {
