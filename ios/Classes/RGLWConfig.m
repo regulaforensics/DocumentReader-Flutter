@@ -398,6 +398,7 @@
         customization.status = [options valueForKey:@"status"];
     if([options valueForKey:@"resultStatus"] != nil)
         customization.resultStatus = [options valueForKey:@"resultStatus"];
+    if(options[@"multipageButtonText"]) customization.multipageButtonText = options[@"multipageButtonText"];
     
     // Color
     if([options valueForKey:@"cameraFrameDefaultColor"] != nil)
@@ -422,6 +423,7 @@
         customization.cameraPreviewBackgroundColor = [self colorWithInt:[options valueForKey:@"cameraPreviewBackgroundColor"]];
     if([options valueForKey:@"backgroundMaskColor"] != nil)
         customization.backgroundMaskColor = [self colorWithInt:[options valueForKey:@"backgroundMaskColor"]];
+    if(options[@"multipageButtonTextColor"]) customization.multipageButtonTextColor = [self colorWithInt:options[@"multipageButtonTextColor"]];
     
     // Float
     if([options valueForKey:@"statusPositionMultiplier"] != nil)
@@ -444,9 +446,9 @@
         customization.cameraFrameCornerRadius = [[options valueForKey:@"cameraFrameCornerRadius"] floatValue];
     if([options valueForKey:@"livenessAnimationPositionMultiplier"] != nil)
         customization.livenessAnimationPositionMultiplier = [[options valueForKey:@"livenessAnimationPositionMultiplier"] floatValue];
-    if(options[@"activityIndicatorPortraitPositionMultiplier"]) customization.activityIndicatorPortraitPositionMultiplier = [[options valueForKey:@"activityIndicatorPortraitPositionMultiplier"] floatValue];
-    if(options[@"activityIndicatorLandscapePositionMultiplier"]) customization.activityIndicatorLandscapePositionMultiplier = [[options valueForKey:@"activityIndicatorLandscapePositionMultiplier"] floatValue];
-    if(options[@"cameraPreviewVerticalPositionMultiplier"]) customization.previewLayerPositionMultiplier = [[options valueForKey:@"cameraPreviewVerticalPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorPortraitPositionMultiplier"]) customization.activityIndicatorPortraitPositionMultiplier = [options[@"activityIndicatorPortraitPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorLandscapePositionMultiplier"]) customization.activityIndicatorLandscapePositionMultiplier = [options[@"activityIndicatorLandscapePositionMultiplier"] floatValue];
+    if(options[@"cameraPreviewVerticalPositionMultiplier"]) customization.previewLayerPositionMultiplier = [options[@"cameraPreviewVerticalPositionMultiplier"] floatValue];
     
     // Drawable
     if([options valueForKey:@"multipageAnimationFrontImage"] != nil)
@@ -479,6 +481,7 @@
         customization.statusTextFont = [self UIFontFromJSON:[options valueForKey:@"statusTextFont"]];
     if([options valueForKey:@"resultStatusTextFont"] != nil)
         customization.resultStatusTextFont = [self UIFontFromJSON:[options valueForKey:@"resultStatusTextFont"]];
+    if(options[@"multipageButtonTextFont"]) customization.multipageButtonTextFont = [self UIFontFromJSON:options[@"multipageButtonTextFont"]];
     
     // Custom
     if([options valueForKey:@"customLabelStatus"] != nil)
@@ -529,6 +532,7 @@
     // String
     result[@"status"] = customization.status;
     result[@"resultStatus"] = customization.resultStatus;
+    result[@"multipageButtonText"] = customization.multipageButtonText;
     
     // Color
     result[@"cameraFrameDefaultColor"] = [self intWithColor:customization.cameraFrameDefaultColor];
@@ -542,6 +546,7 @@
     result[@"statusBackgroundColor"] = [self intWithColor:customization.statusBackgroundColor];
     result[@"cameraPreviewBackgroundColor"] = [self intWithColor:customization.cameraPreviewBackgroundColor];
     result[@"backgroundMaskColor"] = [self intWithColor:customization.backgroundMaskColor];
+    result[@"multipageButtonTextColor"] = [self intWithColor:customization.multipageButtonTextColor];
     
     // Float
     result[@"statusPositionMultiplier"] = [NSNumber numberWithFloat:customization.statusPositionMultiplier];
@@ -575,6 +580,7 @@
     // Font
     result[@"statusTextFont"] = [self generateUIFont:customization.statusTextFont];
     result[@"resultStatusTextFont"] = [self generateUIFont:customization.resultStatusTextFont];
+    result[@"multipageButtonTextFont"] = [self generateUIFont:customization.multipageButtonTextFont];
     
     // Custom
     if(customization.customLabelStatus != nil) result[@"customLabelStatus"] = customization.customLabelStatus.string;
@@ -674,7 +680,7 @@
     if([options valueForKey:@"signManagementAction"] != nil)
         rfidScenario.signManagementAction = [[options valueForKey:@"signManagementAction"] integerValue];
     if([options valueForKey:@"readingBuffer"] != nil)
-        rfidScenario.readingBuffer = [[options valueForKey:@"readingBuffer"] intValue];
+        rfidScenario.readingBuffer = [[options valueForKey:@"readingBuffer"] integerValue];
     if([options valueForKey:@"onlineTAToSignDataType"] != nil)
         rfidScenario.onlineTAToSignDataType = [[options valueForKey:@"onlineTAToSignDataType"] intValue];
     if([options valueForKey:@"profilerType"] != nil)

@@ -116,12 +116,10 @@ class Tests: XCTestCase {
                        "multipageAnimationBackImageMatrix",
                        "livenessAnimationImageMatrix",
                        "borderBackgroundImageMatrix",
-                       "statusTextFont",
-                       "resultStatusTextFont",
-                       "fonts",
-                       "multipageButtonText",
-                       "multipageButtonTextColor",
-                       "multipageButtonTextFont"])
+                       "statusTextFont.style",
+                       "resultStatusTextFont.style",
+                       "multipageButtonTextFont.style",
+                       "fonts",])
     }
     
     func test_functionality() {
