@@ -1199,10 +1199,13 @@
 }
 
 +(UIFont*)UIFontFromJSON:(NSDictionary*)input {
-    return [UIFont fontWithName:[input valueForKey:@"name"] size:[[input valueForKey:@"size"] integerValue]];
+    UIFont* result = [UIFont fontWithName:[input valueForKey:@"name"] size:[[input valueForKey:@"size"] integerValue]];
+    if (!result || !result.fontName) return nil;
+    return result;
 }
 
 +(NSDictionary*)generateUIFont:(UIFont*)input {
+    if (!input || !input.fontName) return nil;
     return @{
         @"name": input.fontName,
         @"size": @(input.pointSize)
