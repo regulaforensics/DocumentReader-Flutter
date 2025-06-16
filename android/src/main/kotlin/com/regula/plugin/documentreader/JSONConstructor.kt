@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.os.Build
 import android.util.Pair
 import com.regula.common.exception.RegulaException
 import com.regula.documentreader.api.License
@@ -500,13 +501,29 @@ fun generateGlaresCheckParams(input: GlaresCheckParams?) = input?.let {
     ).toJson()
 }
 
-fun typefaceFromJSON(it: JSONObject) = Pair(
-    Typeface.create(
-        it.getString("name"),
-        it.optInt("style", Typeface.NORMAL)
-    ),
-    if (it.has("size")) it.getInt("size") else null
-)
+@SuppressLint("DiscouragedApi")
+fun typefaceFromJSON(it: JSONObject): Pair<Typeface?, Int?> {
+    val font = try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context.resources.getFont(
+                context.resources.getIdentifier(
+                    it.getString("name"),
+                    "font",
+                    context.packageName
+                )
+            )
+        else throw Exception("")
+    } catch (_: Exception) {
+        Typeface.create(
+            it.getString("name"),
+            it.optInt("style", Typeface.NORMAL)
+        )
+    }
+    return Pair(
+        font,
+        if (it.has("size")) it.getInt("size") else null
+    )
+}
 
 fun generateTypeface(input: Typeface?, size: Int? = null) = input?.let {
     mapOf(

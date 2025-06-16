@@ -281,11 +281,11 @@ class RFIDScenario {
     _set({"independentSODStatus": val});
   }
 
-  int? get readingBuffer => _readingBuffer;
-  int? _readingBuffer;
-  set readingBuffer(int? val) {
+  RFIDReadingBufferSize? get readingBuffer => _readingBuffer;
+  RFIDReadingBufferSize? _readingBuffer;
+  set readingBuffer(RFIDReadingBufferSize? val) {
     _readingBuffer = val;
-    _set({"readingBuffer": val});
+    _set({"readingBuffer": val?.value});
   }
 
   int? get onlineTAToSignDataType => _onlineTAToSignDataType;
@@ -496,27 +496,22 @@ class RFIDScenario {
     result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
     result.independentSODStatus = jsonObject["independentSODStatus"];
 
-    result.readingBuffer = jsonObject["readingBuffer"];
+    result.readingBuffer =
+        RFIDReadingBufferSize.getByValue(jsonObject["readingBuffer"]);
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
     result.defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
-    result.signManagementAction = SignManagementAction.getByValue(
-      jsonObject["signManagementAction"],
-    );
-    result.profilerType = RFIDSDKProfilerType.getByValue(
-      jsonObject["profilerType"],
-    );
-    result.authProcType = RFIDAuthenticationProcedureType.getByValue(
-      jsonObject["authProcType"],
-    );
+    result.signManagementAction =
+        SignManagementAction.getByValue(jsonObject["signManagementAction"]);
+    result.profilerType =
+        RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
+    result.authProcType =
+        RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
     result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
-      jsonObject["baseSMProcedure"],
-    );
-    result.pacePasswordType = RFIDPasswordType.getByValue(
-      jsonObject["pacePasswordType"],
-    );
-    result.terminalType = RFIDTerminalType.getByValue(
-      jsonObject["terminalType"],
-    );
+        jsonObject["baseSMProcedure"]);
+    result.pacePasswordType =
+        RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
+    result.terminalType =
+        RFIDTerminalType.getByValue(jsonObject["terminalType"]);
 
     result.password = jsonObject["password"];
     result.pkdPA = jsonObject["pkdPA"];
@@ -531,9 +526,8 @@ class RFIDScenario {
     result.dateOfExpiry = jsonObject["dateOfExpiry"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
-    result.ePassportDataGroups = EPassportDataGroups.fromJson(
-      jsonObject["ePassportDataGroups"],
-    );
+    result.ePassportDataGroups =
+        EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
     result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
     result.dtcDataGroups = DTCDataGroup.fromJson(jsonObject["dtcDataGroups"]);
 
@@ -581,7 +575,7 @@ class RFIDScenario {
         "mrzStrictCheck": mrzStrictCheck,
         "loadCRLFromRemote": loadCRLFromRemote,
         "independentSODStatus": independentSODStatus,
-        "readingBuffer": readingBuffer,
+        "readingBuffer": readingBuffer?.value,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,
         "signManagementAction": signManagementAction?.value,
@@ -772,6 +766,28 @@ enum SignManagementAction {
       return SignManagementAction.values.firstWhere((x) => x.value == i);
     } catch (_) {
       return SignManagementAction.UNDEFINED;
+    }
+  }
+}
+
+enum RFIDReadingBufferSize {
+  /// Single length.
+  SINGLE_LENGTH(-1),
+
+  /// Extended length.
+  EXTENDED_LENGTH(0);
+
+  const RFIDReadingBufferSize(this.value);
+  final int value;
+
+  static RFIDReadingBufferSize? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return RFIDReadingBufferSize.values.firstWhere(
+        (x) => x.value == i,
+      );
+    } catch (_) {
+      return RFIDReadingBufferSize.EXTENDED_LENGTH;
     }
   }
 }

@@ -399,7 +399,7 @@ var rfidScenario = {
   "mrzStrictCheck": false,
   "loadCRLFromRemote": true,
   "independentSODStatus": false,
-  "readingBuffer": 1,
+  "readingBuffer": -1,
   "onlineTAToSignDataType": 3,
   "defaultReadingBufferSize": 2,
   "signManagementAction": 3,
