@@ -71,6 +71,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "cancelDBUpdate" -> cancelDBUpdate(callback)
     "checkDatabaseUpdate" -> checkDatabaseUpdate(callback, args(0))
     "scan" -> scan(args(0))
+    "startScanner" -> startScanner(args(0))
     "recognize" -> recognize(args(0))
     "startNewPage" -> startNewPage()
     "stopScanner" -> stopScanner()
@@ -196,9 +197,15 @@ fun checkDatabaseUpdate(callback: Callback, databaseID: String) = Instance().che
     databaseID
 ) { callback(generateDocReaderDocumentsDatabase(it)) }
 
+@Suppress("DEPRECATION")
 fun scan(config: JSONObject) {
     stopBackgroundRFID()
     Instance().showScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
+}
+
+fun startScanner(config: JSONObject) {
+    stopBackgroundRFID()
+    Instance().startScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
 }
 
 fun recognize(config: JSONObject) {

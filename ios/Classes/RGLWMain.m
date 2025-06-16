@@ -34,6 +34,7 @@
         @"cancelDBUpdate": ^{ [self cancelDBUpdate :callback]; },
         @"checkDatabaseUpdate": ^{ [self checkDatabaseUpdate :args[0] :callback]; },
         @"scan": ^{ [self scan :args[0]]; },
+        @"startScanner": ^{ [self startScanner :args[0]]; },
         @"recognize": ^{ [self recognize :args[0]]; },
         @"startNewPage": ^{ [self startNewPage]; },
         @"stopScanner": ^{ [self stopScanner]; },
@@ -205,6 +206,15 @@ static NSDictionary* headers;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         #pragma clang diagnostic pop
         [RGLDocReader.shared showScannerFromPresenter:RGLWRootViewController() config:[RGLWJSONConstructor scannerConfigFromJson:config] completion:[self completion]];
+    });
+}
+
++(void)startScanner:(NSDictionary*)config {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        #pragma clang diagnostic pop
+        [RGLDocReader.shared startScannerFromPresenter:RGLWRootViewController() config:[RGLWJSONConstructor scannerConfigFromJson:config] completion:[self completion]];
     });
 }
 
