@@ -414,6 +414,16 @@ class DocumentReader {
     _bridge.invokeMethod("scan", [config.toJson()]);
   }
 
+  /// Used for multiple frames processing which are captured from the camera.
+  ///
+  /// [config] - scanning configuration.
+  ///
+  /// [completion] - block to execute after the recognition process finishes.
+  void startScanner(ScannerConfig config, DocumentReaderCompletion completion) {
+    _setDocumentReaderCompletion(completion);
+    _bridge.invokeMethod("startScanner", [config.toJson()]);
+  }
+
   /// Used for proccessing predefined images.
   ///
   /// [config] - scanning configuration.

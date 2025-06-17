@@ -163,7 +163,7 @@ class MyAppState extends State<MyApp> {
           button("Scan document", () async {
             if (!await documentReader.isReady) return;
             clearResults();
-            documentReader.scan(
+            documentReader.startScanner(
               ScannerConfig.withScenario(selectedScenario),
               handleCompletion,
             );

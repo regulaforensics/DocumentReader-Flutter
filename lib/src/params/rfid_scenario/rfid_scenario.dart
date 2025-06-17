@@ -771,11 +771,11 @@ enum SignManagementAction {
 }
 
 enum RFIDReadingBufferSize {
-  /// Single length.
-  SINGLE_LENGTH(-1),
+  /// Standard length.
+  STANDARD_LENGTH(0),
 
   /// Extended length.
-  EXTENDED_LENGTH(0);
+  EXTENDED_LENGTH(-1);
 
   const RFIDReadingBufferSize(this.value);
   final int value;
