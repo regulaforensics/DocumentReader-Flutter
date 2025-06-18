@@ -335,6 +335,13 @@ class ProcessParams {
     _set({"strictDLCategoryExpiry": val});
   }
 
+  bool? get generateAlpha2Codes => _generateAlpha2Codes;
+  bool? _generateAlpha2Codes;
+  set generateAlpha2Codes(bool? val) {
+    _generateAlpha2Codes = val;
+    _set({"generateAlpha2Codes": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -472,6 +479,15 @@ class ProcessParams {
   set forceDocID(int? val) {
     _forceDocID = val;
     _set({"forceDocID": val});
+  }
+
+  /// Maximum number of pages to be processed in a PDF document.
+  /// If set, only the specified number of pages will be analyzed.
+  int? get pdfPagesLimit => _pdfPagesLimit;
+  int? _pdfPagesLimit;
+  set pdfPagesLimit(int? val) {
+    _pdfPagesLimit = val;
+    _set({"pdfPagesLimit": val});
   }
 
   /// Change the format string of displayed dates in the results.
@@ -745,6 +761,7 @@ class ProcessParams {
     result.selectLongestNames = jsonObject["selectLongestNames"];
     result.generateDTCVC = jsonObject["generateDTCVC"];
     result.strictDLCategoryExpiry = jsonObject["strictDLCategoryExpiry"];
+    result.generateAlpha2Codes = jsonObject["generateAlpha2Codes"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -754,6 +771,7 @@ class ProcessParams {
     result.minDPI = jsonObject["minDPI"];
     result.imageDpiOutMax = jsonObject["imageDpiOutMax"];
     result.forceDocID = jsonObject["forceDocID"];
+    result.pdfPagesLimit = jsonObject["pdfPagesLimit"];
     result.forceDocFormat = DocFormat.getByValue(jsonObject["forceDocFormat"]);
     result.shiftExpiryDate = jsonObject["shiftExpiryDate"];
     result.minimalHolderAge = jsonObject["minimalHolderAge"];
@@ -853,12 +871,14 @@ class ProcessParams {
         "selectLongestNames": selectLongestNames,
         "generateDTCVC": generateDTCVC,
         "strictDLCategoryExpiry": strictDLCategoryExpiry,
+        "generateAlpha2Codes": generateAlpha2Codes,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
         "minDPI": minDPI,
         "imageDpiOutMax": imageDpiOutMax,
         "forceDocID": forceDocID,
+        "pdfPagesLimit": pdfPagesLimit,
         "forceDocFormat": forceDocFormat?.value,
         "shiftExpiryDate": shiftExpiryDate,
         "minimalHolderAge": minimalHolderAge,

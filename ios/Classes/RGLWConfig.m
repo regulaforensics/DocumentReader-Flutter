@@ -1,11 +1,3 @@
-//
-//  RGLWConfig.m
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "RGLWConfig.h"
 
@@ -191,6 +183,7 @@
     if (options[@"selectLongestNames"]) processParams.selectLongestNames = options[@"selectLongestNames"];
     if (options[@"generateDTCVC"]) processParams.generateDTCVC = options[@"generateDTCVC"];
     if (options[@"strictDLCategoryExpiry"]) processParams.strictDLCategoryExpiry = options[@"strictDLCategoryExpiry"];
+    if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -221,6 +214,7 @@
         processParams.convertCase = [self textProcessingWithNumber:[options valueForKey:@"convertCase"]];
     if(options[@"logLevel"]) processParams.logLevel = options[@"logLevel"];
     if(options[@"mrzDetectMode"]) processParams.mrzDetectMode = options[@"mrzDetectMode"];
+    if(options[@"pdfPagesLimit"]) processParams.pdfPagesLimit = options[@"pdfPagesLimit"];
 
     // String
     if([options valueForKey:@"dateFormat"] != nil)
@@ -319,6 +313,7 @@
     result[@"selectLongestNames"] = processParams.selectLongestNames;
     result[@"generateDTCVC"] = processParams.generateDTCVC;
     result[@"strictDLCategoryExpiry"] = processParams.strictDLCategoryExpiry;
+    result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -336,6 +331,7 @@
     result[@"convertCase"] = [self generateWithTextProcessing:processParams.convertCase];
     result[@"logLevel"] = processParams.logLevel;
     result[@"mrzDetectMode"] = processParams.mrzDetectMode;
+    result[@"pdfPagesLimit"] = processParams.pdfPagesLimit;
     
     // String
     result[@"dateFormat"] = processParams.dateFormat;
@@ -402,6 +398,7 @@
         customization.status = [options valueForKey:@"status"];
     if([options valueForKey:@"resultStatus"] != nil)
         customization.resultStatus = [options valueForKey:@"resultStatus"];
+    if(options[@"multipageButtonText"]) customization.multipageButtonText = options[@"multipageButtonText"];
     
     // Color
     if([options valueForKey:@"cameraFrameDefaultColor"] != nil)
@@ -426,6 +423,7 @@
         customization.cameraPreviewBackgroundColor = [self colorWithInt:[options valueForKey:@"cameraPreviewBackgroundColor"]];
     if([options valueForKey:@"backgroundMaskColor"] != nil)
         customization.backgroundMaskColor = [self colorWithInt:[options valueForKey:@"backgroundMaskColor"]];
+    if(options[@"multipageButtonTextColor"]) customization.multipageButtonTextColor = [self colorWithInt:options[@"multipageButtonTextColor"]];
     
     // Float
     if([options valueForKey:@"statusPositionMultiplier"] != nil)
@@ -448,6 +446,9 @@
         customization.cameraFrameCornerRadius = [[options valueForKey:@"cameraFrameCornerRadius"] floatValue];
     if([options valueForKey:@"livenessAnimationPositionMultiplier"] != nil)
         customization.livenessAnimationPositionMultiplier = [[options valueForKey:@"livenessAnimationPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorPortraitPositionMultiplier"]) customization.activityIndicatorPortraitPositionMultiplier = [options[@"activityIndicatorPortraitPositionMultiplier"] floatValue];
+    if(options[@"activityIndicatorLandscapePositionMultiplier"]) customization.activityIndicatorLandscapePositionMultiplier = [options[@"activityIndicatorLandscapePositionMultiplier"] floatValue];
+    if(options[@"cameraPreviewVerticalPositionMultiplier"]) customization.previewLayerPositionMultiplier = [options[@"cameraPreviewVerticalPositionMultiplier"] floatValue];
     
     // Drawable
     if([options valueForKey:@"multipageAnimationFrontImage"] != nil)
@@ -480,6 +481,7 @@
         customization.statusTextFont = [self UIFontFromJSON:[options valueForKey:@"statusTextFont"]];
     if([options valueForKey:@"resultStatusTextFont"] != nil)
         customization.resultStatusTextFont = [self UIFontFromJSON:[options valueForKey:@"resultStatusTextFont"]];
+    if(options[@"multipageButtonTextFont"]) customization.multipageButtonTextFont = [self UIFontFromJSON:options[@"multipageButtonTextFont"]];
     
     // Custom
     if([options valueForKey:@"customLabelStatus"] != nil)
@@ -530,6 +532,7 @@
     // String
     result[@"status"] = customization.status;
     result[@"resultStatus"] = customization.resultStatus;
+    result[@"multipageButtonText"] = customization.multipageButtonText;
     
     // Color
     result[@"cameraFrameDefaultColor"] = [self intWithColor:customization.cameraFrameDefaultColor];
@@ -543,6 +546,7 @@
     result[@"statusBackgroundColor"] = [self intWithColor:customization.statusBackgroundColor];
     result[@"cameraPreviewBackgroundColor"] = [self intWithColor:customization.cameraPreviewBackgroundColor];
     result[@"backgroundMaskColor"] = [self intWithColor:customization.backgroundMaskColor];
+    result[@"multipageButtonTextColor"] = [self intWithColor:customization.multipageButtonTextColor];
     
     // Float
     result[@"statusPositionMultiplier"] = [NSNumber numberWithFloat:customization.statusPositionMultiplier];
@@ -555,6 +559,9 @@
     result[@"cameraFramePortraitAspectRatio"] = [NSNumber numberWithFloat:customization.cameraFramePortraitAspectRatio];
     result[@"cameraFrameCornerRadius"] = [NSNumber numberWithFloat:customization.cameraFrameCornerRadius];
     result[@"livenessAnimationPositionMultiplier"] = [NSNumber numberWithFloat:customization.livenessAnimationPositionMultiplier];
+    result[@"activityIndicatorPortraitPositionMultiplier"] = [NSNumber numberWithFloat:customization.activityIndicatorPortraitPositionMultiplier];
+    result[@"activityIndicatorLandscapePositionMultiplier"] = [NSNumber numberWithFloat:customization.activityIndicatorLandscapePositionMultiplier];
+    result[@"cameraPreviewVerticalPositionMultiplier"] = [NSNumber numberWithFloat:customization.previewLayerPositionMultiplier];
     
     // Drawable
     result[@"multipageAnimationFrontImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageAnimationFrontImage];
@@ -573,6 +580,7 @@
     // Font
     result[@"statusTextFont"] = [self generateUIFont:customization.statusTextFont];
     result[@"resultStatusTextFont"] = [self generateUIFont:customization.resultStatusTextFont];
+    result[@"multipageButtonTextFont"] = [self generateUIFont:customization.multipageButtonTextFont];
     
     // Custom
     if(customization.customLabelStatus != nil) result[@"customLabelStatus"] = customization.customLabelStatus.string;
@@ -672,7 +680,7 @@
     if([options valueForKey:@"signManagementAction"] != nil)
         rfidScenario.signManagementAction = [[options valueForKey:@"signManagementAction"] integerValue];
     if([options valueForKey:@"readingBuffer"] != nil)
-        rfidScenario.readingBuffer = [[options valueForKey:@"readingBuffer"] intValue];
+        rfidScenario.readingBuffer = [[options valueForKey:@"readingBuffer"] integerValue];
     if([options valueForKey:@"onlineTAToSignDataType"] != nil)
         rfidScenario.onlineTAToSignDataType = [[options valueForKey:@"onlineTAToSignDataType"] intValue];
     if([options valueForKey:@"profilerType"] != nil)
@@ -702,6 +710,10 @@
     if([options valueForKey:@"eSignPINNewValue"] != nil)
         rfidScenario.eSignPINNewValue = [options valueForKey:@"eSignPINNewValue"];
     if(options[@"cardAccess"]) rfidScenario.cardAccess = options[@"cardAccess"];
+    if(options[@"mrzHash"]) rfidScenario.mrzHash = options[@"mrzHash"];
+    if(options[@"documentNumber"]) rfidScenario.documentNumber = options[@"documentNumber"];
+    if(options[@"dateOfBirth"]) rfidScenario.dateOfBirth = options[@"dateOfBirth"];
+    if(options[@"dateOfExpiry"]) rfidScenario.dateOfExpiry = options[@"dateOfExpiry"];
     
     // DataGroup
     if([options valueForKey:@"ePassportDataGroups"] != nil)
@@ -775,6 +787,10 @@
     result[@"eSignPINDefault"] = rfidScenario.eSignPINDefault;
     result[@"eSignPINNewValue"] = rfidScenario.eSignPINNewValue;
     result[@"cardAccess"] = rfidScenario.cardAccess;
+    result[@"mrzHash"] = rfidScenario.mrzHash;
+    result[@"documentNumber"] = rfidScenario.documentNumber;
+    result[@"dateOfBirth"] = rfidScenario.dateOfBirth;
+    result[@"dateOfExpiry"] = rfidScenario.dateOfExpiry;
     
     // DataGroup
     result[@"eDLDataGroups"] = [self getDataGroups:rfidScenario.eDLDataGroups];
@@ -1023,6 +1039,7 @@
         result.checkED = [input valueForKey:@"checkED"];
     if(input[@"checkBlackAndWhiteCopy"]) result.checkBlackAndWhiteCopy = input[@"checkBlackAndWhiteCopy"];
     if(input[@"checkDynaprint"]) result.checkDynaprint = input[@"checkDynaprint"];
+    if(input[@"checkGeometry"]) result.checkGeometry = input[@"checkGeometry"];
 }
 
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {
@@ -1035,6 +1052,7 @@
     result[@"checkED"] = input.checkED;
     result[@"checkBlackAndWhiteCopy"] = input.checkBlackAndWhiteCopy;
     result[@"checkDynaprint"] = input.checkDynaprint;
+    result[@"checkGeometry"] = input.checkGeometry;
     
     return result;
 }
@@ -1181,10 +1199,13 @@
 }
 
 +(UIFont*)UIFontFromJSON:(NSDictionary*)input {
-    return [UIFont fontWithName:[input valueForKey:@"name"] size:[[input valueForKey:@"size"] integerValue]];
+    UIFont* result = [UIFont fontWithName:[input valueForKey:@"name"] size:[[input valueForKey:@"size"] integerValue]];
+    if (!result || !result.fontName) return nil;
+    return result;
 }
 
 +(NSDictionary*)generateUIFont:(UIFont*)input {
+    if (!input || !input.fontName) return nil;
     return @{
         @"name": input.fontName,
         @"size": @(input.pointSize)

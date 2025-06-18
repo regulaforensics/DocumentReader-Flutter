@@ -1,16 +1,7 @@
-//
-//  Config.kt
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
+@file:Suppress("EnumValuesSoftDeprecate", "DEPRECATION")
 
-@file:Suppress("EnumValuesSoftDeprecate")
+package com.regula.plugin.documentreader
 
-package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
-
-import android.content.Context
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -32,13 +23,13 @@ import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
-import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.toDrawable
-import io.flutter.plugins.regula.documentreader.flutter_document_reader_api.Convert.toString
+import com.regula.plugin.documentreader.Convert.toBase64
+import com.regula.plugin.documentreader.Convert.toDrawable
 import org.json.JSONArray
 import org.json.JSONObject
 
-fun setFunctionality(functionality: Functionality, opts: JSONObject) = opts.forEach { k, v ->
-    val editor = functionality.edit()
+fun setFunctionality(config: Functionality, input: JSONObject) = input.forEach { k, v ->
+    val editor = config.edit()
     when (k) {
         "pictureOnBoundsReady" -> editor.setPictureOnBoundsReady(v as Boolean)
         "showTorchButton" -> editor.setShowTorchButton(v as Boolean)
@@ -67,43 +58,43 @@ fun setFunctionality(functionality: Functionality, opts: JSONObject) = opts.forE
         "btDeviceName" -> editor.setBtDeviceName(v as String)
         "zoomFactor" -> editor.setZoomFactor(v.toFloat())
         "exposure" -> editor.setExposure(v.toFloat())
-        "excludedCamera2Models" -> editor.setExcludedCamera2Models(stringListFromJson(v as JSONArray))
+        "excludedCamera2Models" -> editor.setExcludedCamera2Models((v as JSONArray).toList())
         "cameraSize" -> editor.setCameraSize(cameraSizeFromJSON(v as JSONObject).first, cameraSizeFromJSON(v).second)
     }
     editor.apply()
 }
 
-fun getFunctionality(functionality: Functionality) = mapOf(
-    "pictureOnBoundsReady" to functionality.isPictureOnBoundsReady,
-    "showTorchButton" to functionality.isShowTorchButton,
-    "showCloseButton" to functionality.isShowCloseButton,
-    "videoCaptureMotionControl" to functionality.isVideoCaptureMotionControl,
-    "showCaptureButton" to functionality.isShowCaptureButton,
-    "showChangeFrameButton" to functionality.isShowChangeFrameButton,
-    "showSkipNextPageButton" to functionality.isShowSkipNextPageButton,
-    "useAuthenticator" to functionality.isUseAuthenticator,
-    "skipFocusingFrames" to functionality.isSkipFocusingFrames,
-    "showCameraSwitchButton" to functionality.isShowCameraSwitchButton,
-    "displayMetadata" to functionality.isDisplayMetaData,
-    "isZoomEnabled" to functionality.isZoomEnabled,
-    "isCameraTorchCheckDisabled" to functionality.isCameraTorchCheckDisabled,
-    "recordScanningProcess" to functionality.doRecordProcessingVideo(),
-    "manualMultipageMode" to functionality.isManualMultipageMode,
-    "torchTurnedOn" to functionality.isTorchTurnedOn,
-    "showCaptureButtonDelayFromDetect" to functionality.showCaptureButtonDelayFromDetect,
-    "showCaptureButtonDelayFromStart" to functionality.showCaptureButtonDelayFromStart,
-    "orientation" to functionality.orientation,
-    "captureMode" to functionality.captureMode,
-    "cameraMode" to functionality.cameraMode,
-    "rfidTimeout" to functionality.rfidTimeout,
-    "forcePagesCount" to functionality.forcePagesCount,
-    "cameraFrame" to functionality.cameraFrame,
-    "btDeviceName" to functionality.btDeviceName,
-    "zoomFactor" to functionality.zoomFactor,
-    "exposure" to functionality.exposure,
-    "excludedCamera2Models" to generateList(functionality.excludedCamera2Models),
-    "cameraSize" to generateCameraSize(functionality.cameraWidth, functionality.cameraHeight)
-).toJsonObject()
+fun getFunctionality(input: Functionality) = mapOf(
+    "pictureOnBoundsReady" to input.isPictureOnBoundsReady,
+    "showTorchButton" to input.isShowTorchButton,
+    "showCloseButton" to input.isShowCloseButton,
+    "videoCaptureMotionControl" to input.isVideoCaptureMotionControl,
+    "showCaptureButton" to input.isShowCaptureButton,
+    "showChangeFrameButton" to input.isShowChangeFrameButton,
+    "showSkipNextPageButton" to input.isShowSkipNextPageButton,
+    "useAuthenticator" to input.isUseAuthenticator,
+    "skipFocusingFrames" to input.isSkipFocusingFrames,
+    "showCameraSwitchButton" to input.isShowCameraSwitchButton,
+    "displayMetadata" to input.isDisplayMetaData,
+    "isZoomEnabled" to input.isZoomEnabled,
+    "isCameraTorchCheckDisabled" to input.isCameraTorchCheckDisabled,
+    "recordScanningProcess" to input.doRecordProcessingVideo(),
+    "manualMultipageMode" to input.isManualMultipageMode,
+    "torchTurnedOn" to input.isTorchTurnedOn,
+    "showCaptureButtonDelayFromDetect" to input.showCaptureButtonDelayFromDetect,
+    "showCaptureButtonDelayFromStart" to input.showCaptureButtonDelayFromStart,
+    "orientation" to input.orientation,
+    "captureMode" to input.captureMode,
+    "cameraMode" to input.cameraMode,
+    "rfidTimeout" to input.rfidTimeout,
+    "forcePagesCount" to input.forcePagesCount,
+    "cameraFrame" to input.cameraFrame,
+    "btDeviceName" to input.btDeviceName,
+    "zoomFactor" to input.zoomFactor,
+    "exposure" to input.exposure,
+    "excludedCamera2Models" to input.excludedCamera2Models.toJson(),
+    "cameraSize" to generateCameraSize(input.cameraWidth, input.cameraHeight)
+).toJson()
 
 @Suppress("DEPRECATION")
 fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEach { k, v ->
@@ -145,6 +136,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "selectLongestNames" -> processParams.selectLongestNames = v as Boolean
         "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
         "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
+        "generateAlpha2Codes" -> processParams.generateAlpha2Codes = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -160,6 +152,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "convertCase" -> processParams.convertCase = v.toInt()
         "logLevel" -> processParams.logLevel = LogLevel.valueOf(v.toString())
         "mrzDetectMode" -> processParams.mrzDetectMode = v.toInt()
+        "pdfPagesLimit" -> processParams.pdfPagesLimit = v.toInt()
         "dateFormat" -> processParams.dateFormat = v as String
         "scenario" -> processParams.scenario = v as String
         "captureButtonScenario" -> processParams.captureButtonScenario = v as String
@@ -175,7 +168,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "lcidIgnoreFilter" -> processParams.lcidIgnoreFilter = v.toIntArray()
         "lcidFilter" -> processParams.lcidFilter = v.toIntArray()
         "barcodeTypes" -> processParams.doBarcodes = barcodeTypeArrayFromJson(v as JSONArray)
-        "mrzFormatsFilter" -> processParams.mrzFormatsFilter = stringArrayFromJson(v as JSONArray)
+        "mrzFormatsFilter" -> processParams.mrzFormatsFilter = (v as JSONArray).toArray()
         "customParams" -> processParams.customParams = v as JSONObject
         "imageQA" -> setImageQA(processParams.imageQA, v as JSONObject)
         "rfidParams" -> processParams.rfidParams = rfidParamsFromJSON(v as JSONObject)
@@ -227,6 +220,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "selectLongestNames" to processParams.selectLongestNames,
     "generateDTCVC" to processParams.generateDTCVC,
     "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
+    "generateAlpha2Codes" to processParams.generateAlpha2Codes,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -242,6 +236,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "convertCase" to processParams.convertCase,
     "logLevel" to processParams.logLevel?.toString(),
     "mrzDetectMode" to processParams.mrzDetectMode,
+    "pdfPagesLimit" to processParams.pdfPagesLimit,
     "dateFormat" to processParams.dateFormat,
     "scenario" to processParams.scenario,
     "captureButtonScenario" to processParams.captureButtonScenario,
@@ -250,13 +245,13 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "timeoutFromFirstDocType" to processParams.timeoutFromFirstDocType,
     "documentAreaMin" to processParams.documentAreaMin,
     "timeoutLiveness" to processParams.timeoutLiveness,
-    "documentIDList" to processParams.documentIDList.generate(),
-    "fieldTypesFilter" to processParams.fieldTypesFilter.generate(),
-    "documentGroupFilter" to processParams.documentGroupFilter.generate(),
-    "lcidIgnoreFilter" to processParams.lcidIgnoreFilter.generate(),
-    "lcidFilter" to processParams.lcidFilter.generate(),
-    "resultTypeOutput" to processParams.resultTypeOutput.generate(),
-    "mrzFormatsFilter" to generateArray(processParams.mrzFormatsFilter),
+    "documentIDList" to processParams.documentIDList.toJson(),
+    "fieldTypesFilter" to processParams.fieldTypesFilter.toJson(),
+    "documentGroupFilter" to processParams.documentGroupFilter.toJson(),
+    "lcidIgnoreFilter" to processParams.lcidIgnoreFilter.toJson(),
+    "lcidFilter" to processParams.lcidFilter.toJson(),
+    "resultTypeOutput" to processParams.resultTypeOutput.toJson(),
+    "mrzFormatsFilter" to processParams.mrzFormatsFilter.toJson(),
     "barcodeTypes" to generateBarcodeTypeArray(processParams.doBarcodes),
     "imageQA" to getImageQA(processParams.imageQA),
     "rfidParams" to generateRFIDParams(processParams.rfidParams),
@@ -264,9 +259,9 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "backendProcessingConfig" to generateBackendProcessingConfig(processParams.backendProcessingConfig),
     "authenticityParams" to getAuthenticityParams(processParams.authenticityParams),
     "customParams" to processParams.customParams,
-).toJsonObject()
+).toJson()
 
-fun setCustomization(customization: ParamsCustomization, opts: JSONObject, context: Context) = opts.forEach { k, v ->
+fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opts.forEach { k, v ->
     val editor = customization.edit()
     when (k) {
         "showStatusMessages" -> editor.setShowStatusMessages(v as Boolean)
@@ -281,6 +276,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "activityIndicatorSize" -> editor.setActivityIndicatorSize(v.toInt())
         "status" -> editor.setStatus(v as String)
         "resultStatus" -> editor.setResultStatus(v as String)
+        "multipageButtonText" -> editor.setMultipageButtonText(v as String)
         "cameraFrameDefaultColor" -> editor.setCameraFrameDefaultColor(v.toColor())
         "cameraFrameActiveColor" -> editor.setCameraFrameActiveColor(v.toColor())
         "statusTextColor" -> editor.setStatusTextColor(v.toColor())
@@ -292,6 +288,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "statusBackgroundColor" -> editor.setStatusBackgroundColor(v.toColor())
         "cameraPreviewBackgroundColor" -> editor.setCameraPreviewBackgroundColor(v.toColor())
         "backgroundMaskColor" -> editor.setBackgroundMaskColor(v.toColor())
+        "multipageButtonTextColor" -> editor.setMultipageButtonTextColor(v.toColor())
         "statusPositionMultiplier" -> editor.setStatusPositionMultiplier(v.toFloat())
         "resultStatusPositionMultiplier" -> editor.setResultStatusPositionMultiplier(v.toFloat())
         "toolbarSize" -> editor.setToolbarSize(v.toFloat())
@@ -304,29 +301,32 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
         "livenessAnimationPositionMultiplier" -> editor.setLivenessAnimationPositionMultiplier(v.toFloat())
         "nextPageAnimationStartDelay" -> editor.setNextPageAnimationStartDelay(v.toFloat())
         "nextPageAnimationEndDelay" -> editor.setNextPageAnimationEndDelay(v.toFloat())
-        "multipageAnimationFrontImage" -> editor.setMultipageAnimationFrontImage(v.toDrawable(context))
-        "multipageAnimationBackImage" -> editor.setMultipageAnimationBackImage(v.toDrawable(context))
-        "borderBackgroundImage" -> editor.setBorderBackgroundImage(v.toDrawable(context))
-        "helpAnimationImage" -> editor.setHelpAnimationImage(v.toDrawable(context))
-        "closeButtonImage" -> editor.setCloseButtonImage(v.toDrawable(context))
-        "captureButtonImage" -> editor.setCaptureButtonImage(v.toDrawable(context))
-        "changeFrameButtonCollapseImage" -> editor.setChangeFrameCollapseButtonImage(v.toDrawable(context))
-        "changeFrameButtonExpandImage" -> editor.setChangeFrameExpandButtonImage(v.toDrawable(context))
-        "cameraSwitchButtonImage" -> editor.setCameraSwitchButtonImage(v.toDrawable(context))
-        "torchButtonOnImage" -> editor.setTorchImageOn(v.toDrawable(context))
-        "torchButtonOffImage" -> editor.setTorchImageOff(v.toDrawable(context))
-        "livenessAnimationImage" -> editor.setLivenessAnimationImage(v.toDrawable(context))
-        "helpAnimationImageMatrix" -> editor.setHelpAnimationImageMatrix(v.toMatrix()).setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
-        "multipageAnimationFrontImageMatrix" -> editor.setMultipageAnimationFrontImageMatrix(v.toMatrix()).setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
-        "multipageAnimationBackImageMatrix" -> editor.setMultipageAnimationBackImageMatrix(v.toMatrix()).setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
-        "livenessAnimationImageMatrix" -> editor.setLivenessAnimationImageMatrix(v.toMatrix()).setLivenessAnimationImageScaleType(ImageView.ScaleType.MATRIX)
-        "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(v.toMatrix()).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
+        "activityIndicatorPortraitPositionMultiplier" -> editor.setActivityIndicatorPortraitPositionMultiplier(v.toFloat())
+        "activityIndicatorLandscapePositionMultiplier" -> editor.setActivityIndicatorLandscapePositionMultiplier(v.toFloat())
+        "cameraPreviewVerticalPositionMultiplier" -> editor.setCameraPreviewVerticalPositionMultiplier(v.toFloat())
+        "multipageAnimationFrontImage" -> editor.setMultipageAnimationFrontImage(v.toDrawable())
+        "multipageAnimationBackImage" -> editor.setMultipageAnimationBackImage(v.toDrawable())
+        "borderBackgroundImage" -> editor.setBorderBackgroundImage(v.toDrawable())
+        "helpAnimationImage" -> editor.setHelpAnimationImage(v.toDrawable())
+        "closeButtonImage" -> editor.setCloseButtonImage(v.toDrawable())
+        "captureButtonImage" -> editor.setCaptureButtonImage(v.toDrawable())
+        "changeFrameButtonCollapseImage" -> editor.setChangeFrameCollapseButtonImage(v.toDrawable())
+        "changeFrameButtonExpandImage" -> editor.setChangeFrameExpandButtonImage(v.toDrawable())
+        "cameraSwitchButtonImage" -> editor.setCameraSwitchButtonImage(v.toDrawable())
+        "torchButtonOnImage" -> editor.setTorchImageOn(v.toDrawable())
+        "torchButtonOffImage" -> editor.setTorchImageOff(v.toDrawable())
+        "livenessAnimationImage" -> editor.setLivenessAnimationImage(v.toDrawable())
+        "helpAnimationImageMatrix" -> editor.setHelpAnimationImageMatrix(matrixFromJSON(v as JSONArray?)).setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
+        "multipageAnimationFrontImageMatrix" -> editor.setMultipageAnimationFrontImageMatrix(matrixFromJSON(v as JSONArray?)).setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
+        "multipageAnimationBackImageMatrix" -> editor.setMultipageAnimationBackImageMatrix(matrixFromJSON(v as JSONArray?)).setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
+        "livenessAnimationImageMatrix" -> editor.setLivenessAnimationImageMatrix(matrixFromJSON(v as JSONArray?)).setLivenessAnimationImageScaleType(ImageView.ScaleType.MATRIX)
+        "borderBackgroundImageMatrix" -> editor.setBorderBackgroundImageMatrix(matrixFromJSON(v as JSONArray?)).setBorderBackgroundImageScaleType(ImageView.ScaleType.MATRIX)
         "customLabelStatus" -> editor.setCustomLabelStatus(SpannableString(v as String))
         "cameraFrameLineCap" -> editor.setCameraFrameLineCap(Paint.Cap.values()[v.toInt()])
         "uiCustomizationLayer" -> editor.setUiCustomizationLayer(JSONObject(v.toString()))
         "colors" -> setColors(editor, v as JSONObject)
         "fonts" -> setFonts(editor, v as JSONObject)
-        "images" -> setImages(editor, v as JSONObject, context)
+        "images" -> setImages(editor, v as JSONObject)
         "statusTextFont" -> {
             val font = typefaceFromJSON(v as JSONObject)
             editor.setStatusTextFont(font.first)
@@ -337,6 +337,12 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject, conte
             val font = typefaceFromJSON(v as JSONObject)
             editor.setResultStatusTextFont(font.first)
             font.second?.let { editor.setResultStatusTextSize(it) }
+        }
+
+        "multipageButtonTextFont" -> {
+            val font = typefaceFromJSON(v as JSONObject)
+            editor.setMultipageButtonTextFont(font.first)
+            font.second?.let { editor.setMultipageButtonTextSize(it) }
         }
     }
     editor.applyImmediately(context)
@@ -355,17 +361,19 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "activityIndicatorSize" to customization.activityIndicatorSize,
     "status" to customization.status,
     "resultStatus" to customization.resultStatus,
-    "cameraFrameDefaultColor" to customization.cameraFrameDefaultColor.toLong(),
-    "cameraFrameActiveColor" to customization.cameraFrameActiveColor.toLong(),
-    "statusTextColor" to customization.statusTextColor.toLong(),
-    "resultStatusTextColor" to customization.resultStatusTextColor.toLong(),
-    "resultStatusBackgroundColor" to customization.resultStatusBackgroundColor.toLong(),
-    "multipageButtonBackgroundColor" to customization.multipageButtonBackgroundColor.toLong(),
-    "tintColor" to customization.tintColor.toLong(),
-    "activityIndicatorColor" to customization.activityIndicatorColor.toLong(),
-    "statusBackgroundColor" to customization.statusBackgroundColor.toLong(),
-    "cameraPreviewBackgroundColor" to customization.cameraPreviewBackgroundColor.toLong(),
-    "backgroundMaskColor" to customization.backgroundMaskColor.toLong(),
+    "multipageButtonText" to customization.multipageButtonText,
+    "cameraFrameDefaultColor" to customization.cameraFrameDefaultColor.colorToLong(),
+    "cameraFrameActiveColor" to customization.cameraFrameActiveColor.colorToLong(),
+    "statusTextColor" to customization.statusTextColor.colorToLong(),
+    "resultStatusTextColor" to customization.resultStatusTextColor.colorToLong(),
+    "resultStatusBackgroundColor" to customization.resultStatusBackgroundColor.colorToLong(),
+    "multipageButtonBackgroundColor" to customization.multipageButtonBackgroundColor.colorToLong(),
+    "tintColor" to customization.tintColor.colorToLong(),
+    "activityIndicatorColor" to customization.activityIndicatorColor.colorToLong(),
+    "statusBackgroundColor" to customization.statusBackgroundColor.colorToLong(),
+    "cameraPreviewBackgroundColor" to customization.cameraPreviewBackgroundColor.colorToLong(),
+    "backgroundMaskColor" to customization.backgroundMaskColor.colorToLong(),
+    "multipageButtonTextColor" to customization.multipageButtonTextColor.colorToLong(),
     "statusPositionMultiplier" to customization.statusPositionMultiplier,
     "resultStatusPositionMultiplier" to customization.resultStatusPositionMultiplier,
     "backgroundMaskAlpha" to customization.backgroundMaskAlpha,
@@ -378,32 +386,36 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "livenessAnimationPositionMultiplier" to customization.livenessAnimationPositionMultiplier,
     "nextPageAnimationStartDelay" to customization.nextPageAnimationStartDelay,
     "nextPageAnimationEndDelay" to customization.nextPageAnimationEndDelay,
-    "multipageAnimationFrontImage" to customization.multipageAnimationFrontImage.toString(),
-    "multipageAnimationBackImage" to customization.multipageAnimationBackImage.toString(),
-    "borderBackgroundImage" to customization.borderBackgroundImage.toString(),
-    "helpAnimationImage" to customization.helpAnimationImageDrawable.toString(),
-    "closeButtonImage" to customization.closeButtonDrawable.toString(),
-    "captureButtonImage" to customization.captureButtonDrawable.toString(),
-    "changeFrameButtonCollapseImage" to customization.changeFrameCollapseButtonDrawable.toString(),
-    "changeFrameButtonExpandImage" to customization.changeFrameExpandButtonDrawable.toString(),
-    "cameraSwitchButtonImage" to customization.cameraSwitchButtonDrawable.toString(),
-    "torchButtonOnImage" to customization.torchImageOnDrawable.toString(),
-    "torchButtonOffImage" to customization.torchImageOffDrawable.toString(),
-    "livenessAnimationImage" to customization.livenessAnimationImage.toString(),
-    "helpAnimationImageMatrix" to customization.helpAnimationImageMatrix.generate(),
-    "multipageAnimationFrontImageMatrix" to customization.multipageAnimationFrontImageMatrix.generate(),
-    "multipageAnimationBackImageMatrix" to customization.multipageAnimationBackImageMatrix.generate(),
-    "livenessAnimationImageMatrix" to customization.livenessAnimationImageMatrix.generate(),
-    "borderBackgroundImageMatrix" to customization.borderBackgroundImageMatrix.generate(),
+    "activityIndicatorPortraitPositionMultiplier" to customization.activityIndicatorPortraitPositionMultiplier,
+    "activityIndicatorLandscapePositionMultiplier" to customization.activityIndicatorLandscapePositionMultiplier,
+    "cameraPreviewVerticalPositionMultiplier" to customization.cameraPreviewVerticalPositionMultiplier,
+    "multipageAnimationFrontImage" to customization.multipageAnimationFrontImage.toBase64(),
+    "multipageAnimationBackImage" to customization.multipageAnimationBackImage.toBase64(),
+    "borderBackgroundImage" to customization.borderBackgroundImage.toBase64(),
+    "helpAnimationImage" to customization.helpAnimationImageDrawable.toBase64(),
+    "closeButtonImage" to customization.closeButtonDrawable.toBase64(),
+    "captureButtonImage" to customization.captureButtonDrawable.toBase64(),
+    "changeFrameButtonCollapseImage" to customization.changeFrameCollapseButtonDrawable.toBase64(),
+    "changeFrameButtonExpandImage" to customization.changeFrameExpandButtonDrawable.toBase64(),
+    "cameraSwitchButtonImage" to customization.cameraSwitchButtonDrawable.toBase64(),
+    "torchButtonOnImage" to customization.torchImageOnDrawable.toBase64(),
+    "torchButtonOffImage" to customization.torchImageOffDrawable.toBase64(),
+    "livenessAnimationImage" to customization.livenessAnimationImage.toBase64(),
+    "helpAnimationImageMatrix" to generateMatrix(customization.helpAnimationImageMatrix),
+    "multipageAnimationFrontImageMatrix" to generateMatrix(customization.multipageAnimationFrontImageMatrix),
+    "multipageAnimationBackImageMatrix" to generateMatrix(customization.multipageAnimationBackImageMatrix),
+    "livenessAnimationImageMatrix" to generateMatrix(customization.livenessAnimationImageMatrix),
+    "borderBackgroundImageMatrix" to generateMatrix(customization.borderBackgroundImageMatrix),
     "statusTextFont" to generateTypeface(customization.statusTextFont, customization.statusTextSize),
     "resultStatusTextFont" to generateTypeface(customization.resultStatusTextFont, customization.resultStatusTextSize),
+    "multipageButtonTextFont" to generateTypeface(customization.multipageButtonTextFont, customization.multipageButtonTextSize),
     "customLabelStatus" to customization.customLabelStatus?.toString(),
-    "cameraFrameLineCap" to paintCapToInt(customization.cameraFrameLineCap),
+    "cameraFrameLineCap" to customization.cameraFrameLineCap.ordinal,
     "uiCustomizationLayer" to customization.uiCustomizationLayer,
     "colors" to getColors(customization.colors),
     "fonts" to getFonts(customization.typeFaces, customization.fontSizes),
     "images" to getImages(customization.images)
-).toJsonObject()
+).toJson()
 
 fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {
@@ -461,6 +473,10 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "eSignPINDefault" -> rfidScenario.seteSignPINDefault(v as String)
         "eSignPINNewValue" -> rfidScenario.seteSignPINNewValue(v as String)
         "cardAccess" -> rfidScenario.cardAccess = v as String
+        "mrzHash" -> rfidScenario.mrzHash = v as String
+        "documentNumber" -> rfidScenario.documentNumber = v as String
+        "dateOfBirth" -> rfidScenario.dateOfBirth = v as String
+        "dateOfExpiry" -> rfidScenario.dateOfExpiry = v as String
         "ePassportDataGroups" -> setDataGroups(rfidScenario.ePassportDataGroups(), v as JSONObject)
         "eIDDataGroups" -> setDataGroups(rfidScenario.eIDDataGroups(), v as JSONObject)
         "eDLDataGroups" -> setDataGroups(rfidScenario.eDLDataGroups(), v as JSONObject)
@@ -523,11 +539,15 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "eSignPINDefault" to rfidScenario.geteSignPINDefault(),
     "eSignPINNewValue" to rfidScenario.geteSignPINNewValue(),
     "cardAccess" to rfidScenario.cardAccess,
+    "mrzHash" to rfidScenario.mrzHash,
+    "documentNumber" to rfidScenario.documentNumber,
+    "dateOfBirth" to rfidScenario.dateOfBirth,
+    "dateOfExpiry" to rfidScenario.dateOfExpiry,
     "ePassportDataGroups" to getDataGroups(rfidScenario.ePassportDataGroups()),
     "eIDDataGroups" to getDataGroups(rfidScenario.eIDDataGroups()),
     "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups()),
     "dtcDataGroups" to getDTCDataGroup(rfidScenario.DTCDataGroup())
-).toJsonObject()
+).toJson()
 
 fun setDataGroups(dataGroup: DataGroups, opts: JSONObject) = opts.forEach { k, v ->
     val value = v as Boolean
@@ -592,7 +612,7 @@ fun getDataGroups(dataGroup: DataGroups): JSONObject {
         result["DG20"] = dataGroup.isDG20
         result["DG21"] = dataGroup.isDG21
     }
-    return result.toJsonObject()
+    return result.toJson()
 }
 
 fun setDTCDataGroup(dataGroup: DTCDataGroup, opts: JSONObject) = opts.forEach { k, v ->
@@ -612,7 +632,7 @@ fun getDTCDataGroup(dataGroup: DTCDataGroup) = mapOf(
     "DG22" to dataGroup.isDG22,
     "DG23" to dataGroup.isDG23,
     "DG24" to dataGroup.isDG24,
-).toJsonObject()
+).toJson()
 
 fun setImageQA(input: ImageQA, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {
@@ -639,10 +659,10 @@ fun getImageQA(input: ImageQA) = mapOf(
     "angleThreshold" to input.angleThreshold,
     "documentPositionIndent" to input.documentPositionIndent,
     "brightnessThreshold" to input.brightnessThreshold,
-    "expectedPass" to input.expectedPass.generate(),
+    "expectedPass" to input.expectedPass.toJson(),
     "glaresCheckParams" to generateGlaresCheckParams(input.glaresCheckParams),
     "occlusionCheck" to input.occlusionCheck,
-).toJsonObject()
+).toJson()
 
 fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.forEach { k, v ->
     when (k) {
@@ -686,7 +706,7 @@ fun getAuthenticityParams(input: AuthenticityParams?) = input?.let {
         "checkLetterScreen" to it.checkLetterScreen,
         "checkSecurityText" to it.checkSecurityText,
         "livenessParams" to getLivenessParams(it.livenessParams)
-    ).toJsonObject()
+    ).toJson()
 }
 
 fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { k, v ->
@@ -697,6 +717,7 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkED" -> input.checkED = v as Boolean
         "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
         "checkDynaprint" -> input.checkDynaprint = v as Boolean
+        "checkGeometry" -> input.checkGeometry = v as Boolean
     }
 }
 
@@ -708,7 +729,8 @@ fun getLivenessParams(input: LivenessParams?) = input?.let {
         "checkED" to input.checkED,
         "checkBlackAndWhiteCopy" to input.checkBlackAndWhiteCopy,
         "checkDynaprint" to input.checkDynaprint,
-    ).toJsonObject()
+        "checkGeometry" to input.checkGeometry,
+    ).toJson()
 }
 
 fun setColors(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, v ->
@@ -734,7 +756,7 @@ fun getColors(input: Map<CustomizationColor, Long>) = mapOf(
     "rfidProcessingScreenProgressBarBackground" to input[CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND],
     "rfidProcessingScreenResultLabelText" to input[CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT],
     "rfidProcessingScreenLoadingBar" to input[CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR],
-).toJsonObject()
+).toJson()
 
 fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, value ->
     when (key) {
@@ -745,17 +767,60 @@ fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) =
 }
 
 fun getFonts(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFont, Int>) = mapOf(
-    "rfidProcessingScreenHintLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.generate(fonts, sizes),
-    "rfidProcessingScreenProgressLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.generate(fonts, sizes),
-    "rfidProcessingScreenResultLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.generate(fonts, sizes),
-).toJsonObject()
+    "rfidProcessingScreenHintLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.getFont(fonts, sizes),
+    "rfidProcessingScreenProgressLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.getFont(fonts, sizes),
+    "rfidProcessingScreenResultLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.getFont(fonts, sizes),
+).toJson()
 
-fun setImages(input: ParamsCustomization.CustomizationEditor, opts: JSONObject, context: Context) = opts.forEach { key, v ->
+fun setImages(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, v ->
     when (key) {
-        "rfidProcessingScreenFailureImage" -> input.setImage(CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE, v.toDrawable(context))
+        "rfidProcessingScreenFailureImage" -> input.setImage(CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE, v.toDrawable())
     }
 }
 
 fun getImages(input: Map<CustomizationImage, Drawable>) = mapOf(
-    "rfidProcessingScreenFailureImage" to (input[CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_ic_error)).toString(),
-).toJsonObject()
+    "rfidProcessingScreenFailureImage" to (input[CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_ic_error)).toBase64(),
+).toJson()
+
+fun CustomizationFont.getFont(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFont, Int>) =
+    generateTypeface(fonts[this], sizes[this])
+
+fun CustomizationFont.setFont(editor: ParamsCustomization.CustomizationEditor, value: Any?) {
+    val font = typefaceFromJSON(value as JSONObject)
+    editor.setFont(this, font.first)
+    font.second?.let { editor.setFontSize(this, it) }
+}
+
+fun Any.toInt() = when (this) {
+    is Double -> toInt()
+    is Long -> toInt()
+    is String -> Integer.parseInt(this)
+    else -> this as Int
+}
+
+fun Any.toLong() = when (this) {
+    is Double -> toLong()
+    is Int -> toLong()
+    else -> this as Long
+}
+
+fun Any.toFloat() = when (this) {
+    is Int -> toFloat()
+    is Double -> toFloat()
+    else -> this as Float
+}
+
+fun Any.toDouble() = when (this) {
+    is Int -> toDouble()
+    is Long -> toDouble()
+    else -> this as Double
+}
+
+fun Any?.toColor() = this?.let {
+    "#" + toLong().toString(16)
+}
+
+fun String?.colorToLong() = this?.let {
+    if (this[0] == '#') this.substring(1).toLong(16)
+    else this.toLong(16)
+}

@@ -301,20 +301,20 @@ class DocumentReader {
   set videoEncoderCompletion(VideoEncoderCompletion completion) =>
       _setVideoEncoderCompletion(completion);
 
+  @Deprecated("Use `initialize` instead.")
+  Future<SuccessOrError> initializeReader(InitConfig config) async {
+    return await initialize(config);
+  }
+
   /// Allows you to initialize Document Reader.
   ///
   /// [config] - configuration file for DocumentReader initialization.
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
-  Future<SuccessOrError> initializeReader(InitConfig config) async {
-    var funcName = config._useBleDevice
-        ? "initializeReaderWithBleDeviceConfig"
-        : "initializeReader";
-
-    var response = await _bridge.invokeMethod(funcName, [config.toJson()]);
+  Future<SuccessOrError> initialize(InitConfig config) async {
+    var response = await _bridge.invokeMethod("initialize", [config.toJson()]);
     var (success, error) = _successOrErrorFromJson(response);
     if (success) await _onInit();
-
     return (success, error);
   }
 
@@ -412,6 +412,16 @@ class DocumentReader {
   void scan(ScannerConfig config, DocumentReaderCompletion completion) {
     _setDocumentReaderCompletion(completion);
     _bridge.invokeMethod("scan", [config.toJson()]);
+  }
+
+  /// Used for multiple frames processing which are captured from the camera.
+  ///
+  /// [config] - scanning configuration.
+  ///
+  /// [completion] - block to execute after the recognition process finishes.
+  void startScanner(ScannerConfig config, DocumentReaderCompletion completion) {
+    _setDocumentReaderCompletion(completion);
+    _bridge.invokeMethod("startScanner", [config.toJson()]);
   }
 
   /// Used for proccessing predefined images.
@@ -685,7 +695,7 @@ typedef VideoEncoderCompletion = void Function(String filePath);
 typedef FinalizePackageCompletion = (
   DocReaderAction action,
   TransactionInfo? info,
-  DocReaderException? error
+  DocReaderException? error,
 );
 
 /// Contains all possible DocumentReaderNotification callback codes

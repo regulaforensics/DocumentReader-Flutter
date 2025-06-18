@@ -1,11 +1,3 @@
-//
-//  RGLWJSONConstructor.m
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "RGLWJSONConstructor.h"
 
@@ -16,6 +8,16 @@ static NSMutableArray* weakReferencesHolder;
     if(!weakReferencesHolder)
         weakReferencesHolder = [NSMutableArray new];
     [weakReferencesHolder addObject:reference];
+}
+
++(id)toSendable:(id)input {
+    if (!input || [input isEqual:[NSNull null]])  return nil;
+    if ([input isKindOfClass:[NSDictionary class]] || [input isKindOfClass:[NSArray class]])
+        return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:input
+                                                                              options:NSJSONWritingPrettyPrinted
+                                                                                error:nil]
+                                     encoding:NSUTF8StringEncoding];
+    return input;
 }
 
 +(NSString*)dictToString:(NSDictionary*)input {
@@ -934,8 +936,10 @@ static NSMutableArray* weakReferencesHolder;
     result[@"featureType"] = @(input.featureType);
     if(input.boundRects != nil){
         NSMutableArray *array = [NSMutableArray new];
-        for(NSValue* item in input.boundRects)
-            [array addObject:[self generateRect:[item CGRectValue]]];
+        for(NSValue* item in input.boundRects) {
+            id rect = [self generateRect:[item CGRectValue]];
+            if(rect) [array addObject:rect];
+        }
         result[@"boundRects"] = array;
     }
     
@@ -1907,7 +1911,7 @@ static NSMutableArray* weakReferencesHolder;
 +(RGLTAChallenge*)taChallengeFromJson:(NSDictionary*)input {
     NSMutableDictionary* json = input.mutableCopy;
     
-    json[@"#text"] = [self base64Decode:[input valueForKey:@"data"]];
+    json[@"#text"] = [input valueForKey:@"data"];
     json[@"@auxPCD"] = [input valueForKey:@"auxPCD"];
     json[@"@challengePICC"] = [input valueForKey: @"challengePICC"];
     json[@"@hashPK"] = [input valueForKey:@"hashPK"];

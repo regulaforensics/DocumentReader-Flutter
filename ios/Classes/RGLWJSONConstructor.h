@@ -1,11 +1,3 @@
-//
-//  RGLWJSONConstructor.h
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 #ifndef RGLWJSONConstructor_h
 #define RGLWJSONConstructor_h
 
@@ -17,6 +9,7 @@
 
 @interface RGLWJSONConstructor : NSObject
 
++(NSString* _Nullable)toSendable:(id _Nullable)input;
 +(NSString* _Nullable)dictToString:(NSDictionary* _Nullable)input;
 +(NSString* _Nullable)arrayToString:(NSArray* _Nullable)input;
 +(NSString* _Nullable)base64WithImage:(UIImage* _Nullable)input;

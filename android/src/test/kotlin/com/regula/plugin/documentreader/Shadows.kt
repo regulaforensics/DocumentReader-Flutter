@@ -1,12 +1,4 @@
-//
-//  Shadows.kt
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
-package io.flutter.plugins.regula.documentreader.flutter_document_reader_api
+package com.regula.plugin.documentreader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable

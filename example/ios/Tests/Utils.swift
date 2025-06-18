@@ -1,10 +1,3 @@
-//
-//  Utils.swift
-//  Runner
-//
-//  Created by Pavel Masiuk on 14/01/2025.
-//
-
 import XCTest
 
 func compare<T>(name: String,

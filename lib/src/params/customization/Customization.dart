@@ -25,6 +25,7 @@ class Customization {
   /// will be shown.
   ///
   /// Default: `true`.
+  @Deprecated("Not used in new UI")
   bool? get showResultStatusMessages => _showResultStatusMessages;
   bool? _showResultStatusMessages;
   set showResultStatusMessages(bool? val) {
@@ -117,11 +118,19 @@ class Customization {
   }
 
   /// Allows you to set any string to the result status.
+  @Deprecated("Not used in new UI")
   String? get resultStatus => _resultStatus;
   String? _resultStatus;
   set resultStatus(String? val) {
     _resultStatus = val;
     _set({"resultStatus": val});
+  }
+
+  String? get multipageButtonText => _multipageButtonText;
+  String? _multipageButtonText;
+  set multipageButtonText(String? val) {
+    _multipageButtonText = val;
+    _set({"multipageButtonText": val});
   }
 
   /// Allows you to set a color for the camera frame when a document is out
@@ -158,6 +167,7 @@ class Customization {
   /// Allows you to set a color for the result status messages.
   ///
   /// Default: Colors.white.
+  @Deprecated("Not used in new UI")
   Color? get resultStatusTextColor => _resultStatusTextColor;
   Color? _resultStatusTextColor;
   set resultStatusTextColor(Color? val) {
@@ -166,6 +176,7 @@ class Customization {
   }
 
   /// Allows you to set a color of the background for the result status messages.
+  @Deprecated("Not used in new UI")
   Color? get resultStatusBackgroundColor => _resultStatusBackgroundColor;
   Color? _resultStatusBackgroundColor;
   set resultStatusBackgroundColor(Color? val) {
@@ -226,6 +237,13 @@ class Customization {
     _set({"backgroundMaskColor": _intFromColor(val)});
   }
 
+  Color? get multipageButtonTextColor => _multipageButtonTextColor;
+  Color? _multipageButtonTextColor;
+  set multipageButtonTextColor(Color? val) {
+    _multipageButtonTextColor = val;
+    _set({"multipageButtonTextColor": _intFromColor(val)});
+  }
+
   /// Allows you to change the location of the status.
   ///
   /// For example, if you set the multiplier to 0.5 and the number of pixels
@@ -251,6 +269,7 @@ class Customization {
   /// to zero, the default location will be used.
   ///
   /// Default: 0.
+  @Deprecated("Not used in new UI")
   double? get resultStatusPositionMultiplier => _resultStatusPositionMultiplier;
   double? _resultStatusPositionMultiplier;
   set resultStatusPositionMultiplier(double? val) {
@@ -269,7 +288,7 @@ class Customization {
 
   /// Allows you to set intensity of the background mask.
   ///
-  /// Default: 0.3.
+  /// Default: 1.0.
   double? get backgroundMaskAlpha => _backgroundMaskAlpha;
   double? _backgroundMaskAlpha;
   set backgroundMaskAlpha(double? val) {
@@ -293,7 +312,7 @@ class Customization {
     _set({"customStatusPositionMultiplier": val});
   }
 
-  /// Allows you to change the location of the camera frame vertically.
+  /// Allows you to change the location of the camera frame vertically. Default: 1.
   double? get cameraFrameVerticalPositionMultiplier =>
       _cameraFrameVerticalPositionMultiplier;
   double? _cameraFrameVerticalPositionMultiplier;
@@ -367,6 +386,38 @@ class Customization {
   set nextPageAnimationEndDelay(double? val) {
     _nextPageAnimationEndDelay = val;
     _set({"nextPageAnimationEndDelay": val});
+  }
+
+  /// Allows you to set an offset for the activity indicator (portrait orientation).
+  /// If not set, activity indicator always centered in the camera border.
+  double? get activityIndicatorPortraitPositionMultiplier =>
+      _activityIndicatorPortraitPositionMultiplier;
+  double? _activityIndicatorPortraitPositionMultiplier;
+  set activityIndicatorPortraitPositionMultiplier(double? val) {
+    _activityIndicatorPortraitPositionMultiplier = val;
+    _set({"activityIndicatorPortraitPositionMultiplier": val});
+  }
+
+  /// Allows you to set an offset for the activity indicator (landscape orientation).
+  /// If not set, activity indicator always centered in the camera border.
+  double? get activityIndicatorLandscapePositionMultiplier =>
+      _activityIndicatorLandscapePositionMultiplier;
+  double? _activityIndicatorLandscapePositionMultiplier;
+  set activityIndicatorLandscapePositionMultiplier(double? val) {
+    _activityIndicatorLandscapePositionMultiplier = val;
+    _set({"activityIndicatorLandscapePositionMultiplier": val});
+  }
+
+  /// Allows you to change the vertical offset of the camera preview layer.
+  /// If you need to raise the layer 50% of its height up, then you specify 0.5.
+  /// If you need to lower the layer 75% of its height, then enter 1.75.
+  /// Valid values: from 0 (the layer will be raised completely up) to 2 (the layer will be completely lowered down).
+  double? get cameraPreviewVerticalPositionMultiplier =>
+      _cameraPreviewVerticalPositionMultiplier;
+  double? _cameraPreviewVerticalPositionMultiplier;
+  set cameraPreviewVerticalPositionMultiplier(double? val) {
+    _cameraPreviewVerticalPositionMultiplier = val;
+    _set({"cameraPreviewVerticalPositionMultiplier": val});
   }
 
   /// Allows you to set any image for the multipage animation (front side).
@@ -444,6 +495,7 @@ class Customization {
 
   /// Allows you to set any image for the button that allows changing
   /// shapes of the camera (expanded state).
+  @Deprecated("Not used in new UI")
   ByteData? get changeFrameButtonExpandImage => _changeFrameButtonExpandImage;
   ByteData? _changeFrameButtonExpandImage;
   set changeFrameButtonExpandImage(ByteData? val) {
@@ -453,6 +505,7 @@ class Customization {
 
   /// Allows you to set any image for the button that allows changing
   /// shapes of the camera (collapsed state).
+  @Deprecated("Not used in new UI")
   ByteData? get changeFrameButtonCollapseImage =>
       _changeFrameButtonCollapseImage;
   ByteData? _changeFrameButtonCollapseImage;
@@ -482,11 +535,19 @@ class Customization {
   }
 
   /// Allows you to set a font for the result status messages.
+  @Deprecated("Not used in new UI")
   Font? get resultStatusTextFont => _resultStatusTextFont;
   Font? _resultStatusTextFont;
   set resultStatusTextFont(Font? val) {
     _resultStatusTextFont = val;
     _set({"resultStatusTextFont": val?.toJson()});
+  }
+
+  Font? get multipageButtonTextFont => _multipageButtonTextFont;
+  Font? _multipageButtonTextFont;
+  set multipageButtonTextFont(Font? val) {
+    _multipageButtonTextFont = val;
+    _set({"multipageButtonTextFont": val?.toJson()});
   }
 
   /// Allows you to create a custom status.
@@ -713,6 +774,7 @@ class Customization {
 
     result.status = jsonObject["status"];
     result.resultStatus = jsonObject["resultStatus"];
+    result.multipageButtonText = jsonObject["multipageButtonText"];
 
     result.cameraFrameDefaultColor = _intToColor(
       jsonObject["cameraFrameDefaultColor"],
@@ -741,6 +803,9 @@ class Customization {
       jsonObject["cameraPreviewBackgroundColor"],
     );
     result.backgroundMaskColor = _intToColor(jsonObject["backgroundMaskColor"]);
+    result.multipageButtonTextColor = _intToColor(
+      jsonObject["multipageButtonTextColor"],
+    );
 
     result.statusPositionMultiplier = _toDouble(
       jsonObject["statusPositionMultiplier"],
@@ -773,6 +838,15 @@ class Customization {
     );
     result.nextPageAnimationEndDelay = _toDouble(
       jsonObject["nextPageAnimationEndDelay"],
+    );
+    result.activityIndicatorPortraitPositionMultiplier = _toDouble(
+      jsonObject["activityIndicatorPortraitPositionMultiplier"],
+    );
+    result.activityIndicatorLandscapePositionMultiplier = _toDouble(
+      jsonObject["activityIndicatorLandscapePositionMultiplier"],
+    );
+    result.cameraPreviewVerticalPositionMultiplier = _toDouble(
+      jsonObject["cameraPreviewVerticalPositionMultiplier"],
     );
 
     result.multipageAnimationFrontImage = _dataFromBase64(
@@ -818,6 +892,9 @@ class Customization {
     result.statusTextFont = Font.fromJson(jsonObject["statusTextFont"]);
     result.resultStatusTextFont = Font.fromJson(
       jsonObject["resultStatusTextFont"],
+    );
+    result.multipageButtonTextFont = Font.fromJson(
+      jsonObject["multipageButtonTextFont"],
     );
 
     result.helpAnimationImageTransformsIOS = ViewContentMode.getByValue(
@@ -904,10 +981,10 @@ class Customization {
         "cameraFrameOffsetWidth": cameraFrameOffsetWidth,
         "status": status,
         "resultStatus": resultStatus,
+        "multipageButtonText": multipageButtonText,
         "cameraFrameDefaultColor": _intFromColor(cameraFrameDefaultColor),
         "cameraFrameActiveColor": _intFromColor(cameraFrameActiveColor),
         "statusTextColor": _intFromColor(statusTextColor),
-        "resultStatusTextColor": _intFromColor(resultStatusTextColor),
         "resultStatusBackgroundColor": _intFromColor(
           resultStatusBackgroundColor,
         ),
@@ -921,6 +998,8 @@ class Customization {
           cameraPreviewBackgroundColor,
         ),
         "backgroundMaskColor": _intFromColor(backgroundMaskColor),
+        "resultStatusTextColor": _intFromColor(resultStatusTextColor),
+        "multipageButtonTextColor": _intFromColor(multipageButtonTextColor),
         "statusPositionMultiplier": statusPositionMultiplier,
         "resultStatusPositionMultiplier": resultStatusPositionMultiplier,
         "toolbarSize": toolbarSize,
@@ -935,6 +1014,12 @@ class Customization {
             livenessAnimationPositionMultiplier,
         "nextPageAnimationStartDelay": nextPageAnimationStartDelay,
         "nextPageAnimationEndDelay": nextPageAnimationEndDelay,
+        "activityIndicatorPortraitPositionMultiplier":
+            activityIndicatorPortraitPositionMultiplier,
+        "activityIndicatorLandscapePositionMultiplier":
+            activityIndicatorLandscapePositionMultiplier,
+        "cameraPreviewVerticalPositionMultiplier":
+            cameraPreviewVerticalPositionMultiplier,
         "multipageAnimationFrontImage": _dataToBase64(
           multipageAnimationFrontImage,
         ),
@@ -960,6 +1045,7 @@ class Customization {
         "uiCustomizationLayer": uiCustomizationLayer,
         "statusTextFont": statusTextFont?.toJson(),
         "resultStatusTextFont": resultStatusTextFont?.toJson(),
+        "multipageButtonTextFont": multipageButtonTextFont?.toJson(),
         "helpAnimationImageContentMode": helpAnimationImageTransformsIOS?.value,
         "multipageAnimationFrontImageContentMode":
             multipageAnimationFrontImageTransformsIOS?.value,

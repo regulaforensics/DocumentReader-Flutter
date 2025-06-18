@@ -281,11 +281,11 @@ class RFIDScenario {
     _set({"independentSODStatus": val});
   }
 
-  int? get readingBuffer => _readingBuffer;
-  int? _readingBuffer;
-  set readingBuffer(int? val) {
+  RFIDReadingBufferSize? get readingBuffer => _readingBuffer;
+  RFIDReadingBufferSize? _readingBuffer;
+  set readingBuffer(RFIDReadingBufferSize? val) {
     _readingBuffer = val;
-    _set({"readingBuffer": val});
+    _set({"readingBuffer": val?.value});
   }
 
   int? get onlineTAToSignDataType => _onlineTAToSignDataType;
@@ -395,6 +395,34 @@ class RFIDScenario {
     _set({"cardAccess": val});
   }
 
+  String? get mrzHash => _mrzHash;
+  String? _mrzHash;
+  set mrzHash(String? val) {
+    _mrzHash = val;
+    _set({"mrzHash": val});
+  }
+
+  String? get documentNumber => _documentNumber;
+  String? _documentNumber;
+  set documentNumber(String? val) {
+    _documentNumber = val;
+    _set({"documentNumber": val});
+  }
+
+  String? get dateOfBirth => _dateOfBirth;
+  String? _dateOfBirth;
+  set dateOfBirth(String? val) {
+    _dateOfBirth = val;
+    _set({"dateOfBirth": val});
+  }
+
+  String? get dateOfExpiry => _dateOfExpiry;
+  String? _dateOfExpiry;
+  set dateOfExpiry(String? val) {
+    _dateOfExpiry = val;
+    _set({"dateOfExpiry": val});
+  }
+
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
   EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
@@ -468,27 +496,22 @@ class RFIDScenario {
     result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
     result.independentSODStatus = jsonObject["independentSODStatus"];
 
-    result.readingBuffer = jsonObject["readingBuffer"];
+    result.readingBuffer =
+        RFIDReadingBufferSize.getByValue(jsonObject["readingBuffer"]);
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
     result.defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
-    result.signManagementAction = SignManagementAction.getByValue(
-      jsonObject["signManagementAction"],
-    );
-    result.profilerType = RFIDSDKProfilerType.getByValue(
-      jsonObject["profilerType"],
-    );
-    result.authProcType = RFIDAuthenticationProcedureType.getByValue(
-      jsonObject["authProcType"],
-    );
+    result.signManagementAction =
+        SignManagementAction.getByValue(jsonObject["signManagementAction"]);
+    result.profilerType =
+        RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
+    result.authProcType =
+        RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
     result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
-      jsonObject["baseSMProcedure"],
-    );
-    result.pacePasswordType = RFIDPasswordType.getByValue(
-      jsonObject["pacePasswordType"],
-    );
-    result.terminalType = RFIDTerminalType.getByValue(
-      jsonObject["terminalType"],
-    );
+        jsonObject["baseSMProcedure"]);
+    result.pacePasswordType =
+        RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
+    result.terminalType =
+        RFIDTerminalType.getByValue(jsonObject["terminalType"]);
 
     result.password = jsonObject["password"];
     result.pkdPA = jsonObject["pkdPA"];
@@ -497,11 +520,14 @@ class RFIDScenario {
     result.eSignPINDefault = jsonObject["eSignPINDefault"];
     result.eSignPINNewValue = jsonObject["eSignPINNewValue"];
     result.cardAccess = jsonObject["cardAccess"];
+    result.mrzHash = jsonObject["mrzHash"];
+    result.documentNumber = jsonObject["documentNumber"];
+    result.dateOfBirth = jsonObject["dateOfBirth"];
+    result.dateOfExpiry = jsonObject["dateOfExpiry"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
-    result.ePassportDataGroups = EPassportDataGroups.fromJson(
-      jsonObject["ePassportDataGroups"],
-    );
+    result.ePassportDataGroups =
+        EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
     result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
     result.dtcDataGroups = DTCDataGroup.fromJson(jsonObject["dtcDataGroups"]);
 
@@ -549,7 +575,7 @@ class RFIDScenario {
         "mrzStrictCheck": mrzStrictCheck,
         "loadCRLFromRemote": loadCRLFromRemote,
         "independentSODStatus": independentSODStatus,
-        "readingBuffer": readingBuffer,
+        "readingBuffer": readingBuffer?.value,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,
         "signManagementAction": signManagementAction?.value,
@@ -565,6 +591,10 @@ class RFIDScenario {
         "eSignPINDefault": eSignPINDefault,
         "eSignPINNewValue": eSignPINNewValue,
         "cardAccess": cardAccess,
+        "mrzHash": mrzHash,
+        "documentNumber": documentNumber,
+        "dateOfBirth": dateOfBirth,
+        "dateOfExpiry": dateOfExpiry,
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),
@@ -632,7 +662,10 @@ enum RFIDPasswordType {
   PIN_ESIGN(5),
 
   /// Scanning Area Identifier (for eDL application).
-  SAI(6);
+  SAI(6),
+
+  /// MRZHash.
+  MRZ_HASH(7);
 
   const RFIDPasswordType(this.value);
   final int value;
@@ -733,6 +766,28 @@ enum SignManagementAction {
       return SignManagementAction.values.firstWhere((x) => x.value == i);
     } catch (_) {
       return SignManagementAction.UNDEFINED;
+    }
+  }
+}
+
+enum RFIDReadingBufferSize {
+  /// Standard length.
+  STANDARD_LENGTH(0),
+
+  /// Extended length.
+  EXTENDED_LENGTH(-1);
+
+  const RFIDReadingBufferSize(this.value);
+  final int value;
+
+  static RFIDReadingBufferSize? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return RFIDReadingBufferSize.values.firstWhere(
+        (x) => x.value == i,
+      );
+    } catch (_) {
+      return RFIDReadingBufferSize.EXTENDED_LENGTH;
     }
   }
 }
