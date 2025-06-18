@@ -27,6 +27,7 @@
         @"resetConfiguration": ^{ [self resetConfiguration]; },
         @"initialize": ^{ [self initialize :args[0] :callback]; },
         @"initializeReader": ^{ [self initialize :args[0] :callback]; }, // deprecated
+        @"initializeReaderWithBleDeviceConfig": ^{ [self initializeReaderWithBleDeviceConfig :args[0] :callback]; }, // deprecated
         @"deinitializeReader": ^{ [self deinitializeReader]; },
         @"prepareDatabase": ^{ [self prepareDatabase :args[0] :callback]; },
         @"removeDatabase": ^{ [self removeDatabase :callback]; },
@@ -169,6 +170,11 @@ static NSDictionary* headers;
         [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor bleDeviceConfigFromJson:config :bluetooth] completion: [self initCompletion :callback]];
     else
         [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor configFromJson:config] completion:[self initCompletion :callback]];
+}
+
+// deprecated
++(void)initializeReaderWithBleDeviceConfig:(NSDictionary*)config :(RGLWCallback)callback {
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor bleDeviceConfigFromJson:config :bluetooth] completion: [self initCompletion :callback]];
 }
 
 +(void)deinitializeReader {
