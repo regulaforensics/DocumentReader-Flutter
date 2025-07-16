@@ -526,6 +526,14 @@ class Customization {
     _set({"livenessAnimationImage": _dataToBase64(val)});
   }
 
+  /// Allows you to set any UIImage for the "Skip next page" button.
+  ByteData? get multipageButtonImage => _multipageButtonImage;
+  ByteData? _multipageButtonImage;
+  set multipageButtonImage(ByteData? val) {
+    _multipageButtonImage = val;
+    _set({"multipageButtonImage": _dataToBase64(val)});
+  }
+
   /// Allows you to set a font for the status messages.
   Font? get statusTextFont => _statusTextFont;
   Font? _statusTextFont;
@@ -883,6 +891,9 @@ class Customization {
     result.livenessAnimationImage = _dataFromBase64(
       jsonObject["livenessAnimationImage"],
     );
+    result.multipageButtonImage = _dataFromBase64(
+      jsonObject["multipageButtonImage"],
+    );
 
     result.customLabelStatus = jsonObject["customLabelStatus"];
     result.cameraFrameLineCap = Cap.getByValue(
@@ -1040,6 +1051,7 @@ class Customization {
           changeFrameButtonCollapseImage,
         ),
         "livenessAnimationImage": _dataToBase64(livenessAnimationImage),
+        "multipageButtonImage": _dataToBase64(multipageButtonImage),
         "customLabelStatus": customLabelStatus,
         "cameraFrameLineCap": cameraFrameLineCap?.value,
         "uiCustomizationLayer": uiCustomizationLayer,

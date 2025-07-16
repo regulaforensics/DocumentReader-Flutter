@@ -184,6 +184,7 @@
     if (options[@"generateDTCVC"]) processParams.generateDTCVC = options[@"generateDTCVC"];
     if (options[@"strictDLCategoryExpiry"]) processParams.strictDLCategoryExpiry = options[@"strictDLCategoryExpiry"];
     if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
+    if (options[@"disableAuthResolutionFilter"]) processParams.disableAuthResolutionFilter = options[@"disableAuthResolutionFilter"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -314,6 +315,7 @@
     result[@"generateDTCVC"] = processParams.generateDTCVC;
     result[@"strictDLCategoryExpiry"] = processParams.strictDLCategoryExpiry;
     result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
+    result[@"disableAuthResolutionFilter"] = processParams.disableAuthResolutionFilter;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -475,6 +477,7 @@
         customization.torchButtonOffImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"torchButtonOffImage"]];
     if([options valueForKey:@"livenessAnimationImage"] != nil)
         customization.livenessAnimationImage = [RGLWJSONConstructor imageWithBase64:[options valueForKey:@"livenessAnimationImage"]];
+    if(options[@"multipageButtonImage"]) customization.multipageButtonImage = [RGLWJSONConstructor imageWithBase64:options[@"multipageButtonImage"]];
     
     // Font
     if([options valueForKey:@"statusTextFont"] != nil)
@@ -576,6 +579,7 @@
     result[@"torchButtonOnImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOnImage];
     result[@"torchButtonOffImage"] = [RGLWJSONConstructor base64WithImage:customization.torchButtonOffImage];
     result[@"livenessAnimationImage"] = [RGLWJSONConstructor base64WithImage:customization.livenessAnimationImage];
+    result[@"multipageButtonImage"] = [RGLWJSONConstructor base64WithImage:customization.multipageButtonImage];
     
     // Font
     result[@"statusTextFont"] = [self generateUIFont:customization.statusTextFont];

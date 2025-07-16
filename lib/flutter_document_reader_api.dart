@@ -226,6 +226,15 @@ class DocumentReader {
     _setEnv(val);
   }
 
+  /// Custom language locale code of DocumentReaderSDK.
+  /// If empty or doesn't exist - app language is used. Format "en-US" or "en".
+  String? get locale => _locale;
+  String? _locale;
+  set locale(String? val) {
+    _locale = val;
+    _setLocale(val);
+  }
+
   /// A localization dictionary to override default localization logic.
   /// Allows to replace any string of DocumentReader SDK with an arbitrary string.
   ///
@@ -531,6 +540,7 @@ class DocumentReader {
     _tag = await _getTag();
     _tenant = await _getTenant();
     _env = await _getEnv();
+    _locale = await _getLocale();
     if (Platform.isIOS) _rfidSessionStatus = await _getRfidSessionStatus();
     _functionality = await _getFunctionality();
     _processParams = await _getProcessParams();
@@ -607,6 +617,14 @@ class DocumentReader {
 
   void _setEnv(String? tag) {
     _bridge.invokeMethod("setEnv", [tag]);
+  }
+
+  Future<String?> _getLocale() async {
+    return await _bridge.invokeMethod("getLocale", []);
+  }
+
+  void _setLocale(String? locale) {
+    _bridge.invokeMethod("setLocale", [locale]);
   }
 
   void _setLocalizationDictionary(Map<String, String>? dictionary) {

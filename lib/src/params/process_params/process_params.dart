@@ -342,6 +342,14 @@ class ProcessParams {
     _set({"generateAlpha2Codes": val});
   }
 
+  /// This parameter if enabled will ignore the minimum barcode resolution needed to start processing.
+  bool? get disableAuthResolutionFilter => _disableAuthResolutionFilter;
+  bool? _disableAuthResolutionFilter;
+  set disableAuthResolutionFilter(bool? val) {
+    _disableAuthResolutionFilter = val;
+    _set({"disableAuthResolutionFilter": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -762,6 +770,8 @@ class ProcessParams {
     result.generateDTCVC = jsonObject["generateDTCVC"];
     result.strictDLCategoryExpiry = jsonObject["strictDLCategoryExpiry"];
     result.generateAlpha2Codes = jsonObject["generateAlpha2Codes"];
+    result.disableAuthResolutionFilter =
+        jsonObject["disableAuthResolutionFilter"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -872,6 +882,7 @@ class ProcessParams {
         "generateDTCVC": generateDTCVC,
         "strictDLCategoryExpiry": strictDLCategoryExpiry,
         "generateAlpha2Codes": generateAlpha2Codes,
+        "disableAuthResolutionFilter": disableAuthResolutionFilter,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
