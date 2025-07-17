@@ -47,12 +47,16 @@ import com.regula.plugin.documentreader.Convert.toByteArray
 fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
     "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
+    "getRfidSessionStatus" -> getRfidSessionStatus(callback)
+    "setRfidSessionStatus" -> setRfidSessionStatus(argsNullable(0))
     "getTag" -> getTag(callback)
     "setTag" -> setTag(argsNullable(0))
     "getTenant" -> getTenant(callback)
     "setTenant" -> setTenant(argsNullable(0))
     "getEnv" -> getEnv(callback)
     "setEnv" -> setEnv(argsNullable(0))
+    "getLocale" -> getLocale(callback)
+    "setLocale" -> setLocale(argsNullable(0))
     "getFunctionality" -> getFunctionality(callback)
     "setFunctionality" -> setFunctionality(args(0))
     "getProcessParams" -> getProcessParams(callback)
@@ -142,6 +146,10 @@ fun getDocumentReaderIsReady(callback: Callback) = callback(Instance().isReady)
 
 fun getDocumentReaderStatus(callback: Callback) = callback(Instance().status)
 
+fun getRfidSessionStatus(iosOnly: Callback) = iosOnly(null)
+
+fun setRfidSessionStatus(iosOnly: String?) = Unit
+
 fun getTag(callback: Callback) = callback(Instance().tag)
 
 fun setTag(tag: String?) = tag.let { Instance().tag = it }
@@ -153,6 +161,10 @@ fun setTenant(tag: String?) = tag.let { Instance().tenant = it }
 fun getEnv(callback: Callback) = callback(Instance().env)
 
 fun setEnv(tag: String?) = tag.let { Instance().env = it }
+
+fun getLocale(callback: Callback) = callback(Instance().locale)
+
+fun setLocale(locale: String?) = locale.let { Instance().locale = it }
 
 fun getFunctionality(callback: Callback) = callback(getFunctionality(Instance().functionality()))
 

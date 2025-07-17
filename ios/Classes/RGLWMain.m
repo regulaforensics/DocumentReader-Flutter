@@ -16,6 +16,8 @@
         @"setTenant": ^{ [self setTenant :args[0]]; },
         @"getEnv": ^{ [self getEnv :callback]; },
         @"setEnv": ^{ [self setEnv :args[0]]; },
+        @"getLocale": ^{ [self getLocale :callback]; },
+        @"setLocale": ^{ [self setLocale :args[0]]; },
         @"getFunctionality": ^{ [self getFunctionality :callback]; },
         @"setFunctionality": ^{ [self setFunctionality :args[0]]; },
         @"getProcessParams": ^{ [self getProcessParams :callback]; },
@@ -127,6 +129,14 @@ static NSDictionary* headers;
 
 +(void)setEnv:(NSString*)tag {
     [RGLDocReader.shared setEnv:tag];
+}
+
++(void)getLocale:(RGLWCallback)callback {
+    callback([RGLDocReader.shared languageLocaleCode]);
+}
+
++(void)setLocale:(NSString*)locale {
+    [RGLDocReader.shared setLanguageLocaleCode:locale];
 }
 
 +(void)getFunctionality:(RGLWCallback)callback {
