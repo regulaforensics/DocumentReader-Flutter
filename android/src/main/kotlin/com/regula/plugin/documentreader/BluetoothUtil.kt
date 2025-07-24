@@ -144,3 +144,17 @@ fun requestEnableLocationService(activity: Activity) {
     val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
     startActivityForResult(activity, myIntent, INTENT_REQUEST_ENABLE_LOCATION)
 }
+
+// btDevice functionality(temporary, will be reworked)
+
+fun btDeviceRequestFlashing() {
+    bluetooth?.requestFlashing()
+}
+
+fun btDeviceRequestFlashingFullIR() {
+    bluetooth?.requestFlashingFullIR()
+}
+
+fun btDeviceRequestTurnOffAll() {
+    bluetooth?.requestTurnOffAll()
+}

@@ -137,6 +137,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "generateDTCVC" -> processParams.generateDTCVC = v as Boolean
         "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
         "generateAlpha2Codes" -> processParams.generateAlpha2Codes = v as Boolean
+        "disableAuthResolutionFilter" -> processParams.disableAuthResolutionFilter = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -221,6 +222,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "generateDTCVC" to processParams.generateDTCVC,
     "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
     "generateAlpha2Codes" to processParams.generateAlpha2Codes,
+    "disableAuthResolutionFilter" to processParams.disableAuthResolutionFilter,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -316,6 +318,7 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
         "torchButtonOnImage" -> editor.setTorchImageOn(v.toDrawable())
         "torchButtonOffImage" -> editor.setTorchImageOff(v.toDrawable())
         "livenessAnimationImage" -> editor.setLivenessAnimationImage(v.toDrawable())
+        "multipageButtonImage" -> editor.setMultipageButtonImage(v.toDrawable())
         "helpAnimationImageMatrix" -> editor.setHelpAnimationImageMatrix(matrixFromJSON(v as JSONArray?)).setHelpAnimationImageScaleType(ImageView.ScaleType.MATRIX)
         "multipageAnimationFrontImageMatrix" -> editor.setMultipageAnimationFrontImageMatrix(matrixFromJSON(v as JSONArray?)).setMultipageAnimationFrontImageScaleType(ImageView.ScaleType.MATRIX)
         "multipageAnimationBackImageMatrix" -> editor.setMultipageAnimationBackImageMatrix(matrixFromJSON(v as JSONArray?)).setMultipageAnimationBackImageScaleType(ImageView.ScaleType.MATRIX)
@@ -401,6 +404,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "torchButtonOnImage" to customization.torchImageOnDrawable.toBase64(),
     "torchButtonOffImage" to customization.torchImageOffDrawable.toBase64(),
     "livenessAnimationImage" to customization.livenessAnimationImage.toBase64(),
+    "multipageButtonImage" to customization.multipageButtonDrawable.toBase64(),
     "helpAnimationImageMatrix" to generateMatrix(customization.helpAnimationImageMatrix),
     "multipageAnimationFrontImageMatrix" to generateMatrix(customization.multipageAnimationFrontImageMatrix),
     "multipageAnimationBackImageMatrix" to generateMatrix(customization.multipageAnimationBackImageMatrix),
