@@ -47,12 +47,16 @@ import com.regula.plugin.documentreader.Convert.toByteArray
 fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
     "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
+    "getRfidSessionStatus" -> getRfidSessionStatus(callback)
+    "setRfidSessionStatus" -> setRfidSessionStatus(argsNullable(0))
     "getTag" -> getTag(callback)
     "setTag" -> setTag(argsNullable(0))
     "getTenant" -> getTenant(callback)
     "setTenant" -> setTenant(argsNullable(0))
     "getEnv" -> getEnv(callback)
     "setEnv" -> setEnv(argsNullable(0))
+    "getLocale" -> getLocale(callback)
+    "setLocale" -> setLocale(argsNullable(0))
     "getFunctionality" -> getFunctionality(callback)
     "setFunctionality" -> setFunctionality(args(0))
     "getProcessParams" -> getProcessParams(callback)
@@ -64,6 +68,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "resetConfiguration" -> resetConfiguration()
     "initialize" -> initialize(callback, args(0))
     "initializeReader" -> initialize(callback, args(0)) // deprecated
+    "initializeReaderWithBleDeviceConfig" -> initializeReaderWithBleDeviceConfig(callback, args(0)) // deprecated
     "deinitialize" -> deinitialize()
     "prepareDatabase" -> prepareDatabase(callback, args(0))
     "removeDatabase" -> removeDatabase(callback)
@@ -71,6 +76,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "cancelDBUpdate" -> cancelDBUpdate(callback)
     "checkDatabaseUpdate" -> checkDatabaseUpdate(callback, args(0))
     "scan" -> scan(args(0))
+    "startScanner" -> startScanner(args(0))
     "recognize" -> recognize(args(0))
     "startNewPage" -> startNewPage()
     "stopScanner" -> stopScanner()
@@ -85,6 +91,9 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "clearPKDCertificates" -> clearPKDCertificates()
     "startNewSession" -> startNewSession()
     "connectBluetoothDevice" -> connectBluetoothDevice(callback)
+    "btDeviceRequestFlashing" -> btDeviceRequestFlashing()
+    "btDeviceRequestFlashingFullIR" -> btDeviceRequestFlashingFullIR()
+    "btDeviceRequestTurnOffAll" -> btDeviceRequestTurnOffAll()
     "setLocalizationDictionary" -> setLocalizationDictionary(args(0))
     "getLicense" -> getLicense(callback)
     "getAvailableScenarios" -> getAvailableScenarios(callback)
@@ -137,6 +146,10 @@ fun getDocumentReaderIsReady(callback: Callback) = callback(Instance().isReady)
 
 fun getDocumentReaderStatus(callback: Callback) = callback(Instance().status)
 
+fun getRfidSessionStatus(iosOnly: Callback) = iosOnly(null)
+
+fun setRfidSessionStatus(iosOnly: String?) = Unit
+
 fun getTag(callback: Callback) = callback(Instance().tag)
 
 fun setTag(tag: String?) = tag.let { Instance().tag = it }
@@ -148,6 +161,10 @@ fun setTenant(tag: String?) = tag.let { Instance().tenant = it }
 fun getEnv(callback: Callback) = callback(Instance().env)
 
 fun setEnv(tag: String?) = tag.let { Instance().env = it }
+
+fun getLocale(callback: Callback) = callback(Instance().locale)
+
+fun setLocale(locale: String?) = locale.let { Instance().locale = it }
 
 fun getFunctionality(callback: Callback) = callback(getFunctionality(Instance().functionality()))
 
@@ -173,6 +190,9 @@ fun initialize(callback: Callback, config: JSONObject) =
     else
         Instance().initializeReader(context, initBleDeviceConfigFromJSON(config), initCompletion(callback))
 
+// deprecated
+fun initializeReaderWithBleDeviceConfig(callback: Callback, config: JSONObject) = Instance().initializeReader(context, initBleDeviceConfigFromJSON(config), initCompletion(callback))
+
 fun deinitialize() = Instance().deinitializeReader()
 
 fun prepareDatabase(callback: Callback, databaseID: String) = Instance().prepareDatabase(
@@ -196,9 +216,15 @@ fun checkDatabaseUpdate(callback: Callback, databaseID: String) = Instance().che
     databaseID
 ) { callback(generateDocReaderDocumentsDatabase(it)) }
 
+@Suppress("DEPRECATION")
 fun scan(config: JSONObject) {
     stopBackgroundRFID()
     Instance().showScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
+}
+
+fun startScanner(config: JSONObject) {
+    stopBackgroundRFID()
+    Instance().startScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
 }
 
 fun recognize(config: JSONObject) {

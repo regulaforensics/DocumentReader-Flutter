@@ -226,6 +226,15 @@ class DocumentReader {
     _setEnv(val);
   }
 
+  /// Custom language locale code of DocumentReaderSDK.
+  /// If empty or doesn't exist - app language is used. Format "en-US" or "en".
+  String? get locale => _locale;
+  String? _locale;
+  set locale(String? val) {
+    _locale = val;
+    _setLocale(val);
+  }
+
   /// A localization dictionary to override default localization logic.
   /// Allows to replace any string of DocumentReader SDK with an arbitrary string.
   ///
@@ -329,8 +338,8 @@ class DocumentReader {
 
   /// Used to deinitialize Document Reader and free up RAM as a
   /// consequence of this.
-  Future<void> deinitializeReader() async {
-    await _bridge.invokeMethod("deinitializeReader", []);
+  void deinitializeReader() {
+    _bridge.invokeMethod("deinitializeReader", []);
   }
 
   /// Allows you to download a database from the Regula server. If it exists
@@ -395,13 +404,13 @@ class DocumentReader {
 
   /// Used to start the processing of the next page of the document once the
   /// current one is processed.
-  Future<void> startNewPage() async {
-    await _bridge.invokeMethod("startNewPage", []);
+  void startNewPage() {
+    _bridge.invokeMethod("startNewPage", []);
   }
 
   /// Used to start a scanning process.
-  Future<void> startNewSession() async {
-    await _bridge.invokeMethod("startNewSession", []);
+  void startNewSession() {
+    _bridge.invokeMethod("startNewSession", []);
   }
 
   /// Used for multiple frames processing which are captured from the camera.
@@ -412,6 +421,16 @@ class DocumentReader {
   void scan(ScannerConfig config, DocumentReaderCompletion completion) {
     _setDocumentReaderCompletion(completion);
     _bridge.invokeMethod("scan", [config.toJson()]);
+  }
+
+  /// Used for multiple frames processing which are captured from the camera.
+  ///
+  /// [config] - scanning configuration.
+  ///
+  /// [completion] - block to execute after the recognition process finishes.
+  void startScanner(ScannerConfig config, DocumentReaderCompletion completion) {
+    _setDocumentReaderCompletion(completion);
+    _bridge.invokeMethod("startScanner", [config.toJson()]);
   }
 
   /// Used for proccessing predefined images.
@@ -450,31 +469,31 @@ class DocumentReader {
   }
 
   /// Used to stop the scanning process.
-  Future<void> stopScanner() async {
-    await _bridge.invokeMethod("stopScanner", []);
+  void stopScanner() {
+    _bridge.invokeMethod("stopScanner", []);
   }
 
   /// Used to stop the scanning process.
-  Future<void> stopRFIDReader() async {
-    await _bridge.invokeMethod("stopRFIDReader", []);
+  void stopRFIDReader() {
+    _bridge.invokeMethod("stopRFIDReader", []);
   }
 
   /// Used to pass certificates to Document Reader that will be used during the
   /// RFID chip processing.
   ///
   /// [certificates] - PKD certificates.
-  Future<void> addPKDCertificates(List<PKDCertificate> certificates) async {
+  void addPKDCertificates(List<PKDCertificate> certificates) {
     List<dynamic> json = [];
     for (PKDCertificate cert in certificates) {
       json.add(cert.toJson());
     }
-    await _bridge.invokeMethod("addPKDCertificates", [json]);
+    _bridge.invokeMethod("addPKDCertificates", [json]);
   }
 
   /// It's used to remove certificates from your app that are used during the
   /// RFID chip processing.
-  Future<void> clearPKDCertificates() async {
-    await _bridge.invokeMethod("clearPKDCertificates", []);
+  void clearPKDCertificates() {
+    _bridge.invokeMethod("clearPKDCertificates", []);
   }
 
   /// Sets the given `TCCParams` to the RFID  session.
@@ -503,8 +522,8 @@ class DocumentReader {
   }
 
   /// It's used to end transaction during backend processing.
-  Future<void> endBackendTransaction() async {
-    await _bridge.invokeMethod("endBackendTransaction", []);
+  void endBackendTransaction() {
+    _bridge.invokeMethod("endBackendTransaction", []);
   }
 
   (bool, DocReaderException?) _successOrErrorFromJson(String jsonString) {
@@ -521,6 +540,7 @@ class DocumentReader {
     _tag = await _getTag();
     _tenant = await _getTenant();
     _env = await _getEnv();
+    _locale = await _getLocale();
     if (Platform.isIOS) _rfidSessionStatus = await _getRfidSessionStatus();
     _functionality = await _getFunctionality();
     _processParams = await _getProcessParams();
@@ -597,6 +617,14 @@ class DocumentReader {
 
   void _setEnv(String? tag) {
     _bridge.invokeMethod("setEnv", [tag]);
+  }
+
+  Future<String?> _getLocale() async {
+    return await _bridge.invokeMethod("getLocale", []);
+  }
+
+  void _setLocale(String? locale) {
+    _bridge.invokeMethod("setLocale", [locale]);
   }
 
   void _setLocalizationDictionary(Map<String, String>? dictionary) {

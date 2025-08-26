@@ -16,6 +16,8 @@
         @"setTenant": ^{ [self setTenant :args[0]]; },
         @"getEnv": ^{ [self getEnv :callback]; },
         @"setEnv": ^{ [self setEnv :args[0]]; },
+        @"getLocale": ^{ [self getLocale :callback]; },
+        @"setLocale": ^{ [self setLocale :args[0]]; },
         @"getFunctionality": ^{ [self getFunctionality :callback]; },
         @"setFunctionality": ^{ [self setFunctionality :args[0]]; },
         @"getProcessParams": ^{ [self getProcessParams :callback]; },
@@ -27,6 +29,7 @@
         @"resetConfiguration": ^{ [self resetConfiguration]; },
         @"initialize": ^{ [self initialize :args[0] :callback]; },
         @"initializeReader": ^{ [self initialize :args[0] :callback]; }, // deprecated
+        @"initializeReaderWithBleDeviceConfig": ^{ [self initializeReaderWithBleDeviceConfig :args[0] :callback]; }, // deprecated
         @"deinitializeReader": ^{ [self deinitializeReader]; },
         @"prepareDatabase": ^{ [self prepareDatabase :args[0] :callback]; },
         @"removeDatabase": ^{ [self removeDatabase :callback]; },
@@ -34,6 +37,7 @@
         @"cancelDBUpdate": ^{ [self cancelDBUpdate :callback]; },
         @"checkDatabaseUpdate": ^{ [self checkDatabaseUpdate :args[0] :callback]; },
         @"scan": ^{ [self scan :args[0]]; },
+        @"startScanner": ^{ [self startScanner :args[0]]; },
         @"recognize": ^{ [self recognize :args[0]]; },
         @"startNewPage": ^{ [self startNewPage]; },
         @"stopScanner": ^{ [self stopScanner]; },
@@ -48,6 +52,9 @@
         @"clearPKDCertificates": ^{ [self clearPKDCertificates]; },
         @"startNewSession": ^{ [self startNewSession]; },
         @"connectBluetoothDevice": ^{ [self connectBluetoothDevice :args[0] :callback]; },
+        @"btDeviceRequestFlashing": ^{ /* android only */ },
+        @"btDeviceRequestFlashingFullIR": ^{ /* android only */ },
+        @"btDeviceRequestTurnOffAll": ^{ /* android only */ },
         @"setLocalizationDictionary": ^{ [self setLocalizationDictionary :args[0]]; },
         @"getLicense": ^{ [self getLicense :callback]; },
         @"getAvailableScenarios": ^{ [self getAvailableScenarios :callback]; },
@@ -124,6 +131,14 @@ static NSDictionary* headers;
     [RGLDocReader.shared setEnv:tag];
 }
 
++(void)getLocale:(RGLWCallback)callback {
+    callback([RGLDocReader.shared languageLocaleCode]);
+}
+
++(void)setLocale:(NSString*)locale {
+    [RGLDocReader.shared setLanguageLocaleCode:locale];
+}
+
 +(void)getFunctionality:(RGLWCallback)callback {
     callback([RGLWJSONConstructor dictToString: [RGLWConfig getFunctionality: RGLDocReader.shared.functionality]]);
 }
@@ -170,6 +185,11 @@ static NSDictionary* headers;
         [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor configFromJson:config] completion:[self initCompletion :callback]];
 }
 
+// deprecated
++(void)initializeReaderWithBleDeviceConfig:(NSDictionary*)config :(RGLWCallback)callback {
+    [RGLDocReader.shared initializeReaderWithConfig:[RGLWJSONConstructor bleDeviceConfigFromJson:config :bluetooth] completion: [self initCompletion :callback]];
+}
+
 +(void)deinitializeReader {
     [RGLDocReader.shared deinitializeReader];
 }
@@ -205,6 +225,15 @@ static NSDictionary* headers;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         #pragma clang diagnostic pop
         [RGLDocReader.shared showScannerFromPresenter:RGLWRootViewController() config:[RGLWJSONConstructor scannerConfigFromJson:config] completion:[self completion]];
+    });
+}
+
++(void)startScanner:(NSDictionary*)config {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        #pragma clang diagnostic pop
+        [RGLDocReader.shared startScannerFromPresenter:RGLWRootViewController() config:[RGLWJSONConstructor scannerConfigFromJson:config] completion:[self completion]];
     });
 }
 
@@ -310,12 +339,12 @@ RGLWCallback savedCallbackForBluetoothResult;
     
     // set searching timeout
     if (state == RGLBluetoothConnectionStateSearching)
-        [self performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
+        [[self class] performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
     
     if (state == RGLBluetoothConnectionStateConnected) {
         savedCallbackForBluetoothResult(@YES);
         savedCallbackForBluetoothResult = nil;
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:[self class] selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
     }
 }
 

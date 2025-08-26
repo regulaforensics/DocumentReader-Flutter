@@ -72,6 +72,7 @@ class Functionality {
   /// frame type will be displayed.
   ///
   /// Default: `false`.
+  @Deprecated("Not used in new UI")
   bool? get showChangeFrameButton => _showChangeFrameButton;
   bool? _showChangeFrameButton;
   set showChangeFrameButton(bool? val) {

@@ -21,12 +21,12 @@ class InitConfig {
   /// Defines whether the [DocumentReader] delays loading of neural networks.
   ///
   /// When set to `true` the initialization starts in the background thread after
-  /// the method [DocumentReader.initializeReader] is called. If the document
+  /// the method [DocumentReader.initialize] is called. If the document
   /// processing is initiated before all the networks are loaded,
   /// the [DocumentReader] will wait for it before starting the handling.
   ///
   /// When set to `false` the initialization is performed during
-  /// [DocumentReader.initializeReader] method.
+  /// [DocumentReader.initialize] method.
   bool delayedNNLoad = false;
 
   /// The path to the database file.
