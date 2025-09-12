@@ -21,13 +21,13 @@ class FaceApiSearchParams {
   double _threshold;
 
   /// The IDs of the groups in which the search is performed.
-  List<int>? get groupIds => _groupIds;
-  List<int>? _groupIds;
+  List<String>? get groupIds => _groupIds;
+  List<String>? _groupIds;
 
   FaceApiSearchParams({
     int limit = 100,
     double threshold = 1,
-    List<int>? groupIds,
+    List<String>? groupIds,
   })  : _limit = limit,
         _threshold = threshold,
         _groupIds = groupIds;
@@ -38,7 +38,7 @@ class FaceApiSearchParams {
     return FaceApiSearchParams(
       limit: jsonObject["limit"],
       threshold: _toDouble(jsonObject["threshold"])!,
-      groupIds: _intListFrom(jsonObject["groupIds"]),
+      groupIds: _stringListFrom(jsonObject["groupIds"]),
     );
   }
 

@@ -3,7 +3,7 @@ rootProject.allprojects {
         google()
         mavenCentral()
         maven {
-            url "https://maven.regulaforensics.com/RegulaDocumentReader"
+            url "https://maven.regulaforensics.com/RegulaDocumentReader/Stage"
         }
     }
 }
@@ -28,7 +28,7 @@ android {
     }
 
     dependencies {
-        implementation('com.regula.documentreader:api:8.2.11679') {
+        implementation('com.regula.documentreader:api:8.3.11788') {
             transitive = true
         }
 

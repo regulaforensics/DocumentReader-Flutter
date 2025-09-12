@@ -13,7 +13,7 @@ var img3 = useOldXcode
 var faceApiSearchParams = {
   "limit": 1,
   "threshold": 2,
-  "groupIds": [3, 4, 5],
+  "groupIds": ["test1", "test2", "test3"],
 };
 var faceApiParams = {
   "url": "test1",
@@ -113,6 +113,7 @@ var processParams = {
   "strictDLCategoryExpiry": true,
   "generateAlpha2Codes": false,
   "disableAuthResolutionFilter": true,
+  "strictSecurityChecks": false,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -294,6 +295,7 @@ var functionality = {
   "btDeviceName": "test",
   "zoomFactor": 0.5,
   "exposure": 1.5,
+  "videoRecordingSizeDownscaleFactor": 2.5,
   "excludedCamera2Models": ["test1", "test2", "test3"],
   "cameraSize": cameraSize,
   "videoSessionPreset": 6,

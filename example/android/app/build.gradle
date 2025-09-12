@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.regula.dr.fullauthrfid"
+    namespace = "com.regula.example.dr.flutter"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.regula.dr.fullauthrfid"
+        applicationId = "com.regula.example.dr.flutter"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

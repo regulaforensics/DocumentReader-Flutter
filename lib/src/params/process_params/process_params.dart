@@ -350,6 +350,14 @@ class ProcessParams {
     _set({"disableAuthResolutionFilter": val});
   }
 
+  /// When enabled, this parameter marks security checks that don’t meet minimum requirements as 'Failed' (instead of 'WasNotDone'), which causes the overall security status to be 'Failed'.
+  bool? get strictSecurityChecks => _strictSecurityChecks;
+  bool? _strictSecurityChecks;
+  set strictSecurityChecks(bool? val) {
+    _strictSecurityChecks = val;
+    _set({"strictSecurityChecks": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -772,6 +780,7 @@ class ProcessParams {
     result.generateAlpha2Codes = jsonObject["generateAlpha2Codes"];
     result.disableAuthResolutionFilter =
         jsonObject["disableAuthResolutionFilter"];
+    result.strictSecurityChecks = jsonObject["strictSecurityChecks"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -883,6 +892,7 @@ class ProcessParams {
         "strictDLCategoryExpiry": strictDLCategoryExpiry,
         "generateAlpha2Codes": generateAlpha2Codes,
         "disableAuthResolutionFilter": disableAuthResolutionFilter,
+        "strictSecurityChecks": strictSecurityChecks,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

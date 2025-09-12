@@ -253,7 +253,7 @@ class MyAppState extends State<MyApp> {
             visible: !isShowingRfidSelfHostedUI,
             child: Expanded(
               child: Padding(
-                padding: EdgeInsetsGeometry.fromLTRB(10, 10, 10, 35),
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 35),
                 child: Column(children: ui()),
               ),
             ),

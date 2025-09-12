@@ -185,6 +185,7 @@
     if (options[@"strictDLCategoryExpiry"]) processParams.strictDLCategoryExpiry = options[@"strictDLCategoryExpiry"];
     if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
     if (options[@"disableAuthResolutionFilter"]) processParams.disableAuthResolutionFilter = options[@"disableAuthResolutionFilter"];
+    if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -316,6 +317,7 @@
     result[@"strictDLCategoryExpiry"] = processParams.strictDLCategoryExpiry;
     result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
     result[@"disableAuthResolutionFilter"] = processParams.disableAuthResolutionFilter;
+    result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
