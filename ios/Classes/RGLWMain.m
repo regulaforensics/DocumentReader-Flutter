@@ -339,12 +339,12 @@ RGLWCallback savedCallbackForBluetoothResult;
     
     // set searching timeout
     if (state == RGLBluetoothConnectionStateSearching)
-        [self performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
+        [[self class] performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
     
     if (state == RGLBluetoothConnectionStateConnected) {
         savedCallbackForBluetoothResult(@YES);
         savedCallbackForBluetoothResult = nil;
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:[self class] selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
     }
 }
 

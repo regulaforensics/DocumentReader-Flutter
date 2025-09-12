@@ -2,49 +2,18 @@
 
 ## How to build demo application
 
-1. Get the trial license at [client.regulaforensics.com](https://client.regulaforensics.com/) (`regula.license` file). The license creation wizard will guide you through the necessary steps.
-2. Get the trial database at [client.regulaforensics.com/customer/databases](https://client.regulaforensics.com/customer/databases) (`db.dat`)
-3. Download or clone this repository using the command `git clone https://github.com/regulaforensics/DocumentReader-Flutter.git`.
-4. Copy the `regula.license` file to the `example/assets` folder.
-5. Copy the `db.dat` file to the `example/android/app/src/main/assets/Regula/` folder.
-6. Copy the `db.dat` file to the `example/ios/Runner/` folder.
-7. Run the following commands in Terminal:
-```bash
-$ cd example
-# Install packages
-$ flutter pub get
-# Check that supported devices are running
-$ flutter devices
-# Run the app
-$ flutter run
-```
+1. Download or the clone current repository using the command `git clone https://github.com/regulaforensics/DocumentReader-Flutter.git`.
+2. Put `regula.license` file at `assets/` (you can get a trial license [here](https://client.regulaforensics.com)).
+3. Put `db.dat` file at `ios/Runner/` and `android/app/src/main/assets/Regula/` (you can get a trial database [here](https://client.regulaforensics.com/customer/databases))
+4. Execute `flutter pub get` within this directory.
+5. Run the app: `flutter run`.
 
-## Exra examples
+## Additional examples
 
-#### RFID options
+### Bluetooth device
 
-This demo app covers 3 different ways of reading RFID:
-1. Basic, the simplest one. Requires only one callback to handle the results.
-2. Advanced. Shows how to set additional callbacks to handle specific events during RFID chip reading.
-3. Custom, the most complex one. Shows how to make your own custom UI for RFID chip reading and how to display RFID progress manually.
+In order to connect to an external scanning device, change the `useBtDevice` constant to true in `src/extra/bt_device`, and set `btDeviceName` to the name of your device. After running the app, click `Connect`.
 
-You can switch between these options using a static variable `rfidOption`. 
-Default: `RfidOption.Basic`.
+### RFID self hosted UI
 
-#### Bluetooth device
-
-This demo app describes how Regula Bluetooth Device can be used to scan a document:
-1. Set static variable `useBleDevice` to `true`(default: `false`).
-2. If you've put a license file into the project, you can remove it. License will be automatically retrieved from your bluetooth device.
-3. Turn on bluetooth device and run the app.
-4. Enter the device's name into the text field and hit `connect` button. You may be asked for bluetooth permissions.
-5. If connection was successful, document reader will initialize and you'll see a list of scenarios. Choose the preffered one and start scanning.
-
-## Troubleshooting license issues
-
-If you have issues with license verification when running the application, please verify that next is true:
-1. The OS, which you use, is specified in the license (e.g., Android and/or iOS).
-2. The license is valid (not expired).
-3. The date and time on the device, where you run the application, are valid.
-4. You use the latest release version of the Document Reader SDK.
-5. You placed the `license` into the correct folder as described [here](#how-to-build-demo-application).
+This app also demonstraits how you can implement you own UI for the RFID reading process. To enable it, change the `useRfidSelfHostedUI` constant to true in `src/extra/custom_rfid`. Run the app and initiate RFID reading.
