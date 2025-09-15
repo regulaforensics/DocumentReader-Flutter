@@ -67,7 +67,7 @@
         @"endBackendTransaction": ^{ [self endBackendTransaction]; },
         @"textFieldValueByType": ^{ [self textFieldValueByType :args[0] :args[1] :callback]; },
         @"textFieldValueByTypeLcid": ^{ [self textFieldValueByTypeLcid :args[0] :args[1] :args[2] :callback]; },
-        @"textFieldValueByTypeSource": ^{ [self textFieldValueByTypeSource :args[0] :args[2] :args[3] :callback]; },
+        @"textFieldValueByTypeSource": ^{ [self textFieldValueByTypeSource :args[0] :args[1] :args[2] :callback]; },
         @"textFieldValueByTypeLcidSource": ^{ [self textFieldValueByTypeLcidSource :args[0] :args[1] :args[2] :args[3] :callback]; },
         @"textFieldValueByTypeSourceOriginal": ^{ [self textFieldValueByTypeSourceOriginal :args[0] :args[1] :args[2] :args[3] :callback]; },
         @"textFieldValueByTypeLcidSourceOriginal": ^{ [self textFieldValueByTypeLcidSourceOriginal :args[0] :args[1] :args[2] :args[3] :args[4] :callback]; },
@@ -339,12 +339,12 @@ RGLWCallback savedCallbackForBluetoothResult;
     
     // set searching timeout
     if (state == RGLBluetoothConnectionStateSearching)
-        [self performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
+        [[self class] performSelector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") withObject:nil afterDelay:7.0];
     
     if (state == RGLBluetoothConnectionStateConnected) {
         savedCallbackForBluetoothResult(@YES);
         savedCallbackForBluetoothResult = nil;
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:[self class] selector:NSSelectorFromString(@"bluetoothDeviceConnectionFailed") object:nil];
     }
 }
 

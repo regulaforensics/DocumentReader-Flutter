@@ -8,7 +8,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="DocumentReader"
+        android:label="Document"
         android:usesCleartextTraffic="true"
         tools:targetApi="23">
         <activity
@@ -17,7 +17,6 @@
             android:exported="true"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
             <meta-data

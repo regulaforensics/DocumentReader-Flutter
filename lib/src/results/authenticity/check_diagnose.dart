@@ -238,6 +238,9 @@ enum CheckDiagnose {
   /// Text should be black.
   TEXT_SHOULD_BE_BLACK(133),
 
+  /// Security text is absent.
+  SECURITY_TEXT_IS_ABSENT(134),
+
   /// Barcode read with errors.
   BARCODE_WAS_READ_WITH_ERRORS(140),
 

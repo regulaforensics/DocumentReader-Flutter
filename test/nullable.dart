@@ -46,7 +46,7 @@ Map<String, List<String>?> nullableMap = {
     "dYear",
     "dCountryName",
   ],
-  "transactionInfo!": [],
+  "transactionInfo": ["transactionId", "tag"],
   "results": ["authenticityResult"],
   "paResourcesIssuer": ["friendlyName"],
   "pkdCertificate": ["privateKey"],
