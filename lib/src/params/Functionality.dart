@@ -332,6 +332,15 @@ class Functionality {
     _set({"exposure": val});
   }
 
+  /// Android only.
+  double? get videoRecordingSizeDownscaleFactor =>
+      _videoRecordingSizeDownscaleFactor;
+  double? _videoRecordingSizeDownscaleFactor;
+  set videoRecordingSizeDownscaleFactor(double? val) {
+    _videoRecordingSizeDownscaleFactor = val;
+    _set({"videoRecordingSizeDownscaleFactor": val});
+  }
+
   /// A list of devices that must not use the camera2 API.
   ///
   /// Android only.
@@ -409,6 +418,8 @@ class Functionality {
 
     result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
     result.exposure = _toDouble(jsonObject["exposure"]);
+    result.videoRecordingSizeDownscaleFactor =
+        _toDouble(jsonObject["videoRecordingSizeDownscaleFactor"]);
 
     result.excludedCamera2Models = _stringListFrom(
       jsonObject["excludedCamera2Models"],
@@ -455,6 +466,7 @@ class Functionality {
         "btDeviceName": btDeviceName,
         "zoomFactor": zoomFactor,
         "exposure": exposure,
+        "videoRecordingSizeDownscaleFactor": videoRecordingSizeDownscaleFactor,
         "excludedCamera2Models": excludedCamera2Models,
         "cameraSize": cameraResolutionAndroid?.toJson(),
         "videoSessionPreset": cameraResolutionIOS?.value,

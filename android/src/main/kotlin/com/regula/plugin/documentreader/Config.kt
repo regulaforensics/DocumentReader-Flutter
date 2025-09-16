@@ -58,6 +58,7 @@ fun setFunctionality(config: Functionality, input: JSONObject) = input.forEach {
         "btDeviceName" -> editor.setBtDeviceName(v as String)
         "zoomFactor" -> editor.setZoomFactor(v.toFloat())
         "exposure" -> editor.setExposure(v.toFloat())
+        "videoRecordingSizeDownscaleFactor" -> editor.setVideoRecordingSizeDownscaleFactor(v.toFloat())
         "excludedCamera2Models" -> editor.setExcludedCamera2Models((v as JSONArray).toList())
         "cameraSize" -> editor.setCameraSize(cameraSizeFromJSON(v as JSONObject).first, cameraSizeFromJSON(v).second)
     }
@@ -92,6 +93,7 @@ fun getFunctionality(input: Functionality) = mapOf(
     "btDeviceName" to input.btDeviceName,
     "zoomFactor" to input.zoomFactor,
     "exposure" to input.exposure,
+    "videoRecordingSizeDownscaleFactor" to input.videoRecordingSizeDownscaleFactor,
     "excludedCamera2Models" to input.excludedCamera2Models.toJson(),
     "cameraSize" to generateCameraSize(input.cameraWidth, input.cameraHeight)
 ).toJson()
@@ -138,6 +140,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictDLCategoryExpiry" -> processParams.strictDLCategoryExpiry = v as Boolean
         "generateAlpha2Codes" -> processParams.generateAlpha2Codes = v as Boolean
         "disableAuthResolutionFilter" -> processParams.disableAuthResolutionFilter = v as Boolean
+        "strictSecurityChecks" -> processParams.strictSecurityChecks = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -223,6 +226,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictDLCategoryExpiry" to processParams.strictDLCategoryExpiry,
     "generateAlpha2Codes" to processParams.generateAlpha2Codes,
     "disableAuthResolutionFilter" to processParams.disableAuthResolutionFilter,
+    "strictSecurityChecks" to processParams.strictSecurityChecks,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
