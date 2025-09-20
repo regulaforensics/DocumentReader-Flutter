@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_document_reader_api'
-  s.version          = '8.3.469-rc'
+  s.version          = '8.3.470-rc'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
@@ -12,8 +12,8 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '13.0'
-  s.dependency 'DocumentReaderStage', '8.3.5057'
+  s.platform = :ios, '14.0'
+  s.dependency 'DocumentReaderStage', '8.3.5064'
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
 end
