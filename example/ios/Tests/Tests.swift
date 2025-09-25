@@ -129,6 +129,7 @@ class Tests: XCTestCase {
                        "isCameraTorchCheckDisabled",
                        "rfidTimeout",
                        "exposure",
+                       "videoRecordingSizeDownscaleFactor",
                        "excludedCamera2Models",
                        "cameraSize",
                        "cameraMode"])

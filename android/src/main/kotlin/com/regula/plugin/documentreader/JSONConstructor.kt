@@ -318,7 +318,7 @@ fun onlineProcessingConfigFromJSON(input: JSONObject?) = input?.let {
     if (it.has("imageCompressionQuality")) builder.setImageCompressionQuality(it.getDouble("imageCompressionQuality").toFloat())
     if (it.has("processParams")) builder.setProcessParams(processParamFromJSON(it.getJSONObject("processParams")))
     if (it.has("requestHeaders")) {
-        val listener = NetworkInterceptorListener { input.getJSONObject("requestHeaders").forEach { k, v -> it.setRequestProperty(k, v as String) } }
+        val listener = NetworkInterceptorListener { self -> input.getJSONObject("requestHeaders").forEach { k, v -> self.setRequestProperty(k, v as String) } }
         weakReferencesHolder.add(listener)
         builder.setNetworkInterceptorListener(listener)
     }
@@ -370,9 +370,9 @@ fun faceApiSearchParamsFromJSON(input: JSONObject?) = input?.let {
     if (it.has("threshold") && !it.isNull("threshold")) result.threshold = it.getDouble("threshold").toFloat()
     if (it.has("groupIds") && !it.isNull("groupIds")) {
         val jsonArrayGroupIds = it.getJSONArray("groupIds")
-        val groupIds = IntArray(jsonArrayGroupIds.length())
+        val groupIds = arrayOfNulls<String>(jsonArrayGroupIds.length())
         for (i in 0 until jsonArrayGroupIds.length())
-            groupIds[i] = jsonArrayGroupIds.getInt(i)
+            groupIds[i] = jsonArrayGroupIds.getString(i)
         result.groupIds = groupIds
     }
 

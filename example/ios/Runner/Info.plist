@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Flutter Document Reader</string>
+	<string>Document</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,20 +26,20 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NFCReaderUsageDescription</key>
+	<string>To use NFC</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>To use bluetooth device</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To use camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To use gallery</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>NFCReaderUsageDescription</key>
-	<string>To use NFC</string>
-	<key>NSCameraUsageDescription</key>
-	<string>To use camera</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To use gallery</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>To use bluetooth device</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
