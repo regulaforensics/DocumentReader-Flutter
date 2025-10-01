@@ -152,7 +152,7 @@ fun transactionInfoFromJSON(input: JSONObject?) = input?.let {
     val result = TransactionInfo()
     result.transactionId = it.getStringOrNull("transactionId")
     result.tag = it.getStringOrNull("tag")
-    result.sessionLogFolder = it.getString("sessionLogFolder")
+    result.sessionLogFolder = it.getStringOrNull("sessionLogFolder")
     result
 }
 

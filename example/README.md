@@ -5,7 +5,7 @@
 1. Download or the clone current repository using the command `git clone https://github.com/regulaforensics/DocumentReader-Flutter.git`.
 2. Put `regula.license` file at `assets/` (you can get a trial license [here](https://client.regulaforensics.com)).
 3. Put `db.dat` file at `ios/Runner/` and `android/app/src/main/assets/Regula/` (you can get a trial database [here](https://client.regulaforensics.com/customer/databases))
-4. Execute `flutter pub get` within this directory.
+4. Execute `flutter pub get && (cd ios && pod install || pod update)` within this directory.
 5. Run the app: `flutter run`.
 
 ## Additional examples

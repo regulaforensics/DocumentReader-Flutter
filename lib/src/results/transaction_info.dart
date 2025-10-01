@@ -16,8 +16,8 @@ class TransactionInfo {
   String? _tag;
 
   /// The path to the logs folder of the session.
-  String get sessionLogFolder => _sessionLogFolder;
-  late String _sessionLogFolder;
+  String? get sessionLogFolder => _sessionLogFolder;
+  String? _sessionLogFolder;
 
   /// Allows you to deserialize object.
   static TransactionInfo? fromJson(jsonObject) {
