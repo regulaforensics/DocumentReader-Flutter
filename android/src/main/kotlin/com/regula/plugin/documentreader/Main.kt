@@ -48,7 +48,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
     "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
     "getRfidSessionStatus" -> getRfidSessionStatus(callback)
-    "setRfidSessionStatus" -> setRfidSessionStatus(argsNullable(0))
+    "setRfidSessionStatus" -> setRfidSessionStatus()
     "getTag" -> getTag(callback)
     "setTag" -> setTag(argsNullable(0))
     "getTenant" -> getTenant(callback)
@@ -90,7 +90,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "addPKDCertificates" -> addPKDCertificates(args(0))
     "clearPKDCertificates" -> clearPKDCertificates()
     "startNewSession" -> startNewSession()
-    "connectBluetoothDevice" -> connectBluetoothDevice(callback)
+    "connectBluetoothDevice" -> connectBluetoothDevice(args(0), callback)
     "btDeviceRequestFlashing" -> btDeviceRequestFlashing()
     "btDeviceRequestFlashingFullIR" -> btDeviceRequestFlashingFullIR()
     "btDeviceRequestTurnOffAll" -> btDeviceRequestTurnOffAll()
@@ -148,7 +148,7 @@ fun getDocumentReaderStatus(callback: Callback) = callback(Instance().status)
 
 fun getRfidSessionStatus(iosOnly: Callback) = iosOnly(null)
 
-fun setRfidSessionStatus(iosOnly: String?) = Unit
+fun setRfidSessionStatus() = Unit
 
 fun getTag(callback: Callback) = callback(Instance().tag)
 
