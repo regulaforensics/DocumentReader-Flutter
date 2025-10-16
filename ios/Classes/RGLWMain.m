@@ -561,12 +561,12 @@ RGLWCallback savedCallbackForBluetoothResult;
 
 // RGLCustomizationActionDelegate
 - (void)onCustomButtonTappedWithTag:(NSInteger)tag {
-    sendEvent(onCustomButtonTappedEvent, @(tag));
+    sendEvent(drOnCustomButtonTappedEvent, @(tag));
 }
 
 // RGLRecordScanningProcessDelegate
 - (void)didFinishRecordingToFile:(NSURL *)fileURL {
-    sendEvent(videoEncoderCompletionEvent, fileURL.absoluteString);
+    sendEvent(drVideoEncoderCompletionEvent, fileURL.absoluteString);
 }
 
 - (void)didFailWithError:(NSError *)error {
