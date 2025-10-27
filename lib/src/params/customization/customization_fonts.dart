@@ -31,6 +31,30 @@ class CustomizationFonts {
     _set({"rfidProcessingScreenResultLabel": val?.toJson()});
   }
 
+  /// Android only.
+  Font? get rfidEnableNfcTitleText => _rfidEnableNfcTitleText;
+  Font? _rfidEnableNfcTitleText;
+  set rfidEnableNfcTitleText(Font? val) {
+    _rfidEnableNfcTitleText = val;
+    _set({"rfidEnableNfcTitleText": val?.toJson()});
+  }
+
+  /// Android only.
+  Font? get rfidEnableNfcDescriptionText => _rfidEnableNfcDescriptionText;
+  Font? _rfidEnableNfcDescriptionText;
+  set rfidEnableNfcDescriptionText(Font? val) {
+    _rfidEnableNfcDescriptionText = val;
+    _set({"rfidEnableNfcDescriptionText": val?.toJson()});
+  }
+
+  /// Android only.
+  Font? get rfidEnableNfcButtonText => _rfidEnableNfcButtonText;
+  Font? _rfidEnableNfcButtonText;
+  set rfidEnableNfcButtonText(Font? val) {
+    _rfidEnableNfcButtonText = val;
+    _set({"rfidEnableNfcButtonText": val?.toJson()});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationFonts fromJson(jsonObject) {
     var result = CustomizationFonts();
@@ -45,6 +69,15 @@ class CustomizationFonts {
     result.rfidProcessingScreenResultLabel = Font.fromJson(
       jsonObject["rfidProcessingScreenResultLabel"],
     );
+    result.rfidEnableNfcTitleText = Font.fromJson(
+      jsonObject["rfidEnableNfcTitleText"],
+    );
+    result.rfidEnableNfcDescriptionText = Font.fromJson(
+      jsonObject["rfidEnableNfcDescriptionText"],
+    );
+    result.rfidEnableNfcButtonText = Font.fromJson(
+      jsonObject["rfidEnableNfcButtonText"],
+    );
 
     return result;
   }
@@ -57,6 +90,9 @@ class CustomizationFonts {
             rfidProcessingScreenProgressLabel?.toJson(),
         "rfidProcessingScreenResultLabel":
             rfidProcessingScreenResultLabel?.toJson(),
+        "rfidEnableNfcTitleText": rfidEnableNfcTitleText?.toJson(),
+        "rfidEnableNfcDescriptionText": rfidEnableNfcDescriptionText?.toJson(),
+        "rfidEnableNfcButtonText": rfidEnableNfcButtonText?.toJson(),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

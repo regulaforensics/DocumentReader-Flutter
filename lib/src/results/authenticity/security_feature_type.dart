@@ -160,7 +160,13 @@ enum SecurityFeatureType {
 
   LIVENESS_DYNAPRINT(54),
 
-  LIVENESS_GEOMETRY_CHECK(55);
+  LIVENESS_GEOMETRY_CHECK(55),
+
+  /// Age check.
+  AGE_CHECK(56),
+
+  /// Sex check.
+  SEX_CHECK(57);
 
   const SecurityFeatureType(this.value);
   final int value;

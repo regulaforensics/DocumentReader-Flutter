@@ -161,6 +161,7 @@ static NSMutableArray* weakReferencesHolder;
 
     if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
     if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
 
     return config;
@@ -173,6 +174,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"license"] = [self base64Encode: input.licenseData];
     result[@"databasePath"] = input.databasePath;
     result[@"licenseUpdate"] = @(input.licenseUpdateCheck);
+    result[@"licenseUpdateTimeout"] = input.licenseUpdateTimeout;
     result[@"delayedNNLoad"] = @(input.delayedNNLoadEnabled);
 
     return result;
@@ -184,6 +186,7 @@ static NSMutableArray* weakReferencesHolder;
 
     if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
     if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
 
     return config;
@@ -2345,6 +2348,24 @@ static NSMutableArray* weakReferencesHolder;
     result[@"transactionInfo"] = [self generateTransactionInfo:input.transactionInfo];
     
     return result;
+}
+
++(RGLFilterObject*)filterObjectFromJson:(NSDictionary*)input {
+    RGLFilterObject* result = [RGLFilterObject new];
+    
+    result.docIDsFilter = [self filterObjectTypeFromJSON: input[@"docIDsFilter"]];
+    result.docFormatsFilter = [self filterObjectTypeFromJSON: input[@"docFormatsFilter"]];
+    result.docCategoriesFilter = [self filterObjectTypeFromJSON: input[@"docCategoriesFilter"]];
+    result.docCountriesFilter = [self filterObjectTypeFromJSON: input[@"docCountriesFilter"]];
+    
+    return result;
+}
+
++(RGLFilterObjectType*)filterObjectTypeFromJSON:(NSDictionary*)input {
+    NSArray* array = input[@"list"];
+    if ([input[@"isInclude"] boolValue])
+        return [RGLFilterObjectType createIncludeList:array];
+    return [RGLFilterObjectType createExcludeList:array];
 }
 
 +(NSDictionary*)generateDictionary:(NSDictionary<NSNumber*, NSNumber*>*)input {

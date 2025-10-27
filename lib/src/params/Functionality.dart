@@ -203,6 +203,16 @@ class Functionality {
     _set({"torchTurnedOn": val});
   }
 
+  /// When enabled, the SDK prevents both screen recording and screenshots.
+  ///
+  /// Default: `false`.
+  bool? get preventScreenRecording => _preventScreenRecording;
+  bool? _preventScreenRecording;
+  set preventScreenRecording(bool? val) {
+    _preventScreenRecording = val;
+    _set({"preventScreenRecording": val});
+  }
+
   /// Allows you to specify a time interval when the Capture button
   /// has to be displayed after the document is detected.
   /// Don't forget to set the [showCaptureButton] to `true`,
@@ -397,6 +407,7 @@ class Functionality {
     result.manualMultipageMode = jsonObject["manualMultipageMode"];
     result.singleResult = jsonObject["singleResult"];
     result.torchTurnedOn = jsonObject["torchTurnedOn"];
+    result.preventScreenRecording = jsonObject["preventScreenRecording"];
 
     result.showCaptureButtonDelayFromDetect =
         jsonObject["showCaptureButtonDelayFromDetect"];
@@ -454,6 +465,7 @@ class Functionality {
         "manualMultipageMode": manualMultipageMode,
         "singleResult": singleResult,
         "torchTurnedOn": torchTurnedOn,
+        "preventScreenRecording": preventScreenRecording,
         "showCaptureButtonDelayFromDetect": showCaptureButtonDelayFromDetect,
         "showCaptureButtonDelayFromStart": showCaptureButtonDelayFromStart,
         "rfidTimeout": rfidTimeout,

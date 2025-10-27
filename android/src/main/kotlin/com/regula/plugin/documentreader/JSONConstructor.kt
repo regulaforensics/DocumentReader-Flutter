@@ -27,6 +27,8 @@ import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
 import com.regula.documentreader.api.params.DocReaderConfig
 import com.regula.documentreader.api.params.FaceApiParams
+import com.regula.documentreader.api.params.FilterObject
+import com.regula.documentreader.api.params.FilterObjectType
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageInputData
 import com.regula.documentreader.api.params.ImageQA
@@ -192,6 +194,7 @@ fun initConfigFromJSON(input: JSONObject) = input.let {
 
     if (it.has("licenseUpdate")) result.setLicenseUpdate(it.getBoolean("licenseUpdate"))
     if (it.has("delayedNNLoad")) result.isDelayedNNLoad = it.getBoolean("delayedNNLoad")
+    result.licenseUpdateTimeout = it.getDoubleOrNull("licenseUpdateTimeout")
     result.blackList = it.getJSONObjectOrNull("blackList")
     result
 }
@@ -203,6 +206,7 @@ fun generateInitConfig(input: DocReaderConfig?) = input?.let {
         "databasePath" to it.customDbPath,
         "licenseUpdate" to it.isLicenseUpdate,
         "delayedNNLoad" to it.isDelayedNNLoad,
+        "licenseUpdateTimeout" to it.licenseUpdateTimeout,
         "blackList" to it.blackList
     ).toJson()
 }
@@ -213,6 +217,7 @@ fun initBleDeviceConfigFromJSON(input: JSONObject) = input.let {
 
     if (it.has("licenseUpdate")) result.setLicenseUpdate(it.getBoolean("licenseUpdate"))
     if (it.has("delayedNNLoad")) result.isDelayedNNLoad = it.getBoolean("delayedNNLoad")
+    result.licenseUpdateTimeout = it.getDoubleOrNull("licenseUpdateTimeout")
     result.blackList = it.getJSONObjectOrNull("blackList")
     result
 }
@@ -1792,4 +1797,29 @@ fun generateMatrix(input: Matrix?) = input?.let {
     val result = JSONArray()
     for (f in floats) result.put(java.lang.Float.valueOf(f))
     result
+}
+
+fun filterObjectFromJSON(it: JSONObject): FilterObject {
+    val result = FilterObject()
+
+    result.docIDsFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docIDsFilter"))
+    result.docFormatsFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docFormatsFilter"))
+    result.docCategoriesFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docCategoriesFilter"))
+    result.docCountriesFilter = filterObjectTypeStringFromJSON(it.getJSONObjectOrNull("docCountriesFilter"))
+
+    return result
+}
+
+fun filterObjectTypeIntFromJSON(input: JSONObject?): FilterObjectType<Int>? = input?.let {
+    val array = it.getJSONArray("list").toArray<Int>()!!
+    if (it.getBoolean("isInclude"))
+        return FilterObjectType.createIncludeList(array)
+    return FilterObjectType.createExcludeList(array)
+}
+
+fun filterObjectTypeStringFromJSON(input: JSONObject?): FilterObjectType<String>? = input?.let {
+    val array = it.getJSONArray("list").toArray<String>()!!
+    if (it.getBoolean("isInclude"))
+        return FilterObjectType.createIncludeList(array)
+    return FilterObjectType.createExcludeList(array)
 }

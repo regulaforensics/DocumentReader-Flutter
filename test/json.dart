@@ -25,6 +25,24 @@ var faceApiParams = {
   "proxyType": 3,
   "searchParams": faceApiSearchParams,
 };
+var filterObject = {
+  "docIDsFilter": {
+    "list": [1, 2, 3],
+    "isInclude": true
+  },
+  "docFormatsFilter": {
+    "list": [4, 5, 6],
+    "isInclude": false
+  },
+  "docCategoriesFilter": {
+    "list": [7, 8, 9],
+    "isInclude": true
+  },
+  "docCountriesFilter": {
+    "list": ["test1", "test2", "test3"],
+    "isInclude": false
+  },
+};
 var livenessParams = {
   "checkOVI": true,
   "checkMLI": false,
@@ -33,6 +51,11 @@ var livenessParams = {
   "checkBlackAndWhiteCopy": true,
   "checkDynaprint": false,
   "checkGeometry": true,
+  "checkFilters": {
+    "checkOVI": filterObject,
+    "checkMLI": filterObject,
+    "checkHolo": filterObject
+  },
 };
 var authenticityParams = {
   "useLivenessCheck": true,
@@ -51,6 +74,11 @@ var authenticityParams = {
   "checkLetterScreen": false,
   "checkSecurityText": true,
   "livenessParams": livenessParams,
+  "checkFilters": {
+    "checkImagePatterns": filterObject,
+    "checkFibers": filterObject,
+    "checkExtMRZ": filterObject
+  },
 };
 var glaresCheckParams = {"imgMarginPart": 0.5, "maxGlaringPart": 1.5};
 var imageQA = {
@@ -152,6 +180,7 @@ var processParams = {
   "backendProcessingConfig": backendProcessingConfig,
   "authenticityParams": authenticityParams,
   "customParams": {"test1": true, "test2": 1, "test3": "test"},
+  "checkFilters": {"checkAuth": filterObject},
 };
 var font1 = {"name": "AppleSDGothicNeo-Thin", "size": 10, "style": 2};
 var font2 = {"name": "Copperplate-Light", "size": 20, "style": 1};
@@ -164,13 +193,23 @@ var customizationColors = {
   "rfidProcessingScreenProgressBarBackground": 0xff000005,
   "rfidProcessingScreenResultLabelText": 0xff000006,
   "rfidProcessingScreenLoadingBar": 0xff000007,
+  "rfidEnableNfcTitleText": 0xff000008,
+  "rfidEnableNfcDescriptionText": 0xff000009,
+  "rfidEnableNfcButtonText": 0xff000010,
+  "rfidEnableNfcButtonBackground": 0xff000011,
 };
 var customizationFonts = {
   "rfidProcessingScreenHintLabel": font1,
   "rfidProcessingScreenProgressLabel": font2,
   "rfidProcessingScreenResultLabel": font1,
+  "rfidEnableNfcTitleText": font2,
+  "rfidEnableNfcDescriptionText": font1,
+  "rfidEnableNfcButtonText": font2,
 };
-var customizationImages = {"rfidProcessingScreenFailureImage": img1};
+var customizationImages = {
+  "rfidProcessingScreenFailureImage": img1,
+  "rfidEnableNfcImage": img2,
+};
 var customization = {
   "showStatusMessages": true,
   "showResultStatusMessages": false,
@@ -283,6 +322,7 @@ var functionality = {
   "manualMultipageMode": true,
   "singleResult": false,
   "torchTurnedOn": false,
+  "preventScreenRecording": true,
   "showCaptureButtonDelayFromDetect": 0,
   "showCaptureButtonDelayFromStart": 1,
   "rfidTimeout": 2,
@@ -432,6 +472,7 @@ var rfidScenario = {
 var initConfig = {
   "delayedNNLoad": false,
   "licenseUpdate": true,
+  "licenseUpdateTimeout": 1.5,
   "customDb": img1,
   "blackList": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "databasePath": "test",

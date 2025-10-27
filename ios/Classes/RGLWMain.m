@@ -83,6 +83,16 @@
         @"containers": ^{ [self containers :args[0] :args[1] :callback]; },
         @"encryptedContainers": ^{ [self encryptedContainers :args[0] :callback]; },
         @"getTranslation": ^{ [self getTranslation :args[0] :args[1] :callback]; },
+        // remove after finishing old dr support
+        @"processParamsSetCheckFilter": ^{ [self processParamsSetCheckFilter :args[0] :args[1]]; },
+        @"processParamsRemoveCheckFilter": ^{ [self processParamsRemoveCheckFilter :args[0]]; },
+        @"processParamsClearCheckFilter": ^{ [self processParamsClearCheckFilter]; },
+        @"authenticityParamsSetCheckFilter": ^{ [self authenticityParamsSetCheckFilter :args[0] :args[1]]; },
+        @"authenticityParamsRemoveCheckFilter": ^{ [self authenticityParamsRemoveCheckFilter :args[0]]; },
+        @"authenticityParamsClearCheckFilter": ^{ [self authenticityParamsClearCheckFilter]; },
+        @"livenessParamsSetCheckFilter": ^{ [self livenessParamsSetCheckFilter :args[0] :args[1]]; },
+        @"livenessParamsRemoveCheckFilter": ^{ [self livenessParamsRemoveCheckFilter :args[0]]; },
+        @"livenessParamsClearCheckFilter": ^{ [self livenessParamsClearCheckFilter]; },
     };
     ((void(^)(void))Switch[method])();
 }
@@ -518,6 +528,42 @@ RGLWCallback savedCallbackForBluetoothResult;
         callback(RGLFieldTypeGetStringValue([value intValue]));
     else if([className isEqualToString:@"LCID"])
         callback([RGLDocumentReaderTextField lcidName:[value intValue]]);
+}
+
++ (void)processParamsSetCheckFilter:(NSString*)checkType :(NSDictionary*)filter {
+    [RGLDocReader.shared.processParams addFilter:[RGLWJSONConstructor filterObjectFromJson:filter] forCheckType:checkType];
+}
+
++ (void)processParamsRemoveCheckFilter:(NSString*)checkType {
+    [RGLDocReader.shared.processParams removeFilterForCheckType:checkType];
+}
+
++ (void)processParamsClearCheckFilter {
+    [RGLDocReader.shared.processParams clearCheckFilter];
+}
+
++ (void)authenticityParamsSetCheckFilter:(NSString*)checkType :(NSDictionary*)filter {
+    [RGLDocReader.shared.processParams.authenticityParams addFilter:[RGLWJSONConstructor filterObjectFromJson:filter] forCheckType:checkType];
+}
+
++ (void)authenticityParamsRemoveCheckFilter:(NSString*)checkType {
+    [RGLDocReader.shared.processParams.authenticityParams removeFilterForCheckType:checkType];
+}
+
++ (void)authenticityParamsClearCheckFilter {
+    [RGLDocReader.shared.processParams.authenticityParams clearCheckFilter];
+}
+
++ (void)livenessParamsSetCheckFilter:(NSString*)checkType :(NSDictionary*)filter {
+    [RGLDocReader.shared.processParams.authenticityParams.livenessParams addFilter:[RGLWJSONConstructor filterObjectFromJson:filter] forCheckType:checkType];
+}
+
++ (void)livenessParamsRemoveCheckFilter:(NSString*)checkType {
+    [RGLDocReader.shared.processParams.authenticityParams.livenessParams removeFilterForCheckType:checkType];
+}
+
++ (void)livenessParamsClearCheckFilter {
+    [RGLDocReader.shared.processParams.authenticityParams.livenessParams clearCheckFilter];
 }
 
 +(RGLDocumentReaderCompletion _Nonnull)completion {

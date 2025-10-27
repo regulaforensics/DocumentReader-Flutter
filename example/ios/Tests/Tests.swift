@@ -21,7 +21,10 @@ class Tests: XCTestCase {
         compare(name: "onlineProcessingConfig", fromJson: RGLWJSONConstructor.onlineProcessingConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["requestHeaders",
                        "processParams.sessionLogFolder",
-                       "processParams.uvTorchEnabled"])
+                       "processParams.uvTorchEnabled",
+                       "processParams.checkFilters",
+                       "processParams.authenticityParams.checkFilters",
+                       "processParams.authenticityParams.livenessParams.checkFilters"])
     }
     
     func test_recognizeConfig() {
@@ -34,7 +37,10 @@ class Tests: XCTestCase {
         compare(name: "recognizeConfig2", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
-                       "onlineProcessingConfig.requestHeaders"])
+                       "onlineProcessingConfig.requestHeaders",
+                       "onlineProcessingConfig.processParams.checkFilters",
+                       "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
+                       "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"])
     }
     
     func test_scannerConfig() {
@@ -42,7 +48,10 @@ class Tests: XCTestCase {
                 omit: ["cameraId",
                        "onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
-                       "onlineProcessingConfig.requestHeaders"])
+                       "onlineProcessingConfig.requestHeaders",
+                       "onlineProcessingConfig.processParams.checkFilters",
+                       "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
+                       "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"])
     }
     
     // params.process_params
@@ -56,11 +65,14 @@ class Tests: XCTestCase {
     }
     
     func test_livenessParams() {
-        compare(name: "livenessParams", fromJson: RGLWJSONConstructor.livenessParams, generate: RGLWJSONConstructor.generate)
+        compare(name: "livenessParams", fromJson: RGLWJSONConstructor.livenessParams, generate: RGLWJSONConstructor.generate,
+                omit: ["checkFilters"])
     }
     
     func test_authenticityParams() {
-        compare(name: "authenticityParams", fromJson: RGLWJSONConstructor.authenticityParams, generate: RGLWJSONConstructor.generate)
+        compare(name: "authenticityParams", fromJson: RGLWJSONConstructor.authenticityParams, generate: RGLWJSONConstructor.generate,
+                omit: ["checkFilters",
+                       "livenessParams.checkFilters"])
     }
     
     func test_glaresCheckParams() {
@@ -82,7 +94,10 @@ class Tests: XCTestCase {
     func test_processParams() {
         compare(name: "processParams", fromJson: RGLWJSONConstructor.processParams, generate: RGLWJSONConstructor.generate,
                 omit: ["sessionLogFolder",
-                       "uvTorchEnabled"])
+                       "uvTorchEnabled",
+                       "checkFilters",
+                       "authenticityParams.checkFilters",
+                       "authenticityParams.livenessParams.checkFilters"])
     }
     
     // params.rfid_scenario
@@ -119,7 +134,17 @@ class Tests: XCTestCase {
                        "statusTextFont.style",
                        "resultStatusTextFont.style",
                        "multipageButtonTextFont.style",
-                       "fonts",])
+                       "colors.rfidEnableNfcButtonBackground",
+                       "colors.rfidEnableNfcButtonText",
+                       "colors.rfidEnableNfcDescriptionText",
+                       "colors.rfidEnableNfcTitleText",
+                       "fonts.rfidProcessingScreenHintLabel.style",
+                       "fonts.rfidProcessingScreenProgressLabel.style",
+                       "fonts.rfidProcessingScreenResultLabel.style",
+                       "fonts.rfidEnableNfcTitleText",
+                       "fonts.rfidEnableNfcDescriptionText",
+                       "fonts.rfidEnableNfcButtonText",
+                       "images.rfidEnableNfcImage",])
     }
     
     func test_functionality() {
