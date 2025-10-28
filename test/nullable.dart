@@ -1,5 +1,5 @@
 Map<String, List<String>?> nullableMap = {
-  "initConfig": ["databasePath", "customDb"],
+  "initConfig": ["databasePath", "customDb", "licenseUpdateTimeout"],
   "recognizeConfig": [
     "onlineProcessingConfig",
     "livePortrait",
@@ -14,13 +14,14 @@ Map<String, List<String>?> nullableMap = {
   "onlineProcessingConfig": ["requestHeaders"],
   "faceApiSearchParams": ["groupIds"],
   "faceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
-  "livenessParams!": [],
-  "authenticityParams!": ["livenessParams"],
+  "livenessParams!": ["checkFilters"],
+  "authenticityParams!": ["livenessParams", "checkFilters"],
   "glaresCheckParams!": [],
   "rfidParams!": [],
   "imageQA!": [],
   "backendProcessingConfig": ["rfidServerSideChipVerification", "httpHeaders"],
-  "processParams!": ["imageQA", "authenticityParams"],
+  "filterObject!": [],
+  "processParams!": ["imageQA", "authenticityParams", "checkFilters"],
   "rfidScenario!": [
     "defaultReadingBufferSize",
     "eDLDataGroups",

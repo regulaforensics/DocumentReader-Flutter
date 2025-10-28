@@ -121,6 +121,28 @@ class AuthenticityParams {
     _set({"checkSecurityText": val});
   }
 
+  Map<AuthenticityCheckType, FilterObject> _checkFilters = {};
+
+  void setCheckFilter(AuthenticityCheckType checkType, FilterObject filter) {
+    _checkFilters[checkType] = filter;
+    _set({
+      "setCheckFilter": {
+        "checkType": checkType.value,
+        "filterObject": filter.toJson(),
+      },
+    });
+  }
+
+  void removeCheckFilter(AuthenticityCheckType checkType) {
+    _checkFilters.remove(checkType);
+    _set({"removeCheckFilter": checkType.value});
+  }
+
+  void clearCheckFilter() {
+    _checkFilters.clear();
+    _set({"clearCheckFilter": null});
+  }
+
   /// Allows you to deserialize object.
   static AuthenticityParams fromJson(jsonObject) {
     if (jsonObject == null) return AuthenticityParams();
@@ -145,6 +167,13 @@ class AuthenticityParams {
     result.checkPhotoComparison = jsonObject["checkPhotoComparison"];
     result.checkLetterScreen = jsonObject["checkLetterScreen"];
     result.checkSecurityText = jsonObject["checkSecurityText"];
+    result._checkFilters = ((jsonObject["checkFilters"] ?? {}) as Map).map(
+      (key, value) => MapEntry(
+        AuthenticityCheckType.getByValue(key)!,
+        FilterObject.fromJson(value),
+      ),
+    );
+    result.testSetters["checkFilters"] = jsonObject["checkFilters"];
 
     return result;
   }
@@ -167,6 +196,9 @@ class AuthenticityParams {
         "checkPhotoComparison": checkPhotoComparison,
         "checkLetterScreen": checkLetterScreen,
         "checkSecurityText": checkSecurityText,
+        "checkFilters": _checkFilters.map(
+          (key, value) => MapEntry(key.value, value.toJson()),
+        ),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {ProcessParams? directParent}) {
@@ -181,4 +213,34 @@ class AuthenticityParams {
 
   @visibleForTesting
   Map<String, dynamic> testSetters = {};
+}
+
+enum AuthenticityCheckType {
+  USE_LIVENESS("checkLiveness"),
+  UV_LUMINISCENCE("checkUVLuminiscence"),
+  IR_B900("checkIRB900"),
+  IMAGE_PATTERNS("checkImagePatterns"),
+  FIBERS("checkFibers"),
+  EXT_MRZ("checkExtMRZ"),
+  EXT_OCR("checkExtOCR"),
+  AXIAL("checkAxial"),
+  BARCODE_FORMAT("checkBarcodeFormat"),
+  IR_VISIBILITY("checkIRVisibility"),
+  IPI("checkIPI"),
+  PHOTO_EMBEDDING("checkPhotoEmbedding"),
+  PHOTO_COMPARISON("checkPhotoComparison"),
+  LETTER_SCREEN("checkLetterScreen"),
+  SECURITY_TEXT("checkSecurityText");
+
+  const AuthenticityCheckType(this.value);
+  final String value;
+
+  static AuthenticityCheckType? getByValue(String? i) {
+    if (i == null) return null;
+    try {
+      return AuthenticityCheckType.values.firstWhere((x) => x.value == i);
+    } catch (_) {
+      return null;
+    }
+  }
 }

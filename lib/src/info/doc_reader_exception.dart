@@ -138,6 +138,12 @@ enum ErrorCodes {
 
   WRONG_INPUT(400),
 
+  /// Missing output result.
+  RESULT_UNAVAILABLE(410),
+
+  /// Incorrect result output.
+  RESULT_WRONG_OUTPUT(411),
+
   STATE_EXCEPTION(500),
 
   BLE_EXCEPTION(600),

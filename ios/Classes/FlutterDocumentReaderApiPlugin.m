@@ -22,8 +22,8 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*(){
     setupEventChannel(registrar, paCertificateCompletionEvent, [RGLWPACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taCertificateCompletionEvent, [RGLWTACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taSignatureCompletionEvent, [RGLWTASignatureCompletionStreamHandler new]);
-    setupEventChannel(registrar, videoEncoderCompletionEvent, [RGLWVideoEncoderCompletionStreamHandler new]);
-    setupEventChannel(registrar, onCustomButtonTappedEvent, [RGLWOnCustomButtonTappedStreamHandler new]);
+    setupEventChannel(registrar, drVideoEncoderCompletionEvent, [RGLWVideoEncoderCompletionStreamHandler new]);
+    setupEventChannel(registrar, drOnCustomButtonTappedEvent, [RGLWOnCustomButtonTappedStreamHandler new]);
 
     FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"flutter_document_reader_api/method" binaryMessenger:[registrar messenger]];
     [registrar addMethodCallDelegate:[FlutterDocumentReaderApiPlugin new] channel:channel];
@@ -144,24 +144,24 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*(){
 
 @implementation RGLWVideoEncoderCompletionStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    eventSinks[videoEncoderCompletionEvent] = eventSink;
+    eventSinks[drVideoEncoderCompletionEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    eventSinks[videoEncoderCompletionEvent] = nil;
+    eventSinks[drVideoEncoderCompletionEvent] = nil;
     return nil;
 }
 @end
 
 @implementation RGLWOnCustomButtonTappedStreamHandler
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    eventSinks[onCustomButtonTappedEvent] = eventSink;
+    eventSinks[drOnCustomButtonTappedEvent] = eventSink;
     return nil;
 }
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
-    eventSinks[onCustomButtonTappedEvent] = nil;
+    eventSinks[drOnCustomButtonTappedEvent] = nil;
     return nil;
 }
 @end

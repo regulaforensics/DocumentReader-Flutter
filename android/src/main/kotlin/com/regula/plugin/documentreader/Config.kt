@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.regula.documentreader.api.enums.CustomizationColor
 import com.regula.documentreader.api.enums.CustomizationFont
 import com.regula.documentreader.api.enums.CustomizationImage
-import com.regula.documentreader.api.enums.LogLevel
+import com.regula.documentreader.api.internal.enums.LogLevel
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageQA
@@ -47,6 +47,7 @@ fun setFunctionality(config: Functionality, input: JSONObject) = input.forEach {
         "recordScanningProcess" -> editor.setDoRecordProcessingVideo(v as Boolean)
         "manualMultipageMode" -> editor.setManualMultipageMode(v as Boolean)
         "torchTurnedOn" -> editor.setTorchTurnedOn(v as Boolean)
+        "preventScreenRecording" -> editor.setPreventScreenRecording(v as Boolean)
         "showCaptureButtonDelayFromDetect" -> editor.setShowCaptureButtonDelayFromDetect(v.toLong())
         "showCaptureButtonDelayFromStart" -> editor.setShowCaptureButtonDelayFromStart(v.toLong())
         "orientation" -> editor.setOrientation(v.toInt())
@@ -82,6 +83,7 @@ fun getFunctionality(input: Functionality) = mapOf(
     "recordScanningProcess" to input.doRecordProcessingVideo(),
     "manualMultipageMode" to input.isManualMultipageMode,
     "torchTurnedOn" to input.isTorchTurnedOn,
+    "preventScreenRecording" to input.doPreventScreenRecording(),
     "showCaptureButtonDelayFromDetect" to input.showCaptureButtonDelayFromDetect,
     "showCaptureButtonDelayFromStart" to input.showCaptureButtonDelayFromStart,
     "orientation" to input.orientation,
@@ -181,6 +183,16 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "authenticityParams" -> {
             if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams.defaultParams()
             setAuthenticityParams(processParams.authenticityParams!!, v as JSONObject)
+        }
+
+        "setCheckFilter" -> processParams.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
+        "removeCheckFilter" -> processParams.removeCheckFilter(v as String)
+        "clearCheckFilter" -> processParams.clearCheckFilter()
+        "checkFilters" -> {
+            processParams.clearCheckFilter()
+            (v as JSONObject).forEach { key, value ->
+                processParams.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
+            }
         }
     }
 }
@@ -693,6 +705,16 @@ fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.fo
             if (input.livenessParams == null) input.livenessParams = LivenessParams.defaultParams()
             setLivenessParams(input.livenessParams!!, v as JSONObject)
         }
+
+        "setCheckFilter" -> input.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
+        "removeCheckFilter" -> input.removeCheckFilter(v as String)
+        "clearCheckFilter" -> input.clearCheckFilter()
+        "checkFilters" -> {
+            input.clearCheckFilter()
+            (v as JSONObject).forEach { key, value ->
+                input.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
+            }
+        }
     }
 }
 
@@ -726,6 +748,16 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
         "checkDynaprint" -> input.checkDynaprint = v as Boolean
         "checkGeometry" -> input.checkGeometry = v as Boolean
+
+        "setCheckFilter" -> input.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
+        "removeCheckFilter" -> input.removeCheckFilter(v as String)
+        "clearCheckFilter" -> input.clearCheckFilter()
+        "checkFilters" -> {
+            input.clearCheckFilter()
+            (v as JSONObject).forEach { key, value ->
+                input.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
+            }
+        }
     }
 }
 
@@ -752,6 +784,10 @@ fun setColors(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) 
         "rfidProcessingScreenProgressBarBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND, value)
         "rfidProcessingScreenResultLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT, value)
         "rfidProcessingScreenLoadingBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR, value)
+        "rfidEnableNfcTitleText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_TITLE_TEXT, value)
+        "rfidEnableNfcDescriptionText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_DESCRIPTION_TEXT, value)
+        "rfidEnableNfcButtonText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_TEXT, value)
+        "rfidEnableNfcButtonBackground" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_BACKGROUND, value)
     }
 }
 
@@ -764,6 +800,10 @@ fun getColors(input: Map<CustomizationColor, Long>) = mapOf(
     "rfidProcessingScreenProgressBarBackground" to input[CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND],
     "rfidProcessingScreenResultLabelText" to input[CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT],
     "rfidProcessingScreenLoadingBar" to input[CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR],
+    "rfidEnableNfcTitleText" to input[CustomizationColor.RFID_ENABLE_NFC_TITLE_TEXT],
+    "rfidEnableNfcDescriptionText" to input[CustomizationColor.RFID_ENABLE_NFC_DESCRIPTION_TEXT],
+    "rfidEnableNfcButtonText" to input[CustomizationColor.RFID_ENABLE_NFC_BUTTON_TEXT],
+    "rfidEnableNfcButtonBackground" to input[CustomizationColor.RFID_ENABLE_NFC_BUTTON_BACKGROUND],
 ).toJson()
 
 fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, value ->
@@ -771,6 +811,9 @@ fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) =
         "rfidProcessingScreenHintLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.setFont(input, value)
         "rfidProcessingScreenProgressLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.setFont(input, value)
         "rfidProcessingScreenResultLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.setFont(input, value)
+        "rfidEnableNfcTitleText" -> CustomizationFont.RFID_ENABLE_NFC_TITLE_TEXT.setFont(input, value)
+        "rfidEnableNfcDescriptionText" -> CustomizationFont.RFID_ENABLE_NFC_DESCRIPTION_TEXT.setFont(input, value)
+        "rfidEnableNfcButtonText" -> CustomizationFont.RFID_ENABLE_NFC_BUTTON_TEXT.setFont(input, value)
     }
 }
 
@@ -778,16 +821,21 @@ fun getFonts(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFo
     "rfidProcessingScreenHintLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.getFont(fonts, sizes),
     "rfidProcessingScreenProgressLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.getFont(fonts, sizes),
     "rfidProcessingScreenResultLabel" to CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.getFont(fonts, sizes),
+    "rfidEnableNfcTitleText" to CustomizationFont.RFID_ENABLE_NFC_TITLE_TEXT.getFont(fonts, sizes),
+    "rfidEnableNfcDescriptionText" to CustomizationFont.RFID_ENABLE_NFC_DESCRIPTION_TEXT.getFont(fonts, sizes),
+    "rfidEnableNfcButtonText" to CustomizationFont.RFID_ENABLE_NFC_BUTTON_TEXT.getFont(fonts, sizes),
 ).toJson()
 
 fun setImages(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, v ->
     when (key) {
         "rfidProcessingScreenFailureImage" -> input.setImage(CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE, v.toDrawable())
+        "rfidEnableNfcImage" -> input.setImage(CustomizationImage.RFID_ENABLE_NFC_IMAGE, v.toDrawable())
     }
 }
 
 fun getImages(input: Map<CustomizationImage, Drawable>) = mapOf(
     "rfidProcessingScreenFailureImage" to (input[CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_ic_error)).toBase64(),
+    "rfidEnableNfcImage" to (input[CustomizationImage.RFID_ENABLE_NFC_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_enable_nfc)).toBase64(),
 ).toJson()
 
 fun CustomizationFont.getFont(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFont, Int>) =

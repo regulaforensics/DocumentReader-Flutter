@@ -153,6 +153,12 @@ enum CheckDiagnose {
 
   CHD_FIELD_POS_CORRECTOR_INCORRECT_HEAD_POSITION(86),
 
+  /// Age check error.
+  CHD_FIELD_POS_CORRECTOR_AGE_CHECK_ERROR(87),
+
+  /// Sex check error.
+  CHD_FIELD_POS_CORRECTOR_SEX_CHECK_ERROR(88),
+
   /// OVI object is not visible in IR.
   OVI_IR_INVISIBLE(90),
 

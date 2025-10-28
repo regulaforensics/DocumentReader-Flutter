@@ -44,7 +44,7 @@ import org.json.JSONObject
 import com.regula.plugin.documentreader.Convert.toBase64
 import com.regula.plugin.documentreader.Convert.toByteArray
 
-fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
+fun methodCall(method: String, callback: (Any?) -> Unit): Any? = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
     "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
     "getRfidSessionStatus" -> getRfidSessionStatus(callback)
@@ -122,6 +122,16 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "finalizePackage" -> finalizePackage(callback)
     "endBackendTransaction" -> endBackendTransaction()
     "getTranslation" -> getTranslation(callback, args(0), args(1))
+    // remove after finishing old dr support
+    "processParamsSetCheckFilter" -> processParamsSetCheckFilter(args(0), args(1))
+    "processParamsRemoveCheckFilter" -> processParamsRemoveCheckFilter(args(0))
+    "processParamsClearCheckFilter" -> processParamsClearCheckFilter()
+    "authenticityParamsSetCheckFilter" -> authenticityParamsSetCheckFilter(args(0), args(1))
+    "authenticityParamsRemoveCheckFilter" -> authenticityParamsRemoveCheckFilter(args(0))
+    "authenticityParamsClearCheckFilter" -> authenticityParamsClearCheckFilter()
+    "livenessParamsSetCheckFilter" -> livenessParamsSetCheckFilter(args(0), args(1))
+    "livenessParamsRemoveCheckFilter" -> livenessParamsRemoveCheckFilter(args(0))
+    "livenessParamsClearCheckFilter" -> livenessParamsClearCheckFilter()
     else -> Unit
 }
 
@@ -451,6 +461,19 @@ fun getTranslation(callback: Callback, className: String, value: Int) = when (cl
     "LCID" -> callback(LCID.getTranslation(context, value))
     else -> Unit
 }
+
+// remove after finishing old dr support
+fun processParamsSetCheckFilter(checkType: String, filter: JSONObject) = Instance().processParams().setCheckFilter(checkType, filterObjectFromJSON(filter))
+fun processParamsRemoveCheckFilter(checkType: String) = Instance().processParams().removeCheckFilter(checkType)
+fun processParamsClearCheckFilter() = Instance().processParams().clearCheckFilter()
+
+fun authenticityParamsSetCheckFilter(checkType: String, filter: JSONObject) = Instance().processParams().authenticityParams?.setCheckFilter(checkType, filterObjectFromJSON(filter))
+fun authenticityParamsRemoveCheckFilter(checkType: String) = Instance().processParams().authenticityParams?.removeCheckFilter(checkType)
+fun authenticityParamsClearCheckFilter() = Instance().processParams().authenticityParams?.clearCheckFilter()
+
+fun livenessParamsSetCheckFilter(checkType: String, filter: JSONObject) = Instance().processParams().authenticityParams?.livenessParams?.setCheckFilter(checkType, filterObjectFromJSON(filter))
+fun livenessParamsRemoveCheckFilter(checkType: String) = Instance().processParams().authenticityParams?.livenessParams?.removeCheckFilter(checkType)
+fun livenessParamsClearCheckFilter() = Instance().processParams().authenticityParams?.livenessParams?.clearCheckFilter()
 
 // --------------------------------------------------------------------------------------------------------------------------
 
