@@ -188,6 +188,7 @@
     if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
     if (options[@"disableAuthResolutionFilter"]) processParams.disableAuthResolutionFilter = options[@"disableAuthResolutionFilter"];
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
+    if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -327,6 +328,7 @@
     result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
     result[@"disableAuthResolutionFilter"] = processParams.disableAuthResolutionFilter;
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
+    result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
