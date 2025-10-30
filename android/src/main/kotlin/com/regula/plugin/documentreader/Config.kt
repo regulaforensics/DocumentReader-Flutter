@@ -143,6 +143,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "generateAlpha2Codes" -> processParams.generateAlpha2Codes = v as Boolean
         "disableAuthResolutionFilter" -> processParams.disableAuthResolutionFilter = v as Boolean
         "strictSecurityChecks" -> processParams.strictSecurityChecks = v as Boolean
+        "returnTransliteratedFields" -> processParams.returnTransliteratedFields = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -239,6 +240,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "generateAlpha2Codes" to processParams.generateAlpha2Codes,
     "disableAuthResolutionFilter" to processParams.disableAuthResolutionFilter,
     "strictSecurityChecks" to processParams.strictSecurityChecks,
+    "returnTransliteratedFields" to processParams.returnTransliteratedFields,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,

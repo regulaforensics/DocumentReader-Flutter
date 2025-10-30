@@ -142,6 +142,7 @@ var processParams = {
   "generateAlpha2Codes": false,
   "disableAuthResolutionFilter": true,
   "strictSecurityChecks": false,
+  "returnTransliteratedFields": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
