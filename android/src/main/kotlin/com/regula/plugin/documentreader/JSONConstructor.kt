@@ -1811,7 +1811,7 @@ fun filterObjectFromJSON(it: JSONObject): FilterObject {
 }
 
 fun filterObjectTypeIntFromJSON(input: JSONObject?): FilterObjectType<Int>? = input?.let {
-    val array = it.getJSONArray("list").toArray<Int>()!!
+    val array = it.getJSONArray("list").toIntArray()!!.toTypedArray()
     if (it.getBoolean("isInclude"))
         return FilterObjectType.createIncludeList(array)
     return FilterObjectType.createExcludeList(array)
