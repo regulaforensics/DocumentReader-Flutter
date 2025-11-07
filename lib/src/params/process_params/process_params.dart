@@ -761,7 +761,7 @@ class ProcessParams {
 
   void clearCheckFilter() {
     _checkFilters.clear();
-    _set({"clearCheckFilter": null});
+    _set({"clearCheckFilter": ''});
   }
 
   /// Allows you to deserialize object.
