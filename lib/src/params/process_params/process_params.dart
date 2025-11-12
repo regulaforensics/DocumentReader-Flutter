@@ -742,28 +742,6 @@ class ProcessParams {
     _set({"customParams": val});
   }
 
-  Map<FilterCheckType, FilterObject> _checkFilters = {};
-
-  void setCheckFilter(FilterCheckType checkType, FilterObject filter) {
-    _checkFilters[checkType] = filter;
-    _set({
-      "setCheckFilter": {
-        "checkType": checkType.value,
-        "filterObject": filter.toJson(),
-      }
-    });
-  }
-
-  void removeCheckFilter(FilterCheckType checkType) {
-    _checkFilters.remove(checkType);
-    _set({"removeCheckFilter": checkType.value});
-  }
-
-  void clearCheckFilter() {
-    _checkFilters.clear();
-    _set({"clearCheckFilter": ''});
-  }
-
   /// Allows you to deserialize object.
   static ProcessParams fromJson(jsonObject) {
     var result = ProcessParams();
@@ -882,14 +860,6 @@ class ProcessParams {
 
     result.customParams = jsonObject["customParams"];
 
-    result._checkFilters = ((jsonObject["checkFilters"] ?? {}) as Map).map(
-      (key, value) => MapEntry(
-        FilterCheckType.getByValue(key)!,
-        FilterObject.fromJson(value),
-      ),
-    );
-    result.testSetters["checkFilters"] = jsonObject["checkFilters"];
-
     return result;
   }
 
@@ -974,9 +944,6 @@ class ProcessParams {
         "backendProcessingConfig": backendProcessingConfig?.toJson(),
         "authenticityParams": authenticityParams.toJson(),
         "customParams": customParams,
-        "checkFilters": _checkFilters.map(
-          (key, value) => MapEntry(key.value, value.toJson()),
-        ),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json) {
@@ -1092,21 +1059,5 @@ enum MrzDetectionModes {
   static MrzDetectionModes? getByValue(int? i) {
     if (i == null) return null;
     return MrzDetectionModes.values.firstWhere((x) => x.value == i);
-  }
-}
-
-enum FilterCheckType {
-  AUTH("checkAuth");
-
-  const FilterCheckType(this.value);
-  final String value;
-
-  static FilterCheckType? getByValue(String? i) {
-    if (i == null) return null;
-    try {
-      return FilterCheckType.values.firstWhere((x) => x.value == i);
-    } catch (_) {
-      return null;
-    }
   }
 }

@@ -273,16 +273,6 @@
         if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
         [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
     }
-    
-    if (options[@"setCheckFilter"]) [processParams
-                                     addFilter:[RGLWJSONConstructor filterObjectFromJson: options[@"setCheckFilter"][@"filterObject"]] forCheckType:options[@"setCheckFilter"][@"checkType"]];
-    if (options[@"removeCheckFilter"]) [processParams removeFilterForCheckType: options[@"removeCheckFilter"]];
-    if (options[@"clearCheckFilter"]) [processParams clearCheckFilter];
-    if (options[@"checkFilters"]) {
-        [processParams clearCheckFilter];
-        for (NSString* key in options[@"checkFilters"])
-            [processParams addFilter:[RGLWJSONConstructor filterObjectFromJson: options[@"checkFilters"][key]] forCheckType: key];
-    }
 }
 
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams {
@@ -1019,16 +1009,6 @@
     if([input valueForKey:@"checkLetterScreen"] != nil)
         result.checkLetterScreen = [input valueForKey:@"checkLetterScreen"];
     if(input[@"checkSecurityText"]) result.checkSecurityText = input[@"checkSecurityText"];
-    
-    if (input[@"setCheckFilter"]) [result
-                                     addFilter:[RGLWJSONConstructor filterObjectFromJson: input[@"setCheckFilter"][@"filterObject"]] forCheckType:input[@"setCheckFilter"][@"checkType"]];
-    if (input[@"removeCheckFilter"]) [result removeFilterForCheckType: input[@"removeCheckFilter"]];
-    if (input[@"clearCheckFilter"]) [result clearCheckFilter];
-    if (input[@"checkFilters"]) {
-        [result clearCheckFilter];
-        for (NSString* key in input[@"checkFilters"])
-            [result addFilter:[RGLWJSONConstructor filterObjectFromJson: input[@"checkFilters"][key]] forCheckType: key];
-    }
 }
 
 +(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input {
@@ -1067,16 +1047,6 @@
     if(input[@"checkBlackAndWhiteCopy"]) result.checkBlackAndWhiteCopy = input[@"checkBlackAndWhiteCopy"];
     if(input[@"checkDynaprint"]) result.checkDynaprint = input[@"checkDynaprint"];
     if(input[@"checkGeometry"]) result.checkGeometry = input[@"checkGeometry"];
-
-    if (input[@"setCheckFilter"]) [result
-                                     addFilter:[RGLWJSONConstructor filterObjectFromJson: input[@"setCheckFilter"][@"filterObject"]] forCheckType:input[@"setCheckFilter"][@"checkType"]];
-    if (input[@"removeCheckFilter"]) [result removeFilterForCheckType: input[@"removeCheckFilter"]];
-    if (input[@"clearCheckFilter"]) [result clearCheckFilter];
-    if (input[@"checkFilters"]) {
-        [result clearCheckFilter];
-        for (NSString* key in input[@"checkFilters"])
-            [result addFilter:[RGLWJSONConstructor filterObjectFromJson: input[@"checkFilters"][key]] forCheckType: key];
-    }
 }
 
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {

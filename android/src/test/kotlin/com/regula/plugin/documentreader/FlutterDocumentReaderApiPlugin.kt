@@ -26,10 +26,7 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun onlineProcessingConfig() = compare(
         "onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig,
-        "requestHeaders",
-        "processParams.checkFilters",
-        "processParams.authenticityParams.checkFilters",
-        "processParams.authenticityParams.livenessParams.checkFilters"
+        "requestHeaders"
     )
 
     @Test
@@ -41,19 +38,13 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun recognizeConfig2() = compare(
         "recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig,
-        "onlineProcessingConfig.requestHeaders",
-        "onlineProcessingConfig.processParams.checkFilters",
-        "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
-        "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"
+        "onlineProcessingConfig.requestHeaders"
     )
 
     @Test
     fun scannerConfig() = compare(
         "scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig,
-        "onlineProcessingConfig.requestHeaders",
-        "onlineProcessingConfig.processParams.checkFilters",
-        "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
-        "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"
+        "onlineProcessingConfig.requestHeaders"
     )
 
     // params.process_params
@@ -65,17 +56,10 @@ class FlutterDocumentReaderApiPluginTest {
     fun faceApiParams() = compare("faceApiParams", ::faceApiParamsFromJSON, ::generateFaceApiParams)
 
     @Test
-    fun livenessParams() = compare(
-        "livenessParams", ::livenessParamsFromJSON, ::generateLivenessParams,
-        "checkFilters"
-    )
+    fun livenessParams() = compare("livenessParams", ::livenessParamsFromJSON, ::generateLivenessParams)
 
     @Test
-    fun authenticityParams() = compare(
-        "authenticityParams", ::authenticityParamsFromJSON, ::generateAuthenticityParams,
-        "checkFilters",
-        "livenessParams.checkFilters"
-    )
+    fun authenticityParams() = compare("authenticityParams", ::authenticityParamsFromJSON, ::generateAuthenticityParams)
 
     @Test
     fun glaresCheckParams() = compare("glaresCheckParams", ::glaresCheckParamsFromJSON, ::generateGlaresCheckParams)
@@ -90,12 +74,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun backendProcessingConfig() = compare("backendProcessingConfig", ::backendProcessingConfigFromJSON, ::generateBackendProcessingConfig)
 
     @Test
-    fun processParams() = compare(
-        "processParams", ::processParamFromJSON, ::generateProcessParam,
-        "checkFilters",
-        "authenticityParams.checkFilters",
-        "authenticityParams.livenessParams.checkFilters"
-    )
+    fun processParams() = compare("processParams", ::processParamFromJSON, ::generateProcessParam)
 
     //params.rfid_scenario
 

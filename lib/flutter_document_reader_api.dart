@@ -21,7 +21,6 @@ part 'src/internal/bridge.dart';
 part 'src/internal/event_channels.dart';
 
 part 'src/params/process_params/process_params.dart';
-part 'src/params/process_params/filter_object.dart';
 part 'src/params/process_params/image_qa.dart';
 part 'src/params/process_params/glares_check_params.dart';
 part 'src/params/process_params/face_api_search_params.dart';
