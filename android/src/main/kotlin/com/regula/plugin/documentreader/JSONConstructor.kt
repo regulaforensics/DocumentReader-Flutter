@@ -27,8 +27,6 @@ import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
 import com.regula.documentreader.api.params.DocReaderConfig
 import com.regula.documentreader.api.params.FaceApiParams
-import com.regula.documentreader.api.params.FilterObject
-import com.regula.documentreader.api.params.FilterObjectType
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageInputData
 import com.regula.documentreader.api.params.ImageQA
@@ -1797,29 +1795,4 @@ fun generateMatrix(input: Matrix?) = input?.let {
     val result = JSONArray()
     for (f in floats) result.put(java.lang.Float.valueOf(f))
     result
-}
-
-fun filterObjectFromJSON(it: JSONObject): FilterObject {
-    val result = FilterObject()
-
-    result.docIDsFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docIDsFilter"))
-    result.docFormatsFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docFormatsFilter"))
-    result.docCategoriesFilter = filterObjectTypeIntFromJSON(it.getJSONObjectOrNull("docCategoriesFilter"))
-    result.docCountriesFilter = filterObjectTypeStringFromJSON(it.getJSONObjectOrNull("docCountriesFilter"))
-
-    return result
-}
-
-fun filterObjectTypeIntFromJSON(input: JSONObject?): FilterObjectType<Int>? = input?.let {
-    val array = it.getJSONArray("list").toIntArray()!!.toTypedArray()
-    if (it.getBoolean("isInclude"))
-        return FilterObjectType.createIncludeList(array)
-    return FilterObjectType.createExcludeList(array)
-}
-
-fun filterObjectTypeStringFromJSON(input: JSONObject?): FilterObjectType<String>? = input?.let {
-    val array = it.getJSONArray("list").toArray<String>()!!
-    if (it.getBoolean("isInclude"))
-        return FilterObjectType.createIncludeList(array)
-    return FilterObjectType.createExcludeList(array)
 }

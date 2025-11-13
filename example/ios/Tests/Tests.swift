@@ -21,10 +21,7 @@ class Tests: XCTestCase {
         compare(name: "onlineProcessingConfig", fromJson: RGLWJSONConstructor.onlineProcessingConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["requestHeaders",
                        "processParams.sessionLogFolder",
-                       "processParams.uvTorchEnabled",
-                       "processParams.checkFilters",
-                       "processParams.authenticityParams.checkFilters",
-                       "processParams.authenticityParams.livenessParams.checkFilters"])
+                       "processParams.uvTorchEnabled"])
     }
     
     func test_recognizeConfig() {
@@ -37,10 +34,7 @@ class Tests: XCTestCase {
         compare(name: "recognizeConfig2", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
-                       "onlineProcessingConfig.requestHeaders",
-                       "onlineProcessingConfig.processParams.checkFilters",
-                       "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
-                       "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"])
+                       "onlineProcessingConfig.requestHeaders"])
     }
     
     func test_scannerConfig() {
@@ -48,10 +42,7 @@ class Tests: XCTestCase {
                 omit: ["cameraId",
                        "onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
-                       "onlineProcessingConfig.requestHeaders",
-                       "onlineProcessingConfig.processParams.checkFilters",
-                       "onlineProcessingConfig.processParams.authenticityParams.checkFilters",
-                       "onlineProcessingConfig.processParams.authenticityParams.livenessParams.checkFilters"])
+                       "onlineProcessingConfig.requestHeaders"])
     }
     
     // params.process_params
@@ -65,14 +56,11 @@ class Tests: XCTestCase {
     }
     
     func test_livenessParams() {
-        compare(name: "livenessParams", fromJson: RGLWJSONConstructor.livenessParams, generate: RGLWJSONConstructor.generate,
-                omit: ["checkFilters"])
+        compare(name: "livenessParams", fromJson: RGLWJSONConstructor.livenessParams, generate: RGLWJSONConstructor.generate)
     }
     
     func test_authenticityParams() {
-        compare(name: "authenticityParams", fromJson: RGLWJSONConstructor.authenticityParams, generate: RGLWJSONConstructor.generate,
-                omit: ["checkFilters",
-                       "livenessParams.checkFilters"])
+        compare(name: "authenticityParams", fromJson: RGLWJSONConstructor.authenticityParams, generate: RGLWJSONConstructor.generate)
     }
     
     func test_glaresCheckParams() {
@@ -94,10 +82,7 @@ class Tests: XCTestCase {
     func test_processParams() {
         compare(name: "processParams", fromJson: RGLWJSONConstructor.processParams, generate: RGLWJSONConstructor.generate,
                 omit: ["sessionLogFolder",
-                       "uvTorchEnabled",
-                       "checkFilters",
-                       "authenticityParams.checkFilters",
-                       "authenticityParams.livenessParams.checkFilters"])
+                       "uvTorchEnabled"])
     }
     
     // params.rfid_scenario

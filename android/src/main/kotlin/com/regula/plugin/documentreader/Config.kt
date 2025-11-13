@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.regula.documentreader.api.enums.CustomizationColor
 import com.regula.documentreader.api.enums.CustomizationFont
 import com.regula.documentreader.api.enums.CustomizationImage
-import com.regula.documentreader.api.internal.enums.LogLevel
+import com.regula.documentreader.api.enums.LogLevel
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageQA
@@ -184,16 +184,6 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "authenticityParams" -> {
             if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams.defaultParams()
             setAuthenticityParams(processParams.authenticityParams!!, v as JSONObject)
-        }
-
-        "setCheckFilter" -> processParams.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
-        "removeCheckFilter" -> processParams.removeCheckFilter(v as String)
-        "clearCheckFilter" -> processParams.clearCheckFilter()
-        "checkFilters" -> {
-            processParams.clearCheckFilter()
-            (v as JSONObject).forEach { key, value ->
-                processParams.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
-            }
         }
     }
 }
@@ -707,16 +697,6 @@ fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.fo
             if (input.livenessParams == null) input.livenessParams = LivenessParams.defaultParams()
             setLivenessParams(input.livenessParams!!, v as JSONObject)
         }
-
-        "setCheckFilter" -> input.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
-        "removeCheckFilter" -> input.removeCheckFilter(v as String)
-        "clearCheckFilter" -> input.clearCheckFilter()
-        "checkFilters" -> {
-            input.clearCheckFilter()
-            (v as JSONObject).forEach { key, value ->
-                input.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
-            }
-        }
     }
 }
 
@@ -750,16 +730,6 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
         "checkDynaprint" -> input.checkDynaprint = v as Boolean
         "checkGeometry" -> input.checkGeometry = v as Boolean
-
-        "setCheckFilter" -> input.setCheckFilter((v as JSONObject).getString("checkType"), filterObjectFromJSON(v.getJSONObject("filterObject")))
-        "removeCheckFilter" -> input.removeCheckFilter(v as String)
-        "clearCheckFilter" -> input.clearCheckFilter()
-        "checkFilters" -> {
-            input.clearCheckFilter()
-            (v as JSONObject).forEach { key, value ->
-                input.setCheckFilter(key, filterObjectFromJSON(value as JSONObject))
-            }
-        }
     }
 }
 

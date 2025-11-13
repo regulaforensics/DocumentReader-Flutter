@@ -2350,24 +2350,6 @@ static NSMutableArray* weakReferencesHolder;
     return result;
 }
 
-+(RGLFilterObject*)filterObjectFromJson:(NSDictionary*)input {
-    RGLFilterObject* result = [RGLFilterObject new];
-    
-    result.docIDsFilter = [self filterObjectTypeFromJSON: input[@"docIDsFilter"]];
-    result.docFormatsFilter = [self filterObjectTypeFromJSON: input[@"docFormatsFilter"]];
-    result.docCategoriesFilter = [self filterObjectTypeFromJSON: input[@"docCategoriesFilter"]];
-    result.docCountriesFilter = [self filterObjectTypeFromJSON: input[@"docCountriesFilter"]];
-    
-    return result;
-}
-
-+(RGLFilterObjectType*)filterObjectTypeFromJSON:(NSDictionary*)input {
-    NSArray* array = input[@"list"];
-    if ([input[@"isInclude"] boolValue])
-        return [RGLFilterObjectType createIncludeList:array];
-    return [RGLFilterObjectType createExcludeList:array];
-}
-
 +(NSDictionary*)generateDictionary:(NSDictionary<NSNumber*, NSNumber*>*)input {
     if(input == nil) return nil;
     NSMutableDictionary* result = [NSMutableDictionary new];

@@ -175,7 +175,6 @@
 +(NSDictionary* _Nullable)generateTCCParams:(RGLTCCParams* _Nullable)input;
 +(RGLTransactionInfo* _Nullable)transactionInfoFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateTransactionInfo:(RGLTransactionInfo* _Nullable)input;
-+(RGLFilterObject* _Nonnull)filterObjectFromJson:(NSDictionary* _Nonnull)input;
 
 @end
 

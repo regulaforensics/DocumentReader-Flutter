@@ -46,7 +46,6 @@ void main() {
       backendProcessingConfig,
       BackendProcessingConfig.fromJson,
     );
-    compare('filterObject', filterObject, FilterObject.fromJson);
     compareParams(
       'processParams',
       processParams,

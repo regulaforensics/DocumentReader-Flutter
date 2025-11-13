@@ -59,28 +59,6 @@ class LivenessParams {
     _set({"checkGeometry": val});
   }
 
-  Map<LivenessCheckType, FilterObject> _checkFilters = {};
-
-  void setCheckFilter(LivenessCheckType checkType, FilterObject filter) {
-    _checkFilters[checkType] = filter;
-    _set({
-      "setCheckFilter": {
-        "checkType": checkType.value,
-        "filterObject": filter.toJson(),
-      }
-    });
-  }
-
-  void removeCheckFilter(LivenessCheckType checkType) {
-    _checkFilters.remove(checkType);
-    _set({"removeCheckFilter": checkType.value});
-  }
-
-  void clearCheckFilter() {
-    _checkFilters.clear();
-    _set({"clearCheckFilter": ''});
-  }
-
   /// Allows you to deserialize object.
   static LivenessParams fromJson(jsonObject) {
     if (jsonObject == null) return LivenessParams();
@@ -94,13 +72,6 @@ class LivenessParams {
     result.checkBlackAndWhiteCopy = jsonObject["checkBlackAndWhiteCopy"];
     result.checkDynaprint = jsonObject["checkDynaprint"];
     result.checkGeometry = jsonObject["checkGeometry"];
-    result._checkFilters = ((jsonObject["checkFilters"] ?? {}) as Map).map(
-      (key, value) => MapEntry(
-        LivenessCheckType.getByValue(key)!,
-        FilterObject.fromJson(value),
-      ),
-    );
-    result.testSetters["checkFilters"] = jsonObject["checkFilters"];
 
     return result;
   }
@@ -114,9 +85,6 @@ class LivenessParams {
         "checkBlackAndWhiteCopy": checkBlackAndWhiteCopy,
         "checkDynaprint": checkDynaprint,
         "checkGeometry": checkGeometry,
-        "checkFilters": _checkFilters.map(
-          (key, value) => MapEntry(key.value, value.toJson()),
-        ),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {AuthenticityParams? directParent}) {
@@ -132,26 +100,4 @@ class LivenessParams {
 
   @visibleForTesting
   Map<String, dynamic> testSetters = {};
-}
-
-enum LivenessCheckType {
-  OVI("checkOVI"),
-  MLI("checkMLI"),
-  HOLO("checkHolo"),
-  ED("checkED"),
-  BLACK_AND_WHITE_COPY("checkBlackAndWhiteCopy"),
-  DYNAPRINT("checkDynaprint"),
-  GEOMETRY("checkGeometry");
-
-  const LivenessCheckType(this.value);
-  final String value;
-
-  static LivenessCheckType? getByValue(String? i) {
-    if (i == null) return null;
-    try {
-      return LivenessCheckType.values.firstWhere((x) => x.value == i);
-    } catch (_) {
-      return null;
-    }
-  }
 }
