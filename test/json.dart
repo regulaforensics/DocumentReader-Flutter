@@ -114,6 +114,7 @@ var processParams = {
   "generateAlpha2Codes": false,
   "disableAuthResolutionFilter": true,
   "strictSecurityChecks": false,
+  "returnTransliteratedFields": true,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -164,13 +165,23 @@ var customizationColors = {
   "rfidProcessingScreenProgressBarBackground": 0xff000005,
   "rfidProcessingScreenResultLabelText": 0xff000006,
   "rfidProcessingScreenLoadingBar": 0xff000007,
+  "rfidEnableNfcTitleText": 0xff000008,
+  "rfidEnableNfcDescriptionText": 0xff000009,
+  "rfidEnableNfcButtonText": 0xff000010,
+  "rfidEnableNfcButtonBackground": 0xff000011,
 };
 var customizationFonts = {
   "rfidProcessingScreenHintLabel": font1,
   "rfidProcessingScreenProgressLabel": font2,
   "rfidProcessingScreenResultLabel": font1,
+  "rfidEnableNfcTitleText": font2,
+  "rfidEnableNfcDescriptionText": font1,
+  "rfidEnableNfcButtonText": font2,
 };
-var customizationImages = {"rfidProcessingScreenFailureImage": img1};
+var customizationImages = {
+  "rfidProcessingScreenFailureImage": img1,
+  "rfidEnableNfcImage": img2,
+};
 var customization = {
   "showStatusMessages": true,
   "showResultStatusMessages": false,
@@ -283,6 +294,7 @@ var functionality = {
   "manualMultipageMode": true,
   "singleResult": false,
   "torchTurnedOn": false,
+  "preventScreenRecording": true,
   "showCaptureButtonDelayFromDetect": 0,
   "showCaptureButtonDelayFromStart": 1,
   "rfidTimeout": 2,
@@ -432,6 +444,7 @@ var rfidScenario = {
 var initConfig = {
   "delayedNNLoad": false,
   "licenseUpdate": true,
+  "licenseUpdateTimeout": 1.5,
   "customDb": img1,
   "blackList": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "databasePath": "test",

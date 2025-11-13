@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+@Suppress("unused")
 val context: Context
     get() = ApplicationProvider.getApplicationContext()
 
@@ -16,10 +17,17 @@ class FlutterDocumentReaderApiPluginTest {
     // config
 
     @Test
-    fun initConfig() = compare("initConfig", ::initConfigFromJSON, ::generateInitConfig, "databasePath", "useBleDevice")
+    fun initConfig() = compare(
+        "initConfig", ::initConfigFromJSON, ::generateInitConfig,
+        "databasePath",
+        "useBleDevice"
+    )
 
     @Test
-    fun onlineProcessingConfig() = compare("onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig, "requestHeaders")
+    fun onlineProcessingConfig() = compare(
+        "onlineProcessingConfig", ::onlineProcessingConfigFromJSON, ::generateOnlineProcessingConfig,
+        "requestHeaders"
+    )
 
     @Test
     fun imageInputData() = compare("imageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
@@ -28,10 +36,16 @@ class FlutterDocumentReaderApiPluginTest {
     fun recognizeConfig() = compare("recognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
 
     @Test
-    fun recognizeConfig2() = compare("recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig, "onlineProcessingConfig.requestHeaders")
+    fun recognizeConfig2() = compare(
+        "recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig,
+        "onlineProcessingConfig.requestHeaders"
+    )
 
     @Test
-    fun scannerConfig() = compare("scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig, "onlineProcessingConfig.requestHeaders")
+    fun scannerConfig() = compare(
+        "scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig,
+        "onlineProcessingConfig.requestHeaders"
+    )
 
     // params.process_params
 
@@ -103,7 +117,10 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun functionality() = compare(
         "functionality", ::functionalityFromJSON, ::generateFunctionality,
-        "useAuthenticator", "singleResult", "videoSessionPreset", "cameraPositionIOS"
+        "useAuthenticator",
+        "singleResult",
+        "videoSessionPreset",
+        "cameraPositionIOS"
     )
 
     // info
@@ -117,7 +134,8 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun docReaderScenario() = compare(
         "docReaderScenario", ::documentReaderScenarioFromJSON, ::generateDocumentReaderScenario,
-        "barcodeExt", "frame"
+        "barcodeExt",
+        "frame"
     )
 
     @Test
@@ -268,7 +286,10 @@ class FlutterDocumentReaderApiPluginTest {
     fun transactionInfo() = compare("transactionInfo", ::transactionInfoFromJSON, ::generateTransactionInfo)
 
     @Test
-    fun results() = compare("results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults, "vdsncData.certificateChain")
+    fun results() = compare(
+        "results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
+        "vdsncData.certificateChain"
+    )
 
     // rfid
 

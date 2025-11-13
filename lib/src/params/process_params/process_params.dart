@@ -358,6 +358,15 @@ class ProcessParams {
     _set({"strictSecurityChecks": val});
   }
 
+  /// Allows transliteration to be turned on or off.
+  /// Default: `true`.
+  bool? get returnTransliteratedFields => _returnTransliteratedFields;
+  bool? _returnTransliteratedFields;
+  set returnTransliteratedFields(bool? val) {
+    _returnTransliteratedFields = val;
+    _set({"returnTransliteratedFields": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -781,6 +790,8 @@ class ProcessParams {
     result.disableAuthResolutionFilter =
         jsonObject["disableAuthResolutionFilter"];
     result.strictSecurityChecks = jsonObject["strictSecurityChecks"];
+    result.returnTransliteratedFields =
+        jsonObject["returnTransliteratedFields"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -893,6 +904,7 @@ class ProcessParams {
         "generateAlpha2Codes": generateAlpha2Codes,
         "disableAuthResolutionFilter": disableAuthResolutionFilter,
         "strictSecurityChecks": strictSecurityChecks,
+        "returnTransliteratedFields": returnTransliteratedFields,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

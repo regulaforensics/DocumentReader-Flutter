@@ -9,13 +9,20 @@
 part of "../../../flutter_document_reader_api.dart";
 
 class CustomizationImages {
-  ///
-  ByteData get rfidProcessingScreenFailureImage =>
+  ByteData? get rfidProcessingScreenFailureImage =>
       _rfidProcessingScreenFailureImage;
-  late ByteData _rfidProcessingScreenFailureImage;
-  set rfidProcessingScreenFailureImage(ByteData val) {
+  ByteData? _rfidProcessingScreenFailureImage;
+  set rfidProcessingScreenFailureImage(ByteData? val) {
     _rfidProcessingScreenFailureImage = val;
     _set({"rfidProcessingScreenFailureImage": _dataToBase64(val)});
+  }
+
+  /// Android only.
+  ByteData? get rfidEnableNfcImage => _rfidEnableNfcImage;
+  ByteData? _rfidEnableNfcImage;
+  set rfidEnableNfcImage(ByteData? val) {
+    _rfidEnableNfcImage = val;
+    _set({"rfidEnableNfcImage": _dataToBase64(val)});
   }
 
   /// Allows you to deserialize object.
@@ -24,7 +31,9 @@ class CustomizationImages {
     result.testSetters = {};
 
     result.rfidProcessingScreenFailureImage =
-        _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"])!;
+        _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
+    result.rfidEnableNfcImage =
+        _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
 
     return result;
   }
@@ -33,6 +42,9 @@ class CustomizationImages {
   Map<String, dynamic> toJson() => {
         "rfidProcessingScreenFailureImage": _dataToBase64(
           rfidProcessingScreenFailureImage,
+        ),
+        "rfidEnableNfcImage": _dataToBase64(
+          rfidEnableNfcImage,
         ),
       }.clearNulls();
 

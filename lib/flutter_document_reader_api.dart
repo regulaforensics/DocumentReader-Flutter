@@ -331,8 +331,6 @@ class DocumentReader {
   ///
   /// Requires [btdevice plugin](https://pub.dev/packages/flutter_document_reader_btdevice_beta).
   Future<bool> connectBluetoothDevice(String deviceName) async {
-    // In Android we have to pass deviceName to functionality, in iOS - to a native function.
-    instance.functionality.btDeviceName = deviceName;
     return await _bridge.invokeMethod("connectBluetoothDevice", [deviceName]);
   }
 

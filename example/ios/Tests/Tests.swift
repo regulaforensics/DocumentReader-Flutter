@@ -119,7 +119,17 @@ class Tests: XCTestCase {
                        "statusTextFont.style",
                        "resultStatusTextFont.style",
                        "multipageButtonTextFont.style",
-                       "fonts",])
+                       "colors.rfidEnableNfcButtonBackground",
+                       "colors.rfidEnableNfcButtonText",
+                       "colors.rfidEnableNfcDescriptionText",
+                       "colors.rfidEnableNfcTitleText",
+                       "fonts.rfidProcessingScreenHintLabel.style",
+                       "fonts.rfidProcessingScreenProgressLabel.style",
+                       "fonts.rfidProcessingScreenResultLabel.style",
+                       "fonts.rfidEnableNfcTitleText",
+                       "fonts.rfidEnableNfcDescriptionText",
+                       "fonts.rfidEnableNfcButtonText",
+                       "images.rfidEnableNfcImage",])
     }
     
     func test_functionality() {
