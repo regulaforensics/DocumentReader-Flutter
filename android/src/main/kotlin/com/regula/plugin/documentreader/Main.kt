@@ -16,6 +16,7 @@ import com.regula.documentreader.api.DocumentReader.Instance
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareDbCompletion
+import com.regula.documentreader.api.completions.IVideoEncoderCompletion
 import com.regula.documentreader.api.completions.model.PrepareProgress
 import com.regula.documentreader.api.completions.rfid.IRfidPKDCertificateCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderCompletion
@@ -476,7 +477,8 @@ fun prepareCompletion(callback: Callback) = object : IDocumentReaderPrepareDbCom
 
 fun initCompletion(callback: Callback) = IDocumentReaderInitCompletion { success, error ->
     if (success) {
-        Instance().setVideoEncoderCompletion { _, file -> sendEvent(videoEncoderCompletionEvent, file.path) }
+        videoEncoderCompletion = IVideoEncoderCompletion { _, file -> sendEvent(videoEncoderCompletionEvent, file.path) }
+        Instance().setVideoEncoderCompletion(videoEncoderCompletion)
         Instance().setOnClickListener { sendEvent(onCustomButtonTappedEvent, it.tag) }
     }
     callback(generateSuccessCompletion(success, error))
@@ -577,3 +579,4 @@ fun stopBackgroundRFID() {
 
 // Weak references
 lateinit var localizationCallbacks: LocalizationCallbacks
+lateinit var videoEncoderCompletion: IVideoEncoderCompletion
