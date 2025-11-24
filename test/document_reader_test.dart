@@ -32,8 +32,8 @@ void main() {
     );
     compare('faceApiParams', faceApiParams, FaceApiParams.fromJson);
 
-    compare('livenessParams', livenessParams, LivenessParams.fromJson);
-    compare(
+    compareParams('livenessParams', livenessParams, LivenessParams.fromJson);
+    compareParams(
       'authenticityParams',
       authenticityParams,
       AuthenticityParams.fromJson,

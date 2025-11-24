@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
+import android.content.Context.BIND_AUTO_CREATE
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -31,9 +32,10 @@ const val INTENT_REQUEST_ENABLE_BLUETOOTH = 197
 
 @SuppressLint("StaticFieldLeak")
 var bluetooth: BLEWrapper? = null
+lateinit var savedDeviceNameForPermissionResult: String
 lateinit var savedCallbackForPermissionResult: Callback
 
-fun connectBluetoothDevice(callback: Callback) {
+fun connectBluetoothDevice(deviceName: String, callback: Callback) {
     if (bluetooth?.isConnected == true) {
         Log.e("REGULA", "Bluetooth device already connected, returning false")
         callback(false)
@@ -41,6 +43,7 @@ fun connectBluetoothDevice(callback: Callback) {
     }
 
     if (!isBluetoothSettingsReady(activity)) {
+        savedDeviceNameForPermissionResult = deviceName
         savedCallbackForPermissionResult = callback
         return
     }
@@ -55,6 +58,7 @@ fun connectBluetoothDevice(callback: Callback) {
     Timer().schedule(timeout, SEARCHING_TIMEOUT)
 
     val bleIntent = Intent(context, RegulaBleService::class.java)
+    bleIntent.putExtra(RegulaBleService.DEVICE_NAME, deviceName)
     context.startService(bleIntent)
     context.bindService(bleIntent, object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -70,7 +74,7 @@ fun connectBluetoothDevice(callback: Callback) {
         }
 
         override fun onServiceDisconnected(name: ComponentName) {}
-    }, 0)
+    }, BIND_AUTO_CREATE)
 }
 
 fun onRequestPermissionsResult(
@@ -83,7 +87,7 @@ fun onRequestPermissionsResult(
         savedCallbackForPermissionResult(false)
         return true
     }
-    connectBluetoothDevice(savedCallbackForPermissionResult)
+    connectBluetoothDevice(savedDeviceNameForPermissionResult, savedCallbackForPermissionResult)
     return true
 }
 
@@ -95,7 +99,7 @@ fun onActivityResult(requestCode: Int, rc: Int, @Suppress("UNUSED_PARAMETER") da
 
     if (requestCode == INTENT_REQUEST_ENABLE_BLUETOOTH || requestCode == INTENT_REQUEST_ENABLE_LOCATION) {
         if (resultCode == Activity.RESULT_OK)
-            connectBluetoothDevice(savedCallbackForPermissionResult)
+            connectBluetoothDevice(savedDeviceNameForPermissionResult, savedCallbackForPermissionResult)
         else
             savedCallbackForPermissionResult(false)
         return true
@@ -126,7 +130,7 @@ fun deniedBluetoothPermissions(): Array<String>? {
         result.addAll(deniedBluetoothPermission(BLUETOOTH_CONNECT))
     } else
         result.addAll(deniedBluetoothPermission(ACCESS_FINE_LOCATION))
-    return result.let { if (it.size > 0) it.toTypedArray() else null }
+    return result.let { if (it.isNotEmpty()) it.toTypedArray() else null }
 }
 
 fun deniedBluetoothPermission(permission: String): Array<String> {

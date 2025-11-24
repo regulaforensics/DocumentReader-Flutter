@@ -34,6 +34,7 @@
     if([options valueForKey:@"singleResult"] != nil)
         functionality.singleResult = [[options valueForKey:@"singleResult"] boolValue];
     if(options[@"torchTurnedOn"]) functionality.torchTurnedOn = [options[@"torchTurnedOn"] boolValue];
+    if(options[@"preventScreenRecording"]) functionality.preventScreenRecording = [options[@"preventScreenRecording"] boolValue];
     
     // Int
     if([options valueForKey:@"showCaptureButtonDelayFromDetect"] != nil)
@@ -88,6 +89,7 @@
     result[@"manualMultipageMode"] = [NSNumber numberWithBool:functionality.manualMultipageMode];
     result[@"singleResult"] = [NSNumber numberWithBool:functionality.singleResult];
     result[@"torchTurnedOn"] = @(functionality.torchTurnedOn);
+    result[@"preventScreenRecording"] = @(functionality.preventScreenRecording);
     
     // Int
     result[@"showCaptureButtonDelayFromDetect"] = [NSNumber numberWithDouble:functionality.showCaptureButtonDelayFromDetect];
@@ -186,6 +188,7 @@
     if (options[@"generateAlpha2Codes"]) processParams.generateAlpha2Codes = options[@"generateAlpha2Codes"];
     if (options[@"disableAuthResolutionFilter"]) processParams.disableAuthResolutionFilter = options[@"disableAuthResolutionFilter"];
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
+    if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -257,22 +260,19 @@
         processParams.lcidFilter = [options mutableArrayValueForKey:@"lcidFilter"];
 
     // JSONObject
-    if([options valueForKey:@"imageQA"] != nil)
+    if (options[@"customParams"]) processParams.customParams = options[@"customParams"];
+    if ([options valueForKey:@"imageQA"] != nil)
         [self setImageQA:processParams.imageQA input:[options valueForKey:@"imageQA"]];
-    if([options valueForKey:@"rfidParams"] != nil)
+    if ([options valueForKey:@"rfidParams"] != nil)
         processParams.rfidParams = [RGLWJSONConstructor rfidParamsFromJson:[options valueForKey:@"rfidParams"]];
-    if([options valueForKey:@"faceApiParams"] != nil)
+    if ([options valueForKey:@"faceApiParams"] != nil)
         processParams.faceApiParams = [RGLWJSONConstructor faceAPIParamsFromJson:[options valueForKey:@"faceApiParams"]];
-    if([options valueForKey:@"backendProcessingConfig"] != nil)
+    if ([options valueForKey:@"backendProcessingConfig"] != nil)
         processParams.backendProcessingConfig = [RGLWJSONConstructor backendProcessingConfigFromJson:[options valueForKey:@"backendProcessingConfig"]];
-    if([options valueForKey:@"authenticityParams"] != nil) {
+    if ([options valueForKey:@"authenticityParams"] != nil) {
         if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
         [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
     }
-
-    // Custom
-    if([options valueForKey:@"customParams"] != nil)
-        processParams.customParams = [options valueForKey:@"customParams"];
 }
 
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams {
@@ -318,6 +318,7 @@
     result[@"generateAlpha2Codes"] = processParams.generateAlpha2Codes;
     result[@"disableAuthResolutionFilter"] = processParams.disableAuthResolutionFilter;
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
+    result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];

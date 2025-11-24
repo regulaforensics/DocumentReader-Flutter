@@ -1,4 +1,4 @@
-## 8.4.509-beta
+## 8.5.616-beta
 # 7.5.0
 
 * Changes in `RecognizeConfig` class, see [migration guide](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/7-4-to-7-5/#mobile)

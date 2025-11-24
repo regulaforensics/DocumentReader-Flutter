@@ -18,6 +18,9 @@ class InitConfig {
   /// Enables automatic license update check during [DocumentReader] initialization.
   bool licenseUpdate = true;
 
+  /// Allows you to configure the maximum time needed for a license update (in seconds).
+  double? licenseUpdateTimeout;
+
   /// Defines whether the [DocumentReader] delays loading of neural networks.
   ///
   /// When set to `true` the initialization starts in the background thread after
@@ -63,6 +66,7 @@ class InitConfig {
     result.customDb = _dataFromBase64(jsonObject["customDb"]);
     result.delayedNNLoad = jsonObject["delayedNNLoad"];
     result.licenseUpdate = jsonObject["licenseUpdate"];
+    result.licenseUpdateTimeout = _toDouble(jsonObject["licenseUpdateTimeout"]);
     result.blackList = jsonObject["blackList"];
     result.databasePath = jsonObject["databasePath"];
     result._useBleDevice = jsonObject["useBleDevice"];
@@ -75,6 +79,7 @@ class InitConfig {
         "license": _dataToBase64(license),
         "delayedNNLoad": delayedNNLoad,
         "licenseUpdate": licenseUpdate,
+        "licenseUpdateTimeout": licenseUpdateTimeout,
         "blackList": blackList,
         "customDb": _dataToBase64(customDb),
         "databasePath": databasePath,

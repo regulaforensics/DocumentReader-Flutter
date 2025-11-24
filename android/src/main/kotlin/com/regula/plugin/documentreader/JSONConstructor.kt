@@ -192,6 +192,7 @@ fun initConfigFromJSON(input: JSONObject) = input.let {
 
     if (it.has("licenseUpdate")) result.setLicenseUpdate(it.getBoolean("licenseUpdate"))
     if (it.has("delayedNNLoad")) result.isDelayedNNLoad = it.getBoolean("delayedNNLoad")
+    result.licenseUpdateTimeout = it.getDoubleOrNull("licenseUpdateTimeout")
     result.blackList = it.getJSONObjectOrNull("blackList")
     result
 }
@@ -203,6 +204,7 @@ fun generateInitConfig(input: DocReaderConfig?) = input?.let {
         "databasePath" to it.customDbPath,
         "licenseUpdate" to it.isLicenseUpdate,
         "delayedNNLoad" to it.isDelayedNNLoad,
+        "licenseUpdateTimeout" to it.licenseUpdateTimeout,
         "blackList" to it.blackList
     ).toJson()
 }
@@ -213,6 +215,7 @@ fun initBleDeviceConfigFromJSON(input: JSONObject) = input.let {
 
     if (it.has("licenseUpdate")) result.setLicenseUpdate(it.getBoolean("licenseUpdate"))
     if (it.has("delayedNNLoad")) result.isDelayedNNLoad = it.getBoolean("delayedNNLoad")
+    result.licenseUpdateTimeout = it.getDoubleOrNull("licenseUpdateTimeout")
     result.blackList = it.getJSONObjectOrNull("blackList")
     result
 }
