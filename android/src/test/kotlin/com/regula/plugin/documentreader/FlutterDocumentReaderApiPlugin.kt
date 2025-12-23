@@ -120,7 +120,8 @@ class FlutterDocumentReaderApiPluginTest {
         "useAuthenticator",
         "singleResult",
         "videoSessionPreset",
-        "cameraPositionIOS"
+        "cameraPositionIOS",
+        "homeIndicatorAutoHide"
     )
 
     // info
@@ -228,10 +229,13 @@ class FlutterDocumentReaderApiPluginTest {
     fun bytesData() = compare("bytesData", ::bytesDataFromJSON, ::generateBytesData)
 
     @Test
-    fun vdsncData() = compare(
-        "vdsncData", ::vdsncDataFromJSON, ::generateVDSNCData,
-        "certificateChain"
-    )
+    fun vdsncData() = compare("vdsncData", ::vdsncDataFromJSON, ::generateVDSNCData)
+
+    @Test
+    fun docFeature() = compare("docFeature", ::docFeatureFromJSON, ::generateDocFeature)
+
+    @Test
+    fun vdsData() = compare("vdsData", ::vdsDataFromJSON, ::generateVDSData)
 
     // results.visual_results
 
@@ -274,6 +278,15 @@ class FlutterDocumentReaderApiPluginTest {
     fun resultsStatus() = compare("resultsStatus", ::documentReaderResultsStatusFromJSON, ::generateDocumentReaderResultsStatus)
 
     @Test
+    fun detailsOptical() = compare("opticalStatus", ::detailsOpticalFromJSON, ::generateDetailsOptical)
+
+    @Test
+    fun rfidStatus() = compare("rfidStatus", ::detailsRFIDFromJSON, ::generateDetailsRFID)
+
+    @Test
+    fun ageStatus() = compare("ageStatus", ::detailsAgeFromJSON, ::generateDetailsAge)
+
+    @Test
     fun documentType() = compare("documentType", ::documentReaderDocumentTypeFromJSON, ::generateDocumentReaderDocumentType)
 
     @Test
@@ -286,10 +299,7 @@ class FlutterDocumentReaderApiPluginTest {
     fun transactionInfo() = compare("transactionInfo", ::transactionInfoFromJSON, ::generateTransactionInfo)
 
     @Test
-    fun results() = compare(
-        "results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
-        "vdsncData.certificateChain"
-    )
+    fun results() = compare("results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults)
 
     // rfid
 
@@ -307,4 +317,30 @@ class FlutterDocumentReaderApiPluginTest {
 
     @Test
     fun tccParams() = compare("tccParams", ::tccParamsFromJSON, ::generateTccParams)
+
+    // mdl
+
+    @Test
+    fun deviceRetrievalMethod() = compare(
+        "deviceRetrievalMethod", ::deviceRetrievalMethodFromJSON, ::generateDeviceRetrievalMethod,
+        "serverModeUUID"
+    )
+
+    @Test
+    fun deviceEngagement() = compare(
+        "deviceEngagement", ::deviceEngagementFromJSON, ::generateDeviceEngagement,
+        "deviceRetrievalMethods.serverModeUUID"
+    )
+
+    @Test
+    fun nameSpaceMDL() = compare("nameSpaceMDL", ::nameSpaceMDLFromJSON, ::generateNameSpaceMDL)
+
+    @Test
+    fun documentRequestMDL() = compare("documentRequestMDL", ::documentRequestMDLFromJSON, ::generateDocumentRequestMDL)
+
+    @Test
+    fun documentRequest18013MDL() = compare("documentRequest18013MDL", ::documentRequest18013MDLFromJSON, ::generateDocumentRequest18013MDL)
+
+    @Test
+    fun dataRetrieval() = compare("dataRetrieval", ::dataRetrievalFromJSON, ::generateDataRetrieval)
 }

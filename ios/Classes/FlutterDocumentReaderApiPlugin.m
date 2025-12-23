@@ -2,13 +2,14 @@
 
 @implementation FlutterDocumentReaderApiPlugin
 
-NSObject<FlutterPluginRegistrar>* rglwPluginRegistrar;
-UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
-    return [rglwPluginRegistrar viewController];
+UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*(){
+    for (UIWindow *window in UIApplication.sharedApplication.windows)
+        if (window.isKeyWindow)
+            return window.rootViewController;
+    return nil;
 };
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    rglwPluginRegistrar = registrar;
     eventSinks = [NSMutableDictionary new];
     void(^setupEventChannel)(NSObject<FlutterPluginRegistrar>* registrar, NSString*eventId, NSObject<FlutterStreamHandler>*handler) = ^(NSObject<FlutterPluginRegistrar>* registrar, NSString*eventId, NSObject<FlutterStreamHandler>*handler) {
         [[FlutterEventChannel eventChannelWithName:[NSString stringWithFormat:@"%@%@", @"flutter_document_reader_api/event/", eventId] binaryMessenger:[registrar messenger]] setStreamHandler:handler];

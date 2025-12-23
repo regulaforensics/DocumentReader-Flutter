@@ -420,6 +420,15 @@ class Customization {
     _set({"cameraPreviewVerticalPositionMultiplier": val});
   }
 
+  /// Allows you to change the location of the multipage button.
+  double? get multipageButtonPositionMultiplier =>
+      _multipageButtonPositionMultiplier;
+  double? _multipageButtonPositionMultiplier;
+  set multipageButtonPositionMultiplier(double? val) {
+    _multipageButtonPositionMultiplier = val;
+    _set({"multipageButtonPositionMultiplier": val});
+  }
+
   /// Allows you to set any image for the multipage animation (front side).
   ByteData? get multipageAnimationFrontImage => _multipageAnimationFrontImage;
   ByteData? _multipageAnimationFrontImage;
@@ -856,6 +865,9 @@ class Customization {
     result.cameraPreviewVerticalPositionMultiplier = _toDouble(
       jsonObject["cameraPreviewVerticalPositionMultiplier"],
     );
+    result.multipageButtonPositionMultiplier = _toDouble(
+      jsonObject["multipageButtonPositionMultiplier"],
+    );
 
     result.multipageAnimationFrontImage = _dataFromBase64(
       jsonObject["multipageAnimationFrontImage"],
@@ -1031,6 +1043,7 @@ class Customization {
             activityIndicatorLandscapePositionMultiplier,
         "cameraPreviewVerticalPositionMultiplier":
             cameraPreviewVerticalPositionMultiplier,
+        "multipageButtonPositionMultiplier": multipageButtonPositionMultiplier,
         "multipageAnimationFrontImage": _dataToBase64(
           multipageAnimationFrontImage,
         ),
