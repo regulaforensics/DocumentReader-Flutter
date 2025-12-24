@@ -51,4 +51,6 @@ Map<String, List<String>?> nullableMap = {
   "paResourcesIssuer": ["friendlyName"],
   "pkdCertificate": ["privateKey"],
   "tccParams!": [],
+  "deviceRetrievalMethod!": ["type"],
+  "documentRequest18013MDL!": ["docType", "namespaces"],
 };

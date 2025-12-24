@@ -213,6 +213,16 @@ class Functionality {
     _set({"preventScreenRecording": val});
   }
 
+  /// If it's set to true, system is allowed to hide the visual indicator for returning to the Home Screen in landscape mode.
+  ///
+  /// Default: `true`.
+  bool? get homeIndicatorAutoHide => _homeIndicatorAutoHide;
+  bool? _homeIndicatorAutoHide;
+  set homeIndicatorAutoHide(bool? val) {
+    _homeIndicatorAutoHide = val;
+    _set({"homeIndicatorAutoHide": val});
+  }
+
   /// Allows you to specify a time interval when the Capture button
   /// has to be displayed after the document is detected.
   /// Don't forget to set the [showCaptureButton] to `true`,
@@ -351,6 +361,13 @@ class Functionality {
     _set({"videoRecordingSizeDownscaleFactor": val});
   }
 
+  double? get mdlTimeout => _mdlTimeout;
+  double? _mdlTimeout;
+  set mdlTimeout(double? val) {
+    _mdlTimeout = val;
+    _set({"mdlTimeout": val});
+  }
+
   /// A list of devices that must not use the camera2 API.
   ///
   /// Android only.
@@ -408,6 +425,7 @@ class Functionality {
     result.singleResult = jsonObject["singleResult"];
     result.torchTurnedOn = jsonObject["torchTurnedOn"];
     result.preventScreenRecording = jsonObject["preventScreenRecording"];
+    result.homeIndicatorAutoHide = jsonObject["homeIndicatorAutoHide"];
 
     result.showCaptureButtonDelayFromDetect =
         jsonObject["showCaptureButtonDelayFromDetect"];
@@ -431,6 +449,7 @@ class Functionality {
     result.exposure = _toDouble(jsonObject["exposure"]);
     result.videoRecordingSizeDownscaleFactor =
         _toDouble(jsonObject["videoRecordingSizeDownscaleFactor"]);
+    result.mdlTimeout = _toDouble(jsonObject["mdlTimeout"]);
 
     result.excludedCamera2Models = _stringListFrom(
       jsonObject["excludedCamera2Models"],
@@ -466,6 +485,7 @@ class Functionality {
         "singleResult": singleResult,
         "torchTurnedOn": torchTurnedOn,
         "preventScreenRecording": preventScreenRecording,
+        "homeIndicatorAutoHide": homeIndicatorAutoHide,
         "showCaptureButtonDelayFromDetect": showCaptureButtonDelayFromDetect,
         "showCaptureButtonDelayFromStart": showCaptureButtonDelayFromStart,
         "rfidTimeout": rfidTimeout,
@@ -479,6 +499,7 @@ class Functionality {
         "zoomFactor": zoomFactor,
         "exposure": exposure,
         "videoRecordingSizeDownscaleFactor": videoRecordingSizeDownscaleFactor,
+        "mdlTimeout": mdlTimeout,
         "excludedCamera2Models": excludedCamera2Models,
         "cameraSize": cameraResolutionAndroid?.toJson(),
         "videoSessionPreset": cameraResolutionIOS?.value,

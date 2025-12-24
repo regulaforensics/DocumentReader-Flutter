@@ -102,12 +102,15 @@ part 'src/results/rfid/rfid_access_control_procedure_type.dart';
 part 'src/results/rfid/rfid_certificate_type.dart';
 
 part 'src/results/status/optical_status.dart';
+part 'src/results/status/age_status.dart';
 part 'src/results/status/rfid_status.dart';
 part 'src/results/status/results_status.dart';
 part 'src/results/status/check_result.dart';
 
 part 'src/results/visible_digital_seals/vdsnc_data.dart';
 part 'src/results/visible_digital_seals/bytes_data.dart';
+part 'src/results/visible_digital_seals/doc_feature.dart';
+part 'src/results/visible_digital_seals/vds_data.dart';
 part 'src/results/visible_digital_seals/lds_parsing_error_codes.dart';
 part 'src/results/visible_digital_seals/lds_parsing_notification_codes.dart';
 
@@ -131,6 +134,13 @@ part 'src/results/results.dart';
 part 'src/results/position.dart';
 part 'src/results/document_type.dart';
 part 'src/results/transaction_info.dart';
+
+part 'src/engagement/data_retrieval.dart';
+part 'src/engagement/name_space_mdl.dart';
+part 'src/engagement/document_request_mdl.dart';
+part 'src/engagement/device_retrieval_method.dart';
+part 'src/engagement/document_request_18013_mdl.dart';
+part 'src/engagement/device_engagement.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
 class DocumentReader {
@@ -529,6 +539,73 @@ class DocumentReader {
     var success = jsonObject["success"];
     var error = DocReaderException.fromJson(jsonObject["error"]);
     return (success, error);
+  }
+
+  /// Used to read MDL.
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
+      readMDL(MDLDeviceEngagement type, DataRetrieval retrieval) async {
+    var response = await _bridge.invokeMethod("startReadMDl", [
+      type.value,
+      retrieval.toJson(),
+    ]);
+    var jsonObject = json.decode(response);
+    return (
+      DocReaderAction.getByValue(jsonObject["action"])!,
+      Results.fromJson(jsonObject["results"]),
+      DocReaderException.fromJson(jsonObject["error"]),
+    );
+  }
+
+  /// Used to engage device.
+  ///
+  /// [withoutUI] - If `true`, then Regula's UI will not be shown and user is supposed to implement the UI himself.
+  ///
+  /// [data]  - Required if [type] = [MDLDeviceEngagement.QR] and [withoutUI] = `true`.
+  Future<(DeviceEngagement? engagement, DocReaderException? error)>
+      engageDevice(
+    MDLDeviceEngagement type, {
+    bool withoutUI = false,
+    String? data,
+  }) async {
+    String response = "";
+    if (withoutUI == false) {
+      response = await _bridge.invokeMethod("startEngageDevice", [type.value]);
+    } else if (type == MDLDeviceEngagement.NFC) {
+      response = await _bridge.invokeMethod("engageDeviceNFC", []);
+    } else if (type == MDLDeviceEngagement.QR && data != null) {
+      response = await _bridge.invokeMethod("engageDeviceData", [data]);
+    }
+    var jsonObject = json.decode(response);
+    return (
+      DeviceEngagement.fromJson(jsonObject["deviceEngagement"]),
+      DocReaderException.fromJson(jsonObject["error"]),
+    );
+  }
+
+  /// Used to retrieve data.
+  ///
+  /// [withoutUI] - If set, then Regula's UI will not be shown and user is supposed to implement the UI himself.
+  ///
+  /// [engagement] - Required for [withoutUI] = `null` or [MDLDeviceRetrieval.BLE]. Not needed for [MDLDeviceRetrieval.NFC].
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
+      retrieveData(
+    DataRetrieval retrieval, {
+    MDLDeviceRetrieval? withoutUI,
+    DeviceEngagement? engagement,
+  }) async {
+    var function = "startRetrieveData";
+    if (withoutUI == MDLDeviceRetrieval.NFC) function = "engageDeviceNFC";
+    if (withoutUI == MDLDeviceRetrieval.BLE) function = "engageDeviceBLE";
+
+    var jsonObject = json.decode(await _bridge.invokeMethod(function, [
+      retrieval.toJson(),
+      engagement?.toJson(),
+    ]));
+    return (
+      DocReaderAction.getByValue(jsonObject["action"])!,
+      Results.fromJson(jsonObject["results"]),
+      DocReaderException.fromJson(jsonObject["error"]),
+    );
   }
 
   Future<void> _onInit() async {

@@ -1,4 +1,5 @@
 @file:SuppressLint("MissingPermission")
+@file:Suppress("EnumValuesSoftDeprecate")
 
 package com.regula.plugin.documentreader
 
@@ -16,6 +17,7 @@ import com.regula.documentreader.api.DocumentReader.Instance
 import com.regula.documentreader.api.completions.IDocumentReaderCompletion
 import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareDbCompletion
+import com.regula.documentreader.api.completions.IVideoEncoderCompletion
 import com.regula.documentreader.api.completions.model.PrepareProgress
 import com.regula.documentreader.api.completions.rfid.IRfidPKDCertificateCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderCompletion
@@ -29,12 +31,14 @@ import com.regula.documentreader.api.enums.LCID
 import com.regula.documentreader.api.enums.eImageQualityCheckType
 import com.regula.documentreader.api.enums.eLDS_ParsingErrorCodes
 import com.regula.documentreader.api.enums.eLDS_ParsingNotificationCodes
+import com.regula.documentreader.api.enums.eMDLDeviceEngagement
 import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRFID_ErrorCodes
 import com.regula.documentreader.api.enums.eVisualFieldType
 import com.regula.documentreader.api.errors.DocReaderRfidException
 import com.regula.documentreader.api.errors.DocumentReaderException
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil
+import com.regula.documentreader.api.params.mdl.DataRetrieval
 import com.regula.documentreader.api.results.DocumentReaderNotification
 import com.regula.documentreader.api.results.DocumentReaderResults
 import com.regula.documentreader.api.results.DocumentReaderResults.fromRawResults
@@ -44,7 +48,7 @@ import org.json.JSONObject
 import com.regula.plugin.documentreader.Convert.toBase64
 import com.regula.plugin.documentreader.Convert.toByteArray
 
-fun methodCall(method: String, callback: (Any?) -> Unit): Any? = when (method) {
+fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)
     "getDocumentReaderStatus" -> getDocumentReaderStatus(callback)
     "getRfidSessionStatus" -> getRfidSessionStatus(callback)
@@ -94,6 +98,13 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any? = when (method) {
     "btDeviceRequestFlashing" -> btDeviceRequestFlashing()
     "btDeviceRequestFlashingFullIR" -> btDeviceRequestFlashingFullIR()
     "btDeviceRequestTurnOffAll" -> btDeviceRequestTurnOffAll()
+    "startReadMDl" -> startReadMDl(args(0), args(1), callback)
+    "startEngageDevice" -> startEngageDevice(args(0), callback)
+    "engageDeviceNFC" -> engageDeviceNFC(callback)
+    "engageDeviceData" -> engageDeviceData(args(0), callback)
+    "startRetrieveData" -> startRetrieveData(args(0), args(1), callback)
+    "retrieveDataNFC" -> retrieveDataNFC(args(0), callback)
+    "retrieveDataBLE" -> retrieveDataBLE(args(0), args(1), callback)
     "setLocalizationDictionary" -> setLocalizationDictionary(args(0))
     "getLicense" -> getLicense(callback)
     "getAvailableScenarios" -> getAvailableScenarios(callback)
@@ -219,12 +230,12 @@ fun checkDatabaseUpdate(callback: Callback, databaseID: String) = Instance().che
 @Suppress("DEPRECATION")
 fun scan(config: JSONObject) {
     stopBackgroundRFID()
-    Instance().showScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
+    Instance().showScanner(activity, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
 }
 
 fun startScanner(config: JSONObject) {
     stopBackgroundRFID()
-    Instance().startScanner(context, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
+    Instance().startScanner(activity, scannerConfigFromJSON(config), IDocumentReaderCompletion(completion))
 }
 
 fun recognize(config: JSONObject) {
@@ -243,7 +254,7 @@ fun startRFIDReader(onRequestPACertificates: Boolean, onRequestTACertificates: B
         onRequestTACertificates,
         onRequestTASignature
     )
-    Instance().startRFIDReader(context, rfidReaderCompletion, requestType.getRfidReaderRequest())
+    Instance().startRFIDReader(activity, rfidReaderCompletion, requestType.getRfidReaderRequest())
 }
 
 fun readRFID(onRequestPACertificates: Boolean, onRequestTACertificates: Boolean, onRequestTASignature: Boolean) {
@@ -252,7 +263,7 @@ fun readRFID(onRequestPACertificates: Boolean, onRequestTACertificates: Boolean,
         onRequestTACertificates,
         onRequestTASignature
     )
-    startForegroundDispatch()
+    startForegroundDispatch("readRFID")
 }
 
 fun stopRFIDReader() {
@@ -285,6 +296,47 @@ fun addPKDCertificates(certificates: JSONArray) = Instance().addPKDCertificates(
 fun clearPKDCertificates() = Instance().clearPKDCertificates()
 
 fun startNewSession() = Instance().startNewSession()
+
+fun startReadMDl(type: Int, dataRetrieval: JSONObject, callback: Callback) {
+    stopBackgroundRFID()
+    Instance().startReadMDL(activity, eMDLDeviceEngagement.values()[type], dataRetrievalFromJSON(dataRetrieval)!!) { v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
+}
+
+fun startEngageDevice(type: Int, callback: Callback) {
+    stopBackgroundRFID()
+    Instance().startEngageDevice(activity, eMDLDeviceEngagement.values()[type]) { v1, v2 -> callback(generateDeviceEngagementCompletion(v1, v2)) }
+}
+
+lateinit var engageDeviceNFCCallback: Callback
+fun engageDeviceNFC(callback: Callback) {
+    engageDeviceNFCCallback = callback
+    stopBackgroundRFID()
+    startForegroundDispatch("engageDeviceNFC")
+}
+
+fun engageDeviceData(data: String, callback: Callback) {
+    stopBackgroundRFID()
+    Instance().engageDeviceData(data) { v1, v2 -> callback(generateDeviceEngagementCompletion(v1, v2)) }
+}
+
+fun startRetrieveData(dataRetrieval: JSONObject, deviceEngagement: JSONObject, callback: Callback) {
+    stopBackgroundRFID()
+    Instance().startRetrieveData(activity, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!){ v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
+}
+
+lateinit var retrieveDataNFCCallback: Callback
+lateinit var retrieveDataNFCProp: DataRetrieval
+fun retrieveDataNFC(dataRetrieval: JSONObject, callback: Callback) {
+    retrieveDataNFCCallback = callback
+    retrieveDataNFCProp = dataRetrievalFromJSON(dataRetrieval)!!
+    stopBackgroundRFID()
+    startForegroundDispatch("retrieveDataNFC")
+}
+
+fun retrieveDataBLE(dataRetrieval: JSONObject, deviceEngagement: JSONObject, callback: Callback) {
+    stopBackgroundRFID()
+    Instance().retrieveDataBLE(context, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!){ v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
+}
 
 fun setLocalizationDictionary(dictionary: JSONObject) {
     localizationCallbacks = LocalizationCallbacks { if (dictionary.has(it)) dictionary.getString(it) else null }
@@ -476,7 +528,8 @@ fun prepareCompletion(callback: Callback) = object : IDocumentReaderPrepareDbCom
 
 fun initCompletion(callback: Callback) = IDocumentReaderInitCompletion { success, error ->
     if (success) {
-        Instance().setVideoEncoderCompletion { _, file -> sendEvent(videoEncoderCompletionEvent, file.path) }
+        videoEncoderCompletion = IVideoEncoderCompletion { _, file -> sendEvent(videoEncoderCompletionEvent, file.path) }
+        Instance().setVideoEncoderCompletion(videoEncoderCompletion)
         Instance().setOnClickListener { sendEvent(onCustomButtonTappedEvent, it.tag) }
     }
     callback(generateSuccessCompletion(success, error))
@@ -525,19 +578,22 @@ var requestType = RfidReaderRequestType(
 @Suppress("DEPRECATION", "MissingPermission")
 fun newIntent(intent: Intent): Boolean {
     if (intent.action != NfcAdapter.ACTION_TECH_DISCOVERED) return false
-    Instance().readRFID(
-        IsoDep.get(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)),
-        rfidReaderCompletion,
-        requestType.getRfidReaderRequest()
-    )
+    val isoDep = IsoDep.get(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG))
+    when (nfcFunction) {
+        "readRFID" -> Instance().readRFID(isoDep, rfidReaderCompletion, requestType.getRfidReaderRequest())
+        "engageDeviceNFC" -> Instance().engageDeviceNFC(isoDep) { v1, v2 -> engageDeviceNFCCallback(generateDeviceEngagementCompletion(v1, v2)) }
+        "retrieveDataNFC" -> Instance().retrieveDataNFC(isoDep, retrieveDataNFCProp) { v1, v2, v3 -> retrieveDataNFCCallback(generateCompletion(v1, v2, v3)) }
+    }
     return true
 }
 
 var backgroundRFIDEnabled = false
+var nfcFunction = ""
 lateinit var lifecycleObserver: LifecycleEventObserver
 
-fun startForegroundDispatch() {
+fun startForegroundDispatch(tag: String) {
     backgroundRFIDEnabled = true
+    nfcFunction = tag
     val filters: Array<IntentFilter?> = arrayOfNulls(1)
     filters[0] = IntentFilter()
     filters[0]!!.addAction(NfcAdapter.ACTION_TECH_DISCOVERED)
@@ -577,3 +633,4 @@ fun stopBackgroundRFID() {
 
 // Weak references
 lateinit var localizationCallbacks: LocalizationCallbacks
+lateinit var videoEncoderCompletion: IVideoEncoderCompletion

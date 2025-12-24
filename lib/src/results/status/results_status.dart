@@ -38,6 +38,22 @@ class ResultsStatus {
   CheckResult get stopList => _stopList;
   late CheckResult _stopList;
 
+  /// Summary of all mDL results.
+  CheckResult get mDL => _mDL;
+  late CheckResult _mDL;
+
+  /// Summary of all age results.
+  CheckResult get age => _age;
+  late CheckResult _age;
+
+  /// Android only.
+  CheckResult? get captureProcessIntegrity => _captureProcessIntegrity;
+  late CheckResult? _captureProcessIntegrity;
+
+  /// Container for an details age scanning statuses.
+  AgeStatus get ageStatus => _ageStatus;
+  late AgeStatus _ageStatus;
+
   /// Allows you to deserialize object.
   static ResultsStatus? fromJson(jsonObject) {
     if (jsonObject == null) return null;
@@ -52,6 +68,11 @@ class ResultsStatus {
     result._detailsRFID = RFIDStatus.fromJson(jsonObject["detailsRFID"])!;
     result._portrait = CheckResult.getByValue(jsonObject["portrait"])!;
     result._stopList = CheckResult.getByValue(jsonObject["stopList"])!;
+    result._mDL = CheckResult.getByValue(jsonObject["mDL"])!;
+    result._age = CheckResult.getByValue(jsonObject["age"])!;
+    result._captureProcessIntegrity =
+        CheckResult.getByValue(jsonObject["captureProcessIntegrity"]);
+    result._ageStatus = AgeStatus.fromJson(jsonObject["detailsAge"])!;
 
     return result;
   }
@@ -63,7 +84,11 @@ class ResultsStatus {
         "rfid": rfid.value,
         "portrait": portrait.value,
         "stopList": stopList.value,
+        "mDL": mDL.value,
+        "age": age.value,
+        "captureProcessIntegrity": captureProcessIntegrity?.value,
         "detailsOptical": detailsOptical.toJson(),
+        "detailsAge": ageStatus.toJson(),
         "detailsRFID": detailsRFID.toJson(),
       }.clearNulls();
 }

@@ -115,6 +115,7 @@ var processParams = {
   "disableAuthResolutionFilter": true,
   "strictSecurityChecks": false,
   "returnTransliteratedFields": true,
+  "checkCaptureProcessIntegrity": false,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -147,6 +148,7 @@ var processParams = {
   "documentGroupFilter": [135, 136, 137],
   "lcidIgnoreFilter": [10011, 1078, 1052],
   "lcidFilter": [1118, 5121, 15361],
+  "fieldTypesIgnoreFilter": [22, 23, 24],
   "imageQA": imageQA,
   "rfidParams": rfidParams,
   "faceApiParams": faceApiParams,
@@ -222,6 +224,7 @@ var customization = {
   "activityIndicatorPortraitPositionMultiplier": 12.5,
   "activityIndicatorLandscapePositionMultiplier": 13.5,
   "cameraPreviewVerticalPositionMultiplier": 14.5,
+  "multipageButtonPositionMultiplier": 15.5,
   "multipageAnimationFrontImage": img1,
   "multipageAnimationBackImage": img2,
   "borderBackgroundImage": img3,
@@ -295,6 +298,7 @@ var functionality = {
   "singleResult": false,
   "torchTurnedOn": false,
   "preventScreenRecording": true,
+  "homeIndicatorAutoHide": false,
   "showCaptureButtonDelayFromDetect": 0,
   "showCaptureButtonDelayFromStart": 1,
   "rfidTimeout": 2,
@@ -308,6 +312,7 @@ var functionality = {
   "zoomFactor": 0.5,
   "exposure": 1.5,
   "videoRecordingSizeDownscaleFactor": 2.5,
+  "mdlTimeout": 3.5,
   "excludedCamera2Models": ["test1", "test2", "test3"],
   "cameraSize": cameraSize,
   "videoSessionPreset": 6,
@@ -699,6 +704,22 @@ var vdsncData = {
   "certificateChain": [certificateChain, certificateChain, certificateChain],
   "notifications": [3000000001, 3000000002, 3000000003],
 };
+var docFeature = {"type": 0, "data": bytesData};
+var vdsData = {
+  "type": 1,
+  "docType": 2,
+  "featureRef": 3,
+  "version": 4,
+  "issuingCountry": "test1",
+  "docIssueDate": "test2",
+  "signature": bytesData,
+  "signatureDate": "test3",
+  "signer": "test4",
+  "certificate": "test5",
+  "certificateChain": [certificateChain, certificateChain, certificateChain],
+  "docFeatures": [docFeature, docFeature, docFeature],
+  "notifications": [3000000001, 3000000002, 3000000003],
+};
 var opticalStatus = {
   "overallStatus": 0,
   "mrz": 1,
@@ -709,6 +730,14 @@ var opticalStatus = {
   "expiry": 0,
   "vds": 1,
   "pagesCount": 3,
+};
+var ageStatus = {
+  "threshold": 0,
+  "overThreshold": 1,
+  "over18": 2,
+  "over21": 0,
+  "over25": 1,
+  "over65": 2,
 };
 var rfidStatus = {
   "overallStatus": 0,
@@ -725,7 +754,11 @@ var resultsStatus = {
   "rfid": 2,
   "portrait": 0,
   "stopList": 1,
+  "mDL": 2,
+  "age": 0,
+  "captureProcessIntegrity": 1,
   "detailsOptical": opticalStatus,
+  "detailsAge": ageStatus,
   "detailsRFID": rfidStatus,
 };
 var comparison = {"sourceTypeLeft": 0, "sourceTypeRight": 1, "status": 2};
@@ -853,6 +886,7 @@ var results = {
   "barcodeResult": barcodeResult,
   "status": resultsStatus,
   "vdsncData": vdsncData,
+  "vdsData": vdsData,
   "dtcData": img1,
   "transactionInfo": transactionInfo,
 };
@@ -886,4 +920,75 @@ var tccParams = {
   "pfxCertUrl": "test3",
   "pfxPassPhrase": "test4",
   "pfxCert": img1,
+};
+var deviceRetrievalMethod = {
+  "type": 1,
+  "version": 2,
+  "cmdMaxLength": 3,
+  "respMaxLength": 4,
+  "clientModeSupport": true,
+  "clientModeUUID": "test1",
+  "serverModeSupport": true,
+  "serverModeUUID": "test2",
+};
+var deviceEngagement = {
+  "deviceRetrievalMethods": [
+    deviceRetrievalMethod,
+    deviceRetrievalMethod,
+    deviceRetrievalMethod,
+  ],
+};
+var nameSpaceMDL = {
+  "name": "test1",
+  "map": {"test2": 0, "test3": 1, "test4": 0},
+};
+var documentRequestMDL = {
+  "docType": "test1",
+  "namespaces": [nameSpaceMDL, nameSpaceMDL, nameSpaceMDL],
+};
+var documentRequest18013MDL = {
+  "docType": "org.iso.18013.5.1.mDL",
+  "namespaces": [nameSpaceMDL, nameSpaceMDL, nameSpaceMDL],
+  "familyName": 0,
+  "givenName": 1,
+  "birthDate": 1,
+  "issueDate": 0,
+  "expiryDate": 1,
+  "issuingCountry": 0,
+  "issuingAuthority": 0,
+  "documentNumber": 0,
+  "portrait": 1,
+  "drivingPrivileges": 0,
+  "unDistinguishingSign": 0,
+  "administrativeNumber": 1,
+  "sex": 0,
+  "height": 0,
+  "weight": 0,
+  "eyeColour": 1,
+  "hairColour": 0,
+  "birthPlace": 1,
+  "residentAddress": 0,
+  "portraitCaptureDate": 0,
+  "ageInYears": 1,
+  "ageBirthYear": 1,
+  "ageOver18": 1,
+  "issuingJurisdiction": 0,
+  "nationality": 0,
+  "residentCity": 1,
+  "residentState": 0,
+  "residentPostalCode": 0,
+  "residentCountry": 1,
+  "biometricTemplateFace": 0,
+  "biometricTemplateIris": 0,
+  "biometricTemplateFinger": 1,
+  "biometricTemplateSignatureSign": 1,
+  "familyNameNationalCharacter": 0,
+  "givenNameNationalCharacter": 1,
+  "signatureUsualMark": 0,
+};
+var dataRetrieval = {
+  "deviceRetrieval": 2,
+  "docRequestPreset": 1,
+  "intentToRetain": 0,
+  "requests": [documentRequestMDL, documentRequest18013MDL],
 };

@@ -1959,6 +1959,9 @@ static NSMutableArray* weakReferencesHolder;
     result[@"detailsRFID"] = [self generateRFIDSessionDataStatus:input.detailsRFID];
     result[@"portrait"] = @(input.portrait);
     result[@"stopList"] = @(input.stopList);
+    result[@"mDL"] = @(input.mDL);
+    result[@"age"] = @(input.age);
+    result[@"detailsAge"] = [self generateDetailsAge:input.detailsAge];
     
     return result;
 }
@@ -2013,6 +2016,24 @@ static NSMutableArray* weakReferencesHolder;
     result[@"pace"] = @(input.PACE);
     result[@"ta"] = @(input.TA);
     result[@"overallStatus"] = @(input.overallStatus);
+    
+    return result;
+}
+
++(RGLDetailsAge*)detailsAgeFromJson:(NSDictionary*)input {
+    return [RGLDetailsAge performSelector:NSSelectorFromString(@"detailsAgeWithJSON:") withObject:input];
+}
+
++(NSDictionary*)generateDetailsAge:(RGLDetailsAge*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"threshold"] = input.threshold;
+    result[@"overThreshold"] = @(input.overThreshold);
+    result[@"over18"] = @(input.over18);
+    result[@"over21"] = @(input.over21);
+    result[@"over25"] = @(input.over25);
+    result[@"over65"] = @(input.over65);
     
     return result;
 }
@@ -2249,6 +2270,332 @@ static NSMutableArray* weakReferencesHolder;
     return result;
 }
 
++(RGLDocFeature*)docFeatureFromJson:(NSDictionary*)input {
+    NSMutableDictionary* json = input.mutableCopy;
+    json[@"Type"] = input[@"type"];
+    json[@"Data"] = [self bytesDataDictionaryFromJson: input[@"data"]];
+    return [RGLDocFeature initWithJSON: json];
+}
+
++(NSDictionary*)generateDocFeature:(RGLDocFeature*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"type"] = input.type;
+    result[@"data"] = [self generateBytesData:input.data];
+    
+    return result;
+}
+
++(RGLVDSData*)vdsDataFromJson:(NSDictionary*)input {
+    NSMutableArray<RGLCertificateChain*>* certificateChain = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"certificateChain"]){
+        [certificateChain addObject:[self certificateChainFromJson:item]];
+    }
+    NSMutableArray<RGLDocFeature*>* docFeatures = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"docFeatures"]){
+        [docFeatures addObject:[self docFeatureFromJson:item]];
+    }
+    NSMutableArray<NSNumber*>* notifications = [NSMutableArray new];
+    for(NSNumber* item in [input valueForKey:@"notifications"]){
+        [notifications addObject:item];
+    }
+    
+    RGLVDSData* result = [RGLVDSData alloc];
+    SEL sel = NSSelectorFromString(@"initWithType:docType:featureRef:version:certificate:issuingCountry:docIssueDate:signature:signatureDate:signer:certificateChain:docFeatures:notifications:");
+    IMP imp = [result methodForSelector:sel];
+    void (*func)(id, SEL, NSInteger, NSInteger, NSInteger, NSInteger, id, id, id, id, id, id, id, id, id) = (void *)imp;
+    func(result,
+         sel,
+         [input[@"type"] integerValue],
+         [input[@"docType"] integerValue],
+         [input[@"featureRef"] integerValue],
+         [input[@"version"] integerValue],
+         input[@"certificate"],
+         input[@"issuingCountry"],
+         input[@"docIssueDate"],
+         [self bytesDataFromJson:input[@"signature"]],
+         input[@"signatureDate"],
+         input[@"signer"],
+         certificateChain,
+         docFeatures,
+         notifications);
+    return result;
+}
+
++(NSDictionary*)generateVDSData:(RGLVDSData*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"type"] = @(input.type);
+    result[@"docType"] = @(input.docType);
+    result[@"featureRef"] = @(input.featureRef);
+    result[@"version"] = @(input.version);
+    result[@"certificate"] = input.certificate;
+    result[@"issuingCountry"] = input.issuingCountry;
+    result[@"docIssueDate"] = input.docIssueDate;
+    result[@"signature"] = [self generateBytesData:input.signature];
+    result[@"signatureDate"] = input.signatureDate;
+    result[@"signer"] = input.signer;
+    if(input.certificateChain != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLCertificateChain* item in input.certificateChain)
+            [array addObject:[self generateCertificateChain:item]];
+        result[@"certificateChain"] = array;
+    }
+    if(input.docFeatures != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLDocFeature* item in input.docFeatures)
+            [array addObject:[self generateDocFeature:item]];
+        result[@"docFeatures"] = array;
+    }
+    if(input.notifications != nil){
+        NSMutableArray *array = [NSMutableArray new];
+        for(NSNumber* item in input.notifications)
+            [array addObject:item];
+        result[@"notifications"] = array;
+    }
+    
+    return result;
+}
+
++(RGLDeviceRetrievalMethod*)deviceRetrievalMethodFromJson:(NSDictionary*)input {
+    return [[RGLDeviceRetrievalMethod alloc] initWithJSON:input];
+}
+
++(NSDictionary*)generateDeviceRetrievalMethod:(RGLDeviceRetrievalMethod*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"type"] = @(input.type);
+    result[@"version"] = input.version;
+    result[@"cmdMaxLength"] = input.cmdMaxLength;
+    result[@"respMaxLength"] = input.respMaxLength;
+    result[@"clientModeSupport"] = input.clientModeSupport;
+    result[@"clientModeUUID"] = input.clientModeUUID;
+    result[@"serverModeSupport"] = input.serverModeSupport;
+    result[@"serverModeUUID"] = input.serverModeUUID;
+    
+    return result;
+}
+
++(RGLDeviceEngagement*)deviceEngagementFromJson:(NSDictionary*)input {
+    RGLDeviceEngagement* result = [RGLDeviceEngagement new];
+    
+    
+    NSMutableArray<RGLDeviceRetrievalMethod*>* deviceRetrievalMethods = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"deviceRetrievalMethods"]){
+        [deviceRetrievalMethods addObject:[self deviceRetrievalMethodFromJson: item]];
+    }
+    result.deviceRetrievalMethods = deviceRetrievalMethods;
+    
+    return result;
+    
+}
+
++(NSDictionary*)generateDeviceEngagement:(RGLDeviceEngagement*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for(RGLDeviceRetrievalMethod* item in input.deviceRetrievalMethods)
+        [array addObject:[self generateDeviceRetrievalMethod:item]];
+    result[@"deviceRetrievalMethods"] = array;
+    
+    return result;
+}
+
++(RGLNameSpaceMDL*)nameSpaceMDLFromJson:(NSDictionary*)input {
+    RGLNameSpaceMDL* result = [[RGLNameSpaceMDL alloc] initWithName:input[@"name"]];
+    
+    [result setValue:input[@"map"] forKey:@"jsonDict"];
+
+    return result;
+    
+}
+
++(NSDictionary*)generateNameSpaceMDL:(RGLNameSpaceMDL*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"name"] = input.name;
+    result[@"map"] = [input valueForKey:@"jsonDict"];
+    
+    return result;
+}
+
++(RGLDocumentRequestMDL*)documentRequestMDLFromJson:(NSDictionary*)input {
+    NSString* docType = input[@"docType"];
+    if([docType  isEqual: @"org.iso.18013.5.1.mDL"]) return [self documentRequest18013MDLFromJson: input];
+    RGLDocumentRequestMDL* result = [[RGLDocumentRequestMDL alloc] initWithDocType:docType];
+    
+    NSMutableArray<RGLNameSpaceMDL*>* nameSpaces = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"namespaces"]){
+        [nameSpaces addObject:[self nameSpaceMDLFromJson: item]];
+    }
+    [result setValue:nameSpaces forKey:@"nameSpaces"];
+
+    return result;
+    
+}
+
++(NSDictionary*)generateDocumentRequestMDL:(RGLDocumentRequestMDL*)input {
+    if(input == nil) return nil;
+    NSString* docType = [input valueForKey:@"docType"];
+    if([docType  isEqual: @"org.iso.18013.5.1.mDL"]) return [self generateDocumentRequest18013MDL: (RGLDocumentRequest18013MDL*)input];
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for(RGLNameSpaceMDL* item in [input valueForKey:@"nameSpaces"])
+        [array addObject:[self generateNameSpaceMDL:item]];
+    
+    result[@"docType"] = docType;
+    result[@"namespaces"] = array;
+    
+    return result;
+}
+
++(RGLDocumentRequest18013MDL*)documentRequest18013MDLFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    RGLDocumentRequest18013MDL* result = [RGLDocumentRequest18013MDL new];
+    
+    [result setValue:[input valueForKey:@"docType"] forKey:@"docType"];
+    NSMutableArray<RGLNameSpaceMDL*>* nameSpaces = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"namespaces"]){
+        [nameSpaces addObject:[self nameSpaceMDLFromJson: item]];
+    }
+    [result setValue:nameSpaces forKey:@"nameSpaces"];
+    if (input[@"familyName"]) result.familyName = [input[@"familyName"] integerValue];
+    if (input[@"givenName"]) result.givenName = [input[@"givenName"] integerValue];
+    if (input[@"birthDate"]) result.birthDate = [input[@"birthDate"] integerValue];
+    if (input[@"issueDate"]) result.issueDate = [input[@"issueDate"] integerValue];
+    if (input[@"expiryDate"]) result.expiryDate = [input[@"expiryDate"] integerValue];
+    if (input[@"issuingCountry"]) result.issuingCountry = [input[@"issuingCountry"] integerValue];
+    if (input[@"issuingAuthority"]) result.issuingAuthority = [input[@"issuingAuthority"] integerValue];
+    if (input[@"documentNumber"]) result.documentNumber = [input[@"documentNumber"] integerValue];
+    if (input[@"portrait"]) result.portrait = [input[@"portrait"] integerValue];
+    if (input[@"drivingPrivileges"]) result.drivingPrivileges = [input[@"drivingPrivileges"] integerValue];
+    if (input[@"unDistinguishingSign"]) result.unDistinguishingSign = [input[@"unDistinguishingSign"] integerValue];
+    if (input[@"administrativeNumber"]) result.administrativeNumber = [input[@"administrativeNumber"] integerValue];
+    if (input[@"sex"]) result.sex = [input[@"sex"] integerValue];
+    if (input[@"height"]) result.height = [input[@"height"] integerValue];
+    if (input[@"weight"]) result.weight = [input[@"weight"] integerValue];
+    if (input[@"eyeColour"]) result.eyeColour = [input[@"eyeColour"] integerValue];
+    if (input[@"hairColour"]) result.hairColour = [input[@"hairColour"] integerValue];
+    if (input[@"birthPlace"]) result.birthPlace = [input[@"birthPlace"] integerValue];
+    if (input[@"residentAddress"]) result.residentAddress = [input[@"residentAddress"] integerValue];
+    if (input[@"portraitCaptureDate"]) result.portraitCaptureDate = [input[@"portraitCaptureDate"] integerValue];
+    if (input[@"ageInYears"]) result.ageInYears = [input[@"ageInYears"] integerValue];
+    if (input[@"ageBirthYear"]) result.ageBirthYear = [input[@"ageBirthYear"] integerValue];
+    if (input[@"ageOver18"]) result.ageOver18 = [input[@"ageOver18"] integerValue];
+    if (input[@"issuingJurisdiction"]) result.issuingJurisdiction = [input[@"issuingJurisdiction"] integerValue];
+    if (input[@"nationality"]) result.nationality = [input[@"nationality"] integerValue];
+    if (input[@"residentCity"]) result.residentCity = [input[@"residentCity"] integerValue];
+    if (input[@"residentState"]) result.residentState = [input[@"residentState"] integerValue];
+    if (input[@"residentPostalCode"]) result.residentPostalCode = [input[@"residentPostalCode"] integerValue];
+    if (input[@"residentCountry"]) result.residentCountry = [input[@"residentCountry"] integerValue];
+    if (input[@"biometricTemplateFace"]) result.biometricTemplateFace = [input[@"biometricTemplateFace"] integerValue];
+    if (input[@"biometricTemplateIris"]) result.biometricTemplateIris = [input[@"biometricTemplateIris"] integerValue];
+    if (input[@"biometricTemplateFinger"]) result.biometricTemplateFinger = [input[@"biometricTemplateFinger"] integerValue];
+    if (input[@"biometricTemplateSignatureSign"]) result.biometricTemplateSignatureSign = [input[@"biometricTemplateSignatureSign"] integerValue];
+    if (input[@"familyNameNationalCharacter"]) result.familyNameNationalCharacter = [input[@"familyNameNationalCharacter"] integerValue];
+    if (input[@"givenNameNationalCharacter"]) result.givenNameNationalCharacter = [input[@"givenNameNationalCharacter"] integerValue];
+    if (input[@"signatureUsualMark"]) result.signatureUsualMark = [input[@"signatureUsualMark"] integerValue];
+    
+    return result;
+}
+
++(NSDictionary*)generateDocumentRequest18013MDL:(RGLDocumentRequest18013MDL*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for(RGLNameSpaceMDL* item in [input valueForKey:@"nameSpaces"])
+        [array addObject:[self generateNameSpaceMDL:item]];
+    
+    result[@"docType"] = [input valueForKey:@"docType"];
+    result[@"namespaces"] = array;
+    if (input.familyName != -1) result[@"familyName"] = @(input.familyName);
+    if (input.givenName != -1) result[@"givenName"] = @(input.givenName);
+    if (input.birthDate != -1) result[@"birthDate"] = @(input.birthDate);
+    if (input.issueDate != -1) result[@"issueDate"] = @(input.issueDate);
+    if (input.expiryDate != -1) result[@"expiryDate"] = @(input.expiryDate);
+    if (input.issuingCountry != -1) result[@"issuingCountry"] = @(input.issuingCountry);
+    if (input.issuingAuthority != -1) result[@"issuingAuthority"] = @(input.issuingAuthority);
+    if (input.documentNumber != -1) result[@"documentNumber"] = @(input.documentNumber);
+    if (input.portrait != -1) result[@"portrait"] = @(input.portrait);
+    if (input.drivingPrivileges != -1) result[@"drivingPrivileges"] = @(input.drivingPrivileges);
+    if (input.unDistinguishingSign != -1) result[@"unDistinguishingSign"] = @(input.unDistinguishingSign);
+    if (input.administrativeNumber != -1) result[@"administrativeNumber"] = @(input.administrativeNumber);
+    if (input.sex != -1) result[@"sex"] = @(input.sex);
+    if (input.height != -1) result[@"height"] = @(input.height);
+    if (input.weight != -1) result[@"weight"] = @(input.weight);
+    if (input.eyeColour != -1) result[@"eyeColour"] = @(input.eyeColour);
+    if (input.hairColour != -1) result[@"hairColour"] = @(input.hairColour);
+    if (input.birthPlace != -1) result[@"birthPlace"] = @(input.birthPlace);
+    if (input.residentAddress != -1) result[@"residentAddress"] = @(input.residentAddress);
+    if (input.portraitCaptureDate != -1) result[@"portraitCaptureDate"] = @(input.portraitCaptureDate);
+    if (input.ageInYears != -1) result[@"ageInYears"] = @(input.ageInYears);
+    if (input.ageBirthYear != -1) result[@"ageBirthYear"] = @(input.ageBirthYear);
+    if (input.ageOver18 != -1) result[@"ageOver18"] = @(input.ageOver18);
+    if (input.issuingJurisdiction != -1) result[@"issuingJurisdiction"] = @(input.issuingJurisdiction);
+    if (input.nationality != -1) result[@"nationality"] = @(input.nationality);
+    if (input.residentCity != -1) result[@"residentCity"] = @(input.residentCity);
+    if (input.residentState != -1) result[@"residentState"] = @(input.residentState);
+    if (input.residentPostalCode != -1) result[@"residentPostalCode"] = @(input.residentPostalCode);
+    if (input.residentCountry != -1) result[@"residentCountry"] = @(input.residentCountry);
+    if (input.biometricTemplateFace != -1) result[@"biometricTemplateFace"] = @(input.biometricTemplateFace);
+    if (input.biometricTemplateIris != -1) result[@"biometricTemplateIris"] = @(input.biometricTemplateIris);
+    if (input.biometricTemplateFinger != -1) result[@"biometricTemplateFinger"] = @(input.biometricTemplateFinger);
+    if (input.biometricTemplateSignatureSign != -1) result[@"biometricTemplateSignatureSign"] = @(input.biometricTemplateSignatureSign);
+    if (input.familyNameNationalCharacter != -1) result[@"familyNameNationalCharacter"] = @(input.familyNameNationalCharacter);
+    if (input.givenNameNationalCharacter != -1) result[@"givenNameNationalCharacter"] = @(input.givenNameNationalCharacter);
+    if (input.signatureUsualMark != -1) result[@"signatureUsualMark"] = @(input.signatureUsualMark);
+    
+    return result;
+}
+
++(RGLDataRetrieval*)dataRetrievalFromJson:(NSDictionary*)input {
+    RGLDataRetrieval* result = [[RGLDataRetrieval alloc] initWithDeviceRetrieval:[input[@"deviceRetrieval"] integerValue]];
+    
+    [result setValue:input[@"docRequestPreset"] forKey:@"docRequestPreset"];
+    [result setValue:input[@"intentToRetain"] forKey:@"intentToRetain"];
+    
+    NSMutableArray<RGLDocumentRequestMDL*>* requests = [NSMutableArray new];
+    for(NSDictionary* item in [input valueForKey:@"requests"]){
+        [requests addObject:[self documentRequestMDLFromJson: item]];
+    }
+    result.requests = requests;
+    
+    return result;
+    
+}
+
++(NSDictionary*)generateDataRetrieval:(RGLDataRetrieval*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"deviceRetrieval"] = [input valueForKey:@"deviceRetrieval"];
+    result[@"docRequestPreset"] = [input valueForKey:@"docRequestPreset"];
+    result[@"intentToRetain"] = [input valueForKey:@"intentToRetain"];
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for(RGLDocumentRequestMDL* item in input.requests)
+        [array addObject:[self generateDocumentRequestMDL:item]];
+    result[@"requests"] = array;
+    
+    return result;
+}
+
++(NSString*)generateDeviceEngagementCompletion:(RGLDeviceEngagement*)deviceEngagement :(NSError*)error {
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"deviceEngagement"] = [self generateDeviceEngagement:deviceEngagement];
+    result[@"error"] = [self generateError:error];
+    
+    return [RGLWJSONConstructor dictToString: result];
+}
+
 +(RGLDocumentReaderResults*)documentReaderResultsFromJson:(NSDictionary*)input {
     NSMutableArray<RGLDocumentReaderDocumentType*>* documentType = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"documentType"]){
@@ -2285,6 +2632,7 @@ static NSMutableArray* weakReferencesHolder;
             chipPage:[[input valueForKey:@"chipPage"] integerValue]
             barcodeResult:[self documentReaderBarcodeResultFromJson: [input valueForKey:@"barcodeResult"]]
             vdsncData:[self vdsncDataFromJson: [input valueForKey:@"vdsncData"]]
+            vdsData:[self vdsDataFromJson: [input valueForKey:@"vdsData"]]
             status:[self documentReaderResultsStatusFromJson: [input valueForKey:@"status"]]
             processingFinished:[[input valueForKey:@"processingFinishedStatus"] integerValue]
             morePagesAvailable:[[input valueForKey:@"morePagesAvailable"] integerValue]
@@ -2344,6 +2692,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"rawResult"] = input.rawResult;
     result[@"status"] = [self generateDocumentReaderResultsStatus:input.status];
     result[@"vdsncData"] = [self generateVDSNCData:input.vdsncData];
+    result[@"vdsData"] = [self generateVDSData:input.vdsData];
     result[@"dtcData"] = [self base64Encode: input.dtcData];
     result[@"transactionInfo"] = [self generateTransactionInfo:input.transactionInfo];
     
