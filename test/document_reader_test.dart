@@ -134,7 +134,10 @@ void main() {
     compare('rfidSessionData', rfidSessionData, RFIDSessionData.fromJson);
     compare('bytesData', bytesData, BytesData.fromJson);
     compare('vdsncData', vdsncData, VDSNCData.fromJson);
+    compare('docFeature', docFeature, DocFeature.fromJson);
+    compare('vdsData', vdsData, VDSData.fromJson);
     compare('opticalStatus', opticalStatus, OpticalStatus.fromJson);
+    compare('ageStatus', ageStatus, AgeStatus.fromJson);
     compare('rfidStatus', rfidStatus, RFIDStatus.fromJson);
     compare('resultsStatus', resultsStatus, ResultsStatus.fromJson);
     compare('comparison', comparison, Comparison.fromJson);
@@ -160,5 +163,15 @@ void main() {
     compare('pkdCertificate', pkdCertificate, PKDCertificate.fromJson);
     compare('taChallenge', taChallenge, TAChallenge.fromJson);
     compare('tccParams', tccParams, TccParams.fromJson);
+
+    compare('deviceRetrievalMethod', deviceRetrievalMethod,
+        DeviceRetrievalMethod.fromJson);
+    compare('deviceEngagement', deviceEngagement, DeviceEngagement.fromJson);
+    compare('nameSpaceMDL', nameSpaceMDL, NameSpaceMDL.fromJson);
+    compare(
+        'documentRequestMDL', documentRequestMDL, DocumentRequestMDL.fromJson);
+    compare('documentRequest18013MDL', documentRequest18013MDL,
+        DocumentRequest18013MDL.fromJson);
+    compare('dataRetrieval', dataRetrieval, DataRetrieval.fromJson);
   });
 }

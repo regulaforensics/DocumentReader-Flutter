@@ -12,7 +12,9 @@ import android.util.Base64
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.lang.reflect.Constructor
 import kotlin.math.sqrt
+import kotlin.reflect.KClass
 
 fun List<*>.toJson(): JSONArray {
     val result = JSONArray()
@@ -105,6 +107,18 @@ fun IntArray?.toJson() = this?.let {
     result
 }
 
+fun JSONArray.toLongArray(): LongArray {
+    val result = LongArray(length())
+    for (i in 0 until length()) result[i] = getLong(i)
+    return result
+}
+
+fun LongArray.toJson(): JSONArray {
+    val result = JSONArray()
+    for (i in indices) result.put(i, this[i])
+    return result
+}
+
 fun JSONObject.forEach(action: (String, Any) -> Unit) {
     val keys: Iterator<String> = keys()
     while (keys.hasNext()) {
@@ -123,6 +137,11 @@ fun JSONObject.getIntOrNull(name: String): Int? {
     return null
 }
 
+fun JSONObject.getLongOrNull(name: String): Long? {
+    if (has(name) && get(name).toString() != "null") return getLong(name)
+    return null
+}
+
 fun JSONObject.getDoubleOrNull(name: String): Double? {
     if (has(name) && get(name).toString() != "null") return getDouble(name)
     return null
@@ -136,6 +155,49 @@ fun JSONObject.getBooleanOrNull(name: String): Boolean? {
 fun JSONObject.getStringOrNull(name: String): String? {
     if (has(name) && get(name).toString() != "null") return getString(name)
     return null
+}
+
+fun <T : Any> KClass<T>.constructor(vararg argTypes: KClass<*>): Constructor<T> {
+    val types = mutableListOf<Class<*>>()
+    for (argType in argTypes) types.add(argType.java)
+    return java.getDeclaredConstructor(*types.toTypedArray())
+}
+
+fun <T : Any> Constructor<T>.instantiate(vararg args: Any?): T {
+    isAccessible = true
+    return newInstance(*args)
+}
+
+fun <T : Any> T.setPrivateProperty(varName: String, data: Any?) {
+    try {
+        setPrivateProperty(javaClass, varName, data)
+    } catch (_: java.lang.Exception) {
+        try {
+            setPrivateProperty(javaClass.superclass!!, varName, data)
+        } catch (_: java.lang.Exception) {
+        }
+    }
+}
+
+fun <T : Any> T.setPrivateProperty(clazz: Class<T>, varName: String, data: Any?) = clazz.getDeclaredField(varName).let {
+    it.isAccessible = true
+    it.set(this, data)
+}
+
+fun <T : Any> T.getPrivateProperty(varName: String): Any? {
+    var clazz: Class<*>? = this.javaClass
+    while (clazz != null) {
+        try {
+            val field = clazz.getDeclaredField(varName)
+            field.isAccessible = true
+            return field.get(this)
+        } catch (_: NoSuchFieldException) {
+            clazz = clazz.superclass
+        }
+    }
+    throw NoSuchFieldException(
+        "Field '$varName' not found in class hierarchy of ${this.javaClass.name}"
+    )
 }
 
 internal object Convert {

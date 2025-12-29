@@ -63,6 +63,10 @@ class Results {
   VDSNCData? get vdsncData => _vdsncData;
   VDSNCData? _vdsncData;
 
+  /// Visible Digital Seal data.
+  VDSData? get vdsData => _vdsData;
+  VDSData? _vdsData;
+
   /// DTCVC data.
   Uint8List? get dtcData => _dtcData;
   Uint8List? _dtcData;
@@ -364,6 +368,7 @@ class Results {
     result._barcodeResult = BarcodeResult.fromJson(jsonObject["barcodeResult"]);
     result._status = ResultsStatus.fromJson(jsonObject["status"])!;
     result._vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
+    result._vdsData = VDSData.fromJson(jsonObject["vdsData"]);
     result._dtcData = _bytesFromBase64(jsonObject["dtcData"]);
     result._transactionInfo = TransactionInfo.fromJson(
       jsonObject["transactionInfo"],
@@ -386,6 +391,7 @@ class Results {
         "rfidSessionData": rfidSessionData?.toJson(),
         "barcodeResult": barcodeResult?.toJson(),
         "vdsncData": vdsncData?.toJson(),
+        "vdsData": vdsData?.toJson(),
         "dtcData": _bytesToBase64(dtcData),
         "chipPage": chipPage,
         "processingFinishedStatus": processingFinishedStatus.value,
@@ -578,7 +584,15 @@ enum ResultType {
   RFID_ORIGINAL_GRAPHICS(105),
 
   /// Digital Travel Credential data.
-  RFID_DTC_VC(109);
+  RFID_DTC_VC(109),
+
+  MDL_PARSED_RESPONSE(121),
+
+  /// VDS_NC.
+  VDSNC(124),
+
+  /// VDS.
+  VDS(125);
 
   const ResultType(this.value);
   final int value;

@@ -21,12 +21,14 @@ class Tests: XCTestCase {
         compare(name: "onlineProcessingConfig", fromJson: RGLWJSONConstructor.onlineProcessingConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["requestHeaders",
                        "processParams.sessionLogFolder",
+                       "processParams.checkCaptureProcessIntegrity",
                        "processParams.uvTorchEnabled"])
     }
     
     func test_recognizeConfig() {
         compare(name: "recognizeConfig", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
+                       "onlineProcessingConfig.processParams.checkCaptureProcessIntegrity",
                        "onlineProcessingConfig.processParams.uvTorchEnabled"])
     }
     
@@ -34,6 +36,7 @@ class Tests: XCTestCase {
         compare(name: "recognizeConfig2", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
+                       "onlineProcessingConfig.processParams.checkCaptureProcessIntegrity",
                        "onlineProcessingConfig.requestHeaders"])
     }
     
@@ -42,6 +45,7 @@ class Tests: XCTestCase {
                 omit: ["cameraId",
                        "onlineProcessingConfig.processParams.sessionLogFolder",
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
+                       "onlineProcessingConfig.processParams.checkCaptureProcessIntegrity",
                        "onlineProcessingConfig.requestHeaders"])
     }
     
@@ -82,7 +86,8 @@ class Tests: XCTestCase {
     func test_processParams() {
         compare(name: "processParams", fromJson: RGLWJSONConstructor.processParams, generate: RGLWJSONConstructor.generate,
                 omit: ["sessionLogFolder",
-                       "uvTorchEnabled"])
+                       "uvTorchEnabled",
+                       "checkCaptureProcessIntegrity",])
     }
     
     // params.rfid_scenario
@@ -275,6 +280,14 @@ class Tests: XCTestCase {
         compare(name: "vdsncData", fromJson: RGLWJSONConstructor.vdsncData, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_docFeature() {
+        compare(name: "docFeature", fromJson: RGLWJSONConstructor.docFeature, generate: RGLWJSONConstructor.generate)
+    }
+    
+    func test_vdsData() {
+        compare(name: "vdsData", fromJson: RGLWJSONConstructor.vdsData, generate: RGLWJSONConstructor.generate)
+    }
+    
     // results.status
     
     func test_opticalStatus() {
@@ -285,8 +298,13 @@ class Tests: XCTestCase {
         compare(name: "rfidStatus", fromJson: RGLWJSONConstructor.rfidSessionDataStatus, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_ageStatus() {
+        compare(name: "ageStatus", fromJson: RGLWJSONConstructor.detailsAge, generate: RGLWJSONConstructor.generate)
+    }
+    
     func test_resultsStatus() {
-        compare(name: "resultsStatus", fromJson: RGLWJSONConstructor.documentReaderResultsStatus, generate: RGLWJSONConstructor.generate)
+        compare(name: "resultsStatus", fromJson: RGLWJSONConstructor.documentReaderResultsStatus, generate: RGLWJSONConstructor.generate,
+                omit: ["captureProcessIntegrity"])
     }
     
     // results.visual_results
@@ -364,7 +382,8 @@ class Tests: XCTestCase {
     }
     
     func test_results() {
-        compare(name: "results", fromJson: RGLWJSONConstructor.documentReaderResults, generate: RGLWJSONConstructor.generate);
+        compare(name: "results", fromJson: RGLWJSONConstructor.documentReaderResults, generate: RGLWJSONConstructor.generate,
+                omit: ["status.captureProcessIntegrity"]);
     }
     
     // rfid
@@ -387,5 +406,26 @@ class Tests: XCTestCase {
     
     func test_TccParams() {
         compare(name: "tccParams", fromJson: RGLWJSONConstructor.tccParams, generate: RGLWJSONConstructor.generate)
+    }
+    
+    // mdl
+    
+    func test_deviceRetrievalMethod() {
+        compare(name: "deviceRetrievalMethod", fromJson: RGLWJSONConstructor.deviceRetrievalMethod, generate: RGLWJSONConstructor.generate)
+    }
+    func test_deviceEngagement() {
+        compare(name: "deviceEngagement", fromJson: RGLWJSONConstructor.deviceEngagement, generate: RGLWJSONConstructor.generate)
+    }
+    func test_nameSpaceMDL() {
+        compare(name: "nameSpaceMDL", fromJson: RGLWJSONConstructor.nameSpaceMDL, generate: RGLWJSONConstructor.generate)
+    }
+    func test_documentRequestMDL() {
+        compare(name: "documentRequestMDL", fromJson: RGLWJSONConstructor.documentRequestMDL, generate: RGLWJSONConstructor.generate)
+    }
+    func test_documentRequest18013MDL() {
+        compare(name: "documentRequest18013MDL", fromJson: RGLWJSONConstructor.documentRequest18013MDL, generate: RGLWJSONConstructor.generate)
+    }
+    func test_dataRetrieval() {
+        compare(name: "dataRetrieval", fromJson: RGLWJSONConstructor.dataRetrieval, generate: RGLWJSONConstructor.generate)
     }
 }
