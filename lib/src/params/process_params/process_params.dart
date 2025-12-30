@@ -367,6 +367,14 @@ class ProcessParams {
     _set({"returnTransliteratedFields": val});
   }
 
+  /// Android only.
+  bool? get checkCaptureProcessIntegrity => _checkCaptureProcessIntegrity;
+  bool? _checkCaptureProcessIntegrity;
+  set checkCaptureProcessIntegrity(bool? val) {
+    _checkCaptureProcessIntegrity = val;
+    _set({"checkCaptureProcessIntegrity": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -693,6 +701,19 @@ class ProcessParams {
     _set({"lcidFilter": val?.map((e) => e.value).toList()});
   }
 
+  /// If a document contains a Visual zone, you can specify a list of field types that should be excluded from extraction.
+  /// All field types listed in this array are skipped during processing, while the remaining fields are recognized.
+  /// This filter is not applicable to the MRZ, barcode or RFID. If the fieldTypesIgnoreFilter is empty, all fields are extracted.
+  ///
+  /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
+  List<FieldType>? get fieldTypesIgnoreFilter => _fieldTypesIgnoreFilter;
+  List<FieldType>? _fieldTypesIgnoreFilter;
+  set fieldTypesIgnoreFilter(List<FieldType>? val) {
+    if (val != null) val = List.unmodifiable(val);
+    _fieldTypesIgnoreFilter = val;
+    _set({"fieldTypesIgnoreFilter": val?.map((e) => e.value).toList()});
+  }
+
   /// Controls properties of [ImageQA] checks.
   ImageQA get imageQA => _imageQA;
   ImageQA _imageQA = ImageQA();
@@ -792,6 +813,8 @@ class ProcessParams {
     result.strictSecurityChecks = jsonObject["strictSecurityChecks"];
     result.returnTransliteratedFields =
         jsonObject["returnTransliteratedFields"];
+    result.checkCaptureProcessIntegrity =
+        jsonObject["checkCaptureProcessIntegrity"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -847,6 +870,8 @@ class ProcessParams {
     );
     result.lcidIgnoreFilter = LCID.fromIntList(jsonObject["lcidIgnoreFilter"]);
     result.lcidFilter = LCID.fromIntList(jsonObject["lcidFilter"]);
+    result.fieldTypesIgnoreFilter =
+        FieldType.fromIntList(jsonObject["fieldTypesIgnoreFilter"]);
 
     result.imageQA = ImageQA.fromJson(jsonObject["imageQA"]);
     result.rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
@@ -905,6 +930,7 @@ class ProcessParams {
         "disableAuthResolutionFilter": disableAuthResolutionFilter,
         "strictSecurityChecks": strictSecurityChecks,
         "returnTransliteratedFields": returnTransliteratedFields,
+        "checkCaptureProcessIntegrity": checkCaptureProcessIntegrity,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
@@ -938,6 +964,8 @@ class ProcessParams {
             documentGroupFilter?.map((e) => e.value).toList(),
         "lcidIgnoreFilter": lcidIgnoreFilter?.map((e) => e.value).toList(),
         "lcidFilter": lcidFilter?.map((e) => e.value).toList(),
+        "fieldTypesIgnoreFilter":
+            fieldTypesIgnoreFilter?.map((e) => e.value).toList(),
         "imageQA": imageQA.toJson(),
         "rfidParams": rfidParams?.toJson(),
         "faceApiParams": faceApiParams?.toJson(),

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_document_reader_api/flutter_document_reader_api.dart';
 
+void main() => runApp(new MaterialApp(home: new MyApp()));
 var documentReader = DocumentReader.instance;
 var selectedScenario = Scenario.MRZ;
 var doRfid = false;
@@ -282,5 +283,3 @@ class MyApp extends StatefulWidget {
     return MyAppState();
   }
 }
-
-void main() => runApp(new MaterialApp(home: new MyApp()));

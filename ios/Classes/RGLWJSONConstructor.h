@@ -20,6 +20,7 @@
 +(NSString* _Nullable)generateCompletion:(NSNumber*_Nonnull)action :(RGLDocumentReaderResults*_Nullable)results :(NSError*_Nullable)error;
 +(NSString* _Nonnull)generatePACertificateCompletion:(NSData *_Nullable)serialNumber :(RGLPAResourcesIssuer *_Nullable)issuer;
 +(NSString* _Nullable)generateFinalizePackageCompletion:(NSNumber*_Nonnull)action :(RGLTransactionInfo*_Nullable)info :(NSError*_Nullable)error;
++(NSString* _Nullable)generateDeviceEngagementCompletion:(RGLDeviceEngagement* _Nullable)deviceEngagement :(NSError* _Nullable)error;
 
 +(RGLConfig* _Nullable)configFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateConfig:(RGLConfig* _Nullable)input;
@@ -126,6 +127,10 @@
 +(NSDictionary* _Nullable)generateBytesData:(RGLBytesData* _Nullable)input;
 +(RGLVDSNCData* _Nullable)vdsncDataFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateVDSNCData:(RGLVDSNCData* _Nullable)input;
++(RGLDocFeature* _Nullable)docFeatureFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDocFeature:(RGLDocFeature* _Nullable)input;
++(RGLVDSData* _Nullable)vdsDataFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateVDSData:(RGLVDSData* _Nullable)input;
 +(RGLOpticalStatus* _Nullable)opticalStatusFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateOpticalStatus:(RGLOpticalStatus* _Nullable)input;
 +(RGLRFIDSessionDataStatus* _Nullable)rfidSessionDataStatusFromJson:(NSDictionary* _Nullable)input;
@@ -175,6 +180,20 @@
 +(NSDictionary* _Nullable)generateTCCParams:(RGLTCCParams* _Nullable)input;
 +(RGLTransactionInfo* _Nullable)transactionInfoFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateTransactionInfo:(RGLTransactionInfo* _Nullable)input;
++(RGLDetailsAge* _Nullable)detailsAgeFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDetailsAge:(RGLDetailsAge* _Nullable)input;
++(RGLDeviceRetrievalMethod* _Nullable)deviceRetrievalMethodFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDeviceRetrievalMethod:(RGLDeviceRetrievalMethod* _Nullable)input;
++(RGLDocumentRequest18013MDL* _Nullable)documentRequest18013MDLFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDocumentRequest18013MDL:(RGLDocumentRequest18013MDL* _Nullable)input;
++(RGLDataRetrieval* _Nullable)dataRetrievalFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDataRetrieval:(RGLDataRetrieval* _Nullable)input;
++(RGLDeviceEngagement* _Nullable)deviceEngagementFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDeviceEngagement:(RGLDeviceEngagement* _Nullable)input;
++(RGLNameSpaceMDL* _Nullable)nameSpaceMDLFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateNameSpaceMDL:(RGLNameSpaceMDL* _Nullable)input;
++(RGLDocumentRequestMDL* _Nullable)documentRequestMDLFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateDocumentRequestMDL:(RGLDocumentRequestMDL* _Nullable)input;
 
 @end
 

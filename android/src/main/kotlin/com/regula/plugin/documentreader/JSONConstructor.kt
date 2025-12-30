@@ -1,5 +1,5 @@
 @file:SuppressLint("MissingPermission")
-@file:Suppress("unused")
+@file:Suppress("unused", "EnumValuesSoftDeprecate", "UNCHECKED_CAST")
 
 package com.regula.plugin.documentreader
 
@@ -19,6 +19,9 @@ import com.regula.documentreader.api.enums.BarcodeType
 import com.regula.documentreader.api.enums.DocReaderAction
 import com.regula.documentreader.api.enums.PDF417Info
 import com.regula.documentreader.api.enums.eGraphicFieldType
+import com.regula.documentreader.api.enums.eMDLDeviceRetrieval
+import com.regula.documentreader.api.enums.eMDLDocRequestPreset
+import com.regula.documentreader.api.enums.eMDLIntentToRetain
 import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRPRM_Lights
 import com.regula.documentreader.api.listener.NetworkInterceptorListener
@@ -36,6 +39,12 @@ import com.regula.documentreader.api.params.OnlineProcessingConfig
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
 import com.regula.documentreader.api.params.RfidScenario
+import com.regula.documentreader.api.params.mdl.DataRetrieval
+import com.regula.documentreader.api.params.mdl.DeviceEngagement
+import com.regula.documentreader.api.params.mdl.DeviceRetrievalMethod
+import com.regula.documentreader.api.params.mdl.DocumentRequest18013MDL
+import com.regula.documentreader.api.params.mdl.DocumentRequestMDL
+import com.regula.documentreader.api.params.mdl.NameSpaceMDL
 import com.regula.documentreader.api.params.rfid.PKDCertificate
 import com.regula.documentreader.api.params.rfid.RFIDParams
 import com.regula.documentreader.api.params.rfid.TccParams
@@ -48,6 +57,7 @@ import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
 import com.regula.documentreader.api.results.BytesData
 import com.regula.documentreader.api.results.Coordinate
+import com.regula.documentreader.api.results.DocFeature
 import com.regula.documentreader.api.results.DocReaderDocumentsDatabase
 import com.regula.documentreader.api.results.DocReaderFieldRect
 import com.regula.documentreader.api.results.DocReaderVersion
@@ -62,6 +72,7 @@ import com.regula.documentreader.api.results.DocumentReaderResults
 import com.regula.documentreader.api.results.DocumentReaderResultsStatus
 import com.regula.documentreader.api.results.DocumentReaderResultsStatus.DetailsOptical
 import com.regula.documentreader.api.results.DocumentReaderResultsStatus.DetailsRFID
+import com.regula.documentreader.api.results.DocumentReaderResultsStatus.DetailsAge
 import com.regula.documentreader.api.results.DocumentReaderRfidOrigin
 import com.regula.documentreader.api.results.DocumentReaderScenario
 import com.regula.documentreader.api.results.DocumentReaderSymbol
@@ -74,6 +85,7 @@ import com.regula.documentreader.api.results.ElementPosition
 import com.regula.documentreader.api.results.ImageQuality
 import com.regula.documentreader.api.results.ImageQualityGroup
 import com.regula.documentreader.api.results.TransactionInfo
+import com.regula.documentreader.api.results.VDSData
 import com.regula.documentreader.api.results.VDSNCData
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityCheck
 import com.regula.documentreader.api.results.authenticity.DocumentReaderAuthenticityElement
@@ -1475,8 +1487,19 @@ fun generateTAChallenge(input: TAChallenge?) = input?.let {
 }
 
 fun documentReaderResultsStatusFromJSON(input: JSONObject?) = input?.let {
-    it.remove("detailsRFID")
-    DocumentReaderResultsStatus.fromJson(input)
+    val result = DocumentReaderResultsStatus::class.constructor().instantiate()
+    result.setPrivateProperty("overallStatus", it.getInt("overallStatus"))
+    result.setPrivateProperty("optical", it.getInt("optical"))
+    result.setPrivateProperty("detailsOptical", detailsOpticalFromJSON(it.getJSONObject("detailsOptical")))
+    result.setPrivateProperty("rfid", it.getInt("rfid"))
+    result.setPrivateProperty("detailsRFID", detailsRFIDFromJSON(it.getJSONObject("detailsRFID")))
+    result.setPrivateProperty("portrait", it.getInt("portrait"))
+    result.setPrivateProperty("stopList", it.getInt("stopList"))
+    result.setPrivateProperty("mDL", it.getInt("mDL"))
+    result.setPrivateProperty("age", it.getInt("age"))
+    result.setPrivateProperty("captureProcessIntegrity", it.getInt("captureProcessIntegrity"))
+    result.setPrivateProperty("detailsAge", detailsAgeFromJSON(it.getJSONObject("detailsAge")))
+    result
 }
 
 fun generateDocumentReaderResultsStatus(input: DocumentReaderResultsStatus?) = input?.let {
@@ -1487,8 +1510,26 @@ fun generateDocumentReaderResultsStatus(input: DocumentReaderResultsStatus?) = i
         "rfid" to it.rfid,
         "detailsRFID" to generateDetailsRFID(it.detailsRFID),
         "portrait" to it.portrait,
-        "stopList" to it.stopList
+        "stopList" to it.stopList,
+        "mDL" to it.mdl,
+        "age" to it.age,
+        "captureProcessIntegrity" to it.captureProcessIntegrity,
+        "detailsAge" to generateDetailsAge(it.detailsAge),
     ).toJson()
+}
+
+fun detailsOpticalFromJSON(input: JSONObject?) = input?.let {
+    val result = DetailsOptical::class.constructor().instantiate()
+    result.setPrivateProperty("overallStatus", it.getInt("overallStatus"))
+    result.setPrivateProperty("mrz", it.getInt("mrz"))
+    result.setPrivateProperty("text", it.getInt("text"))
+    result.setPrivateProperty("docType", it.getInt("docType"))
+    result.setPrivateProperty("security", it.getInt("security"))
+    result.setPrivateProperty("imageQA", it.getInt("imageQA"))
+    result.setPrivateProperty("expiry", it.getInt("expiry"))
+    result.setPrivateProperty("vds", it.getInt("vds"))
+    result.setPrivateProperty("pagesCount", it.getInt("pagesCount"))
+    result
 }
 
 fun generateDetailsOptical(input: DetailsOptical?) = input?.let {
@@ -1505,6 +1546,18 @@ fun generateDetailsOptical(input: DetailsOptical?) = input?.let {
     ).toJson()
 }
 
+fun detailsRFIDFromJSON(input: JSONObject?) = input?.let {
+    val result = DetailsRFID::class.constructor().instantiate()
+    result.setPrivateProperty("overallStatus", it.getInt("overallStatus"))
+    result.setPrivateProperty("pa", it.getInt("pa"))
+    result.setPrivateProperty("ca", it.getInt("ca"))
+    result.setPrivateProperty("aa", it.getInt("aa"))
+    result.setPrivateProperty("ta", it.getInt("ta"))
+    result.setPrivateProperty("bac", it.getInt("bac"))
+    result.setPrivateProperty("pace", it.getInt("pace"))
+    result
+}
+
 fun generateDetailsRFID(input: DetailsRFID?) = input?.let {
     mapOf(
         "pa" to it.pa,
@@ -1517,23 +1570,41 @@ fun generateDetailsRFID(input: DetailsRFID?) = input?.let {
     ).toJson()
 }
 
-fun vdsncDataDictionaryFromJSON(input: JSONObject) = input.let {
-    val result = JSONObject(it.toString())
-
-    result.put("Type", it.optString("type"))
-    result.put("Version", it.optInt("version"))
-    result.put("IssuingCountry", it.optString("issuingCountry"))
-    result.put("Message", it.optJSONObject("message"))
-    result.put("SignatureAlg", it.optString("signatureAlgorithm"))
-    result.put("Signature", bytesDataDictionaryFromJSON(it.optJSONObject("signature")))
-    result.put("Certificate", bytesDataDictionaryFromJSON(it.optJSONObject("certificate")))
-    result.put("CertificateChain", it.optJSONArray("certificateChain"))
-    result.put("Notifications", it.optJSONArray("notifications"))
-
+fun detailsAgeFromJSON(input: JSONObject?) = input?.let {
+    val result = DetailsAge::class.constructor().instantiate()
+    result.setPrivateProperty("threshold", it.getInt("threshold"))
+    result.setPrivateProperty("overThreshold", it.getInt("overThreshold"))
+    result.setPrivateProperty("over18", it.getInt("over18"))
+    result.setPrivateProperty("over21", it.getInt("over21"))
+    result.setPrivateProperty("over25", it.getInt("over25"))
+    result.setPrivateProperty("over65", it.getInt("over65"))
     result
 }
 
-fun vdsncDataFromJSON(input: JSONObject) = VDSNCData.fromJson(vdsncDataDictionaryFromJSON(input))
+fun generateDetailsAge(input: DetailsAge?) = input?.let {
+    mapOf(
+        "threshold" to it.threshold,
+        "overThreshold" to it.overThreshold,
+        "over18" to it.over18,
+        "over21" to it.over21,
+        "over25" to it.over25,
+        "over65" to it.over65
+    ).toJson()
+}
+
+fun vdsncDataFromJSON(input: JSONObject?) = input?.let {
+    val result = VDSNCData::class.constructor().instantiate()
+    result.setPrivateProperty("type", it.getStringOrNull("type"))
+    result.setPrivateProperty("version", it.getInt("version"))
+    result.setPrivateProperty("issuingCountry", it.getStringOrNull("issuingCountry"))
+    result.setPrivateProperty("message", it.getJSONObjectOrNull("message"))
+    result.setPrivateProperty("signatureAlg", it.getStringOrNull("signatureAlgorithm"))
+    result.setPrivateProperty("signature", bytesDataFromJSON(it.getJSONObjectOrNull("signature")))
+    result.setPrivateProperty("certificate", bytesDataFromJSON(it.getJSONObjectOrNull("certificate")))
+    result.setPrivateProperty("certificateChain", it.getJSONArray("certificateChain").toList(::certificateChainFromJSON))
+    result.setPrivateProperty("notifications", it.getJSONArray("notifications").toLongArray())
+    result
+}
 
 fun generateVDSNCData(input: VDSNCData?) = input?.let {
     mapOf(
@@ -1545,26 +1616,18 @@ fun generateVDSNCData(input: VDSNCData?) = input?.let {
         "signature" to generateBytesData(it.signature),
         "certificate" to generateBytesData(it.certificate),
         "certificateChain" to it.certificateChain.toJson(::generateCertificateChain),
-        "notifications" to if (it.notifications == null) null else {
-            val notifications = JSONArray()
-            for (i in it.notifications!!.indices) notifications.put(i, it.notifications!![i])
-            notifications
-        }
+        "notifications" to it.notifications.toJson()
     ).toJson()
 }
 
-fun bytesDataDictionaryFromJSON(input: JSONObject?) = input?.let {
-    val result = JSONObject(input.toString())
-
-    result.put("Data", input.optString("data"))
-    result.put("Length", input.optInt("length"))
-    result.put("Status", input.optLong("status"))
-    result.put("Type", input.optInt("type"))
-
+fun bytesDataFromJSON(input: JSONObject?) = input?.let {
+    val result = BytesData::class.constructor().instantiate()
+    result.setPrivateProperty("data", it.getString("data"))
+    result.setPrivateProperty("length", it.getInt("length"))
+    result.setPrivateProperty("status", it.getLong("status"))
+    result.setPrivateProperty("type", it.getInt("type"))
     result
 }
-
-fun bytesDataFromJSON(input: JSONObject?) = BytesData.fromJson(bytesDataDictionaryFromJSON(input))
 
 fun generateBytesData(input: BytesData?) = input?.let {
     mapOf(
@@ -1593,11 +1656,15 @@ fun generateDocReaderVersion(input: DocReaderVersion?) = input?.let {
 }
 
 fun docReaderDocumentsDatabaseFromJSON(input: JSONObject?) = input?.let {
-    val result = JSONObject(it.toString())
-    result.put("id", it.optString("databaseID"))
-    result.put("export_date", it.optString("date"))
-    result.put("description", it.optString("databaseDescription"))
-    DocReaderDocumentsDatabase.fromJson(result)
+    DocReaderDocumentsDatabase::class.constructor(String::class, String::class, String::class, String::class, Int::class, Int::class, java.lang.Long::class).instantiate(
+        it.getStringOrNull("databaseID"),
+        it.getStringOrNull("version"),
+        it.getStringOrNull("date"),
+        it.getStringOrNull("databaseDescription"),
+        it.getInt("countriesNumber"),
+        it.getInt("documentsNumber"),
+        it.getLongOrNull("size"),
+    )
 }
 
 fun generateDocReaderDocumentsDatabase(input: DocReaderDocumentsDatabase?) = input?.let {
@@ -1729,6 +1796,56 @@ fun generateBarcodeTypeArray(input: Array<String?>?) = input?.let {
     result
 }
 
+fun docFeatureFromJSON(input: JSONObject?) = input?.let {
+    val result = DocFeature::class.constructor().instantiate()
+    result.setPrivateProperty("type", it.getIntOrNull("type"))
+    result.setPrivateProperty("data", bytesDataFromJSON(it.getJSONObjectOrNull("data")))
+    result
+}
+
+fun generateDocFeature(input: DocFeature?) = input?.let {
+    mapOf(
+        "type" to it.type,
+        "data" to generateBytesData(it.data),
+    ).toJson()
+}
+
+fun vdsDataFromJSON(input: JSONObject?) = input?.let {
+    val result = VDSData::class.constructor().instantiate()
+    result.setPrivateProperty("version", it.getIntOrNull("version"))
+    result.setPrivateProperty("type", it.getIntOrNull("type"))
+    result.setPrivateProperty("docType", it.getIntOrNull("docType"))
+    result.setPrivateProperty("featureRef", it.getIntOrNull("featureRef"))
+    result.setPrivateProperty("issuingCountry", it.getStringOrNull("issuingCountry"))
+    result.setPrivateProperty("docIssueDate", it.getStringOrNull("docIssueDate"))
+    result.setPrivateProperty("signature", bytesDataFromJSON(it.getJSONObjectOrNull("signature")))
+    result.setPrivateProperty("signatureDate", it.getStringOrNull("signatureDate"))
+    result.setPrivateProperty("signer", it.getStringOrNull("signer"))
+    result.setPrivateProperty("certificate", it.getStringOrNull("certificate"))
+    result.setPrivateProperty("certificateChain", it.getJSONArray("certificateChain").toList(::certificateChainFromJSON))
+    result.setPrivateProperty("docFeatures", it.getJSONArray("docFeatures").toList(::docFeatureFromJSON))
+    result.setPrivateProperty("notifications", it.getJSONArray("notifications").toLongArray())
+    result
+}
+
+fun generateVDSData(input: VDSData?) = input?.let {
+    mapOf(
+        "version" to it.version,
+        "type" to it.type,
+        "docType" to it.docType,
+        "featureRef" to it.featureRef,
+        "issuingCountry" to it.issuingCountry,
+        "docIssueDate" to it.docIssueDate,
+        "signature" to generateBytesData(it.signature),
+        "signatureDate" to it.signatureDate,
+        "signer" to it.signer,
+        "certificate" to it.certificate,
+        "certificateChain" to it.certificateChain.toJson(::generateCertificateChain),
+        "docFeatures" to it.docFeatures.toJson(::generateDocFeature),
+        "notifications" to it.notifications.toJson(),
+    ).toJson()
+}
+
 fun documentReaderResultsFromJSON(input: JSONObject?) = input?.let {
     val result = DocumentReaderResults()
 
@@ -1750,7 +1867,8 @@ fun documentReaderResultsFromJSON(input: JSONObject?) = input?.let {
     result.rfidSessionData = rfidSessionDataFromJSON(it.optJSONObject("rfidSessionData"))
     result.documentType = it.optJSONArray("documentType").toList(::documentReaderDocumentTypeFromJSON)!!
     result.status = documentReaderResultsStatusFromJSON(it.optJSONObject("status"))!!
-    result.vdsncData = vdsncDataFromJSON(it.optJSONObject("vdsncData")!!)
+    result.vdsncData = vdsncDataFromJSON(it.getJSONObject("vdsncData"))
+    result.vdsData = vdsDataFromJSON(it.getJSONObjectOrNull("vdsData"))
     result.dtcData = it.getString("dtcData")
     result.transactionInfo = transactionInfoFromJSON(it.optJSONObject("transactionInfo"))!!
     result
@@ -1776,6 +1894,7 @@ fun generateDocumentReaderResults(input: DocumentReaderResults?) = input?.let {
         "documentType" to it.documentType.toJson(::generateDocumentReaderDocumentType),
         "status" to generateDocumentReaderResultsStatus(it.status),
         "vdsncData" to generateVDSNCData(it.vdsncData),
+        "vdsData" to generateVDSData(it.vdsData),
         "dtcData" to it.dtcData,
         "transactionInfo" to generateTransactionInfo(it.transactionInfo)
     ).toJson()
@@ -1796,3 +1915,190 @@ fun generateMatrix(input: Matrix?) = input?.let {
     for (f in floats) result.put(java.lang.Float.valueOf(f))
     result
 }
+
+fun deviceRetrievalMethodFromJSON(input: JSONObject?) = input?.let {
+    val result = DeviceRetrievalMethod::class.constructor().instantiate()
+    result.setPrivateProperty("type", it.getInt("type"))
+    result.setPrivateProperty("version", it.getIntOrNull("version"))
+    result.setPrivateProperty("cmdMaxLength", it.getIntOrNull("cmdMaxLength"))
+    result.setPrivateProperty("respMaxLength", it.getIntOrNull("respMaxLength"))
+    result.setPrivateProperty("clientModeSupport", it.getBooleanOrNull("clientModeSupport"))
+    result.setPrivateProperty("clientModeUUID", it.getStringOrNull("clientModeUUID"))
+    result.setPrivateProperty("serverModeSupport", it.getBooleanOrNull("serverModeSupport"))
+    result.setPrivateProperty("serverModeUUID", it.getStringOrNull("serverModeUUID"))
+    result
+}
+
+fun generateDeviceRetrievalMethod(input: DeviceRetrievalMethod?) = input?.let {
+    mapOf(
+        "type" to it.type,
+        "version" to it.version,
+        "cmdMaxLength" to it.cmdMaxLength,
+        "respMaxLength" to it.respMaxLength,
+        "clientModeSupport" to it.clientModeSupport,
+        "clientModeUUID" to it.clientModeUUID,
+        "serverModeSupport" to it.serverModeSupport,
+        "serverModeUUID" to it.serverModeUUID,
+    ).toJson()
+}
+
+fun deviceEngagementFromJSON(input: JSONObject?) = input?.let {
+    val result = DeviceEngagement::class.constructor().instantiate()
+
+    result.setPrivateProperty("deviceRetrievalMethods", it.getJSONArray("deviceRetrievalMethods").toList(::deviceRetrievalMethodFromJSON))
+
+    result
+}
+
+fun generateDeviceEngagement(input: DeviceEngagement?) = input?.let {
+    mapOf(
+        "deviceRetrievalMethods" to it.deviceRetrievalMethods.toJson(::generateDeviceRetrievalMethod)
+    ).toJson()
+}
+
+fun nameSpaceMDLFromJSON(input: JSONObject?) = input?.let {
+    val result = NameSpaceMDL(it.getString("name"))
+    it.getJSONObject("map").forEach { key, value ->
+        result.addField(key, eMDLIntentToRetain.values()[value as Int])
+    }
+    result
+}
+
+fun generateNameSpaceMDL(input: NameSpaceMDL?) = input?.let {
+    val map = JSONObject()
+    (it.getPrivateProperty("map") as Map<String, eMDLIntentToRetain>).forEach { (key, value) ->
+        map.put(key, value.ordinal)
+    }
+    mapOf(
+        "name" to it.getPrivateProperty("name"),
+        "map" to map,
+    ).toJson()
+}
+
+fun documentRequestMDLFromJSON(input: JSONObject?): DocumentRequestMDL? = input?.let {
+    val docType = it.getString("docType")
+    if (docType == "org.iso.18013.5.1.mDL") return@let documentRequest18013MDLFromJSON(it)
+    val result = DocumentRequestMDL(docType)
+
+    result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
+
+    result
+}
+
+fun generateDocumentRequestMDL(input: DocumentRequestMDL?): JSONObject? = input?.let {
+    val docType = it.getPrivateProperty("docType") as String
+    if (docType == "org.iso.18013.5.1.mDL") return@let generateDocumentRequest18013MDL(it as DocumentRequest18013MDL?)
+    mapOf(
+        "docType" to docType,
+        "namespaces" to (it.getPrivateProperty("nameSpaceMDLs") as List<NameSpaceMDL>).toJson(::generateNameSpaceMDL),
+    ).toJson()
+}
+
+fun documentRequest18013MDLFromJSON(input: JSONObject?) = input?.let {
+    val result = DocumentRequest18013MDL()
+
+    result.setPrivateProperty("docType", it.getString("docType"))
+    result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
+    result.familyName = it.getIntOrNull("familyName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.givenName = it.getIntOrNull("givenName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.birthDate = it.getIntOrNull("birthDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.issueDate = it.getIntOrNull("issueDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.expiryDate = it.getIntOrNull("expiryDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.issuingCountry = it.getIntOrNull("issuingCountry")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.issuingAuthority = it.getIntOrNull("issuingAuthority")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.documentNumber = it.getIntOrNull("documentNumber")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.portrait = it.getIntOrNull("portrait")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.drivingPrivileges = it.getIntOrNull("drivingPrivileges")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.unDistinguishingSign = it.getIntOrNull("unDistinguishingSign")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.administrativeNumber = it.getIntOrNull("administrativeNumber")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.sex = it.getIntOrNull("sex")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.height = it.getIntOrNull("height")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.weight = it.getIntOrNull("weight")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.eyeColour = it.getIntOrNull("eyeColour")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.hairColour = it.getIntOrNull("hairColour")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.birthPlace = it.getIntOrNull("birthPlace")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.residentAddress = it.getIntOrNull("residentAddress")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.portraitCaptureDate = it.getIntOrNull("portraitCaptureDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.ageInYears = it.getIntOrNull("ageInYears")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.ageBirthYear = it.getIntOrNull("ageBirthYear")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.ageOver18 = it.getIntOrNull("ageOver18")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.issuingJurisdiction = it.getIntOrNull("issuingJurisdiction")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.nationality = it.getIntOrNull("nationality")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.residentCity = it.getIntOrNull("residentCity")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.residentState = it.getIntOrNull("residentState")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.residentPostalCode = it.getIntOrNull("residentPostalCode")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.residentCountry = it.getIntOrNull("residentCountry")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.biometricTemplateFace = it.getIntOrNull("biometricTemplateFace")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.biometricTemplateIris = it.getIntOrNull("biometricTemplateIris")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.biometricTemplateFinger = it.getIntOrNull("biometricTemplateFinger")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.biometricTemplateSignatureSign = it.getIntOrNull("biometricTemplateSignatureSign")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.familyNameNationalCharacter = it.getIntOrNull("familyNameNationalCharacter")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.givenNameNationalCharacter = it.getIntOrNull("givenNameNationalCharacter")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result.signatureUsualMark = it.getIntOrNull("signatureUsualMark")?.let { enm -> eMDLIntentToRetain.values()[enm] }
+    result
+}
+
+fun generateDocumentRequest18013MDL(input: DocumentRequest18013MDL?) = input?.let {
+    mapOf(
+        "docType" to it.getPrivateProperty("docType"),
+        "namespaces" to (it.getPrivateProperty("nameSpaceMDLs") as List<NameSpaceMDL>).toJson(::generateNameSpaceMDL),
+        "familyName" to it.familyName?.ordinal,
+        "givenName" to it.givenName?.ordinal,
+        "birthDate" to it.birthDate?.ordinal,
+        "issueDate" to it.issueDate?.ordinal,
+        "expiryDate" to it.expiryDate?.ordinal,
+        "issuingCountry" to it.issuingCountry?.ordinal,
+        "issuingAuthority" to it.issuingAuthority?.ordinal,
+        "documentNumber" to it.documentNumber?.ordinal,
+        "portrait" to it.portrait?.ordinal,
+        "drivingPrivileges" to it.drivingPrivileges?.ordinal,
+        "unDistinguishingSign" to it.unDistinguishingSign?.ordinal,
+        "administrativeNumber" to it.administrativeNumber?.ordinal,
+        "sex" to it.sex?.ordinal,
+        "height" to it.height?.ordinal,
+        "weight" to it.weight?.ordinal,
+        "eyeColour" to it.eyeColour?.ordinal,
+        "hairColour" to it.hairColour?.ordinal,
+        "birthPlace" to it.birthPlace?.ordinal,
+        "residentAddress" to it.residentAddress?.ordinal,
+        "portraitCaptureDate" to it.portraitCaptureDate?.ordinal,
+        "ageInYears" to it.ageInYears?.ordinal,
+        "ageBirthYear" to it.ageBirthYear?.ordinal,
+        "ageOver18" to it.ageOver18?.ordinal,
+        "issuingJurisdiction" to it.issuingJurisdiction?.ordinal,
+        "nationality" to it.nationality?.ordinal,
+        "residentCity" to it.residentCity?.ordinal,
+        "residentState" to it.residentState?.ordinal,
+        "residentPostalCode" to it.residentPostalCode?.ordinal,
+        "residentCountry" to it.residentCountry?.ordinal,
+        "biometricTemplateFace" to it.biometricTemplateFace?.ordinal,
+        "biometricTemplateIris" to it.biometricTemplateIris?.ordinal,
+        "biometricTemplateFinger" to it.biometricTemplateFinger?.ordinal,
+        "biometricTemplateSignatureSign" to it.biometricTemplateSignatureSign?.ordinal,
+        "familyNameNationalCharacter" to it.familyNameNationalCharacter?.ordinal,
+        "givenNameNationalCharacter" to it.givenNameNationalCharacter?.ordinal,
+        "signatureUsualMark" to it.signatureUsualMark?.ordinal,
+    ).toJson()
+}
+
+fun dataRetrievalFromJSON(input: JSONObject?) = input?.let {
+    val result = DataRetrieval(eMDLDeviceRetrieval.values().first { enm -> enm.value == it.getInt("deviceRetrieval") })
+    result.setPrivateProperty("docRequestPreset", it.getIntOrNull("docRequestPreset")?.let { enm -> eMDLDocRequestPreset.values()[enm] })
+    result.setPrivateProperty("intentToRetain", it.getIntOrNull("intentToRetain")?.let { enm -> eMDLIntentToRetain.values()[enm] })
+    it.getJSONArray("requests").toList(::documentRequestMDLFromJSON)?.forEach { r -> result.addDocRequest(r!!) }
+    result
+}
+
+fun generateDataRetrieval(input: DataRetrieval?) = input?.let {
+    mapOf(
+        "deviceRetrieval" to it.deviceRetrieval.value,
+        "docRequestPreset" to (it.getPrivateProperty("docRequestPreset") as eMDLDocRequestPreset).ordinal,
+        "intentToRetain" to (it.getPrivateProperty("intentToRetain") as eMDLIntentToRetain).ordinal,
+        "requests" to (it.getPrivateProperty("docRequests") as List<DocumentRequestMDL>).toJson(::generateDocumentRequestMDL),
+    ).toJson()
+}
+
+fun generateDeviceEngagementCompletion(deviceEngagement: DeviceEngagement?, error: RegulaException?) = mapOf(
+    "deviceEngagement" to generateDeviceEngagement(deviceEngagement),
+    "error" to generateRegulaException(error)
+)
