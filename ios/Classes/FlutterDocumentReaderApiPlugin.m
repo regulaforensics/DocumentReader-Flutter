@@ -2,10 +2,14 @@
 
 @implementation FlutterDocumentReaderApiPlugin
 
-UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*(){
-    for (UIWindow *window in UIApplication.sharedApplication.windows)
-        if (window.isKeyWindow)
-            return window.rootViewController;
+UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes)
+        if ([scene isKindOfClass:[UIWindowScene class]]) {
+            UIWindowScene *windowScene = (UIWindowScene *)scene;
+            for (UIWindow *window in windowScene.windows)
+                if (window.isKeyWindow)
+                    return window.rootViewController;
+        }
     return nil;
 };
 
