@@ -1,7 +1,7 @@
 part of "../../flutter_document_reader_api.dart";
 
 class DataRetrieval {
-  MDLDocRequestPreset _deviceRetrieval;
+  MDLDeviceRetrieval _deviceRetrieval;
   MDLDocRequestPreset? _docRequestPreset;
   MDLIntentToRetain _intentToRetain = MDLIntentToRetain.TRUE;
   List<DocumentRequestMDL> _requests = [];
@@ -24,7 +24,7 @@ class DataRetrieval {
   static DataRetrieval? fromJson(jsonObject) {
     if (jsonObject == null) return null;
     var result = DataRetrieval(
-        MDLDocRequestPreset.getByValue(jsonObject["deviceRetrieval"])!);
+        MDLDeviceRetrieval.getByValue(jsonObject["deviceRetrieval"])!);
 
     result._docRequestPreset =
         MDLDocRequestPreset.getByValue(jsonObject["docRequestPreset"]);

@@ -19,7 +19,7 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun initConfig() = compare(
         "initConfig", ::initConfigFromJSON, ::generateInitConfig,
-        "databasePath",
+        "customDb",
         "useBleDevice"
     )
 

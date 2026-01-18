@@ -1997,8 +1997,8 @@ fun generateDocumentRequestMDL(input: DocumentRequestMDL?): JSONObject? = input?
 fun documentRequest18013MDLFromJSON(input: JSONObject?) = input?.let {
     val result = DocumentRequest18013MDL()
 
-    result.setPrivateProperty("docType", it.getString("docType"))
-    result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
+    if (it.has("docType")) result.setPrivateProperty("docType", it.getString("docType"))
+    if (it.has("namespaces")) result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
     result.familyName = it.getIntOrNull("familyName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
     result.givenName = it.getIntOrNull("givenName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
     result.birthDate = it.getIntOrNull("birthDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }

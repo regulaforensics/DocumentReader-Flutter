@@ -11,8 +11,7 @@ class Tests: XCTestCase {
     
     func test_initConfig() {
         compare(name: "initConfig", fromJson: RGLWJSONConstructor.config, generate: RGLWJSONConstructor.generate,
-                omit: ["databasePath",
-                       "blackList",
+                omit: ["blackList",
                        "customDb",
                        "useBleDevice"])
     }

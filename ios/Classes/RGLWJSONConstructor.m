@@ -159,9 +159,9 @@ static NSMutableArray* weakReferencesHolder;
     if (!input[@"license"]) return nil;
     RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:[self base64Decode: input[@"license"]]];
 
-    if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
-    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"databasePath"]) config.databasePath = input[@"databasePath"];
     if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
+    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
 
     return config;
@@ -173,8 +173,8 @@ static NSMutableArray* weakReferencesHolder;
     
     result[@"license"] = [self base64Encode: input.licenseData];
     result[@"databasePath"] = input.databasePath;
-    result[@"licenseUpdate"] = @(input.licenseUpdateCheck);
     result[@"licenseUpdateTimeout"] = input.licenseUpdateTimeout;
+    result[@"licenseUpdate"] = @(input.licenseUpdateCheck);
     result[@"delayedNNLoad"] = @(input.delayedNNLoadEnabled);
 
     return result;
@@ -184,9 +184,9 @@ static NSMutableArray* weakReferencesHolder;
     if (!input) return nil;
     RGLBleConfig *config = [[RGLBleConfig alloc] initWithBluetooth:bluetooth];
 
-    if (input[@"databasePath"]) config.databasePath = [[NSBundle mainBundle] pathForResource:input[@"databasePath"] ofType:nil];
-    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
+    if (input[@"databasePath"]) config.databasePath = input[@"databasePath"];
     if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
+    if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
 
     return config;
@@ -2459,12 +2459,16 @@ static NSMutableArray* weakReferencesHolder;
     if(input == nil) return nil;
     RGLDocumentRequest18013MDL* result = [RGLDocumentRequest18013MDL new];
     
-    [result setValue:[input valueForKey:@"docType"] forKey:@"docType"];
-    NSMutableArray<RGLNameSpaceMDL*>* nameSpaces = [NSMutableArray new];
-    for(NSDictionary* item in [input valueForKey:@"namespaces"]){
-        [nameSpaces addObject:[self nameSpaceMDLFromJson: item]];
+    if ([input valueForKey:@"docType"] != nil) {
+        [result setValue:[input valueForKey:@"docType"] forKey:@"docType"];
     }
-    [result setValue:nameSpaces forKey:@"nameSpaces"];
+    if ([input valueForKey:@"namespaces"] != nil) {
+        NSMutableArray<RGLNameSpaceMDL*>* nameSpaces = [NSMutableArray new];
+        for(NSDictionary* item in [input valueForKey:@"namespaces"]){
+            [nameSpaces addObject:[self nameSpaceMDLFromJson: item]];
+        }
+        [result setValue:nameSpaces forKey:@"nameSpaces"];
+    }
     if (input[@"familyName"]) result.familyName = [input[@"familyName"] integerValue];
     if (input[@"givenName"]) result.givenName = [input[@"givenName"] integerValue];
     if (input[@"birthDate"]) result.birthDate = [input[@"birthDate"] integerValue];
