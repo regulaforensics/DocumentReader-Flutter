@@ -33,7 +33,7 @@ class DocumentRequestMDL {
     }
     return {
       "docType": _docType,
-      "namespaces": _namespaces.map((item) => item.toJson()),
+      "namespaces": _namespaces.map((item) => item.toJson()).toList(),
     }.clearNulls();
   }
 }

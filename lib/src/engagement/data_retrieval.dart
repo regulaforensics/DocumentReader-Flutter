@@ -42,7 +42,7 @@ class DataRetrieval {
         "deviceRetrieval": _deviceRetrieval.value,
         "docRequestPreset": _docRequestPreset?.value,
         "intentToRetain": _intentToRetain.value,
-        "requests": _requests.map((item) => item.toJson()),
+        "requests": _requests.map((item) => item.toJson()).toList(),
       }.clearNulls();
 }
 
