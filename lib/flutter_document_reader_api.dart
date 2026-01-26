@@ -135,12 +135,12 @@ part 'src/results/position.dart';
 part 'src/results/document_type.dart';
 part 'src/results/transaction_info.dart';
 
-part 'src/engagement/data_retrieval.dart';
-part 'src/engagement/name_space_mdl.dart';
-part 'src/engagement/document_request_mdl.dart';
-part 'src/engagement/device_retrieval_method.dart';
-part 'src/engagement/document_request_18013_mdl.dart';
-part 'src/engagement/device_engagement.dart';
+part 'src/mdl/data_retrieval.dart';
+part 'src/mdl/name_space_mdl.dart';
+part 'src/mdl/document_request_mdl.dart';
+part 'src/mdl/device_retrieval_method.dart';
+part 'src/mdl/document_request_18013_mdl.dart';
+part 'src/mdl/device_engagement.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
 class DocumentReader {

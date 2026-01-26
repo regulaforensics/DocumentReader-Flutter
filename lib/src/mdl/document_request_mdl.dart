@@ -4,7 +4,7 @@ class DocumentRequestMDL {
   late String _docType;
   List<NameSpaceMDL> _namespaces = [];
 
-  DocumentRequestMDL(this._docType);
+  DocumentRequestMDL(String docType) : _docType = docType;
 
   addNameSpace(NameSpaceMDL namespace) {
     _namespaces.add(namespace);
@@ -29,7 +29,9 @@ class DocumentRequestMDL {
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() {
     if (_docType == "org.iso.18013.5.1.mDL") {
-      return (this as DocumentRequest18013MDL).toJson();
+      try {
+        return (this as DocumentRequest18013MDL).toJson();
+      } catch (_) {}
     }
     return {
       "docType": _docType,
