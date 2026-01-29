@@ -47,6 +47,9 @@ class FlutterDocumentReaderApiPluginTest {
         "onlineProcessingConfig.requestHeaders"
     )
 
+    @Test
+    fun finalizeConfig() = compare("finalizeConfig", ::finalizeConfigFromJSON, ::generateFinalizeConfig)
+
     // params.process_params
 
     @Test

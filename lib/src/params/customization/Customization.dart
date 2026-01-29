@@ -91,7 +91,7 @@ class Customization {
 
   /// Allows you to set an offset for the camera frame (portrait orientation).
   ///
-  /// Default: 3.
+  /// Default: 23.
   int? get cameraFrameOffsetWidth => _cameraFrameOffsetWidth;
   int? _cameraFrameOffsetWidth;
   set cameraFrameOffsetWidth(int? val) {

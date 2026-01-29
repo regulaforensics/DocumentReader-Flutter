@@ -48,6 +48,10 @@ class Tests: XCTestCase {
                        "onlineProcessingConfig.requestHeaders"])
     }
     
+    func test_finalizeConfig() {
+        compare(name: "finalizeConfig", fromJson: RGLWJSONConstructor.finalizeConfig, generate: RGLWJSONConstructor.generate)
+    }
+    
     // params.process_params
     
     func test_faceApiSearchParams() {

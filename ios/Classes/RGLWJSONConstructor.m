@@ -1961,6 +1961,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"stopList"] = @(input.stopList);
     result[@"mDL"] = @(input.mDL);
     result[@"age"] = @(input.age);
+    result[@"captureProcessIntegrity"] = @(input.captureProcessIntegrity);
     result[@"detailsAge"] = [self generateDetailsAge:input.detailsAge];
     
     return result;
@@ -2408,7 +2409,10 @@ static NSMutableArray* weakReferencesHolder;
 +(RGLNameSpaceMDL*)nameSpaceMDLFromJson:(NSDictionary*)input {
     RGLNameSpaceMDL* result = [[RGLNameSpaceMDL alloc] initWithName:input[@"name"]];
     
-    [result setValue:input[@"map"] forKey:@"jsonDict"];
+    NSDictionary* map = input[@"map"];
+    for (NSString* key in map) {
+        [result addField:key intentToRetain:[map[key] integerValue]];
+    }
 
     return result;
     
@@ -2562,8 +2566,8 @@ static NSMutableArray* weakReferencesHolder;
 +(RGLDataRetrieval*)dataRetrievalFromJson:(NSDictionary*)input {
     RGLDataRetrieval* result = [[RGLDataRetrieval alloc] initWithDeviceRetrieval:[input[@"deviceRetrieval"] integerValue]];
     
-    [result setValue:input[@"docRequestPreset"] forKey:@"docRequestPreset"];
-    [result setValue:input[@"intentToRetain"] forKey:@"intentToRetain"];
+    if (input[@"docRequestPreset"])
+        [result setDocRequestPreset:[input[@"docRequestPreset"] integerValue] intentToRetain:[input[@"intentToRetain"] integerValue]];
     
     NSMutableArray<RGLDocumentRequestMDL*>* requests = [NSMutableArray new];
     for(NSDictionary* item in [input valueForKey:@"requests"]){
@@ -2572,7 +2576,6 @@ static NSMutableArray* weakReferencesHolder;
     result.requests = requests;
     
     return result;
-    
 }
 
 +(NSDictionary*)generateDataRetrieval:(RGLDataRetrieval*)input {
@@ -2598,6 +2601,28 @@ static NSMutableArray* weakReferencesHolder;
     result[@"error"] = [self generateError:error];
     
     return [RGLWJSONConstructor dictToString: result];
+}
+
++(RGLFinalizeConfig*)finalizeConfigFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    RGLFinalizeConfig *result = [RGLFinalizeConfig defaultParams];
+    
+    if (input[@"rawImages"]) result.rawImages = [input[@"rawImages"] boolValue];
+    if (input[@"video"]) result.video = [input[@"video"] boolValue];
+    if (input[@"rfidSession"]) result.rfidSession = [input[@"rfidSession"] boolValue];
+
+    return result;
+}
+
++(NSDictionary*)generateFinalizeConfig:(RGLFinalizeConfig*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"rawImages"] = @(input.rawImages);
+    result[@"video"] = @(input.video);
+    result[@"rfidSession"] = @(input.rfidSession);
+    
+    return result;
 }
 
 +(RGLDocumentReaderResults*)documentReaderResultsFromJson:(NSDictionary*)input {
@@ -2645,6 +2670,7 @@ static NSMutableArray* weakReferencesHolder;
             transactionInfo:[self transactionInfoFromJson:[input valueForKey:@"transactionInfo"]]];
     
     [result setValue:[RGLWJSONConstructor base64Decode:input[@"dtcData"]] forKey:@"dtcData"];
+    [result setValue:input[@"bsiTr03135Results"] forKey:@"bsiTr03135Results"];
     
     return result;
 }
@@ -2694,6 +2720,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"elapsedTime"] = @(input.elapsedTime);
     result[@"elapsedTimeRFID"] = @(input.elapsedTimeRFID);
     result[@"rawResult"] = input.rawResult;
+    result[@"bsiTr03135Results"] = input.bsiTr03135Results;
     result[@"status"] = [self generateDocumentReaderResultsStatus:input.status];
     result[@"vdsncData"] = [self generateVDSNCData:input.vdsncData];
     result[@"vdsData"] = [self generateVDSData:input.vdsData];

@@ -54,6 +54,7 @@ part 'src/config/scanner_config.dart';
 part 'src/config/recognize_config.dart';
 part 'src/config/online_processing_config.dart';
 part 'src/config/rfid_config.dart';
+part 'src/config/finalize_config.dart';
 
 part 'src/info/doc_reader_exception.dart';
 part 'src/info/rfid_exception.dart';
@@ -518,8 +519,11 @@ class DocumentReader {
   }
 
   /// It's used to finalize package during backend processing.
-  Future<FinalizePackageCompletion> finalizePackage() async {
-    var response = await _bridge.invokeMethod("finalizePackage", []);
+  Future<FinalizePackageCompletion> finalizePackage(
+      {FinalizeConfig? config}) async {
+    var funcName = "finalizePackage";
+    if (config != null) funcName = "finalizePackageWithFinalizeConfig";
+    var response = await _bridge.invokeMethod(funcName, [config?.toJson()]);
 
     var jsonObject = json.decode(response);
     var action = DocReaderAction.getByValue(jsonObject["action"])!;
