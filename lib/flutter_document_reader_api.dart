@@ -54,6 +54,7 @@ part 'src/config/scanner_config.dart';
 part 'src/config/recognize_config.dart';
 part 'src/config/online_processing_config.dart';
 part 'src/config/rfid_config.dart';
+part 'src/config/finalize_config.dart';
 
 part 'src/info/doc_reader_exception.dart';
 part 'src/info/rfid_exception.dart';
@@ -135,12 +136,12 @@ part 'src/results/position.dart';
 part 'src/results/document_type.dart';
 part 'src/results/transaction_info.dart';
 
-part 'src/engagement/data_retrieval.dart';
-part 'src/engagement/name_space_mdl.dart';
-part 'src/engagement/document_request_mdl.dart';
-part 'src/engagement/device_retrieval_method.dart';
-part 'src/engagement/document_request_18013_mdl.dart';
-part 'src/engagement/device_engagement.dart';
+part 'src/mdl/data_retrieval.dart';
+part 'src/mdl/name_space_mdl.dart';
+part 'src/mdl/document_request_mdl.dart';
+part 'src/mdl/device_retrieval_method.dart';
+part 'src/mdl/document_request_18013_mdl.dart';
+part 'src/mdl/device_engagement.dart';
 
 /// Entry point of the Regula DocumentReader SDK.
 class DocumentReader {
@@ -518,8 +519,11 @@ class DocumentReader {
   }
 
   /// It's used to finalize package during backend processing.
-  Future<FinalizePackageCompletion> finalizePackage() async {
-    var response = await _bridge.invokeMethod("finalizePackage", []);
+  Future<FinalizePackageCompletion> finalizePackage(
+      {FinalizeConfig? config}) async {
+    var funcName = "finalizePackage";
+    if (config != null) funcName = "finalizePackageWithFinalizeConfig";
+    var response = await _bridge.invokeMethod(funcName, [config?.toJson()]);
 
     var jsonObject = json.decode(response);
     var action = DocReaderAction.getByValue(jsonObject["action"])!;

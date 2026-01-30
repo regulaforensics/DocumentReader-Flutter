@@ -93,6 +93,10 @@ class Results {
   String get rawResult => _rawResult;
   late String _rawResult;
 
+  /// Contains results in accordance with the BSI TR-03135 standard.
+  String get bsiTr03135Results => _bsiTr03135Results;
+  late String _bsiTr03135Results;
+
   TransactionInfo? get transactionInfo => _transactionInfo;
   TransactionInfo? _transactionInfo;
 
@@ -359,6 +363,7 @@ class Results {
       }
     }
     result._rawResult = jsonObject["rawResult"];
+    result._bsiTr03135Results = jsonObject["bsiTr03135Results"];
     result._rfidSessionData = RFIDSessionData.fromJson(
       jsonObject["rfidSessionData"],
     );
@@ -399,6 +404,7 @@ class Results {
         "elapsedTime": elapsedTime,
         "elapsedTimeRFID": elapsedTimeRFID,
         "rawResult": rawResult,
+        "bsiTr03135Results": bsiTr03135Results,
         "transactionInfo": transactionInfo?.toJson(),
       }.clearNulls();
 }
@@ -556,6 +562,9 @@ enum ResultType {
 
   /// Used for storing barcode position.
   BARCODE_POSITION(62),
+
+  /// Results in accordance with the BSI TR-03135 standard.
+  RESULT_TYPE_BSI_XML_V2(73),
 
   /// Used for storing document position.
   DOCUMENT_POSITION(85),

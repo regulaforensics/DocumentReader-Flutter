@@ -46,7 +46,6 @@ class ResultsStatus {
   CheckResult get age => _age;
   late CheckResult _age;
 
-  /// Android only.
   CheckResult? get captureProcessIntegrity => _captureProcessIntegrity;
   late CheckResult? _captureProcessIntegrity;
 

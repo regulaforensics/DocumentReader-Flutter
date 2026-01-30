@@ -24,6 +24,7 @@ void main() {
     compare('recognizeConfig', recognizeConfig, RecognizeConfig.fromJson);
     compare('recognizeConfig2', recognizeConfig2, RecognizeConfig.fromJson);
     compare('scannerConfig', scannerConfig, ScannerConfig.fromJson);
+    compare('finalizeConfig', finalizeConfig, FinalizeConfig.fromJson);
 
     compare(
       'faceApiSearchParams',

@@ -11,8 +11,7 @@ class Tests: XCTestCase {
     
     func test_initConfig() {
         compare(name: "initConfig", fromJson: RGLWJSONConstructor.config, generate: RGLWJSONConstructor.generate,
-                omit: ["databasePath",
-                       "blackList",
+                omit: ["blackList",
                        "customDb",
                        "useBleDevice"])
     }
@@ -47,6 +46,10 @@ class Tests: XCTestCase {
                        "onlineProcessingConfig.processParams.uvTorchEnabled",
                        "onlineProcessingConfig.processParams.checkCaptureProcessIntegrity",
                        "onlineProcessingConfig.requestHeaders"])
+    }
+    
+    func test_finalizeConfig() {
+        compare(name: "finalizeConfig", fromJson: RGLWJSONConstructor.finalizeConfig, generate: RGLWJSONConstructor.generate)
     }
     
     // params.process_params

@@ -193,6 +193,8 @@
     if (options[@"disableAuthResolutionFilter"]) processParams.disableAuthResolutionFilter = options[@"disableAuthResolutionFilter"];
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
     if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
+    if (options[@"checkCaptureProcessIntegrity"]) processParams.checkCaptureProcessIntegrity = options[@"checkCaptureProcessIntegrity"];
+    if (options[@"bsiTr03135Results"]) processParams.bsiTr03135Results = options[@"bsiTr03135Results"];
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -323,6 +325,8 @@
     result[@"disableAuthResolutionFilter"] = processParams.disableAuthResolutionFilter;
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
     result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
+    result[@"checkCaptureProcessIntegrity"] = processParams.checkCaptureProcessIntegrity;
+    result[@"bsiTr03135Results"] = processParams.bsiTr03135Results;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
