@@ -46,9 +46,8 @@ class ResultsStatus {
   CheckResult get age => _age;
   late CheckResult _age;
 
-  /// Android only.
-  CheckResult get captureProcessIntegrity => _captureProcessIntegrity;
-  late CheckResult _captureProcessIntegrity;
+  CheckResult? get captureProcessIntegrity => _captureProcessIntegrity;
+  late CheckResult? _captureProcessIntegrity;
 
   /// Container for an details age scanning statuses.
   AgeStatus get ageStatus => _ageStatus;
@@ -71,7 +70,7 @@ class ResultsStatus {
     result._mDL = CheckResult.getByValue(jsonObject["mDL"])!;
     result._age = CheckResult.getByValue(jsonObject["age"])!;
     result._captureProcessIntegrity =
-        CheckResult.getByValue(jsonObject["captureProcessIntegrity"])!;
+        CheckResult.getByValue(jsonObject["captureProcessIntegrity"]);
     result._ageStatus = AgeStatus.fromJson(jsonObject["detailsAge"])!;
 
     return result;
@@ -86,7 +85,7 @@ class ResultsStatus {
         "stopList": stopList.value,
         "mDL": mDL.value,
         "age": age.value,
-        "captureProcessIntegrity": captureProcessIntegrity.value,
+        "captureProcessIntegrity": captureProcessIntegrity?.value,
         "detailsOptical": detailsOptical.toJson(),
         "detailsAge": ageStatus.toJson(),
         "detailsRFID": detailsRFID.toJson(),

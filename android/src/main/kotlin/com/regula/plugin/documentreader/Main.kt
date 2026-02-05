@@ -131,6 +131,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "containers" -> containers(callback, args(0), args(1))
     "encryptedContainers" -> encryptedContainers(callback, args(0))
     "finalizePackage" -> finalizePackage(callback)
+    "finalizePackageWithFinalizeConfig" -> finalizePackageWithFinalizeConfig(callback, args(0))
     "endBackendTransaction" -> endBackendTransaction()
     "getTranslation" -> getTranslation(callback, args(0), args(1))
     else -> Unit
@@ -321,7 +322,7 @@ fun engageDeviceData(data: String, callback: Callback) {
 
 fun startRetrieveData(dataRetrieval: JSONObject, deviceEngagement: JSONObject, callback: Callback) {
     stopBackgroundRFID()
-    Instance().startRetrieveData(activity, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!){ v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
+    Instance().startRetrieveData(activity, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!) { v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
 }
 
 lateinit var retrieveDataNFCCallback: Callback
@@ -335,7 +336,7 @@ fun retrieveDataNFC(dataRetrieval: JSONObject, callback: Callback) {
 
 fun retrieveDataBLE(dataRetrieval: JSONObject, deviceEngagement: JSONObject, callback: Callback) {
     stopBackgroundRFID()
-    Instance().retrieveDataBLE(context, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!){ v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
+    Instance().retrieveDataBLE(context, deviceEngagementFromJSON(deviceEngagement)!!, dataRetrievalFromJSON(dataRetrieval)!!) { v1, v2, v3 -> callback(generateCompletion(v1, v2, v3)) }
 }
 
 fun setLocalizationDictionary(dictionary: JSONObject) {
@@ -365,6 +366,12 @@ fun getDocReaderDocumentsDatabase(callback: Callback) = callback(Instance().vers
 })
 
 fun finalizePackage(callback: Callback) = Instance().finalizePackage { action, info, error ->
+    callback(generateFinalizePackageCompletion(action, info, error))
+}
+
+fun finalizePackageWithFinalizeConfig(callback: Callback, config: JSONObject) = Instance().finalizePackage(
+    finalizeConfigFromJSON(config)
+) { action, info, error ->
     callback(generateFinalizePackageCompletion(action, info, error))
 }
 

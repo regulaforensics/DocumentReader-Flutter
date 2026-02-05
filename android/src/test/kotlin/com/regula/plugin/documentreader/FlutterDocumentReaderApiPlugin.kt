@@ -19,7 +19,7 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun initConfig() = compare(
         "initConfig", ::initConfigFromJSON, ::generateInitConfig,
-        "databasePath",
+        "customDb",
         "useBleDevice"
     )
 
@@ -46,6 +46,9 @@ class FlutterDocumentReaderApiPluginTest {
         "scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig,
         "onlineProcessingConfig.requestHeaders"
     )
+
+    @Test
+    fun finalizeConfig() = compare("finalizeConfig", ::finalizeConfigFromJSON, ::generateFinalizeConfig)
 
     // params.process_params
 

@@ -367,12 +367,20 @@ class ProcessParams {
     _set({"returnTransliteratedFields": val});
   }
 
-  /// Android only.
   bool? get checkCaptureProcessIntegrity => _checkCaptureProcessIntegrity;
   bool? _checkCaptureProcessIntegrity;
   set checkCaptureProcessIntegrity(bool? val) {
     _checkCaptureProcessIntegrity = val;
     _set({"checkCaptureProcessIntegrity": val});
+  }
+
+  Bsi? get bsiTr03135 => _bsiTr03135;
+  Bsi? _bsiTr03135;
+  set bsiTr03135(Bsi? val) {
+    _bsiTr03135 = val;
+    _set({
+      "bsiTr03135": {"generateResult": val?._generateResult}
+    });
   }
 
   /// There are documents that contain barcodes which data can be parsed only
@@ -815,6 +823,10 @@ class ProcessParams {
         jsonObject["returnTransliteratedFields"];
     result.checkCaptureProcessIntegrity =
         jsonObject["checkCaptureProcessIntegrity"];
+    if (jsonObject["bsiTr03135"] != null) {
+      result.bsiTr03135 =
+          new Bsi(generateResult: jsonObject["bsiTr03135"]["generateResult"]);
+    }
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -931,6 +943,7 @@ class ProcessParams {
         "strictSecurityChecks": strictSecurityChecks,
         "returnTransliteratedFields": returnTransliteratedFields,
         "checkCaptureProcessIntegrity": checkCaptureProcessIntegrity,
+        "bsiTr03135": {"generateResult": bsiTr03135?._generateResult},
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
@@ -1088,4 +1101,12 @@ enum MrzDetectionModes {
     if (i == null) return null;
     return MrzDetectionModes.values.firstWhere((x) => x.value == i);
   }
+}
+
+class Bsi {
+  bool? _generateResult;
+
+  Bsi({
+    bool? generateResult,
+  }) : _generateResult = generateResult;
 }

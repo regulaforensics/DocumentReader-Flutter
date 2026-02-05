@@ -2,8 +2,8 @@ part of "../../../flutter_document_reader_api.dart";
 
 /// Container for an age related scanning statuses.
 class AgeStatus {
-  int get threshold => _threshold;
-  late int _threshold;
+  int? get threshold => _threshold;
+  late int? _threshold;
 
   CheckResult get overThreshold => _overThreshold;
   late CheckResult _overThreshold;
