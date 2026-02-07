@@ -94,8 +94,8 @@ class Results {
   late String _rawResult;
 
   /// Contains results in accordance with the BSI TR-03135 standard.
-  String get bsiTr03135Results => _bsiTr03135Results;
-  late String _bsiTr03135Results;
+  String? get bsiTr03135Results => _bsiTr03135Results;
+  String? _bsiTr03135Results;
 
   TransactionInfo? get transactionInfo => _transactionInfo;
   TransactionInfo? _transactionInfo;

@@ -519,8 +519,9 @@ class DocumentReader {
   }
 
   /// It's used to finalize package during backend processing.
-  Future<FinalizePackageCompletion> finalizePackage(
-      {FinalizeConfig? config}) async {
+  Future<FinalizePackageCompletion> finalizePackage({
+    FinalizeConfig? config,
+  }) async {
     var funcName = "finalizePackage";
     if (config != null) funcName = "finalizePackageWithFinalizeConfig";
     var response = await _bridge.invokeMethod(funcName, [config?.toJson()]);
