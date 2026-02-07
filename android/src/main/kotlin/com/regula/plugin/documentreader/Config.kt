@@ -18,6 +18,7 @@ import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.LivenessParams
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
+import com.regula.documentreader.api.params.Bsi
 import com.regula.documentreader.api.params.RfidScenario
 import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
@@ -147,7 +148,11 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictSecurityChecks" -> processParams.strictSecurityChecks = v as Boolean
         "returnTransliteratedFields" -> processParams.returnTransliteratedFields = v as Boolean
         "checkCaptureProcessIntegrity" -> processParams.checkCaptureProcessIntegrity = v as Boolean
-        "bsiTr03135Results" -> processParams.bsiTr03135Results = v as Boolean
+        "bsiTr03135" -> {
+            val temp = Bsi()
+            temp.generateResult = (v as JSONObject).getBooleanOrNull("generateResult")
+            processParams.bsiTr03135 = temp
+        }
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -237,7 +242,9 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictSecurityChecks" to processParams.strictSecurityChecks,
     "returnTransliteratedFields" to processParams.returnTransliteratedFields,
     "checkCaptureProcessIntegrity" to processParams.checkCaptureProcessIntegrity,
-    "bsiTr03135Results" to processParams.bsiTr03135Results,
+    "bsiTr03135" to mapOf(
+        "generateResult" to processParams.bsiTr03135?.generateResult
+    ).toJson(),
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,

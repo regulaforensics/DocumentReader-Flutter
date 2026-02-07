@@ -194,7 +194,10 @@
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
     if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
     if (options[@"checkCaptureProcessIntegrity"]) processParams.checkCaptureProcessIntegrity = options[@"checkCaptureProcessIntegrity"];
-    if (options[@"bsiTr03135Results"]) processParams.bsiTr03135Results = options[@"bsiTr03135Results"];
+    if (options[@"bsiTr03135"]) {
+        processParams.bsiTr03135 = [RGLBsi new];
+        processParams.bsiTr03135.generateResult = options[@"bsiTr03135"][@"generateResult"];
+    }
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -326,7 +329,9 @@
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
     result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
     result[@"checkCaptureProcessIntegrity"] = processParams.checkCaptureProcessIntegrity;
-    result[@"bsiTr03135Results"] = processParams.bsiTr03135Results;
+    if(processParams.bsiTr03135) result[@"bsiTr03135"] = @{
+        @"generateResult": processParams.bsiTr03135.generateResult,
+    };
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
