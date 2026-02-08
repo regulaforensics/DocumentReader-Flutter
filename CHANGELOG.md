@@ -1,4 +1,4 @@
-## 9.2.897-nightly
+## 9.2.899-nightly
 # 7.5.0
 
 * Changes in `RecognizeConfig` class, see [migration guide](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/7-4-to-7-5/#mobile)
