@@ -8,10 +8,10 @@ class DeviceEngagement {
     if (jsonObject == null) return null;
     var result = DeviceEngagement();
 
-    for (var item in jsonObject["deviceRetrievalMethods"]) {
-      result.deviceRetrievalMethods
-          .addSafe(DeviceRetrievalMethod.fromJson(item));
-    }
+    result.deviceRetrievalMethods =
+        (jsonObject["deviceRetrievalMethods"] as List)
+            .map((item) => DeviceRetrievalMethod.fromJson(item)!)
+            .toList();
 
     return result;
   }

@@ -160,7 +160,7 @@ class DocumentRequest18013MDL extends DocumentRequestMDL {
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
         "docType": _docType,
-        "namespaces": _namespaces.map((item) => item.toJson()),
+        "namespaces": _namespaces.map((item) => item.toJson()).toList(),
         "familyName": familyName?.value,
         "givenName": givenName?.value,
         "birthDate": birthDate?.value,

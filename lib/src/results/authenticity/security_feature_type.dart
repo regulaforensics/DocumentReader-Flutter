@@ -166,7 +166,15 @@ enum SecurityFeatureType {
   AGE_CHECK(56),
 
   /// Sex check.
-  SEX_CHECK(57);
+  SEX_CHECK(57),
+
+  PORTRAIT_COMPARISON_RFIDVSGHOST(58),
+
+  PORTRAIT_COMPARISON_BARCODEVSGHOST(59),
+
+  PORTRAIT_COMPARISON_GHOSTVSLIVE(60),
+
+  PORTRAIT_COMPARISON_EXTVSGHOST(61);
 
   const SecurityFeatureType(this.value);
   final int value;

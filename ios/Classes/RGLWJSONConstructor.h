@@ -194,6 +194,8 @@
 +(NSDictionary* _Nullable)generateNameSpaceMDL:(RGLNameSpaceMDL* _Nullable)input;
 +(RGLDocumentRequestMDL* _Nullable)documentRequestMDLFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateDocumentRequestMDL:(RGLDocumentRequestMDL* _Nullable)input;
++(RGLFinalizeConfig* _Nullable)finalizeConfigFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateFinalizeConfig:(RGLFinalizeConfig* _Nullable)input;
 
 @end
 

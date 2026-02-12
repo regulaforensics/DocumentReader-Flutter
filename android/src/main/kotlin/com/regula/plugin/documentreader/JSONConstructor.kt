@@ -13,6 +13,7 @@ import android.util.Pair
 import com.regula.common.exception.RegulaException
 import com.regula.documentreader.api.License
 import com.regula.documentreader.api.completions.model.PrepareProgress
+import com.regula.documentreader.api.config.FinalizeConfig
 import com.regula.documentreader.api.config.RecognizeConfig
 import com.regula.documentreader.api.config.ScannerConfig
 import com.regula.documentreader.api.enums.BarcodeType
@@ -1861,6 +1862,7 @@ fun documentReaderResultsFromJSON(input: JSONObject?) = input?.let {
     result.mrzPosition = it.optJSONArray("mrzPosition").toList(::elementPositionFromJSON)!!
     result.imageQuality = it.optJSONArray("imageQuality").toList(::imageQualityGroupFromJSON)!!
     result.rawResult = it.optString("rawResult")
+    result.bsiTr03135Results = it.optString("bsiTr03135Results")
     result.rfidSessionData = rfidSessionDataFromJSON(it.optJSONObject("rfidSessionData"))
     result.authenticityResult = documentReaderAuthenticityResultFromJSON(it.optJSONObject("authenticityResult"))
     result.barcodeResult = documentReaderBarcodeResultFromJSON(it.optJSONObject("barcodeResult"))
@@ -1888,6 +1890,7 @@ fun generateDocumentReaderResults(input: DocumentReaderResults?) = input?.let {
         "mrzPosition" to it.mrzPosition.toJson(::generateElementPosition),
         "imageQuality" to it.imageQuality.toJson(::generateImageQualityGroup),
         "rawResult" to it.rawResult,
+        "bsiTr03135Results" to it.bsiTr03135Results,
         "rfidSessionData" to generateRFIDSessionData(it.rfidSessionData),
         "authenticityResult" to generateDocumentReaderAuthenticityResult(it.authenticityResult),
         "barcodeResult" to generateDocumentReaderBarcodeResult(it.barcodeResult),
@@ -1959,7 +1962,7 @@ fun generateDeviceEngagement(input: DeviceEngagement?) = input?.let {
 fun nameSpaceMDLFromJSON(input: JSONObject?) = input?.let {
     val result = NameSpaceMDL(it.getString("name"))
     it.getJSONObject("map").forEach { key, value ->
-        result.addField(key, eMDLIntentToRetain.values()[value as Int])
+        result.addField(key, eMDLIntentToRetain.values()[value.toInt()])
     }
     result
 }
@@ -1997,8 +2000,8 @@ fun generateDocumentRequestMDL(input: DocumentRequestMDL?): JSONObject? = input?
 fun documentRequest18013MDLFromJSON(input: JSONObject?) = input?.let {
     val result = DocumentRequest18013MDL()
 
-    result.setPrivateProperty("docType", it.getString("docType"))
-    result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
+    if (it.has("docType")) result.setPrivateProperty("docType", it.getString("docType"))
+    if (it.has("namespaces")) result.setPrivateProperty("nameSpaceMDLs", it.getJSONArray("namespaces").toList(::nameSpaceMDLFromJSON))
     result.familyName = it.getIntOrNull("familyName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
     result.givenName = it.getIntOrNull("givenName")?.let { enm -> eMDLIntentToRetain.values()[enm] }
     result.birthDate = it.getIntOrNull("birthDate")?.let { enm -> eMDLIntentToRetain.values()[enm] }
@@ -2102,3 +2105,19 @@ fun generateDeviceEngagementCompletion(deviceEngagement: DeviceEngagement?, erro
     "deviceEngagement" to generateDeviceEngagement(deviceEngagement),
     "error" to generateRegulaException(error)
 )
+
+fun finalizeConfigFromJSON(input: JSONObject?) = input?.let {
+    val result = FinalizeConfig.Builder()
+    if (it.has("rawImages")) result.setRawImages(it.getBoolean("rawImages"))
+    if (it.has("video")) result.setVideo(it.getBoolean("video"))
+    if (it.has("rfidSession")) result.setRfidSession(it.getBoolean("rfidSession"))
+    result.build()
+}
+
+fun generateFinalizeConfig(input: FinalizeConfig?) = input?.let {
+    mapOf(
+        "rawImages" to it.getPrivateProperty("rawImages"),
+        "video" to it.getPrivateProperty("video"),
+        "rfidSession" to it.getPrivateProperty("rfidSession")
+    ).toJson()
+}
