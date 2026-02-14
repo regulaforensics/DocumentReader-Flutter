@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_document_reader_api'
-  s.version          = '9.2.909-rc'
+  s.version          = '9.1.910-rc'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
