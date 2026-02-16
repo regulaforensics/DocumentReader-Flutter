@@ -194,10 +194,6 @@
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
     if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
     if (options[@"checkCaptureProcessIntegrity"]) processParams.checkCaptureProcessIntegrity = options[@"checkCaptureProcessIntegrity"];
-    if (options[@"bsiTr03135"]) {
-        processParams.bsiTr03135 = [RGLBsi new];
-        processParams.bsiTr03135.generateResult = options[@"bsiTr03135"][@"generateResult"];
-    }
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -272,16 +268,17 @@
     if (options[@"customParams"]) processParams.customParams = options[@"customParams"];
     if ([options valueForKey:@"imageQA"] != nil)
         [self setImageQA:processParams.imageQA input:[options valueForKey:@"imageQA"]];
+    if ([options valueForKey:@"authenticityParams"] != nil) {
+        if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
+        [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
+    }
     if ([options valueForKey:@"rfidParams"] != nil)
         processParams.rfidParams = [RGLWJSONConstructor rfidParamsFromJson:[options valueForKey:@"rfidParams"]];
     if ([options valueForKey:@"faceApiParams"] != nil)
         processParams.faceApiParams = [RGLWJSONConstructor faceAPIParamsFromJson:[options valueForKey:@"faceApiParams"]];
     if ([options valueForKey:@"backendProcessingConfig"] != nil)
         processParams.backendProcessingConfig = [RGLWJSONConstructor backendProcessingConfigFromJson:[options valueForKey:@"backendProcessingConfig"]];
-    if ([options valueForKey:@"authenticityParams"] != nil) {
-        if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
-        [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
-    }
+    if (options[@"bsiTr03135"]) processParams.bsiTr03135 = [RGLWJSONConstructor bsiFromJson:options[@"bsiTr03135"]];
 }
 
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams {
@@ -329,9 +326,6 @@
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
     result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
     result[@"checkCaptureProcessIntegrity"] = processParams.checkCaptureProcessIntegrity;
-    if(processParams.bsiTr03135) result[@"bsiTr03135"] = @{
-        @"generateResult": processParams.bsiTr03135.generateResult,
-    };
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -376,10 +370,11 @@
     
     // JSONObject
     result[@"imageQA"] = [self getImageQA:processParams.imageQA];
+    result[@"authenticityParams"] = [self getAuthenticityParams:processParams.authenticityParams];
     result[@"rfidParams"] = [RGLWJSONConstructor generateRFIDParams:processParams.rfidParams];
     result[@"faceApiParams"] = [RGLWJSONConstructor generateFaceAPIParams:processParams.faceApiParams];
     result[@"backendProcessingConfig"] = [RGLWJSONConstructor generateBackendProcessingConfig:processParams.backendProcessingConfig];
-    result[@"authenticityParams"] = [self getAuthenticityParams:processParams.authenticityParams];
+    result[@"bsiTr03135"] = [RGLWJSONConstructor generateBsi:processParams.bsiTr03135];
     
     // Custom
     result[@"customParams"] = processParams.customParams;

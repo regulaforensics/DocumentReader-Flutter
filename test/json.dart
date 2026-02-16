@@ -75,6 +75,9 @@ var backendProcessingConfig = {
   "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "timeoutConnection": 0.5,
 };
+var bsi = {
+  "generateResult": true,
+};
 var processParams = {
   "multipageProcessing": true,
   "debugSaveImages": false,
@@ -116,7 +119,7 @@ var processParams = {
   "strictSecurityChecks": false,
   "returnTransliteratedFields": true,
   "checkCaptureProcessIntegrity": false,
-  "bsiTr03135": {"generateResult": true},
+  "bsiTr03135": bsi,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,

@@ -47,6 +47,7 @@ void main() {
       backendProcessingConfig,
       BackendProcessingConfig.fromJson,
     );
+    compare('bsi', bsi, Bsi.fromJson);
     compareParams(
       'processParams',
       processParams,
