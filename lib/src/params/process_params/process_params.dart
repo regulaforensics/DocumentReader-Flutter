@@ -374,15 +374,6 @@ class ProcessParams {
     _set({"checkCaptureProcessIntegrity": val});
   }
 
-  Bsi? get bsiTr03135 => _bsiTr03135;
-  Bsi? _bsiTr03135;
-  set bsiTr03135(Bsi? val) {
-    _bsiTr03135 = val;
-    _set({
-      "bsiTr03135": {"generateResult": val?._generateResult}
-    });
-  }
-
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -754,6 +745,13 @@ class ProcessParams {
     _set({"backendProcessingConfig": val?.toJson()});
   }
 
+  Bsi? get bsiTr03135 => _bsiTr03135;
+  Bsi? _bsiTr03135;
+  set bsiTr03135(Bsi? val) {
+    _bsiTr03135 = val;
+    _set({"bsiTr03135": val?.toJson()});
+  }
+
   AuthenticityParams get authenticityParams => _authenticityParams;
   AuthenticityParams _authenticityParams = AuthenticityParams();
   set authenticityParams(AuthenticityParams val) {
@@ -823,10 +821,6 @@ class ProcessParams {
         jsonObject["returnTransliteratedFields"];
     result.checkCaptureProcessIntegrity =
         jsonObject["checkCaptureProcessIntegrity"];
-    if (jsonObject["bsiTr03135"] != null) {
-      result.bsiTr03135 =
-          new Bsi(generateResult: jsonObject["bsiTr03135"]["generateResult"]);
-    }
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -891,6 +885,7 @@ class ProcessParams {
     result.backendProcessingConfig = BackendProcessingConfig.fromJson(
       jsonObject["backendProcessingConfig"],
     );
+    result.bsiTr03135 = Bsi.fromJson(jsonObject["bsiTr03135"]);
     result.authenticityParams = AuthenticityParams.fromJson(
       jsonObject["authenticityParams"],
     );
@@ -943,7 +938,6 @@ class ProcessParams {
         "strictSecurityChecks": strictSecurityChecks,
         "returnTransliteratedFields": returnTransliteratedFields,
         "checkCaptureProcessIntegrity": checkCaptureProcessIntegrity,
-        "bsiTr03135": {"generateResult": bsiTr03135?._generateResult},
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,
@@ -983,6 +977,7 @@ class ProcessParams {
         "rfidParams": rfidParams?.toJson(),
         "faceApiParams": faceApiParams?.toJson(),
         "backendProcessingConfig": backendProcessingConfig?.toJson(),
+        "bsiTr03135": bsiTr03135?.toJson(),
         "authenticityParams": authenticityParams.toJson(),
         "customParams": customParams,
       }.clearNulls();
@@ -1101,12 +1096,4 @@ enum MrzDetectionModes {
     if (i == null) return null;
     return MrzDetectionModes.values.firstWhere((x) => x.value == i);
   }
-}
-
-class Bsi {
-  bool? _generateResult;
-
-  Bsi({
-    bool? generateResult,
-  }) : _generateResult = generateResult;
 }

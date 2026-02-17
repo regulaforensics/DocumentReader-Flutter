@@ -18,7 +18,6 @@ import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.LivenessParams
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
-import com.regula.documentreader.api.params.Bsi
 import com.regula.documentreader.api.params.RfidScenario
 import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
@@ -148,11 +147,6 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictSecurityChecks" -> processParams.strictSecurityChecks = v as Boolean
         "returnTransliteratedFields" -> processParams.returnTransliteratedFields = v as Boolean
         "checkCaptureProcessIntegrity" -> processParams.checkCaptureProcessIntegrity = v as Boolean
-        "bsiTr03135" -> {
-            val temp = Bsi()
-            temp.generateResult = (v as JSONObject).getBooleanOrNull("generateResult")
-            processParams.bsiTr03135 = temp
-        }
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -191,6 +185,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "rfidParams" -> processParams.rfidParams = rfidParamsFromJSON(v as JSONObject)
         "faceApiParams" -> processParams.faceApiParams = faceApiParamsFromJSON(v as JSONObject)
         "backendProcessingConfig" -> processParams.backendProcessingConfig = backendProcessingConfigFromJSON(v as JSONObject)
+        "bsiTr03135" -> processParams.bsiTr03135 = bsiFromJSON(v as JSONObject)
         "authenticityParams" -> {
             if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams.defaultParams()
             setAuthenticityParams(processParams.authenticityParams!!, v as JSONObject)
@@ -242,9 +237,6 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictSecurityChecks" to processParams.strictSecurityChecks,
     "returnTransliteratedFields" to processParams.returnTransliteratedFields,
     "checkCaptureProcessIntegrity" to processParams.checkCaptureProcessIntegrity,
-    "bsiTr03135" to mapOf(
-        "generateResult" to processParams.bsiTr03135?.generateResult
-    ).toJson(),
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -282,6 +274,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "rfidParams" to generateRFIDParams(processParams.rfidParams),
     "faceApiParams" to generateFaceApiParams(processParams.faceApiParams),
     "backendProcessingConfig" to generateBackendProcessingConfig(processParams.backendProcessingConfig),
+    "bsiTr03135" to generateBsi(processParams.bsiTr03135),
     "authenticityParams" to getAuthenticityParams(processParams.authenticityParams),
     "customParams" to processParams.customParams,
 ).toJson()

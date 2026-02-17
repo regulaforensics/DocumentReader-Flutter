@@ -86,6 +86,10 @@ class Tests: XCTestCase {
         compare(name: "backendProcessingConfig", fromJson: RGLWJSONConstructor.backendProcessingConfig, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_bsi() {
+        compare(name: "bsi", fromJson: RGLWJSONConstructor.bsi, generate: RGLWJSONConstructor.generate)
+    }
+    
     func test_processParams() {
         compare(name: "processParams", fromJson: RGLWJSONConstructor.processParams, generate: RGLWJSONConstructor.generate,
                 omit: ["sessionLogFolder",
