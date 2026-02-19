@@ -55,6 +55,52 @@ class CustomizationFonts {
     _set({"rfidEnableNfcButtonText": val?.toJson()});
   }
 
+  Font? get mdlProcessingScreenHintLabel => _mdlProcessingScreenHintLabel;
+  Font? _mdlProcessingScreenHintLabel;
+  set mdlProcessingScreenHintLabel(Font? val) {
+    _mdlProcessingScreenHintLabel = val;
+    _set({"mdlProcessingScreenHintLabel": val?.toJson()});
+  }
+
+  Font? get mdlProcessingScreenProgressLabel =>
+      _mdlProcessingScreenProgressLabel;
+  Font? _mdlProcessingScreenProgressLabel;
+  set mdlProcessingScreenProgressLabel(Font? val) {
+    _mdlProcessingScreenProgressLabel = val;
+    _set({"mdlProcessingScreenProgressLabel": val?.toJson()});
+  }
+
+  Font? get mdlProcessingScreenResultLabel => _mdlProcessingScreenResultLabel;
+  Font? _mdlProcessingScreenResultLabel;
+  set mdlProcessingScreenResultLabel(Font? val) {
+    _mdlProcessingScreenResultLabel = val;
+    _set({"mdlProcessingScreenResultLabel": val?.toJson()});
+  }
+
+  /// Android only.
+  Font? get mdlEnableNfcTitleText => _mdlEnableNfcTitleText;
+  Font? _mdlEnableNfcTitleText;
+  set mdlEnableNfcTitleText(Font? val) {
+    _mdlEnableNfcTitleText = val;
+    _set({"mdlEnableNfcTitleText": val?.toJson()});
+  }
+
+  /// Android only.
+  Font? get mdlEnableNfcDescriptionText => _mdlEnableNfcDescriptionText;
+  Font? _mdlEnableNfcDescriptionText;
+  set mdlEnableNfcDescriptionText(Font? val) {
+    _mdlEnableNfcDescriptionText = val;
+    _set({"mdlEnableNfcDescriptionText": val?.toJson()});
+  }
+
+  /// Android only.
+  Font? get mdlEnableNfcButtonText => _mdlEnableNfcButtonText;
+  Font? _mdlEnableNfcButtonText;
+  set mdlEnableNfcButtonText(Font? val) {
+    _mdlEnableNfcButtonText = val;
+    _set({"mdlEnableNfcButtonText": val?.toJson()});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationFonts fromJson(jsonObject) {
     var result = CustomizationFonts();
@@ -78,6 +124,24 @@ class CustomizationFonts {
     result.rfidEnableNfcButtonText = Font.fromJson(
       jsonObject["rfidEnableNfcButtonText"],
     );
+    result.mdlProcessingScreenHintLabel = Font.fromJson(
+      jsonObject["mdlProcessingScreenHintLabel"],
+    );
+    result.mdlProcessingScreenProgressLabel = Font.fromJson(
+      jsonObject["mdlProcessingScreenProgressLabel"],
+    );
+    result.mdlProcessingScreenResultLabel = Font.fromJson(
+      jsonObject["mdlProcessingScreenResultLabel"],
+    );
+    result.mdlEnableNfcTitleText = Font.fromJson(
+      jsonObject["mdlEnableNfcTitleText"],
+    );
+    result.mdlEnableNfcDescriptionText = Font.fromJson(
+      jsonObject["mdlEnableNfcDescriptionText"],
+    );
+    result.mdlEnableNfcButtonText = Font.fromJson(
+      jsonObject["mdlEnableNfcButtonText"],
+    );
 
     return result;
   }
@@ -93,6 +157,14 @@ class CustomizationFonts {
         "rfidEnableNfcTitleText": rfidEnableNfcTitleText?.toJson(),
         "rfidEnableNfcDescriptionText": rfidEnableNfcDescriptionText?.toJson(),
         "rfidEnableNfcButtonText": rfidEnableNfcButtonText?.toJson(),
+        "mdlProcessingScreenHintLabel": mdlProcessingScreenHintLabel?.toJson(),
+        "mdlProcessingScreenProgressLabel":
+            mdlProcessingScreenProgressLabel?.toJson(),
+        "mdlProcessingScreenResultLabel":
+            mdlProcessingScreenResultLabel?.toJson(),
+        "mdlEnableNfcTitleText": mdlEnableNfcTitleText?.toJson(),
+        "mdlEnableNfcDescriptionText": mdlEnableNfcDescriptionText?.toJson(),
+        "mdlEnableNfcButtonText": mdlEnableNfcButtonText?.toJson(),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {
