@@ -77,6 +77,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun backendProcessingConfig() = compare("backendProcessingConfig", ::backendProcessingConfigFromJSON, ::generateBackendProcessingConfig)
 
     @Test
+    fun bsi() = compare("bsi", ::bsiFromJSON, ::generateBsi)
+
+    @Test
     fun processParams() = compare("processParams", ::processParamFromJSON, ::generateProcessParam)
 
     //params.rfid_scenario

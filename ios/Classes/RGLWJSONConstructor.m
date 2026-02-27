@@ -303,6 +303,24 @@ static NSMutableArray* weakReferencesHolder;
     return result;
 }
 
++(RGLBsi*)bsiFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    RGLBsi *result = [RGLBsi new];
+    
+    if(input[@"generateResult"]) result.generateResult = input[@"generateResult"];
+    
+    return result;
+}
+
++(NSDictionary*)generateBsi:(RGLBsi*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"generateResult"] = input.generateResult;
+    
+    return result;
+}
+
 +(RGLImageQA*)imageQAFromJson:(NSDictionary*)input {
     RGLImageQA *result = [RGLImageQA new];
     [RGLWConfig setImageQA:result input:input];

@@ -103,6 +103,84 @@ class CustomizationColors {
     _set({"rfidEnableNfcButtonBackground": _intFromColor(val)});
   }
 
+  Color? get mdlProcessingScreenBackground => _mdlProcessingScreenBackground;
+  Color? _mdlProcessingScreenBackground;
+  set mdlProcessingScreenBackground(Color? val) {
+    _mdlProcessingScreenBackground = val;
+    _set({"mdlProcessingScreenBackground": _intFromColor(val)});
+  }
+
+  Color? get mdlProcessingScreenHintLabelText =>
+      _mdlProcessingScreenHintLabelText;
+  Color? _mdlProcessingScreenHintLabelText;
+  set mdlProcessingScreenHintLabelText(Color? val) {
+    _mdlProcessingScreenHintLabelText = val;
+    _set({"mdlProcessingScreenHintLabelText": _intFromColor(val)});
+  }
+
+  Color? get mdlProcessingScreenHintLabelBackground =>
+      _mdlProcessingScreenHintLabelBackground;
+  Color? _mdlProcessingScreenHintLabelBackground;
+  set mdlProcessingScreenHintLabelBackground(Color? val) {
+    _mdlProcessingScreenHintLabelBackground = val;
+    _set({"mdlProcessingScreenHintLabelBackground": _intFromColor(val)});
+  }
+
+  Color? get mdlProcessingScreenProgressLabelText =>
+      _mdlProcessingScreenProgressLabelText;
+  Color? _mdlProcessingScreenProgressLabelText;
+  set mdlProcessingScreenProgressLabelText(Color? val) {
+    _mdlProcessingScreenProgressLabelText = val;
+    _set({"mdlProcessingScreenProgressLabelText": _intFromColor(val)});
+  }
+
+  Color? get mdlProcessingScreenResultLabelText =>
+      _mdlProcessingScreenResultLabelText;
+  Color? _mdlProcessingScreenResultLabelText;
+  set mdlProcessingScreenResultLabelText(Color? val) {
+    _mdlProcessingScreenResultLabelText = val;
+    _set({"mdlProcessingScreenResultLabelText": _intFromColor(val)});
+  }
+
+  Color? get mdlProcessingScreenLoadingBar => _mdlProcessingScreenLoadingBar;
+  Color? _mdlProcessingScreenLoadingBar;
+  set mdlProcessingScreenLoadingBar(Color? val) {
+    _mdlProcessingScreenLoadingBar = val;
+    _set({"mdlProcessingScreenLoadingBar": _intFromColor(val)});
+  }
+
+  /// Android only.
+  Color? get mdlEnableNfcTitleText => _mdlEnableNfcTitleText;
+  Color? _mdlEnableNfcTitleText;
+  set mdlEnableNfcTitleText(Color? val) {
+    _mdlEnableNfcTitleText = val;
+    _set({"mdlEnableNfcTitleText": _intFromColor(val)});
+  }
+
+  /// Android only.
+  Color? get mdlEnableNfcDescriptionText => _mdlEnableNfcDescriptionText;
+  Color? _mdlEnableNfcDescriptionText;
+  set mdlEnableNfcDescriptionText(Color? val) {
+    _mdlEnableNfcDescriptionText = val;
+    _set({"mdlEnableNfcDescriptionText": _intFromColor(val)});
+  }
+
+  /// Android only.
+  Color? get mdlEnableNfcButtonText => _mdlEnableNfcButtonText;
+  Color? _mdlEnableNfcButtonText;
+  set mdlEnableNfcButtonText(Color? val) {
+    _mdlEnableNfcButtonText = val;
+    _set({"mdlEnableNfcButtonText": _intFromColor(val)});
+  }
+
+  /// Android only.
+  Color? get mdlEnableNfcButtonBackground => _mdlEnableNfcButtonBackground;
+  Color? _mdlEnableNfcButtonBackground;
+  set mdlEnableNfcButtonBackground(Color? val) {
+    _mdlEnableNfcButtonBackground = val;
+    _set({"mdlEnableNfcButtonBackground": _intFromColor(val)});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationColors fromJson(jsonObject) {
     var result = CustomizationColors();
@@ -132,6 +210,26 @@ class CustomizationColors {
         _intToColor(jsonObject["rfidEnableNfcButtonText"]);
     result.rfidEnableNfcButtonBackground =
         _intToColor(jsonObject["rfidEnableNfcButtonBackground"]);
+    result.mdlProcessingScreenBackground =
+        _intToColor(jsonObject["mdlProcessingScreenBackground"]);
+    result.mdlProcessingScreenHintLabelText =
+        _intToColor(jsonObject["mdlProcessingScreenHintLabelText"]);
+    result.mdlProcessingScreenHintLabelBackground =
+        _intToColor(jsonObject["mdlProcessingScreenHintLabelBackground"]);
+    result.mdlProcessingScreenProgressLabelText =
+        _intToColor(jsonObject["mdlProcessingScreenProgressLabelText"]);
+    result.mdlProcessingScreenResultLabelText =
+        _intToColor(jsonObject["mdlProcessingScreenResultLabelText"]);
+    result.mdlProcessingScreenLoadingBar =
+        _intToColor(jsonObject["mdlProcessingScreenLoadingBar"]);
+    result.mdlEnableNfcTitleText =
+        _intToColor(jsonObject["mdlEnableNfcTitleText"]);
+    result.mdlEnableNfcDescriptionText =
+        _intToColor(jsonObject["mdlEnableNfcDescriptionText"]);
+    result.mdlEnableNfcButtonText =
+        _intToColor(jsonObject["mdlEnableNfcButtonText"]);
+    result.mdlEnableNfcButtonBackground =
+        _intToColor(jsonObject["mdlEnableNfcButtonBackground"]);
 
     return result;
   }
@@ -173,6 +271,36 @@ class CustomizationColors {
         ),
         "rfidEnableNfcButtonBackground": _intFromColor(
           rfidEnableNfcButtonBackground,
+        ),
+        "mdlProcessingScreenBackground": _intFromColor(
+          mdlProcessingScreenBackground,
+        ),
+        "mdlProcessingScreenHintLabelText": _intFromColor(
+          mdlProcessingScreenHintLabelText,
+        ),
+        "mdlProcessingScreenHintLabelBackground": _intFromColor(
+          mdlProcessingScreenHintLabelBackground,
+        ),
+        "mdlProcessingScreenProgressLabelText": _intFromColor(
+          mdlProcessingScreenProgressLabelText,
+        ),
+        "mdlProcessingScreenResultLabelText": _intFromColor(
+          mdlProcessingScreenResultLabelText,
+        ),
+        "mdlProcessingScreenLoadingBar": _intFromColor(
+          mdlProcessingScreenLoadingBar,
+        ),
+        "mdlEnableNfcTitleText": _intFromColor(
+          mdlEnableNfcTitleText,
+        ),
+        "mdlEnableNfcDescriptionText": _intFromColor(
+          mdlEnableNfcDescriptionText,
+        ),
+        "mdlEnableNfcButtonText": _intFromColor(
+          mdlEnableNfcButtonText,
+        ),
+        "mdlEnableNfcButtonBackground": _intFromColor(
+          mdlEnableNfcButtonBackground,
         ),
       }.clearNulls();
 

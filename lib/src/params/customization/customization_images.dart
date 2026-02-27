@@ -25,6 +25,22 @@ class CustomizationImages {
     _set({"rfidEnableNfcImage": _dataToBase64(val)});
   }
 
+  ByteData? get mdlProcessingScreenFailureImage =>
+      _mdlProcessingScreenFailureImage;
+  ByteData? _mdlProcessingScreenFailureImage;
+  set mdlProcessingScreenFailureImage(ByteData? val) {
+    _mdlProcessingScreenFailureImage = val;
+    _set({"mdlProcessingScreenFailureImage": _dataToBase64(val)});
+  }
+
+  /// Android only.
+  ByteData? get mdlEnableNfcImage => _mdlEnableNfcImage;
+  ByteData? _mdlEnableNfcImage;
+  set mdlEnableNfcImage(ByteData? val) {
+    _mdlEnableNfcImage = val;
+    _set({"mdlEnableNfcImage": _dataToBase64(val)});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationImages fromJson(jsonObject) {
     var result = CustomizationImages();
@@ -34,6 +50,9 @@ class CustomizationImages {
         _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
     result.rfidEnableNfcImage =
         _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
+    result.mdlProcessingScreenFailureImage =
+        _dataFromBase64(jsonObject["mdlProcessingScreenFailureImage"]);
+    result.mdlEnableNfcImage = _dataFromBase64(jsonObject["mdlEnableNfcImage"]);
 
     return result;
   }
@@ -45,6 +64,12 @@ class CustomizationImages {
         ),
         "rfidEnableNfcImage": _dataToBase64(
           rfidEnableNfcImage,
+        ),
+        "mdlProcessingScreenFailureImage": _dataToBase64(
+          mdlProcessingScreenFailureImage,
+        ),
+        "mdlEnableNfcImage": _dataToBase64(
+          mdlEnableNfcImage,
         ),
       }.clearNulls();
 

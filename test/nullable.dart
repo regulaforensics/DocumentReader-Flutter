@@ -20,6 +20,7 @@ Map<String, List<String>?> nullableMap = {
   "rfidParams!": [],
   "imageQA!": [],
   "backendProcessingConfig": ["rfidServerSideChipVerification", "httpHeaders"],
+  "bsi!": [],
   "processParams!": ["imageQA", "authenticityParams"],
   "rfidScenario!": [
     "defaultReadingBufferSize",

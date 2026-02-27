@@ -194,10 +194,6 @@
     if (options[@"strictSecurityChecks"]) processParams.strictSecurityChecks = options[@"strictSecurityChecks"];
     if (options[@"returnTransliteratedFields"]) processParams.returnTransliteratedFields = options[@"returnTransliteratedFields"];
     if (options[@"checkCaptureProcessIntegrity"]) processParams.checkCaptureProcessIntegrity = options[@"checkCaptureProcessIntegrity"];
-    if (options[@"bsiTr03135"]) {
-        processParams.bsiTr03135 = [RGLBsi new];
-        processParams.bsiTr03135.generateResult = options[@"bsiTr03135"][@"generateResult"];
-    }
 
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -272,16 +268,17 @@
     if (options[@"customParams"]) processParams.customParams = options[@"customParams"];
     if ([options valueForKey:@"imageQA"] != nil)
         [self setImageQA:processParams.imageQA input:[options valueForKey:@"imageQA"]];
+    if ([options valueForKey:@"authenticityParams"] != nil) {
+        if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
+        [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
+    }
     if ([options valueForKey:@"rfidParams"] != nil)
         processParams.rfidParams = [RGLWJSONConstructor rfidParamsFromJson:[options valueForKey:@"rfidParams"]];
     if ([options valueForKey:@"faceApiParams"] != nil)
         processParams.faceApiParams = [RGLWJSONConstructor faceAPIParamsFromJson:[options valueForKey:@"faceApiParams"]];
     if ([options valueForKey:@"backendProcessingConfig"] != nil)
         processParams.backendProcessingConfig = [RGLWJSONConstructor backendProcessingConfigFromJson:[options valueForKey:@"backendProcessingConfig"]];
-    if ([options valueForKey:@"authenticityParams"] != nil) {
-        if(processParams.authenticityParams == nil) processParams.authenticityParams = [RGLAuthenticityParams defaultParams];
-        [self setAuthenticityParams:processParams.authenticityParams input:[options valueForKey:@"authenticityParams"]];
-    }
+    if (options[@"bsiTr03135"]) processParams.bsiTr03135 = [RGLWJSONConstructor bsiFromJson:options[@"bsiTr03135"]];
 }
 
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams {
@@ -329,9 +326,6 @@
     result[@"strictSecurityChecks"] = processParams.strictSecurityChecks;
     result[@"returnTransliteratedFields"] = processParams.returnTransliteratedFields;
     result[@"checkCaptureProcessIntegrity"] = processParams.checkCaptureProcessIntegrity;
-    if(processParams.bsiTr03135) result[@"bsiTr03135"] = @{
-        @"generateResult": processParams.bsiTr03135.generateResult,
-    };
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -376,10 +370,11 @@
     
     // JSONObject
     result[@"imageQA"] = [self getImageQA:processParams.imageQA];
+    result[@"authenticityParams"] = [self getAuthenticityParams:processParams.authenticityParams];
     result[@"rfidParams"] = [RGLWJSONConstructor generateRFIDParams:processParams.rfidParams];
     result[@"faceApiParams"] = [RGLWJSONConstructor generateFaceAPIParams:processParams.faceApiParams];
     result[@"backendProcessingConfig"] = [RGLWJSONConstructor generateBackendProcessingConfig:processParams.backendProcessingConfig];
-    result[@"authenticityParams"] = [self getAuthenticityParams:processParams.authenticityParams];
+    result[@"bsiTr03135"] = [RGLWJSONConstructor generateBsi:processParams.bsiTr03135];
     
     // Custom
     result[@"customParams"] = processParams.customParams;
@@ -1095,8 +1090,13 @@
         result[@(RFIDProcessingScreenProgressBarBackground)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenProgressBarBackground"]];
     if([input valueForKey:@"rfidProcessingScreenResultLabelText"] != nil)
         result[@(RFIDProcessingScreenResultLabelText)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenResultLabelText"]];
-    if([input valueForKey:@"rfidProcessingScreenLoadingBar"] != nil)
-        result[@(RFIDProcessingScreenLoadingBar)] = [self colorWithInt:[input valueForKey:@"rfidProcessingScreenLoadingBar"]];
+    if(input[@"rfidProcessingScreenLoadingBar"]) result[@(RFIDProcessingScreenLoadingBar)] = [self colorWithInt:input[@"rfidProcessingScreenLoadingBar"]];
+    if(input[@"mdlProcessingScreenBackground"]) result[@(MDLProcessingScreenBackground)] = [self colorWithInt:input[@"mdlProcessingScreenBackground"]];
+    if(input[@"mdlProcessingScreenHintLabelText"]) result[@(MDLProcessingScreenHintLabelText)] = [self colorWithInt:input[@"mdlProcessingScreenHintLabelText"]];
+    if(input[@"mdlProcessingScreenHintLabelBackground"]) result[@(MDLProcessingScreenHintLabelBackground)] = [self colorWithInt:input[@"mdlProcessingScreenHintLabelBackground"]];
+    if(input[@"mdlProcessingScreenProgressLabelText"]) result[@(MDLProcessingScreenProgressLabelText)] = [self colorWithInt:input[@"mdlProcessingScreenProgressLabelText"]];
+    if(input[@"mdlProcessingScreenResultLabelText"]) result[@(MDLProcessingScreenResultLabelText)] = [self colorWithInt:input[@"mdlProcessingScreenResultLabelText"]];
+    if(input[@"mdlProcessingScreenLoadingBar"]) result[@(MDLProcessingScreenLoadingBar)] = [self colorWithInt:input[@"mdlProcessingScreenLoadingBar"]];
 }
 
 +(NSDictionary*)getColors:(NSDictionary*)input {
@@ -1109,6 +1109,12 @@
        @"rfidProcessingScreenProgressBarBackground": [self intWithColor:input[@(RFIDProcessingScreenProgressBarBackground)]],
        @"rfidProcessingScreenResultLabelText": [self intWithColor:input[@(RFIDProcessingScreenResultLabelText)]],
        @"rfidProcessingScreenLoadingBar": [self intWithColor:input[@(RFIDProcessingScreenLoadingBar)]],
+       @"mdlProcessingScreenBackground": [self intWithColor:input[@(MDLProcessingScreenBackground)]],
+       @"mdlProcessingScreenHintLabelText": [self intWithColor:input[@(MDLProcessingScreenHintLabelText)]],
+       @"mdlProcessingScreenHintLabelBackground": [self intWithColor:input[@(MDLProcessingScreenHintLabelBackground)]],
+       @"mdlProcessingScreenProgressLabelText": [self intWithColor:input[@(MDLProcessingScreenProgressLabelText)]],
+       @"mdlProcessingScreenResultLabelText": [self intWithColor:input[@(MDLProcessingScreenResultLabelText)]],
+       @"mdlProcessingScreenLoadingBar": [self intWithColor:input[@(MDLProcessingScreenLoadingBar)]],
     };
 }
 
@@ -1117,8 +1123,10 @@
         result[@(RFIDProcessingScreenHintLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenHintLabel"]];
     if([input valueForKey:@"rfidProcessingScreenProgressLabel"] != nil)
         result[@(RFIDProcessingScreenProgressLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenProgressLabel"]];
-    if([input valueForKey:@"rfidProcessingScreenResultLabel"] != nil)
-        result[@(RFIDProcessingScreenResultLabel)] = [self UIFontFromJSON:[input valueForKey:@"rfidProcessingScreenResultLabel"]];
+    if(input[@"rfidProcessingScreenResultLabel"]) result[@(RFIDProcessingScreenResultLabel)] = [self UIFontFromJSON:input[@"rfidProcessingScreenResultLabel"]];
+    if(input[@"mdlProcessingScreenHintLabel"]) result[@(MDLProcessingScreenHintLabel)] = [self UIFontFromJSON:input[@"mdlProcessingScreenHintLabel"]];
+    if(input[@"mdlProcessingScreenProgressLabel"]) result[@(MDLProcessingScreenProgressLabel)] = [self UIFontFromJSON:input[@"mdlProcessingScreenProgressLabel"]];
+    if(input[@"mdlProcessingScreenResultLabel"]) result[@(MDLProcessingScreenResultLabel)] = [self UIFontFromJSON:input[@"mdlProcessingScreenResultLabel"]];
 }
 
 +(NSDictionary*)getFonts:(NSDictionary*)input {
@@ -1126,17 +1134,21 @@
        @"rfidProcessingScreenHintLabel": [self generateUIFont:input[@(RFIDProcessingScreenHintLabel)]],
        @"rfidProcessingScreenProgressLabel": [self generateUIFont:input[@(RFIDProcessingScreenProgressLabel)]],
        @"rfidProcessingScreenResultLabel": [self generateUIFont:input[@(RFIDProcessingScreenResultLabel)]],
+       @"mdlProcessingScreenHintLabel": [self generateUIFont:input[@(MDLProcessingScreenHintLabel)]],
+       @"mdlProcessingScreenProgressLabel": [self generateUIFont:input[@(MDLProcessingScreenProgressLabel)]],
+       @"mdlProcessingScreenResultLabel": [self generateUIFont:input[@(MDLProcessingScreenResultLabel)]],
     };
 }
 
 +(void)setImages:(NSMutableDictionary*)result input:(NSDictionary*)input {
-    if([input valueForKey:@"rfidProcessingScreenFailureImage"] != nil)
-        result[@(RFIDProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:[input valueForKey:@"rfidProcessingScreenFailureImage"]];
+    if(input[@"rfidProcessingScreenFailureImage"]) result[@(RFIDProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"rfidProcessingScreenFailureImage"]];
+    if(input[@"mdlProcessingScreenFailureImage"]) result[@(MDLProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"mdlProcessingScreenFailureImage"]];
 }
 
 +(NSDictionary*)getImages:(NSDictionary*)input {
    return @{
         @"rfidProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(RFIDProcessingScreenFailureImage)]],
+        @"mdlProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(MDLProcessingScreenFailureImage)]],
     };
 }
 

@@ -29,6 +29,7 @@ import com.regula.documentreader.api.listener.NetworkInterceptorListener
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
+import com.regula.documentreader.api.params.Bsi
 import com.regula.documentreader.api.params.DocReaderConfig
 import com.regula.documentreader.api.params.FaceApiParams
 import com.regula.documentreader.api.params.Functionality
@@ -322,6 +323,18 @@ fun generateBackendProcessingConfig(input: BackendProcessingConfig?) = input?.le
             for ((key, value) in it.httpHeaders!!) httpHeaders.put(key, value)
             httpHeaders
         }
+    ).toJson()
+}
+
+fun bsiFromJSON(input: JSONObject?) = input?.let {
+    val result = Bsi()
+    result.generateResult = it.getBooleanOrNull("generateResult")
+    result
+}
+
+fun generateBsi(input: Bsi?) = input?.let {
+    mapOf(
+        "generateResult" to it.generateResult,
     ).toJson()
 }
 

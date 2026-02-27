@@ -51,6 +51,8 @@
 +(NSDictionary* _Nullable)generateProcessParams:(RGLProcessParams* _Nullable)input;
 +(RGLBackendProcessingConfig* _Nullable)backendProcessingConfigFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateBackendProcessingConfig:(RGLBackendProcessingConfig* _Nullable)input;
++(RGLBsi* _Nullable)bsiFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateBsi:(RGLBsi* _Nullable)input;
 +(RGLeDLDataGroup* _Nullable)eDLDataGroupsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateEDLDataGroups:(RGLeDLDataGroup* _Nullable)input;
 +(RGLePassportDataGroup* _Nullable)ePassportDataGroupsFromJson:(NSDictionary* _Nullable)input;

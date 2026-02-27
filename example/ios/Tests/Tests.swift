@@ -86,6 +86,10 @@ class Tests: XCTestCase {
         compare(name: "backendProcessingConfig", fromJson: RGLWJSONConstructor.backendProcessingConfig, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_bsi() {
+        compare(name: "bsi", fromJson: RGLWJSONConstructor.bsi, generate: RGLWJSONConstructor.generate)
+    }
+    
     func test_processParams() {
         compare(name: "processParams", fromJson: RGLWJSONConstructor.processParams, generate: RGLWJSONConstructor.generate,
                 omit: ["sessionLogFolder",
@@ -131,13 +135,24 @@ class Tests: XCTestCase {
                        "colors.rfidEnableNfcButtonText",
                        "colors.rfidEnableNfcDescriptionText",
                        "colors.rfidEnableNfcTitleText",
+                       "colors.mdlEnableNfcTitleText",
+                       "colors.mdlEnableNfcDescriptionText",
+                       "colors.mdlEnableNfcButtonText",
+                       "colors.mdlEnableNfcButtonBackground",
                        "fonts.rfidProcessingScreenHintLabel.style",
                        "fonts.rfidProcessingScreenProgressLabel.style",
                        "fonts.rfidProcessingScreenResultLabel.style",
+                       "fonts.mdlProcessingScreenHintLabel.style",
+                       "fonts.mdlProcessingScreenProgressLabel.style",
+                       "fonts.mdlProcessingScreenResultLabel.style",
                        "fonts.rfidEnableNfcTitleText",
                        "fonts.rfidEnableNfcDescriptionText",
                        "fonts.rfidEnableNfcButtonText",
-                       "images.rfidEnableNfcImage",])
+                       "fonts.mdlEnableNfcTitleText",
+                       "fonts.mdlEnableNfcDescriptionText",
+                       "fonts.mdlEnableNfcButtonText",
+                       "images.rfidEnableNfcImage",
+                       "images.mdlEnableNfcImage",])
     }
     
     func test_functionality() {
