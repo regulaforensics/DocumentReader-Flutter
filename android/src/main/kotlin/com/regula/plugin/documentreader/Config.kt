@@ -436,7 +436,7 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "uiCustomizationLayer" to customization.uiCustomizationLayer,
     "colors" to getColors(customization.colors),
     "fonts" to getFonts(customization.typeFaces, customization.fontSizes),
-    "images" to getImages(customization.images)
+//    "images" to getImages(customization.images)
 ).toJson()
 
 fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach { k, v ->
