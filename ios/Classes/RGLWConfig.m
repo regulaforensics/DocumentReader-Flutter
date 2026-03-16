@@ -1141,14 +1141,14 @@
 }
 
 +(void)setImages:(NSMutableDictionary*)result input:(NSDictionary*)input {
-    if(input[@"rfidProcessingScreenFailureImage"]) result[@(RFIDProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"rfidProcessingScreenFailureImage"]];
-    if(input[@"mdlProcessingScreenFailureImage"]) result[@(MDLProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"mdlProcessingScreenFailureImage"]];
+//    if(input[@"rfidProcessingScreenFailureImage"]) result[@(RFIDProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"rfidProcessingScreenFailureImage"]];
+//    if(input[@"mdlProcessingScreenFailureImage"]) result[@(MDLProcessingScreenFailureImage)] = [RGLWJSONConstructor imageWithBase64:input[@"mdlProcessingScreenFailureImage"]];
 }
 
 +(NSDictionary*)getImages:(NSDictionary*)input {
    return @{
-        @"rfidProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(RFIDProcessingScreenFailureImage)]],
-        @"mdlProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(MDLProcessingScreenFailureImage)]],
+//        @"rfidProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(RFIDProcessingScreenFailureImage)]],
+//        @"mdlProcessingScreenFailureImage": [RGLWJSONConstructor base64WithImage:input[@(MDLProcessingScreenFailureImage)]],
     };
 }
 
