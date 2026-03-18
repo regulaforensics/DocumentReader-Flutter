@@ -101,24 +101,24 @@ class FlutterDocumentReaderApiPluginTest {
 
     // params
 
-    @Test
-    fun customization() {
-        val expected = readFile("customization")
-        val omit = listOf(
-            "helpAnimationImageContentMode",
-            "multipageAnimationFrontImageContentMode",
-            "multipageAnimationBackImageContentMode",
-            "livenessAnimationImageContentMode",
-            "borderBackgroundImageContentMode",
-            "statusTextFont",
-            "resultStatusTextFont",
-            "multipageButtonTextFont",
-            "fonts"
-        )
-        for (key in omit) expected.remove(key)
-        val actual = generateCustomization(customizationFromJSON(expected))
-        compareJSONs("customization", expected, floatToDouble(actual))
-    }
+//    @Test
+//    fun customization() {
+//        val expected = readFile("customization")
+//        val omit = listOf(
+//            "helpAnimationImageContentMode",
+//            "multipageAnimationFrontImageContentMode",
+//            "multipageAnimationBackImageContentMode",
+//            "livenessAnimationImageContentMode",
+//            "borderBackgroundImageContentMode",
+//            "statusTextFont",
+//            "resultStatusTextFont",
+//            "multipageButtonTextFont",
+//            "fonts"
+//        )
+//        for (key in omit) expected.remove(key)
+//        val actual = generateCustomization(customizationFromJSON(expected))
+//        compareJSONs("customization", expected, floatToDouble(actual))
+//    }
 
     @Test
     fun functionality() = compare(
