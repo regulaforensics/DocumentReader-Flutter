@@ -36,10 +36,12 @@ part 'src/params/rfid_scenario/eid_data_groups.dart';
 part 'src/params/rfid_scenario/e_passport_data_groups.dart';
 part 'src/params/rfid_scenario/dtc_data_groups.dart';
 part 'src/params/customization/customization.dart';
-part 'src/params/customization/font.dart';
 part 'src/params/customization/customization_colors.dart';
 part 'src/params/customization/customization_fonts.dart';
 part 'src/params/customization/customization_images.dart';
+part 'src/params/customization/customization_timings.dart';
+part 'src/params/customization/customization_content_modes.dart';
+part 'src/params/customization/customization_matrices.dart';
 part 'src/params/functionality.dart';
 
 part 'src/rfid/rfid_notification.dart';

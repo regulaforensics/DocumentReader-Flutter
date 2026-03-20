@@ -1,11 +1,3 @@
-//
-//  Customization.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Params that relate to the camera view controller customization and etc.
@@ -371,6 +363,7 @@ class Customization {
   /// Animation delay before flip.
   ///
   /// Default: 0.
+  @Deprecated("Use `timings.nextPageIdCardStartDelay` instead.")
   double? get nextPageAnimationStartDelay => _nextPageAnimationStartDelay;
   double? _nextPageAnimationStartDelay;
   set nextPageAnimationStartDelay(double? val) {
@@ -381,6 +374,7 @@ class Customization {
   /// Animation delay after flip.
   ///
   /// Default: 0.
+  @Deprecated("Use `timings.nextPageIdCardEndDelay` instead.")
   double? get nextPageAnimationEndDelay => _nextPageAnimationEndDelay;
   double? _nextPageAnimationEndDelay;
   set nextPageAnimationEndDelay(double? val) {
@@ -446,6 +440,7 @@ class Customization {
   }
 
   /// Allows you to set any image within the camera frame.
+  @Deprecated("Use `images.borderBackground` instead.")
   ByteData? get borderBackgroundImage => _borderBackgroundImage;
   ByteData? _borderBackgroundImage;
   set borderBackgroundImage(ByteData? val) {
@@ -462,6 +457,7 @@ class Customization {
   }
 
   /// Allows you to set any image for the close button.
+  @Deprecated("Use `images.closeButton` instead.")
   ByteData? get closeButtonImage => _closeButtonImage;
   ByteData? _closeButtonImage;
   set closeButtonImage(ByteData? val) {
@@ -470,6 +466,7 @@ class Customization {
   }
 
   /// Allows you to set any image for the capture button.
+  @Deprecated("Use `images.captureButton` instead.")
   ByteData? get captureButtonImage => _captureButtonImage;
   ByteData? _captureButtonImage;
   set captureButtonImage(ByteData? val) {
@@ -479,6 +476,7 @@ class Customization {
 
   /// Allows you to set any image for the button that allows
   /// changing positions of the capture device.
+  @Deprecated("Use `images.switchButton` instead.")
   ByteData? get cameraSwitchButtonImage => _cameraSwitchButtonImage;
   ByteData? _cameraSwitchButtonImage;
   set cameraSwitchButtonImage(ByteData? val) {
@@ -487,6 +485,7 @@ class Customization {
   }
 
   /// Allows you to set any image for the torch button when its state is ON.
+  @Deprecated("Use `images.torchButtonOn` instead.")
   ByteData? get torchButtonOnImage => _torchButtonOnImage;
   ByteData? _torchButtonOnImage;
   set torchButtonOnImage(ByteData? val) {
@@ -495,6 +494,7 @@ class Customization {
   }
 
   /// Allows you to set any image for the torch button when its state is OFF.
+  @Deprecated("Use `images.torchButtonOff` instead.")
   ByteData? get torchButtonOffImage => _torchButtonOffImage;
   ByteData? _torchButtonOffImage;
   set torchButtonOffImage(ByteData? val) {
@@ -528,6 +528,7 @@ class Customization {
   /// When set to `null` the default image will be used.
   /// This property can be set during the scanning process to tailor
   /// the user experiese for different types of documents.
+  @Deprecated("Use `images.livenessAnimation` instead.")
   ByteData? get livenessAnimationImage => _livenessAnimationImage;
   ByteData? _livenessAnimationImage;
   set livenessAnimationImage(ByteData? val) {
@@ -536,6 +537,7 @@ class Customization {
   }
 
   /// Allows you to set any UIImage for the "Skip next page" button.
+  @Deprecated("Use `images.multipageButton` instead.")
   ByteData? get multipageButtonImage => _multipageButtonImage;
   ByteData? _multipageButtonImage;
   set multipageButtonImage(ByteData? val) {
@@ -604,6 +606,7 @@ class Customization {
   /// Default: [ViewContentMode.SCALE_ASPECT_FIT].
   ///
   /// IOS only. For Android use [helpAnimationImageTransformsAndroid].
+  @Deprecated("Use `images.helpAnimation` instead.")
   ViewContentMode? get helpAnimationImageTransformsIOS =>
       _helpAnimationImageTransformsIOS;
   ViewContentMode? _helpAnimationImageTransformsIOS;
@@ -618,6 +621,7 @@ class Customization {
   /// Default: [ViewContentMode.SCALE_TO_FILL].
   ///
   /// IOS only. For Android use [multipageAnimationFrontImageTransformsAndroid].
+  @Deprecated("Use `contentModes.nextPageIdCardFront` instead.")
   ViewContentMode? get multipageAnimationFrontImageTransformsIOS =>
       _multipageAnimationFrontImageTransformsIOS;
   ViewContentMode? _multipageAnimationFrontImageTransformsIOS;
@@ -632,6 +636,7 @@ class Customization {
   /// Default: [ViewContentMode.SCALE_TO_FILL].
   ///
   /// IOS only. For Android use [multipageAnimationBackImageTransformsAndroid].
+  @Deprecated("Use `contentModes.nextPageIdCardBack` instead.")
   ViewContentMode? get multipageAnimationBackImageTransformsIOS =>
       _multipageAnimationBackImageTransformsIOS;
   ViewContentMode? _multipageAnimationBackImageTransformsIOS;
@@ -693,6 +698,7 @@ class Customization {
   /// Android only. For iOS use [multipageAnimationFrontImageTransformsIOS].
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
+  @Deprecated("Use `matrices.nextPageIdCardFront` instead.")
   List<double>? get multipageAnimationFrontImageTransformsAndroid =>
       _multipageAnimationFrontImageTransformsAndroid;
   List<double>? _multipageAnimationFrontImageTransformsAndroid;
@@ -710,6 +716,7 @@ class Customization {
   /// Android only. For iOS use [multipageAnimationBackImageTransformsIOS].
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
+  @Deprecated("Use `matrices.nextPageIdCardBack` instead.")
   List<double>? get multipageAnimationBackImageTransformsAndroid =>
       _multipageAnimationBackImageTransformsAndroid;
   List<double>? _multipageAnimationBackImageTransformsAndroid;
@@ -769,6 +776,24 @@ class Customization {
   CustomizationImages _images = CustomizationImages();
   set images(CustomizationImages val) {
     (_images = val)._apply(this);
+  }
+
+  CustomizationTimings get timings => _timings;
+  CustomizationTimings _timings = CustomizationTimings();
+  set timings(CustomizationTimings val) {
+    (_timings = val)._apply(this);
+  }
+
+  CustomizationContentModes get contentModes => _contentModes;
+  CustomizationContentModes _contentModes = CustomizationContentModes();
+  set contentModes(CustomizationContentModes val) {
+    (_contentModes = val)._apply(this);
+  }
+
+  CustomizationMatrices get matrices => _matrices;
+  CustomizationMatrices _matrices = CustomizationMatrices();
+  set matrices(CustomizationMatrices val) {
+    (_matrices = val)._apply(this);
   }
 
   /// Allows you to deserialize object.
@@ -987,6 +1012,10 @@ class Customization {
     result.colors = CustomizationColors.fromJson(jsonObject["colors"]);
     result.fonts = CustomizationFonts.fromJson(jsonObject["fonts"]);
     result.images = CustomizationImages.fromJson(jsonObject["images"]);
+    result.timings = CustomizationTimings.fromJson(jsonObject["timings"]);
+    result.contentModes =
+        CustomizationContentModes.fromJson(jsonObject["contentModes"]);
+    result.matrices = CustomizationMatrices.fromJson(jsonObject["matrices"]);
 
     return result;
   }
@@ -1090,6 +1119,9 @@ class Customization {
         "colors": colors.toJson(),
         "fonts": fonts.toJson(),
         "images": images.toJson(),
+        "timings": timings.toJson(),
+        "contentModes": contentModes.toJson(),
+        "matrices": matrices.toJson(),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json) {
@@ -1147,54 +1179,6 @@ enum FrameShapeType {
       return FrameShapeType.values.firstWhere((x) => x.value == i);
     } catch (_) {
       return FrameShapeType.UNKNOWN;
-    }
-  }
-}
-
-/// Clone of iOS native enum `UIViewContentMode`
-enum ViewContentMode {
-  /// Will be returned if [getByValue] if a non-existent was passed.
-  UNKNOWN(-1),
-
-  SCALE_TO_FILL(0),
-
-  /// Contents scaled to fit with fixed aspect. remainder is transparent.
-  SCALE_ASPECT_FIT(1),
-
-  /// Contents scaled to fill with fixed aspect. some portion of content may be clipped.
-  SCALE_ASPECT_FILL(2),
-
-  /// redraw on bounds change (calls -setNeedsDisplay).
-  REDRAW(3),
-
-  /// contents remain same size. positioned adjusted.
-  CENTER(4),
-
-  TOP(5),
-
-  BOTTOM(6),
-
-  LEFT(7),
-
-  RIGHT(8),
-
-  TOP_LEFT(9),
-
-  TOP_RIGHT(10),
-
-  BOTTOM_LEFT(11),
-
-  BOTTOM_RIGHT(12);
-
-  const ViewContentMode(this.value);
-  final int value;
-
-  static ViewContentMode? getByValue(int? i) {
-    if (i == null) return null;
-    try {
-      return ViewContentMode.values.firstWhere((x) => x.value == i);
-    } catch (_) {
-      return ViewContentMode.UNKNOWN;
     }
   }
 }

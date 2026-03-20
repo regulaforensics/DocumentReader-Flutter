@@ -286,6 +286,8 @@ static NSMutableArray* weakReferencesHolder;
         result.httpHeaders = [input valueForKey:@"httpHeaders"];
     if([input valueForKey:@"rfidServerSideChipVerification"] != nil)
         result.rfidServerSideChipVerification = [input valueForKey:@"rfidServerSideChipVerification"];
+    if([input valueForKey:@"mdlVerification"] != nil)
+        result.mDLVerification = [input valueForKey:@"mdlVerification"];
     if (input[@"timeoutConnection"]) result.timeoutConnection = input[@"timeoutConnection"];
     
     return result;
@@ -298,6 +300,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"url"] = input.url;
     result[@"httpHeaders"] = input.httpHeaders;
     result[@"rfidServerSideChipVerification"] = input.rfidServerSideChipVerification;
+    result[@"mdlVerification"] = input.mDLVerification;
     result[@"timeoutConnection"] = input.timeoutConnection;
     
     return result;
@@ -2628,6 +2631,7 @@ static NSMutableArray* weakReferencesHolder;
     if (input[@"rawImages"]) result.rawImages = [input[@"rawImages"] boolValue];
     if (input[@"video"]) result.video = [input[@"video"] boolValue];
     if (input[@"rfidSession"]) result.rfidSession = [input[@"rfidSession"] boolValue];
+    if (input[@"mdlSession"]) result.mdlSession = [input[@"mdlSession"] boolValue];
 
     return result;
 }
@@ -2639,6 +2643,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"rawImages"] = @(input.rawImages);
     result[@"video"] = @(input.video);
     result[@"rfidSession"] = @(input.rfidSession);
+    result[@"mdlSession"] = @(input.mdlSession);
     
     return result;
 }

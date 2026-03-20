@@ -78,6 +78,21 @@ void main() {
       customizationImages,
       CustomizationImages.fromJson,
     );
+    compareParams(
+      'customizationTimings',
+      customizationTimings,
+      CustomizationTimings.fromJson,
+    );
+    compareParams(
+      'customizationContentModes',
+      customizationContentModes,
+      CustomizationContentModes.fromJson,
+    );
+    compareParams(
+      'customizationMatrices',
+      customizationMatrices,
+      CustomizationMatrices.fromJson,
+    );
     compareParams('customization', customization, Customization.fromJson);
     compareParams('functionality', functionality, Functionality.fromJson);
 
