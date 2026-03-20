@@ -73,7 +73,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "initialize" -> initialize(callback, args(0))
     "initializeReader" -> initialize(callback, args(0)) // deprecated
     "initializeReaderWithBleDeviceConfig" -> initializeReaderWithBleDeviceConfig(callback, args(0)) // deprecated
-    "deinitialize" -> deinitialize()
+    "deinitializeReader" -> deinitializeReader()
     "prepareDatabase" -> prepareDatabase(callback, args(0))
     "removeDatabase" -> removeDatabase(callback)
     "runAutoUpdate" -> runAutoUpdate(callback, args(0))
@@ -205,7 +205,7 @@ fun initialize(callback: Callback, config: JSONObject) =
 // deprecated
 fun initializeReaderWithBleDeviceConfig(callback: Callback, config: JSONObject) = Instance().initializeReader(context, initBleDeviceConfigFromJSON(config), initCompletion(callback))
 
-fun deinitialize() = Instance().deinitializeReader()
+fun deinitializeReader() = Instance().deinitializeReader()
 
 fun prepareDatabase(callback: Callback, databaseID: String) = Instance().prepareDatabase(
     context,

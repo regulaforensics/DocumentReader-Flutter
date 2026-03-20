@@ -310,6 +310,7 @@ fun backendProcessingConfigFromJSON(input: JSONObject?) = input?.let {
     }
     result.rfidServerSideChipVerification = it.getBooleanOrNull("rfidServerSideChipVerification")
     result.timeoutConnection = it.getDoubleOrNull("timeoutConnection")
+    if (it.has("mdlVerification")) result.mdlVerification = it.getBoolean("mdlVerification")
     result
 }
 
@@ -322,7 +323,8 @@ fun generateBackendProcessingConfig(input: BackendProcessingConfig?) = input?.le
             val httpHeaders = JSONObject()
             for ((key, value) in it.httpHeaders!!) httpHeaders.put(key, value)
             httpHeaders
-        }
+        },
+        "mdlVerification" to it.mdlVerification,
     ).toJson()
 }
 
@@ -916,18 +918,18 @@ fun generateCameraSize(width: Int?, height: Int?): JSONObject? {
 fun documentReaderDocumentTypeFromJSON(input: JSONObject?) = input?.let {
     val result = DocumentReaderDocumentType()
 
-    result.pageIndex = it.optInt("pageIndex")
-    result.documentID = it.optInt("documentID")
-    result.dType = it.optInt("dType")
-    result.dFormat = it.optInt("dFormat")
-    result.dMRZ = it.optBoolean("dMRZ")
-    result.isDeprecated = it.optBoolean("isDeprecated")
-    result.name = it.optString("name")
-    result.ICAOCode = it.optString("ICAOCode")
-    result.dDescription = it.optString("dDescription")
-    result.dCountryName = it.optString("dCountryName")
-    result.dYear = it.optString("dYear")
-    result.FDSID = it.optJSONArray("FDSID").toIntArray()
+    result.pageIndex = it.getInt("pageIndex")
+    result.documentID = it.getInt("documentID")
+    result.dType = it.getInt("dType")
+    result.dFormat = it.getInt("dFormat")
+    result.dMRZ = it.getBoolean("dMRZ")
+    result.isDeprecated = it.getBoolean("isDeprecated")
+    result.name = it.getStringOrNull("name")
+    result.ICAOCode = it.getStringOrNull("ICAOCode")
+    result.dDescription = it.getStringOrNull("dDescription")
+    result.dCountryName = it.getStringOrNull("dCountryName")
+    result.dYear = it.getStringOrNull("dYear")
+    result.FDSID = it.getJSONArrayOrNull("FDSID").toIntArray()
 
     result
 }
@@ -1451,7 +1453,7 @@ fun generateDocumentReaderAuthenticityElement(input: DocumentReaderAuthenticityE
 fun paResourcesIssuerFromJSON(input: JSONObject?) = input?.let {
     val result = PAResourcesIssuer()
     result.data = it.optString("data").toByteArray()
-    result.friendlyName = it.optString("friendlyName")
+    result.friendlyName = it.getStringOrNull("friendlyName")
     result.attributes = it.optJSONArray("attributes").toArray(::paAttributeFromJSON)
     result
 }
@@ -1731,9 +1733,9 @@ fun generateDocumentReaderRFIDOrigin(input: DocumentReaderRfidOrigin?) = input?.
 
 fun documentReaderTextSourceFromJSON(input: JSONObject?) = input?.let {
     val result = DocumentReaderTextSource()
-    result.sourceType = it.optInt("sourceType")
-    result.source = it.optString("source")
-    result.validityStatus = it.optInt("validityStatus")
+    result.sourceType = it.getInt("sourceType")
+    result.source = it.getStringOrNull("source")
+    result.validityStatus = it.getInt("validityStatus")
     result
 }
 
@@ -1875,7 +1877,7 @@ fun documentReaderResultsFromJSON(input: JSONObject?) = input?.let {
     result.mrzPosition = it.optJSONArray("mrzPosition").toList(::elementPositionFromJSON)!!
     result.imageQuality = it.optJSONArray("imageQuality").toList(::imageQualityGroupFromJSON)!!
     result.rawResult = it.optString("rawResult")
-    result.bsiTr03135Results = it.optString("bsiTr03135Results")
+    result.bsiTr03135Results = it.getStringOrNull("bsiTr03135Results")
     result.rfidSessionData = rfidSessionDataFromJSON(it.optJSONObject("rfidSessionData"))
     result.authenticityResult = documentReaderAuthenticityResultFromJSON(it.optJSONObject("authenticityResult"))
     result.barcodeResult = documentReaderBarcodeResultFromJSON(it.optJSONObject("barcodeResult"))
@@ -2124,6 +2126,7 @@ fun finalizeConfigFromJSON(input: JSONObject?) = input?.let {
     if (it.has("rawImages")) result.setRawImages(it.getBoolean("rawImages"))
     if (it.has("video")) result.setVideo(it.getBoolean("video"))
     if (it.has("rfidSession")) result.setRfidSession(it.getBoolean("rfidSession"))
+    if (it.has("mdlSession")) result.setMdlSession(it.getBoolean("mdlSession"))
     result.build()
 }
 
@@ -2131,6 +2134,7 @@ fun generateFinalizeConfig(input: FinalizeConfig?) = input?.let {
     mapOf(
         "rawImages" to it.getPrivateProperty("rawImages"),
         "video" to it.getPrivateProperty("video"),
-        "rfidSession" to it.getPrivateProperty("rfidSession")
+        "rfidSession" to it.getPrivateProperty("rfidSession"),
+        "mdlSession" to it.getPrivateProperty("mdlSession"),
     ).toJson()
 }
