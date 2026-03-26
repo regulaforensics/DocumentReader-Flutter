@@ -181,7 +181,13 @@ enum RFIDNotificationCodes {
 
   /// Event of the detection of real biometric data absence in DG3 or DG4
   /// and random filling data usage.
-  BIOMETRICS_EMPTY_PLACEHOLDER(983040);
+  BIOMETRICS_EMPTY_PLACEHOLDER(983040),
+
+  SESSION_FILE_DATA_UPDATED(1048576),
+
+  TCC_TA_RESOURCES(1114112),
+
+  TCC_TA_SIGNATURE(1114113);
 
   const RFIDNotificationCodes(this.value);
   final int value;

@@ -47,6 +47,7 @@ void main() {
       backendProcessingConfig,
       BackendProcessingConfig.fromJson,
     );
+    compare('bsi', bsi, Bsi.fromJson);
     compareParams(
       'processParams',
       processParams,
@@ -76,6 +77,21 @@ void main() {
       'customizationImages',
       customizationImages,
       CustomizationImages.fromJson,
+    );
+    compareParams(
+      'customizationTimings',
+      customizationTimings,
+      CustomizationTimings.fromJson,
+    );
+    compareParams(
+      'customizationContentModes',
+      customizationContentModes,
+      CustomizationContentModes.fromJson,
+    );
+    compareParams(
+      'customizationMatrices',
+      customizationMatrices,
+      CustomizationMatrices.fromJson,
     );
     compareParams('customization', customization, Customization.fromJson);
     compareParams('functionality', functionality, Functionality.fromJson);

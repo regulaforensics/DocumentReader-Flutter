@@ -2,15 +2,18 @@
 
 package com.regula.plugin.documentreader
 
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.SpannableString
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import com.regula.documentreader.api.enums.CustomizationColor
 import com.regula.documentreader.api.enums.CustomizationFont
 import com.regula.documentreader.api.enums.CustomizationImage
+import com.regula.documentreader.api.enums.CustomizationMatrix
+import com.regula.documentreader.api.enums.CustomizationScaleType
+import com.regula.documentreader.api.enums.CustomizationTiming
 import com.regula.documentreader.api.enums.LogLevel
 import com.regula.documentreader.api.params.AuthenticityParams
 import com.regula.documentreader.api.params.Functionality
@@ -18,7 +21,6 @@ import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.LivenessParams
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
-import com.regula.documentreader.api.params.Bsi
 import com.regula.documentreader.api.params.RfidScenario
 import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
@@ -148,11 +150,9 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictSecurityChecks" -> processParams.strictSecurityChecks = v as Boolean
         "returnTransliteratedFields" -> processParams.returnTransliteratedFields = v as Boolean
         "checkCaptureProcessIntegrity" -> processParams.checkCaptureProcessIntegrity = v as Boolean
-        "bsiTr03135" -> {
-            val temp = Bsi()
-            temp.generateResult = (v as JSONObject).getBooleanOrNull("generateResult")
-            processParams.bsiTr03135 = temp
-        }
+        "strictExpiryDate" -> processParams.strictExpiryDate = v as Boolean
+        "debugSaveBinarySession" -> processParams.debugSaveBinarySession = v as Boolean
+        "checkVDS" -> processParams.checkVDS = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -191,6 +191,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "rfidParams" -> processParams.rfidParams = rfidParamsFromJSON(v as JSONObject)
         "faceApiParams" -> processParams.faceApiParams = faceApiParamsFromJSON(v as JSONObject)
         "backendProcessingConfig" -> processParams.backendProcessingConfig = backendProcessingConfigFromJSON(v as JSONObject)
+        "bsiTr03135" -> processParams.bsiTr03135 = bsiFromJSON(v as JSONObject)
         "authenticityParams" -> {
             if (processParams.authenticityParams == null) processParams.authenticityParams = AuthenticityParams.defaultParams()
             setAuthenticityParams(processParams.authenticityParams!!, v as JSONObject)
@@ -242,9 +243,9 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictSecurityChecks" to processParams.strictSecurityChecks,
     "returnTransliteratedFields" to processParams.returnTransliteratedFields,
     "checkCaptureProcessIntegrity" to processParams.checkCaptureProcessIntegrity,
-    "bsiTr03135" to mapOf(
-        "generateResult" to processParams.bsiTr03135?.generateResult
-    ).toJson(),
+    "strictExpiryDate" to processParams.strictExpiryDate,
+    "debugSaveBinarySession" to processParams.debugSaveBinarySession,
+    "checkVDS" to processParams.checkVDS,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -282,6 +283,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "rfidParams" to generateRFIDParams(processParams.rfidParams),
     "faceApiParams" to generateFaceApiParams(processParams.faceApiParams),
     "backendProcessingConfig" to generateBackendProcessingConfig(processParams.backendProcessingConfig),
+    "bsiTr03135" to generateBsi(processParams.bsiTr03135),
     "authenticityParams" to getAuthenticityParams(processParams.authenticityParams),
     "customParams" to processParams.customParams,
 ).toJson()
@@ -354,6 +356,8 @@ fun setCustomization(customization: ParamsCustomization, opts: JSONObject) = opt
         "colors" -> setColors(editor, v as JSONObject)
         "fonts" -> setFonts(editor, v as JSONObject)
         "images" -> setImages(editor, v as JSONObject)
+        "timings" -> setTimings(editor, v as JSONObject)
+        "matrices" -> setMatrices(editor, v as JSONObject)
         "statusTextFont" -> {
             val font = typefaceFromJSON(v as JSONObject)
             editor.setStatusTextFont(font.first)
@@ -443,7 +447,9 @@ fun getCustomization(customization: ParamsCustomization) = mapOf(
     "uiCustomizationLayer" to customization.uiCustomizationLayer,
     "colors" to getColors(customization.colors),
     "fonts" to getFonts(customization.typeFaces, customization.fontSizes),
-    "images" to getImages(customization.images)
+    "images" to getImages(customization.images),
+    "timings" to getTimings(customization.timings),
+    "matrices" to getMatrices(customization.matrices),
 ).toJson()
 
 fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach { k, v ->
@@ -762,21 +768,35 @@ fun getLivenessParams(input: LivenessParams?) = input?.let {
     ).toJson()
 }
 
-fun setColors(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, v ->
-    val value = v.toLong()
-    when (key) {
-        "rfidProcessingScreenBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_BACKGROUND, value)
-        "rfidProcessingScreenHintLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_HINT_LABEL_TEXT, value)
-        "rfidProcessingScreenHintLabelBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_HINT_LABEL_BACKGROUND, value)
-        "rfidProcessingScreenProgressLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_LABEL_TEXT, value)
-        "rfidProcessingScreenProgressBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR, value)
-        "rfidProcessingScreenProgressBarBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND, value)
-        "rfidProcessingScreenResultLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT, value)
-        "rfidProcessingScreenLoadingBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR, value)
-        "rfidEnableNfcTitleText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_TITLE_TEXT, value)
-        "rfidEnableNfcDescriptionText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_DESCRIPTION_TEXT, value)
-        "rfidEnableNfcButtonText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_TEXT, value)
-        "rfidEnableNfcButtonBackground" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_BACKGROUND, value)
+fun setColors(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { k, value ->
+    val v = value.toLong()
+    when (k) {
+        "rfidProcessingScreenBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_BACKGROUND, v)
+        "rfidProcessingScreenHintLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_HINT_LABEL_TEXT, v)
+        "rfidProcessingScreenHintLabelBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_HINT_LABEL_BACKGROUND, v)
+        "rfidProcessingScreenProgressLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_LABEL_TEXT, v)
+        "rfidProcessingScreenProgressBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR, v)
+        "rfidProcessingScreenProgressBarBackground" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_PROGRESS_BAR_BACKGROUND, v)
+        "rfidProcessingScreenResultLabelText" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_RESULT_LABEL_TEXT, v)
+        "rfidProcessingScreenLoadingBar" -> input.setColor(CustomizationColor.RFID_PROCESSING_SCREEN_LOADING_BAR, v)
+        "rfidEnableNfcTitleText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_TITLE_TEXT, v)
+        "rfidEnableNfcDescriptionText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_DESCRIPTION_TEXT, v)
+        "rfidEnableNfcButtonText" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_TEXT, v)
+        "rfidEnableNfcButtonBackground" -> input.setColor(CustomizationColor.RFID_ENABLE_NFC_BUTTON_BACKGROUND, v)
+        "mdlProcessingScreenBackground" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_BACKGROUND, v)
+        "mdlProcessingScreenHintLabelText" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_HINT_LABEL_TEXT, v)
+        "mdlProcessingScreenHintLabelBackground" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_HINT_LABEL_BACKGROUND, v)
+        "mdlProcessingScreenProgressLabelText" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_PROGRESS_LABEL_TEXT, v)
+        "mdlProcessingScreenResultLabelText" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_RESULT_LABEL_TEXT, v)
+        "mdlProcessingScreenLoadingBar" -> input.setColor(CustomizationColor.MDL_PROCESSING_SCREEN_LOADING_BAR, v)
+        "mdlEnableNfcTitleText" -> input.setColor(CustomizationColor.MDL_ENABLE_NFC_TITLE_TEXT, v)
+        "mdlEnableNfcDescriptionText" -> input.setColor(CustomizationColor.MDL_ENABLE_NFC_DESCRIPTION_TEXT, v)
+        "mdlEnableNfcButtonText" -> input.setColor(CustomizationColor.MDL_ENABLE_NFC_BUTTON_TEXT, v)
+        "mdlEnableNfcButtonBackground" -> input.setColor(CustomizationColor.MDL_ENABLE_NFC_BUTTON_BACKGROUND, v)
+        "nextPageIdCardFront" -> input.setColor(CustomizationColor.NEXT_PAGE_ID_CARD_FRONT, v)
+        "nextPageIdCardBack" -> input.setColor(CustomizationColor.NEXT_PAGE_ID_CARD_BACK, v)
+        "nextPagePassportShift" -> input.setColor(CustomizationColor.NEXT_PAGE_PASSPORT_SHIFT, v)
+        "nextPagePassportFlip" -> input.setColor(CustomizationColor.NEXT_PAGE_PASSPORT_FLIP, v)
     }
 }
 
@@ -793,16 +813,36 @@ fun getColors(input: Map<CustomizationColor, Long>) = mapOf(
     "rfidEnableNfcDescriptionText" to input[CustomizationColor.RFID_ENABLE_NFC_DESCRIPTION_TEXT],
     "rfidEnableNfcButtonText" to input[CustomizationColor.RFID_ENABLE_NFC_BUTTON_TEXT],
     "rfidEnableNfcButtonBackground" to input[CustomizationColor.RFID_ENABLE_NFC_BUTTON_BACKGROUND],
+    "mdlProcessingScreenBackground" to input[CustomizationColor.MDL_PROCESSING_SCREEN_BACKGROUND],
+    "mdlProcessingScreenHintLabelText" to input[CustomizationColor.MDL_PROCESSING_SCREEN_HINT_LABEL_TEXT],
+    "mdlProcessingScreenHintLabelBackground" to input[CustomizationColor.MDL_PROCESSING_SCREEN_HINT_LABEL_BACKGROUND],
+    "mdlProcessingScreenProgressLabelText" to input[CustomizationColor.MDL_PROCESSING_SCREEN_PROGRESS_LABEL_TEXT],
+    "mdlProcessingScreenResultLabelText" to input[CustomizationColor.MDL_PROCESSING_SCREEN_RESULT_LABEL_TEXT],
+    "mdlProcessingScreenLoadingBar" to input[CustomizationColor.MDL_PROCESSING_SCREEN_LOADING_BAR],
+    "mdlEnableNfcTitleText" to input[CustomizationColor.MDL_ENABLE_NFC_TITLE_TEXT],
+    "mdlEnableNfcDescriptionText" to input[CustomizationColor.MDL_ENABLE_NFC_DESCRIPTION_TEXT],
+    "mdlEnableNfcButtonText" to input[CustomizationColor.MDL_ENABLE_NFC_BUTTON_TEXT],
+    "mdlEnableNfcButtonBackground" to input[CustomizationColor.MDL_ENABLE_NFC_BUTTON_BACKGROUND],
+    "nextPageIdCardFront" to input[CustomizationColor.NEXT_PAGE_ID_CARD_FRONT],
+    "nextPageIdCardBack" to input[CustomizationColor.NEXT_PAGE_ID_CARD_BACK],
+    "nextPagePassportShift" to input[CustomizationColor.NEXT_PAGE_PASSPORT_SHIFT],
+    "nextPagePassportFlip" to input[CustomizationColor.NEXT_PAGE_PASSPORT_FLIP],
 ).toJson()
 
-fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, value ->
-    when (key) {
-        "rfidProcessingScreenHintLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.setFont(input, value)
-        "rfidProcessingScreenProgressLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.setFont(input, value)
-        "rfidProcessingScreenResultLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.setFont(input, value)
-        "rfidEnableNfcTitleText" -> CustomizationFont.RFID_ENABLE_NFC_TITLE_TEXT.setFont(input, value)
-        "rfidEnableNfcDescriptionText" -> CustomizationFont.RFID_ENABLE_NFC_DESCRIPTION_TEXT.setFont(input, value)
-        "rfidEnableNfcButtonText" -> CustomizationFont.RFID_ENABLE_NFC_BUTTON_TEXT.setFont(input, value)
+fun setFonts(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { k, v ->
+    when (k) {
+        "rfidProcessingScreenHintLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_HINT_LABEL.setFont(input, v)
+        "rfidProcessingScreenProgressLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_PROGRESS_LABEL.setFont(input, v)
+        "rfidProcessingScreenResultLabel" -> CustomizationFont.RFID_PROCESSING_SCREEN_RESULT_LABEL.setFont(input, v)
+        "rfidEnableNfcTitleText" -> CustomizationFont.RFID_ENABLE_NFC_TITLE_TEXT.setFont(input, v)
+        "rfidEnableNfcDescriptionText" -> CustomizationFont.RFID_ENABLE_NFC_DESCRIPTION_TEXT.setFont(input, v)
+        "rfidEnableNfcButtonText" -> CustomizationFont.RFID_ENABLE_NFC_BUTTON_TEXT.setFont(input, v)
+        "mdlProcessingScreenHintLabel" -> CustomizationFont.MDL_PROCESSING_SCREEN_HINT_LABEL.setFont(input, v)
+        "mdlProcessingScreenProgressLabel" -> CustomizationFont.MDL_PROCESSING_SCREEN_PROGRESS_LABEL.setFont(input, v)
+        "mdlProcessingScreenResultLabel" -> CustomizationFont.MDL_PROCESSING_SCREEN_RESULT_LABEL.setFont(input, v)
+        "mdlEnableNfcTitleText" -> CustomizationFont.MDL_ENABLE_NFC_TITLE_TEXT.setFont(input, v)
+        "mdlEnableNfcDescriptionText" -> CustomizationFont.MDL_ENABLE_NFC_DESCRIPTION_TEXT.setFont(input, v)
+        "mdlEnableNfcButtonText" -> CustomizationFont.MDL_ENABLE_NFC_BUTTON_TEXT.setFont(input, v)
     }
 }
 
@@ -813,18 +853,96 @@ fun getFonts(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFo
     "rfidEnableNfcTitleText" to CustomizationFont.RFID_ENABLE_NFC_TITLE_TEXT.getFont(fonts, sizes),
     "rfidEnableNfcDescriptionText" to CustomizationFont.RFID_ENABLE_NFC_DESCRIPTION_TEXT.getFont(fonts, sizes),
     "rfidEnableNfcButtonText" to CustomizationFont.RFID_ENABLE_NFC_BUTTON_TEXT.getFont(fonts, sizes),
+    "mdlProcessingScreenHintLabel" to CustomizationFont.MDL_PROCESSING_SCREEN_HINT_LABEL.getFont(fonts, sizes),
+    "mdlProcessingScreenProgressLabel" to CustomizationFont.MDL_PROCESSING_SCREEN_PROGRESS_LABEL.getFont(fonts, sizes),
+    "mdlProcessingScreenResultLabel" to CustomizationFont.MDL_PROCESSING_SCREEN_RESULT_LABEL.getFont(fonts, sizes),
+    "mdlEnableNfcTitleText" to CustomizationFont.MDL_ENABLE_NFC_TITLE_TEXT.getFont(fonts, sizes),
+    "mdlEnableNfcDescriptionText" to CustomizationFont.MDL_ENABLE_NFC_DESCRIPTION_TEXT.getFont(fonts, sizes),
+    "mdlEnableNfcButtonText" to CustomizationFont.MDL_ENABLE_NFC_BUTTON_TEXT.getFont(fonts, sizes),
 ).toJson()
 
-fun setImages(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { key, v ->
-    when (key) {
+fun setImages(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { k, v ->
+    when (k) {
+        "helpAnimation" -> input.setImage(CustomizationImage.HELP_ANIMATION, v.toDrawable())
+        "livenessAnimation" -> input.setImage(CustomizationImage.LIVENESS_ANIMATION, v.toDrawable())
+        "borderBackground" -> input.setImage(CustomizationImage.BORDER_BACKGROUND, v.toDrawable())
+        "torchButtonOn" -> input.setImage(CustomizationImage.TORCH_BUTTON_ON, v.toDrawable())
+        "torchButtonOff" -> input.setImage(CustomizationImage.TORCH_BUTTON_OFF, v.toDrawable())
+        "captureButton" -> input.setImage(CustomizationImage.CAPTURE_BUTTON, v.toDrawable())
+        "switchButton" -> input.setImage(CustomizationImage.SWITCH_BUTTON, v.toDrawable())
+        "closeButton" -> input.setImage(CustomizationImage.CLOSE_BUTTON, v.toDrawable())
+        "multipageButton" -> input.setImage(CustomizationImage.MULTIPAGE_BUTTON, v.toDrawable())
         "rfidProcessingScreenFailureImage" -> input.setImage(CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE, v.toDrawable())
         "rfidEnableNfcImage" -> input.setImage(CustomizationImage.RFID_ENABLE_NFC_IMAGE, v.toDrawable())
+        "rfidDisableNfcImage" -> input.setImage(CustomizationImage.RFID_DISABLE_NFC_IMAGE, v.toDrawable())
+        "mdlProcessingScreenFailureImage" -> input.setImage(CustomizationImage.MDL_PROCESSING_SCREEN_FAILURE_IMAGE, v.toDrawable())
+        "mdlEnableNfcImage" -> input.setImage(CustomizationImage.MDL_ENABLE_NFC_IMAGE, v.toDrawable())
+        "mdlDisableNfcImage" -> input.setImage(CustomizationImage.MDL_DISABLE_NFC_IMAGE, v.toDrawable())
+        "nextPageIdCardFront" -> input.setImage(CustomizationImage.NEXT_PAGE_ID_CARD_FRONT, v.toDrawable())
+        "nextPageIdCardBack" -> input.setImage(CustomizationImage.NEXT_PAGE_ID_CARD_BACK, v.toDrawable())
+        "nextPagePassportShift" -> input.setImage(CustomizationImage.NEXT_PAGE_PASSPORT_SHIFT, v.toDrawable())
+        "nextPagePassportFlipStart" -> input.setImage(CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_START, v.toDrawable())
+        "nextPagePassportFlipClean" -> input.setImage(CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_CLEAN, v.toDrawable())
+        "nextPagePassportFlipTop" -> input.setImage(CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_TOP, v.toDrawable())
+        "nextPagePassportFlipBottom" -> input.setImage(CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_BOTTOM, v.toDrawable())
     }
 }
 
-fun getImages(input: Map<CustomizationImage, Drawable>) = mapOf(
-    "rfidProcessingScreenFailureImage" to (input[CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_ic_error)).toBase64(),
-    "rfidEnableNfcImage" to (input[CustomizationImage.RFID_ENABLE_NFC_IMAGE] ?: ContextCompat.getDrawable(context, com.regula.documentreader.api.R.drawable.reg_enable_nfc)).toBase64(),
+fun getImages(input: Map<String, Drawable>) = mapOf(
+    "helpAnimation" to input[CustomizationImage.HELP_ANIMATION.value].toBase64(),
+    "livenessAnimation" to input[CustomizationImage.LIVENESS_ANIMATION.value].toBase64(),
+    "borderBackground" to input[CustomizationImage.BORDER_BACKGROUND.value].toBase64(),
+    "torchButtonOn" to input[CustomizationImage.TORCH_BUTTON_ON.value].toBase64(),
+    "torchButtonOff" to input[CustomizationImage.TORCH_BUTTON_OFF.value].toBase64(),
+    "captureButton" to input[CustomizationImage.CAPTURE_BUTTON.value].toBase64(),
+    "switchButton" to input[CustomizationImage.SWITCH_BUTTON.value].toBase64(),
+    "closeButton" to input[CustomizationImage.CLOSE_BUTTON.value].toBase64(),
+    "multipageButton" to input[CustomizationImage.MULTIPAGE_BUTTON.value].toBase64(),
+    "rfidProcessingScreenFailureImage" to input[CustomizationImage.RFID_PROCESSING_SCREEN_FAILURE_IMAGE.value].toBase64(),
+    "rfidEnableNfcImage" to input[CustomizationImage.RFID_ENABLE_NFC_IMAGE.value].toBase64(),
+    "rfidDisableNfcImage" to input[CustomizationImage.RFID_DISABLE_NFC_IMAGE.value].toBase64(),
+    "mdlProcessingScreenFailureImage" to input[CustomizationImage.MDL_PROCESSING_SCREEN_FAILURE_IMAGE.value].toBase64(),
+    "mdlEnableNfcImage" to input[CustomizationImage.MDL_ENABLE_NFC_IMAGE.value].toBase64(),
+    "mdlDisableNfcImage" to input[CustomizationImage.MDL_DISABLE_NFC_IMAGE.value].toBase64(),
+    "nextPageIdCardFront" to input[CustomizationImage.NEXT_PAGE_ID_CARD_FRONT.value].toBase64(),
+    "nextPageIdCardBack" to input[CustomizationImage.NEXT_PAGE_ID_CARD_BACK.value].toBase64(),
+    "nextPagePassportShift" to input[CustomizationImage.NEXT_PAGE_PASSPORT_SHIFT.value].toBase64(),
+    "nextPagePassportFlipStart" to input[CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_START.value].toBase64(),
+    "nextPagePassportFlipClean" to input[CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_CLEAN.value].toBase64(),
+    "nextPagePassportFlipTop" to input[CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_TOP.value].toBase64(),
+    "nextPagePassportFlipBottom" to input[CustomizationImage.NEXT_PAGE_PASSPORT_FLIP_BOTTOM.value].toBase64(),
+).toJson()
+
+fun setTimings(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { k, v ->
+    when (k) {
+        "nextPageIdCardStartDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_ID_CARD_START_DELAY, v.toInt())
+        "nextPageIdCardEndDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_ID_CARD_END_DELAY, v.toInt())
+        "nextPagePassportShiftStartDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_PASSPORT_SHIFT_START_DELAY, v.toInt())
+        "nextPagePassportShiftEndDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_PASSPORT_SHIFT_END_DELAY, v.toInt())
+        "nextPagePassportFlipStartDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_PASSPORT_FLIP_START_DELAY, v.toInt())
+        "nextPagePassportFlipEndDelay" -> input.setTiming(CustomizationTiming.NEXT_PAGE_PASSPORT_FLIP_END_DELAY, v.toInt())
+    }
+}
+
+fun getTimings(input: Map<CustomizationTiming, Int>) = mapOf(
+    "nextPageIdCardStartDelay" to input[CustomizationTiming.NEXT_PAGE_ID_CARD_START_DELAY],
+    "nextPageIdCardEndDelay" to input[CustomizationTiming.NEXT_PAGE_ID_CARD_END_DELAY],
+    "nextPagePassportShiftStartDelay" to input[CustomizationTiming.NEXT_PAGE_PASSPORT_SHIFT_START_DELAY],
+    "nextPagePassportShiftEndDelay" to input[CustomizationTiming.NEXT_PAGE_PASSPORT_SHIFT_END_DELAY],
+    "nextPagePassportFlipStartDelay" to input[CustomizationTiming.NEXT_PAGE_PASSPORT_FLIP_START_DELAY],
+    "nextPagePassportFlipEndDelay" to input[CustomizationTiming.NEXT_PAGE_PASSPORT_FLIP_END_DELAY],
+).toJson()
+
+fun setMatrices(input: ParamsCustomization.CustomizationEditor, opts: JSONObject) = opts.forEach { k, v ->
+    when (k) {
+        "nextPageIdCardFront" -> input.setMatrix(CustomizationMatrix.NEXT_PAGE_ID_CARD_FRONT, matrixFromJSON(v as JSONArray?)).setScaleType(CustomizationScaleType.NEXT_PAGE_ID_CARD_FRONT, ImageView.ScaleType.MATRIX)
+        "nextPageIdCardBack" -> input.setMatrix(CustomizationMatrix.NEXT_PAGE_ID_CARD_BACK, matrixFromJSON(v as JSONArray?)).setScaleType(CustomizationScaleType.NEXT_PAGE_ID_CARD_BACK, ImageView.ScaleType.MATRIX)
+    }
+}
+
+fun getMatrices(input: Map<CustomizationMatrix, Matrix>) = mapOf(
+    "nextPageIdCardFront" to generateMatrix(input[CustomizationMatrix.NEXT_PAGE_ID_CARD_FRONT]),
+    "nextPageIdCardBack" to generateMatrix(input[CustomizationMatrix.NEXT_PAGE_ID_CARD_BACK]),
 ).toJson()
 
 fun CustomizationFont.getFont(fonts: Map<CustomizationFont, Typeface>, sizes: Map<CustomizationFont, Int>) =

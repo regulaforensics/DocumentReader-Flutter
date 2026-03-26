@@ -72,8 +72,12 @@ var rfidParams = {
 var backendProcessingConfig = {
   "url": "test",
   "rfidServerSideChipVerification": true,
+  "mdlVerification": false,
   "httpHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
   "timeoutConnection": 0.5,
+};
+var bsi = {
+  "generateResult": true,
 };
 var processParams = {
   "multipageProcessing": true,
@@ -116,7 +120,10 @@ var processParams = {
   "strictSecurityChecks": false,
   "returnTransliteratedFields": true,
   "checkCaptureProcessIntegrity": false,
-  "bsiTr03135": {"generateResult": true},
+  "strictExpiryDate": true,
+  "debugSaveBinarySession": false,
+  "checkVDS": true,
+  "bsiTr03135": bsi,
   "measureSystem": 1,
   "barcodeParserType": 3,
   "perspectiveAngle": 4,
@@ -172,6 +179,20 @@ var customizationColors = {
   "rfidEnableNfcDescriptionText": 0xff000009,
   "rfidEnableNfcButtonText": 0xff000010,
   "rfidEnableNfcButtonBackground": 0xff000011,
+  "mdlProcessingScreenBackground": 0xff000012,
+  "mdlProcessingScreenHintLabelText": 0xff000013,
+  "mdlProcessingScreenHintLabelBackground": 0xff000014,
+  "mdlProcessingScreenProgressLabelText": 0xff000015,
+  "mdlProcessingScreenResultLabelText": 0xff000016,
+  "mdlProcessingScreenLoadingBar": 0xff000017,
+  "mdlEnableNfcTitleText": 0xff000018,
+  "mdlEnableNfcDescriptionText": 0xff000019,
+  "mdlEnableNfcButtonText": 0xff000020,
+  "mdlEnableNfcButtonBackground": 0xff000021,
+  "nextPageIdCardFront": 0xff000022,
+  "nextPageIdCardBack": 0xff000023,
+  "nextPagePassportShift": 0xff000024,
+  "nextPagePassportFlip": 0xff000025,
 };
 var customizationFonts = {
   "rfidProcessingScreenHintLabel": font1,
@@ -180,10 +201,52 @@ var customizationFonts = {
   "rfidEnableNfcTitleText": font2,
   "rfidEnableNfcDescriptionText": font1,
   "rfidEnableNfcButtonText": font2,
+  "mdlProcessingScreenHintLabel": font1,
+  "mdlProcessingScreenProgressLabel": font2,
+  "mdlProcessingScreenResultLabel": font1,
+  "mdlEnableNfcTitleText": font2,
+  "mdlEnableNfcDescriptionText": font1,
+  "mdlEnableNfcButtonText": font2,
 };
 var customizationImages = {
+  "helpAnimation": img1,
+  "livenessAnimation": img2,
+  "borderBackground": img1,
+  "torchButtonOn": img2,
+  "torchButtonOff": img1,
+  "captureButton": img2,
+  "switchButton": img1,
+  "closeButton": img2,
+  "multipageButton": img1,
   "rfidProcessingScreenFailureImage": img1,
   "rfidEnableNfcImage": img2,
+  "rfidDisableNfcImage": img1,
+  "mdlProcessingScreenFailureImage": img2,
+  "mdlEnableNfcImage": img1,
+  "mdlDisableNfcImage": img2,
+  "nextPageIdCardFront": img1,
+  "nextPageIdCardBack": img2,
+  "nextPagePassportShift": img1,
+  "nextPagePassportFlipStart": img2,
+  "nextPagePassportFlipClean": img1,
+  "nextPagePassportFlipTop": img2,
+  "nextPagePassportFlipBottom": img1,
+};
+var customizationTimings = {
+  "nextPageIdCardStartDelay": 0,
+  "nextPageIdCardEndDelay": 1,
+  "nextPagePassportShiftStartDelay": 2,
+  "nextPagePassportShiftEndDelay": 3,
+  "nextPagePassportFlipStartDelay": 4,
+  "nextPagePassportFlipEndDelay": 5,
+};
+var customizationContentModes = {
+  "nextPageIdCardFront": 0,
+  "nextPageIdCardBack": 1,
+};
+var customizationMatrices = {
+  "nextPageIdCardFront": [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9],
+  "nextPageIdCardBack": [2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
 };
 var customization = {
   "showStatusMessages": true,
@@ -278,6 +341,9 @@ var customization = {
   "colors": customizationColors,
   "fonts": customizationFonts,
   "images": customizationImages,
+  "timings": customizationTimings,
+  "contentModes": customizationContentModes,
+  "matrices": customizationMatrices,
 };
 var cameraSize = {"width": 0, "height": 1};
 var functionality = {
@@ -498,6 +564,7 @@ var finalizeConfig = {
   "rawImages": true,
   "video": false,
   "rfidSession": true,
+  "mdlSession": false,
 };
 
 var documentsDatabase = {
