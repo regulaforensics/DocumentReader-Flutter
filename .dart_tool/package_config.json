@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "async",
-      "rootUri": "file:///Users/administratorregula/.pub-cache/hosted/pub.dev/async-2.13.0",
+      "rootUri": "file:///Users/administratorregula/.pub-cache/hosted/pub.dev/async-2.13.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
