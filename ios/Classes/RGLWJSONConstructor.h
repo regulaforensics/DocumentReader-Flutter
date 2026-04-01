@@ -198,6 +198,10 @@
 +(NSDictionary* _Nullable)generateDocumentRequestMDL:(RGLDocumentRequestMDL* _Nullable)input;
 +(RGLFinalizeConfig* _Nullable)finalizeConfigFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateFinalizeConfig:(RGLFinalizeConfig* _Nullable)input;
++(RGLRFIDAccessControlPACE* _Nullable)paceProtocolFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generatePaceProtocol:(RGLRFIDAccessControlPACE* _Nullable)input;
++(RGLRFIDAccessControlCA* _Nullable)caProtocolFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateCaProtocol:(RGLRFIDAccessControlCA* _Nullable)input;
 
 @end
 

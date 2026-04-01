@@ -36,10 +36,12 @@ part 'src/params/rfid_scenario/eid_data_groups.dart';
 part 'src/params/rfid_scenario/e_passport_data_groups.dart';
 part 'src/params/rfid_scenario/dtc_data_groups.dart';
 part 'src/params/customization/customization.dart';
-part 'src/params/customization/font.dart';
 part 'src/params/customization/customization_colors.dart';
 part 'src/params/customization/customization_fonts.dart';
 part 'src/params/customization/customization_images.dart';
+part 'src/params/customization/customization_timings.dart';
+part 'src/params/customization/customization_content_modes.dart';
+part 'src/params/customization/customization_matrices.dart';
 part 'src/params/functionality.dart';
 
 part 'src/rfid/rfid_notification.dart';
@@ -49,6 +51,8 @@ part 'src/rfid/pa_attribute.dart';
 part 'src/rfid/pa_resources_issuer.dart';
 part 'src/rfid/ta_challenge.dart';
 part 'src/rfid/rfid_error_codes.dart';
+part 'src/rfid/pace_protocol.dart';
+part 'src/rfid/ca_protocol.dart';
 
 part 'src/config/init_config.dart';
 part 'src/config/scanner_config.dart';
@@ -471,11 +475,11 @@ class DocumentReader {
     _setTaCertificateCompletion(config.onRequestTACertificates);
     _setTaSignatureCompletion(config.onRequestTASignature);
 
-    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [
-      config.onRequestPACertificates != null,
-      config.onRequestTACertificates != null,
-      config.onRequestTASignature != null,
-    ]);
+    _setPACEProtocolCompletion(config.onRequestPACEProtocol);
+    _setCAProtocolCompletion(config.onRequestCAProtocol);
+
+    _bridge.invokeMethod(
+        config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
   }
 
   /// Used to stop the scanning process.

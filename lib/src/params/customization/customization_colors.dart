@@ -181,6 +181,34 @@ class CustomizationColors {
     _set({"mdlEnableNfcButtonBackground": _intFromColor(val)});
   }
 
+  Color? get nextPageIdCardFront => _nextPageIdCardFront;
+  Color? _nextPageIdCardFront;
+  set nextPageIdCardFront(Color? val) {
+    _nextPageIdCardFront = val;
+    _set({"nextPageIdCardFront": _intFromColor(val)});
+  }
+
+  Color? get nextPageIdCardBack => _nextPageIdCardBack;
+  Color? _nextPageIdCardBack;
+  set nextPageIdCardBack(Color? val) {
+    _nextPageIdCardBack = val;
+    _set({"nextPageIdCardBack": _intFromColor(val)});
+  }
+
+  Color? get nextPagePassportShift => _nextPagePassportShift;
+  Color? _nextPagePassportShift;
+  set nextPagePassportShift(Color? val) {
+    _nextPagePassportShift = val;
+    _set({"nextPagePassportShift": _intFromColor(val)});
+  }
+
+  Color? get nextPagePassportFlip => _nextPagePassportFlip;
+  Color? _nextPagePassportFlip;
+  set nextPagePassportFlip(Color? val) {
+    _nextPagePassportFlip = val;
+    _set({"nextPagePassportFlip": _intFromColor(val)});
+  }
+
   /// Allows you to deserialize object.
   static CustomizationColors fromJson(jsonObject) {
     var result = CustomizationColors();
@@ -230,6 +258,12 @@ class CustomizationColors {
         _intToColor(jsonObject["mdlEnableNfcButtonText"]);
     result.mdlEnableNfcButtonBackground =
         _intToColor(jsonObject["mdlEnableNfcButtonBackground"]);
+    result.nextPageIdCardFront = _intToColor(jsonObject["nextPageIdCardFront"]);
+    result.nextPageIdCardBack = _intToColor(jsonObject["nextPageIdCardBack"]);
+    result.nextPagePassportShift =
+        _intToColor(jsonObject["nextPagePassportShift"]);
+    result.nextPagePassportFlip =
+        _intToColor(jsonObject["nextPagePassportFlip"]);
 
     return result;
   }
@@ -301,6 +335,18 @@ class CustomizationColors {
         ),
         "mdlEnableNfcButtonBackground": _intFromColor(
           mdlEnableNfcButtonBackground,
+        ),
+        "nextPageIdCardFront": _intFromColor(
+          nextPageIdCardFront,
+        ),
+        "nextPageIdCardBack": _intFromColor(
+          nextPageIdCardBack,
+        ),
+        "nextPagePassportShift": _intFromColor(
+          nextPagePassportShift,
+        ),
+        "nextPagePassportFlip": _intFromColor(
+          nextPagePassportFlip,
         ),
       }.clearNulls();
 

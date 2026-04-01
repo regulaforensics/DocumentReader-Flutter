@@ -152,7 +152,11 @@ class Tests: XCTestCase {
                        "fonts.mdlEnableNfcDescriptionText",
                        "fonts.mdlEnableNfcButtonText",
                        "images.rfidEnableNfcImage",
-                       "images.mdlEnableNfcImage",])
+                       "images.rfidDisableNfcImage",
+                       "images.mdlEnableNfcImage",
+                       "images.mdlDisableNfcImage",
+                       "matrices",
+                      ])
     }
     
     func test_functionality() {
@@ -424,6 +428,14 @@ class Tests: XCTestCase {
     
     func test_TccParams() {
         compare(name: "tccParams", fromJson: RGLWJSONConstructor.tccParams, generate: RGLWJSONConstructor.generate)
+    }
+    
+    func test_paceProtocol() {
+        compare(name: "paceProtocol", fromJson: RGLWJSONConstructor.paceProtocol, generate: RGLWJSONConstructor.generatePaceProtocol)
+    }
+    
+    func test_caProtocol() {
+        compare(name: "caProtocol", fromJson: RGLWJSONConstructor.caProtocol, generate: RGLWJSONConstructor.generateCaProtocol)
     }
     
     // mdl

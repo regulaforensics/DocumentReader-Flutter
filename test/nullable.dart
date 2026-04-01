@@ -9,7 +9,7 @@ Map<String, List<String>?> nullableMap = {
     "imageInputData",
   ],
   "recognizeConfig2": ["scenario", "image"],
-  "scannerConfig": ["scenario", "livePortrait", "extPortrait", "cameraId"],
+  "scannerConfig": ["scenario", "livePortrait", "extPortrait"],
   "scannerConfig2": ["onlineProcessingConfig"],
   "onlineProcessingConfig": ["requestHeaders"],
   "faceApiSearchParams": ["groupIds"],
@@ -19,7 +19,7 @@ Map<String, List<String>?> nullableMap = {
   "glaresCheckParams!": [],
   "rfidParams!": [],
   "imageQA!": [],
-  "backendProcessingConfig": ["rfidServerSideChipVerification", "httpHeaders"],
+  "backendProcessingConfig!": ["url", "mdlVerification"],
   "bsi!": [],
   "processParams!": ["imageQA", "authenticityParams"],
   "rfidScenario!": [
@@ -52,6 +52,6 @@ Map<String, List<String>?> nullableMap = {
   "paResourcesIssuer": ["friendlyName"],
   "pkdCertificate": ["privateKey"],
   "tccParams!": [],
-  "deviceRetrievalMethod!": ["type"],
+  "deviceRetrievalMethod!": ["type", "version"],
   "documentRequest18013MDL!": ["docType", "namespaces"],
 };

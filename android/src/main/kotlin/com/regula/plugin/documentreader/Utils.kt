@@ -157,6 +157,11 @@ fun JSONObject.getStringOrNull(name: String): String? {
     return null
 }
 
+fun JSONObject.getJSONArrayOrNull(name: String): JSONArray? {
+    if (has(name) && get(name).toString() != "null") return getJSONArray(name)
+    return null
+}
+
 fun <T : Any> KClass<T>.constructor(vararg argTypes: KClass<*>): Constructor<T> {
     val types = mutableListOf<Class<*>>()
     for (argType in argTypes) types.add(argType.java)

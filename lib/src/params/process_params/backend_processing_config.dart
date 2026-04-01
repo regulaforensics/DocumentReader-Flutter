@@ -18,6 +18,9 @@ class BackendProcessingConfig {
   bool? get rfidServerSideChipVerification => _rfidServerSideChipVerification;
   bool? _rfidServerSideChipVerification;
 
+  bool? get mdlVerification => _mdlVerification;
+  bool? _mdlVerification;
+
   /// Timeout in seconds that can be configured for backend transaction creation and package finalization.
   double? get timeoutConnection => _timeoutConnection;
   double? _timeoutConnection;
@@ -25,10 +28,12 @@ class BackendProcessingConfig {
   BackendProcessingConfig(
     String url, {
     bool? rfidServerSideChipVerification,
+    bool? mdlVerification,
     Map<String, String>? httpHeaders,
     double? timeoutConnection,
   })  : _url = url,
         _rfidServerSideChipVerification = rfidServerSideChipVerification,
+        _mdlVerification = mdlVerification,
         _httpHeaders = httpHeaders,
         _timeoutConnection = timeoutConnection;
 
@@ -39,6 +44,7 @@ class BackendProcessingConfig {
 
     result._rfidServerSideChipVerification =
         jsonObject["rfidServerSideChipVerification"];
+    result._mdlVerification = jsonObject["mdlVerification"];
     if (jsonObject["httpHeaders"] != null) {
       result._httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);
     }
@@ -51,6 +57,7 @@ class BackendProcessingConfig {
   Map<String, dynamic> toJson() => {
         "url": url,
         "rfidServerSideChipVerification": rfidServerSideChipVerification,
+        "mdlVerification": mdlVerification,
         "httpHeaders": httpHeaders,
         "timeoutConnection": timeoutConnection,
       }.clearNulls();

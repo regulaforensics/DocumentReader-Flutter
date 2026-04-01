@@ -19,7 +19,7 @@ fun readFile(name: String): JSONObject {
 
 fun compareJSONs(name: String, expected: JSONObject, actual: JSONObject) =
     try {
-        JSONAssert.assertEquals(expected, actual, false)
+        JSONAssert.assertEquals(expected, floatToDouble(actual), true)
     } catch (e: Throwable) {
         println("\nAndroid test failed: $name")
         println(" Expected JSON:\n$expected")
@@ -36,7 +36,8 @@ fun <T> compareSingle(
     try {
         var expected = readFile(name)
         for (key in omit) expected = omitDeep(expected, key.split("."), 0)
-        val actual = toJson(fromJson(expected))!!
+        var actual = toJson(fromJson(expected))!!
+        for (key in omit) actual = omitDeep(actual, key.split("."), 0)
         compareJSONs(name, expected, actual)
     } catch (_: IOException) {
     }

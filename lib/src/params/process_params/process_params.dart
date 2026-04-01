@@ -374,6 +374,29 @@ class ProcessParams {
     _set({"checkCaptureProcessIntegrity": val});
   }
 
+  /// When disabled, date of expiry doesn't affect the mrz and text statuses.
+  bool? get strictExpiryDate => _strictExpiryDate;
+  bool? _strictExpiryDate;
+  set strictExpiryDate(bool? val) {
+    _strictExpiryDate = val;
+    _set({"strictExpiryDate": val});
+  }
+
+  bool? get debugSaveBinarySession => _debugSaveBinarySession;
+  bool? _debugSaveBinarySession;
+  set debugSaveBinarySession(bool? val) {
+    _debugSaveBinarySession = val;
+    _set({"debugSaveBinarySession": val});
+  }
+
+  /// This parameter is used to enable Visible Digital Seal check.
+  bool? get checkVDS => _checkVDS;
+  bool? _checkVDS;
+  set checkVDS(bool? val) {
+    _checkVDS = val;
+    _set({"checkVDS": val});
+  }
+
   /// There are documents that contain barcodes which data can be parsed only
   /// if document type verification is performed. The following property allows
   /// setting the barcode parser type which should be used during recognition.
@@ -821,6 +844,9 @@ class ProcessParams {
         jsonObject["returnTransliteratedFields"];
     result.checkCaptureProcessIntegrity =
         jsonObject["checkCaptureProcessIntegrity"];
+    result.strictExpiryDate = jsonObject["strictExpiryDate"];
+    result.debugSaveBinarySession = jsonObject["debugSaveBinarySession"];
+    result.checkVDS = jsonObject["checkVDS"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -938,6 +964,9 @@ class ProcessParams {
         "strictSecurityChecks": strictSecurityChecks,
         "returnTransliteratedFields": returnTransliteratedFields,
         "checkCaptureProcessIntegrity": checkCaptureProcessIntegrity,
+        "strictExpiryDate": strictExpiryDate,
+        "debugSaveBinarySession": debugSaveBinarySession,
+        "checkVDS": checkVDS,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

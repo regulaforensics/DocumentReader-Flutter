@@ -102,23 +102,19 @@ class FlutterDocumentReaderApiPluginTest {
     // params
 
     @Test
-    fun customization() {
-        val expected = readFile("customization")
-        val omit = listOf(
-            "helpAnimationImageContentMode",
-            "multipageAnimationFrontImageContentMode",
-            "multipageAnimationBackImageContentMode",
-            "livenessAnimationImageContentMode",
-            "borderBackgroundImageContentMode",
-            "statusTextFont",
-            "resultStatusTextFont",
-            "multipageButtonTextFont",
-            "fonts"
-        )
-        for (key in omit) expected.remove(key)
-        val actual = generateCustomization(customizationFromJSON(expected))
-        compareJSONs("customization", expected, floatToDouble(actual))
-    }
+    fun customization() = compare(
+        "customization", ::customizationFromJSON, ::generateCustomization,
+        "helpAnimationImageContentMode",
+        "multipageAnimationFrontImageContentMode",
+        "multipageAnimationBackImageContentMode",
+        "livenessAnimationImageContentMode",
+        "borderBackgroundImageContentMode",
+        "statusTextFont",
+        "resultStatusTextFont",
+        "multipageButtonTextFont",
+        "fonts",
+        "contentModes",
+    )
 
     @Test
     fun functionality() = compare(
@@ -270,13 +266,19 @@ class FlutterDocumentReaderApiPluginTest {
     fun value() = compare("value", ::documentReaderValueFromJSON, ::generateDocumentReaderValue)
 
     @Test
-    fun textField() = compare("textField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField)
+    fun textField() = compare(
+        "textField", ::documentReaderTextFieldFromJSON, ::generateDocumentReaderTextField,
+        "getValue"
+    )
 
     @Test
     fun textSource() = compare("textSource", ::documentReaderTextSourceFromJSON, ::generateDocumentReaderTextSource)
 
     @Test
-    fun textResult() = compare("textResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult)
+    fun textResult() = compare(
+        "textResult", ::documentReaderTextResultFromJSON, ::generateDocumentReaderTextResult,
+        "fields.getValue"
+    )
 
     // results
 
@@ -305,7 +307,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun transactionInfo() = compare("transactionInfo", ::transactionInfoFromJSON, ::generateTransactionInfo)
 
     @Test
-    fun results() = compare("results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults)
+    fun results() = compare(
+        "results", ::documentReaderResultsFromJSON, ::generateDocumentReaderResults,
+        "textResult.fields.getValue")
 
     // rfid
 
@@ -323,6 +327,12 @@ class FlutterDocumentReaderApiPluginTest {
 
     @Test
     fun tccParams() = compare("tccParams", ::tccParamsFromJSON, ::generateTccParams)
+
+    @Test
+    fun paceProtocol() = compare("paceProtocol", ::paceProtocolFromJSON, ::generatePaceProtocol)
+
+    @Test
+    fun caProtocol() = compare("caProtocol", ::caProtocolFromJSON, ::generateCaProtocol)
 
     // mdl
 
