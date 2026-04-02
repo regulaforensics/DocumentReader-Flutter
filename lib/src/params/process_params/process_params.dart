@@ -844,12 +844,9 @@ class ProcessParams {
         jsonObject["returnTransliteratedFields"];
     result.checkCaptureProcessIntegrity =
         jsonObject["checkCaptureProcessIntegrity"];
-    result.strictExpiryDate =
-        jsonObject["strictExpiryDate"];
-    result.debugSaveBinarySession =
-        jsonObject["debugSaveBinarySession"];
-    result.checkVDS =
-        jsonObject["checkVDS"];
+    result.strictExpiryDate = jsonObject["strictExpiryDate"];
+    result.debugSaveBinarySession = jsonObject["debugSaveBinarySession"];
+    result.checkVDS = jsonObject["checkVDS"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],

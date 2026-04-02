@@ -988,6 +988,17 @@ var taChallenge = {
   "hashPK": "test3",
   "idPICC": "test4",
 };
+var paceProtocol = {
+  "version": "123",
+  "stdDomainParams": "test2",
+  "keyAlgorithm": "test3",
+};
+var caProtocol = {
+  "version": "123",
+  "scheme": "test2",
+  "keyAlgorithm": "test3",
+  "chipIndividual": true,
+};
 var tccParams = {
   "serviceUrlTA": "test1",
   "serviceUrlPA": "test2",

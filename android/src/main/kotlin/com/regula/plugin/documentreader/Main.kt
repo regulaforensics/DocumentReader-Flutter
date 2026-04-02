@@ -19,13 +19,13 @@ import com.regula.documentreader.api.completions.IDocumentReaderInitCompletion
 import com.regula.documentreader.api.completions.IDocumentReaderPrepareDbCompletion
 import com.regula.documentreader.api.completions.IVideoEncoderCompletion
 import com.regula.documentreader.api.completions.model.PrepareProgress
+import com.regula.documentreader.api.completions.rfid.ICaProtocolCompletion
+import com.regula.documentreader.api.completions.rfid.IPaceProtocolCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidPKDCertificateCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderRequest
 import com.regula.documentreader.api.completions.rfid.IRfidTASignatureCompletion
-import com.regula.documentreader.api.completions.rfid.certificates.IRfidPACertificates
-import com.regula.documentreader.api.completions.rfid.certificates.IRfidTACertificates
-import com.regula.documentreader.api.completions.rfid.certificates.IRfidTASignature
+import com.regula.documentreader.api.completions.rfid.certificates.IRfidAccessControl
 import com.regula.documentreader.api.enums.DocReaderAction
 import com.regula.documentreader.api.enums.LCID
 import com.regula.documentreader.api.enums.eImageQualityCheckType
@@ -39,6 +39,8 @@ import com.regula.documentreader.api.errors.DocReaderRfidException
 import com.regula.documentreader.api.errors.DocumentReaderException
 import com.regula.documentreader.api.internal.core.CoreScenarioUtil
 import com.regula.documentreader.api.params.mdl.DataRetrieval
+import com.regula.documentreader.api.params.rfid.CaProtocol
+import com.regula.documentreader.api.params.rfid.PaceProtocol
 import com.regula.documentreader.api.results.DocumentReaderNotification
 import com.regula.documentreader.api.results.DocumentReaderResults
 import com.regula.documentreader.api.results.DocumentReaderResults.fromRawResults
@@ -84,12 +86,14 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "recognize" -> recognize(args(0))
     "startNewPage" -> startNewPage()
     "stopScanner" -> stopScanner()
-    "startRFIDReader" -> startRFIDReader(args(0), args(1), args(2))
-    "readRFID" -> readRFID(args(0), args(1), args(2))
+    "startRFIDReader" -> startRFIDReader(argsNullable(0))
+    "readRFID" -> readRFID(argsNullable(0))
     "stopRFIDReader" -> stopRFIDReader()
     "providePACertificates" -> providePACertificates(argsNullable(0))
     "provideTACertificates" -> provideTACertificates(argsNullable(0))
     "provideTASignature" -> provideTASignature(args(0))
+    "selectPACEProtocol" -> selectPACEProtocol(args(0))
+    "selectCAProtocol" -> selectCAProtocol(args(0))
     "setTCCParams" -> setTCCParams(callback, args(0))
     "addPKDCertificates" -> addPKDCertificates(args(0))
     "clearPKDCertificates" -> clearPKDCertificates()
@@ -150,6 +154,8 @@ const val rfidOnRetryReadChipEvent = "rfidOnRetryReadChipEvent"
 const val paCertificateCompletionEvent = "pa_certificate_completion"
 const val taCertificateCompletionEvent = "ta_certificate_completion"
 const val taSignatureCompletionEvent = "ta_signature_completion"
+const val paceProtocolCompletionEvent = "paceProtocolCompletionEvent"
+const val caProtocolCompletionEvent = "caProtocolCompletionEvent"
 
 const val videoEncoderCompletionEvent = "video_encoder_completion"
 const val onCustomButtonTappedEvent = "onCustomButtonTappedEvent"
@@ -248,22 +254,13 @@ fun startNewPage() = Instance().startNewPage()
 
 fun stopScanner() = Instance().stopScanner(context)
 
-fun startRFIDReader(onRequestPACertificates: Boolean, onRequestTACertificates: Boolean, onRequestTASignature: Boolean) {
+fun startRFIDReader(config: JSONObject?) {
     stopBackgroundRFID()
-    requestType = RfidReaderRequestType(
-        onRequestPACertificates,
-        onRequestTACertificates,
-        onRequestTASignature
-    )
-    Instance().startRFIDReader(activity, rfidReaderCompletion, requestType.getRfidReaderRequest())
+    Instance().startRFIDReader(activity, rfidReaderCompletion, getRfidReaderRequest(config))
 }
 
-fun readRFID(onRequestPACertificates: Boolean, onRequestTACertificates: Boolean, onRequestTASignature: Boolean) {
-    requestType = RfidReaderRequestType(
-        onRequestPACertificates,
-        onRequestTACertificates,
-        onRequestTASignature
-    )
+fun readRFID(config: JSONObject?) {
+    rfidReaderRequest = getRfidReaderRequest(config)
     startForegroundDispatch("readRFID")
 }
 
@@ -282,6 +279,14 @@ fun provideTACertificates(certificates: JSONArray?) = taCertificateCompletion.on
 
 fun provideTASignature(signature: String?) = taSignatureCompletion.onSignatureReceived(
     signature.toByteArray()
+)
+
+fun selectPACEProtocol(protocol: JSONObject) = paceProtocolCompletion.onPaceProtocolSelected(
+    paceProtocolFromJSON(protocol)!!
+)
+
+fun selectCAProtocol(protocol: JSONObject) = caProtocolCompletion.onCaProtocolSelected(
+    caProtocolFromJSON(protocol)!!
 )
 
 fun setTCCParams(callback: Callback, params: JSONObject) {
@@ -545,49 +550,47 @@ fun initCompletion(callback: Callback) = IDocumentReaderInitCompletion { success
 lateinit var paCertificateCompletion: IRfidPKDCertificateCompletion
 lateinit var taCertificateCompletion: IRfidPKDCertificateCompletion
 lateinit var taSignatureCompletion: IRfidTASignatureCompletion
+lateinit var paceProtocolCompletion: IPaceProtocolCompletion
+lateinit var caProtocolCompletion: ICaProtocolCompletion
 
-class RfidReaderRequestType(
-    val doPACertificates: Boolean,
-    val doTACertificates: Boolean,
-    val doTASignature: Boolean
-) {
-    private val onRequestPACertificates = IRfidPACertificates { serialNumber, issuer, completion ->
+var rfidReaderRequest = getRfidReaderRequest()
+
+fun getRfidReaderRequest(config: JSONObject? = null): IRfidReaderRequest {
+    val result = IRfidReaderRequest()
+    if (config == null) return result
+
+    if (config.getBoolean("paCertificates")) result.setPACertificates { serialNumber, issuer, completion ->
         paCertificateCompletion = completion
         sendEvent(paCertificateCompletionEvent, generatePACertificateCompletion(serialNumber, issuer))
     }
-    private val onRequestTACertificates = IRfidTACertificates { keyCAR, completion ->
+    if (config.getBoolean("taCertificates")) result.setTACertificates { keyCAR, completion ->
         taCertificateCompletion = completion
         sendEvent(taCertificateCompletionEvent, keyCAR)
     }
-    private val onRequestTASignature = IRfidTASignature { challenge, completion ->
+    if (config.getBoolean("taSignature")) result.setTASignature { challenge, completion ->
         taSignatureCompletion = completion
         sendEvent(taSignatureCompletionEvent, generateTAChallenge(challenge))
     }
+    if (config.getBoolean("paceProtocol") || config.getBoolean("caProtocol")) result.setRfidAccessControl(object : IRfidAccessControl {
+        override fun onRequestPaceProtocol(list: List<PaceProtocol?>, completion: IPaceProtocolCompletion) {
+            paceProtocolCompletion = completion
+            sendEvent(paceProtocolCompletionEvent, list.toJson(::generatePaceProtocol))
+        }
+        override fun onRequestCaProtocol(list: List<CaProtocol?>, completion: ICaProtocolCompletion) {
+            caProtocolCompletion = completion
+            sendEvent(caProtocolCompletionEvent, list.toJson(::generateCaProtocol))
+        }
+    })
 
-    fun getRfidReaderRequest(): IRfidReaderRequest? = when {
-        !doPACertificates && !doTACertificates && doTASignature -> IRfidReaderRequest(onRequestTASignature)
-        !doPACertificates && doTACertificates && !doTASignature -> IRfidReaderRequest(onRequestTACertificates)
-        !doPACertificates && doTACertificates && doTASignature -> IRfidReaderRequest(onRequestTACertificates, onRequestTASignature)
-        doPACertificates && !doTACertificates && !doTASignature -> IRfidReaderRequest(onRequestPACertificates)
-        doPACertificates && !doTACertificates && doTASignature -> IRfidReaderRequest(onRequestPACertificates, onRequestTASignature)
-        doPACertificates && doTACertificates && !doTASignature -> IRfidReaderRequest(onRequestPACertificates, onRequestTACertificates)
-        doPACertificates && doTACertificates && doTASignature -> IRfidReaderRequest(onRequestPACertificates, onRequestTACertificates, onRequestTASignature)
-        else -> null
-    }
+    return result
 }
-
-var requestType = RfidReaderRequestType(
-    doPACertificates = false,
-    doTACertificates = false,
-    doTASignature = false
-)
 
 @Suppress("DEPRECATION", "MissingPermission")
 fun newIntent(intent: Intent): Boolean {
     if (intent.action != NfcAdapter.ACTION_TECH_DISCOVERED) return false
     val isoDep = IsoDep.get(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG))
     when (nfcFunction) {
-        "readRFID" -> Instance().readRFID(isoDep, rfidReaderCompletion, requestType.getRfidReaderRequest())
+        "readRFID" -> Instance().readRFID(isoDep, rfidReaderCompletion, rfidReaderRequest)
         "engageDeviceNFC" -> Instance().engageDeviceNFC(isoDep) { v1, v2 -> engageDeviceNFCCallback(generateDeviceEngagementCompletion(v1, v2)) }
         "retrieveDataNFC" -> Instance().retrieveDataNFC(isoDep, retrieveDataNFCProp) { v1, v2, v3 -> retrieveDataNFCCallback(generateCompletion(v1, v2, v3)) }
     }

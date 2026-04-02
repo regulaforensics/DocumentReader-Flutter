@@ -41,6 +41,12 @@ class RFIDConfig {
   /// Callback for receiving RFID request data
   TaSignatureCompletion? onRequestTASignature;
 
+  /// Callback for receiving RFID request data
+  PACEProtocolCompletion? onRequestPACEProtocol;
+
+  /// Callback for receiving RFID request data
+  CAProtocolCompletion? onRequestCAProtocol;
+
   /// Regular RFID chip reading.
   ///
   /// [completion] - block to execute after the chip reading process finishes.
@@ -58,6 +64,14 @@ class RFIDConfig {
   RFIDConfig.withoutUI(RFIDCompletion completion)
       : _rfidCompletion = completion,
         _disableUI = true;
+
+  Map<String, dynamic> toJson() => {
+        "paCertificates": onRequestPACertificates != null,
+        "taCertificates": onRequestTACertificates != null,
+        "taSignature": onRequestTASignature != null,
+        "paceProtocol": onRequestPACEProtocol != null,
+        "caProtocol": onRequestCAProtocol != null,
+      };
 }
 
 /// Callback for receiving answer from processing engine.
@@ -93,14 +107,14 @@ typedef ChipDetectedCompletion = void Function();
 /// [error] a brief message for developer.
 typedef RetryReadChipCompletion = void Function(RFIDException error);
 
-/// Callback for receiving RFID request data
+/// Callback for receiving RFID request data.
 typedef PaCertificateCompletion = void Function(
   Uint8List serialNumber,
   PAResourcesIssuer? issuer,
   PKDCertificateRequest request,
 );
 
-/// Callback for receiving RFID request data
+/// Callback for receiving RFID request data.
 typedef TaCertificateCompletion = void Function(
     String? keyCAR, PKDCertificateRequest request);
 
@@ -109,10 +123,24 @@ typedef TaCertificateCompletion = void Function(
 typedef PKDCertificateRequest = Future<void> Function(
     List<PKDCertificate>? certificates);
 
-/// Callback for receiving RFID request data
+/// Callback for receiving RFID request data.
 typedef TaSignatureCompletion = void Function(
     TAChallenge? challenge, TASignatureRequest request);
 
 /// Provided to a user for passing TASignature
 /// to the native part of DocumentReader.
 typedef TASignatureRequest = Future<void> Function(ByteData? signature);
+
+/// Callback for receiving RFID request data.
+typedef PACEProtocolCompletion = void Function(
+    List<PACEProtocol> protocols, PACEProtocolRequest request);
+
+/// Provided to a user for choosing PACEProtocol.
+typedef PACEProtocolRequest = Future<void> Function(PACEProtocol protocol);
+
+/// Callback for receiving RFID request data.
+typedef CAProtocolCompletion = void Function(
+    List<CAProtocol> protocols, CAProtocolRequest request);
+
+/// Provided to a user for choosing CAProtocol.
+typedef CAProtocolRequest = Future<void> Function(CAProtocol protocol);

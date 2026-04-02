@@ -18,10 +18,6 @@ extern UIViewController*_Nonnull(^ _Nonnull RGLWRootViewController)(void);
                  :(RGLWCallback _Nonnull)callback
                  :(RGLWEventSender _Nonnull)eventSender;
 
-@property NSNumber* _Nonnull doRequestPACertificates;
-@property NSNumber* _Nonnull doRequestTACertificates;
-@property NSNumber* _Nonnull doRequestTASignature;
-
 @end
 
 static NSString* _Nonnull completionEvent = @"completion";
@@ -32,5 +28,7 @@ static NSString* _Nonnull rfidOnRetryReadChipEvent = @"rfidOnRetryReadChipEvent"
 static NSString* _Nonnull paCertificateCompletionEvent = @"pa_certificate_completion";
 static NSString* _Nonnull taCertificateCompletionEvent = @"ta_certificate_completion";
 static NSString* _Nonnull taSignatureCompletionEvent = @"ta_signature_completion";
+static NSString* _Nonnull paceProtocolCompletionEvent = @"paceProtocolCompletionEvent";
+static NSString* _Nonnull caProtocolCompletionEvent = @"caProtocolCompletionEvent";
 static NSString* _Nonnull drVideoEncoderCompletionEvent = @"video_encoder_completion";
 static NSString* _Nonnull drOnCustomButtonTappedEvent = @"onCustomButtonTappedEvent";

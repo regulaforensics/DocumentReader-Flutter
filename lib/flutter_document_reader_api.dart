@@ -51,6 +51,8 @@ part 'src/rfid/pa_attribute.dart';
 part 'src/rfid/pa_resources_issuer.dart';
 part 'src/rfid/ta_challenge.dart';
 part 'src/rfid/rfid_error_codes.dart';
+part 'src/rfid/pace_protocol.dart';
+part 'src/rfid/ca_protocol.dart';
 
 part 'src/config/init_config.dart';
 part 'src/config/scanner_config.dart';
@@ -473,11 +475,10 @@ class DocumentReader {
     _setTaCertificateCompletion(config.onRequestTACertificates);
     _setTaSignatureCompletion(config.onRequestTASignature);
 
-    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [
-      config.onRequestPACertificates != null,
-      config.onRequestTACertificates != null,
-      config.onRequestTASignature != null,
-    ]);
+    _setPACEProtocolCompletion(config.onRequestPACEProtocol);
+    _setCAProtocolCompletion(config.onRequestCAProtocol);
+
+    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
   }
 
   /// Used to stop the scanning process.
