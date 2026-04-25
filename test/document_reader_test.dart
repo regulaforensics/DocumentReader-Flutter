@@ -179,6 +179,8 @@ void main() {
     compare('paResourcesIssuer', paResourcesIssuer, PAResourcesIssuer.fromJson);
     compare('pkdCertificate', pkdCertificate, PKDCertificate.fromJson);
     compare('taChallenge', taChallenge, TAChallenge.fromJson);
+    compare('paceProtocol', paceProtocol, PACEProtocol.fromJson);
+    compare('caProtocol', caProtocol, CAProtocol.fromJson);
     compare('tccParams', tccParams, TccParams.fromJson);
 
     compare('deviceRetrievalMethod', deviceRetrievalMethod,

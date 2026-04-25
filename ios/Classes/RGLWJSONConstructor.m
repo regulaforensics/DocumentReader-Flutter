@@ -61,22 +61,22 @@ static NSMutableArray* weakReferencesHolder;
 +(NSDictionary*)generateError:(NSError*)input {
     if(input == nil) return nil;
     NSMutableDictionary *result = [NSMutableDictionary new];
-
+    
     result[@"code"] = [NSNumber numberWithInteger:input.code];
     result[@"message"] = input.localizedDescription;
-
+    
     return result;
 }
 
 +(NSString*)generateCompletion:(NSNumber*)action :(RGLDocumentReaderResults*)results :(NSError*)error {
     NSMutableDictionary *result = [NSMutableDictionary new];
     int actionInt = [action intValue];
-
+    
     if(actionInt == 0 || actionInt == 2 || actionInt == 3 || actionInt == 4 || actionInt == 6)
         result[@"results"] = [self generateDocumentReaderResults:results];
     result[@"action"] = action;
     result[@"error"] = [self generateError:error];
-
+    
     return [RGLWJSONConstructor dictToString: result];
 }
 
@@ -100,11 +100,11 @@ static NSMutableArray* weakReferencesHolder;
 
 +(NSString*)generateFinalizePackageCompletion:(NSNumber*)action :(RGLTransactionInfo*)info :(NSError*)error {
     NSMutableDictionary *result = [NSMutableDictionary new];
-
+    
     result[@"action"] = action;
     result[@"info"] = [self generateTransactionInfo:info];
     result[@"error"] = [self generateError:error];
-
+    
     return [RGLWJSONConstructor dictToString: result];
 }
 
@@ -158,12 +158,12 @@ static NSMutableArray* weakReferencesHolder;
     if (!input) return nil;
     if (!input[@"license"]) return nil;
     RGLConfig *config = [[RGLConfig alloc] initWithLicenseData:[self base64Decode: input[@"license"]]];
-
+    
     if (input[@"databasePath"]) config.databasePath = input[@"databasePath"];
     if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
     if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
-
+    
     return config;
 }
 
@@ -176,19 +176,19 @@ static NSMutableArray* weakReferencesHolder;
     result[@"licenseUpdateTimeout"] = input.licenseUpdateTimeout;
     result[@"licenseUpdate"] = @(input.licenseUpdateCheck);
     result[@"delayedNNLoad"] = @(input.delayedNNLoadEnabled);
-
+    
     return result;
 }
 
 +(RGLBleConfig*)bleDeviceConfigFromJson:(NSDictionary*)input :(RGLBluetooth*)bluetooth {
     if (!input) return nil;
     RGLBleConfig *config = [[RGLBleConfig alloc] initWithBluetooth:bluetooth];
-
+    
     if (input[@"databasePath"]) config.databasePath = input[@"databasePath"];
     if (input[@"licenseUpdateTimeout"]) config.licenseUpdateTimeout = input[@"licenseUpdateTimeout"];
     if (input[@"licenseUpdate"]) config.licenseUpdateCheck = [input[@"licenseUpdate"] boolValue];
     if (input[@"delayedNNLoad"]) config.delayedNNLoadEnabled = [input[@"delayedNNLoad"] boolValue];
-
+    
     return config;
 }
 
@@ -223,7 +223,7 @@ static NSMutableArray* weakReferencesHolder;
     RGLRecognizeConfig *config = [RGLRecognizeConfig alloc];
     if (input[@"scenario"]) config = [config initWithScenario:input[@"scenario"]];
     else config = [config initWithOnlineProcessingConfig:[self onlineProcessingConfigFromJson:input[@"onlineProcessingConfig"]]];
-
+    
     if (input[@"image"]) config.image = [RGLWJSONConstructor imageWithBase64:input[@"image"]];
     if (input[@"data"]) config.imageData = [RGLWJSONConstructor base64Decode:input[@"data"]];
     if (input[@"images"]) {
@@ -238,13 +238,13 @@ static NSMutableArray* weakReferencesHolder;
             [imageInputs addObject:[RGLWJSONConstructor imageInputFromJson: imageInput]];
         config.imageInputs = imageInputs;
     }
-
+    
     if (input[@"scenario"]) config.scenario = input[@"scenario"];
     if (input[@"livePortrait"]) config.livePortrait = [self imageWithBase64:input[@"livePortrait"]];
     if (input[@"extPortrait"]) config.extPortrait = [self imageWithBase64:input[@"extPortrait"]];
     if (input[@"oneShotIdentification"]) config.oneShotIdentification = input[@"oneShotIdentification"];
     if (input[@"dtc"]) config.dtc = [RGLWJSONConstructor base64Decode:input[@"dtc"]];
-
+    
     return config;
 }
 
@@ -533,10 +533,10 @@ static NSMutableArray* weakReferencesHolder;
 
 +(RGLRFIDParams*)rfidParamsFromJson:(NSDictionary*)input {
     RGLRFIDParams* result = [RGLRFIDParams new];
-
+    
     if([input valueForKey:@"paIgnoreNotificationCodes"] != nil)
         result.paIgnoreNotificationCodes = [input valueForKey:@"paIgnoreNotificationCodes"];
-
+    
     return result;
 }
 
@@ -561,7 +561,7 @@ static NSMutableArray* weakReferencesHolder;
 
 +(RGLFaceAPIParams*)faceAPIParamsFromJson:(NSDictionary*)input {
     RGLFaceAPIParams* result = [RGLFaceAPIParams defaultParams];
-
+    
     if([input valueForKey:@"url"] != nil)
         result.url = [input valueForKey:@"url"];
     if([input valueForKey:@"mode"] != nil)
@@ -578,7 +578,7 @@ static NSMutableArray* weakReferencesHolder;
         result.proxyPassword = [input valueForKey:@"proxyPassword"];
     if([input valueForKey:@"proxyType"] != nil)
         result.proxyType = [input valueForKey:@"proxyType"];
-
+    
     return result;
 }
 
@@ -600,14 +600,14 @@ static NSMutableArray* weakReferencesHolder;
 
 +(RGLFaceAPISearchParams*)faceAPISearchParamsFromJson:(NSDictionary*)input {
     RGLFaceAPISearchParams* result = [RGLFaceAPISearchParams new];
-
+    
     if([input valueForKey:@"limit"] != nil)
         result.limit = [input valueForKey:@"limit"];
     if([input valueForKey:@"threshold"] != nil)
         result.threshold = [input valueForKey:@"threshold"];
     if([input valueForKey:@"groupIds"] != nil)
         result.groupIDs = [input valueForKey:@"groupIds"];
-
+    
     return result;
 }
 
@@ -1055,7 +1055,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"notificationCode"] = @(input.code & -0x10000);
     result[@"dataFileType"] = @((int)input.attachment);
     result[@"progress"] = @((int)input.value);
-
+    
     return [RGLWJSONConstructor dictToString: result];
 }
 
@@ -1714,10 +1714,10 @@ static NSMutableArray* weakReferencesHolder;
 +(NSDictionary*)generateDataField:(RGLDataField*)input {
     NSMutableDictionary *result = [NSMutableDictionary new];
     if(input == nil) return nil;
-
+    
     result[@"data"] = input.data;
     result[@"fieldType"] = @(input.fieldType);
-
+    
     return result;
 }
 
@@ -1835,7 +1835,7 @@ static NSMutableArray* weakReferencesHolder;
     for(NSDictionary* item in [input valueForKey:@"checks"])
         [array addObject:[self authenticityCheckFromJson:item]];
     RGLDocumentReaderAuthenticityResult* result = [[RGLDocumentReaderAuthenticityResult alloc]
-     initWithAuthenticityChecks:array];
+                                                   initWithAuthenticityChecks:array];
     if (input[@"status"]) [result setValue:input[@"status"] forKey:@"_security"];
     return result;
 }
@@ -2434,7 +2434,7 @@ static NSMutableArray* weakReferencesHolder;
     for (NSString* key in map) {
         [result addField:key intentToRetain:[map[key] integerValue]];
     }
-
+    
     return result;
     
 }
@@ -2459,7 +2459,7 @@ static NSMutableArray* weakReferencesHolder;
         [nameSpaces addObject:[self nameSpaceMDLFromJson: item]];
     }
     [result setValue:nameSpaces forKey:@"nameSpaces"];
-
+    
     return result;
     
 }
@@ -2632,7 +2632,7 @@ static NSMutableArray* weakReferencesHolder;
     if (input[@"video"]) result.video = [input[@"video"] boolValue];
     if (input[@"rfidSession"]) result.rfidSession = [input[@"rfidSession"] boolValue];
     if (input[@"mdlSession"]) result.mdlSession = [input[@"mdlSession"] boolValue];
-
+    
     return result;
 }
 
@@ -2644,6 +2644,52 @@ static NSMutableArray* weakReferencesHolder;
     result[@"video"] = @(input.video);
     result[@"rfidSession"] = @(input.rfidSession);
     result[@"mdlSession"] = @(input.mdlSession);
+    
+    return result;
+}
+
++(RGLRFIDAccessControlPACE*)paceProtocolFromJson:(NSDictionary*)input {
+    NSMutableDictionary* json = input.mutableCopy;
+    
+    json[@"Version"] = input[@"version"];
+    json[@"StdDomainParams"] = input[@"stdDomainParams"];
+    json[@"KeyAlgorithm"] = input[@"keyAlgorithm"];
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    return [[RGLRFIDAccessControlPACE alloc] performSelector:NSSelectorFromString(@"initWithJSON:") withObject:json];
+#pragma clang diagnostic pop
+}
+
++(NSDictionary*)generatePaceProtocol:(RGLRFIDAccessControlPACE*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"version"] = [NSString stringWithFormat:@"%ld", (long)input.version];
+    result[@"stdDomainParams"] = input.stdDomainParams;
+    result[@"keyAlgorithm"] = input.keyAlgorithm;
+    
+    return result;
+}
+
++(RGLRFIDAccessControlCA*)caProtocolFromJson:(NSDictionary*)input {
+    NSMutableDictionary* json = input.mutableCopy;
+    
+    json[@"Version"] = input[@"version"];
+    json[@"Scheme"] = input[@"scheme"];
+    json[@"KeyAlgorithm"] = input[@"keyAlgorithm"];
+    json[@"ChipIndividual"] = input[@"chipIndividual"];
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    return [[RGLRFIDAccessControlCA alloc] performSelector:NSSelectorFromString(@"initWithJSON:") withObject:json];
+#pragma clang diagnostic pop
+}
+
++(NSDictionary*)generateCaProtocol:(RGLRFIDAccessControlCA*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"version"] = [NSString stringWithFormat:@"%ld", (long)input.version];
+    result[@"scheme"] = input.scheme;
+    result[@"keyAlgorithm"] = input.keyAlgorithm;
+    result[@"chipIndividual"] = [NSNumber numberWithBool: input.chipIndividual];
     
     return result;
 }
@@ -2671,26 +2717,26 @@ static NSMutableArray* weakReferencesHolder;
     }
     
     RGLDocumentReaderResults* result = [[RGLDocumentReaderResults alloc]
-            initWithDocumentTypes:documentType
-            textResult:[self documentReaderTextResultFromJson: [input valueForKey:@"textResult"]]
-            graphicResult:[self documentReaderGraphicResultFromJson: [input valueForKey:@"graphicResult"]]
-            rawResult:[input valueForKey:@"rawResult"]
-            documentPosition:documentPosition
-            barcodePosition:barcodePosition
-            mrzPosition:mrzPosition
-            imageQualityGroup:imageQuality
-            authenticityResults:[self documentReaderAuthenticityResultFromJson: [input valueForKey:@"authenticityResult"]]
-            rfidSessionData:[self rfidSessionDataFromJson: [input valueForKey:@"rfidSessionData"]]
-            chipPage:[[input valueForKey:@"chipPage"] integerValue]
-            barcodeResult:[self documentReaderBarcodeResultFromJson: [input valueForKey:@"barcodeResult"]]
-            vdsncData:[self vdsncDataFromJson: [input valueForKey:@"vdsncData"]]
-            vdsData:[self vdsDataFromJson: [input valueForKey:@"vdsData"]]
-            status:[self documentReaderResultsStatusFromJson: [input valueForKey:@"status"]]
-            processingFinished:[[input valueForKey:@"processingFinishedStatus"] integerValue]
-            morePagesAvailable:[[input valueForKey:@"morePagesAvailable"] integerValue]
-            elapsedTime:[[input valueForKey:@"elapsedTime"] integerValue]
-            elapsedTimeRFID:[[input valueForKey:@"elapsedTimeRFID"] integerValue]
-            transactionInfo:[self transactionInfoFromJson:[input valueForKey:@"transactionInfo"]]];
+                                        initWithDocumentTypes:documentType
+                                        textResult:[self documentReaderTextResultFromJson: [input valueForKey:@"textResult"]]
+                                        graphicResult:[self documentReaderGraphicResultFromJson: [input valueForKey:@"graphicResult"]]
+                                        rawResult:[input valueForKey:@"rawResult"]
+                                        documentPosition:documentPosition
+                                        barcodePosition:barcodePosition
+                                        mrzPosition:mrzPosition
+                                        imageQualityGroup:imageQuality
+                                        authenticityResults:[self documentReaderAuthenticityResultFromJson: [input valueForKey:@"authenticityResult"]]
+                                        rfidSessionData:[self rfidSessionDataFromJson: [input valueForKey:@"rfidSessionData"]]
+                                        chipPage:[[input valueForKey:@"chipPage"] integerValue]
+                                        barcodeResult:[self documentReaderBarcodeResultFromJson: [input valueForKey:@"barcodeResult"]]
+                                        vdsncData:[self vdsncDataFromJson: [input valueForKey:@"vdsncData"]]
+                                        vdsData:[self vdsDataFromJson: [input valueForKey:@"vdsData"]]
+                                        status:[self documentReaderResultsStatusFromJson: [input valueForKey:@"status"]]
+                                        processingFinished:[[input valueForKey:@"processingFinishedStatus"] integerValue]
+                                        morePagesAvailable:[[input valueForKey:@"morePagesAvailable"] integerValue]
+                                        elapsedTime:[[input valueForKey:@"elapsedTime"] integerValue]
+                                        elapsedTimeRFID:[[input valueForKey:@"elapsedTimeRFID"] integerValue]
+                                        transactionInfo:[self transactionInfoFromJson:[input valueForKey:@"transactionInfo"]]];
     
     [result setValue:[RGLWJSONConstructor base64Decode:input[@"dtcData"]] forKey:@"dtcData"];
     [result setValue:input[@"bsiTr03135Results"] forKey:@"bsiTr03135Results"];

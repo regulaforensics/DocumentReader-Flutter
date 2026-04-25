@@ -430,6 +430,14 @@ class Tests: XCTestCase {
         compare(name: "tccParams", fromJson: RGLWJSONConstructor.tccParams, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_paceProtocol() {
+        compare(name: "paceProtocol", fromJson: RGLWJSONConstructor.paceProtocol, generate: RGLWJSONConstructor.generatePaceProtocol)
+    }
+    
+    func test_caProtocol() {
+        compare(name: "caProtocol", fromJson: RGLWJSONConstructor.caProtocol, generate: RGLWJSONConstructor.generateCaProtocol)
+    }
+    
     // mdl
     
     func test_deviceRetrievalMethod() {

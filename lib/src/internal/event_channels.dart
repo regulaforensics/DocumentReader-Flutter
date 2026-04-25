@@ -1,11 +1,3 @@
-//
-//  EventChannels.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 // DocumentReaderCompletion and RFIDCompletion use the same eventChannel so
@@ -132,12 +124,39 @@ TaSignatureCompletion? _taSignatureCompletion;
 void _setTaSignatureCompletion(TaSignatureCompletion? completion) {
   _taSignatureCompletion = completion;
   _eventChannel('ta_signature_completion', (msg) {
-    _taSignatureCompletion?.call(TAChallenge.fromJson(json.decode(msg)), (
-      signature,
-    ) async {
-      await _bridge.invokeMethod("provideTASignature", [
-        _dataToBase64(signature),
-      ]);
-    });
+    _taSignatureCompletion?.call(
+      TAChallenge.fromJson(json.decode(msg)),
+      (signature) async {
+        await _bridge.invokeMethod("provideTASignature", [
+          _dataToBase64(signature),
+        ]);
+      },
+    );
+  });
+}
+
+PACEProtocolCompletion? _paceProtocolCompletion;
+void _setPACEProtocolCompletion(PACEProtocolCompletion? completion) {
+  _paceProtocolCompletion = completion;
+  _eventChannel('paceProtocolCompletionEvent', (msg) {
+    _paceProtocolCompletion?.call(
+      (msg as List).map((item) => PACEProtocol.fromJson(item)!).toList(),
+      (protocol) async {
+        await _bridge.invokeMethod("selectPACEProtocol", [protocol.toJson()]);
+      },
+    );
+  });
+}
+
+CAProtocolCompletion? _caProtocolCompletion;
+void _setCAProtocolCompletion(CAProtocolCompletion? completion) {
+  _caProtocolCompletion = completion;
+  _eventChannel('caProtocolCompletionEvent', (msg) {
+    _caProtocolCompletion?.call(
+      (msg as List).map((item) => CAProtocol.fromJson(item)!).toList(),
+      (protocol) async {
+        await _bridge.invokeMethod("selectCAProtocol", [protocol.toJson()]);
+      },
+    );
   });
 }

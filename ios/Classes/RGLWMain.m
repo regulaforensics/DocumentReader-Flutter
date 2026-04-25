@@ -41,12 +41,14 @@
         @"recognize": ^{ [self recognize :args[0]]; },
         @"startNewPage": ^{ [self startNewPage]; },
         @"stopScanner": ^{ [self stopScanner]; },
-        @"startRFIDReader": ^{ [self startRFIDReader :args[0] :args[1] :args[2]]; },
-        @"readRFID": ^{ [self readRFID :args[0] :args[1] :args[2]]; },
+        @"startRFIDReader": ^{ [self startRFIDReader :args[0]]; },
+        @"readRFID": ^{ [self readRFID :args[0]]; },
         @"stopRFIDReader": ^{ [self stopRFIDReader]; },
         @"providePACertificates": ^{ [self providePACertificates :args[0]]; },
         @"provideTACertificates": ^{ [self provideTACertificates :args[0]]; },
         @"provideTASignature": ^{ [self provideTASignature :args[0]]; },
+        @"selectPACEProtocol": ^{ [self selectPACEProtocol :args[0]]; },
+        @"selectCAProtocol": ^{ [self selectCAProtocol :args[0]]; },
         @"setTCCParams": ^{ [self setTCCParams :args[0] :callback]; },
         @"addPKDCertificates": ^{ [self addPKDCertificates :args[0]]; },
         @"clearPKDCertificates": ^{ [self clearPKDCertificates]; },
@@ -249,19 +251,15 @@ static NSDictionary* headers;
     });
 }
 
-+(void)startRFIDReader:(NSNumber*)paCert :(NSNumber*)taCert :(NSNumber*)taSig {
-    this.doRequestPACertificates = paCert;
-    this.doRequestTACertificates = taCert;
-    this.doRequestTASignature = taSig;
++(void)startRFIDReader:(NSDictionary*)config {
+    rfidReaderRequest = config;
     dispatch_async(dispatch_get_main_queue(), ^{
         [RGLDocReader.shared startRFIDReaderFromPresenter:RGLWRootViewController() completion:[self completion]];
     });
 }
 
-+(void)readRFID:(NSNumber*)paCert :(NSNumber*)taCert :(NSNumber*)taSig {
-    this.doRequestPACertificates = paCert;
-    this.doRequestTACertificates = taCert;
-    this.doRequestTASignature = taSig;
++(void)readRFID:(NSDictionary*)config {
+    rfidReaderRequest = config;
     [RGLDocReader.shared readRFID:^(RGLRFIDNotificationAction notificationAction, RGLRFIDNotify* _Nullable notification) {
         if (notification != nil) sendEvent(rfidOnProgressEvent, [RGLWJSONConstructor generateDocumentReaderNotification:notification]);
     } completion :^(RGLRFIDCompleteAction action, RGLDocumentReaderResults * _Nullable results, NSError * _Nullable error, RGLRFIDErrorCodes errorCode) {
@@ -289,6 +287,14 @@ static NSDictionary* headers;
 
 +(void)provideTASignature:(NSString*)signature {
     taSignatureCompletion([RGLWJSONConstructor base64Decode:signature]);
+}
+
++(void)selectPACEProtocol:(NSDictionary*)protocol {
+    paceProtocolCompletion([RGLWJSONConstructor paceProtocolFromJson:protocol]);
+}
+
++(void)selectCAProtocol:(NSDictionary*)protocol {
+    caProtocolCompletion([RGLWJSONConstructor caProtocolFromJson:protocol]);
 }
 
 +(void)setTCCParams:(NSDictionary*)params :(RGLWCallback)callback {
@@ -626,9 +632,13 @@ RGLWCallback savedCallbackForBluetoothResult;
 RGLRFIDCertificatesCallback paCertificateCompletion;
 RGLRFIDCertificatesCallback taCertificateCompletion;
 RGLWRFIDSignatureCallback taSignatureCompletion;
+RGLRFIDAccessControlPACECallback paceProtocolCompletion;
+RGLRFIDAccessControlCACallback caProtocolCompletion;
+
+NSDictionary* rfidReaderRequest;
 
 - (void)onRequestPACertificatesWithSerial:(NSData *)serialNumber issuer:(RGLPAResourcesIssuer *)issuer callback:(RGLRFIDCertificatesCallback)callback {
-    if([self.doRequestPACertificates boolValue]) {
+    if (rfidReaderRequest && [rfidReaderRequest[@"paCertificates"] boolValue]) {
         paCertificateCompletion = callback;
         sendEvent(paCertificateCompletionEvent, [RGLWJSONConstructor generatePACertificateCompletion:serialNumber :issuer]);
     } else {
@@ -638,7 +648,7 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
 }
 
 - (void)onRequestTACertificatesWithKey:(NSString *)keyCAR callback:(RGLRFIDCertificatesCallback)callback {
-    if([self.doRequestTACertificates boolValue]) {
+    if (rfidReaderRequest && [rfidReaderRequest[@"taCertificates"] boolValue]) {
         taCertificateCompletion = callback;
         sendEvent(taCertificateCompletionEvent, keyCAR);
     } else {
@@ -648,11 +658,37 @@ RGLWRFIDSignatureCallback taSignatureCompletion;
 }
 
 - (void)onRequestTASignatureWithChallenge:(RGLTAChallenge *)challenge callback:(void(^)(NSData *signature))callback {
-    if([self.doRequestTASignature boolValue]) {
+    if (rfidReaderRequest && [rfidReaderRequest[@"taSignature"] boolValue]) {
         taSignatureCompletion = callback;
         sendEvent(taSignatureCompletionEvent, [RGLWJSONConstructor dictToString: [RGLWJSONConstructor generateTAChallenge:challenge]]);
     } else {
         taSignatureCompletion = nil;
+        callback(nil);
+    }
+}
+
+- (void)onRequestPACEProtocolWithOptions:(NSArray<RGLRFIDAccessControlPACE*>*)protocols callback:(RGLRFIDAccessControlPACECallback)callback {
+    if (rfidReaderRequest && [rfidReaderRequest[@"paceProtocol"] boolValue]) {
+        paceProtocolCompletion = callback;
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLRFIDAccessControlPACE* item in protocols)
+            [array addObject:[RGLWJSONConstructor generatePaceProtocol:item]];
+        sendEvent(paceProtocolCompletionEvent, [RGLWJSONConstructor arrayToString: array]);
+    } else {
+        paceProtocolCompletion = nil;
+        callback(nil);
+    }
+}
+
+- (void)onRequestCAProtocolWithOptions:(NSArray<RGLRFIDAccessControlCA*>*)protocols callback:(RGLRFIDAccessControlCACallback)callback {
+    if (rfidReaderRequest && [rfidReaderRequest[@"caProtocol"] boolValue]) {
+        caProtocolCompletion = callback;
+        NSMutableArray *array = [NSMutableArray new];
+        for(RGLRFIDAccessControlCA* item in protocols)
+            [array addObject:[RGLWJSONConstructor generateCaProtocol:item]];
+        sendEvent(caProtocolCompletionEvent, [RGLWJSONConstructor arrayToString: array]);
+    } else {
+        caProtocolCompletionEvent = nil;
         callback(nil);
     }
 }
