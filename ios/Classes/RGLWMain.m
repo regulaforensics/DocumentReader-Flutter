@@ -638,7 +638,7 @@ RGLRFIDAccessControlCACallback caProtocolCompletion;
 NSDictionary* rfidReaderRequest;
 
 - (void)onRequestPACertificatesWithSerial:(NSData *)serialNumber issuer:(RGLPAResourcesIssuer *)issuer callback:(RGLRFIDCertificatesCallback)callback {
-    if (rfidReaderRequest && [rfidReaderRequest[@"paCertificates"] boolValue]) {
+    if ([rfidReaderRequest isKindOfClass:[NSDictionary class]] && [rfidReaderRequest[@"paCertificates"] boolValue]) {
         paCertificateCompletion = callback;
         sendEvent(paCertificateCompletionEvent, [RGLWJSONConstructor generatePACertificateCompletion:serialNumber :issuer]);
     } else {
@@ -648,7 +648,7 @@ NSDictionary* rfidReaderRequest;
 }
 
 - (void)onRequestTACertificatesWithKey:(NSString *)keyCAR callback:(RGLRFIDCertificatesCallback)callback {
-    if (rfidReaderRequest && [rfidReaderRequest[@"taCertificates"] boolValue]) {
+    if ([rfidReaderRequest isKindOfClass:[NSDictionary class]] && [rfidReaderRequest[@"taCertificates"] boolValue]) {
         taCertificateCompletion = callback;
         sendEvent(taCertificateCompletionEvent, keyCAR);
     } else {
@@ -658,7 +658,7 @@ NSDictionary* rfidReaderRequest;
 }
 
 - (void)onRequestTASignatureWithChallenge:(RGLTAChallenge *)challenge callback:(void(^)(NSData *signature))callback {
-    if (rfidReaderRequest && [rfidReaderRequest[@"taSignature"] boolValue]) {
+    if ([rfidReaderRequest isKindOfClass:[NSDictionary class]] && [rfidReaderRequest[@"taSignature"] boolValue]) {
         taSignatureCompletion = callback;
         sendEvent(taSignatureCompletionEvent, [RGLWJSONConstructor dictToString: [RGLWJSONConstructor generateTAChallenge:challenge]]);
     } else {
@@ -668,7 +668,7 @@ NSDictionary* rfidReaderRequest;
 }
 
 - (void)onRequestPACEProtocolWithOptions:(NSArray<RGLRFIDAccessControlPACE*>*)protocols callback:(RGLRFIDAccessControlPACECallback)callback {
-    if (rfidReaderRequest && [rfidReaderRequest[@"paceProtocol"] boolValue]) {
+    if ([rfidReaderRequest isKindOfClass:[NSDictionary class]] && [rfidReaderRequest[@"paceProtocol"] boolValue]) {
         paceProtocolCompletion = callback;
         NSMutableArray *array = [NSMutableArray new];
         for(RGLRFIDAccessControlPACE* item in protocols)
@@ -681,7 +681,7 @@ NSDictionary* rfidReaderRequest;
 }
 
 - (void)onRequestCAProtocolWithOptions:(NSArray<RGLRFIDAccessControlCA*>*)protocols callback:(RGLRFIDAccessControlCACallback)callback {
-    if (rfidReaderRequest && [rfidReaderRequest[@"caProtocol"] boolValue]) {
+    if ([rfidReaderRequest isKindOfClass:[NSDictionary class]] && [rfidReaderRequest[@"caProtocol"] boolValue]) {
         caProtocolCompletion = callback;
         NSMutableArray *array = [NSMutableArray new];
         for(RGLRFIDAccessControlCA* item in protocols)
