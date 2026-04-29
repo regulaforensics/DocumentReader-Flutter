@@ -26,6 +26,8 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
     setupEventChannel(registrar, paCertificateCompletionEvent, [RGLWPACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taCertificateCompletionEvent, [RGLWTACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taSignatureCompletionEvent, [RGLWTASignatureCompletionStreamHandler new]);
+    setupEventChannel(registrar, paceProtocolCompletionEvent, [RGLWPACEProtocolCompletionStreamHandler new]);
+    setupEventChannel(registrar, caProtocolCompletionEvent, [RGLWCAProtocolCompletionStreamHandler new]);
     setupEventChannel(registrar, drVideoEncoderCompletionEvent, [RGLWVideoEncoderCompletionStreamHandler new]);
     setupEventChannel(registrar, drOnCustomButtonTappedEvent, [RGLWOnCustomButtonTappedStreamHandler new]);
 
@@ -142,6 +144,30 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
     eventSinks[taSignatureCompletionEvent] = nil;
+    return nil;
+}
+@end
+
+@implementation RGLWPACEProtocolCompletionStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    eventSinks[paceProtocolCompletionEvent] = eventSink;
+    return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    eventSinks[paceProtocolCompletionEvent] = nil;
+    return nil;
+}
+@end
+
+@implementation RGLWCAProtocolCompletionStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    eventSinks[caProtocolCompletionEvent] = eventSink;
+    return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    eventSinks[caProtocolCompletionEvent] = nil;
     return nil;
 }
 @end

@@ -328,6 +328,12 @@ class FlutterDocumentReaderApiPluginTest {
     @Test
     fun tccParams() = compare("tccParams", ::tccParamsFromJSON, ::generateTccParams)
 
+    @Test
+    fun paceProtocol() = compare("paceProtocol", ::paceProtocolFromJSON, ::generatePaceProtocol)
+
+    @Test
+    fun caProtocol() = compare("caProtocol", ::caProtocolFromJSON, ::generateCaProtocol)
+
     // mdl
 
     @Test

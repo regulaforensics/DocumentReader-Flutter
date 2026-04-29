@@ -47,7 +47,9 @@ import com.regula.documentreader.api.params.mdl.DeviceRetrievalMethod
 import com.regula.documentreader.api.params.mdl.DocumentRequest18013MDL
 import com.regula.documentreader.api.params.mdl.DocumentRequestMDL
 import com.regula.documentreader.api.params.mdl.NameSpaceMDL
+import com.regula.documentreader.api.params.rfid.CaProtocol
 import com.regula.documentreader.api.params.rfid.PKDCertificate
+import com.regula.documentreader.api.params.rfid.PaceProtocol
 import com.regula.documentreader.api.params.rfid.RFIDParams
 import com.regula.documentreader.api.params.rfid.TccParams
 import com.regula.documentreader.api.params.rfid.authorization.PAAttribute
@@ -2136,5 +2138,39 @@ fun generateFinalizeConfig(input: FinalizeConfig?) = input?.let {
         "video" to it.getPrivateProperty("video"),
         "rfidSession" to it.getPrivateProperty("rfidSession"),
         "mdlSession" to it.getPrivateProperty("mdlSession"),
+    ).toJson()
+}
+
+fun paceProtocolFromJSON(input: JSONObject?) = input?.let {
+    PaceProtocol(
+        it.getString("version"),
+        it.getString("stdDomainParams"),
+        it.getString("keyAlgorithm"),
+    )
+}
+
+fun generatePaceProtocol(input: PaceProtocol?) = input?.let {
+    mapOf(
+        "version" to it.version,
+        "stdDomainParams" to it.stdDomainParams,
+        "keyAlgorithm" to it.keyAlgorithm,
+    ).toJson()
+}
+
+fun caProtocolFromJSON(input: JSONObject?) = input?.let {
+    CaProtocol(
+        it.getString("version"),
+        it.getString("scheme"),
+        it.getString("keyAlgorithm"),
+        it.getBoolean("chipIndividual"),
+    )
+}
+
+fun generateCaProtocol(input: CaProtocol?) = input?.let {
+    mapOf(
+        "version" to it.version,
+        "scheme" to it.scheme,
+        "keyAlgorithm" to it.keyAlgorithm,
+        "chipIndividual" to it.isChipIndividual,
     ).toJson()
 }
