@@ -33,12 +33,16 @@ class FlutterDocumentReaderApiPluginTest {
     fun imageInputData() = compare("imageInputData", ::imageInputDataFromJSON, ::generateImageInputData)
 
     @Test
-    fun recognizeConfig() = compare("recognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig)
+    fun recognizeConfig() = compare(
+        "recognizeConfig", ::recognizeConfigFromJSON, ::generateRecognizeConfig,
+        "data"
+    )
 
     @Test
     fun recognizeConfig2() = compare(
         "recognizeConfig2", ::recognizeConfigFromJSON, ::generateRecognizeConfig,
-        "onlineProcessingConfig.requestHeaders"
+        "onlineProcessingConfig.requestHeaders",
+        "data"
     )
 
     @Test

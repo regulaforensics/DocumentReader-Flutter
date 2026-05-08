@@ -1,11 +1,3 @@
-//
-//  document_reader_test.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 import 'package:flutter_document_reader_api/flutter_document_reader_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 

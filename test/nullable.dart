@@ -1,11 +1,12 @@
 Map<String, List<String>?> nullableMap = {
   "initConfig": ["databasePath", "customDb", "licenseUpdateTimeout"],
-  "recognizeConfig": [
+    "recognizeConfig": [
     "onlineProcessingConfig",
     "livePortrait",
     "extPortrait",
     "data",
     "images",
+    "dataList",
     "imageInputData",
   ],
   "recognizeConfig2": ["scenario", "image"],

@@ -51,6 +51,7 @@ fun setFunctionality(config: Functionality, input: JSONObject) = input.forEach {
         "manualMultipageMode" -> editor.setManualMultipageMode(v as Boolean)
         "torchTurnedOn" -> editor.setTorchTurnedOn(v as Boolean)
         "preventScreenRecording" -> editor.setPreventScreenRecording(v as Boolean)
+        "hideStatusBar" -> editor.setHideStatusBar(v as Boolean)
         "showCaptureButtonDelayFromDetect" -> editor.setShowCaptureButtonDelayFromDetect(v.toLong())
         "showCaptureButtonDelayFromStart" -> editor.setShowCaptureButtonDelayFromStart(v.toLong())
         "orientation" -> editor.setOrientation(v.toInt())
@@ -88,6 +89,7 @@ fun getFunctionality(input: Functionality) = mapOf(
     "manualMultipageMode" to input.isManualMultipageMode,
     "torchTurnedOn" to input.isTorchTurnedOn,
     "preventScreenRecording" to input.doPreventScreenRecording(),
+    "hideStatusBar" to input.doHideStatusBar(),
     "showCaptureButtonDelayFromDetect" to input.showCaptureButtonDelayFromDetect,
     "showCaptureButtonDelayFromStart" to input.showCaptureButtonDelayFromStart,
     "orientation" to input.orientation,
@@ -129,7 +131,6 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "updateOCRValidityByGlare" -> processParams.updateOCRValidityByGlare = v as Boolean
         "noGraphics" -> processParams.noGraphics = v as Boolean
         "multiDocOnImage" -> processParams.multiDocOnImage = v as Boolean
-        "forceReadMrzBeforeLocate" -> processParams.forceReadMrzBeforeLocate = v as Boolean
         "parseBarcodes" -> processParams.parseBarcodes = v as Boolean
         "shouldReturnPackageForReprocess" -> processParams.shouldReturnPackageForReprocess = v as Boolean
         "disablePerforationOCR" -> processParams.disablePerforationOCR = v as Boolean
@@ -153,6 +154,7 @@ fun setProcessParams(processParams: ProcessParam, opts: JSONObject) = opts.forEa
         "strictExpiryDate" -> processParams.strictExpiryDate = v as Boolean
         "debugSaveBinarySession" -> processParams.debugSaveBinarySession = v as Boolean
         "checkVDS" -> processParams.checkVDS = v as Boolean
+        "strictAgeCheck" -> processParams.strictAgeCheck = v as Boolean
         "measureSystem" -> processParams.measureSystem = v.toInt()
         "barcodeParserType" -> processParams.barcodeParserType = v.toInt()
         "perspectiveAngle" -> processParams.perspectiveAngle = v.toInt()
@@ -222,7 +224,6 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "updateOCRValidityByGlare" to processParams.updateOCRValidityByGlare,
     "noGraphics" to processParams.noGraphics,
     "multiDocOnImage" to processParams.multiDocOnImage,
-    "forceReadMrzBeforeLocate" to processParams.forceReadMrzBeforeLocate,
     "parseBarcodes" to processParams.parseBarcodes,
     "shouldReturnPackageForReprocess" to processParams.shouldReturnPackageForReprocess,
     "disablePerforationOCR" to processParams.disablePerforationOCR,
@@ -246,6 +247,7 @@ fun getProcessParams(processParams: ProcessParam) = mapOf(
     "strictExpiryDate" to processParams.strictExpiryDate,
     "debugSaveBinarySession" to processParams.debugSaveBinarySession,
     "checkVDS" to processParams.checkVDS,
+    "strictAgeCheck" to processParams.strictAgeCheck,
     "measureSystem" to processParams.measureSystem,
     "barcodeParserType" to processParams.barcodeParserType,
     "perspectiveAngle" to processParams.perspectiveAngle,
@@ -753,6 +755,7 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
         "checkBlackAndWhiteCopy" -> input.checkBlackAndWhiteCopy = v as Boolean
         "checkDynaprint" -> input.checkDynaprint = v as Boolean
         "checkGeometry" -> input.checkGeometry = v as Boolean
+        "checkBarcodeBackground" -> input.checkBarcodeBackground = v as Boolean
     }
 }
 
@@ -765,6 +768,7 @@ fun getLivenessParams(input: LivenessParams?) = input?.let {
         "checkBlackAndWhiteCopy" to input.checkBlackAndWhiteCopy,
         "checkDynaprint" to input.checkDynaprint,
         "checkGeometry" to input.checkGeometry,
+        "checkBarcodeBackground" to input.checkBarcodeBackground,
     ).toJson()
 }
 
