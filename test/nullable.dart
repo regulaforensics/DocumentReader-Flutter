@@ -6,6 +6,7 @@ Map<String, List<String>?> nullableMap = {
     "extPortrait",
     "data",
     "images",
+    "dataList",
     "imageInputData",
   ],
   "recognizeConfig2": ["scenario", "image"],

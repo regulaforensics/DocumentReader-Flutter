@@ -163,8 +163,6 @@
         processParams.noGraphics = [options valueForKey:@"noGraphics"];
     if([options valueForKey:@"multiDocOnImage"] != nil)
         processParams.multiDocOnImage = [options valueForKey:@"multiDocOnImage"];
-    if([options valueForKey:@"forceReadMrzBeforeLocate"] != nil)
-        processParams.forceReadMrzBeforeLocate = [options valueForKey:@"forceReadMrzBeforeLocate"];
     if([options valueForKey:@"parseBarcodes"] != nil)
         processParams.parseBarcodes = [options valueForKey:@"parseBarcodes"];
     if([options valueForKey:@"shouldReturnPackageForReprocess"] != nil)
@@ -197,6 +195,7 @@
     if (options[@"strictExpiryDate"]) processParams.strictExpiryDate = options[@"strictExpiryDate"];
     if (options[@"debugSaveBinarySession"]) processParams.debugSaveBinarySession = options[@"debugSaveBinarySession"];
     if (options[@"checkVDS"]) processParams.checkVDS = options[@"checkVDS"];
+    if (options[@"strictAgeCheck"]) processParams.strictAgeCheck = options[@"strictAgeCheck"];
     
     // Int
     if([options valueForKey:@"measureSystem"] != nil)
@@ -308,7 +307,6 @@
     result[@"updateOCRValidityByGlare"] = processParams.updateOCRValidityByGlare;
     result[@"noGraphics"] = processParams.noGraphics;
     result[@"multiDocOnImage"] = processParams.multiDocOnImage;
-    result[@"forceReadMrzBeforeLocate"] = processParams.forceReadMrzBeforeLocate;
     result[@"parseBarcodes"] = processParams.parseBarcodes;
     result[@"shouldReturnPackageForReprocess"] = processParams.shouldReturnPackageForReprocess;
     result[@"disablePerforationOCR"] = processParams.disablePerforationOCR;
@@ -332,6 +330,7 @@
     result[@"strictExpiryDate"] = processParams.strictExpiryDate;
     result[@"debugSaveBinarySession"] = processParams.debugSaveBinarySession;
     result[@"checkVDS"] = processParams.checkVDS;
+    result[@"strictAgeCheck"] = processParams.strictAgeCheck;
     
     // Int
     result[@"measureSystem"] = [NSNumber numberWithInteger:processParams.measureSystem];
@@ -1065,6 +1064,7 @@
     if(input[@"checkBlackAndWhiteCopy"]) result.checkBlackAndWhiteCopy = input[@"checkBlackAndWhiteCopy"];
     if(input[@"checkDynaprint"]) result.checkDynaprint = input[@"checkDynaprint"];
     if(input[@"checkGeometry"]) result.checkGeometry = input[@"checkGeometry"];
+    if(input[@"checkBarcodeBackground"]) result.checkBarcodeBackground = input[@"checkBarcodeBackground"];
 }
 
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input {
@@ -1078,6 +1078,7 @@
     result[@"checkBlackAndWhiteCopy"] = input.checkBlackAndWhiteCopy;
     result[@"checkDynaprint"] = input.checkDynaprint;
     result[@"checkGeometry"] = input.checkGeometry;
+    result[@"checkBarcodeBackground"] = input.checkBarcodeBackground;
     
     return result;
 }
