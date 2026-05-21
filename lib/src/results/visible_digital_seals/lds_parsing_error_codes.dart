@@ -1,11 +1,3 @@
-//
-//  LDSParsingErrorCodes.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 enum LDSParsingErrorCodes {
@@ -136,7 +128,9 @@ enum LDSParsingErrorCodes {
   VDS_NC_MISSING_OR_INCORRECT_SIGNATURE(0x81000307),
   VDS_NC_MISSING_OR_INCORRECT_SIG_ALGORITHM(0x81000308),
   VDS_NC_MISSING_OR_INCORRECT_CERTIFICATE(0x81000309),
-  VDS_NC_MISSING_OR_INCORRECT_SIG_VALUE(0x8100030A);
+  VDS_NC_MISSING_OR_INCORRECT_SIG_VALUE(0x8100030A),
+  PACE_CAM_DATA_USAGE_INCORRECT(0x8100012B),
+  PACE_IM_MAPPING_DATA_INCORRECT(0x8100012F);
 
   const LDSParsingErrorCodes(this.value);
   final int value;
