@@ -33,6 +33,7 @@ var livenessParams = {
   "checkBlackAndWhiteCopy": true,
   "checkDynaprint": false,
   "checkGeometry": true,
+  "checkBarcodeBackground": false,
 };
 var authenticityParams = {
   "useLivenessCheck": true,
@@ -100,7 +101,6 @@ var processParams = {
   "updateOCRValidityByGlare": false,
   "noGraphics": true,
   "multiDocOnImage": false,
-  "forceReadMrzBeforeLocate": true,
   "parseBarcodes": false,
   "shouldReturnPackageForReprocess": true,
   "disablePerforationOCR": false,
@@ -123,6 +123,7 @@ var processParams = {
   "strictExpiryDate": true,
   "debugSaveBinarySession": false,
   "checkVDS": true,
+  "strictAgeCheck": false,
   "bsiTr03135": bsi,
   "measureSystem": 1,
   "barcodeParserType": 3,
@@ -366,6 +367,7 @@ var functionality = {
   "torchTurnedOn": false,
   "preventScreenRecording": true,
   "homeIndicatorAutoHide": false,
+  "hideStatusBar": true,
   "showCaptureButtonDelayFromDetect": 0,
   "showCaptureButtonDelayFromStart": 1,
   "rfidTimeout": 2,
@@ -541,6 +543,7 @@ var recognizeConfig = {
   "image": img3,
   "data": img1,
   "images": [img1, img2, img3],
+  "dataList": [img3, img2, img1],
   "imageInputData": [imageInputData, imageInputData, imageInputData],
 };
 var recognizeConfig2 = {

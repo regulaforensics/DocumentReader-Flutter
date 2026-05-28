@@ -1946,7 +1946,9 @@ enum FieldType {
 
   JURISDICTION_SPECIFIC_DATA(703),
 
-  DATA_DATE_OF_EXPIRY(704);
+  DATA_DATE_OF_EXPIRY(704),
+
+  CONSUL(705);
 
   const FieldType(this.value);
   final int value;
