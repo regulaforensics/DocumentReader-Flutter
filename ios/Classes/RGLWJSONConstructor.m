@@ -227,10 +227,16 @@ static NSMutableArray* weakReferencesHolder;
     if (input[@"image"]) config.image = [RGLWJSONConstructor imageWithBase64:input[@"image"]];
     if (input[@"data"]) config.imageData = [RGLWJSONConstructor base64Decode:input[@"data"]];
     if (input[@"images"]) {
-        NSMutableArray<UIImage*>* images = [NSMutableArray new];
-        for(NSString* base64 in input[@"images"])
-            [images addObject:[RGLWJSONConstructor imageWithBase64:base64]];
-        config.images = images;
+        NSMutableArray<UIImage*>* list = [NSMutableArray new];
+        for(NSString* item in input[@"images"])
+            [list addObject:[RGLWJSONConstructor imageWithBase64:item]];
+        config.images = list;
+    }
+    if (input[@"dataList"]) {
+        NSMutableArray<NSData*>* list = [NSMutableArray new];
+        for(NSString* item in input[@"dataList"])
+            [list addObject:[RGLWJSONConstructor base64Decode:item]];
+        config.imageDataArray = list;
     }
     if(input[@"imageInputData"]) {
         NSMutableArray<RGLImageInput*>* imageInputs = [NSMutableArray new];
@@ -261,10 +267,16 @@ static NSMutableArray* weakReferencesHolder;
     result[@"image"] = [self base64WithImage: input.image];
     result[@"data"] = [self base64Encode: input.imageData];
     if(input.images != nil) {
-        NSMutableArray *array = [NSMutableArray new];
+        NSMutableArray *list = [NSMutableArray new];
         for(UIImage* item in input.images)
-            [array addObject:[self base64WithImage:item]];
-        result[@"images"] = array;
+            [list addObject:[self base64WithImage:item]];
+        result[@"images"] = list;
+    }
+    if(input.imageDataArray != nil) {
+        NSMutableArray *list = [NSMutableArray new];
+        for(NSData* item in input.imageDataArray)
+            [list addObject:[self base64Encode:item]];
+        result[@"dataList"] = list;
     }
     if(input.imageInputs != nil) {
         NSMutableArray *array = [NSMutableArray new];

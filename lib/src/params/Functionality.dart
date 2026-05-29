@@ -1,11 +1,3 @@
-//
-//  Functionality.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 /// Params that influence the scanning process, camera view controller
@@ -223,6 +215,14 @@ class Functionality {
     _set({"homeIndicatorAutoHide": val});
   }
 
+  /// Android only.
+  bool? get hideStatusBar => _hideStatusBar;
+  bool? _hideStatusBar;
+  set hideStatusBar(bool? val) {
+    _hideStatusBar = val;
+    _set({"hideStatusBar": val});
+  }
+
   /// Allows you to specify a time interval when the Capture button
   /// has to be displayed after the document is detected.
   /// Don't forget to set the [showCaptureButton] to `true`,
@@ -426,6 +426,7 @@ class Functionality {
     result.torchTurnedOn = jsonObject["torchTurnedOn"];
     result.preventScreenRecording = jsonObject["preventScreenRecording"];
     result.homeIndicatorAutoHide = jsonObject["homeIndicatorAutoHide"];
+    result.hideStatusBar = jsonObject["hideStatusBar"];
 
     result.showCaptureButtonDelayFromDetect =
         jsonObject["showCaptureButtonDelayFromDetect"];
@@ -486,6 +487,7 @@ class Functionality {
         "torchTurnedOn": torchTurnedOn,
         "preventScreenRecording": preventScreenRecording,
         "homeIndicatorAutoHide": homeIndicatorAutoHide,
+        "hideStatusBar": hideStatusBar,
         "showCaptureButtonDelayFromDetect": showCaptureButtonDelayFromDetect,
         "showCaptureButtonDelayFromStart": showCaptureButtonDelayFromStart,
         "rfidTimeout": rfidTimeout,

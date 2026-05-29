@@ -273,6 +273,12 @@ fun recognizeConfigFromJSON(input: JSONObject) = input.let {
         for (i in images.indices) images[i] = base64Images.getString(i).toBitmap()
         builder.setBitmaps(images)
     }
+    if (it.has("dataList")) {
+        val array = it.getJSONArray("dataList")
+        val dataList = mutableListOf<ByteArray>()
+        for (i in 0..< array.length()) dataList.add(array.getString(i).toByteArray()!!)
+        builder.setData(dataList)
+    }
     if (it.has("imageInputData")) {
         val base64InputData = it.getJSONArray("imageInputData")
         val inputData = arrayOfNulls<ImageInputData>(base64InputData.length())
@@ -291,14 +297,8 @@ fun generateRecognizeConfig(input: RecognizeConfig?) = input?.let {
         "livePortrait" to it.livePortrait.toBase64(),
         "extPortrait" to it.extPortrait.toBase64(),
         "image" to it.bitmap.toBase64(),
-        "data" to it.data.toBase64(),
-        "images" to
-                if (it.bitmaps == null) null
-                else {
-                    val array = JSONArray()
-                    for (bitmap in it.bitmaps!!) array.put(bitmap.toBase64())
-                    array
-                },
+        "images" to it.bitmaps?.map { bp -> bp.toBase64() }?.toJson(),
+        "dataList" to it.data?.map { bp -> bp.toBase64() }?.toJson(),
         "imageInputData" to it.imageInputData.toJson(::generateImageInputData)
     ).toJson()
 }

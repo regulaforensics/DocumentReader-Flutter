@@ -1,11 +1,3 @@
-//
-//  LivenessParams.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class LivenessParams {
@@ -59,6 +51,14 @@ class LivenessParams {
     _set({"checkGeometry": val});
   }
 
+  /// This parameter is used to enable Barcode background check as part of the Liveness checks.
+  bool? get checkBarcodeBackground => _checkBarcodeBackground;
+  bool? _checkBarcodeBackground;
+  set checkBarcodeBackground(bool? val) {
+    _checkBarcodeBackground = val;
+    _set({"checkBarcodeBackground": val});
+  }
+
   /// Allows you to deserialize object.
   static LivenessParams fromJson(jsonObject) {
     if (jsonObject == null) return LivenessParams();
@@ -72,6 +72,7 @@ class LivenessParams {
     result.checkBlackAndWhiteCopy = jsonObject["checkBlackAndWhiteCopy"];
     result.checkDynaprint = jsonObject["checkDynaprint"];
     result.checkGeometry = jsonObject["checkGeometry"];
+    result.checkBarcodeBackground = jsonObject["checkBarcodeBackground"];
 
     return result;
   }
@@ -85,6 +86,7 @@ class LivenessParams {
         "checkBlackAndWhiteCopy": checkBlackAndWhiteCopy,
         "checkDynaprint": checkDynaprint,
         "checkGeometry": checkGeometry,
+        "checkBarcodeBackground": checkBarcodeBackground,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {AuthenticityParams? directParent}) {

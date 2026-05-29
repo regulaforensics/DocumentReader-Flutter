@@ -1,11 +1,3 @@
-//
-//  RecognizeConfig.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 /// Image processing configuration.
@@ -28,6 +20,9 @@ class RecognizeConfig {
 
   /// Binary for processing.
   Uint8List? data;
+
+  /// Binaries for processing.
+  List<Uint8List>? dataList;
 
   /// Images(with input data) for processing.
   List<ImageInputData>? imageInputData;
@@ -56,6 +51,7 @@ class RecognizeConfig {
     Uint8List? image,
     List<Uint8List>? images,
     Uint8List? data,
+    List<Uint8List>? dataList,
     List<ImageInputData>? imageInputData,
     Uint8List? dtc,
     Uint8List? livePortrait,
@@ -69,6 +65,7 @@ class RecognizeConfig {
         image = image,
         images = images,
         data = data,
+        dataList = dataList,
         imageInputData = imageInputData,
         dtc = dtc;
 
@@ -77,6 +74,7 @@ class RecognizeConfig {
     Uint8List? image,
     List<Uint8List>? images,
     Uint8List? data,
+    List<Uint8List>? dataList,
     List<ImageInputData>? imageInputData,
     Uint8List? dtc,
     Uint8List? livePortrait,
@@ -90,6 +88,7 @@ class RecognizeConfig {
         image = image,
         images = images,
         data = data,
+        dataList = dataList,
         imageInputData = imageInputData,
         dtc = dtc;
 
@@ -112,6 +111,12 @@ class RecognizeConfig {
       }
     }
     result.data = _bytesFromBase64(jsonObject["data"]);
+    if (jsonObject["dataList"] != null) {
+      result.dataList = [];
+      for (var item in jsonObject["dataList"]) {
+        result.dataList!.addSafe(_bytesFromBase64(item));
+      }
+    }
     if (jsonObject["imageInputData"] != null) {
       result.imageInputData = [];
       for (var item in jsonObject["imageInputData"]) {
@@ -133,6 +138,7 @@ class RecognizeConfig {
         "image": _bytesToBase64(image),
         "images": images?.map((e) => _bytesToBase64(e)).toList(),
         "data": _bytesToBase64(data),
+        "dataList": dataList?.map((e) => _bytesToBase64(e)).toList(),
         "imageInputData": imageInputData?.map((e) => e.toJson()).toList(),
         "dtc": _bytesToBase64(dtc),
         "oneShotIdentification": oneShotIdentification,

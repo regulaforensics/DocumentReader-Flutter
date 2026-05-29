@@ -1,11 +1,3 @@
-//
-//  ProcessParams.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Params that influence the scanning process.
@@ -197,17 +189,6 @@ class ProcessParams {
     _set({"multiDocOnImage": val});
   }
 
-  /// This option can be set to `true` to make sure that in series processing
-  /// MRZ is located fully inside the result document image, if present
-  /// on the document. Enabling this option may add extra processing time,
-  /// by disabling optimizations, but allows more stability in output image quality.
-  bool? get forceReadMrzBeforeLocate => _forceReadMrzBeforeLocate;
-  bool? _forceReadMrzBeforeLocate;
-  set forceReadMrzBeforeLocate(bool? val) {
-    _forceReadMrzBeforeLocate = val;
-    _set({"forceReadMrzBeforeLocate": val});
-  }
-
   /// When set to `false`, the Barcode code parsing will be skipped
   /// and the raw information from the code will be returned instead.
   bool? get parseBarcodes => _parseBarcodes;
@@ -395,6 +376,14 @@ class ProcessParams {
   set checkVDS(bool? val) {
     _checkVDS = val;
     _set({"checkVDS": val});
+  }
+
+  /// When enabled, the age check status affects the overall status.
+  bool? get strictAgeCheck => _strictAgeCheck;
+  bool? _strictAgeCheck;
+  set strictAgeCheck(bool? val) {
+    _strictAgeCheck = val;
+    _set({"strictAgeCheck": val});
   }
 
   /// There are documents that contain barcodes which data can be parsed only
@@ -819,7 +808,6 @@ class ProcessParams {
     result.updateOCRValidityByGlare = jsonObject["updateOCRValidityByGlare"];
     result.noGraphics = jsonObject["noGraphics"];
     result.multiDocOnImage = jsonObject["multiDocOnImage"];
-    result.forceReadMrzBeforeLocate = jsonObject["forceReadMrzBeforeLocate"];
     result.parseBarcodes = jsonObject["parseBarcodes"];
     result.shouldReturnPackageForReprocess =
         jsonObject["shouldReturnPackageForReprocess"];
@@ -847,6 +835,7 @@ class ProcessParams {
     result.strictExpiryDate = jsonObject["strictExpiryDate"];
     result.debugSaveBinarySession = jsonObject["debugSaveBinarySession"];
     result.checkVDS = jsonObject["checkVDS"];
+    result.strictAgeCheck = jsonObject["strictAgeCheck"];
 
     result.measureSystem = MeasureSystem.getByValue(
       jsonObject["measureSystem"],
@@ -943,7 +932,6 @@ class ProcessParams {
         "updateOCRValidityByGlare": updateOCRValidityByGlare,
         "noGraphics": noGraphics,
         "multiDocOnImage": multiDocOnImage,
-        "forceReadMrzBeforeLocate": forceReadMrzBeforeLocate,
         "parseBarcodes": parseBarcodes,
         "shouldReturnPackageForReprocess": shouldReturnPackageForReprocess,
         "disablePerforationOCR": disablePerforationOCR,
@@ -967,6 +955,7 @@ class ProcessParams {
         "strictExpiryDate": strictExpiryDate,
         "debugSaveBinarySession": debugSaveBinarySession,
         "checkVDS": checkVDS,
+        "strictAgeCheck": strictAgeCheck,
         "measureSystem": measureSystem?.value,
         "barcodeParserType": barcodeParserType,
         "perspectiveAngle": perspectiveAngle,

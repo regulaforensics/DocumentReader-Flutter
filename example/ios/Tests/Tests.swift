@@ -169,6 +169,7 @@ class Tests: XCTestCase {
                        "videoRecordingSizeDownscaleFactor",
                        "excludedCamera2Models",
                        "cameraSize",
+                       "hideStatusBar",
                        "cameraMode"])
     }
     

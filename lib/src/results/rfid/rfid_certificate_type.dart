@@ -1,11 +1,3 @@
-//
-//  RFIDCertificateType.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 enum RFIDCertificateType {
@@ -29,7 +21,9 @@ enum RFIDCertificateType {
 
   BCS(9),
 
-  BCSNC(10);
+  BCSNC(10),
+
+  MDLS(13);
 
   const RFIDCertificateType(this.value);
   final int value;
