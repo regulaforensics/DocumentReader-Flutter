@@ -2,6 +2,18 @@ part of "../../../flutter_document_reader_api.dart";
 
 /// Params that relate to the camera view controller customization and etc.
 class Customization {
+  /// Allows you to set a visual theme for buttons controls.
+  ///
+  /// Default: [CustomizationTheme.CLEAR].
+  ///
+  /// IOS only.
+  CustomizationTheme? get theme => _theme;
+  CustomizationTheme? _theme;
+  set theme(CustomizationTheme? val) {
+    _theme = val;
+    _set({"theme": val?.value});
+  }
+
   /// If it's set to `true`, status messages during the document processing
   /// will be shown.
   ///
@@ -801,6 +813,8 @@ class Customization {
     var result = Customization();
     result.testSetters = {};
 
+    result.theme = CustomizationTheme.getByValue(jsonObject["theme"]);
+
     result.showStatusMessages = jsonObject["showStatusMessages"];
     result.showResultStatusMessages = jsonObject["showResultStatusMessages"];
     result.showHelpAnimation = jsonObject["showHelpAnimation"];
@@ -1022,6 +1036,7 @@ class Customization {
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
+        "theme": theme?.value,
         "showStatusMessages": showStatusMessages,
         "showResultStatusMessages": showResultStatusMessages,
         "showHelpAnimation": showHelpAnimation,
@@ -1209,6 +1224,26 @@ enum CustomButtonTag {
       return CustomButtonTag.values.firstWhere((x) => x.value == i);
     } catch (_) {
       return CustomButtonTag.UNKNOWN;
+    }
+  }
+}
+
+enum CustomizationTheme {
+  /// Increased opacity and more contrast.
+  CLEAR(0),
+
+  /// Transparent, revealing the content beneath.
+  LIQUID_GLASS(1);
+
+  const CustomizationTheme(this.value);
+  final int value;
+
+  static CustomizationTheme? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return CustomizationTheme.values.firstWhere((x) => x.value == i);
+    } catch (_) {
+      return CustomizationTheme.CLEAR;
     }
   }
 }

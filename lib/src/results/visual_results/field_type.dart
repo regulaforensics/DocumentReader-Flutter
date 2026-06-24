@@ -1948,7 +1948,9 @@ enum FieldType {
 
   DATA_DATE_OF_EXPIRY(704),
 
-  CONSUL(705);
+  CONSUL(705),
+
+  CANTON_REFERENCE(706);
 
   const FieldType(this.value);
   final int value;
