@@ -28,7 +28,7 @@ android {
     }
 
     dependencies {
-        implementation('com.regula.documentreader:api:9.6.13049') {
+        implementation('com.regula.documentreader:api:9.6.13064') {
             transitive = true
         }
 
