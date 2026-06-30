@@ -118,6 +118,7 @@ class FlutterDocumentReaderApiPluginTest {
         "multipageButtonTextFont",
         "fonts",
         "contentModes",
+        "theme",
     )
 
     @Test
