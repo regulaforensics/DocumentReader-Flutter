@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "./include/flutter_document_reader_api/RGLWConfig.h"
+#import "RGLWConfig.h"
 
 @implementation RGLWConfig
 
