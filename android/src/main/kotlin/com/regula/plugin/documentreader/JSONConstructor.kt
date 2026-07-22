@@ -582,7 +582,7 @@ fun generateImageInputData(input: ImageInputData?) = input?.let {
     ).toJson()
 }
 
-fun pkdCertificateFromJSON(input: JSONObject?) = input?.let {
+fun pkdCertificateFromJSON(input: JSONObject?): PKDCertificate? = input?.let {
     var resourceType = 0
     var binaryData = ByteArray(0)
 

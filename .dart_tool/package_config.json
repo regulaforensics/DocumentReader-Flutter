@@ -159,8 +159,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.10.0-290.4.beta",
+  "generatorVersion": "3.10.9",
   "flutterRoot": "file:///Users/administratorregula/development/flutter",
-  "flutterVersion": "3.38.0",
+  "flutterVersion": "3.38.10",
   "pubCache": "file:///Users/administratorregula/.pub-cache"
 }

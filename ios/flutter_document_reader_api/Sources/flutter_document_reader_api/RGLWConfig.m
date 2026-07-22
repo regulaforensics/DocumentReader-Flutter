@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "RGLWConfig.h"
+#import "./include/flutter_document_reader_api/RGLWConfig.h"
 
 @implementation RGLWConfig
 
@@ -388,6 +388,8 @@
 }
 
 +(void)setCustomization:(NSDictionary*)options :(RGLCustomization*)customization {
+    if(options[@"theme"]) customization.theme = [options[@"theme"] integerValue];
+    
     // Boolean
     if([options valueForKey:@"showStatusMessages"] != nil)
         customization.showStatusMessages = [[options valueForKey:@"showStatusMessages"] boolValue];
@@ -533,6 +535,7 @@
 
 +(NSDictionary*)getCustomization:(RGLCustomization*)customization {
     NSMutableDictionary *result = [NSMutableDictionary new];
+    result[@"theme"] = [NSNumber numberWithInteger:customization.theme];
     
     // Boolean
     result[@"showStatusMessages"] = [NSNumber numberWithBool:customization.showStatusMessages];

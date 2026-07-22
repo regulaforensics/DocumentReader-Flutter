@@ -478,8 +478,7 @@ class DocumentReader {
     _setPACEProtocolCompletion(config.onRequestPACEProtocol);
     _setCAProtocolCompletion(config.onRequestCAProtocol);
 
-    _bridge.invokeMethod(
-        config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
+    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
   }
 
   /// Used to stop the scanning process.
