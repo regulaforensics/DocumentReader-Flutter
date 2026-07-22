@@ -4,3 +4,4 @@ analyzer:
     deprecated_member_use_from_same_package: ignore
 formatter:
   page_width: 200
+  trailing_commas: preserve

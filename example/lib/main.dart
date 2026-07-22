@@ -22,7 +22,10 @@ Future<void> init() async {
 void scan() async {
   if (!await documentReader.isReady) return;
   clearResults();
-  documentReader.startScanner(ScannerConfig.withScenario(selectedScenario), handleCompletion);
+  documentReader.startScanner(
+    ScannerConfig.withScenario(selectedScenario),
+    handleCompletion,
+  );
 }
 
 void recognize() async {
@@ -31,10 +34,17 @@ void recognize() async {
   if (image == null) return;
 
   clearResults();
-  documentReader.recognize(RecognizeConfig.withScenario(selectedScenario, image: image), handleCompletion);
+  documentReader.recognize(
+    RecognizeConfig.withScenario(selectedScenario, image: image),
+    handleCompletion,
+  );
 }
 
-void handleCompletion(DocReaderAction action, Results? results, DocReaderException? error) {
+void handleCompletion(
+  DocReaderAction action,
+  Results? results,
+  DocReaderException? error,
+) {
   handleException(error);
   if (action.stopped() && !shouldRfid(results)) {
     displayResults(results);
@@ -52,7 +62,12 @@ void displayResults(Results? results) async {
   var name = await results.textFieldValueByType(FieldType.SURNAME_AND_GIVEN_NAMES);
   var docImage = await results.graphicFieldImageByType(GraphicFieldType.DOCUMENT_IMAGE);
   var portrait = await results.graphicFieldImageByType(GraphicFieldType.PORTRAIT);
-  portrait = await results.graphicFieldImageByTypeSource(GraphicFieldType.PORTRAIT, ResultType.RFID_IMAGE_DATA) ?? portrait;
+  portrait =
+      await results.graphicFieldImageByTypeSource(
+        GraphicFieldType.PORTRAIT,
+        ResultType.RFID_IMAGE_DATA,
+      ) ??
+      portrait;
 
   setStatus(name);
   setPortrait(portrait);
@@ -125,7 +140,13 @@ void setScenarios(List<DocReaderScenario> data) {
 
 List<Widget> ui() {
   return [
-    Row(mainAxisAlignment: MainAxisAlignment.center, children: [image("Portrait", portraitUIImage.image), image("Document image", documentUIImage.image)]),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        image("Portrait", portraitUIImage.image),
+        image("Document image", documentUIImage.image),
+      ],
+    ),
     Expanded(
       child: Container(
         color: Color.fromARGB(5, 0, 0, 0),
@@ -145,7 +166,11 @@ List<Widget> ui() {
         ),
       ),
     ),
-    CheckboxListTile(value: doRfid, title: Text("Process rfid reading" + (canRfid ? "" : " (unavailable)")), onChanged: (value) => MyAppState.update(() => doRfid = value! && canRfid)),
+    CheckboxListTile(
+      value: doRfid,
+      title: Text("Process rfid reading" + (canRfid ? "" : " (unavailable)")),
+      onChanged: (value) => MyAppState.update(() => doRfid = value! && canRfid),
+    ),
     Row(
       children: [
         Expanded(child: button("Scan document", scan)),
@@ -177,7 +202,10 @@ Widget button(String text, VoidCallback onPressed) => Padding(
 Widget label(String text, {bool small = false}) => Text(
   text,
   textAlign: TextAlign.center,
-  style: TextStyle(fontSize: small ? 15 : 18, fontWeight: FontWeight.w600),
+  style: TextStyle(
+    fontSize: small ? 15 : 18,
+    fontWeight: FontWeight.w600,
+  ),
 );
 
 Widget header(List<Widget> children, {bool top = true}) => Container(
@@ -188,7 +216,11 @@ Widget header(List<Widget> children, {bool top = true}) => Container(
       ...children,
       Container(
         margin: EdgeInsets.only(top: 13),
-        child: Divider(height: 1, thickness: 1, color: Color.fromRGBO(0, 0, 0, 0.075)),
+        child: Divider(
+          height: 1,
+          thickness: 1,
+          color: Color.fromRGBO(0, 0, 0, 0.075),
+        ),
       ),
     ],
   ),
@@ -239,7 +271,10 @@ class MyAppState extends State<MyApp> {
           Visibility(
             visible: isShowingRfidSelfHostedUI,
             child: Expanded(
-              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: rfidCustomUI()),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: rfidCustomUI(),
+              ),
             ),
           ),
         ],

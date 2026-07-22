@@ -73,7 +73,12 @@ List<Widget> rfidCustomUI() {
           border: Border.all(color: Colors.black26, width: 3),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: LinearProgressIndicator(value: value, minHeight: 20, backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(4))),
+        child: LinearProgressIndicator(
+          value: value,
+          minHeight: 20,
+          backgroundColor: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
       ),
     ),
     TextButton(
