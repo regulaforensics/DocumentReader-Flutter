@@ -15,8 +15,7 @@ class NameSpaceMDL {
     if (jsonObject == null) return null;
     var result = NameSpaceMDL(jsonObject["name"]);
 
-    result._map = (jsonObject["map"] as Map).map(
-        (key, value) => MapEntry(key, MDLIntentToRetain.getByValue(value)!));
+    result._map = (jsonObject["map"] as Map).map((key, value) => MapEntry(key, MDLIntentToRetain.getByValue(value)!));
 
     return result;
   }

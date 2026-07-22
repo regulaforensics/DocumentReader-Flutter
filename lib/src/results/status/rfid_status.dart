@@ -49,8 +49,7 @@ class RFIDStatus {
     result._ta = CheckResult.getByValue(jsonObject["ta"])!;
     result._bac = CheckResult.getByValue(jsonObject["bac"])!;
     result._pace = CheckResult.getByValue(jsonObject["pace"])!;
-    result._overallStatus =
-        CheckResult.getByValue(jsonObject["overallStatus"])!;
+    result._overallStatus = CheckResult.getByValue(jsonObject["overallStatus"])!;
 
     return result;
   }

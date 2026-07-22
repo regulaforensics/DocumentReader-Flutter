@@ -319,12 +319,10 @@ class DocumentReader {
   }
 
   // Set click listener for buttons from the UI customization layer.
-  set onCustomButtonTapped(CustomButtonTappedCompletion completion) =>
-      _setCustomButtonTappedCompletion(completion);
+  set onCustomButtonTapped(CustomButtonTappedCompletion completion) => _setCustomButtonTappedCompletion(completion);
 
   /// Allows user to receive a video file of current session
-  set videoEncoderCompletion(VideoEncoderCompletion completion) =>
-      _setVideoEncoderCompletion(completion);
+  set videoEncoderCompletion(VideoEncoderCompletion completion) => _setVideoEncoderCompletion(completion);
 
   @Deprecated("Use `initialize` instead.")
   Future<SuccessOrError> initializeReader(InitConfig config) async {
@@ -463,9 +461,7 @@ class DocumentReader {
   ///
   /// Requires `android.permission.NFC` android permission.
   void rfid(RFIDConfig config) {
-    config._disableUI
-        ? _setRFIDCompletion(config._rfidCompletion!)
-        : _setDocumentReaderCompletion(config._completion!);
+    config._disableUI ? _setRFIDCompletion(config._rfidCompletion!) : _setDocumentReaderCompletion(config._completion!);
 
     _setRFIDProgressCompletion(config.onProgress);
     _setChipDetectedCompletion(config.onChipDetected);
@@ -551,8 +547,7 @@ class DocumentReader {
   }
 
   /// Used to read MDL.
-  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
-      readMDL(MDLDeviceEngagement type, DataRetrieval retrieval) async {
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)> readMDL(MDLDeviceEngagement type, DataRetrieval retrieval) async {
     var response = await _bridge.invokeMethod("startReadMDl", [
       type.value,
       retrieval.toJson(),
@@ -570,8 +565,7 @@ class DocumentReader {
   /// [withoutUI] - If `true`, then Regula's UI will not be shown and user is supposed to implement the UI himself.
   ///
   /// [data]  - Required if [type] = [MDLDeviceEngagement.QR] and [withoutUI] = `true`.
-  Future<(DeviceEngagement? engagement, DocReaderException? error)>
-      engageDevice(
+  Future<(DeviceEngagement? engagement, DocReaderException? error)> engageDevice(
     MDLDeviceEngagement type, {
     bool withoutUI = false,
     String? data,
@@ -596,8 +590,7 @@ class DocumentReader {
   /// [withoutUI] - If set, then Regula's UI will not be shown and user is supposed to implement the UI himself.
   ///
   /// [engagement] - Required for [withoutUI] = `null` or [MDLDeviceRetrieval.BLE]. Not needed for [MDLDeviceRetrieval.NFC].
-  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
-      retrieveData(
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)> retrieveData(
     DataRetrieval retrieval, {
     MDLDeviceRetrieval? withoutUI,
     DeviceEngagement? engagement,

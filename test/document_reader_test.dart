@@ -175,14 +175,11 @@ void main() {
     compare('caProtocol', caProtocol, CAProtocol.fromJson);
     compare('tccParams', tccParams, TccParams.fromJson);
 
-    compare('deviceRetrievalMethod', deviceRetrievalMethod,
-        DeviceRetrievalMethod.fromJson);
+    compare('deviceRetrievalMethod', deviceRetrievalMethod, DeviceRetrievalMethod.fromJson);
     compare('deviceEngagement', deviceEngagement, DeviceEngagement.fromJson);
     compare('nameSpaceMDL', nameSpaceMDL, NameSpaceMDL.fromJson);
-    compare(
-        'documentRequestMDL', documentRequestMDL, DocumentRequestMDL.fromJson);
-    compare('documentRequest18013MDL', documentRequest18013MDL,
-        DocumentRequest18013MDL.fromJson);
+    compare('documentRequestMDL', documentRequestMDL, DocumentRequestMDL.fromJson);
+    compare('documentRequest18013MDL', documentRequest18013MDL, DocumentRequest18013MDL.fromJson);
     compare('dataRetrieval', dataRetrieval, DataRetrieval.fromJson);
   });
 }

@@ -29,6 +29,5 @@ class DataField {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"data": data, "fieldType": fieldType.value}.clearNulls();
+  Map<String, dynamic> toJson() => {"data": data, "fieldType": fieldType.value}.clearNulls();
 }

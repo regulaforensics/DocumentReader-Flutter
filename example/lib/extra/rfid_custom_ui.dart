@@ -13,8 +13,7 @@ void rfidSelfHostedUI() {
 
   config.onProgress = (notification) async {
     if (notification.progress == 1) return;
-    if (notification.notificationCode ==
-        RFIDNotificationCodes.PCSC_READING_DATAGROUP) {
+    if (notification.notificationCode == RFIDNotificationCodes.PCSC_READING_DATAGROUP) {
       setDescription(await notification.dataFileType.getTranslation());
     }
     setStatus("Reading RFID");
@@ -74,12 +73,7 @@ List<Widget> rfidCustomUI() {
           border: Border.all(color: Colors.black26, width: 3),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: LinearProgressIndicator(
-          value: value,
-          minHeight: 20,
-          backgroundColor: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
+        child: LinearProgressIndicator(value: value, minHeight: 20, backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
     ),
     TextButton(
@@ -90,6 +84,6 @@ List<Widget> rfidCustomUI() {
         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     ),
-    SizedBox(height: 100)
+    SizedBox(height: 100),
   ];
 }

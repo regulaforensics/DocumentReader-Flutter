@@ -23,16 +23,11 @@ class DataRetrieval {
   /// Allows you to deserialize object.
   static DataRetrieval? fromJson(jsonObject) {
     if (jsonObject == null) return null;
-    var result = DataRetrieval(
-        MDLDeviceRetrieval.getByValue(jsonObject["deviceRetrieval"])!);
+    var result = DataRetrieval(MDLDeviceRetrieval.getByValue(jsonObject["deviceRetrieval"])!);
 
-    result._docRequestPreset =
-        MDLDocRequestPreset.getByValue(jsonObject["docRequestPreset"]);
-    result._intentToRetain =
-        MDLIntentToRetain.getByValue(jsonObject["intentToRetain"])!;
-    result._requests = (jsonObject["requests"] as List)
-        .map((item) => DocumentRequestMDL.fromJson(item)!)
-        .toList();
+    result._docRequestPreset = MDLDocRequestPreset.getByValue(jsonObject["docRequestPreset"]);
+    result._intentToRetain = MDLIntentToRetain.getByValue(jsonObject["intentToRetain"])!;
+    result._requests = (jsonObject["requests"] as List).map((item) => DocumentRequestMDL.fromJson(item)!).toList();
 
     return result;
   }

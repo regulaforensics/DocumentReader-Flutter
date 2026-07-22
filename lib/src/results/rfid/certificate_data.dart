@@ -27,6 +27,5 @@ class CertificateData {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"data": data, "length": length}.clearNulls();
+  Map<String, dynamic> toJson() => {"data": data, "length": length}.clearNulls();
 }

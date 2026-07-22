@@ -66,8 +66,7 @@ class RFIDSessionData {
     result._totalBytesReceived = jsonObject["totalBytesReceived"];
     result._totalBytesSent = jsonObject["totalBytesSent"];
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
-    result._extLeSupport =
-        RFIDErrorCodes.getByValue(jsonObject["extLeSupport"])!;
+    result._extLeSupport = RFIDErrorCodes.getByValue(jsonObject["extLeSupport"])!;
     result._processTime = jsonObject["processTime"];
     result._cardProperties = CardProperties.fromJson(
       jsonObject["cardProperties"],

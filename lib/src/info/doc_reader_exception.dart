@@ -32,8 +32,7 @@ class DocReaderException {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() =>
-      {"code": code.value, "message": message}.clearNulls();
+  Map<String, dynamic> toJson() => {"code": code.value, "message": message}.clearNulls();
 }
 
 /// Enum contains all possible error codes

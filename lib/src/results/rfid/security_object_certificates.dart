@@ -25,6 +25,5 @@ class SecurityObjectCertificates {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"securityObject": securityObject?.toJson()}.clearNulls();
+  Map<String, dynamic> toJson() => {"securityObject": securityObject?.toJson()}.clearNulls();
 }

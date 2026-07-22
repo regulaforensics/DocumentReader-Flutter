@@ -34,8 +34,7 @@ class OnlineProcessingConfig {
 
     result.url = jsonObject["url"];
     result.imageFormat = ImageFormat.getByValue(jsonObject["imageFormat"])!;
-    result.imageCompressionQuality =
-        jsonObject["imageCompressionQuality"].toDouble();
+    result.imageCompressionQuality = jsonObject["imageCompressionQuality"].toDouble();
     result.processParams = ProcessParams.fromJson(jsonObject["processParams"]);
     result.requestHeaders = jsonObject["requestHeaders"];
 

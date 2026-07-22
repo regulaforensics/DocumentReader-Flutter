@@ -72,8 +72,7 @@ class Results {
   Uint8List? _dtcData;
 
   /// Document processing finish status, one of RGLProcessingFinishedStatus values.
-  ProcessingFinishedStatus get processingFinishedStatus =>
-      _processingFinishedStatus;
+  ProcessingFinishedStatus get processingFinishedStatus => _processingFinishedStatus;
   late ProcessingFinishedStatus _processingFinishedStatus;
 
   /// Indicates how many pages of a document remains to process.

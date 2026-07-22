@@ -8,19 +8,13 @@ class DeviceEngagement {
     if (jsonObject == null) return null;
     var result = DeviceEngagement();
 
-    result.deviceRetrievalMethods =
-        (jsonObject["deviceRetrievalMethods"] as List)
-            .map((item) => DeviceRetrievalMethod.fromJson(item)!)
-            .toList();
+    result.deviceRetrievalMethods = (jsonObject["deviceRetrievalMethods"] as List).map((item) => DeviceRetrievalMethod.fromJson(item)!).toList();
 
     return result;
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {
-        "deviceRetrievalMethods":
-            deviceRetrievalMethods.map((e) => e.toJson()).toList()
-      }.clearNulls();
+  Map<String, dynamic> toJson() => {"deviceRetrievalMethods": deviceRetrievalMethods.map((e) => e.toJson()).toList()}.clearNulls();
 }
 
 /// Contains device engagement types.

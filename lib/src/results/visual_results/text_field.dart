@@ -67,10 +67,8 @@ class TextField {
     result._fieldType = FieldType.getByValue(jsonObject["fieldType"])!;
     result._lcid = LCID.getByValue(jsonObject["lcid"])!;
     result._status = CheckResult.getByValue(jsonObject["status"])!;
-    result._comparisonStatus =
-        CheckResult.getByValue(jsonObject["comparisonStatus"])!;
-    result._validityStatus =
-        CheckResult.getByValue(jsonObject["validityStatus"])!;
+    result._comparisonStatus = CheckResult.getByValue(jsonObject["comparisonStatus"])!;
+    result._validityStatus = CheckResult.getByValue(jsonObject["validityStatus"])!;
     result._lcidName = jsonObject["lcidName"];
     result._fieldName = jsonObject["fieldName"];
     result._value = jsonObject["value"];

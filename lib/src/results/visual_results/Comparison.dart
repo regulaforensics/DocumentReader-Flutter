@@ -27,10 +27,8 @@ class Comparison {
     if (jsonObject == null) return null;
     var result = Comparison();
 
-    result._sourceTypeLeft =
-        ResultType.getByValue(jsonObject["sourceTypeLeft"])!;
-    result._sourceTypeRight =
-        ResultType.getByValue(jsonObject["sourceTypeRight"])!;
+    result._sourceTypeLeft = ResultType.getByValue(jsonObject["sourceTypeLeft"])!;
+    result._sourceTypeRight = ResultType.getByValue(jsonObject["sourceTypeRight"])!;
     result._status = CheckResult.getByValue(jsonObject["status"])!;
 
     return result;

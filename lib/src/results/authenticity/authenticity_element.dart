@@ -33,10 +33,8 @@ class AuthenticityElement {
     var result = AuthenticityElement();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
-    result._elementType =
-        SecurityFeatureType.getByValue(jsonObject["elementType"])!;
-    result._elementDiagnose =
-        CheckDiagnose.getByValue(jsonObject["elementDiagnose"])!;
+    result._elementType = SecurityFeatureType.getByValue(jsonObject["elementType"])!;
+    result._elementDiagnose = CheckDiagnose.getByValue(jsonObject["elementDiagnose"])!;
     result._elementTypeName = jsonObject["elementTypeName"];
     result._elementDiagnoseName = jsonObject["elementDiagnoseName"];
 

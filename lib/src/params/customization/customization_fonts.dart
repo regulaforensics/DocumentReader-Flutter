@@ -8,8 +8,7 @@ class CustomizationFonts {
     _set({"rfidProcessingScreenHintLabel": val?.toJson()});
   }
 
-  Font? get rfidProcessingScreenProgressLabel =>
-      _rfidProcessingScreenProgressLabel;
+  Font? get rfidProcessingScreenProgressLabel => _rfidProcessingScreenProgressLabel;
   Font? _rfidProcessingScreenProgressLabel;
   set rfidProcessingScreenProgressLabel(Font? val) {
     _rfidProcessingScreenProgressLabel = val;
@@ -54,8 +53,7 @@ class CustomizationFonts {
     _set({"mdlProcessingScreenHintLabel": val?.toJson()});
   }
 
-  Font? get mdlProcessingScreenProgressLabel =>
-      _mdlProcessingScreenProgressLabel;
+  Font? get mdlProcessingScreenProgressLabel => _mdlProcessingScreenProgressLabel;
   Font? _mdlProcessingScreenProgressLabel;
   set mdlProcessingScreenProgressLabel(Font? val) {
     _mdlProcessingScreenProgressLabel = val;
@@ -140,20 +138,15 @@ class CustomizationFonts {
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
-        "rfidProcessingScreenHintLabel":
-            rfidProcessingScreenHintLabel?.toJson(),
-        "rfidProcessingScreenProgressLabel":
-            rfidProcessingScreenProgressLabel?.toJson(),
-        "rfidProcessingScreenResultLabel":
-            rfidProcessingScreenResultLabel?.toJson(),
+        "rfidProcessingScreenHintLabel": rfidProcessingScreenHintLabel?.toJson(),
+        "rfidProcessingScreenProgressLabel": rfidProcessingScreenProgressLabel?.toJson(),
+        "rfidProcessingScreenResultLabel": rfidProcessingScreenResultLabel?.toJson(),
         "rfidEnableNfcTitleText": rfidEnableNfcTitleText?.toJson(),
         "rfidEnableNfcDescriptionText": rfidEnableNfcDescriptionText?.toJson(),
         "rfidEnableNfcButtonText": rfidEnableNfcButtonText?.toJson(),
         "mdlProcessingScreenHintLabel": mdlProcessingScreenHintLabel?.toJson(),
-        "mdlProcessingScreenProgressLabel":
-            mdlProcessingScreenProgressLabel?.toJson(),
-        "mdlProcessingScreenResultLabel":
-            mdlProcessingScreenResultLabel?.toJson(),
+        "mdlProcessingScreenProgressLabel": mdlProcessingScreenProgressLabel?.toJson(),
+        "mdlProcessingScreenResultLabel": mdlProcessingScreenResultLabel?.toJson(),
         "mdlEnableNfcTitleText": mdlEnableNfcTitleText?.toJson(),
         "mdlEnableNfcDescriptionText": mdlEnableNfcDescriptionText?.toJson(),
         "mdlEnableNfcButtonText": mdlEnableNfcButtonText?.toJson(),
@@ -208,8 +201,7 @@ class Font {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"name": name, "size": size, "style": style?.value}.clearNulls();
+  Map<String, dynamic> toJson() => {"name": name, "size": size, "style": style?.value}.clearNulls();
 }
 
 enum FontStyle {

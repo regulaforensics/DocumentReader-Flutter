@@ -16,48 +16,42 @@ class CustomizationColors {
     _set({"rfidProcessingScreenBackground": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenHintLabelText =>
-      _rfidProcessingScreenHintLabelText;
+  Color? get rfidProcessingScreenHintLabelText => _rfidProcessingScreenHintLabelText;
   Color? _rfidProcessingScreenHintLabelText;
   set rfidProcessingScreenHintLabelText(Color? val) {
     _rfidProcessingScreenHintLabelText = val;
     _set({"rfidProcessingScreenHintLabelText": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenHintLabelBackground =>
-      _rfidProcessingScreenHintLabelBackground;
+  Color? get rfidProcessingScreenHintLabelBackground => _rfidProcessingScreenHintLabelBackground;
   Color? _rfidProcessingScreenHintLabelBackground;
   set rfidProcessingScreenHintLabelBackground(Color? val) {
     _rfidProcessingScreenHintLabelBackground = val;
     _set({"rfidProcessingScreenHintLabelBackground": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenProgressLabelText =>
-      _rfidProcessingScreenProgressLabelText;
+  Color? get rfidProcessingScreenProgressLabelText => _rfidProcessingScreenProgressLabelText;
   Color? _rfidProcessingScreenProgressLabelText;
   set rfidProcessingScreenProgressLabelText(Color? val) {
     _rfidProcessingScreenProgressLabelText = val;
     _set({"rfidProcessingScreenProgressLabelText": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenProgressBar =>
-      _rfidProcessingScreenProgressBar;
+  Color? get rfidProcessingScreenProgressBar => _rfidProcessingScreenProgressBar;
   Color? _rfidProcessingScreenProgressBar;
   set rfidProcessingScreenProgressBar(Color? val) {
     _rfidProcessingScreenProgressBar = val;
     _set({"rfidProcessingScreenProgressBar": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenProgressBarBackground =>
-      _rfidProcessingScreenProgressBarBackground;
+  Color? get rfidProcessingScreenProgressBarBackground => _rfidProcessingScreenProgressBarBackground;
   Color? _rfidProcessingScreenProgressBarBackground;
   set rfidProcessingScreenProgressBarBackground(Color? val) {
     _rfidProcessingScreenProgressBarBackground = val;
     _set({"rfidProcessingScreenProgressBarBackground": _intFromColor(val)});
   }
 
-  Color? get rfidProcessingScreenResultLabelText =>
-      _rfidProcessingScreenResultLabelText;
+  Color? get rfidProcessingScreenResultLabelText => _rfidProcessingScreenResultLabelText;
   Color? _rfidProcessingScreenResultLabelText;
   set rfidProcessingScreenResultLabelText(Color? val) {
     _rfidProcessingScreenResultLabelText = val;
@@ -110,32 +104,28 @@ class CustomizationColors {
     _set({"mdlProcessingScreenBackground": _intFromColor(val)});
   }
 
-  Color? get mdlProcessingScreenHintLabelText =>
-      _mdlProcessingScreenHintLabelText;
+  Color? get mdlProcessingScreenHintLabelText => _mdlProcessingScreenHintLabelText;
   Color? _mdlProcessingScreenHintLabelText;
   set mdlProcessingScreenHintLabelText(Color? val) {
     _mdlProcessingScreenHintLabelText = val;
     _set({"mdlProcessingScreenHintLabelText": _intFromColor(val)});
   }
 
-  Color? get mdlProcessingScreenHintLabelBackground =>
-      _mdlProcessingScreenHintLabelBackground;
+  Color? get mdlProcessingScreenHintLabelBackground => _mdlProcessingScreenHintLabelBackground;
   Color? _mdlProcessingScreenHintLabelBackground;
   set mdlProcessingScreenHintLabelBackground(Color? val) {
     _mdlProcessingScreenHintLabelBackground = val;
     _set({"mdlProcessingScreenHintLabelBackground": _intFromColor(val)});
   }
 
-  Color? get mdlProcessingScreenProgressLabelText =>
-      _mdlProcessingScreenProgressLabelText;
+  Color? get mdlProcessingScreenProgressLabelText => _mdlProcessingScreenProgressLabelText;
   Color? _mdlProcessingScreenProgressLabelText;
   set mdlProcessingScreenProgressLabelText(Color? val) {
     _mdlProcessingScreenProgressLabelText = val;
     _set({"mdlProcessingScreenProgressLabelText": _intFromColor(val)});
   }
 
-  Color? get mdlProcessingScreenResultLabelText =>
-      _mdlProcessingScreenResultLabelText;
+  Color? get mdlProcessingScreenResultLabelText => _mdlProcessingScreenResultLabelText;
   Color? _mdlProcessingScreenResultLabelText;
   set mdlProcessingScreenResultLabelText(Color? val) {
     _mdlProcessingScreenResultLabelText = val;
@@ -214,56 +204,32 @@ class CustomizationColors {
     var result = CustomizationColors();
     result.testSetters = {};
 
-    result.rfidProcessingScreenBackground =
-        _intToColor(jsonObject["rfidProcessingScreenBackground"]);
-    result.rfidProcessingScreenHintLabelText =
-        _intToColor(jsonObject["rfidProcessingScreenHintLabelText"]);
-    result.rfidProcessingScreenHintLabelBackground =
-        _intToColor(jsonObject["rfidProcessingScreenHintLabelBackground"]);
-    result.rfidProcessingScreenProgressLabelText =
-        _intToColor(jsonObject["rfidProcessingScreenProgressLabelText"]);
-    result.rfidProcessingScreenProgressBar =
-        _intToColor(jsonObject["rfidProcessingScreenProgressBar"]);
-    result.rfidProcessingScreenProgressBarBackground =
-        _intToColor(jsonObject["rfidProcessingScreenProgressBarBackground"]);
-    result.rfidProcessingScreenResultLabelText =
-        _intToColor(jsonObject["rfidProcessingScreenResultLabelText"]);
-    result.rfidProcessingScreenLoadingBar =
-        _intToColor(jsonObject["rfidProcessingScreenLoadingBar"]);
-    result.rfidEnableNfcTitleText =
-        _intToColor(jsonObject["rfidEnableNfcTitleText"]);
-    result.rfidEnableNfcDescriptionText =
-        _intToColor(jsonObject["rfidEnableNfcDescriptionText"]);
-    result.rfidEnableNfcButtonText =
-        _intToColor(jsonObject["rfidEnableNfcButtonText"]);
-    result.rfidEnableNfcButtonBackground =
-        _intToColor(jsonObject["rfidEnableNfcButtonBackground"]);
-    result.mdlProcessingScreenBackground =
-        _intToColor(jsonObject["mdlProcessingScreenBackground"]);
-    result.mdlProcessingScreenHintLabelText =
-        _intToColor(jsonObject["mdlProcessingScreenHintLabelText"]);
-    result.mdlProcessingScreenHintLabelBackground =
-        _intToColor(jsonObject["mdlProcessingScreenHintLabelBackground"]);
-    result.mdlProcessingScreenProgressLabelText =
-        _intToColor(jsonObject["mdlProcessingScreenProgressLabelText"]);
-    result.mdlProcessingScreenResultLabelText =
-        _intToColor(jsonObject["mdlProcessingScreenResultLabelText"]);
-    result.mdlProcessingScreenLoadingBar =
-        _intToColor(jsonObject["mdlProcessingScreenLoadingBar"]);
-    result.mdlEnableNfcTitleText =
-        _intToColor(jsonObject["mdlEnableNfcTitleText"]);
-    result.mdlEnableNfcDescriptionText =
-        _intToColor(jsonObject["mdlEnableNfcDescriptionText"]);
-    result.mdlEnableNfcButtonText =
-        _intToColor(jsonObject["mdlEnableNfcButtonText"]);
-    result.mdlEnableNfcButtonBackground =
-        _intToColor(jsonObject["mdlEnableNfcButtonBackground"]);
+    result.rfidProcessingScreenBackground = _intToColor(jsonObject["rfidProcessingScreenBackground"]);
+    result.rfidProcessingScreenHintLabelText = _intToColor(jsonObject["rfidProcessingScreenHintLabelText"]);
+    result.rfidProcessingScreenHintLabelBackground = _intToColor(jsonObject["rfidProcessingScreenHintLabelBackground"]);
+    result.rfidProcessingScreenProgressLabelText = _intToColor(jsonObject["rfidProcessingScreenProgressLabelText"]);
+    result.rfidProcessingScreenProgressBar = _intToColor(jsonObject["rfidProcessingScreenProgressBar"]);
+    result.rfidProcessingScreenProgressBarBackground = _intToColor(jsonObject["rfidProcessingScreenProgressBarBackground"]);
+    result.rfidProcessingScreenResultLabelText = _intToColor(jsonObject["rfidProcessingScreenResultLabelText"]);
+    result.rfidProcessingScreenLoadingBar = _intToColor(jsonObject["rfidProcessingScreenLoadingBar"]);
+    result.rfidEnableNfcTitleText = _intToColor(jsonObject["rfidEnableNfcTitleText"]);
+    result.rfidEnableNfcDescriptionText = _intToColor(jsonObject["rfidEnableNfcDescriptionText"]);
+    result.rfidEnableNfcButtonText = _intToColor(jsonObject["rfidEnableNfcButtonText"]);
+    result.rfidEnableNfcButtonBackground = _intToColor(jsonObject["rfidEnableNfcButtonBackground"]);
+    result.mdlProcessingScreenBackground = _intToColor(jsonObject["mdlProcessingScreenBackground"]);
+    result.mdlProcessingScreenHintLabelText = _intToColor(jsonObject["mdlProcessingScreenHintLabelText"]);
+    result.mdlProcessingScreenHintLabelBackground = _intToColor(jsonObject["mdlProcessingScreenHintLabelBackground"]);
+    result.mdlProcessingScreenProgressLabelText = _intToColor(jsonObject["mdlProcessingScreenProgressLabelText"]);
+    result.mdlProcessingScreenResultLabelText = _intToColor(jsonObject["mdlProcessingScreenResultLabelText"]);
+    result.mdlProcessingScreenLoadingBar = _intToColor(jsonObject["mdlProcessingScreenLoadingBar"]);
+    result.mdlEnableNfcTitleText = _intToColor(jsonObject["mdlEnableNfcTitleText"]);
+    result.mdlEnableNfcDescriptionText = _intToColor(jsonObject["mdlEnableNfcDescriptionText"]);
+    result.mdlEnableNfcButtonText = _intToColor(jsonObject["mdlEnableNfcButtonText"]);
+    result.mdlEnableNfcButtonBackground = _intToColor(jsonObject["mdlEnableNfcButtonBackground"]);
     result.nextPageIdCardFront = _intToColor(jsonObject["nextPageIdCardFront"]);
     result.nextPageIdCardBack = _intToColor(jsonObject["nextPageIdCardBack"]);
-    result.nextPagePassportShift =
-        _intToColor(jsonObject["nextPagePassportShift"]);
-    result.nextPagePassportFlip =
-        _intToColor(jsonObject["nextPagePassportFlip"]);
+    result.nextPagePassportShift = _intToColor(jsonObject["nextPagePassportShift"]);
+    result.nextPagePassportFlip = _intToColor(jsonObject["nextPagePassportFlip"]);
 
     return result;
   }

@@ -281,8 +281,7 @@ class ProcessParams {
 
   /// If the certificates required for performing the Digital signature check are missing,
   /// this parameter if enabled will make the Barcode format check failed.
-  bool? get strictBarcodeDigitalSignatureCheck =>
-      _strictBarcodeDigitalSignatureCheck;
+  bool? get strictBarcodeDigitalSignatureCheck => _strictBarcodeDigitalSignatureCheck;
   bool? _strictBarcodeDigitalSignatureCheck;
   set strictBarcodeDigitalSignatureCheck(bool? val) {
     _strictBarcodeDigitalSignatureCheck = val;
@@ -749,8 +748,7 @@ class ProcessParams {
   }
 
   /// Set up the backend processing service parameters.
-  BackendProcessingConfig? get backendProcessingConfig =>
-      _backendProcessingConfig;
+  BackendProcessingConfig? get backendProcessingConfig => _backendProcessingConfig;
   BackendProcessingConfig? _backendProcessingConfig;
   set backendProcessingConfig(BackendProcessingConfig? val) {
     _backendProcessingConfig = val;
@@ -801,16 +799,14 @@ class ProcessParams {
     result.returnCroppedBarcode = jsonObject["returnCroppedBarcode"];
     result.checkRequiredTextFields = jsonObject["checkRequiredTextFields"];
     result.depersonalizeLog = jsonObject["depersonalizeLog"];
-    result.generateDoublePageSpreadImage =
-        jsonObject["generateDoublePageSpreadImage"];
+    result.generateDoublePageSpreadImage = jsonObject["generateDoublePageSpreadImage"];
     result.alreadyCropped = jsonObject["alreadyCropped"];
     result.matchTextFieldMask = jsonObject["matchTextFieldMask"];
     result.updateOCRValidityByGlare = jsonObject["updateOCRValidityByGlare"];
     result.noGraphics = jsonObject["noGraphics"];
     result.multiDocOnImage = jsonObject["multiDocOnImage"];
     result.parseBarcodes = jsonObject["parseBarcodes"];
-    result.shouldReturnPackageForReprocess =
-        jsonObject["shouldReturnPackageForReprocess"];
+    result.shouldReturnPackageForReprocess = jsonObject["shouldReturnPackageForReprocess"];
     result.disablePerforationOCR = jsonObject["disablePerforationOCR"];
     result.respectImageQuality = jsonObject["respectImageQuality"];
     result.strictImageQuality = jsonObject["strictImageQuality"];
@@ -819,19 +815,15 @@ class ProcessParams {
     result.useAuthenticityCheck = jsonObject["useAuthenticityCheck"];
     result.checkHologram = jsonObject["checkHologram"];
     result.generateNumericCodes = jsonObject["generateNumericCodes"];
-    result.strictBarcodeDigitalSignatureCheck =
-        jsonObject["strictBarcodeDigitalSignatureCheck"];
+    result.strictBarcodeDigitalSignatureCheck = jsonObject["strictBarcodeDigitalSignatureCheck"];
     result.selectLongestNames = jsonObject["selectLongestNames"];
     result.generateDTCVC = jsonObject["generateDTCVC"];
     result.strictDLCategoryExpiry = jsonObject["strictDLCategoryExpiry"];
     result.generateAlpha2Codes = jsonObject["generateAlpha2Codes"];
-    result.disableAuthResolutionFilter =
-        jsonObject["disableAuthResolutionFilter"];
+    result.disableAuthResolutionFilter = jsonObject["disableAuthResolutionFilter"];
     result.strictSecurityChecks = jsonObject["strictSecurityChecks"];
-    result.returnTransliteratedFields =
-        jsonObject["returnTransliteratedFields"];
-    result.checkCaptureProcessIntegrity =
-        jsonObject["checkCaptureProcessIntegrity"];
+    result.returnTransliteratedFields = jsonObject["returnTransliteratedFields"];
+    result.checkCaptureProcessIntegrity = jsonObject["checkCaptureProcessIntegrity"];
     result.strictExpiryDate = jsonObject["strictExpiryDate"];
     result.debugSaveBinarySession = jsonObject["debugSaveBinarySession"];
     result.checkVDS = jsonObject["checkVDS"];
@@ -891,8 +883,7 @@ class ProcessParams {
     );
     result.lcidIgnoreFilter = LCID.fromIntList(jsonObject["lcidIgnoreFilter"]);
     result.lcidFilter = LCID.fromIntList(jsonObject["lcidFilter"]);
-    result.fieldTypesIgnoreFilter =
-        FieldType.fromIntList(jsonObject["fieldTypesIgnoreFilter"]);
+    result.fieldTypesIgnoreFilter = FieldType.fromIntList(jsonObject["fieldTypesIgnoreFilter"]);
 
     result.imageQA = ImageQA.fromJson(jsonObject["imageQA"]);
     result.rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
@@ -942,8 +933,7 @@ class ProcessParams {
         "useAuthenticityCheck": useAuthenticityCheck,
         "checkHologram": checkHologram,
         "generateNumericCodes": generateNumericCodes,
-        "strictBarcodeDigitalSignatureCheck":
-            strictBarcodeDigitalSignatureCheck,
+        "strictBarcodeDigitalSignatureCheck": strictBarcodeDigitalSignatureCheck,
         "selectLongestNames": selectLongestNames,
         "generateDTCVC": generateDTCVC,
         "strictDLCategoryExpiry": strictDLCategoryExpiry,
@@ -985,12 +975,10 @@ class ProcessParams {
         "fieldTypesFilter": fieldTypesFilter?.map((e) => e.value).toList(),
         "resultTypeOutput": resultTypeOutput?.map((e) => e.value).toList(),
         "mrzFormatsFilter": mrzFormatsFilter?.map((e) => e.value).toList(),
-        "documentGroupFilter":
-            documentGroupFilter?.map((e) => e.value).toList(),
+        "documentGroupFilter": documentGroupFilter?.map((e) => e.value).toList(),
         "lcidIgnoreFilter": lcidIgnoreFilter?.map((e) => e.value).toList(),
         "lcidFilter": lcidFilter?.map((e) => e.value).toList(),
-        "fieldTypesIgnoreFilter":
-            fieldTypesIgnoreFilter?.map((e) => e.value).toList(),
+        "fieldTypesIgnoreFilter": fieldTypesIgnoreFilter?.map((e) => e.value).toList(),
         "imageQA": imageQA.toJson(),
         "rfidParams": rfidParams?.toJson(),
         "faceApiParams": faceApiParams?.toJson(),

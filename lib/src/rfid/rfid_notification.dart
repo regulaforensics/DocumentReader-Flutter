@@ -28,10 +28,8 @@ class RFIDNotification {
     if (jsonObject == null) return null;
     var result = RFIDNotification();
 
-    result._notificationCode =
-        RFIDNotificationCodes.getByValue(jsonObject["notificationCode"])!;
-    result._dataFileType =
-        RFIDDataFileType.getByValue(jsonObject["dataFileType"])!;
+    result._notificationCode = RFIDNotificationCodes.getByValue(jsonObject["notificationCode"])!;
+    result._dataFileType = RFIDDataFileType.getByValue(jsonObject["dataFileType"])!;
     result._progress = jsonObject["progress"];
 
     return result;

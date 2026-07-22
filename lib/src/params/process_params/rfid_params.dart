@@ -14,8 +14,7 @@ class RFIDParams {
   List<int>? get paIgnoreNotificationCodes => _paIgnoreNotificationCodes;
   List<int>? _paIgnoreNotificationCodes;
 
-  RFIDParams({List<int>? paIgnoreNotificationCodes})
-      : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
+  RFIDParams({List<int>? paIgnoreNotificationCodes}) : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
 
   /// Allows you to deserialize object.
   static RFIDParams? fromJson(jsonObject) {
@@ -28,6 +27,5 @@ class RFIDParams {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"paIgnoreNotificationCodes": paIgnoreNotificationCodes}.clearNulls();
+  Map<String, dynamic> toJson() => {"paIgnoreNotificationCodes": paIgnoreNotificationCodes}.clearNulls();
 }

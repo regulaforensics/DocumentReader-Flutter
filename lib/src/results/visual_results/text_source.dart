@@ -29,8 +29,7 @@ class TextSource {
 
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
     result._source = jsonObject["source"];
-    result._validityStatus =
-        CheckResult.getByValue(jsonObject["validityStatus"])!;
+    result._validityStatus = CheckResult.getByValue(jsonObject["validityStatus"])!;
 
     return result;
   }

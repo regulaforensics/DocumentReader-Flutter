@@ -34,8 +34,7 @@ class AccessControlProcedureType {
     var result = AccessControlProcedureType();
 
     result._activeOptionIdx = jsonObject["activeOptionIdx"];
-    result._type =
-        RFIDAccessControlProcedureType.getByValue(jsonObject["type"])!;
+    result._type = RFIDAccessControlProcedureType.getByValue(jsonObject["type"])!;
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
     result._notifications = _intListFrom(jsonObject["notifications"])!;
 

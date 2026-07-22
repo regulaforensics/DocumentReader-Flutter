@@ -43,5 +43,4 @@ class PrepareProgress {
 }
 
 /// Callback for receiving notifications on Documents Database preparation.
-typedef DocumentReaderPrepareCompletion = void Function(
-    PrepareProgress progress);
+typedef DocumentReaderPrepareCompletion = void Function(PrepareProgress progress);

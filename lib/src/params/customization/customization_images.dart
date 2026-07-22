@@ -72,8 +72,7 @@ class CustomizationImages {
     _set({"multipageButton": _dataToBase64(val)});
   }
 
-  ByteData? get rfidProcessingScreenFailureImage =>
-      _rfidProcessingScreenFailureImage;
+  ByteData? get rfidProcessingScreenFailureImage => _rfidProcessingScreenFailureImage;
   ByteData? _rfidProcessingScreenFailureImage;
   set rfidProcessingScreenFailureImage(ByteData? val) {
     _rfidProcessingScreenFailureImage = val;
@@ -96,8 +95,7 @@ class CustomizationImages {
     _set({"rfidDisableNfcImage": _dataToBase64(val)});
   }
 
-  ByteData? get mdlProcessingScreenFailureImage =>
-      _mdlProcessingScreenFailureImage;
+  ByteData? get mdlProcessingScreenFailureImage => _mdlProcessingScreenFailureImage;
   ByteData? _mdlProcessingScreenFailureImage;
   set mdlProcessingScreenFailureImage(ByteData? val) {
     _mdlProcessingScreenFailureImage = val;
@@ -183,31 +181,19 @@ class CustomizationImages {
     result.switchButton = _dataFromBase64(jsonObject["switchButton"]);
     result.closeButton = _dataFromBase64(jsonObject["closeButton"]);
     result.multipageButton = _dataFromBase64(jsonObject["multipageButton"]);
-    result.rfidProcessingScreenFailureImage =
-        _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
-    result.rfidEnableNfcImage =
-        _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
-    result.rfidDisableNfcImage =
-        _dataFromBase64(jsonObject["rfidDisableNfcImage"]);
-    result.mdlProcessingScreenFailureImage =
-        _dataFromBase64(jsonObject["mdlProcessingScreenFailureImage"]);
+    result.rfidProcessingScreenFailureImage = _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
+    result.rfidEnableNfcImage = _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
+    result.rfidDisableNfcImage = _dataFromBase64(jsonObject["rfidDisableNfcImage"]);
+    result.mdlProcessingScreenFailureImage = _dataFromBase64(jsonObject["mdlProcessingScreenFailureImage"]);
     result.mdlEnableNfcImage = _dataFromBase64(jsonObject["mdlEnableNfcImage"]);
-    result.mdlDisableNfcImage =
-        _dataFromBase64(jsonObject["mdlDisableNfcImage"]);
-    result.nextPageIdCardFront =
-        _dataFromBase64(jsonObject["nextPageIdCardFront"]);
-    result.nextPageIdCardBack =
-        _dataFromBase64(jsonObject["nextPageIdCardBack"]);
-    result.nextPagePassportShift =
-        _dataFromBase64(jsonObject["nextPagePassportShift"]);
-    result.nextPagePassportFlipStart =
-        _dataFromBase64(jsonObject["nextPagePassportFlipStart"]);
-    result.nextPagePassportFlipClean =
-        _dataFromBase64(jsonObject["nextPagePassportFlipClean"]);
-    result.nextPagePassportFlipTop =
-        _dataFromBase64(jsonObject["nextPagePassportFlipTop"]);
-    result.nextPagePassportFlipBottom =
-        _dataFromBase64(jsonObject["nextPagePassportFlipBottom"]);
+    result.mdlDisableNfcImage = _dataFromBase64(jsonObject["mdlDisableNfcImage"]);
+    result.nextPageIdCardFront = _dataFromBase64(jsonObject["nextPageIdCardFront"]);
+    result.nextPageIdCardBack = _dataFromBase64(jsonObject["nextPageIdCardBack"]);
+    result.nextPagePassportShift = _dataFromBase64(jsonObject["nextPagePassportShift"]);
+    result.nextPagePassportFlipStart = _dataFromBase64(jsonObject["nextPagePassportFlipStart"]);
+    result.nextPagePassportFlipClean = _dataFromBase64(jsonObject["nextPagePassportFlipClean"]);
+    result.nextPagePassportFlipTop = _dataFromBase64(jsonObject["nextPagePassportFlipTop"]);
+    result.nextPagePassportFlipBottom = _dataFromBase64(jsonObject["nextPagePassportFlipBottom"]);
 
     return result;
   }

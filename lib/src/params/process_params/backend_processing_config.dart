@@ -42,8 +42,7 @@ class BackendProcessingConfig {
     if (jsonObject == null) return null;
     var result = BackendProcessingConfig(jsonObject["url"]);
 
-    result._rfidServerSideChipVerification =
-        jsonObject["rfidServerSideChipVerification"];
+    result._rfidServerSideChipVerification = jsonObject["rfidServerSideChipVerification"];
     result._mdlVerification = jsonObject["mdlVerification"];
     if (jsonObject["httpHeaders"] != null) {
       result._httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);

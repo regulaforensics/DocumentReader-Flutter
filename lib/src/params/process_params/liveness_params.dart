@@ -97,8 +97,7 @@ class LivenessParams {
     testSetters.addAll(json);
   }
 
-  void _apply(AuthenticityParams parent) =>
-      _set(toJson(), directParent: parent);
+  void _apply(AuthenticityParams parent) => _set(toJson(), directParent: parent);
 
   @visibleForTesting
   Map<String, dynamic> testSetters = {};

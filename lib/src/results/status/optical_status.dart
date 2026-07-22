@@ -52,8 +52,7 @@ class OpticalStatus {
     if (jsonObject == null) return null;
     var result = OpticalStatus();
 
-    result._overallStatus =
-        CheckResult.getByValue(jsonObject["overallStatus"])!;
+    result._overallStatus = CheckResult.getByValue(jsonObject["overallStatus"])!;
     result._mrz = CheckResult.getByValue(jsonObject["mrz"])!;
     result._text = CheckResult.getByValue(jsonObject["text"])!;
     result._docType = CheckResult.getByValue(jsonObject["docType"])!;
