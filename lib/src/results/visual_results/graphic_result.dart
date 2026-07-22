@@ -1,11 +1,3 @@
-//
-//  GraphicResult.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Structure, containing all graphic fields extracted.
@@ -27,5 +19,7 @@ class GraphicResult {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {"fields": fields.map((e) => e.toJson()).toList()}.clearNulls();
+  Map<String, dynamic> toJson() => {
+        "fields": fields.map((e) => e.toJson()).toList(),
+      }.clearNulls();
 }

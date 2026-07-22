@@ -1,11 +1,3 @@
-//
-//  AuthenticityParams.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class AuthenticityParams {
@@ -128,9 +120,7 @@ class AuthenticityParams {
     result.testSetters = {};
 
     result.useLivenessCheck = jsonObject["useLivenessCheck"];
-    result.livenessParams = LivenessParams.fromJson(
-      jsonObject["livenessParams"],
-    );
+    result.livenessParams = LivenessParams.fromJson(jsonObject["livenessParams"]);
     result.checkUVLuminiscence = jsonObject["checkUVLuminiscence"];
     result.checkIRB900 = jsonObject["checkIRB900"];
     result.checkImagePatterns = jsonObject["checkImagePatterns"];

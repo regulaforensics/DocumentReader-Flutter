@@ -8,10 +8,7 @@ class DataRetrieval {
 
   DataRetrieval(this._deviceRetrieval);
 
-  setDocRequestPreset(
-    MDLDocRequestPreset docRequestPreset,
-    MDLIntentToRetain intentToRetain,
-  ) {
+  setDocRequestPreset(MDLDocRequestPreset docRequestPreset, MDLIntentToRetain intentToRetain) {
     _docRequestPreset = docRequestPreset;
     _intentToRetain = intentToRetain;
   }

@@ -1,12 +1,3 @@
-//
-//  document_reader.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
-/// Regula Document Reader SDK
 library document_reader;
 
 import 'dart:async';
@@ -198,10 +189,7 @@ class DocumentReader {
   /// IOS only.
   String? get rfidSessionStatus {
     if (!Platform.isIOS) {
-      throw PlatformException(
-        code: "ios-only",
-        message: "rfidSessionStatus is accessible only on iOS",
-      );
+      throw PlatformException(code: "ios-only", message: "rfidSessionStatus is accessible only on iOS");
     }
     return _rfidSessionStatus;
   }
@@ -209,10 +197,7 @@ class DocumentReader {
   String? _rfidSessionStatus;
   set rfidSessionStatus(String? val) {
     if (!Platform.isIOS) {
-      throw PlatformException(
-        code: "ios-only",
-        message: "rfidSessionStatus is accessible only on iOS",
-      );
+      throw PlatformException(code: "ios-only", message: "rfidSessionStatus is accessible only on iOS");
     }
     _rfidSessionStatus = val;
     _setRfidSessionStatus(val);
@@ -383,10 +368,7 @@ class DocumentReader {
   /// Check out [SuccessOrError] documentation for handling return type.
   ///
   /// Requires `android.permission.INTERNET` android permission.
-  Future<SuccessOrError> runAutoUpdate(
-    String databaseID,
-    DocumentReaderPrepareCompletion prepareCompletion,
-  ) async {
+  Future<SuccessOrError> runAutoUpdate(String databaseID, DocumentReaderPrepareCompletion prepareCompletion) async {
     _setDocumentReaderPrepareCompletion(prepareCompletion);
     var response = await _bridge.invokeMethod("runAutoUpdate", [databaseID]);
     return _successOrErrorFromJson(response);
@@ -398,9 +380,7 @@ class DocumentReader {
   ///
   /// Requires `android.permission.INTERNET` android permission.
   Future<DocumentsDatabase?> checkDatabaseUpdate(String databaseID) async {
-    String? response = await _bridge.invokeMethod("checkDatabaseUpdate", [
-      databaseID,
-    ]);
+    String? response = await _bridge.invokeMethod("checkDatabaseUpdate", [databaseID]);
     return DocumentsDatabase.fromJson(_decode(response));
   }
 
@@ -512,16 +492,12 @@ class DocumentReader {
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
   Future<SuccessOrError> setTCCParams(TccParams params) async {
-    var response = await _bridge.invokeMethod("setTCCParams", [
-      params.toJson(),
-    ]);
+    var response = await _bridge.invokeMethod("setTCCParams", [params.toJson()]);
     return _successOrErrorFromJson(response);
   }
 
   /// It's used to finalize package during backend processing.
-  Future<FinalizePackageCompletion> finalizePackage({
-    FinalizeConfig? config,
-  }) async {
+  Future<FinalizePackageCompletion> finalizePackage({FinalizeConfig? config}) async {
     var funcName = "finalizePackage";
     if (config != null) funcName = "finalizePackageWithFinalizeConfig";
     var response = await _bridge.invokeMethod(funcName, [config?.toJson()]);
@@ -547,11 +523,11 @@ class DocumentReader {
   }
 
   /// Used to read MDL.
-  Future<(DocReaderAction action, Results? results, DocReaderException? error)> readMDL(MDLDeviceEngagement type, DataRetrieval retrieval) async {
-    var response = await _bridge.invokeMethod("startReadMDl", [
-      type.value,
-      retrieval.toJson(),
-    ]);
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)> readMDL(
+    MDLDeviceEngagement type,
+    DataRetrieval retrieval,
+  ) async {
+    var response = await _bridge.invokeMethod("startReadMDl", [type.value, retrieval.toJson()]);
     var jsonObject = json.decode(response);
     return (
       DocReaderAction.getByValue(jsonObject["action"])!,
@@ -599,10 +575,7 @@ class DocumentReader {
     if (withoutUI == MDLDeviceRetrieval.NFC) function = "engageDeviceNFC";
     if (withoutUI == MDLDeviceRetrieval.BLE) function = "engageDeviceBLE";
 
-    var jsonObject = json.decode(await _bridge.invokeMethod(function, [
-      retrieval.toJson(),
-      engagement?.toJson(),
-    ]));
+    var jsonObject = json.decode(await _bridge.invokeMethod(function, [retrieval.toJson(), engagement?.toJson()]));
     return (
       DocReaderAction.getByValue(jsonObject["action"])!,
       Results.fromJson(jsonObject["results"]),
@@ -762,11 +735,7 @@ typedef SuccessOrError = (bool, DocReaderException?);
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef DocumentReaderCompletion = void Function(
-  DocReaderAction action,
-  Results? results,
-  DocReaderException? error,
-);
+typedef DocumentReaderCompletion = void Function(DocReaderAction action, Results? results, DocReaderException? error);
 
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.
@@ -787,11 +756,7 @@ typedef VideoEncoderCompletion = void Function(String filePath);
 /// [TransactionInfo] contains transactionId and tag.
 ///
 /// [DocReaderException] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef FinalizePackageCompletion = (
-  DocReaderAction action,
-  TransactionInfo? info,
-  DocReaderException? error,
-);
+typedef FinalizePackageCompletion = (DocReaderAction action, TransactionInfo? info, DocReaderException? error);
 
 /// Contains all possible DocumentReaderNotification callback codes
 enum DocReaderAction {

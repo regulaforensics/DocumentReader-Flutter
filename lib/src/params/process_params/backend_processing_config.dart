@@ -1,11 +1,3 @@
-//
-//  BackendProcessingConfig.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class BackendProcessingConfig {
@@ -44,9 +36,7 @@ class BackendProcessingConfig {
 
     result._rfidServerSideChipVerification = jsonObject["rfidServerSideChipVerification"];
     result._mdlVerification = jsonObject["mdlVerification"];
-    if (jsonObject["httpHeaders"] != null) {
-      result._httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);
-    }
+    if (jsonObject["httpHeaders"] != null) result._httpHeaders = Map<String, String>.from(jsonObject["httpHeaders"]);
     result._timeoutConnection = _toDouble(jsonObject["timeoutConnection"]);
 
     return result;

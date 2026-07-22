@@ -1,11 +1,3 @@
-//
-//  CustomizationColors.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class CustomizationColors {
@@ -209,7 +201,8 @@ class CustomizationColors {
     result.rfidProcessingScreenHintLabelBackground = _intToColor(jsonObject["rfidProcessingScreenHintLabelBackground"]);
     result.rfidProcessingScreenProgressLabelText = _intToColor(jsonObject["rfidProcessingScreenProgressLabelText"]);
     result.rfidProcessingScreenProgressBar = _intToColor(jsonObject["rfidProcessingScreenProgressBar"]);
-    result.rfidProcessingScreenProgressBarBackground = _intToColor(jsonObject["rfidProcessingScreenProgressBarBackground"]);
+    result.rfidProcessingScreenProgressBarBackground =
+        _intToColor(jsonObject["rfidProcessingScreenProgressBarBackground"]);
     result.rfidProcessingScreenResultLabelText = _intToColor(jsonObject["rfidProcessingScreenResultLabelText"]);
     result.rfidProcessingScreenLoadingBar = _intToColor(jsonObject["rfidProcessingScreenLoadingBar"]);
     result.rfidEnableNfcTitleText = _intToColor(jsonObject["rfidEnableNfcTitleText"]);
@@ -236,84 +229,32 @@ class CustomizationColors {
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
-        "rfidProcessingScreenBackground": _intFromColor(
-          rfidProcessingScreenBackground,
-        ),
-        "rfidProcessingScreenHintLabelText": _intFromColor(
-          rfidProcessingScreenHintLabelText,
-        ),
-        "rfidProcessingScreenHintLabelBackground": _intFromColor(
-          rfidProcessingScreenHintLabelBackground,
-        ),
-        "rfidProcessingScreenProgressLabelText": _intFromColor(
-          rfidProcessingScreenProgressLabelText,
-        ),
-        "rfidProcessingScreenProgressBar": _intFromColor(
-          rfidProcessingScreenProgressBar,
-        ),
-        "rfidProcessingScreenProgressBarBackground": _intFromColor(
-          rfidProcessingScreenProgressBarBackground,
-        ),
-        "rfidProcessingScreenResultLabelText": _intFromColor(
-          rfidProcessingScreenResultLabelText,
-        ),
-        "rfidProcessingScreenLoadingBar": _intFromColor(
-          rfidProcessingScreenLoadingBar,
-        ),
-        "rfidEnableNfcTitleText": _intFromColor(
-          rfidEnableNfcTitleText,
-        ),
-        "rfidEnableNfcDescriptionText": _intFromColor(
-          rfidEnableNfcDescriptionText,
-        ),
-        "rfidEnableNfcButtonText": _intFromColor(
-          rfidEnableNfcButtonText,
-        ),
-        "rfidEnableNfcButtonBackground": _intFromColor(
-          rfidEnableNfcButtonBackground,
-        ),
-        "mdlProcessingScreenBackground": _intFromColor(
-          mdlProcessingScreenBackground,
-        ),
-        "mdlProcessingScreenHintLabelText": _intFromColor(
-          mdlProcessingScreenHintLabelText,
-        ),
-        "mdlProcessingScreenHintLabelBackground": _intFromColor(
-          mdlProcessingScreenHintLabelBackground,
-        ),
-        "mdlProcessingScreenProgressLabelText": _intFromColor(
-          mdlProcessingScreenProgressLabelText,
-        ),
-        "mdlProcessingScreenResultLabelText": _intFromColor(
-          mdlProcessingScreenResultLabelText,
-        ),
-        "mdlProcessingScreenLoadingBar": _intFromColor(
-          mdlProcessingScreenLoadingBar,
-        ),
-        "mdlEnableNfcTitleText": _intFromColor(
-          mdlEnableNfcTitleText,
-        ),
-        "mdlEnableNfcDescriptionText": _intFromColor(
-          mdlEnableNfcDescriptionText,
-        ),
-        "mdlEnableNfcButtonText": _intFromColor(
-          mdlEnableNfcButtonText,
-        ),
-        "mdlEnableNfcButtonBackground": _intFromColor(
-          mdlEnableNfcButtonBackground,
-        ),
-        "nextPageIdCardFront": _intFromColor(
-          nextPageIdCardFront,
-        ),
-        "nextPageIdCardBack": _intFromColor(
-          nextPageIdCardBack,
-        ),
-        "nextPagePassportShift": _intFromColor(
-          nextPagePassportShift,
-        ),
-        "nextPagePassportFlip": _intFromColor(
-          nextPagePassportFlip,
-        ),
+        "rfidProcessingScreenBackground": _intFromColor(rfidProcessingScreenBackground),
+        "rfidProcessingScreenHintLabelText": _intFromColor(rfidProcessingScreenHintLabelText),
+        "rfidProcessingScreenHintLabelBackground": _intFromColor(rfidProcessingScreenHintLabelBackground),
+        "rfidProcessingScreenProgressLabelText": _intFromColor(rfidProcessingScreenProgressLabelText),
+        "rfidProcessingScreenProgressBar": _intFromColor(rfidProcessingScreenProgressBar),
+        "rfidProcessingScreenProgressBarBackground": _intFromColor(rfidProcessingScreenProgressBarBackground),
+        "rfidProcessingScreenResultLabelText": _intFromColor(rfidProcessingScreenResultLabelText),
+        "rfidProcessingScreenLoadingBar": _intFromColor(rfidProcessingScreenLoadingBar),
+        "rfidEnableNfcTitleText": _intFromColor(rfidEnableNfcTitleText),
+        "rfidEnableNfcDescriptionText": _intFromColor(rfidEnableNfcDescriptionText),
+        "rfidEnableNfcButtonText": _intFromColor(rfidEnableNfcButtonText),
+        "rfidEnableNfcButtonBackground": _intFromColor(rfidEnableNfcButtonBackground),
+        "mdlProcessingScreenBackground": _intFromColor(mdlProcessingScreenBackground),
+        "mdlProcessingScreenHintLabelText": _intFromColor(mdlProcessingScreenHintLabelText),
+        "mdlProcessingScreenHintLabelBackground": _intFromColor(mdlProcessingScreenHintLabelBackground),
+        "mdlProcessingScreenProgressLabelText": _intFromColor(mdlProcessingScreenProgressLabelText),
+        "mdlProcessingScreenResultLabelText": _intFromColor(mdlProcessingScreenResultLabelText),
+        "mdlProcessingScreenLoadingBar": _intFromColor(mdlProcessingScreenLoadingBar),
+        "mdlEnableNfcTitleText": _intFromColor(mdlEnableNfcTitleText),
+        "mdlEnableNfcDescriptionText": _intFromColor(mdlEnableNfcDescriptionText),
+        "mdlEnableNfcButtonText": _intFromColor(mdlEnableNfcButtonText),
+        "mdlEnableNfcButtonBackground": _intFromColor(mdlEnableNfcButtonBackground),
+        "nextPageIdCardFront": _intFromColor(nextPageIdCardFront),
+        "nextPageIdCardBack": _intFromColor(nextPageIdCardBack),
+        "nextPagePassportShift": _intFromColor(nextPagePassportShift),
+        "nextPagePassportFlip": _intFromColor(nextPagePassportFlip),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

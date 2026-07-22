@@ -829,9 +829,7 @@ class ProcessParams {
     result.checkVDS = jsonObject["checkVDS"];
     result.strictAgeCheck = jsonObject["strictAgeCheck"];
 
-    result.measureSystem = MeasureSystem.getByValue(
-      jsonObject["measureSystem"],
-    );
+    result.measureSystem = MeasureSystem.getByValue(jsonObject["measureSystem"]);
     result.barcodeParserType = jsonObject["barcodeParserType"];
     result.perspectiveAngle = jsonObject["perspectiveAngle"];
     result.minDPI = jsonObject["minDPI"];
@@ -846,41 +844,25 @@ class ProcessParams {
     result.processAuth = jsonObject["processAuth"];
     result.convertCase = jsonObject["convertCase"];
     result.logLevel = LogLevel.getByValue(jsonObject["logLevel"]);
-    result.mrzDetectMode = MrzDetectionModes.getByValue(
-      jsonObject["mrzDetectMode"],
-    );
+    result.mrzDetectMode = MrzDetectionModes.getByValue(jsonObject["mrzDetectMode"]);
 
     result.dateFormat = jsonObject["dateFormat"];
     result.scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result.captureButtonScenario = Scenario.getByValue(
-      jsonObject["captureButtonScenario"],
-    );
+    result.captureButtonScenario = Scenario.getByValue(jsonObject["captureButtonScenario"]);
 
     result.timeout = _toDouble(jsonObject["timeout"]);
-    result.timeoutFromFirstDetect = _toDouble(
-      jsonObject["timeoutFromFirstDetect"],
-    );
-    result.timeoutFromFirstDocType = _toDouble(
-      jsonObject["timeoutFromFirstDocType"],
-    );
+    result.timeoutFromFirstDetect = _toDouble(jsonObject["timeoutFromFirstDetect"]);
+    result.timeoutFromFirstDocType = _toDouble(jsonObject["timeoutFromFirstDocType"]);
     result.documentAreaMin = _toDouble(jsonObject["documentAreaMin"]);
     result.timeoutLiveness = _toDouble(jsonObject["timeoutLiveness"]);
 
     result.documentIDList = _intListFrom(jsonObject["documentIDList"]);
     result.barcodeTypes = BarcodeType.fromIntList(jsonObject["barcodeTypes"]);
 
-    result.fieldTypesFilter = FieldType.fromIntList(
-      jsonObject["fieldTypesFilter"],
-    );
-    result.resultTypeOutput = ResultType.fromIntList(
-      jsonObject["resultTypeOutput"],
-    );
-    result.mrzFormatsFilter = MRZFormat.fromStringList(
-      jsonObject["mrzFormatsFilter"],
-    );
-    result.documentGroupFilter = DocType.fromIntList(
-      jsonObject["documentGroupFilter"],
-    );
+    result.fieldTypesFilter = FieldType.fromIntList(jsonObject["fieldTypesFilter"]);
+    result.resultTypeOutput = ResultType.fromIntList(jsonObject["resultTypeOutput"]);
+    result.mrzFormatsFilter = MRZFormat.fromStringList(jsonObject["mrzFormatsFilter"]);
+    result.documentGroupFilter = DocType.fromIntList(jsonObject["documentGroupFilter"]);
     result.lcidIgnoreFilter = LCID.fromIntList(jsonObject["lcidIgnoreFilter"]);
     result.lcidFilter = LCID.fromIntList(jsonObject["lcidFilter"]);
     result.fieldTypesIgnoreFilter = FieldType.fromIntList(jsonObject["fieldTypesIgnoreFilter"]);
@@ -888,13 +870,9 @@ class ProcessParams {
     result.imageQA = ImageQA.fromJson(jsonObject["imageQA"]);
     result.rfidParams = RFIDParams.fromJson(jsonObject["rfidParams"]);
     result.faceApiParams = FaceApiParams.fromJson(jsonObject["faceApiParams"]);
-    result.backendProcessingConfig = BackendProcessingConfig.fromJson(
-      jsonObject["backendProcessingConfig"],
-    );
+    result.backendProcessingConfig = BackendProcessingConfig.fromJson(jsonObject["backendProcessingConfig"]);
     result.bsiTr03135 = Bsi.fromJson(jsonObject["bsiTr03135"]);
-    result.authenticityParams = AuthenticityParams.fromJson(
-      jsonObject["authenticityParams"],
-    );
+    result.authenticityParams = AuthenticityParams.fromJson(jsonObject["authenticityParams"]);
 
     result.customParams = jsonObject["customParams"];
 

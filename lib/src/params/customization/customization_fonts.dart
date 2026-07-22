@@ -96,42 +96,18 @@ class CustomizationFonts {
     var result = CustomizationFonts();
     result.testSetters = {};
 
-    result.rfidProcessingScreenHintLabel = Font.fromJson(
-      jsonObject["rfidProcessingScreenHintLabel"],
-    );
-    result.rfidProcessingScreenProgressLabel = Font.fromJson(
-      jsonObject["rfidProcessingScreenProgressLabel"],
-    );
-    result.rfidProcessingScreenResultLabel = Font.fromJson(
-      jsonObject["rfidProcessingScreenResultLabel"],
-    );
-    result.rfidEnableNfcTitleText = Font.fromJson(
-      jsonObject["rfidEnableNfcTitleText"],
-    );
-    result.rfidEnableNfcDescriptionText = Font.fromJson(
-      jsonObject["rfidEnableNfcDescriptionText"],
-    );
-    result.rfidEnableNfcButtonText = Font.fromJson(
-      jsonObject["rfidEnableNfcButtonText"],
-    );
-    result.mdlProcessingScreenHintLabel = Font.fromJson(
-      jsonObject["mdlProcessingScreenHintLabel"],
-    );
-    result.mdlProcessingScreenProgressLabel = Font.fromJson(
-      jsonObject["mdlProcessingScreenProgressLabel"],
-    );
-    result.mdlProcessingScreenResultLabel = Font.fromJson(
-      jsonObject["mdlProcessingScreenResultLabel"],
-    );
-    result.mdlEnableNfcTitleText = Font.fromJson(
-      jsonObject["mdlEnableNfcTitleText"],
-    );
-    result.mdlEnableNfcDescriptionText = Font.fromJson(
-      jsonObject["mdlEnableNfcDescriptionText"],
-    );
-    result.mdlEnableNfcButtonText = Font.fromJson(
-      jsonObject["mdlEnableNfcButtonText"],
-    );
+    result.rfidProcessingScreenHintLabel = Font.fromJson(jsonObject["rfidProcessingScreenHintLabel"]);
+    result.rfidProcessingScreenProgressLabel = Font.fromJson(jsonObject["rfidProcessingScreenProgressLabel"]);
+    result.rfidProcessingScreenResultLabel = Font.fromJson(jsonObject["rfidProcessingScreenResultLabel"]);
+    result.rfidEnableNfcTitleText = Font.fromJson(jsonObject["rfidEnableNfcTitleText"]);
+    result.rfidEnableNfcDescriptionText = Font.fromJson(jsonObject["rfidEnableNfcDescriptionText"]);
+    result.rfidEnableNfcButtonText = Font.fromJson(jsonObject["rfidEnableNfcButtonText"]);
+    result.mdlProcessingScreenHintLabel = Font.fromJson(jsonObject["mdlProcessingScreenHintLabel"]);
+    result.mdlProcessingScreenProgressLabel = Font.fromJson(jsonObject["mdlProcessingScreenProgressLabel"]);
+    result.mdlProcessingScreenResultLabel = Font.fromJson(jsonObject["mdlProcessingScreenResultLabel"]);
+    result.mdlEnableNfcTitleText = Font.fromJson(jsonObject["mdlEnableNfcTitleText"]);
+    result.mdlEnableNfcDescriptionText = Font.fromJson(jsonObject["mdlEnableNfcDescriptionText"]);
+    result.mdlEnableNfcButtonText = Font.fromJson(jsonObject["mdlEnableNfcButtonText"]);
 
     return result;
   }
@@ -201,7 +177,11 @@ class Font {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() => {"name": name, "size": size, "style": style?.value}.clearNulls();
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "size": size,
+        "style": style?.value,
+      }.clearNulls();
 }
 
 enum FontStyle {

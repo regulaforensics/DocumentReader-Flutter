@@ -1,11 +1,3 @@
-//
-//  File.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class File {
@@ -57,9 +49,7 @@ class File {
     result._readingStatus = RFIDErrorCodes.getByValue(jsonObject["readingStatus"])!;
     result._fileID = jsonObject["fileID"];
     result._fileData = FileData.fromJson(jsonObject["fileData"]);
-    result._certificates = SecurityObjectCertificates.fromJson(
-      jsonObject["certificates"],
-    );
+    result._certificates = SecurityObjectCertificates.fromJson(jsonObject["certificates"]);
     result._docFieldsText = _intListFrom(jsonObject["docFieldsText"])!;
     result._docFieldsGraphics = _intListFrom(jsonObject["docFieldsGraphics"])!;
     result._docFieldsOriginals = _intListFrom(jsonObject["docFieldsOriginals"])!;

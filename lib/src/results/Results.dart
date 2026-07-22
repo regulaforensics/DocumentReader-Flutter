@@ -1,11 +1,3 @@
-//
-//  Results.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 /// Class describing results returned on completion of Document Reader work.
@@ -101,42 +93,21 @@ class Results {
 
   /// Allows you to get a value of a text field.
   Future<String?> textFieldValueByType(FieldType fieldType) async {
-    return await _bridge.invokeMethod("textFieldValueByType", [
-      rawResult,
-      fieldType.value,
-    ]);
+    return await _bridge.invokeMethod("textFieldValueByType", [rawResult, fieldType.value]);
   }
 
   /// Allows you to get a value of a text field based on LCID.
-  Future<String?> textFieldValueByTypeLcid(
-    FieldType fieldType,
-    LCID lcid,
-  ) async {
-    return await _bridge.invokeMethod("textFieldValueByTypeLcid", [
-      rawResult,
-      fieldType.value,
-      lcid.value,
-    ]);
+  Future<String?> textFieldValueByTypeLcid(FieldType fieldType, LCID lcid) async {
+    return await _bridge.invokeMethod("textFieldValueByTypeLcid", [rawResult, fieldType.value, lcid.value]);
   }
 
   /// Allows you to get a value of a text field based on a source type.
-  Future<String?> textFieldValueByTypeSource(
-    FieldType fieldType,
-    ResultType source,
-  ) async {
-    return await _bridge.invokeMethod("textFieldValueByTypeSource", [
-      rawResult,
-      fieldType.value,
-      source.value,
-    ]);
+  Future<String?> textFieldValueByTypeSource(FieldType fieldType, ResultType source) async {
+    return await _bridge.invokeMethod("textFieldValueByTypeSource", [rawResult, fieldType.value, source.value]);
   }
 
   /// Allows you to get a value of a text field based on LCID and a source type.
-  Future<String?> textFieldValueByTypeLcidSource(
-    FieldType fieldType,
-    LCID lcid,
-    ResultType source,
-  ) async {
+  Future<String?> textFieldValueByTypeLcidSource(FieldType fieldType, LCID lcid, ResultType source) async {
     return await _bridge.invokeMethod("textFieldValueByTypeLcidSource", [
       rawResult,
       fieldType.value,
@@ -147,11 +118,7 @@ class Results {
 
   /// Allows you to get a value of a text field based on a source type and
   /// its originality.
-  Future<String?> textFieldValueByTypeSourceOriginal(
-    FieldType fieldType,
-    ResultType source,
-    bool original,
-  ) async {
+  Future<String?> textFieldValueByTypeSourceOriginal(FieldType fieldType, ResultType source, bool original) async {
     return await _bridge.invokeMethod("textFieldValueByTypeSourceOriginal", [
       rawResult,
       fieldType.value,
@@ -176,36 +143,22 @@ class Results {
 
   /// Allows you to get an instance of a text field.
   Future<TextField?> textFieldByType(FieldType fieldType) async {
-    String? result = await _bridge.invokeMethod("textFieldByType", [
-      rawResult,
-      fieldType.value,
-    ]);
+    String? result = await _bridge.invokeMethod("textFieldByType", [rawResult, fieldType.value]);
     if (result == null) return null;
     return TextField.fromJson(json.decode(result));
   }
 
   /// Allows you to get an instance of a text field based on LCID.
   Future<TextField?> textFieldByTypeLcid(FieldType fieldType, LCID lcid) async {
-    String? result = await _bridge.invokeMethod("textFieldByTypeLcid", [
-      rawResult,
-      fieldType.value,
-      lcid.value,
-    ]);
+    String? result = await _bridge.invokeMethod("textFieldByTypeLcid", [rawResult, fieldType.value, lcid.value]);
     if (result == null) return null;
     return TextField.fromJson(json.decode(result));
   }
 
   /// Allows you to get an image of a graphic field based on a source type
   /// and page index.
-  Future<GraphicField?> graphicFieldByTypeSource(
-    GraphicFieldType fieldType,
-    ResultType source,
-  ) async {
-    String? result = await _bridge.invokeMethod("graphicFieldByTypeSource", [
-      rawResult,
-      fieldType.value,
-      source.value,
-    ]);
+  Future<GraphicField?> graphicFieldByTypeSource(GraphicFieldType fieldType, ResultType source) async {
+    String? result = await _bridge.invokeMethod("graphicFieldByTypeSource", [rawResult, fieldType.value, source.value]);
     if (result == null) return null;
     return GraphicField.fromJson(json.decode(result));
   }
@@ -243,20 +196,14 @@ class Results {
 
   /// Allows you to get an image of a graphic field.
   Future<Uint8List?> graphicFieldImageByType(GraphicFieldType fieldType) async {
-    String? result = await _bridge.invokeMethod("graphicFieldImageByType", [
-      rawResult,
-      fieldType.value,
-    ]);
+    String? result = await _bridge.invokeMethod("graphicFieldImageByType", [rawResult, fieldType.value]);
     if (result == null) return null;
     // return Uri.parse("data:image/png;base64," + result);
     return _bytesFromBase64(result);
   }
 
   /// Allows you to get an image of a graphic field based on a source type.
-  Future<Uint8List?> graphicFieldImageByTypeSource(
-    GraphicFieldType fieldType,
-    ResultType source,
-  ) async {
+  Future<Uint8List?> graphicFieldImageByTypeSource(GraphicFieldType fieldType, ResultType source) async {
     String? result = await _bridge.invokeMethod(
       "graphicFieldImageByTypeSource",
       [rawResult, fieldType.value, source.value],
@@ -323,9 +270,7 @@ class Results {
     var result = Results();
 
     result._chipPage = jsonObject["chipPage"];
-    result._processingFinishedStatus = ProcessingFinishedStatus.getByValue(
-      jsonObject["processingFinishedStatus"],
-    )!;
+    result._processingFinishedStatus = ProcessingFinishedStatus.getByValue(jsonObject["processingFinishedStatus"])!;
     result._elapsedTime = jsonObject["elapsedTime"];
     result._elapsedTimeRFID = jsonObject["elapsedTimeRFID"];
     result._morePagesAvailable = jsonObject["morePagesAvailable"];
@@ -363,20 +308,14 @@ class Results {
     }
     result._rawResult = jsonObject["rawResult"];
     result._bsiTr03135Results = jsonObject["bsiTr03135Results"];
-    result._rfidSessionData = RFIDSessionData.fromJson(
-      jsonObject["rfidSessionData"],
-    );
-    result._authenticityResult = AuthenticityResult.fromJson(
-      jsonObject["authenticityResult"],
-    );
+    result._rfidSessionData = RFIDSessionData.fromJson(jsonObject["rfidSessionData"]);
+    result._authenticityResult = AuthenticityResult.fromJson(jsonObject["authenticityResult"]);
     result._barcodeResult = BarcodeResult.fromJson(jsonObject["barcodeResult"]);
     result._status = ResultsStatus.fromJson(jsonObject["status"])!;
     result._vdsncData = VDSNCData.fromJson(jsonObject["vdsncData"]);
     result._vdsData = VDSData.fromJson(jsonObject["vdsData"]);
     result._dtcData = _bytesFromBase64(jsonObject["dtcData"]);
-    result._transactionInfo = TransactionInfo.fromJson(
-      jsonObject["transactionInfo"],
-    );
+    result._transactionInfo = TransactionInfo.fromJson(jsonObject["transactionInfo"]);
 
     return result;
   }

@@ -1,11 +1,3 @@
-//
-//  CustomizationImages.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class CustomizationImages {
@@ -200,72 +192,28 @@ class CustomizationImages {
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
-        "helpAnimation": _dataToBase64(
-          helpAnimation,
-        ),
-        "livenessAnimation": _dataToBase64(
-          livenessAnimation,
-        ),
-        "borderBackground": _dataToBase64(
-          borderBackground,
-        ),
-        "torchButtonOn": _dataToBase64(
-          torchButtonOn,
-        ),
-        "torchButtonOff": _dataToBase64(
-          torchButtonOff,
-        ),
-        "captureButton": _dataToBase64(
-          captureButton,
-        ),
-        "switchButton": _dataToBase64(
-          switchButton,
-        ),
-        "closeButton": _dataToBase64(
-          closeButton,
-        ),
-        "multipageButton": _dataToBase64(
-          rfidDisableNfcImage,
-        ),
-        "rfidProcessingScreenFailureImage": _dataToBase64(
-          rfidProcessingScreenFailureImage,
-        ),
-        "rfidEnableNfcImage": _dataToBase64(
-          rfidEnableNfcImage,
-        ),
-        "rfidDisableNfcImage": _dataToBase64(
-          rfidDisableNfcImage,
-        ),
-        "mdlProcessingScreenFailureImage": _dataToBase64(
-          mdlProcessingScreenFailureImage,
-        ),
-        "mdlEnableNfcImage": _dataToBase64(
-          mdlEnableNfcImage,
-        ),
-        "mdlDisableNfcImage": _dataToBase64(
-          mdlDisableNfcImage,
-        ),
-        "nextPageIdCardFront": _dataToBase64(
-          nextPageIdCardFront,
-        ),
-        "nextPageIdCardBack": _dataToBase64(
-          nextPageIdCardBack,
-        ),
-        "nextPagePassportShift": _dataToBase64(
-          nextPagePassportShift,
-        ),
-        "nextPagePassportFlipStart": _dataToBase64(
-          nextPagePassportFlipStart,
-        ),
-        "nextPagePassportFlipClean": _dataToBase64(
-          nextPagePassportFlipClean,
-        ),
-        "nextPagePassportFlipTop": _dataToBase64(
-          nextPagePassportFlipTop,
-        ),
-        "nextPagePassportFlipBottom": _dataToBase64(
-          nextPagePassportFlipBottom,
-        ),
+        "helpAnimation": _dataToBase64(helpAnimation),
+        "livenessAnimation": _dataToBase64(livenessAnimation),
+        "borderBackground": _dataToBase64(borderBackground),
+        "torchButtonOn": _dataToBase64(torchButtonOn),
+        "torchButtonOff": _dataToBase64(torchButtonOff),
+        "captureButton": _dataToBase64(captureButton),
+        "switchButton": _dataToBase64(switchButton),
+        "closeButton": _dataToBase64(closeButton),
+        "multipageButton": _dataToBase64(rfidDisableNfcImage),
+        "rfidProcessingScreenFailureImage": _dataToBase64(rfidProcessingScreenFailureImage),
+        "rfidEnableNfcImage": _dataToBase64(rfidEnableNfcImage),
+        "rfidDisableNfcImage": _dataToBase64(rfidDisableNfcImage),
+        "mdlProcessingScreenFailureImage": _dataToBase64(mdlProcessingScreenFailureImage),
+        "mdlEnableNfcImage": _dataToBase64(mdlEnableNfcImage),
+        "mdlDisableNfcImage": _dataToBase64(mdlDisableNfcImage),
+        "nextPageIdCardFront": _dataToBase64(nextPageIdCardFront),
+        "nextPageIdCardBack": _dataToBase64(nextPageIdCardBack),
+        "nextPagePassportShift": _dataToBase64(nextPagePassportShift),
+        "nextPagePassportFlipStart": _dataToBase64(nextPagePassportFlipStart),
+        "nextPagePassportFlipClean": _dataToBase64(nextPagePassportFlipClean),
+        "nextPagePassportFlipTop": _dataToBase64(nextPagePassportFlipTop),
+        "nextPagePassportFlipBottom": _dataToBase64(nextPagePassportFlipBottom),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

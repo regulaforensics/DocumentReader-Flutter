@@ -1,11 +1,3 @@
-//
-//  RFIDConfig.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 /// A configuration file for the RFID chip processing.
@@ -81,11 +73,7 @@ class RFIDConfig {
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef RFIDCompletion = void Function(
-  DocReaderAction action,
-  Results? results,
-  RFIDException? error,
-);
+typedef RFIDCompletion = void Function(DocReaderAction action, Results? results, RFIDException? error);
 
 /// Completion for reveiving notification about RFID reading process.
 typedef RFIDProgressCompletion = void Function(RFIDNotification notification);

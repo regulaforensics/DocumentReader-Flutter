@@ -53,7 +53,10 @@ var authenticityParams = {
   "checkSecurityText": true,
   "livenessParams": livenessParams,
 };
-var glaresCheckParams = {"imgMarginPart": 0.5, "maxGlaringPart": 1.5};
+var glaresCheckParams = {
+  "imgMarginPart": 0.5,
+  "maxGlaringPart": 1.5,
+};
 var imageQA = {
   "dpiThreshold": 1,
   "angleThreshold": 2,
@@ -165,8 +168,16 @@ var processParams = {
   "authenticityParams": authenticityParams,
   "customParams": {"test1": true, "test2": 1, "test3": "test"},
 };
-var font1 = {"name": "AppleSDGothicNeo-Thin", "size": 10, "style": 2};
-var font2 = {"name": "Copperplate-Light", "size": 20, "style": 1};
+var font1 = {
+  "name": "AppleSDGothicNeo-Thin",
+  "size": 10,
+  "style": 2,
+};
+var font2 = {
+  "name": "Copperplate-Light",
+  "size": 20,
+  "style": 1,
+};
 var customizationColors = {
   "rfidProcessingScreenBackground": 0xff000000,
   "rfidProcessingScreenHintLabelText": 0xff000001,
@@ -316,28 +327,8 @@ var customization = {
   "livenessAnimationImageContentMode": 3,
   "borderBackgroundImageContentMode": 4,
   "helpAnimationImageMatrix": [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9],
-  "multipageAnimationFrontImageMatrix": [
-    2.1,
-    2.2,
-    2.3,
-    2.4,
-    2.5,
-    2.6,
-    2.7,
-    2.8,
-    2.9,
-  ],
-  "multipageAnimationBackImageMatrix": [
-    3.1,
-    3.2,
-    3.3,
-    3.4,
-    3.5,
-    3.6,
-    3.7,
-    3.8,
-    3.9,
-  ],
+  "multipageAnimationFrontImageMatrix": [2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
+  "multipageAnimationBackImageMatrix": [3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9],
   "livenessAnimationImageMatrix": [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9],
   "borderBackgroundImageMatrix": [5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9],
   "colors": customizationColors,
@@ -347,7 +338,10 @@ var customization = {
   "contentModes": customizationContentModes,
   "matrices": customizationMatrices,
 };
-var cameraSize = {"width": 0, "height": 1};
+var cameraSize = {
+  "width": 0,
+  "height": 1,
+};
 var functionality = {
   "pictureOnBoundsReady": true,
   "showTorchButton": false,
@@ -534,7 +528,11 @@ var onlineProcessingConfig = {
   "processParams": processParams,
   "requestHeaders": {"key1": "val1", "key2": "val2", "key3": "val3"},
 };
-var imageInputData = {"image": img1, "light": 128, "pageIndex": 2};
+var imageInputData = {
+  "image": img1,
+  "light": 128,
+  "pageIndex": 2,
+};
 var recognizeConfig = {
   "scenario": "Mrz",
   "livePortrait": img1,
@@ -606,9 +604,19 @@ var license = {
   "countryFilter": ["test2", "test3", "test4"],
   "isRfidAvailable": true,
 };
-var docReaderException = {"code": 1, "message": "test1"};
-var rfidException = {"code": 2, "message": "test2"};
-var prepareProgress = {"downloadedBytes": 1, "totalBytes": 2, "progress": 50};
+var docReaderException = {
+  "code": 1,
+  "message": "test1",
+};
+var rfidException = {
+  "code": 2,
+  "message": "test2",
+};
+var prepareProgress = {
+  "downloadedBytes": 1,
+  "totalBytes": 2,
+  "progress": 50,
+};
 
 var authenticityElement = {
   "status": 1,
@@ -628,7 +636,11 @@ var authenticityResult = {
   "status": 2,
   "checks": [authenticityCheck, authenticityCheck, authenticityCheck],
 };
-var pdf417Info = {"errorLevel": 2, "columns": 3, "rows": 4};
+var pdf417Info = {
+  "errorLevel": 2,
+  "columns": 3,
+  "rows": 4,
+};
 var barcodeField = {
   "barcodeType": 5,
   "status": -6001,
@@ -639,7 +651,12 @@ var barcodeField = {
 var barcodeResult = {
   "fields": [barcodeField, barcodeField, barcodeField],
 };
-var rect = {"bottom": 0, "top": 1, "left": 2, "right": 3};
+var rect = {
+  "bottom": 0,
+  "top": 1,
+  "left": 2,
+  "right": 3,
+};
 var imageQuality = {
   "featureType": 1,
   "result": 2,
@@ -658,9 +675,19 @@ var accessControlProcedureType = {
   "status": 1,
   "notifications": [1, 2, 3],
 };
-var fileData = {"data": "test", "length": 2, "type": 3, "status": 4};
-var certificateData = {"data": "test", "length": 1};
-var securityObjectCertificates = {"securityObject": certificateData};
+var fileData = {
+  "data": "test",
+  "length": 2,
+  "type": 3,
+  "status": 4,
+};
+var certificateData = {
+  "data": "test",
+  "length": 1,
+};
+var securityObjectCertificates = {
+  "securityObject": certificateData,
+};
 var file = {
   "fileData": fileData,
   "fileID": "test1",
@@ -691,7 +718,10 @@ var rfidValue = {
   "type": 3,
   "format": "test2",
 };
-var attribute = {"type": "test", "value": rfidValue};
+var attribute = {
+  "type": "test",
+  "value": rfidValue,
+};
 var authority = {
   "attributes": [attribute, attribute, attribute],
   "data": "test",
@@ -713,8 +743,14 @@ var cardProperties = {
   "baudrate2": "test4",
   "uID": "test5",
 };
-var extension = {"data": "test1", "type": "test2"};
-var rfidValidity = {"notAfter": rfidValue, "notBefore": rfidValue};
+var extension = {
+  "data": "test1",
+  "type": "test2",
+};
+var rfidValidity = {
+  "notAfter": rfidValue,
+  "notBefore": rfidValue,
+};
 var certificateChain = {
   "type": 1,
   "extensions": [extension, extension, extension],
@@ -730,7 +766,10 @@ var certificateChain = {
   "validity": rfidValidity,
   "version": 4,
 };
-var dataField = {"data": "test", "fieldType": 1};
+var dataField = {
+  "data": "test",
+  "fieldType": 1,
+};
 var signerInfo = {
   "dataToHash": "test1",
   "digestAlgorithm": "test2",
@@ -769,7 +808,12 @@ var rfidSessionData = {
   "extLeSupport": 1,
   "processTime": 4,
 };
-var bytesData = {"data": "test", "length": 1, "status": 2, "type": 3};
+var bytesData = {
+  "data": "test",
+  "length": 1,
+  "status": 2,
+  "type": 3,
+};
 var vdsncData = {
   "type": "test1",
   "version": 1,
@@ -781,7 +825,10 @@ var vdsncData = {
   "certificateChain": [certificateChain, certificateChain, certificateChain],
   "notifications": [3000000001, 3000000002, 3000000003],
 };
-var docFeature = {"type": 0, "data": bytesData};
+var docFeature = {
+  "type": 0,
+  "data": bytesData,
+};
 var vdsData = {
   "type": 1,
   "docType": 2,
@@ -838,7 +885,11 @@ var resultsStatus = {
   "detailsAge": ageStatus,
   "detailsRFID": rfidStatus,
 };
-var comparison = {"sourceTypeLeft": 0, "sourceTypeRight": 1, "status": 2};
+var comparison = {
+  "sourceTypeLeft": 0,
+  "sourceTypeRight": 1,
+  "status": 2,
+};
 var graphicField = {
   "sourceType": 0,
   "fieldType": 201,
@@ -853,9 +904,21 @@ var graphicField = {
 var graphicResult = {
   "fields": [graphicField, graphicField, graphicField],
 };
-var rfidOrigin = {"dg": 1, "dgTag": 2, "entryView": 3, "tagEntry": 4};
-var symbol = {"rect": rect, "code": 1, "probability": 2};
-var validity = {"sourceType": 1, "status": 2};
+var rfidOrigin = {
+  "dg": 1,
+  "dgTag": 2,
+  "entryView": 3,
+  "tagEntry": 4,
+};
+var symbol = {
+  "rect": rect,
+  "code": 1,
+  "probability": 2,
+};
+var validity = {
+  "sourceType": 1,
+  "status": 2,
+};
 var value = {
   "sourceType": 3,
   "value": "test1",
@@ -920,7 +983,10 @@ var documentType = {
   "dCountryName": "test5",
   "pageIndex": 3,
 };
-var coordinate = {"x": 1, "y": 2};
+var coordinate = {
+  "x": 1,
+  "y": 2,
+};
 var position = {
   "docFormat": 0,
   "resultStatus": 1,
@@ -974,7 +1040,10 @@ var rfidNotification = {
   "dataFileType": 1,
   "progress": 2,
 };
-var paAttribute = {"type": "test1", "value": "test2"};
+var paAttribute = {
+  "type": "test1",
+  "value": "test2",
+};
 var paResourcesIssuer = {
   "data": img1,
   "friendlyName": "test",

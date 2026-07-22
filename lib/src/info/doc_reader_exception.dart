@@ -1,11 +1,3 @@
-//
-//  DocReaderException.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../flutter_document_reader_api.dart";
 
 class DocReaderException {
@@ -32,7 +24,10 @@ class DocReaderException {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {"code": code.value, "message": message}.clearNulls();
+  Map<String, dynamic> toJson() => {
+        "code": code.value,
+        "message": message,
+      }.clearNulls();
 }
 
 /// Enum contains all possible error codes
