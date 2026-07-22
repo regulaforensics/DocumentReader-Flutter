@@ -106,22 +106,20 @@ class FlutterDocumentReaderApiPluginTest {
     // params
 
     @Test
-    fun customization() = suppressStderr {
-        compare(
-            "customization", ::customizationFromJSON, ::generateCustomization,
-            "helpAnimationImageContentMode",
-            "multipageAnimationFrontImageContentMode",
-            "multipageAnimationBackImageContentMode",
-            "livenessAnimationImageContentMode",
-            "borderBackgroundImageContentMode",
-            "statusTextFont",
-            "resultStatusTextFont",
-            "multipageButtonTextFont",
-            "fonts",
-            "contentModes",
-            "theme",
-        )
-    }
+    fun customization() = compare(
+        "customization", ::customizationFromJSON, ::generateCustomization,
+        "helpAnimationImageContentMode",
+        "multipageAnimationFrontImageContentMode",
+        "multipageAnimationBackImageContentMode",
+        "livenessAnimationImageContentMode",
+        "borderBackgroundImageContentMode",
+        "statusTextFont",
+        "resultStatusTextFont",
+        "multipageButtonTextFont",
+        "fonts",
+        "contentModes",
+        "theme",
+    )
 
     @Test
     fun functionality() = compare(

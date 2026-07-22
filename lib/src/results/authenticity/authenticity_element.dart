@@ -1,3 +1,11 @@
+//
+//  AuthenticityElement.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 class AuthenticityElement {
@@ -25,8 +33,10 @@ class AuthenticityElement {
     var result = AuthenticityElement();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
-    result._elementType = SecurityFeatureType.getByValue(jsonObject["elementType"])!;
-    result._elementDiagnose = CheckDiagnose.getByValue(jsonObject["elementDiagnose"])!;
+    result._elementType =
+        SecurityFeatureType.getByValue(jsonObject["elementType"])!;
+    result._elementDiagnose =
+        CheckDiagnose.getByValue(jsonObject["elementDiagnose"])!;
     result._elementTypeName = jsonObject["elementTypeName"];
     result._elementDiagnoseName = jsonObject["elementDiagnoseName"];
 

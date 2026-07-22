@@ -1,4 +1,4 @@
-#import "./include/flutter_document_reader_api/RGLWMain.h"
+#import "RGLWMain.h"
 
 @implementation RGLWMain
 

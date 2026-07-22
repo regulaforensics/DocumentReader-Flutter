@@ -1,3 +1,11 @@
+//
+//  AccessControlProcedureType.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Structure is used to describe the results of a single authentication
@@ -26,7 +34,8 @@ class AccessControlProcedureType {
     var result = AccessControlProcedureType();
 
     result._activeOptionIdx = jsonObject["activeOptionIdx"];
-    result._type = RFIDAccessControlProcedureType.getByValue(jsonObject["type"])!;
+    result._type =
+        RFIDAccessControlProcedureType.getByValue(jsonObject["type"])!;
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
     result._notifications = _intListFrom(jsonObject["notifications"])!;
 

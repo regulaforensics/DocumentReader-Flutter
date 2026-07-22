@@ -1,3 +1,11 @@
+//
+//  ResultsStatus.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Provision of document verification status.
@@ -50,16 +58,19 @@ class ResultsStatus {
     if (jsonObject == null) return null;
     var result = ResultsStatus();
 
-    result._overallStatus = CheckResult.getByValue(jsonObject["overallStatus"])!;
+    result._overallStatus =
+        CheckResult.getByValue(jsonObject["overallStatus"])!;
     result._optical = CheckResult.getByValue(jsonObject["optical"])!;
-    result._detailsOptical = OpticalStatus.fromJson(jsonObject["detailsOptical"])!;
+    result._detailsOptical =
+        OpticalStatus.fromJson(jsonObject["detailsOptical"])!;
     result._rfid = CheckResult.getByValue(jsonObject["rfid"])!;
     result._detailsRFID = RFIDStatus.fromJson(jsonObject["detailsRFID"])!;
     result._portrait = CheckResult.getByValue(jsonObject["portrait"])!;
     result._stopList = CheckResult.getByValue(jsonObject["stopList"])!;
     result._mDL = CheckResult.getByValue(jsonObject["mDL"])!;
     result._age = CheckResult.getByValue(jsonObject["age"])!;
-    result._captureProcessIntegrity = CheckResult.getByValue(jsonObject["captureProcessIntegrity"]);
+    result._captureProcessIntegrity =
+        CheckResult.getByValue(jsonObject["captureProcessIntegrity"]);
     result._ageStatus = AgeStatus.fromJson(jsonObject["detailsAge"])!;
 
     return result;

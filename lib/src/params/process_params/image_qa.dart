@@ -1,3 +1,11 @@
+//
+//  ImageQA.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Class contains properties to configure image quality.
@@ -113,8 +121,12 @@ class ImageQA {
     result.glaresCheck = jsonObject["glaresCheck"];
     result.colornessCheck = jsonObject["colornessCheck"];
     result.screenCapture = jsonObject["screenCapture"];
-    result.expectedPass = ImageQualityCheckType.fromIntList(jsonObject["expectedPass"]);
-    result.glaresCheckParams = GlaresCheckParams.fromJson(jsonObject["glaresCheckParams"]);
+    result.expectedPass = ImageQualityCheckType.fromIntList(
+      jsonObject["expectedPass"],
+    );
+    result.glaresCheckParams = GlaresCheckParams.fromJson(
+      jsonObject["glaresCheckParams"],
+    );
     result.documentPositionIndent = jsonObject["documentPositionIndent"];
     result.brightnessThreshold = _toDouble(jsonObject["brightnessThreshold"]);
     result.occlusionCheck = jsonObject["occlusionCheck"];

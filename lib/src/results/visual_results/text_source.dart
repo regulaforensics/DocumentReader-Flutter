@@ -1,3 +1,11 @@
+//
+//  TextSource.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Structure describing single value of the field.
@@ -21,7 +29,8 @@ class TextSource {
 
     result._sourceType = ResultType.getByValue(jsonObject["sourceType"])!;
     result._source = jsonObject["source"];
-    result._validityStatus = CheckResult.getByValue(jsonObject["validityStatus"])!;
+    result._validityStatus =
+        CheckResult.getByValue(jsonObject["validityStatus"])!;
 
     return result;
   }

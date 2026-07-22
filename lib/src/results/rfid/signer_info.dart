@@ -1,3 +1,11 @@
+//
+//  SignerInfo.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Structure is used to store the result of the verification of a single digital
@@ -65,7 +73,9 @@ class SignerInfo {
     result._signatureAlgorithm = jsonObject["signatureAlgorithm"];
     result._serialNumber = RFIDValue.fromJson(jsonObject["serialNumber"]);
     result._signature = RFIDValue.fromJson(jsonObject["signature"]);
-    result._subjectKeyIdentifier = RFIDValue.fromJson(jsonObject["subjectKeyIdentifier"]);
+    result._subjectKeyIdentifier = RFIDValue.fromJson(
+      jsonObject["subjectKeyIdentifier"],
+    );
     result._issuer = Authority.fromJson(jsonObject["issuer"]);
     result._notifications = _intListFrom(jsonObject["notifications"])!;
     for (var item in jsonObject["signedAttributes"]) {

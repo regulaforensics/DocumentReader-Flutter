@@ -1,3 +1,11 @@
+//
+//  OpticalStatus.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Container for an optical related scanning statuses.
@@ -44,7 +52,8 @@ class OpticalStatus {
     if (jsonObject == null) return null;
     var result = OpticalStatus();
 
-    result._overallStatus = CheckResult.getByValue(jsonObject["overallStatus"])!;
+    result._overallStatus =
+        CheckResult.getByValue(jsonObject["overallStatus"])!;
     result._mrz = CheckResult.getByValue(jsonObject["mrz"])!;
     result._text = CheckResult.getByValue(jsonObject["text"])!;
     result._docType = CheckResult.getByValue(jsonObject["docType"])!;

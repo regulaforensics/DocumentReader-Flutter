@@ -1,3 +1,11 @@
+//
+//  CustomizationImages.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 class CustomizationImages {
@@ -64,7 +72,8 @@ class CustomizationImages {
     _set({"multipageButton": _dataToBase64(val)});
   }
 
-  ByteData? get rfidProcessingScreenFailureImage => _rfidProcessingScreenFailureImage;
+  ByteData? get rfidProcessingScreenFailureImage =>
+      _rfidProcessingScreenFailureImage;
   ByteData? _rfidProcessingScreenFailureImage;
   set rfidProcessingScreenFailureImage(ByteData? val) {
     _rfidProcessingScreenFailureImage = val;
@@ -87,7 +96,8 @@ class CustomizationImages {
     _set({"rfidDisableNfcImage": _dataToBase64(val)});
   }
 
-  ByteData? get mdlProcessingScreenFailureImage => _mdlProcessingScreenFailureImage;
+  ByteData? get mdlProcessingScreenFailureImage =>
+      _mdlProcessingScreenFailureImage;
   ByteData? _mdlProcessingScreenFailureImage;
   set mdlProcessingScreenFailureImage(ByteData? val) {
     _mdlProcessingScreenFailureImage = val;
@@ -173,47 +183,103 @@ class CustomizationImages {
     result.switchButton = _dataFromBase64(jsonObject["switchButton"]);
     result.closeButton = _dataFromBase64(jsonObject["closeButton"]);
     result.multipageButton = _dataFromBase64(jsonObject["multipageButton"]);
-    result.rfidProcessingScreenFailureImage = _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
-    result.rfidEnableNfcImage = _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
-    result.rfidDisableNfcImage = _dataFromBase64(jsonObject["rfidDisableNfcImage"]);
-    result.mdlProcessingScreenFailureImage = _dataFromBase64(jsonObject["mdlProcessingScreenFailureImage"]);
+    result.rfidProcessingScreenFailureImage =
+        _dataFromBase64(jsonObject["rfidProcessingScreenFailureImage"]);
+    result.rfidEnableNfcImage =
+        _dataFromBase64(jsonObject["rfidEnableNfcImage"]);
+    result.rfidDisableNfcImage =
+        _dataFromBase64(jsonObject["rfidDisableNfcImage"]);
+    result.mdlProcessingScreenFailureImage =
+        _dataFromBase64(jsonObject["mdlProcessingScreenFailureImage"]);
     result.mdlEnableNfcImage = _dataFromBase64(jsonObject["mdlEnableNfcImage"]);
-    result.mdlDisableNfcImage = _dataFromBase64(jsonObject["mdlDisableNfcImage"]);
-    result.nextPageIdCardFront = _dataFromBase64(jsonObject["nextPageIdCardFront"]);
-    result.nextPageIdCardBack = _dataFromBase64(jsonObject["nextPageIdCardBack"]);
-    result.nextPagePassportShift = _dataFromBase64(jsonObject["nextPagePassportShift"]);
-    result.nextPagePassportFlipStart = _dataFromBase64(jsonObject["nextPagePassportFlipStart"]);
-    result.nextPagePassportFlipClean = _dataFromBase64(jsonObject["nextPagePassportFlipClean"]);
-    result.nextPagePassportFlipTop = _dataFromBase64(jsonObject["nextPagePassportFlipTop"]);
-    result.nextPagePassportFlipBottom = _dataFromBase64(jsonObject["nextPagePassportFlipBottom"]);
+    result.mdlDisableNfcImage =
+        _dataFromBase64(jsonObject["mdlDisableNfcImage"]);
+    result.nextPageIdCardFront =
+        _dataFromBase64(jsonObject["nextPageIdCardFront"]);
+    result.nextPageIdCardBack =
+        _dataFromBase64(jsonObject["nextPageIdCardBack"]);
+    result.nextPagePassportShift =
+        _dataFromBase64(jsonObject["nextPagePassportShift"]);
+    result.nextPagePassportFlipStart =
+        _dataFromBase64(jsonObject["nextPagePassportFlipStart"]);
+    result.nextPagePassportFlipClean =
+        _dataFromBase64(jsonObject["nextPagePassportFlipClean"]);
+    result.nextPagePassportFlipTop =
+        _dataFromBase64(jsonObject["nextPagePassportFlipTop"]);
+    result.nextPagePassportFlipBottom =
+        _dataFromBase64(jsonObject["nextPagePassportFlipBottom"]);
 
     return result;
   }
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
-        "helpAnimation": _dataToBase64(helpAnimation),
-        "livenessAnimation": _dataToBase64(livenessAnimation),
-        "borderBackground": _dataToBase64(borderBackground),
-        "torchButtonOn": _dataToBase64(torchButtonOn),
-        "torchButtonOff": _dataToBase64(torchButtonOff),
-        "captureButton": _dataToBase64(captureButton),
-        "switchButton": _dataToBase64(switchButton),
-        "closeButton": _dataToBase64(closeButton),
-        "multipageButton": _dataToBase64(rfidDisableNfcImage),
-        "rfidProcessingScreenFailureImage": _dataToBase64(rfidProcessingScreenFailureImage),
-        "rfidEnableNfcImage": _dataToBase64(rfidEnableNfcImage),
-        "rfidDisableNfcImage": _dataToBase64(rfidDisableNfcImage),
-        "mdlProcessingScreenFailureImage": _dataToBase64(mdlProcessingScreenFailureImage),
-        "mdlEnableNfcImage": _dataToBase64(mdlEnableNfcImage),
-        "mdlDisableNfcImage": _dataToBase64(mdlDisableNfcImage),
-        "nextPageIdCardFront": _dataToBase64(nextPageIdCardFront),
-        "nextPageIdCardBack": _dataToBase64(nextPageIdCardBack),
-        "nextPagePassportShift": _dataToBase64(nextPagePassportShift),
-        "nextPagePassportFlipStart": _dataToBase64(nextPagePassportFlipStart),
-        "nextPagePassportFlipClean": _dataToBase64(nextPagePassportFlipClean),
-        "nextPagePassportFlipTop": _dataToBase64(nextPagePassportFlipTop),
-        "nextPagePassportFlipBottom": _dataToBase64(nextPagePassportFlipBottom),
+        "helpAnimation": _dataToBase64(
+          helpAnimation,
+        ),
+        "livenessAnimation": _dataToBase64(
+          livenessAnimation,
+        ),
+        "borderBackground": _dataToBase64(
+          borderBackground,
+        ),
+        "torchButtonOn": _dataToBase64(
+          torchButtonOn,
+        ),
+        "torchButtonOff": _dataToBase64(
+          torchButtonOff,
+        ),
+        "captureButton": _dataToBase64(
+          captureButton,
+        ),
+        "switchButton": _dataToBase64(
+          switchButton,
+        ),
+        "closeButton": _dataToBase64(
+          closeButton,
+        ),
+        "multipageButton": _dataToBase64(
+          rfidDisableNfcImage,
+        ),
+        "rfidProcessingScreenFailureImage": _dataToBase64(
+          rfidProcessingScreenFailureImage,
+        ),
+        "rfidEnableNfcImage": _dataToBase64(
+          rfidEnableNfcImage,
+        ),
+        "rfidDisableNfcImage": _dataToBase64(
+          rfidDisableNfcImage,
+        ),
+        "mdlProcessingScreenFailureImage": _dataToBase64(
+          mdlProcessingScreenFailureImage,
+        ),
+        "mdlEnableNfcImage": _dataToBase64(
+          mdlEnableNfcImage,
+        ),
+        "mdlDisableNfcImage": _dataToBase64(
+          mdlDisableNfcImage,
+        ),
+        "nextPageIdCardFront": _dataToBase64(
+          nextPageIdCardFront,
+        ),
+        "nextPageIdCardBack": _dataToBase64(
+          nextPageIdCardBack,
+        ),
+        "nextPagePassportShift": _dataToBase64(
+          nextPagePassportShift,
+        ),
+        "nextPagePassportFlipStart": _dataToBase64(
+          nextPagePassportFlipStart,
+        ),
+        "nextPagePassportFlipClean": _dataToBase64(
+          nextPagePassportFlipClean,
+        ),
+        "nextPagePassportFlipTop": _dataToBase64(
+          nextPagePassportFlipTop,
+        ),
+        "nextPagePassportFlipBottom": _dataToBase64(
+          nextPagePassportFlipBottom,
+        ),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {Customization? directParent}) {

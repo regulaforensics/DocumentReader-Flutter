@@ -1,3 +1,11 @@
+//
+//  PKDCertificate.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 /// Class contains information about PKD certificate.
@@ -14,8 +22,11 @@ class PKDCertificate {
   ByteData? get privateKey => _privateKey;
   ByteData? _privateKey;
 
-  PKDCertificate(ByteData binaryData, PKDResourceType resourceType, {ByteData? privateKey})
-      : _binaryData = binaryData,
+  PKDCertificate(
+    ByteData binaryData,
+    PKDResourceType resourceType, {
+    ByteData? privateKey,
+  })  : _binaryData = binaryData,
         _resourceType = resourceType,
         _privateKey = privateKey;
 
