@@ -1,6 +1,6 @@
 Map<String, List<String>?> nullableMap = {
   "initConfig": ["databasePath", "customDb", "licenseUpdateTimeout"],
-    "recognizeConfig": [
+  "recognizeConfig": [
     "onlineProcessingConfig",
     "livePortrait",
     "extPortrait",
@@ -40,14 +40,7 @@ Map<String, List<String>?> nullableMap = {
   "symbol": ["rect"],
   "value": ["boundRect", "rfidOrigin"],
   "textSource": ["source"],
-  "documentType": [
-    "name",
-    "iCAOCode",
-    "fDSID",
-    "dDescription",
-    "dYear",
-    "dCountryName",
-  ],
+  "documentType": ["name", "iCAOCode", "fDSID", "dDescription", "dYear", "dCountryName"],
   "transactionInfo!": [],
   "results": ["authenticityResult", "bsiTr03135Results"],
   "paResourcesIssuer": ["friendlyName"],

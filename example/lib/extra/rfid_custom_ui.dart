@@ -13,8 +13,7 @@ void rfidSelfHostedUI() {
 
   config.onProgress = (notification) async {
     if (notification.progress == 1) return;
-    if (notification.notificationCode ==
-        RFIDNotificationCodes.PCSC_READING_DATAGROUP) {
+    if (notification.notificationCode == RFIDNotificationCodes.PCSC_READING_DATAGROUP) {
       setDescription(await notification.dataFileType.getTranslation());
     }
     setStatus("Reading RFID");
@@ -90,6 +89,6 @@ List<Widget> rfidCustomUI() {
         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     ),
-    SizedBox(height: 100)
+    SizedBox(height: 100),
   ];
 }
