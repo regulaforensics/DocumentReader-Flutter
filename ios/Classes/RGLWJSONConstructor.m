@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "./include/flutter_document_reader_api/RGLWJSONConstructor.h"
+#import "RGLWJSONConstructor.h"
 
 @implementation RGLWJSONConstructor
 

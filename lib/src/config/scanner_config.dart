@@ -1,3 +1,11 @@
+//
+//  ScannerConfig.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 class ScannerConfig {
@@ -26,16 +34,19 @@ class ScannerConfig {
   /// Android only.
   int? cameraId;
 
-  ScannerConfig(Scenario scenario, OnlineProcessingConfig onlineProcessingConfig)
-      : _scenario = scenario,
+  ScannerConfig(
+    Scenario scenario,
+    OnlineProcessingConfig onlineProcessingConfig,
+  )   : _scenario = scenario,
         _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig.withScenario(Scenario scenario)
       : _scenario = scenario,
         _onlineProcessingConfig = null;
 
-  ScannerConfig.withOnlineProcessingConfig(OnlineProcessingConfig onlineProcessingConfig)
-      : _scenario = null,
+  ScannerConfig.withOnlineProcessingConfig(
+    OnlineProcessingConfig onlineProcessingConfig,
+  )   : _scenario = null,
         _onlineProcessingConfig = onlineProcessingConfig;
 
   ScannerConfig._empty();
@@ -47,7 +58,9 @@ class ScannerConfig {
     var result = ScannerConfig._empty();
 
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(
+      jsonObject["onlineProcessingConfig"],
+    );
     result.livePortrait = _bytesFromBase64(jsonObject["livePortrait"]);
     result.extPortrait = _bytesFromBase64(jsonObject["extPortrait"]);
     result.cameraId = jsonObject["cameraId"];

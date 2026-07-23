@@ -1,3 +1,11 @@
+//
+//  RfidScenario.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Params that influence the RFID chip processing.
@@ -30,7 +38,8 @@ class RFIDScenario {
     _set({"universalAccessRights": val});
   }
 
-  bool? get authorizedRestrictedIdentification => _authorizedRestrictedIdentification;
+  bool? get authorizedRestrictedIdentification =>
+      _authorizedRestrictedIdentification;
   bool? _authorizedRestrictedIdentification;
   set authorizedRestrictedIdentification(bool? val) {
     _authorizedRestrictedIdentification = val;
@@ -447,9 +456,12 @@ class RFIDScenario {
     result.onlineTA = jsonObject["onlineTA"];
     result.writeEid = jsonObject["writeEid"];
     result.universalAccessRights = jsonObject["universalAccessRights"];
-    result.authorizedRestrictedIdentification = jsonObject["authorizedRestrictedIdentification"];
-    result.auxVerificationCommunityID = jsonObject["auxVerificationCommunityID"];
-    result.auxVerificationDateOfBirth = jsonObject["auxVerificationDateOfBirth"];
+    result.authorizedRestrictedIdentification =
+        jsonObject["authorizedRestrictedIdentification"];
+    result.auxVerificationCommunityID =
+        jsonObject["auxVerificationCommunityID"];
+    result.auxVerificationDateOfBirth =
+        jsonObject["auxVerificationDateOfBirth"];
     result.skipAA = jsonObject["skipAA"];
     result.strictProcessing = jsonObject["strictProcessing"];
     result.pkdDSCertPriority = jsonObject["pkdDSCertPriority"];
@@ -468,8 +480,10 @@ class RFIDScenario {
     result.authorizedWriteDG20 = jsonObject["authorizedWriteDG20"];
     result.authorizedWriteDG21 = jsonObject["authorizedWriteDG21"];
     result.authorizedVerifyAge = jsonObject["authorizedVerifyAge"];
-    result.authorizedVerifyCommunityID = jsonObject["authorizedVerifyCommunityID"];
-    result.authorizedPrivilegedTerminal = jsonObject["authorizedPrivilegedTerminal"];
+    result.authorizedVerifyCommunityID =
+        jsonObject["authorizedVerifyCommunityID"];
+    result.authorizedPrivilegedTerminal =
+        jsonObject["authorizedPrivilegedTerminal"];
     result.authorizedCANAllowed = jsonObject["authorizedCANAllowed"];
     result.authorizedPINManagement = jsonObject["authorizedPINManagement"];
     result.authorizedInstallCert = jsonObject["authorizedInstallCert"];
@@ -482,15 +496,22 @@ class RFIDScenario {
     result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
     result.independentSODStatus = jsonObject["independentSODStatus"];
 
-    result.readingBuffer = RFIDReadingBufferSize.getByValue(jsonObject["readingBuffer"]);
+    result.readingBuffer =
+        RFIDReadingBufferSize.getByValue(jsonObject["readingBuffer"]);
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
     result.defaultReadingBufferSize = jsonObject["defaultReadingBufferSize"];
-    result.signManagementAction = SignManagementAction.getByValue(jsonObject["signManagementAction"]);
-    result.profilerType = RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
-    result.authProcType = RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
-    result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(jsonObject["baseSMProcedure"]);
-    result.pacePasswordType = RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
-    result.terminalType = RFIDTerminalType.getByValue(jsonObject["terminalType"]);
+    result.signManagementAction =
+        SignManagementAction.getByValue(jsonObject["signManagementAction"]);
+    result.profilerType =
+        RFIDSDKProfilerType.getByValue(jsonObject["profilerType"]);
+    result.authProcType =
+        RFIDAuthenticationProcedureType.getByValue(jsonObject["authProcType"]);
+    result.baseSMProcedure = RFIDAccessControlProcedureType.getByValue(
+        jsonObject["baseSMProcedure"]);
+    result.pacePasswordType =
+        RFIDPasswordType.getByValue(jsonObject["pacePasswordType"]);
+    result.terminalType =
+        RFIDTerminalType.getByValue(jsonObject["terminalType"]);
 
     result.password = jsonObject["password"];
     result.pkdPA = jsonObject["pkdPA"];
@@ -505,7 +526,8 @@ class RFIDScenario {
     result.dateOfExpiry = jsonObject["dateOfExpiry"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
-    result.ePassportDataGroups = EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
+    result.ePassportDataGroups =
+        EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
     result.eIDDataGroups = EIDDataGroups.fromJson(jsonObject["eIDDataGroups"]);
     result.dtcDataGroups = DTCDataGroup.fromJson(jsonObject["dtcDataGroups"]);
 
@@ -518,7 +540,8 @@ class RFIDScenario {
         "onlineTA": onlineTA,
         "writeEid": writeEid,
         "universalAccessRights": universalAccessRights,
-        "authorizedRestrictedIdentification": authorizedRestrictedIdentification,
+        "authorizedRestrictedIdentification":
+            authorizedRestrictedIdentification,
         "auxVerificationCommunityID": auxVerificationCommunityID,
         "auxVerificationDateOfBirth": auxVerificationDateOfBirth,
         "skipAA": skipAA,

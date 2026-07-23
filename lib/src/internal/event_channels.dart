@@ -37,7 +37,9 @@ void _setRFIDCompletion(RFIDCompletion rfidCompletion) {
 }
 
 late DocumentReaderPrepareCompletion _documentReaderPrepareCompletion;
-void _setDocumentReaderPrepareCompletion(DocumentReaderPrepareCompletion completion) {
+void _setDocumentReaderPrepareCompletion(
+  DocumentReaderPrepareCompletion completion,
+) {
   _documentReaderPrepareCompletion = completion;
   _eventChannel('database_progress', (msg) {
     var progress = PrepareProgress.fromJson(json.decode(msg))!;
@@ -48,13 +50,19 @@ void _setDocumentReaderPrepareCompletion(DocumentReaderPrepareCompletion complet
 late CustomButtonTappedCompletion _customButtonTappedCompletion;
 void _setCustomButtonTappedCompletion(CustomButtonTappedCompletion completion) {
   _customButtonTappedCompletion = completion;
-  _eventChannel('onCustomButtonTappedEvent', (msg) => _customButtonTappedCompletion(msg));
+  _eventChannel(
+    'onCustomButtonTappedEvent',
+    (msg) => _customButtonTappedCompletion(msg),
+  );
 }
 
 late VideoEncoderCompletion _videoEncoderCompletion;
 void _setVideoEncoderCompletion(VideoEncoderCompletion completion) {
   _videoEncoderCompletion = completion;
-  _eventChannel('video_encoder_completion', (msg) => _videoEncoderCompletion(msg));
+  _eventChannel(
+    'video_encoder_completion',
+    (msg) => _videoEncoderCompletion(msg),
+  );
 }
 
 RFIDProgressCompletion? _rfidProgressCompletion;
@@ -69,7 +77,10 @@ void _setRFIDProgressCompletion(RFIDProgressCompletion? completion) {
 ChipDetectedCompletion? _chipDetectedCompletion;
 void _setChipDetectedCompletion(ChipDetectedCompletion? completion) {
   _chipDetectedCompletion = completion;
-  _eventChannel('rfidOnChipDetectedEvent', (_) => _chipDetectedCompletion?.call());
+  _eventChannel(
+    'rfidOnChipDetectedEvent',
+    (_) => _chipDetectedCompletion?.call(),
+  );
 }
 
 RetryReadChipCompletion? _retryReadChipCompletion;
@@ -90,7 +101,9 @@ void _setPaCertificateCompletion(PaCertificateCompletion? completion) {
     var issuer = PAResourcesIssuer.fromJson(jsonObject["issuer"]);
 
     _paCertificateCompletion?.call(serialNumber, issuer, (certificates) async {
-      await _bridge.invokeMethod("providePACertificates", [certificates?.map((e) => e.toJson()).toList()]);
+      await _bridge.invokeMethod("providePACertificates", [
+        certificates?.map((e) => e.toJson()).toList(),
+      ]);
     });
   });
 }
@@ -100,7 +113,9 @@ void _setTaCertificateCompletion(TaCertificateCompletion? completion) {
   _taCertificateCompletion = completion;
   _eventChannel('ta_certificate_completion', (msg) {
     _taCertificateCompletion?.call(msg, (certificates) async {
-      await _bridge.invokeMethod("provideTACertificates", [certificates?.map((e) => e.toJson()).toList()]);
+      await _bridge.invokeMethod("provideTACertificates", [
+        certificates?.map((e) => e.toJson()).toList(),
+      ]);
     });
   });
 }
@@ -112,7 +127,9 @@ void _setTaSignatureCompletion(TaSignatureCompletion? completion) {
     _taSignatureCompletion?.call(
       TAChallenge.fromJson(json.decode(msg)),
       (signature) async {
-        await _bridge.invokeMethod("provideTASignature", [_dataToBase64(signature)]);
+        await _bridge.invokeMethod("provideTASignature", [
+          _dataToBase64(signature),
+        ]);
       },
     );
   });
@@ -122,9 +139,12 @@ PACEProtocolCompletion? _paceProtocolCompletion;
 void _setPACEProtocolCompletion(PACEProtocolCompletion? completion) {
   _paceProtocolCompletion = completion;
   _eventChannel('paceProtocolCompletionEvent', (msg) {
-    _paceProtocolCompletion?.call((msg as List).map((item) => PACEProtocol.fromJson(item)!).toList(), (protocol) async {
-      await _bridge.invokeMethod("selectPACEProtocol", [protocol.toJson()]);
-    });
+    _paceProtocolCompletion?.call(
+      (msg as List).map((item) => PACEProtocol.fromJson(item)!).toList(),
+      (protocol) async {
+        await _bridge.invokeMethod("selectPACEProtocol", [protocol.toJson()]);
+      },
+    );
   });
 }
 
@@ -132,8 +152,11 @@ CAProtocolCompletion? _caProtocolCompletion;
 void _setCAProtocolCompletion(CAProtocolCompletion? completion) {
   _caProtocolCompletion = completion;
   _eventChannel('caProtocolCompletionEvent', (msg) {
-    _caProtocolCompletion?.call((msg as List).map((item) => CAProtocol.fromJson(item)!).toList(), (protocol) async {
-      await _bridge.invokeMethod("selectCAProtocol", [protocol.toJson()]);
-    });
+    _caProtocolCompletion?.call(
+      (msg as List).map((item) => CAProtocol.fromJson(item)!).toList(),
+      (protocol) async {
+        await _bridge.invokeMethod("selectCAProtocol", [protocol.toJson()]);
+      },
+    );
   });
 }

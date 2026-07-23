@@ -26,7 +26,8 @@ class AgeStatus {
     var result = AgeStatus();
 
     result._threshold = jsonObject["threshold"];
-    result._overThreshold = CheckResult.getByValue(jsonObject["overThreshold"])!;
+    result._overThreshold =
+        CheckResult.getByValue(jsonObject["overThreshold"])!;
     result._over18 = CheckResult.getByValue(jsonObject["over18"])!;
     result._over21 = CheckResult.getByValue(jsonObject["over21"])!;
     result._over25 = CheckResult.getByValue(jsonObject["over25"])!;

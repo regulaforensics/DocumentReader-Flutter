@@ -1,3 +1,11 @@
+//
+//  RFIDNotification.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 /// Structure containing data of notification about RFID reading process.
@@ -20,8 +28,10 @@ class RFIDNotification {
     if (jsonObject == null) return null;
     var result = RFIDNotification();
 
-    result._notificationCode = RFIDNotificationCodes.getByValue(jsonObject["notificationCode"])!;
-    result._dataFileType = RFIDDataFileType.getByValue(jsonObject["dataFileType"])!;
+    result._notificationCode =
+        RFIDNotificationCodes.getByValue(jsonObject["notificationCode"])!;
+    result._dataFileType =
+        RFIDDataFileType.getByValue(jsonObject["dataFileType"])!;
     result._progress = jsonObject["progress"];
 
     return result;

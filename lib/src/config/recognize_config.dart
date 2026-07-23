@@ -100,7 +100,9 @@ class RecognizeConfig {
     var result = RecognizeConfig._empty();
 
     result._scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(
+      jsonObject["onlineProcessingConfig"],
+    );
     result.image = _bytesFromBase64(jsonObject["image"]);
     if (jsonObject["images"] != null) {
       result.images = [];
@@ -158,8 +160,11 @@ class ImageInputData {
   int get pageIndex => _pageIndex;
   int _pageIndex;
 
-  ImageInputData(Uint8List image, {Lights light = Lights.WHITE_FULL, int pageIndex = 0})
-      : _image = image,
+  ImageInputData(
+    Uint8List image, {
+    Lights light = Lights.WHITE_FULL,
+    int pageIndex = 0,
+  })  : _image = image,
         _light = light,
         _pageIndex = pageIndex;
 

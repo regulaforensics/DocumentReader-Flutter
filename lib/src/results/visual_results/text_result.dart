@@ -1,3 +1,11 @@
+//
+//  TextResult.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Structure, containing all text data extracted and recognized from the document.
@@ -29,8 +37,10 @@ class TextResult {
     var result = TextResult();
 
     result._status = CheckResult.getByValue(jsonObject["status"])!;
-    result._comparisonStatus = CheckResult.getByValue(jsonObject["comparisonStatus"])!;
-    result._validityStatus = CheckResult.getByValue(jsonObject["validityStatus"])!;
+    result._comparisonStatus =
+        CheckResult.getByValue(jsonObject["comparisonStatus"])!;
+    result._validityStatus =
+        CheckResult.getByValue(jsonObject["validityStatus"])!;
     for (var item in jsonObject["availableSourceList"]) {
       result._availableSourceList.addSafe(TextSource.fromJson(item));
     }
@@ -45,7 +55,8 @@ class TextResult {
         "status": status.value,
         "comparisonStatus": comparisonStatus.value,
         "validityStatus": validityStatus.value,
-        "availableSourceList": availableSourceList.map((e) => e.toJson()).toList(),
+        "availableSourceList":
+            availableSourceList.map((e) => e.toJson()).toList(),
         "fields": fields.map((e) => e.toJson()).toList(),
       }.clearNulls();
 }

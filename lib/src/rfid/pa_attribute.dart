@@ -1,3 +1,11 @@
+//
+//  PAAttribute.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 class PAAttribute {
@@ -19,8 +27,5 @@ class PAAttribute {
   }
 
   @visibleForTesting
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "value": value,
-      }.clearNulls();
+  Map<String, dynamic> toJson() => {"type": type, "value": value}.clearNulls();
 }

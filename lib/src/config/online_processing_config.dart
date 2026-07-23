@@ -1,3 +1,11 @@
+//
+//  OnlineProcessingConfig.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 class OnlineProcessingConfig {
@@ -26,7 +34,8 @@ class OnlineProcessingConfig {
 
     result.url = jsonObject["url"];
     result.imageFormat = ImageFormat.getByValue(jsonObject["imageFormat"])!;
-    result.imageCompressionQuality = jsonObject["imageCompressionQuality"].toDouble();
+    result.imageCompressionQuality =
+        jsonObject["imageCompressionQuality"].toDouble();
     result.processParams = ProcessParams.fromJson(jsonObject["processParams"]);
     result.requestHeaders = jsonObject["requestHeaders"];
 

@@ -92,43 +92,67 @@ class DocumentRequest18013MDL extends DocumentRequestMDL {
     if (jsonObject == null) return null;
     var result = DocumentRequest18013MDL();
 
-    result._namespaces = (jsonObject["namespaces"] as List).map((item) => NameSpaceMDL.fromJson(item)!).toList();
+    result._namespaces = (jsonObject["namespaces"] as List)
+        .map((item) => NameSpaceMDL.fromJson(item)!)
+        .toList();
     result.familyName = MDLIntentToRetain.getByValue(jsonObject["familyName"]);
     result.givenName = MDLIntentToRetain.getByValue(jsonObject["givenName"]);
     result.birthDate = MDLIntentToRetain.getByValue(jsonObject["birthDate"]);
     result.issueDate = MDLIntentToRetain.getByValue(jsonObject["issueDate"]);
     result.expiryDate = MDLIntentToRetain.getByValue(jsonObject["expiryDate"]);
-    result.issuingCountry = MDLIntentToRetain.getByValue(jsonObject["issuingCountry"]);
-    result.issuingAuthority = MDLIntentToRetain.getByValue(jsonObject["issuingAuthority"]);
-    result.documentNumber = MDLIntentToRetain.getByValue(jsonObject["documentNumber"]);
+    result.issuingCountry =
+        MDLIntentToRetain.getByValue(jsonObject["issuingCountry"]);
+    result.issuingAuthority =
+        MDLIntentToRetain.getByValue(jsonObject["issuingAuthority"]);
+    result.documentNumber =
+        MDLIntentToRetain.getByValue(jsonObject["documentNumber"]);
     result.portrait = MDLIntentToRetain.getByValue(jsonObject["portrait"]);
-    result.drivingPrivileges = MDLIntentToRetain.getByValue(jsonObject["drivingPrivileges"]);
-    result.unDistinguishingSign = MDLIntentToRetain.getByValue(jsonObject["unDistinguishingSign"]);
-    result.administrativeNumber = MDLIntentToRetain.getByValue(jsonObject["administrativeNumber"]);
+    result.drivingPrivileges =
+        MDLIntentToRetain.getByValue(jsonObject["drivingPrivileges"]);
+    result.unDistinguishingSign =
+        MDLIntentToRetain.getByValue(jsonObject["unDistinguishingSign"]);
+    result.administrativeNumber =
+        MDLIntentToRetain.getByValue(jsonObject["administrativeNumber"]);
     result.sex = MDLIntentToRetain.getByValue(jsonObject["sex"]);
     result.height = MDLIntentToRetain.getByValue(jsonObject["height"]);
     result.weight = MDLIntentToRetain.getByValue(jsonObject["weight"]);
     result.eyeColour = MDLIntentToRetain.getByValue(jsonObject["eyeColour"]);
     result.hairColour = MDLIntentToRetain.getByValue(jsonObject["hairColour"]);
     result.birthPlace = MDLIntentToRetain.getByValue(jsonObject["birthPlace"]);
-    result.residentAddress = MDLIntentToRetain.getByValue(jsonObject["residentAddress"]);
-    result.portraitCaptureDate = MDLIntentToRetain.getByValue(jsonObject["portraitCaptureDate"]);
+    result.residentAddress =
+        MDLIntentToRetain.getByValue(jsonObject["residentAddress"]);
+    result.portraitCaptureDate =
+        MDLIntentToRetain.getByValue(jsonObject["portraitCaptureDate"]);
     result.ageInYears = MDLIntentToRetain.getByValue(jsonObject["ageInYears"]);
-    result.ageBirthYear = MDLIntentToRetain.getByValue(jsonObject["ageBirthYear"]);
+    result.ageBirthYear =
+        MDLIntentToRetain.getByValue(jsonObject["ageBirthYear"]);
     result.ageOver18 = MDLIntentToRetain.getByValue(jsonObject["ageOver18"]);
-    result.issuingJurisdiction = MDLIntentToRetain.getByValue(jsonObject["issuingJurisdiction"]);
-    result.nationality = MDLIntentToRetain.getByValue(jsonObject["nationality"]);
-    result.residentCity = MDLIntentToRetain.getByValue(jsonObject["residentCity"]);
-    result.residentState = MDLIntentToRetain.getByValue(jsonObject["residentState"]);
-    result.residentPostalCode = MDLIntentToRetain.getByValue(jsonObject["residentPostalCode"]);
-    result.residentCountry = MDLIntentToRetain.getByValue(jsonObject["residentCountry"]);
-    result.biometricTemplateFace = MDLIntentToRetain.getByValue(jsonObject["biometricTemplateFace"]);
-    result.biometricTemplateIris = MDLIntentToRetain.getByValue(jsonObject["biometricTemplateIris"]);
-    result.biometricTemplateFinger = MDLIntentToRetain.getByValue(jsonObject["biometricTemplateFinger"]);
-    result.biometricTemplateSignatureSign = MDLIntentToRetain.getByValue(jsonObject["biometricTemplateSignatureSign"]);
-    result.familyNameNationalCharacter = MDLIntentToRetain.getByValue(jsonObject["familyNameNationalCharacter"]);
-    result.givenNameNationalCharacter = MDLIntentToRetain.getByValue(jsonObject["givenNameNationalCharacter"]);
-    result.signatureUsualMark = MDLIntentToRetain.getByValue(jsonObject["signatureUsualMark"]);
+    result.issuingJurisdiction =
+        MDLIntentToRetain.getByValue(jsonObject["issuingJurisdiction"]);
+    result.nationality =
+        MDLIntentToRetain.getByValue(jsonObject["nationality"]);
+    result.residentCity =
+        MDLIntentToRetain.getByValue(jsonObject["residentCity"]);
+    result.residentState =
+        MDLIntentToRetain.getByValue(jsonObject["residentState"]);
+    result.residentPostalCode =
+        MDLIntentToRetain.getByValue(jsonObject["residentPostalCode"]);
+    result.residentCountry =
+        MDLIntentToRetain.getByValue(jsonObject["residentCountry"]);
+    result.biometricTemplateFace =
+        MDLIntentToRetain.getByValue(jsonObject["biometricTemplateFace"]);
+    result.biometricTemplateIris =
+        MDLIntentToRetain.getByValue(jsonObject["biometricTemplateIris"]);
+    result.biometricTemplateFinger =
+        MDLIntentToRetain.getByValue(jsonObject["biometricTemplateFinger"]);
+    result.biometricTemplateSignatureSign = MDLIntentToRetain.getByValue(
+        jsonObject["biometricTemplateSignatureSign"]);
+    result.familyNameNationalCharacter =
+        MDLIntentToRetain.getByValue(jsonObject["familyNameNationalCharacter"]);
+    result.givenNameNationalCharacter =
+        MDLIntentToRetain.getByValue(jsonObject["givenNameNationalCharacter"]);
+    result.signatureUsualMark =
+        MDLIntentToRetain.getByValue(jsonObject["signatureUsualMark"]);
 
     return result;
   }

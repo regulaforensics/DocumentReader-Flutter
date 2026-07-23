@@ -1,3 +1,11 @@
+//
+//  RFIDStatus.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Container for a RFID related scanning statuses.
@@ -41,7 +49,8 @@ class RFIDStatus {
     result._ta = CheckResult.getByValue(jsonObject["ta"])!;
     result._bac = CheckResult.getByValue(jsonObject["bac"])!;
     result._pace = CheckResult.getByValue(jsonObject["pace"])!;
-    result._overallStatus = CheckResult.getByValue(jsonObject["overallStatus"])!;
+    result._overallStatus =
+        CheckResult.getByValue(jsonObject["overallStatus"])!;
 
     return result;
   }

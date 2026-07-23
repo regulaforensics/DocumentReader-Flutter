@@ -1,3 +1,11 @@
+//
+//  LDSParsingNotificationCodes.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 enum LDSParsingNotificationCodes {
@@ -239,7 +247,10 @@ enum LDSParsingNotificationCodes {
   final int value;
 
   Future<String> getTranslation() async {
-    return await _bridge.invokeMethod("getTranslation", [runtimeType.toString(), value]);
+    return await _bridge.invokeMethod("getTranslation", [
+      runtimeType.toString(),
+      value,
+    ]);
   }
 
   static LDSParsingNotificationCodes? getByValue(int? i) {

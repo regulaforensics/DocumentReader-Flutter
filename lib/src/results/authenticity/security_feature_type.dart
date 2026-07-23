@@ -1,3 +1,11 @@
+//
+//  SecurityFeatureType.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../../flutter_document_reader_api.dart";
 
 /// Enumeration contains identifiers that determine the types of elements

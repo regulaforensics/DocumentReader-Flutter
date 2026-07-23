@@ -8,8 +8,6 @@ import org.json.JSONObject
 import org.robolectric.shadow.api.Shadow
 import org.skyscreamer.jsonassert.JSONAssert
 import java.io.IOException
-import java.io.OutputStream
-import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Base64
@@ -71,18 +69,6 @@ fun omitDeep(dict: JSONArray, path: List<String>, index: Int): JSONArray {
     for (i in 0 until dict.length())
         dict.put(i, omitDeep(dict.getJSONObject(i), path, index))
     return dict
-}
-
-inline fun <T> suppressStderr(block: () -> T): T {
-    val stderr = System.err
-    val sink = PrintStream(OutputStream.nullOutputStream())
-    System.setErr(sink)
-    return try {
-        block()
-    } finally {
-        System.setErr(stderr)
-        sink.close()
-    }
 }
 
 fun floatToDouble(input: JSONObject): JSONObject {

@@ -21,8 +21,10 @@ class CustomizationContentModes {
     if (jsonObject == null) return result;
     result.testSetters = {};
 
-    result.nextPageIdCardFront = ViewContentMode.getByValue(jsonObject["nextPageIdCardFront"]);
-    result.nextPageIdCardBack = ViewContentMode.getByValue(jsonObject["nextPageIdCardBack"]);
+    result.nextPageIdCardFront =
+        ViewContentMode.getByValue(jsonObject["nextPageIdCardFront"]);
+    result.nextPageIdCardBack =
+        ViewContentMode.getByValue(jsonObject["nextPageIdCardBack"]);
 
     return result;
   }

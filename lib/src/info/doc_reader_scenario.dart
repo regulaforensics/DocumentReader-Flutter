@@ -1,3 +1,11 @@
+//
+//  DocReaderScenario.dart
+//  DocumentReader
+//
+//  Created by Pavel Masiuk on 21.09.2023.
+//  Copyright © 2023 Regula. All rights reserved.
+//
+
 part of "../../flutter_document_reader_api.dart";
 
 class DocReaderScenario {
@@ -35,10 +43,12 @@ class DocReaderScenario {
   double get frameKWHPortrait => _frameKWHPortrait;
   late double _frameKWHPortrait;
 
-  double get frameKWHDoublePageSpreadLandscape => _frameKWHDoublePageSpreadLandscape;
+  double get frameKWHDoublePageSpreadLandscape =>
+      _frameKWHDoublePageSpreadLandscape;
   late double _frameKWHDoublePageSpreadLandscape;
 
-  double get frameKWHDoublePageSpreadPortrait => _frameKWHDoublePageSpreadPortrait;
+  double get frameKWHDoublePageSpreadPortrait =>
+      _frameKWHDoublePageSpreadPortrait;
   late double _frameKWHDoublePageSpreadPortrait;
 
   bool get manualCrop => _manualCrop;
@@ -50,14 +60,17 @@ class DocReaderScenario {
     var result = DocReaderScenario();
 
     result._uvTorch = jsonObject["uvTorch"];
-    result._frameOrientation = DocReaderOrientation.getByValue(jsonObject["frameOrientation"])!;
+    result._frameOrientation =
+        DocReaderOrientation.getByValue(jsonObject["frameOrientation"])!;
     result._faceExt = jsonObject["faceExt"];
     result._multiPageOff = jsonObject["multiPageOff"];
     result._seriesProcessMode = jsonObject["seriesProcessMode"];
     result._frameKWHLandscape = jsonObject["frameKWHLandscape"].toDouble();
     result._frameKWHPortrait = jsonObject["frameKWHPortrait"].toDouble();
-    result._frameKWHDoublePageSpreadPortrait = jsonObject["frameKWHDoublePageSpreadPortrait"].toDouble();
-    result._frameKWHDoublePageSpreadLandscape = jsonObject["frameKWHDoublePageSpreadLandscape"].toDouble();
+    result._frameKWHDoublePageSpreadPortrait =
+        jsonObject["frameKWHDoublePageSpreadPortrait"].toDouble();
+    result._frameKWHDoublePageSpreadLandscape =
+        jsonObject["frameKWHDoublePageSpreadLandscape"].toDouble();
     result._name = jsonObject["name"];
     result._caption = jsonObject["caption"];
     result._description = jsonObject["description"];
