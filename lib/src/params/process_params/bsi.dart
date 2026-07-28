@@ -3,9 +3,7 @@ part of "../../../flutter_document_reader_api.dart";
 class Bsi {
   bool? _generateResult;
 
-  Bsi({
-    bool? generateResult,
-  }) : _generateResult = generateResult;
+  Bsi({bool? generateResult}) : _generateResult = generateResult;
 
   /// Allows you to deserialize object.
   static Bsi? fromJson(jsonObject) {

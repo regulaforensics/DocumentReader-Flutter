@@ -317,8 +317,7 @@ class Customization {
   }
 
   /// Allows you to change the location of the camera frame vertically. Default: 1.
-  double? get cameraFrameVerticalPositionMultiplier =>
-      _cameraFrameVerticalPositionMultiplier;
+  double? get cameraFrameVerticalPositionMultiplier => _cameraFrameVerticalPositionMultiplier;
   double? _cameraFrameVerticalPositionMultiplier;
   set cameraFrameVerticalPositionMultiplier(double? val) {
     _cameraFrameVerticalPositionMultiplier = val;
@@ -327,8 +326,7 @@ class Customization {
 
   /// Allows you to set an aspect ratio of the camera frame (landscape orientation).
   /// Default: 0.
-  double? get cameraFrameLandscapeAspectRatio =>
-      _cameraFrameLandscapeAspectRatio;
+  double? get cameraFrameLandscapeAspectRatio => _cameraFrameLandscapeAspectRatio;
   double? _cameraFrameLandscapeAspectRatio;
   set cameraFrameLandscapeAspectRatio(double? val) {
     _cameraFrameLandscapeAspectRatio = val;
@@ -364,8 +362,7 @@ class Customization {
   /// set to 0, the default value will be used.
   ///
   /// Defaults to 1.
-  double? get livenessAnimationPositionMultiplier =>
-      _livenessAnimationPositionMultiplier;
+  double? get livenessAnimationPositionMultiplier => _livenessAnimationPositionMultiplier;
   double? _livenessAnimationPositionMultiplier;
   set livenessAnimationPositionMultiplier(double? val) {
     _livenessAnimationPositionMultiplier = val;
@@ -396,8 +393,7 @@ class Customization {
 
   /// Allows you to set an offset for the activity indicator (portrait orientation).
   /// If not set, activity indicator always centered in the camera border.
-  double? get activityIndicatorPortraitPositionMultiplier =>
-      _activityIndicatorPortraitPositionMultiplier;
+  double? get activityIndicatorPortraitPositionMultiplier => _activityIndicatorPortraitPositionMultiplier;
   double? _activityIndicatorPortraitPositionMultiplier;
   set activityIndicatorPortraitPositionMultiplier(double? val) {
     _activityIndicatorPortraitPositionMultiplier = val;
@@ -406,8 +402,7 @@ class Customization {
 
   /// Allows you to set an offset for the activity indicator (landscape orientation).
   /// If not set, activity indicator always centered in the camera border.
-  double? get activityIndicatorLandscapePositionMultiplier =>
-      _activityIndicatorLandscapePositionMultiplier;
+  double? get activityIndicatorLandscapePositionMultiplier => _activityIndicatorLandscapePositionMultiplier;
   double? _activityIndicatorLandscapePositionMultiplier;
   set activityIndicatorLandscapePositionMultiplier(double? val) {
     _activityIndicatorLandscapePositionMultiplier = val;
@@ -418,8 +413,7 @@ class Customization {
   /// If you need to raise the layer 50% of its height up, then you specify 0.5.
   /// If you need to lower the layer 75% of its height, then enter 1.75.
   /// Valid values: from 0 (the layer will be raised completely up) to 2 (the layer will be completely lowered down).
-  double? get cameraPreviewVerticalPositionMultiplier =>
-      _cameraPreviewVerticalPositionMultiplier;
+  double? get cameraPreviewVerticalPositionMultiplier => _cameraPreviewVerticalPositionMultiplier;
   double? _cameraPreviewVerticalPositionMultiplier;
   set cameraPreviewVerticalPositionMultiplier(double? val) {
     _cameraPreviewVerticalPositionMultiplier = val;
@@ -427,8 +421,7 @@ class Customization {
   }
 
   /// Allows you to change the location of the multipage button.
-  double? get multipageButtonPositionMultiplier =>
-      _multipageButtonPositionMultiplier;
+  double? get multipageButtonPositionMultiplier => _multipageButtonPositionMultiplier;
   double? _multipageButtonPositionMultiplier;
   set multipageButtonPositionMultiplier(double? val) {
     _multipageButtonPositionMultiplier = val;
@@ -527,8 +520,7 @@ class Customization {
   /// Allows you to set any image for the button that allows changing
   /// shapes of the camera (collapsed state).
   @Deprecated("Not used in new UI")
-  ByteData? get changeFrameButtonCollapseImage =>
-      _changeFrameButtonCollapseImage;
+  ByteData? get changeFrameButtonCollapseImage => _changeFrameButtonCollapseImage;
   ByteData? _changeFrameButtonCollapseImage;
   set changeFrameButtonCollapseImage(ByteData? val) {
     _changeFrameButtonCollapseImage = val;
@@ -619,8 +611,7 @@ class Customization {
   ///
   /// IOS only. For Android use [helpAnimationImageTransformsAndroid].
   @Deprecated("Use `images.helpAnimation` instead.")
-  ViewContentMode? get helpAnimationImageTransformsIOS =>
-      _helpAnimationImageTransformsIOS;
+  ViewContentMode? get helpAnimationImageTransformsIOS => _helpAnimationImageTransformsIOS;
   ViewContentMode? _helpAnimationImageTransformsIOS;
   set helpAnimationImageTransformsIOS(ViewContentMode? val) {
     _helpAnimationImageTransformsIOS = val;
@@ -634,8 +625,7 @@ class Customization {
   ///
   /// IOS only. For Android use [multipageAnimationFrontImageTransformsAndroid].
   @Deprecated("Use `contentModes.nextPageIdCardFront` instead.")
-  ViewContentMode? get multipageAnimationFrontImageTransformsIOS =>
-      _multipageAnimationFrontImageTransformsIOS;
+  ViewContentMode? get multipageAnimationFrontImageTransformsIOS => _multipageAnimationFrontImageTransformsIOS;
   ViewContentMode? _multipageAnimationFrontImageTransformsIOS;
   set multipageAnimationFrontImageTransformsIOS(ViewContentMode? val) {
     _multipageAnimationFrontImageTransformsIOS = val;
@@ -649,8 +639,7 @@ class Customization {
   ///
   /// IOS only. For Android use [multipageAnimationBackImageTransformsAndroid].
   @Deprecated("Use `contentModes.nextPageIdCardBack` instead.")
-  ViewContentMode? get multipageAnimationBackImageTransformsIOS =>
-      _multipageAnimationBackImageTransformsIOS;
+  ViewContentMode? get multipageAnimationBackImageTransformsIOS => _multipageAnimationBackImageTransformsIOS;
   ViewContentMode? _multipageAnimationBackImageTransformsIOS;
   set multipageAnimationBackImageTransformsIOS(ViewContentMode? val) {
     _multipageAnimationBackImageTransformsIOS = val;
@@ -663,8 +652,7 @@ class Customization {
   /// Default: [ViewContentMode.SCALE_ASPECT_FIT].
   ///
   /// IOS only. For Android use [livenessAnimationImageTransformsAndroid].
-  ViewContentMode? get livenessAnimationImageTransformsIOS =>
-      _livenessAnimationImageTransformsIOS;
+  ViewContentMode? get livenessAnimationImageTransformsIOS => _livenessAnimationImageTransformsIOS;
   ViewContentMode? _livenessAnimationImageTransformsIOS;
   set livenessAnimationImageTransformsIOS(ViewContentMode? val) {
     _livenessAnimationImageTransformsIOS = val;
@@ -677,8 +665,7 @@ class Customization {
   /// Default: [ViewContentMode.SCALE_ASPECT_FIT].
   ///
   /// IOS only. For Android use [borderBackgroundImageTransformsAndroid].
-  ViewContentMode? get borderBackgroundImageTransformsIOS =>
-      _borderBackgroundImageTransformsIOS;
+  ViewContentMode? get borderBackgroundImageTransformsIOS => _borderBackgroundImageTransformsIOS;
   ViewContentMode? _borderBackgroundImageTransformsIOS;
   set borderBackgroundImageTransformsIOS(ViewContentMode? val) {
     _borderBackgroundImageTransformsIOS = val;
@@ -693,8 +680,7 @@ class Customization {
   /// Android only. For iOS use [helpAnimationImageTransformsIOS].
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
-  List<double>? get helpAnimationImageTransformsAndroid =>
-      _helpAnimationImageTransformsAndroid;
+  List<double>? get helpAnimationImageTransformsAndroid => _helpAnimationImageTransformsAndroid;
   List<double>? _helpAnimationImageTransformsAndroid;
   set helpAnimationImageTransformsAndroid(List<double>? val) {
     if (val != null) val = List.unmodifiable(val);
@@ -711,8 +697,7 @@ class Customization {
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   @Deprecated("Use `matrices.nextPageIdCardFront` instead.")
-  List<double>? get multipageAnimationFrontImageTransformsAndroid =>
-      _multipageAnimationFrontImageTransformsAndroid;
+  List<double>? get multipageAnimationFrontImageTransformsAndroid => _multipageAnimationFrontImageTransformsAndroid;
   List<double>? _multipageAnimationFrontImageTransformsAndroid;
   set multipageAnimationFrontImageTransformsAndroid(List<double>? val) {
     if (val != null) val = List.unmodifiable(val);
@@ -729,8 +714,7 @@ class Customization {
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   @Deprecated("Use `matrices.nextPageIdCardBack` instead.")
-  List<double>? get multipageAnimationBackImageTransformsAndroid =>
-      _multipageAnimationBackImageTransformsAndroid;
+  List<double>? get multipageAnimationBackImageTransformsAndroid => _multipageAnimationBackImageTransformsAndroid;
   List<double>? _multipageAnimationBackImageTransformsAndroid;
   set multipageAnimationBackImageTransformsAndroid(List<double>? val) {
     if (val != null) val = List.unmodifiable(val);
@@ -746,8 +730,7 @@ class Customization {
   /// Android only. For iOS use [livenessAnimationImageTransformsIOS].
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
-  List<double>? get livenessAnimationImageTransformsAndroid =>
-      _livenessAnimationImageTransformsAndroid;
+  List<double>? get livenessAnimationImageTransformsAndroid => _livenessAnimationImageTransformsAndroid;
   List<double>? _livenessAnimationImageTransformsAndroid;
   set livenessAnimationImageTransformsAndroid(List<double>? val) {
     if (val != null) val = List.unmodifiable(val);
@@ -763,8 +746,7 @@ class Customization {
   /// Android only. For iOS use [borderBackgroundImageTransformsIOS].
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
-  List<double>? get borderBackgroundImageTransformsAndroid =>
-      _borderBackgroundImageTransformsAndroid;
+  List<double>? get borderBackgroundImageTransformsAndroid => _borderBackgroundImageTransformsAndroid;
   List<double>? _borderBackgroundImageTransformsAndroid;
   set borderBackgroundImageTransformsAndroid(List<double>? val) {
     if (val != null) val = List.unmodifiable(val);
@@ -823,159 +805,75 @@ class Customization {
 
     result.cameraFrameBorderWidth = jsonObject["cameraFrameBorderWidth"];
     result.cameraFrameLineLength = jsonObject["cameraFrameLineLength"];
-    result.cameraFrameShapeType = FrameShapeType.getByValue(
-      jsonObject["cameraFrameShapeType"],
-    );
+    result.cameraFrameShapeType = FrameShapeType.getByValue(jsonObject["cameraFrameShapeType"]);
     result.cameraFrameOffsetWidth = jsonObject["cameraFrameOffsetWidth"];
 
     result.status = jsonObject["status"];
     result.resultStatus = jsonObject["resultStatus"];
     result.multipageButtonText = jsonObject["multipageButtonText"];
 
-    result.cameraFrameDefaultColor = _intToColor(
-      jsonObject["cameraFrameDefaultColor"],
-    );
-    result.cameraFrameActiveColor = _intToColor(
-      jsonObject["cameraFrameActiveColor"],
-    );
+    result.cameraFrameDefaultColor = _intToColor(jsonObject["cameraFrameDefaultColor"]);
+    result.cameraFrameActiveColor = _intToColor(jsonObject["cameraFrameActiveColor"]);
     result.statusTextColor = _intToColor(jsonObject["statusTextColor"]);
-    result.resultStatusTextColor = _intToColor(
-      jsonObject["resultStatusTextColor"],
-    );
-    result.resultStatusBackgroundColor = _intToColor(
-      jsonObject["resultStatusBackgroundColor"],
-    );
-    result.multipageButtonBackgroundColor = _intToColor(
-      jsonObject["multipageButtonBackgroundColor"],
-    );
+    result.resultStatusTextColor = _intToColor(jsonObject["resultStatusTextColor"]);
+    result.resultStatusBackgroundColor = _intToColor(jsonObject["resultStatusBackgroundColor"]);
+    result.multipageButtonBackgroundColor = _intToColor(jsonObject["multipageButtonBackgroundColor"]);
     result.tintColor = _intToColor(jsonObject["tintColor"]);
-    result.activityIndicatorColor = _intToColor(
-      jsonObject["activityIndicatorColor"],
-    );
-    result.statusBackgroundColor = _intToColor(
-      jsonObject["statusBackgroundColor"],
-    );
-    result.cameraPreviewBackgroundColor = _intToColor(
-      jsonObject["cameraPreviewBackgroundColor"],
-    );
+    result.activityIndicatorColor = _intToColor(jsonObject["activityIndicatorColor"]);
+    result.statusBackgroundColor = _intToColor(jsonObject["statusBackgroundColor"]);
+    result.cameraPreviewBackgroundColor = _intToColor(jsonObject["cameraPreviewBackgroundColor"]);
     result.backgroundMaskColor = _intToColor(jsonObject["backgroundMaskColor"]);
-    result.multipageButtonTextColor = _intToColor(
-      jsonObject["multipageButtonTextColor"],
-    );
+    result.multipageButtonTextColor = _intToColor(jsonObject["multipageButtonTextColor"]);
 
-    result.statusPositionMultiplier = _toDouble(
-      jsonObject["statusPositionMultiplier"],
-    );
-    result.resultStatusPositionMultiplier = _toDouble(
-      jsonObject["resultStatusPositionMultiplier"],
-    );
+    result.statusPositionMultiplier = _toDouble(jsonObject["statusPositionMultiplier"]);
+    result.resultStatusPositionMultiplier = _toDouble(jsonObject["resultStatusPositionMultiplier"]);
     result.toolbarSize = _toDouble(jsonObject["toolbarSize"]);
     result.backgroundMaskAlpha = _toDouble(jsonObject["backgroundMaskAlpha"]);
-    result.customStatusPositionMultiplier = _toDouble(
-      jsonObject["customStatusPositionMultiplier"],
-    );
-    result.cameraFrameVerticalPositionMultiplier = _toDouble(
-      jsonObject["cameraFrameVerticalPositionMultiplier"],
-    );
-    result.cameraFrameLandscapeAspectRatio = _toDouble(
-      jsonObject["cameraFrameLandscapeAspectRatio"],
-    );
-    result.cameraFrameCornerRadius = _toDouble(
-      jsonObject["cameraFrameCornerRadius"],
-    );
-    result.cameraFramePortraitAspectRatio = _toDouble(
-      jsonObject["cameraFramePortraitAspectRatio"],
-    );
-    result.livenessAnimationPositionMultiplier = _toDouble(
-      jsonObject["livenessAnimationPositionMultiplier"],
-    );
-    result.nextPageAnimationStartDelay = _toDouble(
-      jsonObject["nextPageAnimationStartDelay"],
-    );
-    result.nextPageAnimationEndDelay = _toDouble(
-      jsonObject["nextPageAnimationEndDelay"],
-    );
-    result.activityIndicatorPortraitPositionMultiplier = _toDouble(
-      jsonObject["activityIndicatorPortraitPositionMultiplier"],
-    );
-    result.activityIndicatorLandscapePositionMultiplier = _toDouble(
-      jsonObject["activityIndicatorLandscapePositionMultiplier"],
-    );
-    result.cameraPreviewVerticalPositionMultiplier = _toDouble(
-      jsonObject["cameraPreviewVerticalPositionMultiplier"],
-    );
-    result.multipageButtonPositionMultiplier = _toDouble(
-      jsonObject["multipageButtonPositionMultiplier"],
-    );
+    result.customStatusPositionMultiplier = _toDouble(jsonObject["customStatusPositionMultiplier"]);
+    result.cameraFrameVerticalPositionMultiplier = _toDouble(jsonObject["cameraFrameVerticalPositionMultiplier"]);
+    result.cameraFrameLandscapeAspectRatio = _toDouble(jsonObject["cameraFrameLandscapeAspectRatio"]);
+    result.cameraFrameCornerRadius = _toDouble(jsonObject["cameraFrameCornerRadius"]);
+    result.cameraFramePortraitAspectRatio = _toDouble(jsonObject["cameraFramePortraitAspectRatio"]);
+    result.livenessAnimationPositionMultiplier = _toDouble(jsonObject["livenessAnimationPositionMultiplier"]);
+    result.nextPageAnimationStartDelay = _toDouble(jsonObject["nextPageAnimationStartDelay"]);
+    result.nextPageAnimationEndDelay = _toDouble(jsonObject["nextPageAnimationEndDelay"]);
+    result.activityIndicatorPortraitPositionMultiplier =
+        _toDouble(jsonObject["activityIndicatorPortraitPositionMultiplier"]);
+    result.activityIndicatorLandscapePositionMultiplier =
+        _toDouble(jsonObject["activityIndicatorLandscapePositionMultiplier"]);
+    result.cameraPreviewVerticalPositionMultiplier = _toDouble(jsonObject["cameraPreviewVerticalPositionMultiplier"]);
+    result.multipageButtonPositionMultiplier = _toDouble(jsonObject["multipageButtonPositionMultiplier"]);
 
-    result.multipageAnimationFrontImage = _dataFromBase64(
-      jsonObject["multipageAnimationFrontImage"],
-    );
-    result.multipageAnimationBackImage = _dataFromBase64(
-      jsonObject["multipageAnimationBackImage"],
-    );
-    result.borderBackgroundImage = _dataFromBase64(
-      jsonObject["borderBackgroundImage"],
-    );
-    result.helpAnimationImage = _dataFromBase64(
-      jsonObject["helpAnimationImage"],
-    );
+    result.multipageAnimationFrontImage = _dataFromBase64(jsonObject["multipageAnimationFrontImage"]);
+    result.multipageAnimationBackImage = _dataFromBase64(jsonObject["multipageAnimationBackImage"]);
+    result.borderBackgroundImage = _dataFromBase64(jsonObject["borderBackgroundImage"]);
+    result.helpAnimationImage = _dataFromBase64(jsonObject["helpAnimationImage"]);
     result.closeButtonImage = _dataFromBase64(jsonObject["closeButtonImage"]);
-    result.captureButtonImage = _dataFromBase64(
-      jsonObject["captureButtonImage"],
-    );
-    result.cameraSwitchButtonImage = _dataFromBase64(
-      jsonObject["cameraSwitchButtonImage"],
-    );
-    result.torchButtonOnImage = _dataFromBase64(
-      jsonObject["torchButtonOnImage"],
-    );
-    result.torchButtonOffImage = _dataFromBase64(
-      jsonObject["torchButtonOffImage"],
-    );
-    result.changeFrameButtonExpandImage = _dataFromBase64(
-      jsonObject["changeFrameButtonExpandImage"],
-    );
-    result.changeFrameButtonCollapseImage = _dataFromBase64(
-      jsonObject["changeFrameButtonCollapseImage"],
-    );
-    result.livenessAnimationImage = _dataFromBase64(
-      jsonObject["livenessAnimationImage"],
-    );
-    result.multipageButtonImage = _dataFromBase64(
-      jsonObject["multipageButtonImage"],
-    );
+    result.captureButtonImage = _dataFromBase64(jsonObject["captureButtonImage"]);
+    result.cameraSwitchButtonImage = _dataFromBase64(jsonObject["cameraSwitchButtonImage"]);
+    result.torchButtonOnImage = _dataFromBase64(jsonObject["torchButtonOnImage"]);
+    result.torchButtonOffImage = _dataFromBase64(jsonObject["torchButtonOffImage"]);
+    result.changeFrameButtonExpandImage = _dataFromBase64(jsonObject["changeFrameButtonExpandImage"]);
+    result.changeFrameButtonCollapseImage = _dataFromBase64(jsonObject["changeFrameButtonCollapseImage"]);
+    result.livenessAnimationImage = _dataFromBase64(jsonObject["livenessAnimationImage"]);
+    result.multipageButtonImage = _dataFromBase64(jsonObject["multipageButtonImage"]);
 
     result.customLabelStatus = jsonObject["customLabelStatus"];
-    result.cameraFrameLineCap = Cap.getByValue(
-      jsonObject["cameraFrameLineCap"],
-    );
+    result.cameraFrameLineCap = Cap.getByValue(jsonObject["cameraFrameLineCap"]);
     result.uiCustomizationLayer = jsonObject["uiCustomizationLayer"];
     result.statusTextFont = Font.fromJson(jsonObject["statusTextFont"]);
-    result.resultStatusTextFont = Font.fromJson(
-      jsonObject["resultStatusTextFont"],
-    );
-    result.multipageButtonTextFont = Font.fromJson(
-      jsonObject["multipageButtonTextFont"],
-    );
+    result.resultStatusTextFont = Font.fromJson(jsonObject["resultStatusTextFont"]);
+    result.multipageButtonTextFont = Font.fromJson(jsonObject["multipageButtonTextFont"]);
 
-    result.helpAnimationImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject["helpAnimationImageContentMode"],
-    );
+    result.helpAnimationImageTransformsIOS = ViewContentMode.getByValue(jsonObject["helpAnimationImageContentMode"]);
     result.multipageAnimationFrontImageTransformsIOS =
-        ViewContentMode.getByValue(
-      jsonObject["multipageAnimationFrontImageContentMode"],
-    );
+        ViewContentMode.getByValue(jsonObject["multipageAnimationFrontImageContentMode"]);
     result.multipageAnimationBackImageTransformsIOS =
-        ViewContentMode.getByValue(
-      jsonObject["multipageAnimationBackImageContentMode"],
-    );
-    result.livenessAnimationImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject["livenessAnimationImageContentMode"],
-    );
-    result.borderBackgroundImageTransformsIOS = ViewContentMode.getByValue(
-      jsonObject["borderBackgroundImageContentMode"],
-    );
+        ViewContentMode.getByValue(jsonObject["multipageAnimationBackImageContentMode"]);
+    result.livenessAnimationImageTransformsIOS =
+        ViewContentMode.getByValue(jsonObject["livenessAnimationImageContentMode"]);
+    result.borderBackgroundImageTransformsIOS =
+        ViewContentMode.getByValue(jsonObject["borderBackgroundImageContentMode"]);
 
     if (jsonObject["helpAnimationImageMatrix"] != null) {
       List<double> array = [];
@@ -1027,8 +925,7 @@ class Customization {
     result.fonts = CustomizationFonts.fromJson(jsonObject["fonts"]);
     result.images = CustomizationImages.fromJson(jsonObject["images"]);
     result.timings = CustomizationTimings.fromJson(jsonObject["timings"]);
-    result.contentModes =
-        CustomizationContentModes.fromJson(jsonObject["contentModes"]);
+    result.contentModes = CustomizationContentModes.fromJson(jsonObject["contentModes"]);
     result.matrices = CustomizationMatrices.fromJson(jsonObject["matrices"]);
 
     return result;
@@ -1052,18 +949,12 @@ class Customization {
         "cameraFrameDefaultColor": _intFromColor(cameraFrameDefaultColor),
         "cameraFrameActiveColor": _intFromColor(cameraFrameActiveColor),
         "statusTextColor": _intFromColor(statusTextColor),
-        "resultStatusBackgroundColor": _intFromColor(
-          resultStatusBackgroundColor,
-        ),
-        "multipageButtonBackgroundColor": _intFromColor(
-          multipageButtonBackgroundColor,
-        ),
+        "resultStatusBackgroundColor": _intFromColor(resultStatusBackgroundColor),
+        "multipageButtonBackgroundColor": _intFromColor(multipageButtonBackgroundColor),
         "tintColor": _intFromColor(tintColor),
         "activityIndicatorColor": _intFromColor(activityIndicatorColor),
         "statusBackgroundColor": _intFromColor(statusBackgroundColor),
-        "cameraPreviewBackgroundColor": _intFromColor(
-          cameraPreviewBackgroundColor,
-        ),
+        "cameraPreviewBackgroundColor": _intFromColor(cameraPreviewBackgroundColor),
         "backgroundMaskColor": _intFromColor(backgroundMaskColor),
         "resultStatusTextColor": _intFromColor(resultStatusTextColor),
         "multipageButtonTextColor": _intFromColor(multipageButtonTextColor),
@@ -1072,28 +963,19 @@ class Customization {
         "toolbarSize": toolbarSize,
         "backgroundMaskAlpha": backgroundMaskAlpha,
         "customStatusPositionMultiplier": customStatusPositionMultiplier,
-        "cameraFrameVerticalPositionMultiplier":
-            cameraFrameVerticalPositionMultiplier,
+        "cameraFrameVerticalPositionMultiplier": cameraFrameVerticalPositionMultiplier,
         "cameraFrameLandscapeAspectRatio": cameraFrameLandscapeAspectRatio,
         "cameraFramePortraitAspectRatio": cameraFramePortraitAspectRatio,
         "cameraFrameCornerRadius": cameraFrameCornerRadius,
-        "livenessAnimationPositionMultiplier":
-            livenessAnimationPositionMultiplier,
+        "livenessAnimationPositionMultiplier": livenessAnimationPositionMultiplier,
         "nextPageAnimationStartDelay": nextPageAnimationStartDelay,
         "nextPageAnimationEndDelay": nextPageAnimationEndDelay,
-        "activityIndicatorPortraitPositionMultiplier":
-            activityIndicatorPortraitPositionMultiplier,
-        "activityIndicatorLandscapePositionMultiplier":
-            activityIndicatorLandscapePositionMultiplier,
-        "cameraPreviewVerticalPositionMultiplier":
-            cameraPreviewVerticalPositionMultiplier,
+        "activityIndicatorPortraitPositionMultiplier": activityIndicatorPortraitPositionMultiplier,
+        "activityIndicatorLandscapePositionMultiplier": activityIndicatorLandscapePositionMultiplier,
+        "cameraPreviewVerticalPositionMultiplier": cameraPreviewVerticalPositionMultiplier,
         "multipageButtonPositionMultiplier": multipageButtonPositionMultiplier,
-        "multipageAnimationFrontImage": _dataToBase64(
-          multipageAnimationFrontImage,
-        ),
-        "multipageAnimationBackImage": _dataToBase64(
-          multipageAnimationBackImage,
-        ),
+        "multipageAnimationFrontImage": _dataToBase64(multipageAnimationFrontImage),
+        "multipageAnimationBackImage": _dataToBase64(multipageAnimationBackImage),
         "borderBackgroundImage": _dataToBase64(borderBackgroundImage),
         "helpAnimationImage": _dataToBase64(helpAnimationImage),
         "closeButtonImage": _dataToBase64(closeButtonImage),
@@ -1101,12 +983,8 @@ class Customization {
         "cameraSwitchButtonImage": _dataToBase64(cameraSwitchButtonImage),
         "torchButtonOnImage": _dataToBase64(torchButtonOnImage),
         "torchButtonOffImage": _dataToBase64(torchButtonOffImage),
-        "changeFrameButtonExpandImage": _dataToBase64(
-          changeFrameButtonExpandImage,
-        ),
-        "changeFrameButtonCollapseImage": _dataToBase64(
-          changeFrameButtonCollapseImage,
-        ),
+        "changeFrameButtonExpandImage": _dataToBase64(changeFrameButtonExpandImage),
+        "changeFrameButtonCollapseImage": _dataToBase64(changeFrameButtonCollapseImage),
         "livenessAnimationImage": _dataToBase64(livenessAnimationImage),
         "multipageButtonImage": _dataToBase64(multipageButtonImage),
         "customLabelStatus": customLabelStatus,
@@ -1116,19 +994,13 @@ class Customization {
         "resultStatusTextFont": resultStatusTextFont?.toJson(),
         "multipageButtonTextFont": multipageButtonTextFont?.toJson(),
         "helpAnimationImageContentMode": helpAnimationImageTransformsIOS?.value,
-        "multipageAnimationFrontImageContentMode":
-            multipageAnimationFrontImageTransformsIOS?.value,
-        "multipageAnimationBackImageContentMode":
-            multipageAnimationBackImageTransformsIOS?.value,
-        "livenessAnimationImageContentMode":
-            livenessAnimationImageTransformsIOS?.value,
-        "borderBackgroundImageContentMode":
-            borderBackgroundImageTransformsIOS?.value,
+        "multipageAnimationFrontImageContentMode": multipageAnimationFrontImageTransformsIOS?.value,
+        "multipageAnimationBackImageContentMode": multipageAnimationBackImageTransformsIOS?.value,
+        "livenessAnimationImageContentMode": livenessAnimationImageTransformsIOS?.value,
+        "borderBackgroundImageContentMode": borderBackgroundImageTransformsIOS?.value,
         "helpAnimationImageMatrix": helpAnimationImageTransformsAndroid,
-        "multipageAnimationFrontImageMatrix":
-            multipageAnimationFrontImageTransformsAndroid,
-        "multipageAnimationBackImageMatrix":
-            multipageAnimationBackImageTransformsAndroid,
+        "multipageAnimationFrontImageMatrix": multipageAnimationFrontImageTransformsAndroid,
+        "multipageAnimationBackImageMatrix": multipageAnimationBackImageTransformsAndroid,
         "livenessAnimationImageMatrix": livenessAnimationImageTransformsAndroid,
         "borderBackgroundImageMatrix": borderBackgroundImageTransformsAndroid,
         "colors": colors.toJson(),

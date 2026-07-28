@@ -50,14 +50,10 @@ class CustomizationTimings {
 
     result.nextPageIdCardStartDelay = jsonObject["nextPageIdCardStartDelay"];
     result.nextPageIdCardEndDelay = jsonObject["nextPageIdCardEndDelay"];
-    result.nextPagePassportShiftStartDelay =
-        jsonObject["nextPagePassportShiftStartDelay"];
-    result.nextPagePassportShiftEndDelay =
-        jsonObject["nextPagePassportShiftEndDelay"];
-    result.nextPagePassportFlipStartDelay =
-        jsonObject["nextPagePassportFlipStartDelay"];
-    result.nextPagePassportFlipEndDelay =
-        jsonObject["nextPagePassportFlipEndDelay"];
+    result.nextPagePassportShiftStartDelay = jsonObject["nextPagePassportShiftStartDelay"];
+    result.nextPagePassportShiftEndDelay = jsonObject["nextPagePassportShiftEndDelay"];
+    result.nextPagePassportFlipStartDelay = jsonObject["nextPagePassportFlipStartDelay"];
+    result.nextPagePassportFlipEndDelay = jsonObject["nextPagePassportFlipEndDelay"];
 
     return result;
   }

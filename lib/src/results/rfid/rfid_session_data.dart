@@ -1,11 +1,3 @@
-//
-//  RFIDSessionData.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Used to describe the results of work with the SDK within the context
@@ -66,12 +58,9 @@ class RFIDSessionData {
     result._totalBytesReceived = jsonObject["totalBytesReceived"];
     result._totalBytesSent = jsonObject["totalBytesSent"];
     result._status = RFIDErrorCodes.getByValue(jsonObject["status"])!;
-    result._extLeSupport =
-        RFIDErrorCodes.getByValue(jsonObject["extLeSupport"])!;
+    result._extLeSupport = RFIDErrorCodes.getByValue(jsonObject["extLeSupport"])!;
     result._processTime = jsonObject["processTime"];
-    result._cardProperties = CardProperties.fromJson(
-      jsonObject["cardProperties"],
-    );
+    result._cardProperties = CardProperties.fromJson(jsonObject["cardProperties"]);
     for (var item in jsonObject["accessControls"]) {
       result._accessControls.addSafe(AccessControlProcedureType.fromJson(item));
     }

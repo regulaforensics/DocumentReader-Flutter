@@ -1,6 +1,6 @@
 Map<String, List<String>?> nullableMap = {
   "initConfig": ["databasePath", "customDb", "licenseUpdateTimeout"],
-    "recognizeConfig": [
+  "recognizeConfig": [
     "onlineProcessingConfig",
     "livePortrait",
     "extPortrait",
@@ -16,6 +16,7 @@ Map<String, List<String>?> nullableMap = {
   "faceApiSearchParams": ["groupIds"],
   "faceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
   "livenessParams!": [],
+  "propertiesParams!": [],
   "authenticityParams!": ["livenessParams"],
   "glaresCheckParams!": [],
   "rfidParams!": [],
@@ -40,14 +41,7 @@ Map<String, List<String>?> nullableMap = {
   "symbol": ["rect"],
   "value": ["boundRect", "rfidOrigin"],
   "textSource": ["source"],
-  "documentType": [
-    "name",
-    "iCAOCode",
-    "fDSID",
-    "dDescription",
-    "dYear",
-    "dCountryName",
-  ],
+  "documentType": ["name", "iCAOCode", "fDSID", "dDescription", "dYear", "dCountryName"],
   "transactionInfo!": [],
   "results": ["authenticityResult", "bsiTr03135Results"],
   "paResourcesIssuer": ["friendlyName"],

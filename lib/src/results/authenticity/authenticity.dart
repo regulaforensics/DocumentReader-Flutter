@@ -1,11 +1,3 @@
-//
-//  Authenticity.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Enumeration contains identifiers that determine the possibility
@@ -80,6 +72,8 @@ enum Authenticity {
   /// Checks the correctness of the size of the MRZ lines, their relative position,
   /// absence of signs that the image was edited.
   MRZ(8388608),
+
+  PROPERTY(33554432),
 
   /// Status only.
   STATUS_ONLY(2147483648);

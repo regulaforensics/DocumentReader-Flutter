@@ -27,6 +27,7 @@ import com.regula.documentreader.api.enums.eRFID_DataFile_Type
 import com.regula.documentreader.api.enums.eRPRM_Lights
 import com.regula.documentreader.api.listener.NetworkInterceptorListener
 import com.regula.documentreader.api.params.AuthenticityParams
+import com.regula.documentreader.api.params.AuthenticityPropertiesParams
 import com.regula.documentreader.api.params.BackendProcessingConfig
 import com.regula.documentreader.api.params.BleDeviceConfig
 import com.regula.documentreader.api.params.Bsi
@@ -378,6 +379,7 @@ fun faceApiParamsFromJSON(input: JSONObject?) = input?.let {
     result.search = faceApiSearchParamsFromJSON(it.getJSONObjectOrNull("searchParams"))
     result.proxy = it.getStringOrNull("proxy")
     result.proxyUserPwd = it.getStringOrNull("proxyPassword")
+    result.livenessTransactionId = it.getStringOrNull("livenessTransactionId")
     result.proxyType = it.getIntOrNull("proxyType")
 
     result
@@ -392,6 +394,7 @@ fun generateFaceApiParams(input: FaceApiParams?) = input?.let {
         "serviceTimeout" to it.serviceTimeout,
         "proxy" to it.proxy,
         "proxyPassword" to it.proxyUserPwd,
+        "livenessTransactionId" to it.livenessTransactionId,
         "proxyType" to it.proxyType
     ).toJson()
 }
@@ -463,6 +466,14 @@ fun livenessParamsFromJSON(input: JSONObject): LivenessParams {
 }
 
 fun generateLivenessParams(input: LivenessParams?) = getLivenessParams(input)
+
+fun authenticityPropertiesParamsFromJSON(input: JSONObject): AuthenticityPropertiesParams {
+    val result = AuthenticityPropertiesParams.defaultParams()
+    setAuthenticityPropertiesParams(result, input)
+    return result
+}
+
+fun generateAuthenticityPropertiesParams(input: AuthenticityPropertiesParams?) = getAuthenticityPropertiesParams(input)
 
 fun eDLDataGroupsFromJSON(input: JSONObject): EDLDataGroups {
     val result = EDLDataGroups()
@@ -582,7 +593,7 @@ fun generateImageInputData(input: ImageInputData?) = input?.let {
     ).toJson()
 }
 
-fun pkdCertificateFromJSON(input: JSONObject?) = input?.let {
+fun pkdCertificateFromJSON(input: JSONObject?): PKDCertificate? = input?.let {
     var resourceType = 0
     var binaryData = ByteArray(0)
 
