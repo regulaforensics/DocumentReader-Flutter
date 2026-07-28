@@ -9,17 +9,14 @@ class DeviceEngagement {
     var result = DeviceEngagement();
 
     result.deviceRetrievalMethods =
-        (jsonObject["deviceRetrievalMethods"] as List)
-            .map((item) => DeviceRetrievalMethod.fromJson(item)!)
-            .toList();
+        (jsonObject["deviceRetrievalMethods"] as List).map((item) => DeviceRetrievalMethod.fromJson(item)!).toList();
 
     return result;
   }
 
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
-        "deviceRetrievalMethods":
-            deviceRetrievalMethods.map((e) => e.toJson()).toList()
+        "deviceRetrievalMethods": deviceRetrievalMethods.map((e) => e.toJson()).toList(),
       }.clearNulls();
 }
 

@@ -6,12 +6,8 @@ class FinalizeConfig {
   bool? _rfidSession;
   bool? _mdlSession;
 
-  FinalizeConfig({
-    bool? rawImages,
-    bool? video,
-    bool? rfidSession,
-    bool? mdlSession,
-  })  : _rawImages = rawImages,
+  FinalizeConfig({bool? rawImages, bool? video, bool? rfidSession, bool? mdlSession})
+      : _rawImages = rawImages,
         _video = video,
         _rfidSession = rfidSession,
         _mdlSession = mdlSession;

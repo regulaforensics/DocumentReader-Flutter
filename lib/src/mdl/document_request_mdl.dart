@@ -19,9 +19,7 @@ class DocumentRequestMDL {
     }
     var result = DocumentRequestMDL(docType);
 
-    result._namespaces = (jsonObject["namespaces"] as List)
-        .map((item) => NameSpaceMDL.fromJson(item)!)
-        .toList();
+    result._namespaces = (jsonObject["namespaces"] as List).map((item) => NameSpaceMDL.fromJson(item)!).toList();
 
     return result;
   }

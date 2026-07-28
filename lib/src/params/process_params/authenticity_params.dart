@@ -1,11 +1,3 @@
-//
-//  AuthenticityParams.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class AuthenticityParams {
@@ -121,6 +113,20 @@ class AuthenticityParams {
     _set({"checkSecurityText": val});
   }
 
+  /// Set to true to enable detection of the document properties, such as holder's signature and other attributes.
+  bool? get checkProperties => _checkProperties;
+  bool? _checkProperties;
+  set checkProperties(bool? val) {
+    _checkProperties = val;
+    _set({"checkProperties": val});
+  }
+
+  AuthenticityPropertiesParams get propertiesParams => _propertiesParams;
+  AuthenticityPropertiesParams _propertiesParams = AuthenticityPropertiesParams();
+  set propertiesParams(AuthenticityPropertiesParams val) {
+    (_propertiesParams = val)._apply(this);
+  }
+
   /// Allows you to deserialize object.
   static AuthenticityParams fromJson(jsonObject) {
     if (jsonObject == null) return AuthenticityParams();
@@ -128,9 +134,7 @@ class AuthenticityParams {
     result.testSetters = {};
 
     result.useLivenessCheck = jsonObject["useLivenessCheck"];
-    result.livenessParams = LivenessParams.fromJson(
-      jsonObject["livenessParams"],
-    );
+    result.livenessParams = LivenessParams.fromJson(jsonObject["livenessParams"]);
     result.checkUVLuminiscence = jsonObject["checkUVLuminiscence"];
     result.checkIRB900 = jsonObject["checkIRB900"];
     result.checkImagePatterns = jsonObject["checkImagePatterns"];
@@ -145,6 +149,8 @@ class AuthenticityParams {
     result.checkPhotoComparison = jsonObject["checkPhotoComparison"];
     result.checkLetterScreen = jsonObject["checkLetterScreen"];
     result.checkSecurityText = jsonObject["checkSecurityText"];
+    result.checkProperties = jsonObject["checkProperties"];
+    result.propertiesParams = AuthenticityPropertiesParams.fromJson(jsonObject["propertiesParams"]);
 
     return result;
   }
@@ -167,6 +173,8 @@ class AuthenticityParams {
         "checkPhotoComparison": checkPhotoComparison,
         "checkLetterScreen": checkLetterScreen,
         "checkSecurityText": checkSecurityText,
+        "checkProperties": checkProperties,
+        "propertiesParams": propertiesParams.toJson(),
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {ProcessParams? directParent}) {

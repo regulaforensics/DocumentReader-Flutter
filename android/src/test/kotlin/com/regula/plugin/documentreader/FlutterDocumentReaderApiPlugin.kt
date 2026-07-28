@@ -66,6 +66,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun livenessParams() = compare("livenessParams", ::livenessParamsFromJSON, ::generateLivenessParams)
 
     @Test
+    fun authenticityPropertiesParams() = compare("authenticityPropertiesParams", ::authenticityPropertiesParamsFromJSON, ::generateAuthenticityPropertiesParams)
+
+    @Test
     fun authenticityParams() = compare("authenticityParams", ::authenticityParamsFromJSON, ::generateAuthenticityParams)
 
     @Test
@@ -106,20 +109,22 @@ class FlutterDocumentReaderApiPluginTest {
     // params
 
     @Test
-    fun customization() = compare(
-        "customization", ::customizationFromJSON, ::generateCustomization,
-        "helpAnimationImageContentMode",
-        "multipageAnimationFrontImageContentMode",
-        "multipageAnimationBackImageContentMode",
-        "livenessAnimationImageContentMode",
-        "borderBackgroundImageContentMode",
-        "statusTextFont",
-        "resultStatusTextFont",
-        "multipageButtonTextFont",
-        "fonts",
-        "contentModes",
-        "theme",
-    )
+    fun customization() = suppressStderr {
+        compare(
+            "customization", ::customizationFromJSON, ::generateCustomization,
+            "helpAnimationImageContentMode",
+            "multipageAnimationFrontImageContentMode",
+            "multipageAnimationBackImageContentMode",
+            "livenessAnimationImageContentMode",
+            "borderBackgroundImageContentMode",
+            "statusTextFont",
+            "resultStatusTextFont",
+            "multipageButtonTextFont",
+            "fonts",
+            "contentModes",
+            "theme",
+        )
+    }
 
     @Test
     fun functionality() = compare(

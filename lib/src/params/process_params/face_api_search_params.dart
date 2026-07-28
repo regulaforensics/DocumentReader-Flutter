@@ -1,11 +1,3 @@
-//
-//  FaceApiSearchParams.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class FaceApiSearchParams {
@@ -24,11 +16,8 @@ class FaceApiSearchParams {
   List<String>? get groupIds => _groupIds;
   List<String>? _groupIds;
 
-  FaceApiSearchParams({
-    int limit = 100,
-    double threshold = 1,
-    List<String>? groupIds,
-  })  : _limit = limit,
+  FaceApiSearchParams({int limit = 100, double threshold = 1, List<String>? groupIds})
+      : _limit = limit,
         _threshold = threshold,
         _groupIds = groupIds;
 
