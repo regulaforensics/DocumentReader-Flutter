@@ -229,8 +229,7 @@ class Functionality {
   /// otherwise, it won't be displayed.
   ///
   /// Default: 5.
-  int? get showCaptureButtonDelayFromDetect =>
-      _showCaptureButtonDelayFromDetect;
+  int? get showCaptureButtonDelayFromDetect => _showCaptureButtonDelayFromDetect;
   int? _showCaptureButtonDelayFromDetect;
   set showCaptureButtonDelayFromDetect(int? val) {
     _showCaptureButtonDelayFromDetect = val;
@@ -353,8 +352,7 @@ class Functionality {
   }
 
   /// Android only.
-  double? get videoRecordingSizeDownscaleFactor =>
-      _videoRecordingSizeDownscaleFactor;
+  double? get videoRecordingSizeDownscaleFactor => _videoRecordingSizeDownscaleFactor;
   double? _videoRecordingSizeDownscaleFactor;
   set videoRecordingSizeDownscaleFactor(double? val) {
     _videoRecordingSizeDownscaleFactor = val;
@@ -418,8 +416,7 @@ class Functionality {
     result.showCameraSwitchButton = jsonObject["showCameraSwitchButton"];
     result.displayMetadata = jsonObject["displayMetadata"];
     result.isZoomEnabled = jsonObject["isZoomEnabled"];
-    result.isCameraTorchCheckDisabled =
-        jsonObject["isCameraTorchCheckDisabled"];
+    result.isCameraTorchCheckDisabled = jsonObject["isCameraTorchCheckDisabled"];
     result.recordScanningProcess = jsonObject["recordScanningProcess"];
     result.manualMultipageMode = jsonObject["manualMultipageMode"];
     result.singleResult = jsonObject["singleResult"];
@@ -428,40 +425,27 @@ class Functionality {
     result.homeIndicatorAutoHide = jsonObject["homeIndicatorAutoHide"];
     result.hideStatusBar = jsonObject["hideStatusBar"];
 
-    result.showCaptureButtonDelayFromDetect =
-        jsonObject["showCaptureButtonDelayFromDetect"];
-    result.showCaptureButtonDelayFromStart =
-        jsonObject["showCaptureButtonDelayFromStart"];
+    result.showCaptureButtonDelayFromDetect = jsonObject["showCaptureButtonDelayFromDetect"];
+    result.showCaptureButtonDelayFromStart = jsonObject["showCaptureButtonDelayFromStart"];
     result.rfidTimeout = jsonObject["rfidTimeout"];
     result.forcePagesCount = jsonObject["forcePagesCount"];
-    result.orientation = DocReaderOrientation.getByValue(
-      jsonObject["orientation"],
-    );
+    result.orientation = DocReaderOrientation.getByValue(jsonObject["orientation"]);
     result.captureMode = CaptureMode.getByValue(jsonObject["captureMode"]);
     result.cameraMode = CameraMode.getByValue(jsonObject["cameraMode"]);
-    result.cameraPositionIOS = CameraPosition.getByValue(
-      jsonObject["cameraPositionIOS"],
-    );
+    result.cameraPositionIOS = CameraPosition.getByValue(jsonObject["cameraPositionIOS"]);
 
     result.cameraFrame = DocReaderFrame.getByValue(jsonObject["cameraFrame"]);
     result.btDeviceName = jsonObject["btDeviceName"];
 
     result.zoomFactor = _toDouble(jsonObject["zoomFactor"]);
     result.exposure = _toDouble(jsonObject["exposure"]);
-    result.videoRecordingSizeDownscaleFactor =
-        _toDouble(jsonObject["videoRecordingSizeDownscaleFactor"]);
+    result.videoRecordingSizeDownscaleFactor = _toDouble(jsonObject["videoRecordingSizeDownscaleFactor"]);
     result.mdlTimeout = _toDouble(jsonObject["mdlTimeout"]);
 
-    result.excludedCamera2Models = _stringListFrom(
-      jsonObject["excludedCamera2Models"],
-    );
+    result.excludedCamera2Models = _stringListFrom(jsonObject["excludedCamera2Models"]);
 
-    result.cameraResolutionAndroid = CameraSize.fromJson(
-      jsonObject["cameraSize"],
-    );
-    result.cameraResolutionIOS = CaptureSessionPreset.getByValue(
-      jsonObject["videoSessionPreset"],
-    );
+    result.cameraResolutionAndroid = CameraSize.fromJson(jsonObject["cameraSize"]);
+    result.cameraResolutionIOS = CaptureSessionPreset.getByValue(jsonObject["videoSessionPreset"]);
 
     return result;
   }

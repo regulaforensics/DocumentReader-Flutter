@@ -1,12 +1,3 @@
-//
-//  document_reader.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
-/// Regula Document Reader SDK
 library document_reader;
 
 import 'dart:async';
@@ -26,6 +17,7 @@ part 'src/params/process_params/glares_check_params.dart';
 part 'src/params/process_params/face_api_search_params.dart';
 part 'src/params/process_params/face_api_params.dart';
 part 'src/params/process_params/liveness_params.dart';
+part 'src/params/process_params/authenticity_properties_params.dart';
 part 'src/params/process_params/authenticity_params.dart';
 part 'src/params/process_params/rfid_params.dart';
 part 'src/params/process_params/backend_processing_config.dart';
@@ -198,10 +190,7 @@ class DocumentReader {
   /// IOS only.
   String? get rfidSessionStatus {
     if (!Platform.isIOS) {
-      throw PlatformException(
-        code: "ios-only",
-        message: "rfidSessionStatus is accessible only on iOS",
-      );
+      throw PlatformException(code: "ios-only", message: "rfidSessionStatus is accessible only on iOS");
     }
     return _rfidSessionStatus;
   }
@@ -209,10 +198,7 @@ class DocumentReader {
   String? _rfidSessionStatus;
   set rfidSessionStatus(String? val) {
     if (!Platform.isIOS) {
-      throw PlatformException(
-        code: "ios-only",
-        message: "rfidSessionStatus is accessible only on iOS",
-      );
+      throw PlatformException(code: "ios-only", message: "rfidSessionStatus is accessible only on iOS");
     }
     _rfidSessionStatus = val;
     _setRfidSessionStatus(val);
@@ -319,12 +305,10 @@ class DocumentReader {
   }
 
   // Set click listener for buttons from the UI customization layer.
-  set onCustomButtonTapped(CustomButtonTappedCompletion completion) =>
-      _setCustomButtonTappedCompletion(completion);
+  set onCustomButtonTapped(CustomButtonTappedCompletion completion) => _setCustomButtonTappedCompletion(completion);
 
   /// Allows user to receive a video file of current session
-  set videoEncoderCompletion(VideoEncoderCompletion completion) =>
-      _setVideoEncoderCompletion(completion);
+  set videoEncoderCompletion(VideoEncoderCompletion completion) => _setVideoEncoderCompletion(completion);
 
   @Deprecated("Use `initialize` instead.")
   Future<SuccessOrError> initializeReader(InitConfig config) async {
@@ -385,10 +369,7 @@ class DocumentReader {
   /// Check out [SuccessOrError] documentation for handling return type.
   ///
   /// Requires `android.permission.INTERNET` android permission.
-  Future<SuccessOrError> runAutoUpdate(
-    String databaseID,
-    DocumentReaderPrepareCompletion prepareCompletion,
-  ) async {
+  Future<SuccessOrError> runAutoUpdate(String databaseID, DocumentReaderPrepareCompletion prepareCompletion) async {
     _setDocumentReaderPrepareCompletion(prepareCompletion);
     var response = await _bridge.invokeMethod("runAutoUpdate", [databaseID]);
     return _successOrErrorFromJson(response);
@@ -400,9 +381,7 @@ class DocumentReader {
   ///
   /// Requires `android.permission.INTERNET` android permission.
   Future<DocumentsDatabase?> checkDatabaseUpdate(String databaseID) async {
-    String? response = await _bridge.invokeMethod("checkDatabaseUpdate", [
-      databaseID,
-    ]);
+    String? response = await _bridge.invokeMethod("checkDatabaseUpdate", [databaseID]);
     return DocumentsDatabase.fromJson(_decode(response));
   }
 
@@ -412,6 +391,8 @@ class DocumentReader {
   }
 
   /// Allows you to remove the database from your app.
+  ///
+  /// Returns `true` only if the database was removed or absent.
   Future<bool> removeDatabase() async {
     return await _bridge.invokeMethod("removeDatabase", []);
   }
@@ -463,9 +444,7 @@ class DocumentReader {
   ///
   /// Requires `android.permission.NFC` android permission.
   void rfid(RFIDConfig config) {
-    config._disableUI
-        ? _setRFIDCompletion(config._rfidCompletion!)
-        : _setDocumentReaderCompletion(config._completion!);
+    config._disableUI ? _setRFIDCompletion(config._rfidCompletion!) : _setDocumentReaderCompletion(config._completion!);
 
     _setRFIDProgressCompletion(config.onProgress);
     _setChipDetectedCompletion(config.onChipDetected);
@@ -478,8 +457,7 @@ class DocumentReader {
     _setPACEProtocolCompletion(config.onRequestPACEProtocol);
     _setCAProtocolCompletion(config.onRequestCAProtocol);
 
-    _bridge.invokeMethod(
-        config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
+    _bridge.invokeMethod(config._disableUI ? "readRFID" : "startRFIDReader", [config.toJson()]);
   }
 
   /// Used to stop the scanning process.
@@ -517,16 +495,12 @@ class DocumentReader {
   ///
   /// Check out [SuccessOrError] documentation for handling return type.
   Future<SuccessOrError> setTCCParams(TccParams params) async {
-    var response = await _bridge.invokeMethod("setTCCParams", [
-      params.toJson(),
-    ]);
+    var response = await _bridge.invokeMethod("setTCCParams", [params.toJson()]);
     return _successOrErrorFromJson(response);
   }
 
   /// It's used to finalize package during backend processing.
-  Future<FinalizePackageCompletion> finalizePackage({
-    FinalizeConfig? config,
-  }) async {
+  Future<FinalizePackageCompletion> finalizePackage({FinalizeConfig? config}) async {
     var funcName = "finalizePackage";
     if (config != null) funcName = "finalizePackageWithFinalizeConfig";
     var response = await _bridge.invokeMethod(funcName, [config?.toJson()]);
@@ -552,12 +526,11 @@ class DocumentReader {
   }
 
   /// Used to read MDL.
-  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
-      readMDL(MDLDeviceEngagement type, DataRetrieval retrieval) async {
-    var response = await _bridge.invokeMethod("startReadMDl", [
-      type.value,
-      retrieval.toJson(),
-    ]);
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)> readMDL(
+    MDLDeviceEngagement type,
+    DataRetrieval retrieval,
+  ) async {
+    var response = await _bridge.invokeMethod("startReadMDl", [type.value, retrieval.toJson()]);
     var jsonObject = json.decode(response);
     return (
       DocReaderAction.getByValue(jsonObject["action"])!,
@@ -571,8 +544,7 @@ class DocumentReader {
   /// [withoutUI] - If `true`, then Regula's UI will not be shown and user is supposed to implement the UI himself.
   ///
   /// [data]  - Required if [type] = [MDLDeviceEngagement.QR] and [withoutUI] = `true`.
-  Future<(DeviceEngagement? engagement, DocReaderException? error)>
-      engageDevice(
+  Future<(DeviceEngagement? engagement, DocReaderException? error)> engageDevice(
     MDLDeviceEngagement type, {
     bool withoutUI = false,
     String? data,
@@ -597,8 +569,7 @@ class DocumentReader {
   /// [withoutUI] - If set, then Regula's UI will not be shown and user is supposed to implement the UI himself.
   ///
   /// [engagement] - Required for [withoutUI] = `null` or [MDLDeviceRetrieval.BLE]. Not needed for [MDLDeviceRetrieval.NFC].
-  Future<(DocReaderAction action, Results? results, DocReaderException? error)>
-      retrieveData(
+  Future<(DocReaderAction action, Results? results, DocReaderException? error)> retrieveData(
     DataRetrieval retrieval, {
     MDLDeviceRetrieval? withoutUI,
     DeviceEngagement? engagement,
@@ -607,10 +578,7 @@ class DocumentReader {
     if (withoutUI == MDLDeviceRetrieval.NFC) function = "engageDeviceNFC";
     if (withoutUI == MDLDeviceRetrieval.BLE) function = "engageDeviceBLE";
 
-    var jsonObject = json.decode(await _bridge.invokeMethod(function, [
-      retrieval.toJson(),
-      engagement?.toJson(),
-    ]));
+    var jsonObject = json.decode(await _bridge.invokeMethod(function, [retrieval.toJson(), engagement?.toJson()]));
     return (
       DocReaderAction.getByValue(jsonObject["action"])!,
       Results.fromJson(jsonObject["results"]),
@@ -770,11 +738,7 @@ typedef SuccessOrError = (bool, DocReaderException?);
 /// [results] defines current processing results.
 ///
 /// [error] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef DocumentReaderCompletion = void Function(
-  DocReaderAction action,
-  Results? results,
-  DocReaderException? error,
-);
+typedef DocumentReaderCompletion = void Function(DocReaderAction action, Results? results, DocReaderException? error);
 
 /// Callback for receiving signal, when a custom button,
 /// configured in [Customization.uiCustomizationLayer], is pressed.
@@ -795,11 +759,7 @@ typedef VideoEncoderCompletion = void Function(String filePath);
 /// [TransactionInfo] contains transactionId and tag.
 ///
 /// [DocReaderException] in case of anything is wrong - brief message for developer, `null` otherwise.
-typedef FinalizePackageCompletion = (
-  DocReaderAction action,
-  TransactionInfo? info,
-  DocReaderException? error,
-);
+typedef FinalizePackageCompletion = (DocReaderAction action, TransactionInfo? info, DocReaderException? error);
 
 /// Contains all possible DocumentReaderNotification callback codes
 enum DocReaderAction {

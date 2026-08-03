@@ -19,6 +19,7 @@
 +(void)setImageQA:(RGLImageQA*)result input:(NSDictionary*)input;
 +(void)setAuthenticityParams:(RGLAuthenticityParams*)result input:(NSDictionary*)input;
 +(void)setLivenessParams:(RGLLivenessParams*)result input:(NSDictionary*)input;
++(void)setAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)result input:(NSDictionary*)input;
 
 +(NSDictionary*)getFunctionality:(RGLFunctionality*)functionality;
 +(NSDictionary*)getProcessParams:(RGLProcessParams*)processParams;
@@ -29,6 +30,7 @@
 +(NSDictionary*)getImageQA:(RGLImageQA*)input;
 +(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input;
 +(NSDictionary*)getLivenessParams:(RGLLivenessParams*)input;
++(NSDictionary*)getAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)input;
 
 +(RGLImageQualityCheckType)imageQualityCheckTypeWithNumber:(NSNumber*)value;
 +(NSNumber*)generateDocReaderAction:(RGLDocReaderAction)action;

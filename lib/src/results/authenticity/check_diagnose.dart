@@ -1,11 +1,3 @@
-//
-//  CheckDiagnose.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 /// Enumeration contains identificators that determine the result of the
@@ -367,7 +359,13 @@ enum CheckDiagnose {
   ICAO_IDB_CERTIFICATE_MUST_NOT_BE_PRESENT(248),
 
   /// Incorrect object color.
-  INCORRECT_OBJECT_COLOR(250);
+  INCORRECT_OBJECT_COLOR(250),
+
+  PROPERTY_NO_SIGNATURE(260),
+
+  PROPERTY_TEXT_AS_SIGNATURE(261),
+
+  PROPERTY_FINGERPRINT_AS_SIGNATURE(262);
 
   const CheckDiagnose(this.value);
   final int value;

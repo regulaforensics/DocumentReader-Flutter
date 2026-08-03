@@ -7,84 +7,38 @@ import 'utils.dart';
 void main() {
   group('DocumentReader', () {
     compare('initConfig', initConfig, InitConfig.fromJson);
-    compare(
-      'onlineProcessingConfig',
-      onlineProcessingConfig,
-      OnlineProcessingConfig.fromJson,
-    );
+    compare('onlineProcessingConfig', onlineProcessingConfig, OnlineProcessingConfig.fromJson);
     compare('imageInputData', imageInputData, ImageInputData.fromJson);
     compare('recognizeConfig', recognizeConfig, RecognizeConfig.fromJson);
     compare('recognizeConfig2', recognizeConfig2, RecognizeConfig.fromJson);
     compare('scannerConfig', scannerConfig, ScannerConfig.fromJson);
     compare('finalizeConfig', finalizeConfig, FinalizeConfig.fromJson);
 
-    compare(
-      'faceApiSearchParams',
-      faceApiSearchParams,
-      FaceApiSearchParams.fromJson,
-    );
+    compare('faceApiSearchParams', faceApiSearchParams, FaceApiSearchParams.fromJson);
     compare('faceApiParams', faceApiParams, FaceApiParams.fromJson);
 
     compareParams('livenessParams', livenessParams, LivenessParams.fromJson);
-    compareParams(
-      'authenticityParams',
-      authenticityParams,
-      AuthenticityParams.fromJson,
-    );
+    compareParams('propertiesParams', propertiesParams, AuthenticityPropertiesParams.fromJson);
+    compareParams('authenticityParams', authenticityParams, AuthenticityParams.fromJson);
     compare('glaresCheckParams', glaresCheckParams, GlaresCheckParams.fromJson);
     compare('rfidParams', rfidParams, RFIDParams.fromJson);
     compareParams('imageQA', imageQA, ImageQA.fromJson);
-    compare(
-      'backendProcessingConfig',
-      backendProcessingConfig,
-      BackendProcessingConfig.fromJson,
-    );
+    compare('backendProcessingConfig', backendProcessingConfig, BackendProcessingConfig.fromJson);
     compare('bsi', bsi, Bsi.fromJson);
-    compareParams(
-      'processParams',
-      processParams,
-      ProcessParams.fromJson,
-      skip: ["logs"],
-    );
+    compareParams('processParams', processParams, ProcessParams.fromJson, skip: [
+      "logs",
+    ]);
     compareParams('eDLDataGroups', eDLDataGroups, EDLDataGroups.fromJson);
-    compareParams(
-      'ePassportDataGroups',
-      ePassportDataGroups,
-      EPassportDataGroups.fromJson,
-    );
+    compareParams('ePassportDataGroups', ePassportDataGroups, EPassportDataGroups.fromJson);
     compareParams('eIDDataGroups', eIDDataGroups, EIDDataGroups.fromJson);
     compareParams('dtcDataGroup', dtcDataGroup, DTCDataGroup.fromJson);
     compareParams('rfidScenario', rfidScenario, RFIDScenario.fromJson);
-    compareParams(
-      'customizationColors',
-      customizationColors,
-      CustomizationColors.fromJson,
-    );
-    compareParams(
-      'customizationFonts',
-      customizationFonts,
-      CustomizationFonts.fromJson,
-    );
-    compareParams(
-      'customizationImages',
-      customizationImages,
-      CustomizationImages.fromJson,
-    );
-    compareParams(
-      'customizationTimings',
-      customizationTimings,
-      CustomizationTimings.fromJson,
-    );
-    compareParams(
-      'customizationContentModes',
-      customizationContentModes,
-      CustomizationContentModes.fromJson,
-    );
-    compareParams(
-      'customizationMatrices',
-      customizationMatrices,
-      CustomizationMatrices.fromJson,
-    );
+    compareParams('customizationColors', customizationColors, CustomizationColors.fromJson);
+    compareParams('customizationFonts', customizationFonts, CustomizationFonts.fromJson);
+    compareParams('customizationImages', customizationImages, CustomizationImages.fromJson);
+    compareParams('customizationTimings', customizationTimings, CustomizationTimings.fromJson);
+    compareParams('customizationContentModes', customizationContentModes, CustomizationContentModes.fromJson);
+    compareParams('customizationMatrices', customizationMatrices, CustomizationMatrices.fromJson);
     compareParams('customization', customization, Customization.fromJson);
     compareParams('functionality', functionality, Functionality.fromJson);
 
@@ -92,42 +46,22 @@ void main() {
     compare('docReaderVersion', docReaderVersion, DocReaderVersion.fromJson);
     compare('docReaderScenario', docReaderScenario, DocReaderScenario.fromJson);
     compare('license', license, License.fromJson);
-    compare(
-      'docReaderException',
-      docReaderException,
-      DocReaderException.fromJson,
-    );
+    compare('docReaderException', docReaderException, DocReaderException.fromJson);
     compare('rfidException', rfidException, RFIDException.fromJson);
     compare('prepareProgress', prepareProgress, PrepareProgress.fromJson);
 
-    compare(
-      'authenticityElement',
-      authenticityElement,
-      AuthenticityElement.fromJson,
-    );
+    compare('authenticityElement', authenticityElement, AuthenticityElement.fromJson);
     compare('authenticityCheck', authenticityCheck, AuthenticityCheck.fromJson);
-    compare(
-      'authenticityResult',
-      authenticityResult,
-      AuthenticityResult.fromJson,
-    );
+    compare('authenticityResult', authenticityResult, AuthenticityResult.fromJson);
     compare('pdf417Info', pdf417Info, PDF417Info.fromJson);
     compare('barcodeField', barcodeField, BarcodeField.fromJson);
     compare('barcodeResult', barcodeResult, BarcodeResult.fromJson);
     compare('imageQuality', imageQuality, ImageQuality.fromJson);
     compare('imageQualityGroup', imageQualityGroup, ImageQualityGroup.fromJson);
-    compare(
-      'accessControlProcedureType',
-      accessControlProcedureType,
-      AccessControlProcedureType.fromJson,
-    );
+    compare('accessControlProcedureType', accessControlProcedureType, AccessControlProcedureType.fromJson);
     compare('fileData', fileData, FileData.fromJson);
     compare('certificateData', certificateData, CertificateData.fromJson);
-    compare(
-      'securityObjectCertificates',
-      securityObjectCertificates,
-      SecurityObjectCertificates.fromJson,
-    );
+    compare('securityObjectCertificates', securityObjectCertificates, SecurityObjectCertificates.fromJson);
     compare('file', file, File.fromJson);
     compare('application', application, Application.fromJson);
     compare('rfidValue', rfidValue, RFIDValue.fromJson);
@@ -175,14 +109,11 @@ void main() {
     compare('caProtocol', caProtocol, CAProtocol.fromJson);
     compare('tccParams', tccParams, TccParams.fromJson);
 
-    compare('deviceRetrievalMethod', deviceRetrievalMethod,
-        DeviceRetrievalMethod.fromJson);
+    compare('deviceRetrievalMethod', deviceRetrievalMethod, DeviceRetrievalMethod.fromJson);
     compare('deviceEngagement', deviceEngagement, DeviceEngagement.fromJson);
     compare('nameSpaceMDL', nameSpaceMDL, NameSpaceMDL.fromJson);
-    compare(
-        'documentRequestMDL', documentRequestMDL, DocumentRequestMDL.fromJson);
-    compare('documentRequest18013MDL', documentRequest18013MDL,
-        DocumentRequest18013MDL.fromJson);
+    compare('documentRequestMDL', documentRequestMDL, DocumentRequestMDL.fromJson);
+    compare('documentRequest18013MDL', documentRequest18013MDL, DocumentRequest18013MDL.fromJson);
     compare('dataRetrieval', dataRetrieval, DataRetrieval.fromJson);
   });
 }

@@ -66,6 +66,10 @@ class Tests: XCTestCase {
         compare(name: "livenessParams", fromJson: RGLWJSONConstructor.livenessParams, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_authenticityPropertiesParams() {
+        compare(name: "authenticityPropertiesParams", fromJson: RGLWJSONConstructor.authenticityPropertiesParams, generate: RGLWJSONConstructor.generate)
+    }
+    
     func test_authenticityParams() {
         compare(name: "authenticityParams", fromJson: RGLWJSONConstructor.authenticityParams, generate: RGLWJSONConstructor.generate)
     }

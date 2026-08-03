@@ -1,11 +1,3 @@
-//
-//  PDF417Info.dart
-//  DocumentReader
-//
-//  Created by Pavel Masiuk on 21.09.2023.
-//  Copyright © 2023 Regula. All rights reserved.
-//
-
 part of "../../../flutter_document_reader_api.dart";
 
 class PDF417Info {
@@ -34,6 +26,9 @@ class PDF417Info {
   }
 
   /// Allows you to serialize object.
-  Map<String, dynamic> toJson() =>
-      {"errorLevel": errorLevel, "columns": columns, "rows": rows}.clearNulls();
+  Map<String, dynamic> toJson() => {
+        "errorLevel": errorLevel,
+        "columns": columns,
+        "rows": rows,
+      }.clearNulls();
 }

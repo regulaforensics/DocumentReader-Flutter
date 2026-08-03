@@ -16,6 +16,7 @@ import com.regula.documentreader.api.enums.CustomizationScaleType
 import com.regula.documentreader.api.enums.CustomizationTiming
 import com.regula.documentreader.api.enums.LogLevel
 import com.regula.documentreader.api.params.AuthenticityParams
+import com.regula.documentreader.api.params.AuthenticityPropertiesParams
 import com.regula.documentreader.api.params.Functionality
 import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.LivenessParams
@@ -718,9 +719,14 @@ fun setAuthenticityParams(input: AuthenticityParams, opts: JSONObject) = opts.fo
         "checkPhotoComparison" -> input.checkPhotoComparison = v as Boolean
         "checkLetterScreen" -> input.checkLetterScreen = v as Boolean
         "checkSecurityText" -> input.checkSecurityText = v as Boolean
+        "checkProperties" -> input.checkProperties = v as Boolean
         "livenessParams" -> {
             if (input.livenessParams == null) input.livenessParams = LivenessParams.defaultParams()
             setLivenessParams(input.livenessParams!!, v as JSONObject)
+        }
+        "propertiesParams" -> {
+            if (input.propertiesParams == null) input.propertiesParams = AuthenticityPropertiesParams.defaultParams()
+            setAuthenticityPropertiesParams(input.propertiesParams!!, v as JSONObject)
         }
     }
 }
@@ -729,7 +735,7 @@ fun getAuthenticityParams(input: AuthenticityParams?) = input?.let {
     mapOf(
         "useLivenessCheck" to it.useLivenessCheck,
         "checkUVLuminiscence" to it.checkUVLuminiscence,
-        "checkIRB900" to input.checkIRB900,
+        "checkIRB900" to it.checkIRB900,
         "checkImagePatterns" to it.checkImagePatterns,
         "checkFibers" to it.checkFibers,
         "checkExtMRZ" to it.checkExtMRZ,
@@ -742,7 +748,9 @@ fun getAuthenticityParams(input: AuthenticityParams?) = input?.let {
         "checkPhotoComparison" to it.checkPhotoComparison,
         "checkLetterScreen" to it.checkLetterScreen,
         "checkSecurityText" to it.checkSecurityText,
-        "livenessParams" to getLivenessParams(it.livenessParams)
+        "checkProperties" to it.checkProperties,
+        "livenessParams" to getLivenessParams(it.livenessParams),
+        "propertiesParams" to getAuthenticityPropertiesParams(it.propertiesParams),
     ).toJson()
 }
 
@@ -761,14 +769,26 @@ fun setLivenessParams(input: LivenessParams, opts: JSONObject) = opts.forEach { 
 
 fun getLivenessParams(input: LivenessParams?) = input?.let {
     mapOf(
-        "checkOVI" to input.checkOVI,
-        "checkMLI" to input.checkMLI,
-        "checkHolo" to input.checkHolo,
-        "checkED" to input.checkED,
-        "checkBlackAndWhiteCopy" to input.checkBlackAndWhiteCopy,
-        "checkDynaprint" to input.checkDynaprint,
-        "checkGeometry" to input.checkGeometry,
-        "checkBarcodeBackground" to input.checkBarcodeBackground,
+        "checkOVI" to it.checkOVI,
+        "checkMLI" to it.checkMLI,
+        "checkHolo" to it.checkHolo,
+        "checkED" to it.checkED,
+        "checkBlackAndWhiteCopy" to it.checkBlackAndWhiteCopy,
+        "checkDynaprint" to it.checkDynaprint,
+        "checkGeometry" to it.checkGeometry,
+        "checkBarcodeBackground" to it.checkBarcodeBackground,
+    ).toJson()
+}
+
+fun setAuthenticityPropertiesParams(input: AuthenticityPropertiesParams, opts: JSONObject) = opts.forEach { k, v ->
+    when (k) {
+        "checkHoldersSignature" -> input.checkHoldersSignature = v as Boolean
+    }
+}
+
+fun getAuthenticityPropertiesParams(input: AuthenticityPropertiesParams?) = input?.let {
+    mapOf(
+        "checkHoldersSignature" to it.checkHoldersSignature,
     ).toJson()
 }
 

@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "RGLWConfig.h"
+#import "./include/flutter_document_reader_api/RGLWConfig.h"
 
 @implementation RGLWConfig
 
@@ -998,10 +998,6 @@
 +(void)setAuthenticityParams:(RGLAuthenticityParams*)result input:(NSDictionary*)input {
     if([input valueForKey:@"useLivenessCheck"] != nil)
         result.useLivenessCheck = [input valueForKey:@"useLivenessCheck"];
-    if([input valueForKey:@"livenessParams"] != nil) {
-        if(result.livenessParams == nil) result.livenessParams = [RGLLivenessParams defaultParams];
-        [self setLivenessParams:result.livenessParams input:[input valueForKey:@"livenessParams"]];
-    }
     if([input valueForKey:@"checkUVLuminiscence"] != nil)
         result.checkUVLuminiscence = [input valueForKey:@"checkUVLuminiscence"];
     if([input valueForKey:@"checkIRB900"] != nil)
@@ -1029,6 +1025,15 @@
     if([input valueForKey:@"checkLetterScreen"] != nil)
         result.checkLetterScreen = [input valueForKey:@"checkLetterScreen"];
     if(input[@"checkSecurityText"]) result.checkSecurityText = input[@"checkSecurityText"];
+    if(input[@"checkProperties"]) result.checkProperties = input[@"checkProperties"];
+    if(input[@"livenessParams"]) {
+        if(!result.livenessParams) result.livenessParams = [RGLLivenessParams defaultParams];
+        [self setLivenessParams:result.livenessParams input:input[@"livenessParams"]];
+    }
+    if(input[@"propertiesParams"]) {
+        if(!result.propertiesParams) result.propertiesParams = [RGLAuthenticityPropertiesParams defaultParams];
+        [self setAuthenticityPropertiesParams:result.propertiesParams input:input[@"propertiesParams"]];
+    }
 }
 
 +(NSDictionary*)getAuthenticityParams:(RGLAuthenticityParams*)input {
@@ -1036,7 +1041,6 @@
     NSMutableDictionary *result = [NSMutableDictionary new];
     
     result[@"useLivenessCheck"] = input.useLivenessCheck;
-    result[@"livenessParams"] = [self getLivenessParams:input.livenessParams];
     result[@"checkUVLuminiscence"] = input.checkUVLuminiscence;
     result[@"checkIRB900"] = input.checkIRB900;
     result[@"checkImagePatterns"] = input.checkImagePatterns;
@@ -1051,6 +1055,9 @@
     result[@"checkPhotoComparison"] = input.checkPhotoComparison;
     result[@"checkLetterScreen"] = input.checkLetterScreen;
     result[@"checkSecurityText"] = input.checkSecurityText;
+    result[@"checkProperties"] = input.checkProperties;
+    result[@"livenessParams"] = [self getLivenessParams:input.livenessParams];
+    result[@"propertiesParams"] = [self getAuthenticityPropertiesParams:input.propertiesParams];
     
     return result;
 }
@@ -1082,6 +1089,19 @@
     result[@"checkDynaprint"] = input.checkDynaprint;
     result[@"checkGeometry"] = input.checkGeometry;
     result[@"checkBarcodeBackground"] = input.checkBarcodeBackground;
+    
+    return result;
+}
+
++(void)setAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)result input:(NSDictionary*)input {
+    if(input[@"checkHoldersSignature"]) result.checkHoldersSignature = input[@"checkHoldersSignature"];
+}
+
++(NSDictionary*)getAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    
+    result[@"checkHoldersSignature"] = input.checkHoldersSignature;
     
     return result;
 }

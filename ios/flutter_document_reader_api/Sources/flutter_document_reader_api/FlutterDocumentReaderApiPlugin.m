@@ -1,4 +1,4 @@
-#import "FlutterDocumentReaderApiPlugin.h"
+#import "./include/flutter_document_reader_api/FlutterDocumentReaderApiPlugin.h"
 
 @implementation FlutterDocumentReaderApiPlugin
 
