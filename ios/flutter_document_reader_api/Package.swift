@@ -10,7 +10,7 @@ let package = Package(
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/regulaforensics/DocumentReader-Swift-Package",
-            exact: "9.8.6836-nightly"
+            exact: "9.8.6837-nightly"
         ),
     ],
     targets: [
@@ -18,7 +18,7 @@ let package = Package(
             name: "flutter_document_reader_api",
             dependencies: [
                 .product(name: "FlutterFramework", package: "FlutterFramework"),
-                .product(name: "product_place_holder", package: "DocumentReader-Swift-Package"),
+                .product(name: "DocumentReader", package: "DocumentReader-Swift-Package"),
             ],
             cSettings: [.headerSearchPath("include/flutter_document_reader_api")]
         ),
