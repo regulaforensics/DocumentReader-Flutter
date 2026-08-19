@@ -23,6 +23,7 @@ var faceApiParams = {
   "proxy": "test3",
   "proxyPassword": "test4",
   "proxyType": 3,
+  "livenessTransactionId": "test5",
   "searchParams": faceApiSearchParams,
 };
 var livenessParams = {
@@ -34,6 +35,9 @@ var livenessParams = {
   "checkDynaprint": false,
   "checkGeometry": true,
   "checkBarcodeBackground": false,
+};
+var propertiesParams = {
+  "checkHoldersSignature": true,
 };
 var authenticityParams = {
   "useLivenessCheck": true,
@@ -51,7 +55,9 @@ var authenticityParams = {
   "checkPhotoComparison": true,
   "checkLetterScreen": false,
   "checkSecurityText": true,
+  "checkProperties": false,
   "livenessParams": livenessParams,
+  "propertiesParams": propertiesParams,
 };
 var glaresCheckParams = {
   "imgMarginPart": 0.5,

@@ -1942,7 +1942,11 @@ enum FieldType {
 
   CONSUL(705),
 
-  CANTON_REFERENCE(706);
+  DLCLASSCODE_B3_FROM(706),
+
+  DLCLASSCODE_B3_TO(707),
+
+  DLCLASSCODE_B3_NOTES(708);
 
   const FieldType(this.value);
   final int value;

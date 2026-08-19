@@ -359,7 +359,13 @@ enum CheckDiagnose {
   ICAO_IDB_CERTIFICATE_MUST_NOT_BE_PRESENT(248),
 
   /// Incorrect object color.
-  INCORRECT_OBJECT_COLOR(250);
+  INCORRECT_OBJECT_COLOR(250),
+
+  PROPERTY_NO_SIGNATURE(260),
+
+  PROPERTY_TEXT_AS_SIGNATURE(261),
+
+  PROPERTY_FINGERPRINT_AS_SIGNATURE(262);
 
   const CheckDiagnose(this.value);
   final int value;

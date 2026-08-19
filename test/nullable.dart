@@ -16,6 +16,7 @@ Map<String, List<String>?> nullableMap = {
   "faceApiSearchParams": ["groupIds"],
   "faceApiParams": ["searchParams", "proxy", "proxyPassword", "proxyType"],
   "livenessParams!": [],
+  "propertiesParams!": [],
   "authenticityParams!": ["livenessParams"],
   "glaresCheckParams!": [],
   "rfidParams!": [],

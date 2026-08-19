@@ -17,6 +17,7 @@ part 'src/params/process_params/glares_check_params.dart';
 part 'src/params/process_params/face_api_search_params.dart';
 part 'src/params/process_params/face_api_params.dart';
 part 'src/params/process_params/liveness_params.dart';
+part 'src/params/process_params/authenticity_properties_params.dart';
 part 'src/params/process_params/authenticity_params.dart';
 part 'src/params/process_params/rfid_params.dart';
 part 'src/params/process_params/backend_processing_config.dart';
@@ -390,6 +391,8 @@ class DocumentReader {
   }
 
   /// Allows you to remove the database from your app.
+  ///
+  /// Returns `true` only if the database was removed or absent.
   Future<bool> removeDatabase() async {
     return await _bridge.invokeMethod("removeDatabase", []);
   }

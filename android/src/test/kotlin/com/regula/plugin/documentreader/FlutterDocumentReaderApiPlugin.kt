@@ -66,6 +66,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun livenessParams() = compare("livenessParams", ::livenessParamsFromJSON, ::generateLivenessParams)
 
     @Test
+    fun authenticityPropertiesParams() = compare("authenticityPropertiesParams", ::authenticityPropertiesParamsFromJSON, ::generateAuthenticityPropertiesParams)
+
+    @Test
     fun authenticityParams() = compare("authenticityParams", ::authenticityParamsFromJSON, ::generateAuthenticityParams)
 
     @Test

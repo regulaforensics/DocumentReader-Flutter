@@ -41,6 +41,8 @@
 +(NSDictionary* _Nullable)generateAuthenticityParams:(RGLAuthenticityParams* _Nullable)input;
 +(RGLLivenessParams* _Nullable)livenessParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateLivenessParams:(RGLLivenessParams* _Nullable)input;
++(RGLAuthenticityPropertiesParams* _Nullable)authenticityPropertiesParamsFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams* _Nullable)input;
 +(RGLGlaresCheckParams* _Nullable)glaresCheckParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateGlaresCheckParams:(RGLGlaresCheckParams* _Nullable)input;
 +(RGLImageQA* _Nullable)imageQAFromJson:(NSDictionary* _Nullable)input;

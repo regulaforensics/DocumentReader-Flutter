@@ -366,6 +366,16 @@ static NSMutableArray* weakReferencesHolder;
     return [RGLWConfig getLivenessParams:input];
 }
 
++(RGLAuthenticityPropertiesParams*)authenticityPropertiesParamsFromJson:(NSDictionary*)input {
+    RGLAuthenticityPropertiesParams *result = [RGLAuthenticityPropertiesParams defaultParams];
+    [RGLWConfig setAuthenticityPropertiesParams:result input:input];
+    return result;
+}
+
++(NSDictionary*)generateAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)input {
+    return [RGLWConfig getAuthenticityPropertiesParams:input];
+}
+
 +(RGLeDLDataGroup*)eDLDataGroupsFromJson:(NSDictionary*)input {
     RGLeDLDataGroup *result = [RGLeDLDataGroup new];
     [RGLWConfig setDataGroups :result dict:input];
@@ -590,6 +600,7 @@ static NSMutableArray* weakReferencesHolder;
         result.proxyPassword = [input valueForKey:@"proxyPassword"];
     if([input valueForKey:@"proxyType"] != nil)
         result.proxyType = [input valueForKey:@"proxyType"];
+    if(input[@"livenessTransactionId"]) result.livenessTransactionId = input[@"livenessTransactionId"];
     
     return result;
 }
@@ -606,6 +617,7 @@ static NSMutableArray* weakReferencesHolder;
     result[@"proxy"] = input.proxy;
     result[@"proxyPassword"] = input.proxyPassword;
     result[@"proxyType"] = input.proxyType;
+    result[@"livenessTransactionId"] = input.livenessTransactionId;
     
     return result;
 }

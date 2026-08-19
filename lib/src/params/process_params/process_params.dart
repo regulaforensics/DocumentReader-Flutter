@@ -663,8 +663,8 @@ class ProcessParams {
     _set({"resultTypeOutput": val?.map((e) => e.value).toList()});
   }
 
-  /// This option allows limiting MRZ formats to be recognized by specifying
-  /// them in array.
+  /// This option allows limiting MRZ formats to be recognized by specifying them in array.
+  /// If left empty, all MRZ formats will be recognized, except for 2x30, which is disabled by default.
   ///
   /// Unmodifiable property. Use setter instead of `.remove()`, `.addAll()`, etc.
   List<MRZFormat>? get mrzFormatsFilter => _mrzFormatsFilter;

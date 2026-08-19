@@ -18,6 +18,7 @@ void main() {
     compare('faceApiParams', faceApiParams, FaceApiParams.fromJson);
 
     compareParams('livenessParams', livenessParams, LivenessParams.fromJson);
+    compareParams('propertiesParams', propertiesParams, AuthenticityPropertiesParams.fromJson);
     compareParams('authenticityParams', authenticityParams, AuthenticityParams.fromJson);
     compare('glaresCheckParams', glaresCheckParams, GlaresCheckParams.fromJson);
     compare('rfidParams', rfidParams, RFIDParams.fromJson);

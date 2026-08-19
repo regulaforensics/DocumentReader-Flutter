@@ -35,6 +35,10 @@ class FaceApiParams {
   int? get proxyType => _proxyType;
   int? _proxyType;
 
+  /// This parameter allows you to use a liveness transaction id instead of a selfie photo.
+  String? get livenessTransactionId => _livenessTransactionId;
+  String? _livenessTransactionId;
+
   FaceApiParams({
     String url = "https://faceapi.regulaforensics.com",
     String mode = "match",
@@ -44,6 +48,7 @@ class FaceApiParams {
     String? proxy,
     String? proxyPassword,
     int? proxyType,
+    String? livenessTransactionId,
   })  : _url = url,
         _mode = mode,
         _threshold = threshold,
@@ -51,7 +56,8 @@ class FaceApiParams {
         _serviceTimeout = serviceTimeout,
         _proxy = proxy,
         _proxyPassword = proxyPassword,
-        _proxyType = proxyType;
+        _proxyType = proxyType,
+        _livenessTransactionId = livenessTransactionId;
 
   /// Allows you to deserialize object.
   static FaceApiParams? fromJson(jsonObject) {
@@ -65,6 +71,7 @@ class FaceApiParams {
       proxy: jsonObject["proxy"],
       proxyPassword: jsonObject["proxyPassword"],
       proxyType: jsonObject["proxyType"],
+      livenessTransactionId: jsonObject["livenessTransactionId"],
     );
   }
 
@@ -77,6 +84,7 @@ class FaceApiParams {
         "proxy": proxy,
         "proxyPassword": proxyPassword,
         "proxyType": proxyType,
+        "livenessTransactionId": livenessTransactionId,
         "searchParams": searchParams?.toJson(),
       }.clearNulls();
 }
