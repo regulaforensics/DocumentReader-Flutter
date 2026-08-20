@@ -2,7 +2,7 @@
 
 test/json
 
-.dart_tool/
+.dart_tool
 .packages
 .pub/
 build/
