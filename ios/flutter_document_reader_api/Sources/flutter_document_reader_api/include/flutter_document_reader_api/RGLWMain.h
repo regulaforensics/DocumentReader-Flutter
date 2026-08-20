@@ -10,7 +10,8 @@ extern UIViewController*_Nonnull(^ _Nonnull RGLWRootViewController)(void);
 @interface RGLWMain: NSObject<RGLRecordScanningProcessDelegate,
                               RGLDocReaderRFIDDelegate,
                               RGLCustomizationActionDelegate,
-                              RGLDocReaderDatabaseFetchDelegate>
+                              RGLDocReaderDatabaseFetchDelegate,
+                              RGLBluetoothDelegate>
 
 +(void)methodCall:(NSString* _Nonnull)method
                  :(NSArray* _Nonnull)args
