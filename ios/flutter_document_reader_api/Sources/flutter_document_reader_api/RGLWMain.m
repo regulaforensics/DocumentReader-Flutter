@@ -328,7 +328,7 @@ RGLWCallback savedCallbackForBluetoothResult;
     // start searching devices
     if (!bluetooth) {
         bluetooth = [RGLBluetooth new];
-        bluetooth.delegate = this;
+        bluetooth.delegate = (id<RGLBluetoothDelegate>)this;
     }
     savedCallbackForBluetoothResult = callback;
     [bluetooth connectWithDeviceName:deviceName];
