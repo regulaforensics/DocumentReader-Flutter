@@ -10,7 +10,7 @@ let package = Package(
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/regulaforensics/DocumentReader-Swift-Package",
-            exact: "9.8.6851-nightly"
+            exact: "9.8.6865-nightly"
         ),
     ],
     targets: [
