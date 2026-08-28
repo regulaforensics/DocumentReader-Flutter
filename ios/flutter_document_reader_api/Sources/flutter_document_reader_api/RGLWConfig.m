@@ -971,6 +971,8 @@
     if([input valueForKey:@"brightnessThreshold"] != nil)
         result.brightnessThreshold = [input valueForKey:@"brightnessThreshold"];
     if(input[@"occlusionCheck"]) result.occlusionCheck = input[@"occlusionCheck"];
+    if([input valueForKey:@"occlusionCheckParams"] != nil)
+        result.occlusionCheckParams = [RGLWJSONConstructor occlusionCheckParamsFromJson:[input valueForKey:@"occlusionCheckParams"]];
 }
 
 +(NSDictionary*)getImageQA:(RGLImageQA*)input {
@@ -991,6 +993,7 @@
     result[@"glaresCheckParams"] = [RGLWJSONConstructor generateGlaresCheckParams:input.glaresCheckParams];
     result[@"brightnessThreshold"] = input.brightnessThreshold;
     result[@"occlusionCheck"] = input.occlusionCheck;
+    result[@"occlusionCheckParams"] = [RGLWJSONConstructor generateOcclusionCheckParams:input.occlusionCheckParams];
     
     return result;
 }

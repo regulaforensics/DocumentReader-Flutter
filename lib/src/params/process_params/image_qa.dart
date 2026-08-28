@@ -46,6 +46,14 @@ class ImageQA {
     _set({"glaresCheckParams": val?.toJson()});
   }
 
+  /// Parameters for occlusion image quality validation.
+  OcclusionCheckParams? get occlusionCheckParams => _occlusionCheckParams;
+  OcclusionCheckParams? _occlusionCheckParams;
+  set occlusionCheckParams(OcclusionCheckParams? val) {
+    _occlusionCheckParams = val;
+    _set({"occlusionCheckParams": val?.toJson()});
+  }
+
   /// This option disabled colorness check during performing image quality validation.
   bool? get colornessCheck => _colornessCheck;
   bool? _colornessCheck;
@@ -115,6 +123,7 @@ class ImageQA {
     result.screenCapture = jsonObject["screenCapture"];
     result.expectedPass = ImageQualityCheckType.fromIntList(jsonObject["expectedPass"]);
     result.glaresCheckParams = GlaresCheckParams.fromJson(jsonObject["glaresCheckParams"]);
+    result.occlusionCheckParams = OcclusionCheckParams.fromJson(jsonObject["occlusionCheckParams"]);
     result.documentPositionIndent = jsonObject["documentPositionIndent"];
     result.brightnessThreshold = _toDouble(jsonObject["brightnessThreshold"]);
     result.occlusionCheck = jsonObject["occlusionCheck"];
@@ -133,6 +142,7 @@ class ImageQA {
         "screenCapture": screenCapture,
         "expectedPass": expectedPass?.map((e) => e.value).toList(),
         "glaresCheckParams": glaresCheckParams?.toJson(),
+        "occlusionCheckParams": occlusionCheckParams?.toJson(),
         "brightnessThreshold": brightnessThreshold,
         "occlusionCheck": occlusionCheck,
       }.clearNulls();

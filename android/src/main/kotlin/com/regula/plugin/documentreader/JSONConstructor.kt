@@ -38,6 +38,7 @@ import com.regula.documentreader.api.params.ImageInputData
 import com.regula.documentreader.api.params.ImageQA
 import com.regula.documentreader.api.params.ImageQA.GlaresCheckParams
 import com.regula.documentreader.api.params.LivenessParams
+import com.regula.documentreader.api.params.OcclusionCheckParams
 import com.regula.documentreader.api.params.OnlineProcessingConfig
 import com.regula.documentreader.api.params.ParamsCustomization
 import com.regula.documentreader.api.params.ProcessParam
@@ -542,6 +543,18 @@ fun generateGlaresCheckParams(input: GlaresCheckParams?) = input?.let {
     mapOf(
         "imgMarginPart" to it.imgMarginPart,
         "maxGlaringPart" to it.maxGlaringPart
+    ).toJson()
+}
+
+fun occlusionCheckParamsFromJSON(input: JSONObject?) = input?.let {
+    val result = OcclusionCheckParams()
+    if (it.has("maxOcclusionPart")) result.maxOcclusionPart = it.getDouble("maxOcclusionPart")
+    result
+}
+
+fun generateOcclusionCheckParams(input: OcclusionCheckParams?) = input?.let {
+    mapOf(
+        "maxOcclusionPart" to it.maxOcclusionPart,
     ).toJson()
 }
 
