@@ -78,6 +78,10 @@ class Tests: XCTestCase {
         compare(name: "glaresCheckParams", fromJson: RGLWJSONConstructor.glaresCheckParams, generate: RGLWJSONConstructor.generate)
     }
     
+    func test_occlusionCheckParams() {
+        compare(name: "occlusionCheckParams", fromJson: RGLWJSONConstructor.occlusionCheckParams, generate: RGLWJSONConstructor.generate)
+    }
+    
     func test_imageQA() {
         compare(name: "imageQA", fromJson: RGLWJSONConstructor.imageQA, generate: RGLWJSONConstructor.generate)
     }

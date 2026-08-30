@@ -58,6 +58,9 @@ var glaresCheckParams = {
   "imgMarginPart": 0.5,
   "maxGlaringPart": 1.5,
 };
+var occlusionCheckParams = {
+  "maxOcclusionPart": 0.5,
+};
 var imageQA = {
   "dpiThreshold": 1,
   "angleThreshold": 2,
@@ -70,6 +73,7 @@ var imageQA = {
   "glaresCheckParams": glaresCheckParams,
   "brightnessThreshold": 0.5,
   "occlusionCheck": true,
+  "occlusionCheckParams": occlusionCheckParams,
 };
 var rfidParams = {
   "paIgnoreNotificationCodes": [1, 2, 3],
