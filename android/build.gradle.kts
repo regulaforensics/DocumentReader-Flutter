@@ -23,7 +23,7 @@ if (agpMajor < 9 || !builtInKotlinEnabled) {
 }
 
 android {
-    namespace = "com.regula.plugin.documentreader"
+    namespace = "com.regula.plugin.flutter_document_reader_api"
     compileSdk = flutter.compileSdkVersion
 
     defaultConfig {
@@ -56,7 +56,7 @@ extensions.configure<KotlinAndroidProjectExtension> {
 }
 
 dependencies {
-    implementation("com.regula.documentreader:api:9.8.13307") {
+    implementation("com.regula.documentreader:api:9.8.13311") {
         isTransitive = true
     }
 
