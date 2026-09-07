@@ -45,6 +45,8 @@
 +(NSDictionary* _Nullable)generateAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams* _Nullable)input;
 +(RGLGlaresCheckParams* _Nullable)glaresCheckParamsFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateGlaresCheckParams:(RGLGlaresCheckParams* _Nullable)input;
++(RGLOcclusionCheckParams* _Nullable)occlusionCheckParamsFromJson:(NSDictionary* _Nullable)input;
++(NSDictionary* _Nullable)generateOcclusionCheckParams:(RGLOcclusionCheckParams* _Nullable)input;
 +(RGLImageQA* _Nullable)imageQAFromJson:(NSDictionary* _Nullable)input;
 +(NSDictionary* _Nullable)generateImageQA:(RGLImageQA* _Nullable)input;
 +(RGLRFIDParams* _Nullable)rfidParamsFromJson:(NSDictionary* _Nullable)input;

@@ -64,6 +64,10 @@ class Application {
 
 /// Type of application of electronic document.
 enum RFIDApplicationType {
+  UNSPECIFIED(0),
+
+  ROOT_FILES(0),
+
   /// ePassport.
   E_PASSPORT(1),
 
@@ -83,7 +87,11 @@ enum RFIDApplicationType {
   LDS2_ADD_BIOMETRICS(7),
 
   /// eDTC PC.
-  E_DTC_PC(8);
+  E_DTC_PC(8),
+
+  APPLET_ROOT(50),
+
+  USER_DEFINED(100);
 
   const RFIDApplicationType(this.value);
   final int value;

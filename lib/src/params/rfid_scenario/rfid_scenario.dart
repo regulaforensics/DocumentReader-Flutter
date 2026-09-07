@@ -642,7 +642,10 @@ enum RFIDPasswordType {
   SAI(6),
 
   /// MRZHash.
-  MRZ_HASH(7);
+  MRZ_HASH(7),
+
+  /// PinLocal
+  PIN_LOCAL(8);
 
   const RFIDPasswordType(this.value);
   final int value;
@@ -765,6 +768,27 @@ enum RFIDReadingBufferSize {
       );
     } catch (_) {
       return RFIDReadingBufferSize.EXTENDED_LENGTH;
+    }
+  }
+}
+
+enum RFIDAccessControl {
+  DEFAULT(0),
+  CHIP_ACCESS_BAC(1),
+  CHIP_ACCESS_PACE(2),
+  LOCAL_PIN(3);
+
+  const RFIDAccessControl(this.value);
+  final int value;
+
+  static RFIDAccessControl? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return RFIDAccessControl.values.firstWhere(
+        (x) => x.value == i,
+      );
+    } catch (_) {
+      return RFIDAccessControl.DEFAULT;
     }
   }
 }

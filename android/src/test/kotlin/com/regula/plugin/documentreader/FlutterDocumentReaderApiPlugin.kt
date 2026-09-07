@@ -75,6 +75,9 @@ class FlutterDocumentReaderApiPluginTest {
     fun glaresCheckParams() = compare("glaresCheckParams", ::glaresCheckParamsFromJSON, ::generateGlaresCheckParams)
 
     @Test
+    fun occlusionCheckParams() = compare("occlusionCheckParams", ::occlusionCheckParamsFromJSON, ::generateOcclusionCheckParams)
+
+    @Test
     fun imageQA() = compare("imageQA", ::imageQAFromJSON, ::generateImageQA)
 
     @Test

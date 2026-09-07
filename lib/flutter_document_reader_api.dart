@@ -14,6 +14,7 @@ part 'src/internal/event_channels.dart';
 part 'src/params/process_params/process_params.dart';
 part 'src/params/process_params/image_qa.dart';
 part 'src/params/process_params/glares_check_params.dart';
+part 'src/params/process_params/occlusion_check_params.dart';
 part 'src/params/process_params/face_api_search_params.dart';
 part 'src/params/process_params/face_api_params.dart';
 part 'src/params/process_params/liveness_params.dart';

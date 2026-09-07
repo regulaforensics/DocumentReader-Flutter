@@ -507,6 +507,25 @@ static NSMutableArray* weakReferencesHolder;
     return result;
 }
 
++(RGLOcclusionCheckParams*)occlusionCheckParamsFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    RGLOcclusionCheckParams *result = [RGLOcclusionCheckParams new];
+    
+    if([input valueForKey:@"maxOcclusionPart"] != nil)
+        result.maxOcclusionPart = [input valueForKey:@"maxOcclusionPart"];
+    
+    return result;
+}
+
++(NSDictionary*)generateOcclusionCheckParams:(RGLOcclusionCheckParams*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"maxOcclusionPart"] = input.maxOcclusionPart;
+    
+    return result;
+}
+
 +(RGLImageInput*)imageInputFromJson:(NSDictionary*)input {
     if(input == nil) return nil;
     
