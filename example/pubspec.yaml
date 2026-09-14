@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
   flutter_document_reader_api:
     path: ../
-  flutter_document_reader_core_fullauthrfid: 9.9.3167-nightly
-  flutter_document_reader_btdevice:  9.9.137-nightly
+  flutter_document_reader_core_fullauthrfid: 9.9.3182-nightly
+  flutter_document_reader_btdevice:  9.9.140-nightly
 
 dev_dependencies:
   flutter_test:
