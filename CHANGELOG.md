@@ -1,4 +1,4 @@
-## 9.8.1751-rc
+## 9.9.1753-rc
 # 7.5.0
 
 * Changes in `RecognizeConfig` class, see [migration guide](https://docs.regulaforensics.com/develop/doc-reader-sdk/migration/7-4-to-7-5/#mobile)
