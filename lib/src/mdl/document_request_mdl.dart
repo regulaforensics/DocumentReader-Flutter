@@ -6,12 +6,12 @@ class DocumentRequestMDL {
 
   DocumentRequestMDL(String docType) : _docType = docType;
 
-  addNameSpace(NameSpaceMDL namespace) {
+  void addNameSpace(NameSpaceMDL namespace) {
     _namespaces.add(namespace);
   }
 
   /// Allows you to deserialize object.
-  static DocumentRequestMDL? fromJson(jsonObject) {
+  static DocumentRequestMDL? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var docType = jsonObject["docType"];
     if (docType == "org.iso.18013.5.1.mDL") {

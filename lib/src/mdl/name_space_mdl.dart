@@ -6,12 +6,12 @@ class NameSpaceMDL {
 
   NameSpaceMDL(this._name);
 
-  addField(String name, MDLIntentToRetain intentToRetain) {
+  void addField(String name, MDLIntentToRetain intentToRetain) {
     _map[name] = intentToRetain;
   }
 
   /// Allows you to deserialize object.
-  static NameSpaceMDL? fromJson(jsonObject) {
+  static NameSpaceMDL? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = NameSpaceMDL(jsonObject["name"]);
 

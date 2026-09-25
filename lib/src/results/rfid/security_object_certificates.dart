@@ -5,7 +5,7 @@ class SecurityObjectCertificates {
   CertificateData? _securityObject;
 
   /// Allows you to deserialize object.
-  static SecurityObjectCertificates? fromJson(jsonObject) {
+  static SecurityObjectCertificates? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = SecurityObjectCertificates();
 

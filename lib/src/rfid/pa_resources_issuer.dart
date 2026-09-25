@@ -11,7 +11,7 @@ class PAResourcesIssuer {
   List<PAAttribute> _attributes = [];
 
   @visibleForTesting
-  static PAResourcesIssuer? fromJson(jsonObject) {
+  static PAResourcesIssuer? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = PAResourcesIssuer();
 

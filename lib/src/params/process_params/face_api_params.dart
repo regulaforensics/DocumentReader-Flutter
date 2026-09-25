@@ -60,7 +60,7 @@ class FaceApiParams {
         _livenessTransactionId = livenessTransactionId;
 
   /// Allows you to deserialize object.
-  static FaceApiParams? fromJson(jsonObject) {
+  static FaceApiParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return FaceApiParams(
       url: jsonObject["url"],

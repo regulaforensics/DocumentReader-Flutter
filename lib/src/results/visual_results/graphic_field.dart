@@ -39,7 +39,7 @@ class GraphicField {
   Rect? _fieldRect;
 
   /// Allows you to deserialize object.
-  static GraphicField? fromJson(jsonObject) {
+  static GraphicField? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = GraphicField();
 

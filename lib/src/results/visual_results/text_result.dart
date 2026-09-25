@@ -24,7 +24,7 @@ class TextResult {
   List<TextField> _fields = [];
 
   /// Allows you to deserialize object.
-  static TextResult? fromJson(jsonObject) {
+  static TextResult? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TextResult();
 

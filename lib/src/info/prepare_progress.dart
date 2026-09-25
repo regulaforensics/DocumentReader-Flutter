@@ -17,7 +17,7 @@ class PrepareProgress {
         _progress = progress;
 
   @visibleForTesting
-  static PrepareProgress? fromJson(jsonObject) {
+  static PrepareProgress? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return PrepareProgress(jsonObject["downloadedBytes"], jsonObject["totalBytes"], jsonObject["progress"]);
   }

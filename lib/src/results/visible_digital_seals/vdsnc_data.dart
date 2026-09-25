@@ -44,7 +44,7 @@ class VDSNCData {
   List<int> _notifications = [];
 
   /// Allows you to deserialize object.
-  static VDSNCData? fromJson(jsonObject) {
+  static VDSNCData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = VDSNCData();
 

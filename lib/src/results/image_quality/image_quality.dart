@@ -19,7 +19,7 @@ class ImageQuality {
   List<Rect> _boundRects = [];
 
   /// Allows you to deserialize object.
-  static ImageQuality? fromJson(jsonObject) {
+  static ImageQuality? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = ImageQuality();
 

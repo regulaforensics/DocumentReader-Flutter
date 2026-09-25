@@ -50,7 +50,7 @@ class DocumentType {
   late int _pageIndex;
 
   /// Allows you to deserialize object.
-  static DocumentType? fromJson(jsonObject) {
+  static DocumentType? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocumentType();
 

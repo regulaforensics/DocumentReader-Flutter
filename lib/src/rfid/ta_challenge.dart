@@ -17,7 +17,7 @@ class TAChallenge {
   late String _idPICC;
 
   @visibleForTesting
-  static TAChallenge? fromJson(jsonObject) {
+  static TAChallenge? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TAChallenge();
 

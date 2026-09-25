@@ -7,7 +7,7 @@ class GraphicResult {
   List<GraphicField> _fields = [];
 
   /// Allows you to deserialize object.
-  static GraphicResult? fromJson(jsonObject) {
+  static GraphicResult? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = GraphicResult();
 

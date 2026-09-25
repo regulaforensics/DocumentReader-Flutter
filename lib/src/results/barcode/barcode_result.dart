@@ -6,7 +6,7 @@ class BarcodeResult {
   List<BarcodeField> _fields = [];
 
   /// Allows you to deserialize object.
-  static BarcodeResult? fromJson(jsonObject) {
+  static BarcodeResult? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = BarcodeResult();
 

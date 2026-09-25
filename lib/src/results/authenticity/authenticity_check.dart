@@ -19,7 +19,7 @@ class AuthenticityCheck {
   late String _typeName;
 
   /// Allows you to deserialize object.
-  static AuthenticityCheck? fromJson(jsonObject) {
+  static AuthenticityCheck? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = AuthenticityCheck();
 

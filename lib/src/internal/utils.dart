@@ -1,6 +1,6 @@
 part of "../../flutter_document_reader_api.dart";
 
-double? _toDouble(value) => value?.toDouble();
+double? _toDouble(dynamic value) => value?.toDouble();
 dynamic _decode(String? value) => value == null ? null : jsonDecode(value);
 ByteData? _dataFromBase64(String? value) => value == null ? null : ByteData.view(base64Decode(value).buffer);
 String? _dataToBase64(ByteData? value) => value == null ? null : base64Encode(value.buffer.asUint8List());

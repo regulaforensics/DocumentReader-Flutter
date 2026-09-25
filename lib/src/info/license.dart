@@ -17,7 +17,7 @@ class License {
   late bool _isRfidAvailable;
 
   @visibleForTesting
-  static License? fromJson(jsonObject) {
+  static License? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = License();
 

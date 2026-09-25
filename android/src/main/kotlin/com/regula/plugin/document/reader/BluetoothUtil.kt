@@ -1,4 +1,4 @@
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.BLUETOOTH_CONNECT

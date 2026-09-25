@@ -26,7 +26,7 @@ class DeviceRetrievalMethod {
   String? _serverModeUUID;
 
   /// Allows you to deserialize object.
-  static DeviceRetrievalMethod? fromJson(jsonObject) {
+  static DeviceRetrievalMethod? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DeviceRetrievalMethod();
 

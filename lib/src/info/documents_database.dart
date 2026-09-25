@@ -32,7 +32,7 @@ class DocumentsDatabase {
   int? _size;
 
   @visibleForTesting
-  static DocumentsDatabase? fromJson(jsonObject) {
+  static DocumentsDatabase? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocumentsDatabase();
 

@@ -1,4 +1,4 @@
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable

@@ -14,7 +14,7 @@ class Rect {
   late int _right;
 
   /// Allows you to deserialize object.
-  static Rect? fromJson(jsonObject) {
+  static Rect? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Rect();
 

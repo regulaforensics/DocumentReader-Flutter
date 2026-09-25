@@ -6,7 +6,7 @@ class Bsi {
   Bsi({bool? generateResult}) : _generateResult = generateResult;
 
   /// Allows you to deserialize object.
-  static Bsi? fromJson(jsonObject) {
+  static Bsi? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return Bsi(
       generateResult: jsonObject["generateResult"],

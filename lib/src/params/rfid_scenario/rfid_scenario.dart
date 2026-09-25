@@ -439,7 +439,7 @@ class RFIDScenario {
   }
 
   /// Allows you to deserialize object.
-  static RFIDScenario fromJson(jsonObject) {
+  static RFIDScenario fromJson(dynamic jsonObject) {
     var result = RFIDScenario();
     result.testSetters = {};
 

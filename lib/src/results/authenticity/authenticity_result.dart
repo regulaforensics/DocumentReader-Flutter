@@ -9,7 +9,7 @@ class AuthenticityResult {
   List<AuthenticityCheck> _checks = [];
 
   /// Allows you to deserialize object.
-  static AuthenticityResult? fromJson(jsonObject) {
+  static AuthenticityResult? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = AuthenticityResult();
 

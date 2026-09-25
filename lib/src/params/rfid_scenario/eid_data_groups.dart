@@ -149,7 +149,7 @@ class EIDDataGroups {
   }
 
   /// Allows you to deserialize object.
-  static EIDDataGroups fromJson(jsonObject) {
+  static EIDDataGroups fromJson(dynamic jsonObject) {
     var result = EIDDataGroups();
     result.testSetters = {};
 

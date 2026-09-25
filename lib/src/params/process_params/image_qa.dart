@@ -111,7 +111,7 @@ class ImageQA {
   }
 
   /// Allows you to deserialize object.
-  static ImageQA fromJson(jsonObject) {
+  static ImageQA fromJson(dynamic jsonObject) {
     var result = ImageQA();
     result.testSetters = {};
 

@@ -19,7 +19,7 @@ class ImageQualityGroup {
   late int _pageIndex;
 
   /// Allows you to deserialize object.
-  static ImageQualityGroup? fromJson(jsonObject) {
+  static ImageQualityGroup? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = ImageQualityGroup();
 

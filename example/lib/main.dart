@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_document_reader_api_example/extra/bt_device.dart';
 import 'package:flutter_document_reader_api_example/extra/rfid_custom_ui.dart';
+
 import 'dart:async';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_document_reader_api/flutter_document_reader_api.dart';

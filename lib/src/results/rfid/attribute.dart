@@ -8,7 +8,7 @@ class Attribute {
   RFIDValue? _value;
 
   /// Allows you to deserialize object.
-  static Attribute? fromJson(jsonObject) {
+  static Attribute? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Attribute();
 

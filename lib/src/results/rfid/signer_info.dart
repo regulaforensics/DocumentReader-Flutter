@@ -54,7 +54,7 @@ class SignerInfo {
   List<int> _notifications = [];
 
   /// Allows you to deserialize object.
-  static SignerInfo? fromJson(jsonObject) {
+  static SignerInfo? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = SignerInfo();
 

@@ -17,7 +17,7 @@ class RFIDValue {
   String? _format;
 
   /// Allows you to deserialize object.
-  static RFIDValue? fromJson(jsonObject) {
+  static RFIDValue? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDValue();
 

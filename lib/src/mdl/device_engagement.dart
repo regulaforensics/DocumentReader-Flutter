@@ -4,7 +4,7 @@ class DeviceEngagement {
   List<DeviceRetrievalMethod> deviceRetrievalMethods = [];
 
   /// Allows you to deserialize object.
-  static DeviceEngagement? fromJson(jsonObject) {
+  static DeviceEngagement? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DeviceEngagement();
 

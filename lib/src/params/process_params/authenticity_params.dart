@@ -128,7 +128,7 @@ class AuthenticityParams {
   }
 
   /// Allows you to deserialize object.
-  static AuthenticityParams fromJson(jsonObject) {
+  static AuthenticityParams fromJson(dynamic jsonObject) {
     if (jsonObject == null) return AuthenticityParams();
     var result = AuthenticityParams();
     result.testSetters = {};

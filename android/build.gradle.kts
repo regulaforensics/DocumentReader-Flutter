@@ -9,10 +9,10 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://maven.regulaforensics.com/RegulaDocumentReader/Stage")
-            isAllowInsecureProtocol = true
-        }
+        maven { url = uri("https://maven.regulaforensics.com/RegulaDocumentReader") }
+        maven { url = uri("https://maven.regulaforensics.com/RegulaDocumentReader/Beta") }
+        maven { url = uri("https://maven.regulaforensics.com/RegulaDocumentReader/Nightly") }
+        maven { url = uri("https://maven.regulaforensics.com/RegulaDocumentReader/Stage") }
     }
 }
 
@@ -23,7 +23,7 @@ if (agpMajor < 9 || !builtInKotlinEnabled) {
 }
 
 android {
-    namespace = "com.regula.plugin.documentreader"
+    namespace = "com.regula.plugin.document.reader"
     compileSdk = 36
 
     defaultConfig {
@@ -39,6 +39,7 @@ android {
         unitTests {
             isIncludeAndroidResources = true
             all {
+                it.jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
                 it.outputs.upToDateWhen { false }
                 it.testLogging {
                     events("passed", "skipped", "failed", "standardOut", "standardError")
@@ -56,13 +57,13 @@ extensions.configure<KotlinAndroidProjectExtension> {
 }
 
 dependencies {
-    implementation("com.regula.documentreader:api:9.8.13437") {
+    implementation("com.regula.documentreader:api:9.8.13455") {
         isTransitive = true
     }
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core:1.7.0")
-    testImplementation("org.robolectric:robolectric:4.16.1")
-    testImplementation("org.json:json:20260522")
+    testImplementation("org.robolectric:robolectric:4.17")
+    testImplementation("org.json:json:20260814")
     testImplementation("org.skyscreamer:jsonassert:1.5.3")
 }

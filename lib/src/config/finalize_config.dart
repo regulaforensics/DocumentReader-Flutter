@@ -13,7 +13,7 @@ class FinalizeConfig {
         _mdlSession = mdlSession;
 
   @visibleForTesting
-  static FinalizeConfig? fromJson(jsonObject) {
+  static FinalizeConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = FinalizeConfig();
 

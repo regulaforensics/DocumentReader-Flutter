@@ -780,7 +780,7 @@ class ProcessParams {
   }
 
   /// Allows you to deserialize object.
-  static ProcessParams fromJson(jsonObject) {
+  static ProcessParams fromJson(dynamic jsonObject) {
     var result = ProcessParams();
     result.testSetters = {};
 

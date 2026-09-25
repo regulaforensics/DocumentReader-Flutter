@@ -1,7 +1,7 @@
 @file:SuppressLint("MissingPermission")
 @file:Suppress("EnumValuesSoftDeprecate")
 
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -47,8 +47,8 @@ import com.regula.documentreader.api.results.DocumentReaderResults.fromRawResult
 import com.regula.documentreader.api.results.DocumentReaderScenario
 import org.json.JSONArray
 import org.json.JSONObject
-import com.regula.plugin.documentreader.Convert.toBase64
-import com.regula.plugin.documentreader.Convert.toByteArray
+import com.regula.plugin.document.reader.Convert.toBase64
+import com.regula.plugin.document.reader.Convert.toByteArray
 
 fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "getDocumentReaderIsReady" -> getDocumentReaderIsReady(callback)

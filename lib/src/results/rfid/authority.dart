@@ -11,7 +11,7 @@ class Authority {
   RFIDValue? _friendlyName;
 
   /// Allows you to deserialize object.
-  static Authority? fromJson(jsonObject) {
+  static Authority? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Authority();
 

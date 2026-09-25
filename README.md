@@ -5,6 +5,8 @@
 
 Document Reader allows you to read various kinds of identification documents, passports, driving licenses, ID cards, etc. All processing is performed completely offline on your device. This plugin makes possible to use it with flutter.
 
+Requires iOS 15+ & Android 7.0+ (API 24)
+
 ## Documentation
 * [Documentation](https://docs.regulaforensics.com/develop/doc-reader-sdk/mobile)
 * [API Reference](https://pub.dev/documentation/flutter_document_reader_api)

@@ -51,7 +51,7 @@ class RFIDSessionData {
   List<RFIDDataFileType>? _dataGroups;
 
   /// Allows you to deserialize object.
-  static RFIDSessionData? fromJson(jsonObject) {
+  static RFIDSessionData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDSessionData();
 

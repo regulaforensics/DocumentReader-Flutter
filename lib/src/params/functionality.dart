@@ -400,7 +400,7 @@ class Functionality {
   }
 
   /// Allows you to deserialize object.
-  static Functionality fromJson(jsonObject) {
+  static Functionality fromJson(dynamic jsonObject) {
     var result = Functionality();
     result.testSetters = {};
 
@@ -671,7 +671,7 @@ class CameraSize {
         _height = height;
 
   /// Allows you to deserialize object.
-  static CameraSize? fromJson(jsonObject) {
+  static CameraSize? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return CameraSize(jsonObject["width"], jsonObject["height"]);
   }

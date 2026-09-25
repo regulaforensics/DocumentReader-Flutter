@@ -37,7 +37,7 @@ class DTCDataGroup {
   }
 
   /// Allows you to deserialize object.
-  static DTCDataGroup fromJson(jsonObject) {
+  static DTCDataGroup fromJson(dynamic jsonObject) {
     var result = DTCDataGroup();
     result.testSetters = {};
 

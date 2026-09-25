@@ -15,7 +15,7 @@ class RFIDOrigin {
   late int _tagEntry;
 
   /// Allows you to deserialize object.
-  static RFIDOrigin? fromJson(jsonObject) {
+  static RFIDOrigin? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDOrigin();
 

@@ -1,6 +1,6 @@
 @file:Suppress("EnumValuesSoftDeprecate", "DEPRECATION")
 
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.graphics.Matrix
 import android.graphics.Paint
@@ -27,8 +27,8 @@ import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
-import com.regula.plugin.documentreader.Convert.toBase64
-import com.regula.plugin.documentreader.Convert.toDrawable
+import com.regula.plugin.document.reader.Convert.toBase64
+import com.regula.plugin.document.reader.Convert.toDrawable
 import org.json.JSONArray
 import org.json.JSONObject
 

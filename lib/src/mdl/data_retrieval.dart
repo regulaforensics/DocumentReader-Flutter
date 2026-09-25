@@ -8,17 +8,17 @@ class DataRetrieval {
 
   DataRetrieval(this._deviceRetrieval);
 
-  setDocRequestPreset(MDLDocRequestPreset docRequestPreset, MDLIntentToRetain intentToRetain) {
+  void setDocRequestPreset(MDLDocRequestPreset docRequestPreset, MDLIntentToRetain intentToRetain) {
     _docRequestPreset = docRequestPreset;
     _intentToRetain = intentToRetain;
   }
 
-  addDocRequest(DocumentRequestMDL request) {
+  void addDocRequest(DocumentRequestMDL request) {
     _requests.add(request);
   }
 
   /// Allows you to deserialize object.
-  static DataRetrieval? fromJson(jsonObject) {
+  static DataRetrieval? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DataRetrieval(MDLDeviceRetrieval.getByValue(jsonObject["deviceRetrieval"])!);
 

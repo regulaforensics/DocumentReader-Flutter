@@ -100,7 +100,7 @@ class EDLDataGroups {
   }
 
   /// Allows you to deserialize object.
-  static EDLDataGroups fromJson(jsonObject) {
+  static EDLDataGroups fromJson(dynamic jsonObject) {
     var result = EDLDataGroups();
     result.testSetters = {};
 

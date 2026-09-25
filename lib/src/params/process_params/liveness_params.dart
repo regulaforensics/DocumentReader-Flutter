@@ -60,7 +60,7 @@ class LivenessParams {
   }
 
   /// Allows you to deserialize object.
-  static LivenessParams fromJson(jsonObject) {
+  static LivenessParams fromJson(dynamic jsonObject) {
     if (jsonObject == null) return LivenessParams();
     var result = LivenessParams();
     result.testSetters = {};

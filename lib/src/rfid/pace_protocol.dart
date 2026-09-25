@@ -11,7 +11,7 @@ class PACEProtocol {
   late String _keyAlgorithm;
 
   @visibleForTesting
-  static PACEProtocol? fromJson(jsonObject) {
+  static PACEProtocol? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = PACEProtocol();
 

@@ -20,7 +20,7 @@ class PKDCertificate {
         _privateKey = privateKey;
 
   @visibleForTesting
-  static PKDCertificate? fromJson(jsonObject) {
+  static PKDCertificate? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return PKDCertificate(
       _dataFromBase64(jsonObject["binaryData"])!,

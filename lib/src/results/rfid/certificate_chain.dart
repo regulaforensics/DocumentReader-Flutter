@@ -43,7 +43,7 @@ class CertificateChain {
   late int _version;
 
   /// Allows you to deserialize object.
-  static CertificateChain? fromJson(jsonObject) {
+  static CertificateChain? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = CertificateChain();
 

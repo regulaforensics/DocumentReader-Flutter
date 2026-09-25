@@ -16,7 +16,7 @@ class CustomizationMatrices {
   }
 
   /// Allows you to deserialize object.
-  static CustomizationMatrices fromJson(jsonObject) {
+  static CustomizationMatrices fromJson(dynamic jsonObject) {
     var result = CustomizationMatrices();
     if (jsonObject == null) return result;
     result.testSetters = {};

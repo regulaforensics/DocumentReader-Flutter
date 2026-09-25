@@ -19,7 +19,7 @@ class DocReaderVersion {
   DocumentsDatabase? _database;
 
   @visibleForTesting
-  static DocReaderVersion? fromJson(jsonObject) {
+  static DocReaderVersion? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocReaderVersion();
 
