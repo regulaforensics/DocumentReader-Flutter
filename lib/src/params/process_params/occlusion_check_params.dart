@@ -8,7 +8,7 @@ class OcclusionCheckParams {
   OcclusionCheckParams({double? maxOcclusionPart}) : _maxOcclusionPart = maxOcclusionPart;
 
   /// Allows you to deserialize object.
-  static OcclusionCheckParams? fromJson(jsonObject) {
+  static OcclusionCheckParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return OcclusionCheckParams(
       maxOcclusionPart: _toDouble(jsonObject["maxOcclusionPart"]),

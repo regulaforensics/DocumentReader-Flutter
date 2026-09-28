@@ -95,7 +95,7 @@ class RecognizeConfig {
   RecognizeConfig._empty();
 
   @visibleForTesting
-  static RecognizeConfig? fromJson(jsonObject) {
+  static RecognizeConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RecognizeConfig._empty();
 
@@ -171,7 +171,7 @@ class ImageInputData {
       };
 
   @visibleForTesting
-  static ImageInputData? fromJson(jsonObject) {
+  static ImageInputData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = ImageInputData(_bytesFromBase64(jsonObject["image"])!);
 

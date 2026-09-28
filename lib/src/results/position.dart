@@ -67,7 +67,7 @@ class Position {
   late int _pageIndex;
 
   /// Allows you to deserialize object.
-  static Position? fromJson(jsonObject) {
+  static Position? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Position();
 
@@ -121,7 +121,7 @@ class Coordinate {
   late int _y;
 
   /// Allows you to deserialize object.
-  static Coordinate? fromJson(jsonObject) {
+  static Coordinate? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Coordinate();
 

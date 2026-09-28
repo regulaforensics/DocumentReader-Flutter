@@ -33,7 +33,7 @@ class Application {
   String? _version;
 
   /// Allows you to deserialize object.
-  static Application? fromJson(jsonObject) {
+  static Application? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Application();
 

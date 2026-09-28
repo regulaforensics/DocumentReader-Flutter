@@ -51,7 +51,7 @@ class InitConfig {
   }
 
   @visibleForTesting
-  static InitConfig? fromJson(jsonObject) {
+  static InitConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = InitConfig(_dataFromBase64(jsonObject["license"])!);
 

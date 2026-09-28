@@ -1,6 +1,6 @@
 @file:SuppressLint("UseKtx")
 
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap

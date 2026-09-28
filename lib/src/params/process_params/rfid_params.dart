@@ -9,7 +9,7 @@ class RFIDParams {
   RFIDParams({List<int>? paIgnoreNotificationCodes}) : _paIgnoreNotificationCodes = paIgnoreNotificationCodes;
 
   /// Allows you to deserialize object.
-  static RFIDParams? fromJson(jsonObject) {
+  static RFIDParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return RFIDParams(
       paIgnoreNotificationCodes: _intListFrom(jsonObject["paIgnoreNotificationCodes"]),

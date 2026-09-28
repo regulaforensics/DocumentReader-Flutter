@@ -114,7 +114,7 @@ class EPassportDataGroups {
   }
 
   /// Allows you to deserialize object.
-  static EPassportDataGroups fromJson(jsonObject) {
+  static EPassportDataGroups fromJson(dynamic jsonObject) {
     var result = EPassportDataGroups();
     result.testSetters = {};
 

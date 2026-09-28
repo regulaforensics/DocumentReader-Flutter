@@ -15,7 +15,7 @@ class TextSource {
   late CheckResult _validityStatus;
 
   /// Allows you to deserialize object.
-  static TextSource? fromJson(jsonObject) {
+  static TextSource? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TextSource();
 

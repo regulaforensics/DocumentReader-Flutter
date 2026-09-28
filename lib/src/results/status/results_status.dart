@@ -46,7 +46,7 @@ class ResultsStatus {
   late AgeStatus _ageStatus;
 
   /// Allows you to deserialize object.
-  static ResultsStatus? fromJson(jsonObject) {
+  static ResultsStatus? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = ResultsStatus();
 

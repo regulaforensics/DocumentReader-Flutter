@@ -23,7 +23,7 @@ class BarcodeField {
   late int _pageIndex;
 
   /// Allows you to deserialize object.
-  static BarcodeField? fromJson(jsonObject) {
+  static BarcodeField? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = BarcodeField();
 

@@ -38,7 +38,7 @@ class File {
   SecurityObjectCertificates? _certificates;
 
   /// Allows you to deserialize object.
-  static File? fromJson(jsonObject) {
+  static File? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = File();
 

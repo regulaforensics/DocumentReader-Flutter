@@ -8,7 +8,7 @@ class DocFeature {
   BytesData? _data;
 
   /// Allows you to deserialize object.
-  static DocFeature? fromJson(jsonObject) {
+  static DocFeature? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocFeature();
 

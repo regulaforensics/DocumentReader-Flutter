@@ -28,7 +28,7 @@ class SecurityObject {
   List<int> _notifications = [];
 
   /// Allows you to deserialize object.
-  static SecurityObject? fromJson(jsonObject) {
+  static SecurityObject? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = SecurityObject();
 

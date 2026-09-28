@@ -21,7 +21,7 @@ class AccessControlProcedureType {
   late RFIDAccessControlProcedureType _type;
 
   /// Allows you to deserialize object.
-  static AccessControlProcedureType? fromJson(jsonObject) {
+  static AccessControlProcedureType? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = AccessControlProcedureType();
 

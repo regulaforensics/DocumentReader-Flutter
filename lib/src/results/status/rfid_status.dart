@@ -31,7 +31,7 @@ class RFIDStatus {
   late CheckResult _pace;
 
   /// Allows you to deserialize object.
-  static RFIDStatus? fromJson(jsonObject) {
+  static RFIDStatus? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDStatus();
 

@@ -44,7 +44,7 @@ class CustomizationTimings {
   }
 
   /// Allows you to deserialize object.
-  static CustomizationTimings fromJson(jsonObject) {
+  static CustomizationTimings fromJson(dynamic jsonObject) {
     var result = CustomizationTimings();
     result.testSetters = {};
 
