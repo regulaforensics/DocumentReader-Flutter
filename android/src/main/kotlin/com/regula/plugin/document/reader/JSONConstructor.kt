@@ -2145,7 +2145,7 @@ fun generateDataRetrieval(input: DataRetrieval?) = input?.let {
 fun generateDeviceEngagementCompletion(deviceEngagement: DeviceEngagement?, error: RegulaException?) = mapOf(
     "deviceEngagement" to generateDeviceEngagement(deviceEngagement),
     "error" to generateRegulaException(error)
-)
+).toJson()
 
 fun finalizeConfigFromJSON(input: JSONObject?) = input?.let {
     val result = FinalizeConfig.Builder()
