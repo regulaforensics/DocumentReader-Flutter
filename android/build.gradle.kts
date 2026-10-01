@@ -57,7 +57,7 @@ extensions.configure<KotlinAndroidProjectExtension> {
 }
 
 dependencies {
-    implementation("com.regula.documentreader:api:9.9.13466") {
+    implementation("com.regula.documentreader:api:9.9.13483") {
         isTransitive = true
     }
 
