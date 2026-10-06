@@ -14,7 +14,7 @@ class CAProtocol {
   late bool _chipIndividual;
 
   @visibleForTesting
-  static CAProtocol? fromJson(jsonObject) {
+  static CAProtocol? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = CAProtocol();
 

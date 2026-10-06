@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "./include/flutter_document_reader_api/RGLWConfig.h"
+#import "RGLWConfig.h"
 
 @implementation RGLWConfig
 
@@ -702,6 +702,7 @@
     if(options[@"mrzStrictCheck"]) rfidScenario.mrzStrictCheck = options[@"mrzStrictCheck"];
     if(options[@"loadCRLFromRemote"]) rfidScenario.loadCRLFromRemote = [options[@"loadCRLFromRemote"] boolValue];
     if(options[@"independentSODStatus"]) rfidScenario.independentSODStatus = options[@"independentSODStatus"];
+    if(options[@"readUser"]) rfidScenario.readUser = options[@"readUser"];
     
     // Int
     if([options valueForKey:@"signManagementAction"] != nil)
@@ -741,6 +742,7 @@
     if(options[@"documentNumber"]) rfidScenario.documentNumber = options[@"documentNumber"];
     if(options[@"dateOfBirth"]) rfidScenario.dateOfBirth = options[@"dateOfBirth"];
     if(options[@"dateOfExpiry"]) rfidScenario.dateOfExpiry = options[@"dateOfExpiry"];
+    if(options[@"defaultUserPIN"]) rfidScenario.defaultUserPIN = options[@"defaultUserPIN"];
     
     // DataGroup
     if([options valueForKey:@"ePassportDataGroups"] != nil)
@@ -794,6 +796,7 @@
     result[@"mrzStrictCheck"] = rfidScenario.mrzStrictCheck;
     result[@"loadCRLFromRemote"] = @(rfidScenario.loadCRLFromRemote);
     result[@"independentSODStatus"] = rfidScenario.independentSODStatus;
+    result[@"readUser"] = rfidScenario.readUser;
     
     // Int
     result[@"signManagementAction"] = [NSNumber numberWithInteger:rfidScenario.signManagementAction];
@@ -818,6 +821,7 @@
     result[@"documentNumber"] = rfidScenario.documentNumber;
     result[@"dateOfBirth"] = rfidScenario.dateOfBirth;
     result[@"dateOfExpiry"] = rfidScenario.dateOfExpiry;
+    result[@"defaultUserPIN"] = rfidScenario.defaultUserPIN;
     
     // DataGroup
     result[@"eDLDataGroups"] = [self getDataGroups:rfidScenario.eDLDataGroups];
@@ -971,6 +975,8 @@
     if([input valueForKey:@"brightnessThreshold"] != nil)
         result.brightnessThreshold = [input valueForKey:@"brightnessThreshold"];
     if(input[@"occlusionCheck"]) result.occlusionCheck = input[@"occlusionCheck"];
+    if([input valueForKey:@"occlusionCheckParams"] != nil)
+        result.occlusionCheckParams = [RGLWJSONConstructor occlusionCheckParamsFromJson:[input valueForKey:@"occlusionCheckParams"]];
 }
 
 +(NSDictionary*)getImageQA:(RGLImageQA*)input {
@@ -991,6 +997,7 @@
     result[@"glaresCheckParams"] = [RGLWJSONConstructor generateGlaresCheckParams:input.glaresCheckParams];
     result[@"brightnessThreshold"] = input.brightnessThreshold;
     result[@"occlusionCheck"] = input.occlusionCheck;
+    result[@"occlusionCheckParams"] = [RGLWJSONConstructor generateOcclusionCheckParams:input.occlusionCheckParams];
     
     return result;
 }

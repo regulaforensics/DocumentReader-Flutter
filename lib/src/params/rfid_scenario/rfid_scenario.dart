@@ -272,6 +272,13 @@ class RFIDScenario {
     _set({"independentSODStatus": val});
   }
 
+  bool? get readUser => _readUser;
+  bool? _readUser;
+  set readUser(bool? val) {
+    _readUser = val;
+    _set({"readUser": val});
+  }
+
   RFIDReadingBufferSize? get readingBuffer => _readingBuffer;
   RFIDReadingBufferSize? _readingBuffer;
   set readingBuffer(RFIDReadingBufferSize? val) {
@@ -414,6 +421,13 @@ class RFIDScenario {
     _set({"dateOfExpiry": val});
   }
 
+  String? get defaultUserPIN => _defaultUserPIN;
+  String? _defaultUserPIN;
+  set defaultUserPIN(String? val) {
+    _defaultUserPIN = val;
+    _set({"defaultUserPIN": val});
+  }
+
   EDLDataGroups get eDLDataGroups => _eDLDataGroups;
   EDLDataGroups _eDLDataGroups = EDLDataGroups();
   set eDLDataGroups(EDLDataGroups val) {
@@ -439,7 +453,7 @@ class RFIDScenario {
   }
 
   /// Allows you to deserialize object.
-  static RFIDScenario fromJson(jsonObject) {
+  static RFIDScenario fromJson(dynamic jsonObject) {
     var result = RFIDScenario();
     result.testSetters = {};
 
@@ -481,6 +495,7 @@ class RFIDScenario {
     result.mrzStrictCheck = jsonObject["mrzStrictCheck"];
     result.loadCRLFromRemote = jsonObject["loadCRLFromRemote"];
     result.independentSODStatus = jsonObject["independentSODStatus"];
+    result.readUser = jsonObject["readUser"];
 
     result.readingBuffer = RFIDReadingBufferSize.getByValue(jsonObject["readingBuffer"]);
     result.onlineTAToSignDataType = jsonObject["onlineTAToSignDataType"];
@@ -503,6 +518,7 @@ class RFIDScenario {
     result.documentNumber = jsonObject["documentNumber"];
     result.dateOfBirth = jsonObject["dateOfBirth"];
     result.dateOfExpiry = jsonObject["dateOfExpiry"];
+    result.defaultUserPIN = jsonObject["defaultUserPIN"];
 
     result.eDLDataGroups = EDLDataGroups.fromJson(jsonObject["eDLDataGroups"]);
     result.ePassportDataGroups = EPassportDataGroups.fromJson(jsonObject["ePassportDataGroups"]);
@@ -552,6 +568,7 @@ class RFIDScenario {
         "mrzStrictCheck": mrzStrictCheck,
         "loadCRLFromRemote": loadCRLFromRemote,
         "independentSODStatus": independentSODStatus,
+        "readUser": readUser,
         "readingBuffer": readingBuffer?.value,
         "onlineTAToSignDataType": onlineTAToSignDataType,
         "defaultReadingBufferSize": defaultReadingBufferSize,
@@ -572,6 +589,7 @@ class RFIDScenario {
         "documentNumber": documentNumber,
         "dateOfBirth": dateOfBirth,
         "dateOfExpiry": dateOfExpiry,
+        "defaultUserPIN": defaultUserPIN,
         "eDLDataGroups": eDLDataGroups.toJson(),
         "ePassportDataGroups": ePassportDataGroups.toJson(),
         "eIDDataGroups": eIDDataGroups.toJson(),
@@ -642,7 +660,10 @@ enum RFIDPasswordType {
   SAI(6),
 
   /// MRZHash.
-  MRZ_HASH(7);
+  MRZ_HASH(7),
+
+  /// PinLocal
+  PIN_LOCAL(8);
 
   const RFIDPasswordType(this.value);
   final int value;
@@ -765,6 +786,27 @@ enum RFIDReadingBufferSize {
       );
     } catch (_) {
       return RFIDReadingBufferSize.EXTENDED_LENGTH;
+    }
+  }
+}
+
+enum RFIDAccessControl {
+  DEFAULT(0),
+  CHIP_ACCESS_BAC(1),
+  CHIP_ACCESS_PACE(2),
+  LOCAL_PIN(3);
+
+  const RFIDAccessControl(this.value);
+  final int value;
+
+  static RFIDAccessControl? getByValue(int? i) {
+    if (i == null) return null;
+    try {
+      return RFIDAccessControl.values.firstWhere(
+        (x) => x.value == i,
+      );
+    } catch (_) {
+      return RFIDAccessControl.DEFAULT;
     }
   }
 }

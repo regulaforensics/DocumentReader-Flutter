@@ -14,7 +14,7 @@ class FileData {
   late int _status;
 
   /// Allows you to serialize object.
-  static FileData? fromJson(jsonObject) {
+  static FileData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = FileData();
 

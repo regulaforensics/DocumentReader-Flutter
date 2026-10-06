@@ -15,7 +15,7 @@ class Symbol {
   late int _probability;
 
   /// Allows you to deserialize object.
-  static Symbol? fromJson(jsonObject) {
+  static Symbol? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Symbol();
 

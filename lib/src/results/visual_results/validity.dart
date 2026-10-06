@@ -11,7 +11,7 @@ class Validity {
   late CheckResult _status;
 
   /// Allows you to deserialize object.
-  static Validity? fromJson(jsonObject) {
+  static Validity? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Validity();
 

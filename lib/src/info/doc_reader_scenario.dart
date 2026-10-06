@@ -45,7 +45,7 @@ class DocReaderScenario {
   late bool _manualCrop;
 
   @visibleForTesting
-  static DocReaderScenario? fromJson(jsonObject) {
+  static DocReaderScenario? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocReaderScenario();
 

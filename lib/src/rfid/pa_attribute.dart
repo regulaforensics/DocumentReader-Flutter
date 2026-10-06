@@ -8,7 +8,7 @@ class PAAttribute {
   late String _value;
 
   @visibleForTesting
-  static PAAttribute? fromJson(jsonObject) {
+  static PAAttribute? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = PAAttribute();
 

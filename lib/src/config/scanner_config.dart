@@ -41,7 +41,7 @@ class ScannerConfig {
   ScannerConfig._empty();
 
   @visibleForTesting
-  static ScannerConfig? fromJson(jsonObject) {
+  static ScannerConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
 
     var result = ScannerConfig._empty();

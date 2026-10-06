@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "./include/flutter_document_reader_api/RGLWJSONConstructor.h"
+#import "RGLWJSONConstructor.h"
 
 @implementation RGLWJSONConstructor
 
@@ -503,6 +503,25 @@ static NSMutableArray* weakReferencesHolder;
     
     result[@"imgMarginPart"] = input.imgMarginPart;
     result[@"maxGlaringPart"] = input.maxGlaringPart;
+    
+    return result;
+}
+
++(RGLOcclusionCheckParams*)occlusionCheckParamsFromJson:(NSDictionary*)input {
+    if(input == nil) return nil;
+    RGLOcclusionCheckParams *result = [RGLOcclusionCheckParams new];
+    
+    if([input valueForKey:@"maxOcclusionPart"] != nil)
+        result.maxOcclusionPart = [input valueForKey:@"maxOcclusionPart"];
+    
+    return result;
+}
+
++(NSDictionary*)generateOcclusionCheckParams:(RGLOcclusionCheckParams*)input {
+    if(input == nil) return nil;
+    NSMutableDictionary* result = [NSMutableDictionary new];
+    
+    result[@"maxOcclusionPart"] = input.maxOcclusionPart;
     
     return result;
 }

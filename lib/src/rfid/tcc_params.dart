@@ -22,7 +22,7 @@ class TccParams {
   ByteData? pfxCert;
 
   @visibleForTesting
-  static TccParams? fromJson(jsonObject) {
+  static TccParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TccParams();
 

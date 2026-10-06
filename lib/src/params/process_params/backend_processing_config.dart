@@ -30,7 +30,7 @@ class BackendProcessingConfig {
         _timeoutConnection = timeoutConnection;
 
   /// Allows you to deserialize object.
-  static BackendProcessingConfig? fromJson(jsonObject) {
+  static BackendProcessingConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = BackendProcessingConfig(jsonObject["url"]);
 

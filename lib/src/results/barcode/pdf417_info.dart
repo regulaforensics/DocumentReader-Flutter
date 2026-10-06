@@ -14,7 +14,7 @@ class PDF417Info {
   late int _rows;
 
   /// Allows you to deserialize object.
-  static PDF417Info? fromJson(jsonObject) {
+  static PDF417Info? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = PDF417Info();
 

@@ -12,7 +12,7 @@ class TransactionInfo {
   String? _sessionLogFolder;
 
   /// Allows you to deserialize object.
-  static TransactionInfo? fromJson(jsonObject) {
+  static TransactionInfo? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TransactionInfo();
 

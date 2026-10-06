@@ -1,4 +1,4 @@
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
@@ -73,6 +73,9 @@ class FlutterDocumentReaderApiPluginTest {
 
     @Test
     fun glaresCheckParams() = compare("glaresCheckParams", ::glaresCheckParamsFromJSON, ::generateGlaresCheckParams)
+
+    @Test
+    fun occlusionCheckParams() = compare("occlusionCheckParams", ::occlusionCheckParamsFromJSON, ::generateOcclusionCheckParams)
 
     @Test
     fun imageQA() = compare("imageQA", ::imageQAFromJSON, ::generateImageQA)

@@ -8,7 +8,7 @@ class Extension {
   String? _type;
 
   /// Allows you to deserialize object.
-  static Extension? fromJson(jsonObject) {
+  static Extension? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Extension();
 

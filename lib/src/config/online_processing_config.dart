@@ -19,7 +19,7 @@ class OnlineProcessingConfig {
   }
 
   @visibleForTesting
-  static OnlineProcessingConfig? fromJson(jsonObject) {
+  static OnlineProcessingConfig? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     OnlineMode mode = OnlineMode.getByValue(jsonObject["mode"])!;
     var result = OnlineProcessingConfig(mode);

@@ -21,6 +21,7 @@ void main() {
     compareParams('propertiesParams', propertiesParams, AuthenticityPropertiesParams.fromJson);
     compareParams('authenticityParams', authenticityParams, AuthenticityParams.fromJson);
     compare('glaresCheckParams', glaresCheckParams, GlaresCheckParams.fromJson);
+    compare('occlusionCheckParams', occlusionCheckParams, OcclusionCheckParams.fromJson);
     compare('rfidParams', rfidParams, RFIDParams.fromJson);
     compareParams('imageQA', imageQA, ImageQA.fromJson);
     compare('backendProcessingConfig', backendProcessingConfig, BackendProcessingConfig.fromJson);

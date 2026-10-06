@@ -16,7 +16,7 @@ class CustomizationContentModes {
   }
 
   /// Allows you to deserialize object.
-  static CustomizationContentModes fromJson(jsonObject) {
+  static CustomizationContentModes fromJson(dynamic jsonObject) {
     var result = CustomizationContentModes();
     if (jsonObject == null) return result;
     result.testSetters = {};
