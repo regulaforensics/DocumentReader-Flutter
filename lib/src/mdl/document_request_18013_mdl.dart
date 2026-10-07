@@ -40,15 +40,15 @@ class DocumentRequest18013MDL extends DocumentRequestMDL {
   MDLIntentToRetain? givenNameNationalCharacter;
   MDLIntentToRetain? signatureUsualMark;
 
-  disableIntentToRetainValues() {
+  void disableIntentToRetainValues() {
     _setAll(MDLIntentToRetain.FALSE);
   }
 
-  enableIntentToRetainValues() {
+  void enableIntentToRetainValues() {
     _setAll(MDLIntentToRetain.TRUE);
   }
 
-  _setAll(MDLIntentToRetain? value) {
+  void _setAll(MDLIntentToRetain? value) {
     familyName = value;
     givenName = value;
     birthDate = value;
@@ -88,7 +88,7 @@ class DocumentRequest18013MDL extends DocumentRequestMDL {
   }
 
   /// Allows you to deserialize object.
-  static DocumentRequest18013MDL? fromJson(jsonObject) {
+  static DocumentRequest18013MDL? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = DocumentRequest18013MDL();
 

@@ -1,6 +1,6 @@
 @file:Suppress("EnumValuesSoftDeprecate", "DEPRECATION")
 
-package com.regula.plugin.documentreader
+package com.regula.plugin.document.reader
 
 import android.graphics.Matrix
 import android.graphics.Paint
@@ -27,8 +27,8 @@ import com.regula.documentreader.api.params.rfid.dg.DTCDataGroup
 import com.regula.documentreader.api.params.rfid.dg.DataGroups
 import com.regula.documentreader.api.params.rfid.dg.EIDDataGroups
 import com.regula.documentreader.api.params.rfid.dg.EPassportDataGroups
-import com.regula.plugin.documentreader.Convert.toBase64
-import com.regula.plugin.documentreader.Convert.toDrawable
+import com.regula.plugin.document.reader.Convert.toBase64
+import com.regula.plugin.document.reader.Convert.toDrawable
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -495,6 +495,7 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "mrzStrictCheck" -> rfidScenario.isMrzStrictCheck = v as Boolean
         "loadCRLFromRemote" -> rfidScenario.isLoadCRLFromRemote = v as Boolean
         "independentSODStatus" -> rfidScenario.isIndependentSODStatus = v as Boolean
+        "readUser" -> rfidScenario.isReadUser = v as Boolean
         "signManagementAction" -> rfidScenario.signManagementAction = v.toInt()
         "readingBuffer" -> rfidScenario.readingBuffer = v.toInt()
         "onlineTAToSignDataType" -> rfidScenario.onlineTAToSignDataType = v.toInt()
@@ -515,6 +516,7 @@ fun setRfidScenario(rfidScenario: RfidScenario, opts: JSONObject) = opts.forEach
         "documentNumber" -> rfidScenario.documentNumber = v as String
         "dateOfBirth" -> rfidScenario.dateOfBirth = v as String
         "dateOfExpiry" -> rfidScenario.dateOfExpiry = v as String
+        "defaultUserPIN" -> rfidScenario.defaultUserPIN = v as String
         "ePassportDataGroups" -> setDataGroups(rfidScenario.ePassportDataGroups(), v as JSONObject)
         "eIDDataGroups" -> setDataGroups(rfidScenario.eIDDataGroups(), v as JSONObject)
         "eDLDataGroups" -> setDataGroups(rfidScenario.eDLDataGroups(), v as JSONObject)
@@ -561,6 +563,7 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "mrzStrictCheck" to rfidScenario.isMrzStrictCheck,
     "loadCRLFromRemote" to rfidScenario.isLoadCRLFromRemote,
     "independentSODStatus" to rfidScenario.isIndependentSODStatus,
+    "readUser" to rfidScenario.isReadUser,
     "signManagementAction" to rfidScenario.signManagementAction,
     "readingBuffer" to rfidScenario.readingBuffer,
     "onlineTAToSignDataType" to rfidScenario.onlineTAToSignDataType,
@@ -581,6 +584,7 @@ fun getRfidScenario(rfidScenario: RfidScenario) = mapOf(
     "documentNumber" to rfidScenario.documentNumber,
     "dateOfBirth" to rfidScenario.dateOfBirth,
     "dateOfExpiry" to rfidScenario.dateOfExpiry,
+    "defaultUserPIN" to rfidScenario.defaultUserPIN,
     "ePassportDataGroups" to getDataGroups(rfidScenario.ePassportDataGroups()),
     "eIDDataGroups" to getDataGroups(rfidScenario.eIDDataGroups()),
     "eDLDataGroups" to getDataGroups(rfidScenario.eDLDataGroups()),

@@ -8,7 +8,7 @@ class CertificateData {
   late int _length;
 
   /// Allows you to deserialize object.
-  static CertificateData? fromJson(jsonObject) {
+  static CertificateData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = CertificateData();
 

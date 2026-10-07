@@ -65,7 +65,7 @@ class CardProperties {
   String? _uID;
 
   /// Allows you to deserialize object.
-  static CardProperties? fromJson(jsonObject) {
+  static CardProperties? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = CardProperties();
 

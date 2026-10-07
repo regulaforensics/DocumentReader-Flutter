@@ -14,7 +14,7 @@ class BytesData {
   late int _type;
 
   /// Allows you to deserialize object.
-  static BytesData? fromJson(jsonObject) {
+  static BytesData? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = BytesData();
 

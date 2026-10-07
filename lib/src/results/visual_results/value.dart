@@ -35,7 +35,7 @@ class Value {
   late int _probability;
 
   /// Allows you to deserialize object.
-  static Value? fromJson(jsonObject) {
+  static Value? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Value();
 

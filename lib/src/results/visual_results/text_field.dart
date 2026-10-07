@@ -52,7 +52,7 @@ class TextField {
   late CheckResult _validityStatus;
 
   /// Allows you to deserialize object.
-  static TextField? fromJson(jsonObject) {
+  static TextField? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = TextField();
 

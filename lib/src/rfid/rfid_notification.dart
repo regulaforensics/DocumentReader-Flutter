@@ -16,7 +16,7 @@ class RFIDNotification {
   late int _progress;
 
   @visibleForTesting
-  static RFIDNotification? fromJson(jsonObject) {
+  static RFIDNotification? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDNotification();
 

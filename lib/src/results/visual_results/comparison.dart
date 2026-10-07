@@ -15,7 +15,7 @@ class Comparison {
   late CheckResult _status;
 
   /// Allows you to deserialize object.
-  static Comparison? fromJson(jsonObject) {
+  static Comparison? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = Comparison();
 

@@ -8,7 +8,7 @@ class RFIDValidity {
   RFIDValue? _notBefore;
 
   /// Allows you to deserialize object.
-  static RFIDValidity? fromJson(jsonObject) {
+  static RFIDValidity? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     var result = RFIDValidity();
 

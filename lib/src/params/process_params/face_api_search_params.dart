@@ -22,7 +22,7 @@ class FaceApiSearchParams {
         _groupIds = groupIds;
 
   /// Allows you to deserialize object.
-  static FaceApiSearchParams? fromJson(jsonObject) {
+  static FaceApiSearchParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return FaceApiSearchParams(
       limit: jsonObject["limit"],

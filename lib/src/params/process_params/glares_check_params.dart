@@ -16,7 +16,7 @@ class GlaresCheckParams {
         _maxGlaringPart = maxGlaringPart;
 
   /// Allows you to deserialize object.
-  static GlaresCheckParams? fromJson(jsonObject) {
+  static GlaresCheckParams? fromJson(dynamic jsonObject) {
     if (jsonObject == null) return null;
     return GlaresCheckParams(
       imgMarginPart: _toDouble(jsonObject["imgMarginPart"]),
