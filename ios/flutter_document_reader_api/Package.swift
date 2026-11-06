@@ -4,13 +4,13 @@ import PackageDescription
 
 let package = Package(
     name: "flutter_document_reader_api",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v16)],
     products: [.library(name: "flutter-document-reader-api", targets: ["flutter_document_reader_api"])],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/regulaforensics/DocumentReader-Swift-Package",
-            exact: "9.9.7118-rc"
+            exact: "9.10.7321-rc"
         ),
     ],
     targets: [

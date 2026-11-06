@@ -260,8 +260,10 @@ fun generateScannerConfig(input: ScannerConfig?) = input?.let {
 }
 
 fun recognizeConfigFromJSON(input: JSONObject) = input.let {
-    val builder = if (it.has("scenario")) RecognizeConfig.Builder(it.getString("scenario"))
-    else RecognizeConfig.Builder(onlineProcessingConfigFromJSON(it.getJSONObject("onlineProcessingConfig"))!!)
+    val builder =
+        if (it.has("scenario") && it.has("onlineProcessingConfig")) RecognizeConfig.Builder(it.getString("scenario"), onlineProcessingConfigFromJSON(it.getJSONObject("onlineProcessingConfig"))!!)
+        else if (it.has("scenario")) RecognizeConfig.Builder(it.getString("scenario"))
+        else RecognizeConfig.Builder(onlineProcessingConfigFromJSON(it.getJSONObject("onlineProcessingConfig"))!!)
 
     if (it.has("oneShotIdentification")) builder.setOneShotIdentification(it.getBoolean("oneShotIdentification"))
     if (it.has("dtc")) builder.setDTC(it.getString("dtc").toByteArray()!!)
@@ -560,25 +562,15 @@ fun generateOcclusionCheckParams(input: OcclusionCheckParams?) = input?.let {
 
 @SuppressLint("DiscouragedApi")
 fun typefaceFromJSON(it: JSONObject): Pair<Typeface?, Int?> {
+    val name = it.getString("name")
     val font = try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.resources.getFont(
-                context.resources.getIdentifier(
-                    it.getString("name"),
-                    "font",
-                    context.packageName
-                )
-            )
-        else throw Exception("")
-    } catch (_: Exception) {
-        Typeface.create(
-            it.getString("name"),
-            it.optInt("style", Typeface.NORMAL)
-        )
-    }
+            context.resources.getFont(context.resources.getIdentifier(name, "font", context.packageName))
+        else null
+    } catch (_: Exception) { null }
     return Pair(
-        font,
-        if (it.has("size")) it.getInt("size") else null
+        font ?: Typeface.create(name, it.optInt("style", Typeface.NORMAL)), 
+        it.getIntOrNull("size")
     )
 }
 

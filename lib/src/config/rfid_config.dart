@@ -34,6 +34,9 @@ class RFIDConfig {
   TaSignatureCompletion? onRequestTASignature;
 
   /// Callback for receiving RFID request data
+  AAChallengeCompletion? onRequestAAChallenge;
+
+  /// Callback for receiving RFID request data
   PACEProtocolCompletion? onRequestPACEProtocol;
 
   /// Callback for receiving RFID request data
@@ -61,6 +64,7 @@ class RFIDConfig {
         "paCertificates": onRequestPACertificates != null,
         "taCertificates": onRequestTACertificates != null,
         "taSignature": onRequestTASignature != null,
+        "aaChallenge": onRequestAAChallenge != null,
         "paceProtocol": onRequestPACEProtocol != null,
         "caProtocol": onRequestCAProtocol != null,
       };
@@ -115,6 +119,13 @@ typedef TaSignatureCompletion = void Function(TAChallenge? challenge, TASignatur
 /// Provided to a user for passing TASignature
 /// to the native part of DocumentReader.
 typedef TASignatureRequest = Future<void> Function(ByteData? signature);
+
+/// Callback for receiving RFID request data.
+typedef AAChallengeCompletion = void Function(String? challenge, AAChallengeRequest request);
+
+/// Provided to a user for passing AAChallenge
+/// to the native part of DocumentReader.
+typedef AAChallengeRequest = Future<void> Function(String? challenge);
 
 /// Callback for receiving RFID request data.
 typedef PACEProtocolCompletion = void Function(List<PACEProtocol> protocols, PACEProtocolRequest request);

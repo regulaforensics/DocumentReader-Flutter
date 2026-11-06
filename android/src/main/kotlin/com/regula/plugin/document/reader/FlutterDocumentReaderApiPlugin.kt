@@ -88,6 +88,7 @@ class FlutterDocumentReaderApiPlugin : FlutterPlugin, MethodCallHandler, Activit
             paCertificateCompletionEvent,
             taCertificateCompletionEvent,
             taSignatureCompletionEvent,
+            aaChallengeCompletionEvent,
             paceProtocolCompletionEvent,
             caProtocolCompletionEvent,
             videoEncoderCompletionEvent,

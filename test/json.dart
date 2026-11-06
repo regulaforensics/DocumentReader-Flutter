@@ -33,6 +33,7 @@ var livenessParams = {
 };
 var propertiesParams = {
   "checkHoldersSignature": true,
+  "checkDocumentDamage": false,
 };
 var authenticityParams = {
   "useLivenessCheck": true,
@@ -554,13 +555,12 @@ var recognizeConfig = {
 };
 var recognizeConfig2 = {
   "onlineProcessingConfig": onlineProcessingConfig,
-  "livePortrait": img1,
-  "extPortrait": img2,
   "oneShotIdentification": true,
-  "image": img3,
-  "data": img1,
-  "images": [img1, img2, img3],
-  "imageInputData": [imageInputData, imageInputData, imageInputData],
+};
+var recognizeConfig3 = {
+  "scenario": "Mrz",
+  "onlineProcessingConfig": onlineProcessingConfig,
+  "oneShotIdentification": true,
 };
 var scannerConfig = {
   "scenario": "Mrz",

@@ -118,6 +118,16 @@ void _setTaSignatureCompletion(TaSignatureCompletion? completion) {
   });
 }
 
+AAChallengeCompletion? _aaChallengeCompletion;
+void _setAAChallengeCompletion(AAChallengeCompletion? completion) {
+  _aaChallengeCompletion = completion;
+  _eventChannel('aaChallengeCompletionEvent', (msg) {
+    _aaChallengeCompletion?.call(msg, (challenge) async {
+      await _bridge.invokeMethod("provideAAChallenge", [challenge]);
+    });
+  });
+}
+
 PACEProtocolCompletion? _paceProtocolCompletion;
 void _setPACEProtocolCompletion(PACEProtocolCompletion? completion) {
   _paceProtocolCompletion = completion;

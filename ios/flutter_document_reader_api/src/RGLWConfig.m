@@ -1102,6 +1102,7 @@
 
 +(void)setAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)result input:(NSDictionary*)input {
     if(input[@"checkHoldersSignature"]) result.checkHoldersSignature = input[@"checkHoldersSignature"];
+    if(input[@"checkDocumentDamage"]) result.checkDocumentDamage = input[@"checkDocumentDamage"];
 }
 
 +(NSDictionary*)getAuthenticityPropertiesParams:(RGLAuthenticityPropertiesParams*)input {
@@ -1109,6 +1110,7 @@
     NSMutableDictionary *result = [NSMutableDictionary new];
     
     result[@"checkHoldersSignature"] = input.checkHoldersSignature;
+    result[@"checkDocumentDamage"] = input.checkDocumentDamage;
     
     return result;
 }

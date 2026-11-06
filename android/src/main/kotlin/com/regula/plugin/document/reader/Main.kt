@@ -21,6 +21,7 @@ import com.regula.documentreader.api.completions.IVideoEncoderCompletion
 import com.regula.documentreader.api.completions.model.PrepareProgress
 import com.regula.documentreader.api.completions.rfid.ICaProtocolCompletion
 import com.regula.documentreader.api.completions.rfid.IPaceProtocolCompletion
+import com.regula.documentreader.api.completions.rfid.IRfidAaChallengeCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidPKDCertificateCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderCompletion
 import com.regula.documentreader.api.completions.rfid.IRfidReaderRequest
@@ -92,6 +93,7 @@ fun methodCall(method: String, callback: (Any?) -> Unit): Any = when (method) {
     "providePACertificates" -> providePACertificates(argsNullable(0))
     "provideTACertificates" -> provideTACertificates(argsNullable(0))
     "provideTASignature" -> provideTASignature(args(0))
+    "provideAAChallenge" -> provideAAChallenge(args(0))
     "selectPACEProtocol" -> selectPACEProtocol(args(0))
     "selectCAProtocol" -> selectCAProtocol(args(0))
     "setTCCParams" -> setTCCParams(callback, args(0))
@@ -154,6 +156,7 @@ const val rfidOnRetryReadChipEvent = "rfidOnRetryReadChipEvent"
 const val paCertificateCompletionEvent = "pa_certificate_completion"
 const val taCertificateCompletionEvent = "ta_certificate_completion"
 const val taSignatureCompletionEvent = "ta_signature_completion"
+const val aaChallengeCompletionEvent = "aaChallengeCompletionEvent"
 const val paceProtocolCompletionEvent = "paceProtocolCompletionEvent"
 const val caProtocolCompletionEvent = "caProtocolCompletionEvent"
 
@@ -280,6 +283,8 @@ fun provideTACertificates(certificates: JSONArray?) = taCertificateCompletion.on
 fun provideTASignature(signature: String?) = taSignatureCompletion.onSignatureReceived(
     signature.toByteArray()
 )
+
+fun provideAAChallenge(challenge: String?) = aaChallengeCompletion.onChallengeReceived(challenge)
 
 fun selectPACEProtocol(protocol: JSONObject) = paceProtocolCompletion.onPaceProtocolSelected(
     paceProtocolFromJSON(protocol)!!
@@ -550,6 +555,7 @@ fun initCompletion(callback: Callback) = IDocumentReaderInitCompletion { success
 lateinit var paCertificateCompletion: IRfidPKDCertificateCompletion
 lateinit var taCertificateCompletion: IRfidPKDCertificateCompletion
 lateinit var taSignatureCompletion: IRfidTASignatureCompletion
+lateinit var aaChallengeCompletion: IRfidAaChallengeCompletion
 lateinit var paceProtocolCompletion: IPaceProtocolCompletion
 lateinit var caProtocolCompletion: ICaProtocolCompletion
 
@@ -559,19 +565,23 @@ fun getRfidReaderRequest(config: JSONObject? = null): IRfidReaderRequest {
     val result = IRfidReaderRequest()
     if (config == null) return result
 
-    if (config.getBoolean("paCertificates")) result.setPACertificates { serialNumber, issuer, completion ->
+    if (config.getBooleanOrNull("paCertificates") == true) result.setPACertificates { serialNumber, issuer, completion ->
         paCertificateCompletion = completion
         sendEvent(paCertificateCompletionEvent, generatePACertificateCompletion(serialNumber, issuer))
     }
-    if (config.getBoolean("taCertificates")) result.setTACertificates { keyCAR, completion ->
+    if (config.getBooleanOrNull("taCertificates") == true) result.setTACertificates { keyCAR, completion ->
         taCertificateCompletion = completion
         sendEvent(taCertificateCompletionEvent, keyCAR)
     }
-    if (config.getBoolean("taSignature")) result.setTASignature { challenge, completion ->
+    if (config.getBooleanOrNull("taSignature") == true) result.setTASignature { challenge, completion ->
         taSignatureCompletion = completion
         sendEvent(taSignatureCompletionEvent, generateTAChallenge(challenge))
     }
-    if (config.getBoolean("paceProtocol") || config.getBoolean("caProtocol")) result.setRfidAccessControl(object : IRfidAccessControl {
+    if (config.getBooleanOrNull("aaChallenge") == true) result.setRfidAaChallenge { challenge, completion ->
+        aaChallengeCompletion = completion
+        sendEvent(aaChallengeCompletionEvent, challenge)
+    }
+    if (config.getBooleanOrNull("paceProtocol") == true || config.getBooleanOrNull("caProtocol") == true) result.setRfidAccessControl(object : IRfidAccessControl {
         override fun onRequestPaceProtocol(list: List<PaceProtocol?>, completion: IPaceProtocolCompletion) {
             paceProtocolCompletion = completion
             sendEvent(paceProtocolCompletionEvent, list.toJson(::generatePaceProtocol))

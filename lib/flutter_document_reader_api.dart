@@ -454,6 +454,7 @@ class DocumentReader {
     _setPaCertificateCompletion(config.onRequestPACertificates);
     _setTaCertificateCompletion(config.onRequestTACertificates);
     _setTaSignatureCompletion(config.onRequestTASignature);
+    _setAAChallengeCompletion(config.onRequestAAChallenge);
 
     _setPACEProtocolCompletion(config.onRequestPACEProtocol);
     _setCAProtocolCompletion(config.onRequestCAProtocol);

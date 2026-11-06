@@ -3,14 +3,12 @@ part of "../../flutter_document_reader_api.dart";
 /// Image processing configuration.
 class RecognizeConfig {
   /// Documents processing scenario.
-  Scenario? get scenario => _scenario;
-  Scenario? _scenario;
+  Scenario? scenario;
 
   /// Configuration class for online processing.
   ///
   /// /// Requires network connection.
-  OnlineProcessingConfig? get onlineProcessingConfig => _onlineProcessingConfig;
-  OnlineProcessingConfig? _onlineProcessingConfig;
+  OnlineProcessingConfig? onlineProcessingConfig;
 
   /// Image for processing.
   Uint8List? image;
@@ -57,8 +55,8 @@ class RecognizeConfig {
     Uint8List? livePortrait,
     Uint8List? extPortrait,
     bool oneShotIdentification = false,
-  })  : _scenario = scenario,
-        _onlineProcessingConfig = null,
+  })  : scenario = scenario,
+        onlineProcessingConfig = null,
         livePortrait = livePortrait,
         extPortrait = extPortrait,
         oneShotIdentification = oneShotIdentification,
@@ -80,8 +78,8 @@ class RecognizeConfig {
     Uint8List? livePortrait,
     Uint8List? extPortrait,
     bool oneShotIdentification = false,
-  })  : _scenario = null,
-        _onlineProcessingConfig = onlineProcessingConfig,
+  })  : scenario = null,
+        onlineProcessingConfig = onlineProcessingConfig,
         livePortrait = livePortrait,
         extPortrait = extPortrait,
         oneShotIdentification = oneShotIdentification,
@@ -99,8 +97,8 @@ class RecognizeConfig {
     if (jsonObject == null) return null;
     var result = RecognizeConfig._empty();
 
-    result._scenario = Scenario.getByValue(jsonObject["scenario"]);
-    result._onlineProcessingConfig = OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
+    result.scenario = Scenario.getByValue(jsonObject["scenario"]);
+    result.onlineProcessingConfig = OnlineProcessingConfig.fromJson(jsonObject["onlineProcessingConfig"]);
     result.image = _bytesFromBase64(jsonObject["image"]);
     if (jsonObject["images"] != null) {
       result.images = [];

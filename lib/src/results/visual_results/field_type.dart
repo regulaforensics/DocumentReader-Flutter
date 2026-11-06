@@ -1946,7 +1946,11 @@ enum FieldType {
 
   DLCLASSCODE_B3_TO(707),
 
-  DLCLASSCODE_B3_NOTES(708);
+  DLCLASSCODE_B3_NOTES(708),
+
+  ADDRESS_POST_OFFICE(709),
+
+  ADDRESS_LOT(710);
 
   const FieldType(this.value);
   final int value;

@@ -46,6 +46,13 @@ class FlutterDocumentReaderApiPluginTest {
     )
 
     @Test
+    fun recognizeConfig3() = compare(
+        "recognizeConfig3", ::recognizeConfigFromJSON, ::generateRecognizeConfig,
+        "onlineProcessingConfig.requestHeaders",
+        "data"
+    )
+
+    @Test
     fun scannerConfig() = compare(
         "scannerConfig", ::scannerConfigFromJSON, ::generateScannerConfig,
         "onlineProcessingConfig.requestHeaders"

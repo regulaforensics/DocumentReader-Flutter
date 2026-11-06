@@ -11,6 +11,7 @@ void main() {
     compare('imageInputData', imageInputData, ImageInputData.fromJson);
     compare('recognizeConfig', recognizeConfig, RecognizeConfig.fromJson);
     compare('recognizeConfig2', recognizeConfig2, RecognizeConfig.fromJson);
+    compare('recognizeConfig3', recognizeConfig3, RecognizeConfig.fromJson);
     compare('scannerConfig', scannerConfig, ScannerConfig.fromJson);
     compare('finalizeConfig', finalizeConfig, FinalizeConfig.fromJson);
 

@@ -168,7 +168,9 @@ enum SecurityFeatureType {
 
   PORTRAIT_COMPARISON_EXTVSGHOST(61),
 
-  SIGNATURE_PRESENCE(62);
+  SIGNATURE_PRESENCE(62),
+
+  DAMAGE_CHECK(63);
 
   const SecurityFeatureType(this.value);
   final int value;
