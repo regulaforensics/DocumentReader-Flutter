@@ -39,6 +39,14 @@ class Tests: XCTestCase {
                        "onlineProcessingConfig.requestHeaders"])
     }
     
+    func test_recognizeConfig3() {
+        compare(name: "recognizeConfig3", fromJson: RGLWJSONConstructor.recognizeConfig, generate: RGLWJSONConstructor.generate,
+                omit: ["onlineProcessingConfig.processParams.sessionLogFolder",
+                       "onlineProcessingConfig.processParams.uvTorchEnabled",
+                       "onlineProcessingConfig.processParams.checkCaptureProcessIntegrity",
+                       "onlineProcessingConfig.requestHeaders"])
+    }
+    
     func test_scannerConfig() {
         compare(name: "scannerConfig", fromJson: RGLWJSONConstructor.scannerConfig, generate: RGLWJSONConstructor.generate,
                 omit: ["cameraId",

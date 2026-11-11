@@ -22,6 +22,8 @@ static NSMutableDictionary<NSString*, FlutterEventSink>* _Nonnull eventSinks;
 @end
 @interface RGLWTASignatureCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
+@interface RGLWAAChallengeCompletionStreamHandler : NSObject <FlutterStreamHandler>
+@end
 @interface RGLWPACEProtocolCompletionStreamHandler : NSObject <FlutterStreamHandler>
 @end
 @interface RGLWCAProtocolCompletionStreamHandler : NSObject <FlutterStreamHandler>

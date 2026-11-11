@@ -27,6 +27,7 @@ static NSString* _Nonnull rfidOnRetryReadChipEvent = @"rfidOnRetryReadChipEvent"
 static NSString* _Nonnull paCertificateCompletionEvent = @"pa_certificate_completion";
 static NSString* _Nonnull taCertificateCompletionEvent = @"ta_certificate_completion";
 static NSString* _Nonnull taSignatureCompletionEvent = @"ta_signature_completion";
+static NSString* _Nonnull aaChallengeCompletionEvent = @"aaChallengeCompletionEvent";
 static NSString* _Nonnull paceProtocolCompletionEvent = @"paceProtocolCompletionEvent";
 static NSString* _Nonnull caProtocolCompletionEvent = @"caProtocolCompletionEvent";
 static NSString* _Nonnull drVideoEncoderCompletionEvent = @"video_encoder_completion";

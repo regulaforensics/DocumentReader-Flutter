@@ -26,6 +26,7 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
     setupEventChannel(registrar, paCertificateCompletionEvent, [RGLWPACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taCertificateCompletionEvent, [RGLWTACertificateCompletionStreamHandler new]);
     setupEventChannel(registrar, taSignatureCompletionEvent, [RGLWTASignatureCompletionStreamHandler new]);
+    setupEventChannel(registrar, aaChallengeCompletionEvent, [RGLWAAChallengeCompletionStreamHandler new]);
     setupEventChannel(registrar, paceProtocolCompletionEvent, [RGLWPACEProtocolCompletionStreamHandler new]);
     setupEventChannel(registrar, caProtocolCompletionEvent, [RGLWCAProtocolCompletionStreamHandler new]);
     setupEventChannel(registrar, drVideoEncoderCompletionEvent, [RGLWVideoEncoderCompletionStreamHandler new]);
@@ -144,6 +145,18 @@ UIViewController*(^RGLWRootViewController)(void) = ^UIViewController*() {
 
 - (FlutterError*)onCancelWithArguments:(id)arguments {
     eventSinks[taSignatureCompletionEvent] = nil;
+    return nil;
+}
+@end
+
+@implementation RGLWAAChallengeCompletionStreamHandler
+- (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
+    eventSinks[aaChallengeCompletionEvent] = eventSink;
+    return nil;
+}
+
+- (FlutterError*)onCancelWithArguments:(id)arguments {
+    eventSinks[aaChallengeCompletionEvent] = nil;
     return nil;
 }
 @end

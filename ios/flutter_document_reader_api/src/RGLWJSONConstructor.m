@@ -246,6 +246,7 @@ static NSMutableArray* weakReferencesHolder;
     }
     
     if (input[@"scenario"]) config.scenario = input[@"scenario"];
+    if (input[@"onlineProcessingConfig"]) config.onlineProcessingConfig = [self onlineProcessingConfigFromJson:input[@"onlineProcessingConfig"]];
     if (input[@"livePortrait"]) config.livePortrait = [self imageWithBase64:input[@"livePortrait"]];
     if (input[@"extPortrait"]) config.extPortrait = [self imageWithBase64:input[@"extPortrait"]];
     if (input[@"oneShotIdentification"]) config.oneShotIdentification = input[@"oneShotIdentification"];

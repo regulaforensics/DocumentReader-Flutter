@@ -9,6 +9,13 @@ class AuthenticityPropertiesParams {
     _set({"checkHoldersSignature": val});
   }
 
+  bool? get checkDocumentDamage => _checkDocumentDamage;
+  bool? _checkDocumentDamage;
+  set checkDocumentDamage(bool? val) {
+    _checkDocumentDamage = val;
+    _set({"checkDocumentDamage": val});
+  }
+
   /// Allows you to deserialize object.
   static AuthenticityPropertiesParams fromJson(dynamic jsonObject) {
     if (jsonObject == null) return AuthenticityPropertiesParams();
@@ -16,6 +23,7 @@ class AuthenticityPropertiesParams {
     result.testSetters = {};
 
     result.checkHoldersSignature = jsonObject["checkHoldersSignature"];
+    result.checkDocumentDamage = jsonObject["checkDocumentDamage"];
 
     return result;
   }
@@ -23,6 +31,7 @@ class AuthenticityPropertiesParams {
   /// Allows you to serialize object.
   Map<String, dynamic> toJson() => {
         "checkHoldersSignature": checkHoldersSignature,
+        "checkDocumentDamage": checkDocumentDamage,
       }.clearNulls();
 
   void _set(Map<String, dynamic> json, {AuthenticityParams? directParent}) {
